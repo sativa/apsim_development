@@ -1,6 +1,6 @@
       module OzcotModule
-      use Registrations
       Use CropLibrary
+      use DataTypes
 
 ! ====================================================================
 !      ozcot parameters
@@ -15,7 +15,7 @@
 !   Notes:
 
 !   Changes:
-!      psc - 300394                                           ark
+!      psc - 300394
 !      300695 jngh changed max_layer from 11 to 100
 !      DPH 7/7/94 Moved title variable out to separate common block.
 !                 Essential for UNIX systems.
@@ -100,7 +100,7 @@
       real       c_uptakn_max
       parameter (c_uptakn_max = 240.0)
 
-!!  Constant values
+*   Constant values
       integer    root                  ! root
       parameter (root = 1)
 
@@ -123,8 +123,8 @@
       parameter (max_part = 6)
 
 
-      character(len=*),dimension(max_part), parameter :: &
-       part_name = (/'root', 'leaf', 'stem', 'pod ', 'meal', 'oil '/)
+      character(len=*),dimension(max_part), parameter ::
+     : part_name = (/'root', 'leaf', 'stem', 'pod ', 'meal', 'oil '/)
 
 
 
@@ -295,6 +295,10 @@
          real    DW_LEAF
          real    DW_ROOT
          real    DW_STEM
+         real    N_BOLL
+         real    N_LEAF
+         real    N_ROOT
+         real    N_STEM
          real    DW_TOTAL
          real    RESERVE
          real    RES_CAP
@@ -403,16 +407,12 @@
       real        SFMCAT(Max_categories-1)
       real     sw_start(max_layers)
       integer nsince
-
+          real co2
       end type OzcotGlobals
 
 ! ====================================================================
 
       type OzcotParameters
-!
-!     20070911 DBJ  added p%BckGndRetn  to allow varietal adjustment for
-!                   background retention.
-! ---------------------------------------------------------------------
       Sequence
 
          real    UNUL(max_layers)
@@ -434,11 +434,11 @@
          real     BLTME(Max_categories-1)
          real     WT(Max_categories-1)
          real     FBURR
-         real     BckGndRetn
          ! emergence
       real    rate_emergence
-
-
+         real     x_co2_fert(20)
+         real     y_co2_fert(20)
+         integer  num_co2_fert
       end type OzcotParameters
 ! ====================================================================
 
@@ -562,6 +562,25 @@
 
       end type OzcotConstants
 ! ====================================================================
+      type IDsType
+         sequence
+         integer :: crop_chopped
+         integer :: sowing
+         integer :: harvesting
+         integer :: create
+         integer :: sysinit
+         integer :: end_run
+         integer :: sow
+         integer :: harvest
+         integer :: end_crop
+         integer :: kill_crop
+         integer :: tick
+         integer :: newmet
+         integer :: prepare
+         integer :: process
+         integer :: post
+
+      end type IDsType
 
       ! instance variables.
       common /InstancePointers/ ID,g,p,c
@@ -578,28 +597,28 @@
 
 
 
-! ====================================================================
+* ====================================================================
        subroutine ozcot_Init ()
-! ====================================================================
+* ====================================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!      Initialise ozcot module
+*+  Purpose
+*      Initialise ozcot module
 
-!+  Changes
-!      psc - 9/08/93
-!      250996 jngh removed unused includes
-!      060599 sdb removed version reference
+*+  Changes
+*      psc - 9/08/93
+*      250996 jngh removed unused includes
+*      060599 sdb removed version reference
 
-!+  Constant Values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_init')
 
-!+  Local Variables
+*+  Local Variables
        character Event_string*40       ! String to output
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
       ! Notify system that we have initialised
 
@@ -681,23 +700,23 @@
 !obsolete       return
 !obsolete       end subroutine
 
-!     ===========================================================
+*     ===========================================================
       subroutine ozcot_zero_all_globals ()
-!     ===========================================================
+*     ===========================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!       Zero all global variables & arrays
+*+  Purpose
+*       Zero all global variables & arrays
 
-!+  Changes
-!     041199 jngh
+*+  Changes
+*     041199 jngh
 
-!+  Constant Values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name  = 'ozcot_zero_all_globals')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -831,7 +850,6 @@
       g%CARCAP_N            = 0.0
       p%scboll          = 0.0
       p%FBURR               = 0.0
-      p%BckGndRetn        = 0.0
       g%FRUNO(:)          = 0.0
       g%FRUWT(:)          = 0.0
       g%FRMARK(:,:)       = 0.0
@@ -861,6 +879,10 @@
       c%A_STEM_LEAF         = 0.0
       g%BOLLGR              = 0.0
       g%DLAI_POT            = 0.0
+      g%N_BOLL             = 0.0
+      g%N_LEAF             = 0.0
+      g%N_ROOT             = 0.0
+      g%N_STEM             = 0.0
       g%DW_BOLL             = 0.0
       g%DW_LEAF             = 0.0
       g%DW_ROOT             = 0.0
@@ -1028,30 +1050,30 @@
 
       p%UNUL(:)           = 0.0
       p%num_ll_vals       = 0
-
+      p%num_co2_fert      = 0
 
       call pop_routine (my_name)
       return
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
        subroutine ozcot_zero_variables ()
-! ====================================================================
+* ====================================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!     Set all variables in this module to zero.
+*+  Purpose
+*     Set all variables in this module to zero.
 
-!+  Changes
-!      psc - 9/08/93
+*+  Changes
+*      psc - 9/08/93
 
-!+  Constant Values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_zero_variables')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
       call ozcot_initial()
@@ -1109,52 +1131,47 @@
 
 
 
-! ====================================================================
+* ====================================================================
        subroutine ozcot_manager (Event_action, event_data)
-! ====================================================================
+* ====================================================================
       Use Infrastructure
       implicit none
 
-!+  Sub-Program Arguments
+*+  Sub-Program Arguments
       character Event_action*(*)       ! (INPUT) Action to be performed
       character Event_data*(*)         ! (INPUT) Data sent with event
 
-!+  Purpose
-!     The manager has sent an event to this module.  Process it.
+*+  Purpose
+*     The manager has sent an event to this module.  Process it.
 
-!+  Notes
-!     Event_action is the action specified in the management parameter
-!     file.  e.g%g. 'sow'
+*+  Notes
+*     Event_action is the action specified in the management parameter
+*     file.  e.g%g. 'sow'
 
-!+  Changes
-!      psc - 9/08/93
-!      07/07/94 - jngh changed residue module reference to global_active
-!      170895 jngh changed message send to message pass to module
-!      250996 jngh changed to post_ construct
-!      191200 dph  changed from unknown_module to all_active_modules
-!                  unknown_module not supported in APSIM2.
+*+  Changes
+*      psc - 9/08/93
+*      07/07/94 - jngh changed residue module reference to global_active
+*      170895 jngh changed message send to message pass to module
+*      250996 jngh changed to post_ construct
+*      191200 dph  changed from unknown_module to all_active_modules
+*                  unknown_module not supported in APSIM2.
 
-!+  Constant Values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_manager')
 
-!+  Local Variables
+*+  Local Variables
        real    res_dm                  ! Residue dry weight (kg/ha)
        real    res_N                   ! Amount of N in residue (kg/ha)
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
       ! **** Repeat for each action
 
       if (Event_action .eq. 'sow') then
 
-         g%crop_in = .true.
-
-         ! Report the event to the rest of the system
-
-         call Write_string (Event_action)
-
-         call ozcot_sow (event_data)
+         call fatal_error(err_internal,
+     :                    'Anachronistic call to ozcot_manager!')
 
       else if (Event_action .eq. 'harvest') then
 
@@ -1177,30 +1194,30 @@
 
 
 
-!     ===========================================================
+*     ===========================================================
       subroutine ozcot_sow (myrecd)
-!     ===========================================================
+*     ===========================================================
       Use Infrastructure
       implicit none
 
-!+  Sub-Program Arguments
+*+  Sub-Program Arguments
       character  myrecd*(*)            ! (INPUT) message received
 
-!+  Purpose
-!       start crop using parameters specified in passed record
+*+  Purpose
+*       start crop using parameters specified in passed record
 
-!+  Changes
-!       300394 psc  taken from cm_sat module
+*+  Changes
+*       300394 psc  taken from cm_sat module
 
-!+  Constant Values
+*+  Constant Values
       character  myname*(*)            ! procedure name
       parameter (myname  = 'ozcot_sow')
 
-!+  Local Variables
+*+  Local Variables
 !psc      character  cv_name*20            ! name of cultivar
       character  string*300            ! output string
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
@@ -1223,13 +1240,16 @@
 
              ! report
 
-         write (string, '(a)')  ' sowing  depth plants row sp'
+         write (string, '(a)')
+     :                  ' sowing  depth plants row sp'
          call write_string (string)
 
-         write (string, '(a)')  ' g%day no   mm     m^2    m  '
+         write (string, '(a)')
+     :                  ' g%day no   mm     m^2    m  '
          call write_string (string)
 
-         write (string, '(i7, 3f7.1, 1x, a10)') g%isow, g%sdepth, g%pp, g%rs
+         write (string, '(i7, 3f7.1, 1x, a10)')
+     :                   g%isow, g%sdepth, g%pp, g%rs
          call write_string (string)
 
          call write_string (blank)
@@ -1250,33 +1270,33 @@
 
 
 
-! ====================================================================
+* ====================================================================
        subroutine ozcot_get_other_variables ()
-! ====================================================================
+* ====================================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!      Get the values of variables from other modules
+*+  Purpose
+*      Get the values of variables from other modules
 
-!+  Changes
-!      psc - 9/08/93
-!      psc - 28/03/94  used this routine properly
-!      DPH - 7/7/94 Changed call to nt_fac to ozcot_nt_fac
-!                   Added check for N module.  If N module doesn't
-!                   exist then seed no3ppm with some high values.
-!      DPH - 11/7/94   Fixed bug in detection of existence of N module.
-!      JNGH - 12/7/94 Changed dlayer in cm to g%dlayr_cm
-!      psc - commented out read of LL_DEP
+*+  Changes
+*      psc - 9/08/93
+*      psc - 28/03/94  used this routine properly
+*      DPH - 7/7/94 Changed call to nt_fac to ozcot_nt_fac
+*                   Added check for N module.  If N module doesn't
+*                   exist then seed no3ppm with some high values.
+*      DPH - 11/7/94   Fixed bug in detection of existence of N module.
+*      JNGH - 12/7/94 Changed dlayer in cm to g%dlayr_cm
+*      psc - commented out read of LL_DEP
 
-!+  Calls
+*+  Calls
                                        ! function
 
-!+  Constant Values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_get_other_variables')
 
-!+  Local Variables
+*+  Local Variables
       logical N_in_system              ! Is there any N in system ?
       integer layer                    ! layer number
       real    sat(max_layers)        ! saturated moisture content in layer
@@ -1289,7 +1309,7 @@
       real    urea(max_layers)        ! soil ammonium kg/ha in layer
       integer numvals
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
       sat(:) = 0.0
@@ -1307,39 +1327,39 @@
       ! Get depths of each layer
 
                                 ! get depth of each soil water layer
-      call get_real_array (unknown_module, 'dlayer', max_layers &
-                                          , '(mm)' &
-                                          , g%dlayr, g%nlayr &
-                                          , 0.0, 1000.0)
+      call get_real_array (unknown_module, 'dlayer', max_layers
+     :                                    , '(mm)'
+     :                                    , g%dlayr, g%nlayr
+     :                                    , 0.0, 1000.0)
 
       ! Get moist bulk density
-      call get_real_array (unknown_module, 'bd', max_layers &
-                                          , '(g/cm3)' &
-                                          , g%bulkd, numvals &
-                                          , 0.0, 10.0)
+      call get_real_array (unknown_module, 'bd', max_layers
+     :                                    , '(g/cm3)'
+     :                                    , g%bulkd, numvals
+     :                                    , 0.0, 10.0)
 
       if (p%num_ll_vals .eq.0) then
          ! Get unavailable g%sw - use ll15 because crop ll is unavailable
-         call get_real_array (unknown_module, 'll15', max_layers &
-                                          , '(mm/mm)' &
-                                          , p%unul, numvals &
-                                          , 0.0, 1.0)
+         call get_real_array (unknown_module, 'll15', max_layers
+     :                                    , '(mm/mm)'
+     :                                    , p%unul, numvals
+     :                                    , 0.0, 1.0)
       else
          ! ll had been read at init
       endif
 
       ! Get upper limit of available g%sw
-      call get_real_array (unknown_module, 'dul', max_layers &
-                                          , '(mm/mm)' &
-                                          , dul, numvals &
-                                          , 0.0, 1.0)
+      call get_real_array (unknown_module, 'dul', max_layers
+     :                                    , '(mm/mm)'
+     :                                    , dul, numvals
+     :                                    , 0.0, 1.0)
 
       ! Get upper limit of available g%sw
-      call get_real_array (unknown_module, 'sat', max_layers &
-                                          , '(mm/mm)' &
-                                          , sat, numvals &
+      call get_real_array (unknown_module, 'sat', max_layers
+     :                                    , '(mm/mm)'
+     :                                    , sat, numvals
 !jh     :                                    , g%stlayr, numvals
-                                          , 0.0, 1.0)
+     :                                    , 0.0, 1.0)
 
       ! Convert field capacity relative to wilting point.
       ! convert units to cm and cm/cm
@@ -1359,8 +1379,8 @@
 !     :           - (sat(layer)-dul(layer))
 !     :           * 0.54
 !jh         p%unul(layer) = p%unul(layer) * g%dlayr_cm(layer)
-         sat_adj(Layer) = (dul(Layer)-p%unul(Layer))/0.87 &
-                       + p%unul(Layer) ! adjust to match ozcot soil characterisation
+         sat_adj(Layer) = (dul(Layer)-p%unul(Layer))/0.87
+     :                 + p%unul(Layer) ! adjust to match ozcot soil characterisation
          sat_adj(Layer) = min(sat_adj(layer), sat(layer))
 !         ll_adj(Layer) = sat(layer) - sat_adj(layer) + ll(layer)
 !jh         g%ullayr(Layer) = sat_adj(layer) - ll(layer)
@@ -1379,20 +1399,20 @@
          g%wpwc=g%wpwc+p%unul(layer)*g%dlayr_cm(layer) ! unavailable water content
 10    continue
 
-      call get_real_var (unknown_module, 'es', '(mm)' &
-                                        , g%es, numvals &
-                                        , 0.0, 1000.0)
+      call get_real_var (unknown_module, 'es', '(mm)'
+     :                                  , g%es, numvals
+     :                                  , 0.0, 1000.0)
 
       g%es = g%es / 10.                        ! convert to cm
 
-      call get_real_var (unknown_module, 'runoff', '(mm)' &
-                                        , g%q, numvals &
-                                        , 0.0, 1000.0)
+      call get_real_var (unknown_module, 'runoff', '(mm)'
+     :                                  , g%q, numvals
+     :                                  , 0.0, 1000.0)
 
 
-      call get_real_array (unknown_module, 'sw', max_layers, '(mm/mm)' &
-                           , g%swlayr, g%nlayr &
-                           , 0.0, 1.0)
+      call get_real_array (unknown_module, 'sw', max_layers, '(mm/mm)'
+     :                     , g%swlayr, g%nlayr
+     :                     , 0.0, 1.0)
       ! Convert water to plant available  (cm/cm)
 
       do 12 Layer = 1, g%nlayr
@@ -1404,34 +1424,34 @@
       g%s_bed_mi = g%swlayr(1)/g%ullayr(1)        ! seed bed moisture index
 
       !   get initial estimate of available soil no3
-      call get_real_array (unknown_module, 'no3_min', max_layers &
-                                          , '(kg/ha)' &
-                                          , g%no3mn, numvals &
-                                          , 0.0, 1000.0)
+      call get_real_array (unknown_module, 'no3_min', max_layers
+     :                                    , '(kg/ha)'
+     :                                    , g%no3mn, numvals
+     :                                    , 0.0, 1000.0)
 
-      call get_real_array_optional (unknown_module, 'no3' &
-                                        , max_layers &
-                                        ,'(kg/ha)' &
-                                        , no3, numvals &
-                                        , 0.0, 1000.0)
+      call get_real_array_optional (unknown_module, 'no3'
+     :                                  , max_layers
+     :                                  ,'(kg/ha)'
+     :                                  , no3, numvals
+     :                                  , 0.0, 1000.0)
 
       !   get initial estimate of available soil nh4
-      call get_real_array (unknown_module, 'nh4_min', max_layers &
-                                          , '(kg/ha)' &
-                                          , g%nh4mn, numvals &
-                                          , 0.0, 1000.0)
+      call get_real_array (unknown_module, 'nh4_min', max_layers
+     :                                    , '(kg/ha)'
+     :                                    , g%nh4mn, numvals
+     :                                    , 0.0, 1000.0)
 
-      call get_real_array_optional (unknown_module, 'nh4' &
-                                        , max_layers &
-                                        ,'(kg/ha)' &
-                                        , nh4, numvals &
-                                        , 0.0, 1000.0)
+      call get_real_array_optional (unknown_module, 'nh4'
+     :                                  , max_layers
+     :                                  ,'(kg/ha)'
+     :                                  , nh4, numvals
+     :                                  , 0.0, 1000.0)
 
-      call get_real_array_optional (unknown_module, 'urea' &
-                                        , max_layers &
-                                        ,'(kg/ha)' &
-                                        , urea, numvals &
-                                        , 0.0, 1000.0)
+      call get_real_array_optional (unknown_module, 'urea'
+     :                                  , max_layers
+     :                                  ,'(kg/ha)'
+     :                                  , urea, numvals
+     :                                  , 0.0, 1000.0)
 
       ! Need to check for situation of no N in system.
 
@@ -1479,8 +1499,8 @@
 !jh         g%availn = g%availn
 !jh      endif
 
-      if ((sum(no3(:)) + sum(nh4(:)) + sum(urea(:)) &
-         .ge. g%yest_tsn+c%fert_detect) .and. g%yest_tsn .gt. 0.0) then   ! is there a fertiliser application?
+      if ((sum(no3(:)) + sum(nh4(:)) + sum(urea(:))
+     :   .ge. g%yest_tsn+c%fert_detect) .and. g%yest_tsn .gt. 0.0) then   ! is there a fertiliser application?
             if (.not. g%crop_in) then
                g%availn = g%yest_tsno3
                g%SNAPLC = 0.0
@@ -1492,8 +1512,8 @@
       else
       endif
 
-      if (.not. g%crop_in &
-          .and. g%days_since_fert .gt. c%days_since_fert_max) then
+      if (.not. g%crop_in
+     :    .and. g%days_since_fert .gt. c%days_since_fert_max) then
          g%availn = 0.0
          g%SNAPLC = 0.0
          g%TOTAL_APPLIED = 0.0
@@ -1524,36 +1544,42 @@
 
       g%yest_tsn = sum(no3(:)) + sum(nh4(:)) + sum(urea(:))
 
+      call get_real_var_optional (unknown_module, 'co2', '(mm)'
+     :                                  , g%co2, numvals
+     :                                  , 0.0, 1000.0)
+      if (numvals .eq. 0) then 
+         g%co2 = 350.0
+      endif
       call pop_routine(myname)
       return
       end subroutine
 
 
 
-! ====================================================================
+* ====================================================================
        subroutine ozcot_set_other_variables ()
-! ====================================================================
+* ====================================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!     Update variables owned by other modules.
+*+  Purpose
+*     Update variables owned by other modules.
 
-!+  Changes
-!      psc - 9/08/93
-!      psc   300394  specified properly
-!      DPH   7/7/94  Put 0.0 in max function call instead of 0
-!                   Changed call to nt_fac to ozcot_nt_fac
-!                    Changed call to set_variable_value to call to
-!                    Set_real_array
-!      JNGH 18/7/94 Corrected conversion of min no3 from g%ppm to kg/ha
-!      JNGH - 12/7/94 Changed dlayer in cm to g%dlayr_cm
+*+  Changes
+*      psc - 9/08/93
+*      psc   300394  specified properly
+*      DPH   7/7/94  Put 0.0 in max function call instead of 0
+*                   Changed call to nt_fac to ozcot_nt_fac
+*                    Changed call to set_variable_value to call to
+*                    Set_real_array
+*      JNGH 18/7/94 Corrected conversion of min no3 from g%ppm to kg/ha
+*      JNGH - 12/7/94 Changed dlayer in cm to g%dlayr_cm
 
-!+  Constant Values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_set_other_variables')
 
-!+  Local Variables
+*+  Local Variables
       integer Layer                    ! Layer number
       real    sno3(max_layers)       ! available soil nitrate in layer kg/ha
       real    snh4(max_layers)       ! available soil ammonium in layer kg/ha
@@ -1565,7 +1591,7 @@
 !jh      real    sw_dep(max_layers) ! soil water uptake in layer mm
       real tempsum
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
       ! Convert water from plant available  (cm/cm)
 
@@ -1575,21 +1601,23 @@
 !jh      sw_dep(:) = 0.0
 
       do 10 Layer = 1, g%nlayr
-        dlt_sw_dep(Layer) = (g%swlayr(Layer)- g%sw_start(layer)) &
-                             * g%dlayr_cm(layer)*10.0 
-     
+        dlt_sw_dep(Layer) = (g%swlayr(Layer)- g%sw_start(layer))
+     :                       * g%dlayr_cm(layer)*10.0
+     :
         dlt_sw_dep(Layer) = min(0.0, dlt_sw_dep(Layer))
-         call bound_check_real_var (dlt_sw_dep(Layer) &
-                                 , -g%sw_start(layer) * g%dlayr_cm(layer)*10.0 &
-                                 , 0.0 &
-                                 , 'dlt_sw_dep(Layer)')
+         call bound_check_real_var (dlt_sw_dep(Layer)
+     :                           , -g%sw_start(layer)
+     :                              * g%dlayr_cm(layer)*10.0
+     :                           , 0.0
+     :                           , 'dlt_sw_dep(Layer)')
 
 10    continue
 
       ! Send updated soil water
 
 !jh      call set_real_array('sw_dep', swlayr, max_layers, '(mm)')
-      call Set_real_array (unknown_module, 'dlt_sw_dep', '(mm)', dlt_sw_dep, g%nlayr)
+      call Set_real_array (unknown_module, 'dlt_sw_dep', '(mm)'
+     :                    , dlt_sw_dep, g%nlayr)
 !jh      call get_real_array (unknown_module, 'sw_dep', max_layers, '(mm)'
 !jh     :                     , sw_dep, g%nlayr
 !jh     :                     , 0.0, 1000.0)
@@ -1614,7 +1642,8 @@
 !      print*, g%total_n, g%uptakn/10., g%availn,trtsno3 ,g%dn_plant*10.
       do 20 Layer = 1, g%nlayr
          if (trtsno3+ trtsnh4 .gt. 0.0 .and. Layer.le.g%nrtlayr) then
-            dlt_no3(Layer) = -g%dn_plant*10. * g%ano3(Layer) / (trtsno3 + trtsnh4)
+            dlt_no3(Layer) = -g%dn_plant*10. * g%ano3(Layer)
+     :                     / (trtsno3 + trtsnh4)
 !jh            dlt_nh4(Layer) = -g%dn_plant*10. * g%anh4(Layer)
 !jh     :                     / (trtsno3 + trtsnh4)
             dlt_no3(layer) = min(0.0, dlt_no3(layer))
@@ -1647,7 +1676,8 @@
 !jh      call set_real_array('no3', sno3, nlayr, '(kg/ha)' )
 !jh      call Set_real_array (unknown_module, 'no3', '(kg/ha)'
 !jh     :                    , sno3, g%nlayr)
-      call Set_real_array (unknown_module, 'dlt_no3', '(kg/ha)' , dlt_no3, g%nlayr)
+      call Set_real_array (unknown_module, 'dlt_no3', '(kg/ha)'
+     :                    , dlt_no3, g%nlayr)
 !jh      call Set_real_array (unknown_module, 'dlt_nh4', '(kg/ha)'
 !jh     :                    , dlt_nh4, g%nlayr)
 
@@ -1657,201 +1687,263 @@
 
 
 
-! ====================================================================
-       subroutine ozcot_Send_my_variable (Variable_name)
-! ====================================================================
+* ====================================================================
+       subroutine ozcot_Send_my_variable
+     .    (Variable_name)
+* ====================================================================
       Use Infrastructure
       implicit none
 
-!+  Sub-Program Arguments
+*+  Sub-Program Arguments
        character Variable_name*(*)     ! (INPUT) Variable name to search for
 
-!+  Purpose
-!      Return the value of one of our variables to caller
+*+  Purpose
+*      Return the value of one of our variables to caller
 
-!+  Changes
-!      psc - 9/08/93
-!      DPH 7/7/94 Changed g%crop_in variable to ozcot_crop_in.
-!      250996 jngh added message_unused to else block
-!                  replaced litteral names to variable (in arguments)
-!                  removed unused include
+*+  Changes
+*      psc - 9/08/93
+*      DPH 7/7/94 Changed g%crop_in variable to ozcot_crop_in.
+*      250996 jngh added message_unused to else block
+*                  replaced litteral names to variable (in arguments)
+*                  removed unused include
 
-!+  Constant Values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_send_my_variable')
 
-!+  Local Variables
+*+  Local Variables
       real    yield                    ! lint yield kg/ha
       real    dm                       ! total dry matter kg/ha
       real    totnup                   ! N uptake kg/ha
       real    d_nup                    ! daily N uptake kg/ha
       real    bollsc
       real    cover
+      real       dm_crop(max_part)           ! dry matter of crop (kg/ha)
+      real       dm_N(max_part)              ! N content of dry matter (kg/ha)
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
       ! **** Repeat for each variable
 
       if (Variable_name .eq. 'das') then
-         call respond2get_integer_var (variable_name, '(days)', g%das)
+         call respond2get_integer_var (variable_name
+     :        , '(days)', g%das)
 
       else if (variable_name .eq. 'crop_type') then
-         call respond2get_char_var (variable_name, '()', c%crop_type)
+         call respond2get_char_var (variable_name
+     :        , '()', c%crop_type)
 
       else if (variable_name .eq. 'sumdd') then
-         call respond2get_real_var (variable_name, '(oCd)', g%sumdd)
+         call respond2get_real_var (variable_name
+     :        , '(oCd)', g%sumdd)
 
       else if (Variable_name .eq. 'sites') then
-         call respond2get_real_var (variable_name, '(1/m2)', g%sites)
+         call respond2get_real_var (variable_name
+     :        , '(1/m2)', g%sites)
 
       else if (Variable_name .eq. 'squarz') then
-         call respond2get_real_var (variable_name, '(1/m2)', g%squarz)
+         call respond2get_real_var (variable_name
+     :        , '(1/m2)', g%squarz)
 
       else if (Variable_name .eq. 'fru_no_cat') then
-         call respond2get_real_array (variable_name, '(1/m2)', g%frucat, Max_categories)
+         call respond2get_real_array (variable_name
+     :        , '(1/m2)', g%frucat, Max_categories)
 
       else if (Variable_name .eq. 'bollz') then
-         call respond2get_real_var (variable_name, '(1/m2)', g%bollz)
+         call respond2get_real_var (variable_name
+     :        , '(1/m2)', g%bollz)
 
       else if (Variable_name .eq. 'openz') then
-         call respond2get_real_var (variable_name, '(1/m2)', g%openz)
+         call respond2get_real_var (variable_name
+     :        , '(1/m2)', g%openz)
 
       else if (Variable_name .eq. 'alint') then
-         call respond2get_real_var (variable_name, '(kg/ha)', g%alint)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%alint)
 
       else if (Variable_name .eq. 'openwt') then
-         call respond2get_real_var (variable_name, '(kg/ha)', g%openwt*10.0)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%openwt*10.0)
 
       else if (Variable_name .eq. 'frudw') then
-         call respond2get_real_var (variable_name, '(kg/ha)', g%frudw*10.0)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%frudw*10.0)
 
       else if (Variable_name .eq. 'frudw_tot') then
          dm = (g%frudw + g%openwt) * 10.0
-         call respond2get_real_var (variable_name, '(kg/ha)', dm)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
 
       else if (Variable_name .eq. 'frudw_shed') then
          dm = g%frudw_shed * 10.0
-         call respond2get_real_var (variable_name, '(kg/ha)', dm)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
 
       else if (Variable_name .eq. 'frun') then
-         call respond2get_real_var (variable_name, '(kg/ha)', g%frun*10.0)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%frun*10.0)
 
       else if (Variable_name .eq. 'bload') then
-         call respond2get_real_var (variable_name, '()', g%bload)
+         call respond2get_real_var (variable_name
+     :        , '()', g%bload)
 
       else if (Variable_name .eq. 'carcap_c') then
-         call respond2get_real_var (variable_name, '()', g%carcap_c)
+         call respond2get_real_var (variable_name
+     :        , '()', g%carcap_c)
 
       else if (Variable_name .eq. 'carcap_n') then
-         call respond2get_real_var (variable_name, '()', g%carcap_n)
+         call respond2get_real_var (variable_name
+     :        , '()', g%carcap_n)
 
       else if (Variable_name .eq. 'vnstrs') then
-         call respond2get_real_var (variable_name, '()', g%vnstrs)
+         call respond2get_real_var (variable_name
+     :        , '()', g%vnstrs)
 
       else if (Variable_name .eq. 'fnstrs') then
-         call respond2get_real_var (variable_name, '()', g%fnstrs)
+         call respond2get_real_var (variable_name
+     :        , '()', g%fnstrs)
 
       else if (Variable_name .eq. 'dm') then
          dm = g%dw_total * 10.
-         call respond2get_real_var (variable_name, '(kg/ha)', dm)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
 
       else if (Variable_name .eq. 'dw_boll') then
          dm = g%dw_boll * 10.
-         call respond2get_real_var (variable_name, '(kg/ha)', dm)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
 
       else if (Variable_name .eq. 'dw_root') then
          dm = g%dw_root * 10.
-         call respond2get_real_var (variable_name, '(kg/ha)', dm)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
 
       else if (Variable_name .eq. 'dw_leaf') then
          dm = g%dw_leaf * 10.
-         call respond2get_real_var (variable_name, '(kg/ha)', dm)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
 
       else if (Variable_name .eq. 'dw_stem') then
          dm = g%dw_stem * 10.
-         call respond2get_real_var (variable_name, '(kg/ha)', dm)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', dm)
 
       else if (Variable_name .eq. 'totnup') then
          totnup = g%total_n * 10.
-         call respond2get_real_var (variable_name, '(kg/ha)', totnup)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', totnup)
 
       else if (variable_name .eq. 'yield') then
          yield = g%alint / 227.
-         call respond2get_real_var (variable_name, '(bales/ha)', yield)
+         call respond2get_real_var (variable_name
+     :        , '(bales/ha)', yield)
 
       else if (variable_name .eq. 'lint_yield') then
          yield = g%alint / 227.
-         call respond2get_real_var (variable_name, '(bales/ha)', yield)
+         call respond2get_real_var (variable_name
+     :        , '(bales/ha)', yield)
 
       else if (variable_name .eq. 'lai') then
-         call respond2get_real_var (variable_name, '(m^2/m^2)', g%alai)
+         call respond2get_real_var (variable_name
+     :        , '(m^2/m^2)', g%alai)
 
       elseif (variable_name .eq. 'cover_green') then
          cover = l_bound (1.0 - g%tr, 0.0)
 
-         call respond2get_real_var (variable_name, '()', cover)
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , cover)
 
       elseif (variable_name .eq. 'cover_tot') then
          cover = g%f_intz
 
-         call respond2get_real_var (variable_name, '()', cover)
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , cover)
 
       elseif (variable_name .eq. 'height') then
 !nh this is a simple fix only due to the limited future
 !nh for this module!!!!!
-         call respond2get_real_var (variable_name, '(mm)', 900.0)
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
+     :                             , 900.0)
 
       else if (Variable_name .eq. 'availn') then
-         call respond2get_real_var (variable_name, '(kg/ha)', g%availn)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%availn)
 
       else if (Variable_name .eq. 'uptakn') then
-         call respond2get_real_var (variable_name, '(kg/ha)', g%uptakn)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%uptakn)
 
       else if (Variable_name .eq. 'tsno3') then
-         call respond2get_real_var (variable_name, '(kg/ha)', g%tsno3)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%tsno3)
 
       else if (Variable_name .eq. 'ysno3') then
-         call respond2get_real_var (variable_name, '(kg/ha)', g%yest_tsno3)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%yest_tsno3)
 
       else if (Variable_name .eq. 'tsnh4') then
-         call respond2get_real_var (variable_name, '(kg/ha)', g%tsnh4)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%tsnh4)
 
       else if (Variable_name .eq. 'ysnh4') then
-         call respond2get_real_var (variable_name, '(kg/ha)', g%yest_tsnh4)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%yest_tsnh4)
 
-      else if (Variable_name .eq. 'd_nup') then
+      else if (Variable_name .eq. 'n_uptake') then
          d_nup = g%dn_plant * 10.
-         call respond2get_real_var (variable_name, '(kg/ha)', d_nup)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', d_nup)
 
       else if (variable_name .eq. 'rtdep') then
-         call respond2get_real_var (variable_name, '(cm)', g%rtdep)
+         call respond2get_real_var (variable_name
+     :        , '(cm)', g%rtdep)
 
       else if (variable_name .eq. 's_bed_mi') then
-         call respond2get_real_var (variable_name, '()', g%s_bed_mi)
+         call respond2get_real_var (variable_name
+     :        , '()', g%s_bed_mi)
 
       else if (variable_name .eq. 'smi') then
-         call respond2get_real_var (variable_name, '()', g%smi)
+         call respond2get_real_var (variable_name
+     :        , '()', g%smi)
 
       else if (variable_name .eq. 'wli') then
-         call respond2get_real_var (variable_name, '()', g%wli)
+         call respond2get_real_var (variable_name
+     :        , '()', g%wli)
 
       else if (variable_name .eq. 'evap_plant') then
-         call respond2get_real_var (variable_name, '(cm)', g%ep)
+         call respond2get_real_var (variable_name
+     :        , '(cm)', g%ep)
 
       else if (variable_name .eq. 'evap_soil') then
-         call respond2get_real_var (variable_name, '(cm)', g%es)
+         call respond2get_real_var (variable_name
+     :        , '(cm)', g%es)
 
       else if (variable_name .eq. 'evap_pot') then
-         call respond2get_real_var (variable_name, '(cm)', g%eo)
+         call respond2get_real_var (variable_name
+     :        , '(cm)', g%eo)
 
       else if (variable_name .eq. 'evap_tot') then
-         call respond2get_real_var (variable_name, '(cm)', g%et)
+         call respond2get_real_var (variable_name
+     :        , '(cm)', g%et)
+
+      else if (variable_name .eq. 'ep') then
+         call respond2get_real_var (variable_name
+     :        , '(mm)', g%ep*cm2mm)
 
       else if (variable_name .eq. 'ozcot_crop_in') then
-         call respond2get_logical_var (variable_name, '()', g%crop_in)
+         call respond2get_logical_var (variable_name
+     :        , '()', g%crop_in)
 
       else if (variable_name .eq. 'ozcot_status') then
-         call respond2get_integer_var (variable_name, '()', g%iend)
+         call respond2get_integer_var (variable_name
+     :        , '()', g%iend)
+
+      else if (variable_name .eq. 'plant_status') then
+         call respond2get_char_var (variable_name
+     :        , '()', g%plant_status)
 
       else if (variable_name .eq. 'bolls_sc') then
          if (g%openz.gt.0.0) then
@@ -1859,22 +1951,85 @@
          else
             bollsc = 0.0
          endif
-         call respond2get_real_var (variable_name, '(g/boll)', bollsc)
+         call respond2get_real_var (variable_name
+     :        , '(g/boll)', bollsc)
 
       else if (variable_name .eq. 'nuptake') then
-         call respond2get_real_var (variable_name, '(kg/ha)', g%total_n*10.0)
+         call respond2get_real_var (variable_name
+     :        , '(kg/ha)', g%total_n*10.0)
 
       else if (variable_name .eq. 'squarz_max') then
-         call respond2get_real_var (variable_name, '(1/m2)', g%sqzx)
+         call respond2get_real_var (variable_name
+     :        , '(1/m2)', g%sqzx)
 
       else if (variable_name .eq. 'lai_max') then
-         call respond2get_real_var (variable_name, '(m2/m2)', g%alaiz)
+         call respond2get_real_var (variable_name
+     :        , '(m2/m2)', g%alaiz)
 
       else if (variable_name .eq. 'i_def') then
-         call respond2get_integer_var (variable_name, '(das)', g%i_def)
+         call respond2get_integer_var (variable_name
+     :        , '(das)', g%i_def)
 
       else if (variable_name .eq. 'i_def2') then
-         call respond2get_integer_var (variable_name, '(das)', g%i_def2)
+         call respond2get_integer_var (variable_name
+     :        , '(das)', g%i_def2)
+
+      else if (variable_name .eq. 'dlt_dm_green') then
+         dm_crop(:) = 0.0
+         dm_crop(root) = g%ddw_root
+         dm_crop(meal) = 0.0  ! meal included in pod
+         dm_crop(stem) = g%ddw_stem
+         dm_crop(leaf) = g%ddw_leaf
+         dm_crop(pod) = g%ddw_boll
+
+         call respond2get_real_array (variable_name
+     :        , '(g/m2)', dm_crop, Max_part)
+
+
+      else if (variable_name .eq. 'dm_green') then
+         dm_crop(:) = 0.0
+         dm_crop(root) = g%dw_root
+         dm_crop(meal) = g%openwt
+         dm_crop(stem) = g%dw_stem
+         dm_crop(leaf) = g%dw_leaf
+         dm_crop(pod) = (g%dw_boll - g%openwt)
+         dm_crop(pod) = l_bound(dm_crop(pod), 0.0)
+
+         call respond2get_real_array (variable_name
+     :        , '(g/m2)', dm_crop, Max_part)
+
+      else if (variable_name .eq. 'dm_senesced') then
+         dm_crop(:) = 0.0
+         dm_crop(root) =  0.0
+         dm_crop(meal) =  0.0
+         dm_crop(stem) =  0.0
+         dm_crop(leaf) =  g%leaf_res
+         dm_crop(pod) =  0.0 !g%frudw_shed
+
+         call respond2get_real_array (variable_name
+     :        , '(g/m2)', dm_crop, Max_part)
+
+      else if (variable_name .eq. 'n_senesced') then
+         dm_N(:) = 0.0
+         dm_N(root) =  0.0
+         dm_N(meal) =  0.0
+         dm_N(stem) =  0.0
+         dm_N(leaf) =  g%leaf_res_n
+         dm_N(pod) =  0.0 !g%frudw_shed
+
+         call respond2get_real_array (variable_name
+     :        , '(g/m2)', dm_N, Max_part)
+
+      else if (variable_name .eq. 'n_green') then
+         dm_N(:) = 0.0
+         dm_N(root) =  g%n_root
+         dm_N(meal) =  0.0  ! meal included in pod
+         dm_N(stem) =  g%n_stem
+         dm_N(leaf) =  g%n_leaf
+         dm_N(pod) =   g%n_boll
+
+         call respond2get_real_array (variable_name
+     :        , '(g/m2)', dm_N, Max_part)
 
       else
             ! Nothing
@@ -1887,33 +2042,33 @@
 
 
 
-! ====================================================================
+* ====================================================================
        subroutine ozcot_set_my_variable (Variable_name)
-! ====================================================================
+* ====================================================================
       Use Infrastructure
       implicit none
 
-!+  Sub-Program Arguments
+*+  Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
 
-!+  Purpose
-!     Set one of our variables altered by some other module
+*+  Purpose
+*     Set one of our variables altered by some other module
 
-!+  Changes
-!      psc - 9/08/93
-!      250996 jngh updated interface
+*+  Changes
+*      psc - 9/08/93
+*      250996 jngh updated interface
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
-!      if (variable_name .eq. '????') then
-!         call collect_real_array (variable_name, '()', max_layer
-!     :                               , ????, numvals
-!     :                               , 0.0, 1.0)
+*      if (variable_name .eq. '????') then
+*         call collect_real_array (variable_name, '()', max_layer
+*     :                               , ????, numvals
+*     :                               , 0.0, 1.0)
 
-!      else
+*      else
             ! Don't know this variable name
          call Message_unused ()
-!      endif
+*      endif
 
 
       return
@@ -1921,24 +2076,24 @@
 
 
 
-! ====================================================================
+* ====================================================================
        subroutine ozcot_Process ()
-! ====================================================================
+* ====================================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!      Perform actions for current g%day.
+*+  Purpose
+*      Perform actions for current g%day.
 
-!+  Changes
-!      psc - 9/08/93
-!      250996 jngh removed unused include
+*+  Changes
+*      psc - 9/08/93
+*      250996 jngh removed unused include
 
-!+  Constant Values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_process')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
       call push_routine(myname)
 !     call patched-in ozcot model
@@ -1951,10 +2106,10 @@
 
       call ozcot2 ()
       if (g%iend .ne. 0 .and. g%das .gt. 400) then
-         call fatal_error (err_user ,&
-                           'Crop remains unharvested at 400 DAS.' &
-                         //' Check that manager harvest criteria contains' &
-                         //' a test for ozcot_status > 0')
+         call fatal_error (err_user
+     :   , 'Crop remains unharvested at 400 DAS.'
+     :   //' Check that manager harvest criteria contains'
+     :   //' a test for ozcot_status > 0')
       else
       endif
 
@@ -1964,38 +2119,38 @@
 
 
 
-! ====================================================================
+* ====================================================================
        subroutine ozcot_Prepare ()
-! ====================================================================
+* ====================================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!     Perform calculations before the current timestep.
+*+  Purpose
+*     Perform calculations before the current timestep.
 
-!+  Changes
-!      psc - 9/08/93
+*+  Changes
+*      psc - 9/08/93
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
       return
       end subroutine
 
 
 
-! ====================================================================
+* ====================================================================
        subroutine ozcot_post ()
-! ====================================================================
+* ====================================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!     Perform calculations after the current timestep.
+*+  Purpose
+*     Perform calculations after the current timestep.
 
-!+  Changes
-!      psc - 9/08/93
+*+  Changes
+*      psc - 9/08/93
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
 !      g%HAIL = .false.
 
@@ -2004,19 +2159,19 @@
 
 
 
-! ====================================================================
+* ====================================================================
        subroutine ozcot_end_run ()
-! ====================================================================
+* ====================================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!     Perform cleanup because the current simulation is about to end.
+*+  Purpose
+*     Perform cleanup because the current simulation is about to end.
 
-!+  Changes
-!      psc - 9/08/93
+*+  Changes
+*      psc - 9/08/93
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
       return
       end subroutine
@@ -2108,16 +2263,16 @@
 !
 !
 !      program ozcot2
-! ====================================================================
+* ====================================================================
       subroutine OZCOT2
-! ====================================================================
+* ====================================================================
       Use Infrastructure
       implicit none
 
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot2')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !     data agron_inp/'agron.inp'/, soilw_inp/'soilw.inp'/,
@@ -2186,10 +2341,10 @@
 
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine pltgrw (i,iend,nszn)
       subroutine ozcot_pltgrw
-! ====================================================================
+* ====================================================================
 
 !-------------------------------------------------------------------
 !      calls the various plant growing routines.  at this point    !
@@ -2217,8 +2372,11 @@
 !pc   data ifrost/0/                          ! flag for simulated frost
 
 !----- housekeeping -----------------------------------------------------------
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
+
+      call ozcot_update ()
+
 !psc      iday=i-isow ! replaced ncrpdy throughout, 15 nov 1983
       g%iday=g%das
 
@@ -2269,7 +2427,8 @@
 
 !---- check if frost terminates crop -----------------------------------------
 
-      IF(g%tempmn.LE.c%frost_kill_immediate .and. g%iemrg .gt. 0.0) THEN    ! frost after emergence?
+      IF(g%tempmn.LE.c%frost_kill_immediate
+     :   .and. g%iemrg .gt. 0.0) THEN    ! frost after emergence?
           IF(g%bollz.EQ.0) THEN                  ! pre-fruiting?
               g%iend=2                           ! flag for frost -
               WRITE(string,771)
@@ -2351,16 +2510,17 @@
       ENDIF
 
 !------------------------------------------------------------------------------
+
       call pop_routine(myname)
 
       RETURN
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine bollwt(idayx,l)
       subroutine ozcot_bollwt(cohort)
-! ====================================================================
+* ====================================================================
 
 !     calculates increase in weight of each days' (cohort's) bolls.
 !     bollgrowth rate is driven by dd,limited by water,
@@ -2386,7 +2546,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_bollwt')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
       IF(g%idayx.EQ.0 .OR. g%iday.EQ.g%idayx+1) THEN ! 1st call for this day?
@@ -2394,18 +2554,18 @@
         FBCSTR = 1.0                         ! Cc stress factor to reduce g%bollgr
         IF(g%bload.GT.0.)FBCSTR = g%carcap_c/g%bload ! supply/demand ratio for when
         IF(FBCSTR.GT.1.)FBCSTR = 1.          ! boll growth limited by Cc supply
-        FBWSTR = ozcot_stress(c%fbwstr_low, &
-                              c%fbwstr_high, &
-                              c%fbwstr_a, &
-                              g%smi)   ! water stress on bolls         !const  sw_stress_boll_min, sw_stress_boll_max, sw_stress_boll_pwr
+        FBWSTR = ozcot_stress(c%fbwstr_low
+     :                        ,c%fbwstr_high
+     :                        ,c%fbwstr_a
+     :                        ,g%smi)   ! water stress on bolls         !const  sw_stress_boll_min, sw_stress_boll_max, sw_stress_boll_pwr
 !jh v2001 deleted        FBWSTR = 1.                          ! try no direct stress - 24/4/92
         IF(g%bollz+g%openz .LT. g%carcap_n) THEN ! final boll req < uptake
             FBNSTR = 1.0                     ! do not apply N stress
         ELSE                                 ! final boll req < uptake
-            FBNSTR = ozcot_stress(c%fbnstr_low, &
-                                  c%fbnstr_high, &
-                                  c%fbnstr_a, &
-                                  g%fnstrs)    ! apply N stress       !const  n_stress_boll_min, n_stress_boll_max, n_stress_boll_pwr
+            FBNSTR = ozcot_stress(c%fbnstr_low
+     :                           ,c%fbnstr_high
+     :                           ,c%fbnstr_a
+     :                           ,g%fnstrs)    ! apply N stress       !const  n_stress_boll_min, n_stress_boll_max, n_stress_boll_pwr
         ENDIF
         STRSBL = AMIN1(FBCSTR,FBWSTR,FBNSTR) ! minimum of Cc, water & N stress
 !        STRSBL = 1.0  ! debug
@@ -2449,8 +2609,11 @@
 
 !------ shed fruit not growing ------------------------------------------------
 
-      IF(cohort.GT.g%lfru(Small_bolls) .AND. cohort.LE.g%lfru(Large_bolls) .AND. g%fruno(cohort).GT.0.) THEN
-           IF(g%fruwt(cohort)/g%fruno(cohort).LT.0.1)   g%frmark(cohort,age6) = g%fruno(cohort)
+      IF(cohort.GT.g%lfru(Small_bolls)
+     :   .AND. cohort.LE.g%lfru(Large_bolls)
+     :   .AND. g%fruno(cohort).GT.0.) THEN
+           IF(g%fruwt(cohort)/g%fruno(cohort).LT.0.1)
+     :          g%frmark(cohort,age6) = g%fruno(cohort)
       ENDIF
 
 !------------------------------------------------------------------------------
@@ -2459,10 +2622,10 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine carrying_capacity(i)
       subroutine ozcot_carrying_capacity
-! ====================================================================
+* ====================================================================
 
 !     estimates carrying capacity of crop on basis of photosynthesis.
 !     selects parameter for variety. adjusted for water stress.
@@ -2490,7 +2653,7 @@
       parameter (myname = 'ozcot_carrying_capacity')
 !pc   data istress/0/, ireliefco/0/
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !psc      if(i.eq. isq+1) then
@@ -2528,7 +2691,8 @@
       RADN_watts = g%solrad*0.8942      ! convert RADN from ly to watts m**2            !const
       P_gossym = 2.391+RADN_watts*(1.374-RADN_watts*0.0005414) ! GOSSYM line1275        !const
       POT_PN = P_gossym*0.068           ! potential photosynthesis g%g/m2 CH2O          !const
-      PN = POT_PN*ALIGHT                ! net photosynthesis term
+      
+      PN = POT_PN*ALIGHT*co2FertFX()    ! net photosynthesis term
 !----- effect of water stress on photosysthesis -------------------------------
 !jh v2001
       rel_p = 1.0
@@ -2560,7 +2724,8 @@
 
 !----- carrying capacity carbon - photosynthesis divided by boll growth rate
 
-      IF(g%bgrvar.GT.0.)   g%carcap_c = (PN-RM)/(g%bgrvar*p%FBURR) ! carrying capacity, carbon, no stress
+      IF(g%bgrvar.GT.0.)
+     * g%carcap_c = (PN-RM)/(g%bgrvar*p%FBURR) ! carrying capacity, carbon, no stress
       IF(g%carcap_c.LT.0.) g%carcap_c = 0. ! trap
 !jh v2001
 !jh need rs correction
@@ -2572,10 +2737,12 @@
 !jh      print*,g%das,g%carcap_c,g%wli,rm,g%istress,g%bload,g%cutout,g%smi
       IF(g%istress.GT.0) THEN
 !jh v2001 deleted         IF(g%sw/g%ul.GT.c%watlog_c)
-         IF(g%wli.GT.c%watlog_c)  g%carcap_c = g%carcap_c  * c%wlog_carcap_red_stress ! carrying capacity reduced    !const   ! ? 0.01
+         IF(g%wli.GT.c%watlog_c)                              ! restore as DV - 30/5/96
+     :      g%carcap_c = g%carcap_c  * c%wlog_carcap_red_stress ! carrying capacity reduced    !const   ! ? 0.01
       ELSE
 !jh v2001 deleted         IF(g%sw/g%ul.GT.c%watlog_c)
-         IF(g%wli.GT.c%watlog_c)  g%carcap_c = g%carcap_c * c%wlog_carcap_red         ! carrying capacity reduced    !const
+         IF(g%wli.GT.c%watlog_c)                      ! restore as DV - 30/5/96
+     :      g%carcap_c = g%carcap_c * c%wlog_carcap_red ! carrying capacity reduced    !const
       ENDIF
       g%cutout = g%carcap_c*p%fcutout ! boll load for g%cutout, sq prodn stops
 !-------------------------------------------------------------------------------
@@ -2592,10 +2759,10 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine cropn(i)
       subroutine ozcot_cropn
-! ====================================================================
+* ====================================================================
 
       Use Infrastructure
       implicit none
@@ -2622,7 +2789,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_cropn')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !----- potential uptake for season --------------------------------------------
@@ -2641,7 +2808,8 @@
       UP_KG_HA = g%uptakn*10        ! need kg/ha for next calculation
       g%seed_nc = .02407+0.000147*UP_KG_HA-0.00000034*UP_KG_HA**2 ! GAC dat 3/6/88         !const
 !jh v2001
-      g%frun = (g%frudw+g%openwt) * ((1.-g%pclint)*g%seed_nc + (p%FBURR-1.)* 0.005)   ! N in frt                                                                     !const
+      g%frun = (g%frudw+g%openwt)
+     :       * ((1.-g%pclint)*g%seed_nc + (p%FBURR-1.)* 0.005) ! N in frt                                                                     !const
 
 !----- compute n carrying capacity --------------------------------------------
 
@@ -2690,10 +2858,10 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine emerg (i)
       subroutine ozcot_emerg
-! ====================================================================
+* ====================================================================
 !------------------------------------------------------------------------------------------------
 !
 !     Simulates  emergence
@@ -2731,7 +2899,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_emerg')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
       IF(g%iemrg.GT.0) then
@@ -2822,17 +2990,17 @@
 
 
               WRITE(string,147)  g%PPM,ESTABLISH, g%PPM_TARGET
-  147         FORMAT(' *** Crop emerged with',F5.1, &
-                  ' plants per m sq,',F4.0,'% of target population of ' &
-                  , f5.1)
+  147         FORMAT(' *** Crop emerged with',F5.1,
+     :            ' plants per m sq,',F4.0,'% of target population of '
+     :            , f5.1)
                call write_string (string)
 
           IF(ESTABLISH.LT.25.)THEN
               g%IEND = 5           ! flag to terminate season
               WRITE(string,148) g%PPM_TARGET
-  148         FORMAT(' *** Crop failed to establish;', &
-                   ' stand was less than 25% of target population of ' &
-                   , f5.1)
+  148         FORMAT(' *** Crop failed to establish;',
+     :             ' stand was less than 25% of target population of '
+     :             , f5.1)
               call write_string (string)
           ENDIF
 !jh      ENDIF                                      ! end of IF BLOCK for modes
@@ -2874,10 +3042,10 @@
 !      end subroutine
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine evap (i)
       subroutine ozcot_evap
-! ====================================================================
+* ====================================================================
 ! retained to calculate EO for EP calculation.
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 !      calculates potential evapotransperation from modified pen-  c
@@ -2918,7 +3086,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_evap')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !---------- calculate bowen ratio term -----------------------------------------
@@ -3020,10 +3188,10 @@
         end subroutine
 
 
-! ====================================================================
+* ====================================================================
 !      function frugen(i)
       real FUNCTION ozcot_frugen(ndas)
-! ====================================================================
+* ====================================================================
 !
 !     estimates generation of new fruit as function of existing
 !     fruiting sites and bolload adjusted for nitrogen stress
@@ -3059,7 +3227,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_frugen')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !-----------------------------------------------------------------------------
@@ -3098,8 +3266,9 @@
 !-----------------------------------------------------------------------------
       IF (BLR.EQ.1.0 .OR. g%FNSTRS .EQ. 0.0) THEN
           g%n_cutout = g%n_cutout + 1         ! count days cutout
-          if(g%n_cutout.GT.c%cutout_smi_days) &
-                       g%sites1 = g%sites1 + c%cutout_smi_site_red*g%size*g%ppm ! inactive g%sites          !const
+          if(g%n_cutout.GT.c%cutout_smi_days)
+     :                 g%sites1 = g%sites1
+     :                          + c%cutout_smi_site_red*g%size*g%ppm ! inactive g%sites          !const
 
          call pop_routine(myname)
          RETURN
@@ -3118,10 +3287,10 @@
       IF(g%size.LT.0.5/g%ppm) g%size = 0.5/g%ppm ! average  plants has 1 site              !const
 
       DFRU = p%SQCON*SQRT(g%size)*g%ppm*(1.-BLR)   ! sites per DD
-      VSNSTR = ozcot_stress(c%vsnstr_low, &        ! vegetative N stress
-                            c%vsnstr_high, &
-                            c%vsnstr_a, &
-                            g%vnstrs)                              !const
+      VSNSTR = ozcot_stress(c%vsnstr_low           ! vegetative N stress
+     :                     ,c%vsnstr_high
+     :                     ,c%vsnstr_a
+     :                     ,g%vnstrs)                              !const
       DFRU = DFRU * VSNSTR
 
       PPM_ROW = g%ppm*g%rs               ! plants per m row for POPFAC
@@ -3135,10 +3304,10 @@
       end function
 
 
-! ====================================================================
+* ====================================================================
 !     subroutine fruit (i,iend)
        subroutine ozcot_fruit
-! ====================================================================
+* ====================================================================
 
 !      ages fruit, sums fruit in categories, estimates physiological
 !      shedding and survival of fruit.  calls s/r actfru to estimate
@@ -3182,7 +3351,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_fruit')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !----  re-intialise arrays and variables to zero where appropriate -------------
@@ -3237,17 +3406,20 @@
               g%frmark (cohort,MMM) = g%frmark(cohort,MM)
 30        continue
           g%frmark(cohort,age1)=0.                 ! CLEAR FIRST g%day
-          IF(g%fruno(cohort).GT.0. .AND. g%frmark(cohort,age7).GT.0.)THEN ! fruit shed today?
+          IF(g%fruno(cohort).GT.0.
+     :      .AND. g%frmark(cohort,age7).GT.0.)THEN ! fruit shed today?
               IF(g%frmark(cohort,age7).GT.g%fruno(cohort))THEN
-                  write(string,999) cohort,g%fruno(cohort) ,g%frmark(cohort,age7)
-999               format (' too many marked fruit:',i4,2f5.1)
+                  write(string,999) cohort,g%fruno(cohort)
+     :                                    ,g%frmark(cohort,age7)
+999               format
+     :            (' too many marked fruit:',i4,2f5.1)
                   call write_string (string)
                   g%frmark(cohort,age7) = g%fruno(cohort)
               ENDIF
 
-              fruit_wt_shed = g%fruwt(cohort) &
-                            * g%frmark(cohort,age7) &
-                           / g%fruno(cohort) ! adjust wt sheds
+              fruit_wt_shed = g%fruwt(cohort)
+     :                      * g%frmark(cohort,age7)
+     :                     / g%fruno(cohort) ! adjust wt sheds
               g%frudw_shed = g%frudw_shed + fruit_wt_shed
               g%fruwt(cohort) = g%fruwt(cohort) - fruit_wt_shed ! adjust wt sheds
               g%fruno (cohort)=g%fruno(cohort)-g%frmark(cohort,age7) ! remove marked fruit
@@ -3255,7 +3427,8 @@
 
 !---- sort fruit and marked fruit into age categories  -----------------------
 
-          IF(g%fyzage(cohort).GT.p%FRUDD(Large_Sqz)) g%bpsum(cohort)=g%bpsum(cohort)+g%bper          ! develop g%day cohort's bolls
+          IF(g%fyzage(cohort).GT.p%FRUDD(Large_Sqz))
+     *    g%bpsum(cohort)=g%bpsum(cohort)+g%bper          ! develop g%day cohort's bolls
           IF(g%n_def.GT.0) g%bpsum(cohort)=g%bpsum(cohort)/0.99 ! develop faster after defoliation      !const
 
           IF(g%iend.EQ.2 .OR. g%iend.EQ.6) THEN     ! frost or green bolls > 1
@@ -3314,8 +3487,8 @@
       g%bload=0.                                     ! reset
       DO 60 cat=1,Max_categories-1
           IF (cat.LE.Large_Sqz) g%squarz=g%squarz+g%frucat(cat)  ! total squares
-          IF (cat.GE.Flowers.AND.cat.LE.Inedible_bolls) &
-                                       g%bollz=g%bollz +g%frucat(cat) ! total bolls
+          IF (cat.GE.Flowers.AND.cat.LE.Inedible_bolls)
+     :                                 g%bollz=g%bollz +g%frucat(cat) ! total bolls
           g%bload=g%bload+(g%frucat(cat)-g%sfmcat(cat))*p%WT(cat)  !  boll load
 60    continue
 
@@ -3323,8 +3496,8 @@
 
 !      call carrying_capacity(i)
       CALL ozcot_carrying_capacity
-      IF(g%bload.GT.g%carcap_c .OR. g%bollz+g%openz.GT.g%carcap_n) &
-         CALL ozcot_overload                                  ! abort excess fruit
+      IF(g%bload.GT.g%carcap_c .OR. g%bollz+g%openz.GT.g%carcap_n)
+     :   CALL ozcot_overload                                  ! abort excess fruit
 
 !      if (i.le.idate)then                            ! use counted fruit?
 !      if (das.le.idate)then                            ! use counted fruit?
@@ -3353,7 +3526,8 @@
 !      fmkcat(1,1)=fmkcat(1,1)+frmark(i-isow,1)
       g%frmark(g%das,age1)=g%fruno(g%das)*(1.-SURV)
       IF(g%frmark(g%das,age1).LT.0.) g%frmark(g%das,age1)=0.0
-      g%fmkcat(Small_Sqz,age1)= g%fmkcat(Small_Sqz,age1) + g%frmark(g%das,age1)
+      g%fmkcat(Small_Sqz,age1)= g%fmkcat(Small_Sqz,age1)
+     :                        + g%frmark(g%das,age1)
       IF(NDAYFL.EQ.0)GO TO 501
       SURV = ozcot_survive(g%carcap_c,g%bload) ! boll survival rate
 !      surv =surv*0.33                  ! for pest damage in 1972/3 namoi
@@ -3362,7 +3536,8 @@
           IF = g%lfru(Flowers)-NFL+1
           g%frmark(IF,age1) = g%fruno(IF)*(1.-SURV)
           IF(g%frmark(IF,age1).LT.0.)g%frmark(IF,age1) = 0.0
-          g%fmkcat(Flowers,age1) = g%fmkcat(Flowers,age1) + g%frmark(IF,age1)
+          g%fmkcat(Flowers,age1) = g%fmkcat(Flowers,age1)
+     :                          + g%frmark(IF,age1)
 70    continue
 
 !---- add new fruit to totals ------------------------------------------------
@@ -3386,10 +3561,10 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine harvest(iend)
       subroutine ozcot_harvest
-! ====================================================================
+* ====================================================================
 
 !     this subroutine simulates defoliation and picking
 !     use n_def, n_pick and j_pick for cost of defoliation:       nb action
@@ -3412,21 +3587,23 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_harvest')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !jh skip row correction
       g%alai_row = g%alai
       IF(g%NSKIP.GT.0)g%alai_row = g%alai*g%rs        ! lai in hedgerow
 
-      IF(g%openz/(g%bollz+g%openz).GT.c%OPEN_DEF/100. .AND. g%n_def.EQ. 0) THEN
+      IF(g%openz/(g%bollz+g%openz).GT.c%OPEN_DEF/100.
+     :   .AND. g%n_def.EQ. 0) THEN
           g%J_DEF = g%iday                           ! day OPEN_DEF% open
 !jh skip row correction
           IF(g%alai_row .LT. 0.5) then
           else IF(g%n_def.EQ.0) THEN
              g%n_def = 1                               ! 1st defoliant spray     !const
              g%i_def = g%iday                          ! g%day of 1st defol.
-             write (string, '(4x, a, i4)') 'Defoliant spray ', g%n_def
+             write (string, '(4x, a, i4)')
+     :                'Defoliant spray ', g%n_def
              call write_string (string)
           else
           endif
@@ -3435,24 +3612,25 @@
           IF(g%alai_row.GT.0.2) THEN
              g%n_def=2                             ! 2nd defoliant spray      !const
              g%i_def2=g%iday                        ! g%day of 2nd defol
-             write (string, '(4x, a, i4)') 'Defoliant spray ', g%n_def
+             write (string, '(4x, a, i4)')
+     :             'Defoliant spray ', g%n_def
              call write_string (string)
           else
              g%j_pick = g%jdate                    ! date of picking
 !jh need rs correction   ???
              if(g%bollz.LT.10) THEN                ! 10 bolls worth picking
                 g%n_pick = 1                       ! count picks               !const
-                write (string, '(4x, a, i4, a)') &
-                       'First Pick ' &
-                      , g%iday,' days from sowing. ' &
-                     // 'There are not enough bolls for a 2nd pick.'
+                write (string, '(4x, a, i4, a)')
+     :                 'First Pick '
+     :                , g%iday,' days from sowing. '
+     :               // 'There are not enough bolls for a 2nd pick.'
                 call write_string (string)
              else                ! 10 bolls worth picking
                 g%n_pick = 2                      ! count picks                !const
-                write (string, '(4x, a, i4, a)') &
-                       'First Pick ' &
-                      , g%iday,' days from sowing. ' &
-                     // 'There are enough bolls for a 2nd pick.'
+                write (string, '(4x, a, i4, a)')
+     :                 'First Pick '
+     :                , g%iday,' days from sowing. '
+     :               // 'There are enough bolls for a 2nd pick.'
                 call write_string (string)
              ENDIF
           endif
@@ -3461,17 +3639,17 @@
 !jh need rs correction  ???
           IF(g%bollz.LT.10) THEN                       ! 10 bolls worth picking
              g%n_pick = 1                               ! count picks
-             write (string, '(4x, a, i4, a)') &
-                    'First Pick ' &
-                   , g%iday,' days from sowing. ' &
-                  // 'There are not enough bolls for a 2nd pick.'
+             write (string, '(4x, a, i4, a)')
+     :              'First Pick '
+     :             , g%iday,' days from sowing. '
+     :            // 'There are not enough bolls for a 2nd pick.'
              call write_string (string)
           else
              g%n_pick = 2                           ! count picks
-             write (string, '(4x, a, i4, a)') &
-                    'First Pick ' &
-                   , g%iday,' days from sowing. ' &
-                  // 'There are enough bolls for a 2nd pick.'
+             write (string, '(4x, a, i4, a)')
+     :              'First Pick '
+     :             , g%iday,' days from sowing. '
+     :            // 'There are enough bolls for a 2nd pick.'
              call write_string (string)
           endif
       endif
@@ -3480,9 +3658,9 @@
       IF(g%j_pick.NE.0) THEN
               g%iend = 6                                 ! terminate crop                 !const
 !c              write(2,103) jdate, iday
-              write (string, '(4x, a)') &
-                      'Crop terminated' &
-                    //': first pick.'   
+              write (string, '(4x, a)')
+     :                'Crop terminated'
+     :              //': first pick.'
               call write_string (string)
       ENDIF
 
@@ -3491,10 +3669,10 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine hfunc (i)
       subroutine ozcot_hfunc
-! ====================================================================
+* ====================================================================
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 !      calculates daily heat units based on a 12.0 deg c base      c
 !      temperature.  the heat unit sum is based an integrated      c
@@ -3516,7 +3694,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_hfunc')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 
@@ -3541,10 +3719,10 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine init
       subroutine ozcot_INITIAL()
-! ====================================================================
+* ====================================================================
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 !      initializes variables in all common blocks                  c
 !                                                                  c
@@ -3567,7 +3745,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_initial')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !      block data ozcot_initials
@@ -3817,10 +3995,10 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine istsq (i,nszn)
       subroutine ozcot_istsq
-! ====================================================================
+* ====================================================================
 
 !     identifies first square event and gives initial value for
 !     fruno(1),sites & squarz.
@@ -3843,7 +4021,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_istsq')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !jh      IF(g%idate.NE.0) GO TO 40
@@ -3861,7 +4039,8 @@
           g%delay = g%delay+(1.-(g%smi/c%smi_delay_crit))*g%hunits
       END IF
 
-      IF(g%tempmn.LT.c%cold_shock_delay_crit) g%delay = g%delay+c%cold_shock_delay ! cold shock Constable (pers. comm)
+      IF(g%tempmn.LT.c%cold_shock_delay_crit)
+     :                        g%delay = g%delay+c%cold_shock_delay ! cold shock Constable (pers. comm)
 
 !      IF(g%HAIL) g%delay = g%delay + p%TIPOUT + g%HAIL_LAG    ! tipping out delay
       IF(g%sumdd .LT. p%DDISQ + g%delay)then
@@ -3906,10 +4085,10 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine laigen (i)
       subroutine ozcot_laigen
-! ====================================================================
+* ====================================================================
 
 !     estimates current lai. generates new leaf area daily as a
 !     function of dd and fruiting site production. initial area
@@ -3948,7 +4127,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_laigen')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 
@@ -4039,10 +4218,10 @@
                                               ! with water stress
       endif
 
-      VLNSTR = ozcot_stress(c%vlnstr_low &
-                           ,c%vlnstr_high &
-                           ,c%vlnstr_a &
-                           ,g%vnstrs)
+      VLNSTR = ozcot_stress(c%vlnstr_low
+     :                      ,c%vlnstr_high
+     :                      ,c%vlnstr_a
+     :                      ,g%vnstrs)
       g%dlai(g%iday) = g%dlai(g%iday)*VLNSTR ! adjust for N stress
       g%dlai_pot = g%dlai_pot*VLNSTR ! adjust for N stress
       g%alai=g%alai+g%dlai(g%iday)
@@ -4070,16 +4249,17 @@
 21    continue
 
       g%leaf_res_n = g%leaf_res * c%leaf_res_n_conc ! N content of leaf residues
+      g%N_LEAF = g%N_LEAF - g%leaf_res_n
 
       call pop_routine(myname)
       RETURN
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine metdat2 (i,iend)
       subroutine ozcot_metdat2
-! ====================================================================
+* ====================================================================
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 !      subroutine to check input climate data for missing or er-   c
 !      roneous values.  input variable units are assumed input     c
@@ -4117,7 +4297,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_metdat2')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !         **** read met data  ***************************************
@@ -4276,12 +4456,12 @@
 
 !       estimate wet and dry bulb when odd day missing
 
-      IF((reals_are_equal(g%tempdy,0.0)) .OR. &
-         (reals_are_equal(g%tempdy,99.9))) THEN
+      IF((reals_are_equal(g%tempdy,0.0)) .OR.
+     :   (reals_are_equal(g%tempdy,99.9))) THEN
           g%tempdy = -.54+0.57*g%tempmx+0.40*g%tempmn
       ENDIF
-      IF((reals_are_equal(g%tempwt,0.0)) .OR. &
-         (reals_are_equal(g%tempwt,99.9))) THEN
+      IF((reals_are_equal(g%tempwt,0.0)) .OR.
+     :   (reals_are_equal(g%tempwt,99.9))) THEN
           WET_DEPRESS = -3.103+0.28*g%tempmx-0.07*g%tempmn+0.62*ROOT
           IF(WET_DEPRESS.LT.0.) WET_DEPRESS=0.
           g%tempwt = g%tempdy-WET_DEPRESS
@@ -4306,9 +4486,9 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
       SUBROUTINE ozcot_n_fertilise (APPLIED,availn,APPLIED_AVAIL)
-! ====================================================================
+* ====================================================================
 !c
 !c      simulates uptake of fertiliser nitrogen. assumes that there is an upper
 !c      limit to the amount of nitrogen a crop can take up and the rate of uptake
@@ -4335,7 +4515,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_n_fertilise')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
        NKG = IFIX(APPLIED+0.5)             !  integer of kgs, index for DO loop
@@ -4353,9 +4533,9 @@
        end subroutine
 
 
-! ====================================================================
+* ====================================================================
       subroutine ozcot_overload
-! ====================================================================
+* ====================================================================
 
 !-------------------------------------------------------------------------------
 !     simulates abscission or abortion of older fruit under extreme stress
@@ -4379,7 +4559,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_overload')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !----- determine if overload called for c or n ---------------------------------
@@ -4428,7 +4608,8 @@
 10      continue
 
 
-        IF(ICAT.EQ.Large_bolls .AND.g%fruwt(cohort)/g%fruno(cohort).LT.0.1)THEN ! fruit not grown yet ?
+        IF(ICAT.EQ.Large_bolls
+     :    .AND.g%fruwt(cohort)/g%fruno(cohort).LT.0.1)THEN ! fruit not grown yet ?
            g%frmark(cohort,age6) = g%fruno(cohort)                  ! abort such fruit
            AVAILABLE = AVAILABLE-g%frmark(cohort,age6)         ! adjust fruit available
         ENDIF
@@ -4453,9 +4634,9 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
         real FUNCTION ozcot_satvp(Tdeg)
-! ====================================================================
+* ====================================================================
 
         Use Infrastructure
       implicit none
@@ -4473,7 +4654,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_satvp')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
         TABS=Tdeg+273.16
@@ -4490,9 +4671,9 @@
         RETURN
         end function
 
-! ====================================================================
+* ====================================================================
       real FUNCTION ozcot_senlf(bload,alai,carcap_c,smi)
-! ====================================================================
+* ====================================================================
 
 !     estimates leaf longevity. ranges between 833 dd & 1110 dd
 !     reduced by water stress, nitrogen stress, boll load and self shading of
@@ -4515,7 +4696,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_senlf')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
       FB=1.
@@ -4549,17 +4730,17 @@
 !jh      SUBROUTINE SNBAL(I)
       SUBROUTINE ozcot_SNBAL
 
-!!      This subroutine estimates potential total N uptake of the crop (AVAILN).
-!!      It does not maintain a daily available N balance; this will be done in
-!!      a later version.
-!!      Fertiliser and non-fertiliser N is entered as input. Non-fertiliser n
-!!      is immediately added to AVAILN. A fraction of fertiliser N is added on
-!!      day of application in S/R N_FERTILISE, the fraction being a function of
-!!      N already available. All available N is reduced by waterlogging.
-!!      Fertiliser N is reduced by low available soil water content is.
-!!      Day of application of N fertiliser, NDAY(J) from CINPUT2 & AGRON.INP,
-!!      can be day of year (+ve) or days after sowing (-ve), assigned to local
-!!      variable JNAPLC(J) on first day of season or day of sowing.
+C      This subroutine estimates potential total N uptake of the crop (AVAILN).
+C      It does not maintain a daily available N balance; this will be done in
+C      a later version.
+C      Fertiliser and non-fertiliser N is entered as input. Non-fertiliser n
+C      is immediately added to AVAILN. A fraction of fertiliser N is added on
+C      day of application in S/R N_FERTILISE, the fraction being a function of
+C      N already available. All available N is reduced by waterlogging.
+C      Fertiliser N is reduced by low available soil water content is.
+C      Day of application of N fertiliser, NDAY(J) from CINPUT2 & AGRON.INP,
+C      can be day of year (+ve) or days after sowing (-ve), assigned to local
+C      variable JNAPLC(J) on first day of season or day of sowing.
 
       Use Infrastructure
       implicit none
@@ -4571,10 +4752,10 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_SNBAL')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
-!!---- reset variables for new season ------------------------------------------
+C---- reset variables for new season ------------------------------------------
 
       IF(g%das.EQ.1) THEN                           ! start of new season?
           g%APPLIED_N = 0.                        ! reset for new season
@@ -4599,7 +4780,7 @@
 !jh         ENDDO
 !jh      ENDIF
 
-!!--- update available N if fertiliser applied ---------------------------------
+C--- update available N if fertiliser applied ---------------------------------
 
 !jh      IF(JDATE.EQ.JNAPLC(J)) THEN               ! apply N this day?
          if (g%snaplc.gt. 0.0) then
@@ -4609,10 +4790,10 @@
       ENDIF
 20    CONTINUE
 
-!!--- adjust available N during active fruiting after Hearn & Constable 1984-----
+C--- adjust available N during active fruiting after Hearn & Constable 1984-----
       IF(g%SQUARZ.GT.0.0 .AND. g%OPENZ. EQ.0.)THEN       ! active fruiting?
 
-!!        IF(DEF.LT.2.5) THEN                          ! waterlogging
+C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !jh        IF(g%SW/g%UL.GT.c%WATLOG_N) THEN                    ! waterlogging 28/5/96
         IF(g%wli.GT.c%WATLOG_N) THEN                    ! waterlogging 28/5/96
             IF(g%AVAILN.GT.30.) THEN
@@ -4636,10 +4817,10 @@
       RETURN
       end subroutine
 
-! ====================================================================
+* ====================================================================
 !jh      SUBROUTINE SOLWAT (I)
       subroutine ozcot_solwat
-! ====================================================================
+* ====================================================================
 
 !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 !      CALCULATES THE SOIL WATER BALANCE AS A FUNCTION OF SOIL     C
@@ -4754,9 +4935,9 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
       subroutine ozcot_EVAPOTRANSP
-! ====================================================================
+* ====================================================================
 
 !     calculates EP, adds to ES, to get ET, limits to EO
 
@@ -4800,9 +4981,9 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
       subroutine ozcot_INDICES
-! ====================================================================
+* ====================================================================
 
 !     calculates SMI AND WLI
 
@@ -4835,7 +5016,8 @@
 470     SMI_RT=g%rtsw/RTUL                        ! SMI in root zone
         SMI_30=g%swlayr(1)/g%ullayr(1)              ! SMI in top 30cm
         IF(g%dlayr_cm(1).GE.30.) GO TO 480
-        SMI_30 = (SMI_30*g%dlayr_cm(1) + (g%swlayr(2)/g%ullayr(2))*(30.-g%dlayr_cm(1)))/30.
+        SMI_30 = (SMI_30*g%dlayr_cm(1)
+     :         + (g%swlayr(2)/g%ullayr(2))*(30.-g%dlayr_cm(1)))/30.
 480     g%smi=AMAX1(SMI_RT,SMI_30)
 !jh        g%smi=SMI_RT   !debug
         g%smi = min(1.0, g%smi)
@@ -4856,9 +5038,9 @@
       RETURN
       end subroutine
 
-! ====================================================================
+* ====================================================================
       subroutine ozcot_SUM_SW
-! ====================================================================
+* ====================================================================
 
 !     calculates SW in each layer & sums down profile
 
@@ -4881,9 +5063,9 @@
 
 
 
-! ====================================================================
+* ====================================================================
         real FUNCTION ozcot_stress(LOW,HIGH,A,STRS)
-! ====================================================================
+* ====================================================================
         Use Infrastructure
       implicit none
 
@@ -4903,7 +5085,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_stress')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
       ozcot_stress=(STRS-LOW)/(HIGH-LOW)
@@ -4918,14 +5100,9 @@
       call pop_routine(myname)
       RETURN
       end function
-! ====================================================================
+* ====================================================================
       real FUNCTION ozcot_survive(CAPACITY,bload)
-! ====================================================================
-!
-!     20070911 DBJ  added p%BckGndRetn  to allow varietal adjustment for
-!                   background retention.
-! ---------------------------------------------------------------------
-
+* ====================================================================
       Use Infrastructure
       implicit none
 
@@ -4939,7 +5116,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_survive')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
       ozcot_survive = 0.
@@ -4953,21 +5130,17 @@
       ozcot_survive=A-B*bload ! prortion surviving
       IF(ozcot_survive.LT.0.)ozcot_survive=0.
       IF(ozcot_survive.GT.1.)ozcot_survive=1.
-      IF(p%BckGndRetn.GT.0.0) THEN
-         ozcot_survive = ozcot_survive*p%BckGndRetn  ! varietal specific background retention (1 - sub-threshold shedding)
-      ELSE
-         ozcot_survive = ozcot_survive*0.8  ! background, sub-threshold shedding default value
-      ENDIF
+      ozcot_survive = ozcot_survive*0.8  ! background, sub-threshold shedding
 
       call pop_routine(myname)
       RETURN
       end function
 
 
-! ====================================================================
+* ====================================================================
 !       subroutine swbal(i,rainef)
         subroutine ozcot_swbal_et
-! ====================================================================
+* ====================================================================
 
 
 !   **** soil & plant water balance including rain and soil evaporation, ****
@@ -4991,7 +5164,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_swbal')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 
@@ -5071,9 +5244,9 @@
 !      water stress function for root growth.                      c
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-! ====================================================================
+* ====================================================================
       real FUNCTION ozcot_watco(smi,eo,X3,X1)
-! ====================================================================
+* ====================================================================
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 !      water stress function for root growth.                      c
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -5092,7 +5265,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_watco')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
       X2=X3*eo/0.8
@@ -5114,10 +5287,10 @@
         end function
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine yield(nszn,iend)
       subroutine ozcot_yield
-! ====================================================================
+* ====================================================================
 
 !     estimates yield and gross margin at end of season
 
@@ -5129,7 +5302,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_yield')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !     calculate yield **********************************************************
@@ -5271,9 +5444,9 @@
       end subroutine
 
 
-! ====================================================================
+* ====================================================================
       subroutine ozcot_plant_n
-! ====================================================================
+* ====================================================================
 !     call from pltgrw before ozcot_cropn
 !     calculates nitrogen content of dry matter increments and sums them
 !     adjusts n increments as soil n supply diminishes
@@ -5311,11 +5484,12 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_plant_n')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !jhadded
-      supply_n = min(2.0, min(g%uptakn/10.0-g%total_n, g%tsno3/10.0) /5.0)   ! max uptake of 2 g/m2. 5 days to takeup avail n.
+      supply_n = min(2.0, min(g%uptakn/10.0-g%total_n, g%tsno3/10.0)
+     :                    /5.0)   ! max uptake of 2 g/m2. 5 days to takeup avail n.
 !      supply_n = min(1.0, g%uptakn/240.0)   ! max uptake of 240 kg/ha specified in n_fertilise
 
 !      calculate daily increment for components of dry matter
@@ -5334,10 +5508,10 @@
       else
         SUP_DEM = 0.
       endif
-      ADJUST = ozcot_stress(c%adjust_low &
-                           ,c%adjust_high &
-                           ,c%adjust_a &
-                           ,SUP_DEM) ! factor to adjust
+      ADJUST = ozcot_stress(c%adjust_low
+     :                     ,c%adjust_high
+     :                     ,c%adjust_a
+     :                     ,SUP_DEM) ! factor to adjust
       IF(ADJUST.LT.1.0) THEN
           dN_LEAF = dN_LEAF * ADJUST   ! leaf nitrogen adjusted
           dN_STEM = dN_STEM * ADJUST   ! stem nitrogen adjusted
@@ -5380,6 +5554,10 @@
 !      print*,  g%iend, g%total_n, uptakn_max/10.0
 
       g%total_n = g%total_n + g%dn_plant ! adjust uptake for season
+          g%N_LEAF = dN_LEAF + g%N_LEAF
+          g%N_STEM = dN_STEM + g%N_STEM
+          g%N_ROOT = dN_ROOT + g%N_ROOT
+          g%N_BOLL = dN_BOLL + g%N_BOLL
 
 !      write(4,222) iday,supply_n,dn_plant,total_n,uptakn,dw_total
 !222   format(i5,5f8.3)
@@ -5389,9 +5567,9 @@
       RETURN
       end subroutine
 
-! ====================================================================
+* ====================================================================
       subroutine ozcot_residues
-! ====================================================================
+* ====================================================================
 
 !      called from s/r yield to calculate stem and root residues
 
@@ -5405,7 +5583,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_residues')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
       g%stem_res = g%dw_stem         ! stem residues dry matter
@@ -5419,10 +5597,10 @@
 
 
 
-! ====================================================================
+* ====================================================================
 !     subroutine dry_matter (i)
       subroutine ozcot_dryxmatter
-! ====================================================================
+* ====================================================================
 
 !     this subroutine is for ozcot6 (version 6).
 
@@ -5485,7 +5663,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_dryxmatter')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !------------------------------------------------------------------------------
@@ -5503,8 +5681,10 @@
 !------------------------------------------------------------------------------
 
       g%ddw_leaf = g%dlai_pot*c%SPECIFIC_LW               ! leaf demand
-      g%ddw_stem = divide (c%A_STEM_LEAF*g%ddw_leaf*g%dw_stem,g%dw_leaf, 0.0)                  ! ditto for stem
-      g%ddw_root = divide (c%A_ROOT_LEAF*g%ddw_leaf*g%dw_root,g%dw_leaf, 0.0)                  ! ditto for root
+      g%ddw_stem = divide (c%A_STEM_LEAF*g%ddw_leaf*g%dw_stem
+     :                  ,g%dw_leaf, 0.0)                  ! ditto for stem
+      g%ddw_root = divide (c%A_ROOT_LEAF*g%ddw_leaf*g%dw_root
+     :                  ,g%dw_leaf, 0.0)                  ! ditto for root
 
 !------------------------------------------------------------------------------
 !     feed back of leaf weight/area ratio
@@ -5525,10 +5705,10 @@
 
 !      if(isq.gt.0 .and. i.ge.isq+2) then        ! fruit called yet?
       IF(g%isq.GT.0 .AND. g%das.GE.g%isq+2) THEN  ! FRUIT called yet?             !const
-          FWSTRS = ozcot_stress(c%fwstrs_low &
-                                 ,c%fwstrs_high &
-                                 ,c%fwstrs_a &
-                                 ,g%smi)    ! water stress on bolls     !const
+          FWSTRS = ozcot_stress(c%fwstrs_low
+     :                           ,c%fwstrs_high
+     :                           ,c%fwstrs_a
+     :                           ,g%smi)    ! water stress on bolls     !const
           FNSTRS2 = 1.                          ! N stress for bolls off
           IF(g%fnstrs.EQ.0.) FNSTRS2 = 0.       ! N stress for bolls on
           STRSBL = AMIN1(FWSTRS,FNSTRS2)        ! minimum of water or N stress
@@ -5563,7 +5743,8 @@
          DEMAND = DEMAND-g%ddw_root    ! demand for leaf, stem and fruit
          IF(SUPPLY.GE.DEMAND) THEN     ! their potential growth achieved
              SD_RATIO = 1.0            ! supply:demand ratio for leaf,stem,boll          !const
-             SD_ROOT = divide ((SUPPLY-DEMAND),g%ddw_root, 0.0)       ! supply:demand for root
+             SD_ROOT = divide ((SUPPLY-DEMAND)
+     :                         ,g%ddw_root, 0.0)       ! supply:demand for root
              g%ddw_root = SUPPLY-DEMAND ! rest to root
          ELSE                          ! leaf, stem and fruit demand not met
              SD_RATIO = divide (SUPPLY, DEMAND, 0.0)   ! supply:demand ratio
@@ -5616,10 +5797,10 @@
 
 
 
-! ====================================================================
+* ====================================================================
 !      subroutine assimilation (assimilate,i)
       subroutine ozcot_assimilation (ASSIMILATE)
-! ====================================================================
+* ====================================================================
 
 !     assimilate production for the day is estimated from intercepted
 !     photosynthetically active radiation (montieth 1977).
@@ -5656,7 +5837,7 @@
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'ozcot_assimilation')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
 !------------------------------------------------------------------------------
@@ -5761,35 +5942,36 @@
       RETURN
       end subroutine
 
-!     ===========================================================
+*     ===========================================================
       logical function ozcot_my_type ()
-!     ===========================================================
+*     ===========================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!       Returns true if 'type' is equal to the crop type or is absent.
+*+  Purpose
+*       Returns true if 'type' is equal to the crop type or is absent.
 
-!+  Assumptions
-!       If type is not specified, it is assumed the message was addressed
-!        directly to the module.
+*+  Assumptions
+*       If type is not specified, it is assumed the message was addressed
+*        directly to the module.
 
-!+  Changes
-!      211294 jngh specified and programmed
-!     220696 jngh changed extract to collect
+*+  Changes
+*      211294 jngh specified and programmed
+*     220696 jngh changed extract to collect
 
-!+  Constant Values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'ozcot_my_type')
 
-!+  Local Variables
+*+  Local Variables
       character  crop_type*50          ! crop type in data string
       integer    numvals               ! number of values returned
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      call collect_char_var_optional ('type', '()', crop_type, numvals)
+      call collect_char_var_optional ('type', '()'
+     :                              , crop_type, numvals)
 
       if (crop_type.eq.c%crop_type .or. numvals.eq.0) then
          ozcot_my_type = .true.
@@ -5803,61 +5985,61 @@
 
 
 
-!     ===========================================================
+*     ===========================================================
       subroutine ozcot_read_constants ()
-!     ===========================================================
+*     ===========================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!       Crop initialisation - reads constants from constants file
+*+  Purpose
+*       Crop initialisation - reads constants from constants file
 
-!+  Changes
-!     010994 jngh specified and programmed
-!     070495 psc added extra constants (leaf_app etc.)
-!     110695 psc added soil temp effects on plant establishment
-!     250996 jngh corrected type of lower limit of read_integer_var
-!     010998 sb removed year upper and lower bounds.
+*+  Changes
+*     010994 jngh specified and programmed
+*     070495 psc added extra constants (leaf_app etc.)
+*     110695 psc added soil temp effects on plant establishment
+*     250996 jngh corrected type of lower limit of read_integer_var
+*     010998 sb removed year upper and lower bounds.
 
-!+  Constant Values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name  = 'ozcot_read_constants')
-!
+*
       character  section_name*(*)
       parameter (section_name = 'constants')
 
-!+  Local Variables
+*+  Local Variables
       integer    numvals               ! number of values returned
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
       call write_string (new_line//'    - Reading constants')
 
-      call read_char_var (section_name &
-                           , 'crop_type', '()' &
-                           , c%crop_type, numvals)
+      call read_char_var (section_name
+     :                     , 'crop_type', '()'
+     :                     , c%crop_type, numvals)
 
-      call read_real_var (section_name &
-                           , 'row_spacing_default', '(m)' &
-                           , c%row_spacing_default, numvals &
-                           , 0.0, 2000.)
+      call read_real_var (section_name
+     :                     , 'row_spacing_default', '(m)'
+     :                     , c%row_spacing_default, numvals
+     :                     , 0.0, 2000.)
 
-      call read_real_var (section_name &
-                           , 'skiprow_default', '()' &
-                           , c%nskip_default, numvals &
-                           , 0.0, 2.0)
+      call read_real_var (section_name
+     :                     , 'skiprow_default', '()'
+     :                     , c%nskip_default, numvals
+     :                     , 0.0, 2.0)
 
-!jh      call read_real_var (section_name &
-!jh                           , 'dlds', '()' &
-!jh                           , c%dlds, numvals &
-!jh                           , 0.0, 1.0)
+!jh      call read_real_var (section_name
+!jh     :                     , 'dlds', '()'
+!jh     :                     , c%dlds, numvals
+!jh     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'leaf_res_n_conc', '()' &
-                           , c%leaf_res_n_conc, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'leaf_res_n_conc', '()'
+     :                     , c%leaf_res_n_conc, numvals
+     :                     , 0.0, 1.0)
 
 
 !      call read_real_var (section_name
@@ -5885,35 +6067,35 @@
 !jh     :                     , c%mode, numvals
 !jh     :                     , -1, 2)
 
-      call read_real_var (section_name &
-                           , 'hucut', '()' &
-                           , c%hucut, numvals &
-                           , 0.0, 100.0)
+      call read_real_var (section_name
+     :                     , 'hucut', '()'
+     :                     , c%hucut, numvals
+     :                     , 0.0, 100.0)
 
-      call read_real_var (section_name &
-                           , 'baset', '()' &
-                           , c%baset, numvals &
-                           , 0.0, 30.0)
+      call read_real_var (section_name
+     :                     , 'baset', '()'
+     :                     , c%baset, numvals
+     :                     , 0.0, 30.0)
 
 !jh      call read_real_var (section_name
 !jh     :                     , 'ambda', '()'
 !jh     :                     , c%ambda, numvals
 !jh     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'ul1', '()' &
-                           , c%ul1, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'ul1', '()'
+     :                     , c%ul1, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'cona', '()' &
-                           , c%cona, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'cona', '()'
+     :                     , c%cona, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'open_def', '()' &
-                           , c%open_def, numvals &
-                           , 0.0, 100.0)
+      call read_real_var (section_name
+     :                     , 'open_def', '()'
+     :                     , c%open_def, numvals
+     :                     , 0.0, 100.0)
 
 !jh      call read_integer_var (section_name
 !jh     :                     , 'iwindow', '()'
@@ -5925,356 +6107,364 @@
 !jh     :                     , c%sow_sw, numvals
 !jh     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'a_root_leaf', '()' &
-                           , c%a_root_leaf, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'a_root_leaf', '()'
+     :                     , c%a_root_leaf, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'a_stem_leaf', '()' &
-                           , c%a_stem_leaf, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'a_stem_leaf', '()'
+     :                     , c%a_stem_leaf, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'e_par', '(g/mj)' &
-                           , c%e_par, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'e_par', '(g/mj)'
+     :                     , c%e_par, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'specific_lw', '(g/m2)' &
-                           , c%specific_lw, numvals &
-                           , 0.0, 100.0)
+      call read_real_var (section_name
+     :                     , 'specific_lw', '(g/m2)'
+     :                     , c%specific_lw, numvals
+     :                     , 0.0, 100.0)
 
-      call read_real_var (section_name &
-                           , 't_opt', '(oC)' &
-                           , c%t_opt, numvals &
-                           , 0.0, 50.0)
+      call read_real_var (section_name
+     :                     , 't_opt', '(oC)'
+     :                     , c%t_opt, numvals
+     :                     , 0.0, 50.0)
 
-      call read_real_var (section_name &
-                           , 't_base', '(oC)' &
-                           , c%t_base, numvals &
-                           , 0.0, 20.0)
+      call read_real_var (section_name
+     :                     , 't_base', '(oC)'
+     :                     , c%t_base, numvals
+     :                     , 0.0, 20.0)
 
-      call read_real_var (section_name &
-                           , 'wt_area_max', '()' &
-                           , c%wt_area_max, numvals &
-                           , 0.0, 400.0)
+      call read_real_var (section_name
+     :                     , 'wt_area_max', '()'
+     :                     , c%wt_area_max, numvals
+     :                     , 0.0, 400.0)
 
 !jh      call read_real_var (section_name
 !jh     :                     , 'wt_area_min', '()'
 !jh     :                     , c%wt_area_min, numvals
 !jh     :                     , 0.0, 100.0)
 
-      call read_real_var (section_name &
-                           , 'embryo', '()' &
-                           , c%embryo, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'embryo', '()'
+     :                     , c%embryo, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'f_leaf', '()' &
-                           , c%f_leaf, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'f_leaf', '()'
+     :                     , c%f_leaf, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'f_stem', '() ' &
-                           , c%f_stem, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'f_stem', '()'
+     :                     , c%f_stem, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'f_root', '()' &
-                           , c%f_root, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'f_root', '()'
+     :                     , c%f_root, numvals
+     :                     , 0.0, 1.0)
+       call read_real_var (section_name
+     :                     , 'elevation_default', '()'
+     :                     , c%elevation_default, numvals
+     :                     , -100.0, 1000.0)
 
-      call read_real_var (section_name &
-                           , 'elevation_default', '()' &
-                           , c%elevation_default, numvals &
-                           , -100.0, 1000.0)
+      call read_real_var (section_name
+     :                     , 'wlog_assimilate_red', '()'
+     :                     , c%wlog_assimilate_red, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'wlog_assimilate_red', '()' &
-                           , c%wlog_assimilate_red, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'wlog_carcap_red', '()'
+     :                     , c%wlog_carcap_red, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'wlog_carcap_red', '()' &
-                           , c%wlog_carcap_red, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'watlog_c', '()'
+     :                     , c%watlog_c, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'watlog_c', '()' &
-                           , c%watlog_c, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'watlog_n', '()'
+     :                     , c%watlog_n, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'watlog_n', '()' &
-                           , c%watlog_n, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'wlog_carcap_red_stress', '()'
+     :                     , c%wlog_carcap_red_stress, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'wlog_carcap_red_stress', '()' &
-                           , c%wlog_carcap_red_stress, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'smi_affect_wlog', '()'
+     :                     , c%smi_affect_wlog, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'smi_affect_wlog', '()' &
-                           , c%smi_affect_wlog, numvals &
-                           , 0.0, 1.0)
+      call read_integer_var (section_name
+     :                     , 'days_relief_wlog', '(days)'
+     :                     , c%days_relief_wlog, numvals
+     :                     , 0, 20)
 
-      call read_integer_var (section_name &
-                           , 'days_relief_wlog', '(days)' &
-                           , c%days_relief_wlog, numvals &
-                           , 0, 20)
+      call read_real_var (section_name
+     :                     , 'frost_kill_immediate', '(oC)'
+     :                     , c%frost_kill_immediate, numvals
+     :                     , -5.0, 5.0)
 
-      call read_real_var (section_name &
-                           , 'frost_kill_immediate', '(oC)' &
-                           , c%frost_kill_immediate, numvals &
-                           , -5.0, 5.0)
+      call read_real_var (section_name
+     :                     , 'rtdep_max', '(cm)'
+     :                     , c%rtdep_max, numvals
+     :                     , 0.0, 500.0)
 
-      call read_real_var (section_name &
-                           , 'rtdep_max', '(cm)' &
-                           , c%rtdep_max, numvals &
-                           , 0.0, 500.0)
+      call read_real_var (section_name
+     :                     , 'harvest_n_frac', '()'
+     :                     , c%harvest_n_frac, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'harvest_n_frac', '()' &
-                           , c%harvest_n_frac, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'cutout_smi_crit', '()'
+     :                     , c%cutout_smi_crit, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'cutout_smi_crit', '()' &
-                           , c%cutout_smi_crit, numvals &
-                           , 0.0, 1.0)
+      call read_integer_var (section_name
+     :                     , 'cutout_smi_days', '()'
+     :                     , c%cutout_smi_days, numvals
+     :                     , 0, 10)
 
-      call read_integer_var (section_name &
-                           , 'cutout_smi_days', '()' &
-                           , c%cutout_smi_days, numvals &
-                           , 0, 10) 
+      call read_real_var (section_name
+     :                     , 'cutout_smi_site_red', '()'
+     :                     , c%cutout_smi_site_red, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'cutout_smi_site_red', '()' &
-                           , c%cutout_smi_site_red, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'epcoef1', '()'
+     :                     , c%epcoef1, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'epcoef1', '()' &
-                           , c%epcoef1, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'epcoef2', '()'
+     :                     , c%epcoef2, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'epcoef2', '()' &
-                           , c%epcoef2, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'epcoef_smi_crit', '()'
+     :                     , c%epcoef_smi_crit, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (section_name &
-                           , 'epcoef_smi_crit', '()' &
-                           , c%epcoef_smi_crit, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (section_name
+     :                     , 'fbwstr_low', '()'
+     :                     , c%fbwstr_low, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'fbwstr_low', '()' &
-                           , c%fbwstr_low, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'fbwstr_high', '()'
+     :                     , c%fbwstr_high, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'fbwstr_high', '()' &
-                           , c%fbwstr_high, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'fbwstr_a', '()'
+     :                     , c%fbwstr_a, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'fbwstr_a', '()' &
-                           , c%fbwstr_a, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'fbnstr_low', '()'
+     :                     , c%fbnstr_low, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'fbnstr_low', '()' &
-                           , c%fbnstr_low, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'fbnstr_high', '()'
+     :                     , c%fbnstr_high, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'fbnstr_high', '()' &
-                           , c%fbnstr_high, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'fbnstr_a', '()'
+     :                     , c%fbnstr_a, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'fbnstr_a', '()' &
-                           , c%fbnstr_a, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'relp_smi_crit', '()'
+     :                     , c%relp_smi_crit, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'relp_smi_crit', '()' &
-                           , c%relp_smi_crit, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'relp_intercept', '()'
+     :                     , c%relp_intercept, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'relp_intercept', '()' &
-                           , c%relp_intercept, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'relp_slope', '()'
+     :                     , c%relp_slope, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'relp_slope', '()' &
-                           , c%relp_slope, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'relp_low', '()'
+     :                     , c%relp_low, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'relp_low', '()' &
-                           , c%relp_low, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'relp_high', '()'
+     :                     , c%relp_high, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'relp_high', '()' &
-                           , c%relp_high, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'relp_a', '()'
+     :                     , c%relp_a, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'relp_a', '()' &
-                           , c%relp_a, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'vsnstr_low', '()'
+     :                     , c%vsnstr_low, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'vsnstr_low', '()' &
-                           , c%vsnstr_low, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'vsnstr_high', '()'
+     :                     , c%vsnstr_high, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'vsnstr_high', '()' &
-                           , c%vsnstr_high, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'vsnstr_a', '()'
+     :                     , c%vsnstr_a, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'vsnstr_a', '()' &
-                           , c%vsnstr_a, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'flfsmi_low', '()'
+     :                     , c%flfsmi_low, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'flfsmi_low', '()' &
-                           , c%flfsmi_low, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'flfsmi_high', '()'
+     :                     , c%flfsmi_high, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'flfsmi_high', '()' &
-                           , c%flfsmi_high, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'flfsmi_a', '()'
+     :                     , c%flfsmi_a, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'flfsmi_a', '()' &
-                           , c%flfsmi_a, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'vlnstr_low', '()'
+     :                     , c%vlnstr_low, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'vlnstr_low', '()' &
-                           , c%vlnstr_low, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'vlnstr_high', '()'
+     :                     , c%vlnstr_high, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'vlnstr_high', '()' &
-                           , c%vlnstr_high, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'vlnstr_a', '()'
+     :                     , c%vlnstr_a, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'vlnstr_a', '()' &
-                           , c%vlnstr_a, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'fw_low', '()'
+     :                     , c%fw_low, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'fw_low', '()' &
-                           , c%fw_low, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'fw_high', '()'
+     :                     , c%fw_high, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'fw_high', '()' &
-                           , c%fw_high, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'fw_a', '()'
+     :                     , c%fw_a, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'fw_a', '()' &
-                           , c%fw_a, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'adjust_low', '()'
+     :                     , c%adjust_low, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'adjust_low', '()' &
-                           , c%adjust_low, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'adjust_high', '()'
+     :                     , c%adjust_high, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'adjust_high', '()' &
-                           , c%adjust_high, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'adjust_a', '()'
+     :                     , c%adjust_a, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'adjust_a', '()' &
-                           , c%adjust_a, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'fwstrs_low', '()'
+     :                     , c%fwstrs_low, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'fwstrs_low', '()' &
-                           , c%fwstrs_low, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'fwstrs_high', '()'
+     :                     , c%fwstrs_high, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'fwstrs_high', '()' &
-                           , c%fwstrs_high, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'fwstrs_a', '()'
+     :                     , c%fwstrs_a, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'fwstrs_a', '()' &
-                           , c%fwstrs_a, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'smi_delay_crit', '()'
+     :                     , c%smi_delay_crit, numvals
+     :                     , 0.0, 10.0)
 
-      call read_real_var (section_name &
-                           , 'smi_delay_crit', '()' &
-                           , c%smi_delay_crit, numvals &
-                           , 0.0, 10.0)
+      call read_real_var (section_name
+     :                     , 'cold_shock_delay_crit', '()'
+     :                     , c%cold_shock_delay_crit, numvals
+     :                     , 0.0, 20.0)
 
-      call read_real_var (section_name &
-                           , 'cold_shock_delay_crit', '()' &
-                           , c%cold_shock_delay_crit, numvals &
-                           , 0.0, 20.0)
+      call read_real_var (section_name
+     :                     , 'cold_shock_delay', '()'
+     :                     , c%cold_shock_delay, numvals
+     :                     , 0.0, 20.0)
 
-      call read_real_var (section_name &
-                           , 'cold_shock_delay', '()' &
-                           , c%cold_shock_delay, numvals &
-                           , 0.0, 20.0)
+      call read_real_var (section_name
+     :                     , 'fert_crit', '(kg/ha)'
+     :                     , c%fert_crit, numvals
+     :                     , 0.0, 100.0)
 
-      call read_real_var (section_name &
-                           , 'fert_crit', '(kg/ha)' &
-                           , c%fert_crit, numvals &
-                           , 0.0, 100.0)
+      call read_real_var (section_name
+     :                     , 'fert_detect', '(kg/ha)'
+     :                     , c%fert_detect, numvals
+     :                     , 0.0, 100.0)
 
-      call read_real_var (section_name &
-                           , 'fert_detect', '(kg/ha)' &
-                           , c%fert_detect, numvals &
-                           , 0.0, 100.0)
+      call read_integer_var (section_name
+     :                     , 'days_since_fert_max', '(days)'
+     :                     , c%days_since_fert_max, numvals
+     :                     , 0, 100)
 
-      call read_integer_var (section_name &
-                           , 'days_since_fert_max', '(days)' &
-                           , c%days_since_fert_max, numvals &
-                           , 0, 100)
+      call read_real_array_optional (section_name
+     :                     , 'x_co2_fert', 20, '()'
+     :                     , p%x_co2_fert, p%num_co2_fert
+     :                     , 300.0, 1000.0)
 
+      call read_real_array_optional (section_name
+     :                     , 'y_co2_fert', 20, '()'
+     :                     , p%y_co2_fert, p%num_co2_fert
+     :                     , 0.0, 10.0)
 
       call pop_routine (my_name)
       return
       end subroutine
 
 
-!     ===========================================================
+*     ===========================================================
       subroutine ozcot_start_crop ()
-!     ===========================================================
+*     ===========================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!       Start crop using parameters specified in passed record
+*+  Purpose
+*       Start crop using parameters specified in passed record
 
-!+  Changes
-!     010994 jngh specified and programmed
-!     090695 psc  add row spacing read
-!     220696 jngh changed extract to collect
+*+  Changes
+*     010994 jngh specified and programmed
+*     090695 psc  add row spacing read
+*     220696 jngh changed extract to collect
 
-!+  Constant Values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name  = 'ozcot_start_crop')
 
-!+  Local Variables
+*+  Local Variables
       integer    numvals               ! number of values found in array
       character  string*200            ! output string
       real       sdepth_mm             ! sowing depth in mm
@@ -6282,7 +6472,7 @@
       real       row_space             ! row spacing in mm
 !      character  module_name*8         ! module name
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -6296,8 +6486,8 @@
       sdepth_mm = 0.0
       row_space_mm = 0.0
 
-      call collect_char_var ('cultivar', '()' &
-                            , g%cultivar, numvals)
+      call collect_char_var ('cultivar', '()'
+     :                      , g%cultivar, numvals)
 
       call ozcot_read_cultivar_params ()
 
@@ -6308,24 +6498,27 @@
          ! cultivar, sowing_depth, row_spacing, plants_pm
 
 
-      call collect_real_var ('plants_pm', '()' &
-                            , g%ppm_row, numvals, 0.0, 1000.0)
+      call collect_real_var ('plants_pm', '()'
+     :                      , g%ppm_row, numvals, 0.0, 1000.0)
 
-      call collect_real_var ('sowing_depth', '(mm)' &
-                            , sdepth_mm, numvals &
-                            , 0.0, 100.0)
+      call collect_real_var (
+     :                       'sowing_depth', '(mm)'
+     :                      , sdepth_mm, numvals
+     :                      , 0.0, 100.0)
 
-      call collect_real_var_optional ('row_spacing', '(mm)' &
-                              , row_space_mm, numvals &
-                              , 0.0, 2000.)
+      call collect_real_var_optional (
+     :                         'row_spacing', '(mm)'
+     :                        , row_space_mm, numvals
+     :                        , 0.0, 2000.)
       if (numvals.eq.0) then
          row_space = c%row_spacing_default
       else
       endif
 
-      call collect_real_var_optional ('skiprow', '()' &
-                              , g%nskip, numvals &
-                              , 0.0, 2.0)
+      call collect_real_var_optional (
+     :                         'skiprow', '()'
+     :                        , g%nskip, numvals
+     :                        , 0.0, 2.0)
       if (numvals.eq.0) then
          g%nskip = c%nskip_default
       else
@@ -6347,6 +6540,7 @@
       g%plant_status = status_alive
 
 
+      call publish_null(id%sowing)
 
           ! report
 
@@ -6365,9 +6559,9 @@
       string = '    ------------------------------------------------'
       call write_string (string)
 
-      write (string, '(3x, i7, f7.1, f6.1, f9.1, 1x, a10)') &
-                      g%isow, sdepth_mm &
-                    , g%pp, row_space_mm, g%cultivar
+      write (string, '(3x, i7, f7.1, f6.1, f9.1, 1x, a10)')
+     :                g%isow, sdepth_mm
+     :              , g%pp, row_space_mm, g%cultivar
       call write_string (string)
 
       string = '    ------------------------------------------------'
@@ -6379,130 +6573,121 @@
       end subroutine
 
 
-!!     ===========================================================
+
+*     ===========================================================
       subroutine ozcot_read_cultivar_params ()
-!!     ===========================================================
+*     ===========================================================
       Use Infrastructure
       implicit none
 
-!!+  Purpose
-!!       Get cultivar parameters for named cultivar, from crop parameter file.
+*+  Purpose
+*       Get cultivar parameters for named cultivar, from crop parameter file.
 
-!!+  Changes
-!!       090994 jngh specified and programmed
-!
-!      20070911 DBJ  added p%BckGndRetn  to allow varietal adjustment for
-!                    background retention. (optional parameter)
-! ---------------------------------------------------------------------
+*+  Changes
+*       090994 jngh specified and programmed
 
-!!+  Calls
+*+  Calls
                                        ! lu_src_sum
 
-!!+  Constant Values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'ozcot_read_cultivar_params')
 
-!!+  Local Variables
+*+  Local Variables
       character  string*200            ! output string
       integer    numvals               ! number of values read
 
-!!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
       call write_string (new_line//'   - Reading Cultivar Parameters')
 
 
-      call read_real_var (g%cultivar &
-                          , 'percent_l', '()' &
-                          , p%percent_l, numvals &
-                          , 0.0, 100.0)
+      call read_real_var (g%cultivar
+     :                    , 'percent_l', '()'
+     :                    , p%percent_l, numvals
+     :                    , 0.0, 100.0)
 
-      call read_real_var (g%cultivar &
-                          , 'scboll', '()' &
-                          , p%scboll, numvals &
-                          , 0.0, 10.0)
+      call read_real_var (g%cultivar
+     :                    , 'scboll', '()'
+     :                    , p%scboll, numvals
+     :                    , 0.0, 10.0)
 
-      call read_real_var (g%cultivar &
-                          , 'respcon', '()' &
-                          , p%respcon, numvals &
-                          , 0.0, 1.0)
+      call read_real_var (g%cultivar
+     :                    , 'respcon', '()'
+     :                    , p%respcon, numvals
+     :                    , 0.0, 1.0)
 
-      call read_real_var (g%cultivar &
-                          , 'sqcon', '()' &
-                          , p%sqcon, numvals &
-                          , 0.0, 1.0)
+      call read_real_var (g%cultivar
+     :                    , 'sqcon', '()'
+     :                    , p%sqcon, numvals
+     :                    , 0.0, 1.0)
 
-      call read_real_var (g%cultivar &
-                          , 'fcutout', '()' &
-                          , p%fcutout, numvals &
-                          , 0.0, 1.0)
+      call read_real_var (g%cultivar
+     :                    , 'fcutout', '()'
+     :                    , p%fcutout, numvals
+     :                    , 0.0, 1.0)
 
-      call read_real_var (g%cultivar &
-                          , 'flai', '()' &
-                          , p%flai, numvals &
-                          , 0.0, 1.0)
+      call read_real_var (g%cultivar
+     :                    , 'flai', '()'
+     :                    , p%flai, numvals
+     :                    , 0.0, 1.0)
 
-      call read_real_var (g%cultivar &
-                          , 'ddisq', '()' &
-                          , p%DDISQ, numvals &
-                          , 0.0, 1000.0)
+      call read_real_var (g%cultivar
+     :                    , 'ddisq', '()'
+     :                    , p%DDISQ, numvals
+     :                    , 0.0, 1000.0)
 
 !      call read_real_var (g%cultivar
 !     :                    , 'TIPOUT', '()'
 !     :                    , p%TIPOUT, numvals
 !     :                    , 0.0, 100.0)
 
-      call read_real_var (g%cultivar &
-                           , 'popcon', '()' &
-                           , p%POPCON, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (g%cultivar
+     :                     , 'popcon', '()'
+     :                     , p%POPCON, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (g%cultivar &
-                           , 'acotyl', '(mm2)' &
-                           , p%acotyl, numvals &
-                           , 0.0, 1000.0)
+      call read_real_var (g%cultivar
+     :                     , 'acotyl', '(mm2)'
+     :                     , p%acotyl, numvals
+     :                     , 0.0, 1000.0)
 
-      call read_real_var (g%cultivar &
-                           , 'rlai', '()' &
-                           , p%rlai, numvals &
-                           , 0.0, 1.0)
+      call read_real_var (g%cultivar
+     :                     , 'rlai', '()'
+     :                     , p%rlai, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_array (g%cultivar &
-                           , 'frudd', max_categories, '(dd)' &
-                           , p%FRUDD, numvals &
-                           , 0.0, 2000.0)
+      call read_real_array (g%cultivar
+     :                     , 'frudd', max_categories, '(dd)'
+     :                     , p%FRUDD, numvals
+     :                     , 0.0, 2000.0)
 
-      call read_real_array (g%cultivar &
-                           , 'bltme', max_categories, '()' &
-                           , p%BLTME, numvals &
-                           , 0.0, 1.0)
+      call read_real_array (g%cultivar
+     :                     , 'bltme', max_categories, '()'
+     :                     , p%BLTME, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_array (g%cultivar &
-                           , 'wt', max_categories, '()' &
-                           , p%WT, numvals &
-                           , 0.0, 1.0)
+      call read_real_array (g%cultivar
+     :                     , 'wt', max_categories, '()'
+     :                     , p%WT, numvals
+     :                     , 0.0, 1.0)
 
-      call read_real_var (g%cultivar &
-                           , 'fburr', '()' &
-                           , p%FBURR, numvals &
-                           , 0.0, 5.0)
+      call read_real_var (g%cultivar
+     :                     , 'fburr', '()'
+     :                     , p%FBURR, numvals
+     :                     , 0.0, 5.0)
 
-      call read_real_var (g%cultivar &
-                           , 'dlds_max', '()' &
-                           , p%dlds_max, numvals &
-                           , 0.0, 5.0)
+      call read_real_var (g%cultivar
+     :                     , 'dlds_max', '()'
+     :                     , p%dlds_max, numvals
+     :                     , 0.0, 5.0)
 
-      call read_real_var (g%cultivar &
-                           , 'rate_emergence', '(mm/dd)' &
-                           , p%rate_emergence, numvals &
-                           , 0.0, 10.0)
-                           
-      call read_real_var_optional (g%cultivar &
-                                    , 'BckGndRetn', '()' &
-                                    , p%BckGndRetn, numvals &
-                                    , 0.0, 1.0)
-
+      call read_real_var (g%cultivar
+     :                     , 'rate_emergence', '(mm/dd)'
+     :                     , p%rate_emergence, numvals
+     :                     , 0.0, 10.0)
 
 
              ! report
@@ -6510,44 +6695,44 @@
       string = '    ------------------------------------------------'
       call write_string (string)
 
-      write (string, '(4x,2a)') &
-                      'Cultivar   = ', g%cultivar
+      write (string, '(4x,2a)')
+     :                'Cultivar   = ', g%cultivar
       call write_string (string)
 
-      write (string, '(4x, a, f7.2)') &
-                      'percent_L  = ' &
-                     , p%percent_l
+      write (string, '(4x, a, f7.2)')
+     :                'percent_L  = '
+     :               , p%percent_l
       call write_string (string)
 
-      write (string, '(4x, a, f7.1)') &
-                      'scboll     = ' &
-                     , p%scboll
+      write (string, '(4x, a, f7.1)')
+     :                'scboll     = '
+     :               , p%scboll
       call write_string (string)
 
-      write (string, '(4x, a, f7.3)') &
-                      'respcon    = ' &
-                     , p%respcon
+      write (string, '(4x, a, f7.3)')
+     :                'respcon    = '
+     :               , p%respcon
       call write_string (string)
 
-      write (string, '(4x, a, f7.3)') &
-                      'sqcon      = ' &
-                     , p%sqcon
+      write (string, '(4x, a, f7.3)')
+     :                'sqcon      = '
+     :               , p%sqcon
       call write_string (string)
 
-      write (string, '(4x, a, f7.4)') &
-                      'fcutout    = ' &
-                     , p%fcutout
+      write (string, '(4x, a, f7.4)')
+     :                'fcutout    = '
+     :               , p%fcutout
       call write_string (string)
 
 
-      write (string, '(4x, a, f7.1)') &
-                      'flai       = ' &
-                     , p%flai
+      write (string, '(4x, a, f7.1)')
+     :                'flai       = '
+     :               , p%flai
       call write_string (string)
 
-      write (string, '(4x, a, f7.1)') &
-                      'ddisq      = ' &
-                     , p%DDISQ
+      write (string, '(4x, a, f7.1)')
+     :                'ddisq      = '
+     :               , p%DDISQ
       call write_string (string)
 
 !      write (string, '(4x, a, f7.1)')
@@ -6555,62 +6740,50 @@
 !     :               , p%TIPOUT
 !      call write_string (string)
 
-      write (string, '(4x, a, f7.5)') &
-                      'popcon     = ' &
-                     , p%popcon
+      write (string, '(4x, a, f7.5)')
+     :                'popcon     = '
+     :               , p%popcon
       call write_string (string)
 
-      write (string, '(4x, a, f7.0)') &
-                      'acotyl     = ' &
-                     , p%acotyl
+      write (string, '(4x, a, f7.0)')
+     :                'acotyl     = '
+     :               , p%acotyl
       call write_string (string)
 
-      write (string, '(4x, a, f7.5)') &
-                      'rlai       = ' &
-                     , p%rlai
+      write (string, '(4x, a, f7.5)')
+     :                'rlai       = '
+     :               , p%rlai
       call write_string (string)
 
-      write (string, '(4x, a, 9f7.0)') &
-                      'frudd      = ' &
-                     , p%frudd
+      write (string, '(4x, a, 9f7.0)')
+     :                'frudd      = '
+     :               , p%frudd
       call write_string (string)
 
-      write (string, '(4x, a, 9f7.2)') &
-                      'bltme      = ' &
-                     , p%bltme
+      write (string, '(4x, a, 9f7.2)')
+     :                'bltme      = '
+     :               , p%bltme
       call write_string (string)
 
-      write (string, '(4x, a, 9f7.4)') &
-                      'wt         = ' &
-                     , p%wt
+      write (string, '(4x, a, 9f7.4)')
+     :                'wt         = '
+     :               , p%wt
       call write_string (string)
 
-      write (string, '(4x, a, f7.2)') &
-                      'fburr      = ' &
-                     , p%fburr
+      write (string, '(4x, a, f7.2)')
+     :                'fburr      = '
+     :               , p%fburr
       call write_string (string)
 
-      write (string, '(4x, a, f7.2)') &
-                      'dLdS_max  = ' &
-                     , p%dLdS_max
+      write (string, '(4x, a, f7.2)')
+     :                'dLdS_max  = '
+     :               , p%dLdS_max
       call write_string (string)
 
-      write (string, '(4x, a, f7.2)') &
-                      'rate_emergence  = ' &
-                     , p%rate_emergence
+      write (string, '(4x, a, f7.2)')
+     :                'rate_emergence  = '
+     :               , p%rate_emergence
       call write_string (string)
-
-      IF(p%BckGndRetn.GT.0.0) THEN
-      		write (string, '(4x, a, f7.2)') &
-                      'Background_Retention = ' &
-                      , p%BckGndRetn
-      ELSE
-      		write (string, '(4x, a, f7.2)') &
-                      'Background_Retention (default) = ' &
-                     , 0.8
-      ENDIF
-      call write_string (string)
-
 
 
       string = '    ------------------------------------------------'
@@ -6628,55 +6801,55 @@
 
 
 
-!!     ===========================================================
+*     ===========================================================
       subroutine ozcot_read_root_params ()
-!!     ===========================================================
+*     ===========================================================
       Use Infrastructure
       implicit none
 
-!!+  Purpose
-!!       Get root profile parameters
+*+  Purpose
+*       Get root profile parameters
 
-!!+  Changes
-!!       090994 jngh specified and programmed
-!!     210395 jngh changed from ozcot_section to a parameters section
+*+  Changes
+*       090994 jngh specified and programmed
+*     210395 jngh changed from ozcot_section to a parameters section
 
-!!+  Calls
+*+  Calls
                                        ! lu_scr_sum
 
-!!+  Constant Values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'ozcot_read_root_params')
-!!
+*
       character  section_name*(*)
       parameter (section_name = 'parameters')
 
-!!+  Local Variables
+*+  Local Variables
       integer    layer                 ! layer number
   !    integer    num_layers            ! number of layers in profile
       character  string*200            ! output string
 
-!!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
-      call write_string (new_line  &
-                        //'   - Reading root profile parameters')
+      call write_string (new_line
+     :                  //'   - Reading root profile parameters')
 
          !       ozcot_sw_supply
 
 
-      call read_real_array_optional (section_name &
-                           , 'll', max_layers, '(mm/mm)' &
-                           , p%unul, p%num_ll_vals &
-                           , 0.0, 1.0)
+      call read_real_array_optional (section_name
+     :                     , 'll', max_layers, '(mm/mm)'
+     :                     , p%unul, p%num_ll_vals
+     :                     , 0.0, 1.0)
 
       if (p%num_ll_vals.ne.0) then
          ! LL found
       else
          ! LL not found
-         call warning_error (err_user &
-               , ' Ozcot LL not found. Using Soilwat LL15 instead.' )
+         call warning_error (err_user
+     :         , ' Ozcot LL not found. Using Soilwat LL15 instead.' )
       endif
 
           ! report
@@ -6701,9 +6874,9 @@
       call write_string (string)
 
       do 2000 layer = 1, p%num_ll_vals
-         write (string,'(1x, f9.1,f15.3)') &
-                  g%dlayr_cm(layer) &
-                , P%unul(layer)
+         write (string,'(1x, f9.1,f15.3)')
+     :            g%dlayr_cm(layer)
+     :          , P%unul(layer)
          call write_string (string)
 2000  continue
 
@@ -6716,36 +6889,34 @@
       return
       end subroutine
 
-
-
-!     ===========================================================
+*     ===========================================================
       subroutine ozcot_end_crop ()
-!     ===========================================================
+*     ===========================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!       Report occurence of harvest and the current status of specific
-!       variables.
+*+  Purpose
+*       Report occurence of harvest and the current status of specific
+*       variables.
 
-!+  Changes
-!     010994 jngh specified and programmed
-!      191200 dph  changed from unknown_module to all_active_modules
-!                  unknown_module not supported in APSIM2.
+*+  Changes
+*     010994 jngh specified and programmed
+*      191200 dph  changed from unknown_module to all_active_modules
+*                  unknown_module not supported in APSIM2.
 
 
-!+  Calls
+*+  Calls
                                        ! lu_scr_sum
 
-!+  Constant Values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'ozcot_end_crop')
 
-!+  Local Variables
+*+  Local Variables
        real    res_dm                  ! Residue dry weight (kg/ha)
        real    res_N                   ! Amount of N in residue (kg/ha)
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -6763,33 +6934,33 @@
       end subroutine
 
 
-!     ===========================================================
+*     ===========================================================
       subroutine ozcot_harvest_update ()
-!     ===========================================================
+*     ===========================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!       Report the current status of specific
-!       variables.
+*+  Purpose
+*       Report the current status of specific
+*       variables.
 
-!+  Changes
-!     051101 jngh specified and programmed
+*+  Changes
+*     051101 jngh specified and programmed
 
-!+  Constant Values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'ozcot_harvest_update')
 
-!+  Local Variables
+*+  Local Variables
 !       real    res_dm                  ! Residue dry weight (kg/ha)
 !       real    res_N                   ! Amount of N in residue (kg/ha)
 
       real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
       real       dlt_dm_crop(max_part)           ! change in dry matter of crop (kg/ha)
       real       dlt_dm_N(max_part)              ! change in N content of dry matter (kg/ha)
+      real       root_length(max_layers)
 
-
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
       call push_routine (my_name)
       call publish_null(id%harvesting)
@@ -6809,38 +6980,51 @@
       ! =====================
 
       dlt_dm_crop(root) = g%dw_root * gm2kg/sm2ha
-      dlt_dm_N(root) =  dlt_dm_crop(root) * 0.4 / 100.0
-      fraction_to_Residue(root) = 1.0
+      dlt_dm_N(root) =  g%n_root * gm2kg/sm2ha
+      fraction_to_Residue(root) = 0.0
 
       dlt_dm_crop(meal) = g%openwt * gm2kg/sm2ha
       dlt_dm_N(meal) =  dlt_dm_crop(meal) * 0.4 / 100.0
       fraction_to_Residue(meal) = 0.0
 
       dlt_dm_crop(stem) = g%dw_stem * gm2kg/sm2ha
-      dlt_dm_N(stem) = dlt_dm_crop(stem) * 0.4 / 100.0
+      dlt_dm_N(stem) = g%n_stem * gm2kg/sm2ha
       fraction_to_Residue(stem) = 1.0
 
       dlt_dm_crop(leaf) = g%dw_leaf * gm2kg/sm2ha
-      dlt_dm_N(leaf) = dlt_dm_crop(leaf) * 0.4 / 100.0
+      dlt_dm_N(leaf) = g%n_leaf * gm2kg/sm2ha
       fraction_to_Residue(leaf) = 1.0
 
-      dlt_dm_crop(pod) = (g%dw_boll - g%openwt) * gm2kg/sm2ha
+      dlt_dm_crop(pod) = (g%dw_boll - g%ddw_boll- g%openwt)*gm2kg/sm2ha
       dlt_dm_crop(pod) = l_bound(dlt_dm_crop(pod), 0.0)
-      dlt_dm_N(pod) = dlt_dm_crop(pod) * 0.4 / 100.0
+      dlt_dm_N(pod) = g%n_boll * gm2kg/sm2ha - dlt_dm_N(meal)
+      dlt_dm_N(pod) = l_bound(dlt_dm_N(pod), 0.0)
       fraction_to_Residue(pod) = 1.0
 !     call crop_top_residue (c%crop_type, dm_residue, N_residue)
 
       if (sum(dlt_dm_crop) .gt. 0.0) then
-         call Send_Crop_Chopped_Event &
-                   (c%crop_type &
-                  , part_name &
-                  , dlt_dm_crop &
-                  , dlt_dm_N &
-                  , fraction_to_Residue &
-                  , max_part)
+         call Send_Crop_Chopped_Event
+     :             (c%crop_type
+     :            , part_name
+     :            , dlt_dm_crop
+     :            , dlt_dm_N
+     :            , fraction_to_Residue
+     :            , max_part)
       else
          ! no surface residue
       endif
+
+         call ozcot_root_distrib (root_length
+     :                          , dlt_dm_crop(root) * kg2gm/ha2sm)
+
+         call crop_root_incorp (
+     .          dlt_dm_crop(root) * kg2gm/ha2sm
+     :         ,dlt_dm_N(root) * kg2gm/ha2sm
+     :         ,g%dlayr
+     :         ,root_length
+     :         ,g%rtdep
+     :         ,c%crop_type
+     :         ,max_layers)
 
 !      call New_postbox ()
 !
@@ -6863,35 +7047,152 @@
       g%zero_variables = .true.
       g%iend = 0
 
+      g%openwt             = 0.0
+      g%total_n             = 0.0
+      g%N_BOLL             = 0.0
+      g%N_LEAF             = 0.0
+      g%N_ROOT             = 0.0
+      g%N_STEM             = 0.0
+      g%DW_BOLL             = 0.0
+      g%DW_LEAF             = 0.0
+      g%DW_ROOT             = 0.0
+      g%DW_STEM             = 0.0
+      g%dDW_BOLL             = 0.0
+      g%dDW_LEAF             = 0.0
+      g%dDW_ROOT             = 0.0
+      g%dDW_STEM             = 0.0
+      g%DW_TOTAL            = 0.0
+      g%leaf_res = 0.0
+      g%leaf_res_n = 0.0
+      g%dlai   = 0.0
+
       call pop_routine (my_name)
       return
       end subroutine
 
-!     ===========================================================
-      subroutine ozcot_harvest_report ()
-!     ===========================================================
+*     ===========================================================
+      subroutine ozcot_update ()
+*     ===========================================================
       Use Infrastructure
       implicit none
 
-!+  Purpose
-!       Report the current status of specific
-!       variables.
+*+  Purpose
+*       Report the current status of specific
+*       variables.
 
-!+  Changes
-!     051101 jngh specified and programmed
+*+  Changes
+*     051101 jngh specified and programmed
 
-!+  Constant Values
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'ozcot_update')
+
+*+  Local Variables
+!       real    res_dm                  ! Residue dry weight (kg/ha)
+!       real    res_N                   ! Amount of N in residue (kg/ha)
+
+      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
+      real       dlt_dm_crop(max_part)           ! change in dry matter of crop (kg/ha)
+      real       dlt_dm_N(max_part)              ! change in N content of dry matter (kg/ha)
+
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      fraction_to_residue(:) = 0.0
+      dlt_dm_crop(:) = 0.0
+      dlt_dm_N(:) = 0.0
+
+      ! Update biomass and N pools.  Different types of plant pools are
+      ! ===============================================================
+      ! affected differently.
+      ! =====================
+
+!      dlt_dm_crop(root) = g%dw_root * gm2kg/sm2ha
+!      dlt_dm_N(root) =  dlt_dm_crop(root) * 0.4 / 100.0
+!      fraction_to_Residue(root) = 1.0
+!
+!      dlt_dm_crop(meal) = g%openwt * gm2kg/sm2ha
+!      dlt_dm_N(meal) =  dlt_dm_crop(meal) * 0.4 / 100.0
+!      fraction_to_Residue(meal) = 0.0
+!
+!      dlt_dm_crop(stem) = g%dw_stem * gm2kg/sm2ha
+!      dlt_dm_N(stem) = dlt_dm_crop(stem) * 0.4 / 100.0
+!      fraction_to_Residue(stem) = 1.0
+
+      dlt_dm_crop(leaf) = g%leaf_res * gm2kg/sm2ha
+      dlt_dm_N(leaf) = g%leaf_res_n * gm2kg/sm2ha
+      fraction_to_Residue(leaf) = 1.0
+
+!      dlt_dm_crop(pod) = (g%dw_boll - g%openwt) * gm2kg/sm2ha
+!      dlt_dm_crop(pod) = l_bound(dlt_dm_crop(pod), 0.0)
+!      dlt_dm_N(pod) = dlt_dm_crop(pod) * 0.4 / 100.0
+!      fraction_to_Residue(pod) = 1.0
+!     call crop_top_residue (c%crop_type, dm_residue, N_residue)
+
+      if (sum(dlt_dm_crop) .gt. 0.0) then
+         call Send_Crop_Chopped_Event
+     :             (c%crop_type
+     :            , part_name
+     :            , dlt_dm_crop
+     :            , dlt_dm_N
+     :            , fraction_to_Residue
+     :            , max_part)
+      else
+         ! no surface residue
+      endif
+
+!      call New_postbox ()
+!
+!      call post_char_var('dlt_residue_type','()','cotton')
+!
+!      call post_real_var ('dlt_residue_wt'
+!     :                   ,'(kg/ha)'
+!     :                   ,res_dm)
+!
+!      call post_real_var ('dlt_residue_n'
+!     :                   ,'(kg/ha)'
+!     :                   ,res_N)
+!
+!      call event_send ('add_residue')
+!
+!      call Delete_postbox ()
+
+      g%dDW_BOLL             = 0.0
+      g%dDW_LEAF             = 0.0
+      g%dDW_ROOT             = 0.0
+      g%dDW_STEM             = 0.0
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+*     ===========================================================
+      subroutine ozcot_harvest_report ()
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+*+  Purpose
+*       Report the current status of specific
+*       variables.
+
+*+  Changes
+*     051101 jngh specified and programmed
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'ozcot_harvest_report')
 
-!+  Local Variables
+*+  Local Variables
       character  string*200            ! message
       real       yield                 ! grain yield dry wt (kg/ha)
       real       dm
       real     totnup                   ! N uptake kg/ha
       real     bollsc
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -6908,32 +7209,32 @@
 
       call write_string (new_line//new_line)
 
-      write (string, '(a,i6)') &
-                  ' Days after sowing      = ', g%das
+      write (string, '(a,i6)')
+     :            ' Days after sowing      = ', g%das
       call write_string (string)
 
-      write (string, '(a,f6.2,t40,a,f10.1)') &
-                  ' bolls/m2               = ',g%openz &
-                , ' Lint (kg/ha)           = ',g%alint
+      write (string, '(a,f6.2,t40,a,f10.1)')
+     :            ' bolls/m2               = ',g%openz
+     :          , ' Lint (kg/ha)           = ',g%alint
       call write_string (string)
 
-      write (string, '(a,f6.2,t40,a,f10.1)') &
-                  ' N uptake (kg/ha)       = ', totnup &
-                , ' bolls sc (g/boll)      = ', bollsc
+      write (string, '(a,f6.2,t40,a,f10.1)')
+     :            ' N uptake (kg/ha)       = ', totnup
+     :          , ' bolls sc (g/boll)      = ', bollsc
       call write_string (string)
 
-      write (string, '(a,i6,t40,a,i6)') &
-                  ' max squares das (days) = ', g%isqzx &
-                , ' max lai das (days)     = ', g%ilaiz
+      write (string, '(a,i6,t40,a,i6)')
+     :            ' max squares das (days) = ', g%isqzx
+     :          , ' max lai das (days)     = ', g%ilaiz
       call write_string (string)
 
-      write (string, '(a,f6.2,t40,a,f6.3)') &
-                  ' maximum squares/m2     = ', g%sqzx &
-                , ' maximum lai (m2/m2)    = ', g%alaiz
+      write (string, '(a,f6.2,t40,a,f6.3)')
+     :            ' maximum squares/m2     = ', g%sqzx
+     :          , ' maximum lai (m2/m2)    = ', g%alaiz
       call write_string (string)
 
-      write (string, '(a,f10.1)') &
-                  ' total above ground biomass (kg/ha) = ', dm
+      write (string, '(a,f10.1)')
+     :            ' total above ground biomass (kg/ha) = ', dm
       call write_string (string)
 
 
@@ -6942,32 +7243,96 @@
       return
       end subroutine
 
-!     ===========================================================
+*     ===========================================================
+      subroutine ozcot_root_distrib (root_array, root_sum)
+*     ===========================================================
+      Use infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      real       root_array(*)         ! (OUTPUT) array to contain
+                                       ! distributed material
+      real       root_sum              ! (INPUT) Material to be distributed
+
+*+  Purpose
+*       Distribute root material over profile
+
+*+  Mission statement
+*       Distribute root material over profile
+
+*+  Changes
+*       290994 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'ozcot_root_distrib')
+
+*+  Local Variables
+      real       cum_depth             ! cumulative depth (mm)
+      integer    layer                 ! layer number ()
+      integer    deepest_layer         ! deepest layer in which the roots are
+                                       ! growing
+      real       root_distrb(max_layers) ! root distribution ()
+      real       root_distrb_sum       ! sum of root distribution array
+
+      real       c_root_extinction
+      parameter (c_root_extinction = 3.0)
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+             ! distribute roots over profile to root_depth
+
+      call fill_real_array (root_array, 0.0, max_layers)
+      call fill_real_array (root_distrb, 0.0, max_layers)
+
+      deepest_layer = find_layer_no (g%rtdep, g%dlayr
+     :                                , max_layers)
+      cum_depth = 0.0
+      do 1000 layer = 1, deepest_layer
+         cum_depth = cum_depth + g%dlayr(layer)
+         cum_depth = u_bound (cum_depth, g%rtdep)
+         root_distrb(layer) = exp (-c_root_extinction
+     :                      * divide (cum_depth, g%rtdep, 0.0))
+1000  continue
+
+      root_distrb_sum = sum_real_array (root_distrb, deepest_layer)
+      do 2000 layer = 1, deepest_layer
+         root_array(layer) = root_sum * divide (root_distrb(layer)
+     :                                        , root_distrb_sum, 0.0)
+
+2000  continue
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+*     ===========================================================
       subroutine Ozcot_ONNew_Met (variant)
-!     ===========================================================
+*     ===========================================================
       Use Infrastructure
       implicit none
 
       integer, intent(in) :: variant
 
-!+  Purpose
-!     Update met data record
+*+  Purpose
+*     Update met data record
 
-!+  Mission Statement
-!     Update met data record
+*+  Mission Statement
+*     Update met data record
 
-!+  Changes
-!        261001 jngh
+*+  Changes
+*        261001 jngh
 
-!+  Local Variables
+*+  Local Variables
       integer    numvals
       type(newmetType) :: newmet
 
-!+  Constant Values
+*+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'Ozcot_ONNew_Met')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (myname)
 
       call unpack_newmet(variant, newmet)
@@ -6984,31 +7349,31 @@
       return
       end subroutine
 
-!     ===========================================================
+*     ===========================================================
       subroutine ozcot_ONtick (variant)
-!     ===========================================================
+*     ===========================================================
       Use Infrastructure
       implicit none
 
       integer, intent(in) :: variant
 
-!+  Purpose
-!     Update internal time record and reset daily state variables.
+*+  Purpose
+*     Update internal time record and reset daily state variables.
 
-!+  Mission Statement
-!     Update internal time record and reset daily state variables.
+*+  Mission Statement
+*     Update internal time record and reset daily state variables.
 
-!+  Changes
-!        261001 jngh
+*+  Changes
+*        261001 jngh
 
-!+  Local Variables
+*+  Local Variables
       type(timeType) :: tick
 
-!+  Constant Values
+*+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'ozcot_ONtick')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (myname)
 
       call unpack_time(variant, tick)
@@ -7048,7 +7413,20 @@
 !      return
 !      end subroutine
 !
-!
+
+!     RUE modification via CO2
+      real function co2FertFX () 
+      use infrastructure
+      implicit none
+      if (p%num_co2_fert .gt. 0) then
+        co2FertFX = linear_interp_real (g%co2, p%x_co2_fert, 
+     :                                  p%y_co2_fert, 
+     :                                  p%num_co2_fert)
+      else 
+        co2FertFX = 1.0
+      endif
+      end function
+
       end module OzcotModule
 
 
@@ -7083,40 +7461,40 @@
 
 
 
-! ====================================================================
+* ====================================================================
        subroutine Main (action, data_string)
-! ====================================================================
+* ====================================================================
       Use Infrastructure
       use OzcotModule
       implicit none
       ml_external Main
 
-!+  Sub-Program Arguments
+*+  Sub-Program Arguments
       character Action*(*)            ! Message action to perform
       character data_string*(*)
 
-!+  Purpose
-!      This routine is the interface between the main system and the
-!      ozcot module.
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      ozcot module.
 
-!+  Changes
-!      psc - 9/08/93
-!      DPH - 11/7/94 Modifed routine to zero variables if required
-!                    when a process message is received.
-!      PdeV  16/3/95 New engine interface
-!      jngh  170895  changed manager action to react to sow and harvest actions
-!      jngh  250996  added version to presence report
-!                    added message_unused call
-!      sdb   060599  removed version reference and presence action
+*+  Changes
+*      psc - 9/08/93
+*      DPH - 11/7/94 Modifed routine to zero variables if required
+*                    when a process message is received.
+*      PdeV  16/3/95 New engine interface
+*      jngh  170895  changed manager action to react to sow and harvest actions
+*      jngh  250996  added version to presence report
+*                    added message_unused call
+*      sdb   060599  removed version reference and presence action
 
-!+  Calls
+*+  Calls
 
 
-!+  Constant Values
+*+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'Ozcot_main')
 
-!- Implementation Section ----------------------------------
+*- Implementation Section ----------------------------------
       call push_routine(myname)
 
       if (Action.eq.ACTION_Get_variable) then
@@ -7215,11 +7593,6 @@
          call ozcot_get_other_variables ()
          call ozcot_Init ()
 
-      else if (Action.eq.ACTION_Create) then
-         call doRegistrations(id)
-         call ozcot_zero_all_globals ()
-!jh         open (100, 'out.txt')
-
       else
          ! Don't use message
          call message_unused ()
@@ -7230,6 +7603,181 @@
       return
       end subroutine
 
+* ====================================================================
+      subroutine doInit1()
+* ====================================================================
+      use OzcotModule
+      Use infrastructure
+      implicit none
+      ml_external doInit1
+      integer dummy
+
+      id%crop_chopped = add_registration(eventReg, 'crop_chopped',
+     :                                   cropchoppedTypeDDML, '', '')
+      id%sowing = add_registration(eventReg, 'sowing',
+     :                             nullTypeDDML, '', '')
+      id%harvesting = add_registration(eventReg, 'harvesting',
+     :                                 nullTypeDDML, '', '')
+
+      id%create = add_registration(respondToEventReg, 'create',
+     :                             nullTypeDDML, '', '')
+      id%sysinit = add_registration(respondToEventReg, 'sysinit',
+     :                              nullTypeDDML, '', '')
+      id%end_run = add_registration(respondToEventReg, 'end_run',
+     :                              nullTypeDDML, '', '')
+      id%sow = add_registration(respondToEventReg, 'sow',
+     :                          nullTypeDDML, '', '')
+      id%harvest = add_registration(respondToEventReg, 'harvest',
+     :                              nullTypeDDML, '', '')
+      id%end_crop = add_registration(respondToEventReg, 'end_crop',
+     :                               nullTypeDDML, '', '')
+      id%kill_crop = add_registration(respondToEventReg, 'kill_crop',
+     :                                nullTypeDDML, '', '')
+      id%tick = add_registration(respondToEventReg, 'tick',
+     :                           nullTypeDDML, '', '')
+      id%newmet = add_registration(respondToEventReg, 'newmet',
+     :                             newmetTypeDDML, '', '')
+      id%prepare = add_registration(respondToEventReg, 'prepare',
+     :                              nullTypeDDML, '', '')
+      id%process = add_registration(respondToEventReg, 'process',
+     :                              nullTypeDDML, '', '')
+      id%post = add_registration(respondToEventReg, 'post',
+     :                           nullTypeDDML, '', '')
+
+      dummy = add_registration_with_units(getVariableReg, 'dlayer',
+     :                                    floatarrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(getVariableReg, 'bd',
+     :                                    floatarrayTypeDDML, 'g/cm3')
+      dummy = add_registration_with_units(getVariableReg, 'll15',
+     :                                    floatarrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(getVariableReg, 'dul',
+     :                                    floatarrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(getVariableReg, 'sat',
+     :                                    floatarrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(getVariableReg, 'es',
+     :                                    floatTypeDDML, 'mm')
+      dummy = add_registration_with_units(getVariableReg, 'runoff',
+     :                                    floatTypeDDML, 'mm')
+      dummy = add_registration_with_units(getVariableReg, 'sw',
+     :                                    floatarrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(getVariableReg, 'no3_min',
+     :                                    floatarrayTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(getVariableReg, 'no3',
+     :                                    floatarrayTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(getVariableReg, 'nh4_min',
+     :                                    floatarrayTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(getVariableReg, 'nh4',
+     :                                    floatarrayTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(getVariableReg, 'urea',
+     :                                    floatarrayTypeDDML, 'kg/ha')
+
+      dummy = add_registration_with_units(respondToGetReg, 'das',
+     :                                    intTypeDDML, 'days')
+      dummy = add_registration_with_units(respondToGetReg, 'crop_type',
+     :                                    stringTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'sumdd',
+     :                                    floatTypeDDML, 'oCd')
+      dummy = add_registration_with_units(respondToGetReg, 'sites',
+     :                                    floatTypeDDML, '1/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'squarz',
+     :                                    floatTypeDDML, '1/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'fru_no_cat',
+     :                                    floatarrayTypeDDML, '1/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'bollz',
+     :                                    floatTypeDDML, '1/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'openz',
+     :                                    floatTypeDDML, '1/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'alint',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'openwt',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'frudw',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'frudw_tot',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'frudw_shed',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'frun',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'bload',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'carcap_c',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'carcap_n',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'vnstrs',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'fnstrs',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'dm',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'dw_boll',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'dw_root',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'dw_leaf',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'dw_stem',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'totnup',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'yield',
+     :                                    floatTypeDDML, 'bales/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'lint_yield',
+     :                                    floatTypeDDML, 'bales/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'lai',
+     :                                    floatTypeDDML, 'm^2/m^2')
+      dummy = add_registration_with_units(respondToGetReg,
+     :                               'cover_green', floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'cover_tot',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'height',
+     :                                    floatTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'availn',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'uptakn',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'tsno3',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'ysno3',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'tsnh4',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'ysnh4',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'n_uptake',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'rtdep',
+     :                                    floatTypeDDML, 'cm')
+      dummy = add_registration_with_units(respondToGetReg, 's_bed_mi',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'smi',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'wli',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'evap_plant',
+     :                                    floatTypeDDML, 'cm')
+      dummy = add_registration_with_units(respondToGetReg, 'evap_soil',
+     :                                    floatTypeDDML, 'cm')
+      dummy = add_registration_with_units(respondToGetReg, 'evap_pot',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg,
+     :                            'ozcot_crop_in',booleanTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg,
+     :                           'ozcot_status', intTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'bolls_sc',
+     :                                    floatTypeDDML, 'g/boll')
+      dummy = add_registration_with_units(respondToGetReg, 'squarz_max',
+     :                                    floatTypeDDML, '1/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'lai_max',
+     :                                    floatTypeDDML, 'm2/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'i_def',
+     :                                    intTypeDDML, 'das')
+      dummy = add_registration_with_units(respondToGetReg, 'i_def2',
+     :                                    intTypeDDML, 'das')
+
+      call ozcot_zero_all_globals ()
+      end subroutine doInit1
 
 ! ====================================================================
 ! This routine is the event handler for all events
