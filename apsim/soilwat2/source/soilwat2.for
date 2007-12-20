@@ -6981,6 +6981,9 @@ c
       real drainable_capacity
       real bottom_depth
       real saturated
+      logical layer_is_fully_saturated
+      logical layer_is_saturated
+      logical layer_above_is_saturated
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -7029,16 +7032,32 @@ c
          saturated_fraction = 0.0
       endif
 
-      if (saturated_fraction .ge. 0.999999
-     :    .and. saturated_fraction_above .gt. 0.0) then
+      if (saturated_fraction .ge. 0.999999) then
+         layer_is_fully_saturated = .true.
+         layer_is_saturated = .true.
+      elseif (saturated_fraction .gt. 0.0) then
+         layer_is_fully_saturated = .false.
+         layer_is_saturated = .true.
+      else
+         layer_is_fully_saturated = .false.
+         layer_is_saturated = .false.
+      endif
+
+      if (saturated_fraction_above .gt. 0.0) then
+         layer_above_is_saturated = .true.
+      else
+         layer_above_is_saturated = .false.
+      endif
+
+      if (layer_is_fully_saturated
+     :    .and. layer_above_is_saturated) then
             ! dsg 150302  saturated layer = layer, layer above is over dul
 
-!         soilwat_water_table = 0.0
          bottom_depth = sum_real_array(p%dlayer,sat_layer-1)
          saturated = saturated_fraction_above * p%dlayer(sat_layer-1)
          soilwat_water_table = bottom_depth - saturated
 
-      elseif (saturated_fraction .gt. 0.0) then
+      elseif (layer_is_saturated) then
             ! dsg 150302  saturated layer = layer, layer above not over dul
          bottom_depth = sum_real_array(p%dlayer,sat_layer)
          saturated = saturated_fraction * p%dlayer(sat_layer)
