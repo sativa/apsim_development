@@ -7035,9 +7035,11 @@ c
       if (saturated_fraction .ge. 0.999999) then
          layer_is_fully_saturated = .true.
          layer_is_saturated = .true.
+
       elseif (saturated_fraction .gt. 0.0) then
          layer_is_fully_saturated = .false.
          layer_is_saturated = .true.
+
       else
          layer_is_fully_saturated = .false.
          layer_is_saturated = .false.
@@ -7045,6 +7047,7 @@ c
 
       if (saturated_fraction_above .gt. 0.0) then
          layer_above_is_saturated = .true.
+
       else
          layer_above_is_saturated = .false.
       endif
