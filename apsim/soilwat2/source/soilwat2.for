@@ -6975,6 +6975,12 @@ c
       integer num_layers
       integer sat_layer
       real  margin   ! dsg 110302  allowable looseness in definition of sat
+      real saturated_fraction
+      real saturated_fraction_above
+      real drainable
+      real drainable_capacity
+      real bottom_depth
+      real saturated
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -6985,56 +6991,63 @@ c
 
           margin = 0.0
 
-         if ((g%sat_dep(layer)- g%sw_dep(layer)).le.margin) then
+         if ((g%sat_dep(layer)- g%sw_dep(layer)) .le. margin) then
             sat_layer = layer
-            goto 200
+            exit
 
-         elseif (p%mwcon(layer).lt.1.0.and
-     :    .g%sw_dep(layer).gt.g%dul_dep(layer)) then
-!  dsg 150302     also check whether impermeable layer is above dul. If so then consider it to be saturated
+         elseif (p%mwcon(layer) .lt. 1.0
+     :    .and. g%sw_dep(layer) .gt. g%dul_dep(layer)) then
+               !  dsg 150302     also check whether impermeable layer is above dul. If so then consider it to be saturated
             sat_layer = layer
-            goto 200
+            exit
          else
             sat_layer = 0
          endif
   100 continue
-  200 continue
-      if (sat_layer.eq.0) then
-         soilwat_water_table = sum(p%dlayer(1:num_layers))
 
-      elseif (sat_layer.eq.1) then
+      if (sat_layer .gt. 0) then
+            ! saturated fraction of saturated layer
+         drainable = g%sw_dep(sat_layer) - g%dul_dep(sat_layer)
+         drainable_capacity = g%sat_Dep(sat_layer)
+     :                      - g%dul_dep(sat_layer)
+         saturated_fraction = divide (drainable
+     :                      , drainable_capacity, 0.0)
 
-c dsg 150302  top of water table is somewhere in the first layer
+         if (sat_layer .gt. 1) then
+               ! saturated fraction of layer above saturated layer
+            drainable = g%sw_dep(sat_layer-1) - g%dul_dep(sat_layer-1)
+            drainable_capacity = g%sat_Dep(sat_layer-1)
+     :                         - g%dul_dep(sat_layer-1)
+            saturated_fraction_above = divide (drainable
+     :                                       , drainable_capacity, 0.0)
+         else
+               ! top layer fully saturated - no layer above it
+            saturated_fraction_above = 0.0
+         endif
+      else
+            ! profile not saturated
+         saturated_fraction = 0.0
+      endif
+
+      if (saturated_fraction .ge. 0.999999
+     :    .and. saturated_fraction_above .gt. 0.0) then
+            ! dsg 150302  saturated layer = layer, layer above is over dul
 
 !         soilwat_water_table = 0.0
-            soilwat_water_table = sum_real_array(p%dlayer,sat_layer)
-     :         -  divide (g%sw_dep(sat_layer)-g%dul_dep(sat_layer)
-     :                   ,g%sat_Dep(sat_layer)-g%dul_dep(sat_layer)
-     :                   ,0.0) * p%dlayer(sat_layer)
+         bottom_depth = sum_real_array(p%dlayer,sat_layer-1)
+         saturated = saturated_fraction_above * p%dlayer(sat_layer-1)
+         soilwat_water_table = bottom_depth - saturated
+
+      elseif (saturated_fraction .gt. 0.0) then
+            ! dsg 150302  saturated layer = layer, layer above not over dul
+         bottom_depth = sum_real_array(p%dlayer,sat_layer)
+         saturated = saturated_fraction * p%dlayer(sat_layer)
+         soilwat_water_table = bottom_depth - saturated
 
       else
-
-c dsg 150302  saturated layer = layer, layer above is over dul
-
-         if (g%sw_dep(sat_layer).ge.g%sat_dep(sat_layer).and.
-     :         g%sw_dep(sat_layer-1).gt.g%dul_dep(sat_layer-1)) then
-
-
-            soilwat_water_table = sum_real_array(p%dlayer,sat_layer-1)
-     :         -  divide (g%sw_dep(sat_layer-1)-g%dul_dep(sat_layer-1)
-     :                   ,g%sat_Dep(sat_layer-1)-g%dul_dep(sat_layer-1)
-     :                   ,0.0) * p%dlayer(sat_layer-1)
-         else
-
-c dsg 150302  saturated layer = layer, layer above not over dul
-
-!            soilwat_water_table = sum_real_array(p%dlayer,sat_layer-1)
-            soilwat_water_table = sum_real_array(p%dlayer,sat_layer)
-     :         -  divide (g%sw_dep(sat_layer)-g%dul_dep(sat_layer)
-     :                   ,g%sat_Dep(sat_layer)-g%dul_dep(sat_layer)
-     :                   ,0.0) * p%dlayer(sat_layer)
-
-         endif
+            ! profile is not saturated
+         bottom_depth = sum_real_array(p%dlayer, num_layers)
+         soilwat_water_table = bottom_depth
       endif
 
       call pop_routine (myname)
