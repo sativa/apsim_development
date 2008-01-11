@@ -5,6 +5,7 @@ Imports System.Convert
 Imports CSGeneral
 Imports VBGeneral
 Imports VBUserInterface
+Imports CSUserInterface
 Imports System.Xml
 
 Public Class areaui
@@ -118,7 +119,7 @@ Public Class areaui
         Dim BitmapNode As XmlNode = XmlHelper.Find(Data, "bitmap")
         If Not IsNothing(BitmapNode) Then
             Dim TempFileName As String = Path.GetTempPath() + "\\apsimui.jpg"
-            Dim b As Bitmap = CSUtility.DecodeStringToBitmap(BitmapNode.Value)
+            Dim b As Bitmap = BitmapUtility.DecodeStringToBitmap(BitmapNode.Value)
             b.Save(TempFileName)
             CSUserInterface.ListViewAPI.SetListViewImage(ListView, TempFileName, CSUserInterface.ImagePosition.TopLeft)
         End If
@@ -149,7 +150,7 @@ Public Class areaui
             End If
 
             Dim b As New Bitmap(FileName)
-            BitmapNode.Value = CSUtility.EncodeBitmapToString(b)
+            BitmapNode.Value = BitmapUtility.EncodeBitmapToString(b)
             Data.AppendChild(BitmapNode)
 
         End If
