@@ -1359,15 +1359,16 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :    index(Action_string, 'do_end_day_output') .eq. 0 .and.
      :    index(Action_string, 'set') .eq. 0) then
 
-         write (msg, '(6a)' )
-     :      'Manager sending message :- ',
-     :      Trim(Module_name),
-     :      ' ',
-     :      Trim(Action),
-     :      ' ',
-     :      Trim(Data_string)
-
-         call Write_string(msg)
+         if (Trim(Module_name) .ne. All_active_modules) then
+            write (msg, '(6a)' )
+     :         'Manager sending message :- ',
+     :         Trim(Module_name),
+     :         ' ',
+     :         Trim(Action),
+     :         ' ',
+     :         Trim(Data_string)
+            call Write_string(msg)
+         endif
 
          if (data_string <> ' ' .and.
      :      index(Data_string, '=') .eq. 0) then
