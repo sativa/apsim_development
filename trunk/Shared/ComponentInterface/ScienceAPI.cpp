@@ -521,6 +521,13 @@ void ScienceAPI::subscribe(const std::string& name, NewProfileFunctionType handl
 // -------------------------------------------------------------
 // Publish methods
 // -------------------------------------------------------------
+void ScienceAPI::publish(const std::string& name)
+   {
+   string ddml = nullTypeDDML;
+   unsigned id = component->addRegistration(RegistrationType::event, name.c_str(), ddml.c_str(), "", "");
+   int dummy;
+   component->publish(id, dummy);
+   }
 void ScienceAPI::publish(const std::string& name, protocol::ExternalMassFlowType& value)
    {
    string ddml = protocol::DDML(value);

@@ -75,6 +75,7 @@ class EXPORT ScienceAPI
       #define NullFunctionType boost::function0<void>
       #define NullFunction(address) NullFunctionType(boost::bind(address, this))
       void subscribe(const std::string& name, NullFunctionType handler);
+      void publish(const std::string& name);
 
       #define TimeFunctionType boost::function1<void, protocol::TimeType& >
       #define TimeFunction(address) TimeFunctionType(boost::bind(address, this, _1))
