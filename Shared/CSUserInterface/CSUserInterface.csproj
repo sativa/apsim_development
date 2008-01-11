@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arrow.cs" />
+    <Compile Include="AsyncOperation.cs" />
+    <Compile Include="BitmapUtility.cs" />
     <Compile Include="ColorBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -76,6 +78,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ParFileImporter.cs" />
+    <Compile Include="ProcessCaller.cs" />
     <Compile Include="ProfileUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
