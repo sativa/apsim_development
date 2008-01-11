@@ -10,8 +10,8 @@ Public Class OperationsUI
         Dim StartGridRow As Integer = 0
         Dim EndGridRow As Integer = 0
         StartDayGrid.ClearRange(0, 0, StartDayGrid.RowCount, StartDayGrid.ColumnCount, False)
-        For Each child As XmlNode In XmlHelper.ChildNodes(Data, "")("operation")
-            If XmlHelper.Attribute(Child, "condition") = "start_of_day" Then
+        For Each child As XmlNode In XmlHelper.ChildNodes(Data, "operation")
+            If XmlHelper.Attribute(child, "condition") = "start_of_day" Then
                 StartDayGrid.Cells(StartGridRow, 0).Text = XmlHelper.Value(child, "date")
                 StartDayGrid.Cells(StartGridRow, 1).Text = XmlHelper.Value(child, "action")
                 StartGridRow = StartGridRow + 1
