@@ -83,18 +83,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         canola.node_no
         manager.oil_conc
         manager.avg_temp
-        canola.leaf_wt
-        canola.stem_wt
-        canola.pod_wt
+        canola.LeafGreenWt
+        canola.StemGreenWt
+        canola.PodGreenWt
         canola.pai
         clock.dd/mm/yyyy as date
         canola.green_biomass_n as green_n
-        canola.leaf_n
-        canola.stem_n
-        canola.pod_n
+        canola.LeafGreenN
+        canola.StemGreenN
+        canola.PodGreenN
         canola.tlai
-        canola.meal_wt
-        canola.oil_wt
+        canola.MealGreenWt
+        canola.OilGreenWt
         canola.dlt_dm_grain_demand
         canola.grain_oil_conc
         canola.dlt_dm_oil_conv
@@ -530,7 +530,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- canola harvest
 13 October 1997(Day of year=286), canola: 
      
-      flowering day          =  206                           stover (kg/ha)         =     6030.9
+      flowering day          =  206                           stover (kg/ha)         =     6030.8
       maturity day           =  284                           grain yield (kg/ha)    =     2569.8
       grain % water content  =    8.5                         grain yield wet (kg/ha)=     2808.5
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
