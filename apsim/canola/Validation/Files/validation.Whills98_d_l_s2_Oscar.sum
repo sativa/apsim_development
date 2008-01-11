@@ -82,18 +82,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         canola.node_no
         manager.oil_conc
         manager.avg_temp
-        canola.leaf_wt
-        canola.stem_wt
-        canola.pod_wt
+        canola.LeafGreenWt
+        canola.StemGreenWt
+        canola.PodGreenWt
         canola.pai
         clock.dd/mm/yyyy as date
         canola.green_biomass_n as green_n
-        canola.leaf_n
-        canola.stem_n
-        canola.pod_n
+        canola.LeafGreenN
+        canola.StemGreenN
+        canola.PodGreenN
         canola.tlai
-        canola.meal_wt
-        canola.oil_wt
+        canola.MealGreenWt
+        canola.OilGreenWt
         canola.dlt_dm_grain_demand
         canola.grain_oil_conc
         canola.dlt_dm_oil_conv
@@ -488,7 +488,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     2.21 (%)    extractable sw =   57.80 (mm)
 12 September 1998(Day of year=255), manager: 
      Manager creating a new local real variable : avg_temp =     13.8499994000000
-     Manager creating a new local real variable : avg_swdef =    0.665305018000000
+     Manager creating a new local real variable : avg_swdef =    0.665305972000000
 2 November 1998(Day of year=306), canola: 
       stage 8.0 end_grain_fill
                      biomass =         798.26 (g/m^2)   lai          =   0.139 (m^2/m^2)

@@ -82,18 +82,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         canola.node_no
         manager.oil_conc
         manager.avg_temp
-        canola.leaf_wt
-        canola.stem_wt
-        canola.pod_wt
+        canola.LeafGreenWt
+        canola.StemGreenWt
+        canola.PodGreenWt
         canola.pai
         clock.dd/mm/yyyy as date
         canola.green_biomass_n as green_n
-        canola.leaf_n
-        canola.stem_n
-        canola.pod_n
+        canola.LeafGreenN
+        canola.StemGreenN
+        canola.PodGreenN
         canola.tlai
-        canola.meal_wt
-        canola.oil_wt
+        canola.MealGreenWt
+        canola.OilGreenWt
         canola.dlt_dm_grain_demand
         canola.grain_oil_conc
         canola.dlt_dm_oil_conv

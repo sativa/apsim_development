@@ -83,18 +83,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         canola.node_no
         manager.oil_conc
         manager.avg_temp
-        canola.leaf_wt
-        canola.stem_wt
-        canola.pod_wt
+        canola.LeafGreenWt
+        canola.StemGreenWt
+        canola.PodGreenWt
         canola.pai
         clock.dd/mm/yyyy as date
         canola.green_biomass_n as green_n
-        canola.leaf_n
-        canola.stem_n
-        canola.pod_n
+        canola.LeafGreenN
+        canola.StemGreenN
+        canola.PodGreenN
         canola.tlai
-        canola.meal_wt
-        canola.oil_wt
+        canola.MealGreenWt
+        canola.OilGreenWt
         canola.dlt_dm_grain_demand
         canola.grain_oil_conc
         canola.dlt_dm_oil_conv
@@ -565,7 +565,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
 16 September 2003(Day of year=259), manager: 
      Manager creating a new local real variable : pre_flower_rain =     182.699966000000
      Manager creating a new local real variable : pre_flower_rain_events =     17.0000000000000
-     Manager creating a new local real variable : flower_lai =     3.19544101000000
+     Manager creating a new local real variable : flower_lai =     3.19544005000000
 20 September 2003(Day of year=263), operatns: 
       Sending apply message to fertiliz
 20 September 2003(Day of year=263), fertiliz: 

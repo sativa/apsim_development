@@ -82,18 +82,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         canola.node_no
         manager.oil_conc
         manager.avg_temp
-        canola.leaf_wt
-        canola.stem_wt
-        canola.pod_wt
+        canola.LeafGreenWt
+        canola.StemGreenWt
+        canola.PodGreenWt
         canola.pai
         clock.dd/mm/yyyy as date
         canola.green_biomass_n as green_n
-        canola.leaf_n
-        canola.stem_n
-        canola.pod_n
+        canola.LeafGreenN
+        canola.StemGreenN
+        canola.PodGreenN
         canola.tlai
-        canola.meal_wt
-        canola.oil_wt
+        canola.MealGreenWt
+        canola.OilGreenWt
         canola.dlt_dm_grain_demand
         canola.grain_oil_conc
         canola.dlt_dm_oil_conv
@@ -503,11 +503,11 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     0.45 (%)    extractable sw =  105.92 (mm)
 23 November 1998(Day of year=327), canola: 
       stage 9.0 maturity
-                     biomass =         858.62 (g/m^2)   lai          =   0.906 (m^2/m^2)
+                     biomass =         858.61 (g/m^2)   lai          =   0.906 (m^2/m^2)
                      stover N conc =     0.46 (%)    extractable sw =  107.77 (mm)
 24 November 1998(Day of year=328), canola: 
       stage 10.0 harvest_ripe
-                     biomass =         858.62 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         858.61 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.44 (%)    extractable sw =  107.04 (mm)
 25 November 1998(Day of year=329), manager: 
      Manager sending message :- canola harvest
@@ -518,8 +518,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
       grain % water content  =    8.5                         grain yield wet (kg/ha)=     2810.3
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      4.093
-      total above ground biomass (kg/ha)    =     8586.2
-      live above ground biomass (kg/ha)     =     8586.2
+      total above ground biomass (kg/ha)    =     8586.1
+      live above ground biomass (kg/ha)     =     8586.1
       green above ground biomass (kg/ha)    =     6638.9
       senesced above ground biomass (kg/ha) =     1947.3
       number of leaves       =     45.6

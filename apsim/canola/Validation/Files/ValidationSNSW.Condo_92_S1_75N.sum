@@ -83,18 +83,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         canola.node_no
         manager.oil_conc
         manager.avg_temp
-        canola.leaf_wt
-        canola.stem_wt
-        canola.pod_wt
+        canola.LeafGreenWt
+        canola.StemGreenWt
+        canola.PodGreenWt
         canola.pai
         clock.dd/mm/yyyy as date
         canola.green_biomass_n as green_n
-        canola.leaf_n
-        canola.stem_n
-        canola.pod_n
+        canola.LeafGreenN
+        canola.StemGreenN
+        canola.PodGreenN
         canola.tlai
-        canola.meal_wt
-        canola.oil_wt
+        canola.MealGreenWt
+        canola.OilGreenWt
         canola.dlt_dm_grain_demand
         canola.grain_oil_conc
         canola.dlt_dm_oil_conv
@@ -657,7 +657,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     1.66 (%)    extractable sw =   70.83 (mm)
 8 September 1992(Day of year=252), manager: 
      Manager creating a new local real variable : avg_temp =     10.2500000000000
-     Manager creating a new local real variable : avg_swdef =    0.790843010000000
+     Manager creating a new local real variable : avg_swdef =    0.790844023000000
 30 September 1992(Day of year=274), manager: 
      Manager creating a new local real variable : sep_rain =     23.9999981000000
 31 October 1992(Day of year=305), manager: 
@@ -676,7 +676,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     0.32 (%)    extractable sw =   90.94 (mm)
 4 November 1992(Day of year=309), manager: 
      Manager creating a new local real variable : total_rain_events =     21.0000000000000
-     Manager creating a new local real variable : end_esw =     90.9447784000000
+     Manager creating a new local real variable : end_esw =     90.9447632000000
      Manager sending message :- canola harvest
      
       flowering day          =  229                           stover (kg/ha)         =     5497.0
