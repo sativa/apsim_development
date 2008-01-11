@@ -158,9 +158,14 @@ Public Class DataTree
         Node.ToolTipText = Comp.Description
         If Not IsNothing(Comp.ShortCutTo) Then
             Node.ToolTipText = "Linked to " + Comp.ShortCutTo.FullPath
+            If Not Comp.Enabled Then
+                Node.ToolTipText = "Disabled: " + Node.ToolTipText
+            End If
+        End If
+        If Not Comp.Enabled Then
+            Node.ToolTipText = "Disabled" + Node.ToolTipText
         End If
         ColourNode(Node)
-
         ' Go refresh all children.
         Dim ChildIndex As Integer = 0
         For Each Child As ApsimFile.Component In Comp.ChildNodes
@@ -205,13 +210,17 @@ Public Class DataTree
         If Node.ToolTipText.IndexOf("Linked to") = 0 Then
             Node.ForeColor = SystemColors.HotTrack
             Node.BackColor = BackColor
+        ElseIf Node.ToolTipText.IndexOf("Disabled") = 0 Then
+            Node.ForeColor = SystemColors.GrayText
+            Node.BackColor = BackColor
+
         ElseIf Controller.SelectedPaths.IndexOf(GetPathFromNode(Node)) = -1 Then
             Node.ForeColor = ForeColor
             Node.BackColor = BackColor
         Else
-            Node.ForeColor = SystemColors.HighlightText
-            Node.BackColor = SystemColors.Highlight
-            SelectedNode = Node
+        Node.ForeColor = SystemColors.HighlightText
+        Node.BackColor = SystemColors.Highlight
+        SelectedNode = Node
         End If
     End Sub
 

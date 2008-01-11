@@ -30,6 +30,11 @@ Public Class ApsimUIActions
 
 #Region "Simulation methods"
     Public Shared Sub Run(ByVal Cntroller As BaseController)
+        ' ------------------------------------------------
+        ' Go looking for simulations to run. Look at the
+        ' currently selected nodes first and progressively
+        ' their parents until some simulations are found.
+        ' ------------------------------------------------
         Controller = Cntroller
         SimulationsToRun.Clear()
         For Each NodePath As String In Controller.SelectedPaths
@@ -44,8 +49,17 @@ Public Class ApsimUIActions
                     If Child.Type = "simulation" Then
                         SimulationsToRun.Add(Child.FullPath)
                     End If
-
                 Next
+                If SimulationsToRun.Count = 0 Then
+                    ' Current selection must be in a folder inside a simulation step up to parent 
+                    ' looking for the parent simulation
+                    While Comp.Type <> "simulation"
+                        Comp = Comp.Parent
+                    End While
+                    If Comp.Type = "simulation" Then
+                        SimulationsToRun.Add(Comp.FullPath)
+                    End If
+                End If
             End If
         Next
         RunSimulations()
@@ -268,6 +282,18 @@ Public Class ApsimUIActions
         MainForm.RunPanelListBox.AppendText(St)
 
     End Sub
+
+    Public Shared Sub Enable(ByVal Controller As BaseController)
+        For Each NodePath As String In Controller.SelectedPaths
+            Controller.ApsimData.Find(NodePath).Enabled = True
+        Next
+    End Sub
+    Public Shared Sub Disable(ByVal Controller As BaseController)
+        For Each NodePath As String In Controller.SelectedPaths
+            Controller.ApsimData.Find(NodePath).Enabled = False
+        Next
+    End Sub
+
 #End Region
 
 #Region "Output file methods"

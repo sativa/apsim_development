@@ -321,6 +321,12 @@ Public Class BaseController
                 If DisabledWhenFlag = "NotShortcut" AndAlso MySelectedData.Count = 1 AndAlso Selection.ShortCutTo Is Nothing Then
                     Allowed = False
                 End If
+                If DisabledWhenFlag = "Enabled" AndAlso MySelectedData.Count = 1 AndAlso Selection.Enabled Then
+                    Allowed = False
+                End If
+                If DisabledWhenFlag = "Disabled" AndAlso MySelectedData.Count = 1 AndAlso Not Selection.Enabled Then
+                    Allowed = False
+                End If
                 If Not IsNothing(XmlHelper.Find(DisabledWhen, "call")) Then
                     Dim Arguments As New List(Of Object)
                     Arguments.Add(Me)

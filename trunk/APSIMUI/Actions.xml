@@ -302,6 +302,28 @@
             </call>
          </OnInvoke>
       </MakeConcrete>
+      <Enable>
+         <Text>Enable</Text>
+         <Description>Enable this node in an APSIM run</Description>
+         <DisabledWhen>Enabled</DisabledWhen>
+         <OnInvoke>
+            <call>
+               <class>APSIMUI.ApsimUIActions</class>
+               <method>Enable</method>
+            </call>
+         </OnInvoke>
+      </Enable>   
+      <Disable>
+         <Text>Disable</Text>
+         <Description>Disable this node when running APSIM</Description>
+         <DisabledWhen>Disabled</DisabledWhen>
+         <OnInvoke>
+            <call>
+               <class>APSIMUI.ApsimUIActions</class>
+               <method>Disable</method>
+            </call>
+         </OnInvoke>
+      </Disable>   
       
    </Actions>
 
@@ -350,6 +372,9 @@
       <Separator/>
       <Item>CollapseAll</Item>
       <Item>ExpandAll</Item>
+      <Separator/>
+      <Item>Enable</Item>
+      <Item>Disable</Item>
         
    </ContextMenu>
 
