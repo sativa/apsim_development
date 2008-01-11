@@ -178,18 +178,23 @@ Public Class RuleUI
                 End If
                 TabName = TabName + EventData.InnerText
             Next
-            Dim page As New TabPage(TabName)
-            Dim ScriptBox As New RichTextBox
-            ScriptBox.Text = XmlHelper.Value(Script, "text")
-            ScriptBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            page.Controls.Add(ScriptBox)
-            ScriptBox.Dock = DockStyle.Fill
-            TabControl.TabPages.Add(page)
+            Dim Value As String = XmlHelper.Value(Script, "text")
+            AddScriptTab(TabName, Value)
         Next
 
         InRefresh = False
     End Sub
 
+    Private Sub AddScriptTab(ByVal TabName As String, ByVal Value As String)
+        Dim page As New TabPage(TabName)
+        Dim ScriptBox As New RichTextBox
+        ScriptBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        ScriptBox.Text = Value
+        ScriptBox.WordWrap = False
+        page.Controls.Add(ScriptBox)
+        ScriptBox.Dock = DockStyle.Fill
+        TabControl.TabPages.Add(page)
+    End Sub
 
     Public Overrides Sub OnSave()
         ' --------------------------------------
@@ -226,7 +231,7 @@ Public Class RuleUI
     Private Sub OnAddMenuClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddMenuItem.Click
         Dim EventNamesString As String = InputDialog.InputBox("Enter event name(s) to run script on", "APSIM event names (comma separated)", "", False)
         If EventNamesString <> "" Then
-            TabControl.TabPages.Add(EventNamesString)
+            AddScriptTab(EventNamesString, "")
             TabControl.SelectedIndex = TabControl.TabCount - 1
         End If
     End Sub

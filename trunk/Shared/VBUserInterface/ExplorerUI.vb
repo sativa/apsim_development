@@ -113,6 +113,8 @@ Public Class ExplorerUI
                     CurrentUIIndex = UIs.Count - 1
                 End If
             End If
+        Else
+            SaveCurrentView()
         End If
         If CurrentUIIndex <> -1 Then
             Try
@@ -155,6 +157,7 @@ Public Class ExplorerUI
     Public Sub RefreshCurrentView()
         If CurrentUIIndex <> -1 Then
             Dim View As BaseView = UIs(CurrentUIIndex)
+            View.OnLoad(Controller, Controller.SelectedPath, Controller.Selection.Contents)
             View.OnRefresh()
         End If
     End Sub
