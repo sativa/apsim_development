@@ -507,30 +507,16 @@ Public Class OutputFileDescUI
             PropertyType = "variables"
         End If
         PropertyType = PropertyType.Remove(PropertyType.Length - 1)
-        'how many blank
-        Dim BlankRows As Integer() = GridUtils.FindBlankCells(Grid, 0, Grid.RowCount)
-        'how mant total rows occupied in grid to check new ones need to be add
-        Dim TotalRowsNow As Integer = GridUtils.FindRowsInSheet(Grid)
-        If TotalRowsNow > XmlHelper.ChildNodes(Data, PropertyType).Count Then
-            For i As Integer = XmlHelper.ChildNodes(Data, PropertyType).Count To TotalRowsNow - 1
-                Data.AppendChild(XmlHelper.CreateNode(Data.OwnerDocument, PropertyType, ""))
-            Next
-        End If
+        Dim NumRows As Integer = GridUtils.FindRowsInSheet(Grid)
         'reset all the children to the grid values
         Dim Row As Integer = 0
+        XmlHelper.EnsureNumberOfChildren(Data, PropertyType, "", NumRows)
         For Each Variable As XmlNode In XmlHelper.ChildNodes(Data, PropertyType)
             XmlHelper.SetName(Variable, Grid.Cells(Row, 0).Text)
             XmlHelper.SetAttribute(Variable, "array", Grid.Cells(Row, 1).Text)
             XmlHelper.SetAttribute(Variable, "description", Grid.Cells(Row, 2).Text)
             Row += 1
         Next
-        Dim ChildrenNames() As String = XmlHelper.ChildNames(Data, PropertyType)
-        If BlankRows.Length <> 0 Then
-            'delete some rows
-            'For i As Integer = 0 To BlankRows.Length - 1
-            '    Data.Delete(ChildrenNames(BlankRows(i)))
-            'Next
-        End If
     End Sub
     Private Sub SaveConstants()
         Dim Constants As XmlNode = XmlHelper.Find(Data, "Constants")
