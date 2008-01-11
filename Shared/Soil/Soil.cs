@@ -1074,17 +1074,20 @@ namespace Soils
                 {
                 if (XmlHelper.Name(Node).ToLower() == CropName.ToLower())
                     {
-                    XmlHelper.SetValue(Node, "initdata/ll", Utility.LayeredToString(LL(CropName)));
-                    XmlHelper.SetValue(Node, "initdata/kl", Utility.LayeredToString(KL(CropName)));
+                    if (CropExists(CropName))
+                        {
+                        XmlHelper.SetValue(Node, "initdata/ll", Utility.LayeredToString(LL(CropName)));
+                        XmlHelper.SetValue(Node, "initdata/kl", Utility.LayeredToString(KL(CropName)));
 
-                    double[] xf = XF(CropName);
-                    double[] ec = EC;
-                    if (MaxRootDepth > 0)
-                        ApplyMaxRootDepth(Thickness, MaxRootDepth * 10, ref xf);
-                    if (UseEC && EC.Length > 0)
-                        ApplyECXFFunction(Thickness, ec, ref xf);
+                        double[] xf = XF(CropName);
+                        double[] ec = EC;
+                        if (MaxRootDepth > 0)
+                            ApplyMaxRootDepth(Thickness, MaxRootDepth * 10, ref xf);
+                        if (UseEC && EC.Length > 0)
+                            ApplyECXFFunction(Thickness, ec, ref xf);
 
-                    XmlHelper.SetValue(Node, "initdata/xf", Utility.LayeredToString(xf));
+                        XmlHelper.SetValue(Node, "initdata/xf", Utility.LayeredToString(xf));
+                        }
                     return Node;
                     }
                 }
