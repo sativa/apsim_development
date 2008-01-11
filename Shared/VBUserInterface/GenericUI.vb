@@ -97,12 +97,12 @@ Public Class GenericUI
         '
         Me.PopupMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditModeItem})
         Me.PopupMenu.Name = "PopupMenu"
-        Me.PopupMenu.Size = New System.Drawing.Size(129, 26)
+        Me.PopupMenu.Size = New System.Drawing.Size(147, 26)
         '
         'EditModeItem
         '
         Me.EditModeItem.Name = "EditModeItem"
-        Me.EditModeItem.Size = New System.Drawing.Size(128, 22)
+        Me.EditModeItem.Size = New System.Drawing.Size(146, 22)
         Me.EditModeItem.Text = "Edit mode"
         '
         'Grid
@@ -123,6 +123,7 @@ Public Class GenericUI
         Me.Grid.Columns.Get(0).Width = 75.0!
         Me.Grid.Columns.Get(1).BackColor = System.Drawing.Color.LavenderBlush
         ComboBoxCellType1.ButtonAlign = FarPoint.Win.ButtonAlign.Right
+        ComboBoxCellType1.Editable = True
         ComboBoxCellType1.Items = New String() {"text", "date", "ddmmmdate", "yesno", "crop", "cultivars", "classes", "modulename", "list", "multilist", "category", "filename", "multiedit"}
         ComboBoxCellType1.MaxDrop = 12
         Me.Grid.Columns.Get(1).CellType = ComboBoxCellType1
@@ -161,6 +162,16 @@ Public Class GenericUI
     End Sub
 
 #End Region
+
+    Protected Overrides Sub OnLoad()
+        MyBase.OnLoad()
+        Dim InputMap As FarPoint.Win.Spread.InputMap = FpSpread1.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused)
+
+        InputMap.Put(New FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None), _
+                    FarPoint.Win.Spread.SpreadActions.ClipboardCut)
+        InputMap.Put(New FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), _
+                    FarPoint.Win.Spread.SpreadActions.MoveToNextRow)
+    End Sub
 
     Public Overrides Sub OnRefresh()
         ' --------------------------------------------------------------------
@@ -220,22 +231,27 @@ Public Class GenericUI
         Next
     End Sub
 
+    Private InCellChanged As Boolean = False
     Private Sub Grid_CellChanged(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles Grid.CellChanged
         ' --------------------------------------------------------------------
         ' User has changed something - see if we need to create editors or
         ' setup other columns.
         ' --------------------------------------------------------------------
-        If e.Column = 1 Then
-            CreateCellEditorForRow(e.Row)
+        If Not InCellChanged Then
+            InCellChanged = True
+            If e.Column = 1 Or e.Column = 2 Then
+                CreateCellEditorForRow(e.Row)
 
-        ElseIf e.Column = 2 And TypeOf Grid.Cells(e.Row, 4).CellType Is FarPoint.Win.Spread.CellType.ComboBoxCellType Then
-            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = Grid.Cells(e.Row, 4).CellType
-            If Not IsNothing(Combo) Then
-                Combo.Items = Grid.Cells(e.Row, 2).Text.Split(",")
-                If Grid.Cells(e.Row, 4).Text = "" And Combo.Items.Length > 0 Then
-                    Grid.Cells(e.Row, 4).Text = Combo.Items(0)
+            ElseIf e.Column = 2 And TypeOf Grid.Cells(e.Row, 4).CellType Is FarPoint.Win.Spread.CellType.ComboBoxCellType Then
+                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = Grid.Cells(e.Row, 4).CellType
+                If Not IsNothing(Combo) Then
+                    Combo.Items = Grid.Cells(e.Row, 2).Text.Split(",")
+                    If Grid.Cells(e.Row, 4).Text = "" And Combo.Items.Length > 0 Then
+                        Grid.Cells(e.Row, 4).Text = Combo.Items(0)
+                    End If
                 End If
             End If
+            InCellChanged = False
         End If
     End Sub
 
@@ -289,6 +305,8 @@ Public Class GenericUI
         ' --------------------------------------------------------------------
         Dim Type As String = Grid.Cells(Row, 1).Text
         Grid.Cells(Row, 4).CellType = Nothing
+        Grid.Rows(Row).BackColor = System.Drawing.Color.White
+
         If Type = "yesno" Then
             Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
             Combo.Items = New String() {"yes", "no"}
@@ -331,7 +349,6 @@ Public Class GenericUI
         ElseIf Type = "category" Then
             Empty.ReadOnly = True
             Grid.Rows(Row).BackColor = System.Drawing.Color.LightSteelBlue
-            Grid.Cells(Row, 0).CellType = Empty
             Grid.Cells(Row, 2).CellType = Empty
             Grid.Cells(Row, 4).CellType = Empty
 
