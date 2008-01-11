@@ -17,6 +17,7 @@ namespace ApsimFile
         private string MyType;
         private string MyContents = "";
         private string MyDescription = "";
+        private bool MyEnabled = true;
         private List<Component> MyChildNodes = new List<Component>();
         private Component MyShortCutTo = null;
         private ApsimFile MyFile = null;
@@ -85,6 +86,8 @@ namespace ApsimFile
             Name = XmlHelper.Name(Node);
             if (XmlHelper.Attribute(Node, "shortcut") != "")
                 TempShortCutName = XmlHelper.Attribute(Node, "shortcut");
+            if (XmlHelper.Attribute(Node, "enabled") == "no")
+                MyEnabled = false;
             foreach (XmlNode Child in Node.ChildNodes)
                 {
                 if (MyFile.IsComponentVisible(Child.Name))
@@ -119,6 +122,8 @@ namespace ApsimFile
             // create child nodes as necessary.
             // ------------------------------------------------------
             XmlHelper.SetName(Node, Name);
+            if (!Enabled)
+                XmlHelper.SetAttribute(Node, "enabled", "no");
             if (ShortCutTo != null)
                 XmlHelper.SetAttribute(Node, "shortcut", ShortCutTo.FullPath);
             Node.InnerXml = MyContents;
@@ -206,6 +211,14 @@ namespace ApsimFile
                     }
                 return Delimiter + Path;
                 }
+            }
+        public bool Enabled
+            {
+            get { return MyEnabled; }
+            set { 
+                MyEnabled = value;
+                MyFile.PublishComponentChanged(this);
+                }    
             }
         public Component Parent
             {
@@ -452,7 +465,7 @@ namespace ApsimFile
         private void WriteSim(XmlDocument Doc, XmlNode ParentNode, Configuration Configuration)
             {
             XmlNode ApsimToSim = Configuration.TypeNode(Type + "/ApsimToSim");
-            if (ApsimToSim != null)
+            if (ApsimToSim != null && Enabled)
                 {
                 string ModuleType = XmlHelper.Value(ApsimToSim, "type");
                 XmlNode SimNode = XmlHelper.Find(ApsimToSim, "sim");
