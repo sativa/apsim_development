@@ -110,6 +110,7 @@ public:
 
 public:
       // plant
+   virtual void process(void);
    virtual float dltDmGreenRemoved(void);
    virtual float dltDmPotRue(void);
    virtual float dltDmSenesced(void);

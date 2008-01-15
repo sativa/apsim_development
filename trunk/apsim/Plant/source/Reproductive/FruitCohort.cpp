@@ -36,6 +36,7 @@ void FruitCohort::onInit1(protocol::Component *system)
    {
    zeroAllGlobals(); zeroDeltas();
 
+
    string grainType;
    scienceAPI.read("grain_part_type", grainType);
    if (grainType == "harvest_index")
@@ -182,15 +183,9 @@ void FruitCohort::doNDemand1(float dlt_dm             // (INPUT)  Whole plant th
    //============================================================================
    //     Return plant nitrogen demand for each plant component
 {
-//   NDemand = 0.0;
-//   NMax = 0.0;
    vector<plantPart *>::iterator part;
    for (part = supplyPools.begin(); part != supplyPools.end(); part++)
-      {
       (*part)->doNDemand1(dlt_dm, dlt_dm_pot_rue);
-//      NDemand += (*part)->nDemand();
-//      NMax += (*part)->nMax();
-      }
 }
 
 void FruitCohort::doNDemand1Pot(float dlt_dm             // (INPUT)  Whole plant the daily biomass production (g/m^2)
@@ -198,14 +193,9 @@ void FruitCohort::doNDemand1Pot(float dlt_dm             // (INPUT)  Whole plant
    //============================================================================
    //     Return plant nitrogen demand for each plant component
 {
-//   NDemand = 0.0;
-//   NMax = 0.0;
    vector<plantPart *>::iterator part;
    for (part = supplyPools.begin(); part != supplyPools.end(); part++)
-      {
       (*part)->doNDemand1Pot(dlt_dm, dlt_dm_pot_rue);
-//      NDemand += (*part)->nDemand();
-//      NMax += (*part)->nMax();
-      }
 }
+
 

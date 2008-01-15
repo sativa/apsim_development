@@ -13,6 +13,7 @@ class plantThing;
 class eventObserver;
 class Plant;
 class Arbitrator;
+class pheno_stress_t;
 
 #include "PlantInterface.h"
 #include "Environment.h"
@@ -181,6 +182,9 @@ public:
    void get_crop_type(protocol::Component *, protocol::QueryValueData &);
    void get_crop_class(protocol::Component *, protocol::QueryValueData &);
    void get_leaf_no(protocol::Component *, protocol::QueryValueData &);
+   pheno_stress_t getPhotoStress(void);
+   float getPeswSeed(void);
+   float getFaswSeed(void);
    float getLeafNo(void);
    float getLAI(void);
    float getCumSwdefPheno(void);

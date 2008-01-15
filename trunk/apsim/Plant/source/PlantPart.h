@@ -96,6 +96,7 @@ public:
    const string &name(void);
 
       //PURE
+   virtual void  process(void) = 0;
    virtual float availableRetranslocateN(void) = 0;
    virtual void  calcDlt_pod_area (void) = 0;   //FIXME
 
