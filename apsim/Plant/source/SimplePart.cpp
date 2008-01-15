@@ -99,6 +99,12 @@ void SimplePart::onInit1(protocol::Component*)
    scienceAPI.exposeFunction(addPartToVar("dm_demand"), "g/m^2", addPartToDesc("DM demand of "), FloatFunction(&SimplePart::dmGreenDemand));
    }
 
+void SimplePart::process(void)
+//=======================================================================================
+   {
+      // do nothing
+   }
+
 float SimplePart::nConcCrit()
 //=======================================================================================
    {

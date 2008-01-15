@@ -14,13 +14,14 @@
 //#include <ComponentInterface/Component.h>
 #include "CompositePhase.h"
 
-typedef struct {
-	float swdef;
-	float nfact;
-	float swdef_flower;
-	float swdef_grainfill;
-	float remove_biom_pheno;
-} pheno_stress_t ;
+class pheno_stress_t {
+   public:
+    float swdef;
+    float nfact;
+    float swdef_flower;
+    float swdef_grainfill;
+    float remove_biom_pheno;
+};
 
 class protocol::Component;
 class plantInterface;

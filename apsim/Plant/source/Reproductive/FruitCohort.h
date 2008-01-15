@@ -1,7 +1,6 @@
 #ifndef FruitCohortH
 #define FruitCohortH
 
-////#include "Phenology/PlantPhenology.h"
 #include "CompositePart.h"
 #include "GrainPart.h"
 #include "GrainPartGN.h"
@@ -33,8 +32,6 @@ public:                                             // member functions
    float pMaxPot(void);
    float pMinPot(void);
 
-
-
    virtual void display(ostream &os = cout) ;  // display function
    void doDmDemand (float dlt_dm_supply_by_veg);
 
@@ -57,10 +54,8 @@ private:
 
    fruitPodPart  *podPart;
    fruitGrainPart  *grainPart;
-////   PlantPhenology *fruitPhenology;
 
    bool  gHasreadconstants;
-   float dmRetranslocate;
    float gDlt_dm;
 
 };

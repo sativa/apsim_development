@@ -1106,6 +1106,7 @@ void Plant::plant_process ( void )
         rootPart->doPlantWaterStress (tops.SWDemand(), swStress);
 
         phenology->prepare (Environment);
+        fruitPart->prepare ();
 
         pheno_stress_t ps;
         ps.swdef = swStress->swDef.pheno;
@@ -1118,6 +1119,7 @@ void Plant::plant_process ( void )
         float pesw_seed = rootPart->pesw((int)plantSpatial.sowing_depth);
 
         phenology->process (Environment, ps, fasw_seed, pesw_seed);
+        fruitPart->process ();
 
         plant.morphology();
 
@@ -2440,6 +2442,27 @@ void Plant::get_plant_status(protocol::Component *system, protocol::QueryValueDa
 }
 
 
+
+pheno_stress_t Plant::getPhotoStress(void)
+{
+        pheno_stress_t *ps = new pheno_stress_t;
+        ps->swdef = swStress->swDef.pheno;
+        ps->nfact = min(nStress->nFact.pheno, pStress->pFact.pheno);
+        ps->swdef_flower = swStress->swDef.pheno_flower;
+        ps->swdef_grainfill = swStress->swDef.pheno_grainfill;
+        ps->remove_biom_pheno = g.remove_biom_pheno;
+        return *ps;
+}
+
+float Plant::getPeswSeed(void)
+{
+   return rootPart->pesw((int)plantSpatial.sowing_depth);
+}
+
+float Plant::getFaswSeed(void)
+{
+   return rootPart->fasw((int)plantSpatial.sowing_depth);
+}
 
 float Plant::getLeafNo(void)
 {

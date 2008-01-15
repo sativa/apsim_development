@@ -19,6 +19,7 @@ namespace protocol {
   class ApsimGetQueryData;
 };
 class environment_t;
+class pheno_stress_t;
 class CompositePart;
 
 // An abstract plant interface, as seen from protocol::Component (outside)
@@ -41,6 +42,9 @@ class plantInterface {
       virtual void writeString (const char *line) = 0;
       virtual void warningError (const char *msg) = 0;
 
+      virtual pheno_stress_t getPhotoStress(void) = 0;
+      virtual float getPeswSeed(void) = 0;
+      virtual float getFaswSeed(void) = 0;
       virtual float getLeafNo (void) = 0;           // Leaf number (leaves/m^2)
       virtual float getLAI(void) = 0;
       virtual std::string Name() = 0;

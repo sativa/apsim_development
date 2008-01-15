@@ -31,7 +31,7 @@
       Utility\LookupFunction.obj Delta.obj Pool.obj CompositePool.obj 
       Biomass.obj Population.obj ReproductivePart.obj 
       StageBasedInterpolationFunction.obj SimplePart.obj PlantStress.obj 
-      Co2Modifier.obj"/>
+      Co2Modifier.obj Reproductive\FruitCohortFN.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -151,6 +151,7 @@
       <FILE FILENAME="SimplePart.cpp" FORMNAME="" UNITNAME="SimplePart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantStress.cpp" FORMNAME="" UNITNAME="PlantStress" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Co2Modifier.cpp" FORMNAME="" UNITNAME="Co2Modifier" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Reproductive\FruitCohortFN.cpp" FORMNAME="" UNITNAME="FruitCohortFN" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -255,7 +256,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=&quot;C:\data\Apsim\development\apsim\mungbean\PSample\mungbean.APSIM.Psample_mungbean.sim&quot;
+RunParams=&quot;C:\data\Apsim\development\apsim\fababean\Sample\fababean.APSIM.sample_fababean.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=

@@ -47,6 +47,7 @@ OBJFILES=PlantComponent.obj \
    Reproductive\GrainPartHI.obj \
    Reproductive\GrainPartGN.obj \
    Reproductive\FruitCohort.obj \
+   Reproductive\FruitCohortFN.obj \
    Reproductive\PlantFruit.obj \
    CompositePart.obj \
    SimplePart.obj \
@@ -142,6 +143,7 @@ SimplePart.obj: SimplePart.cpp SimplePart.h PlantPart.h
 CompositePart.obj: CompositePart.cpp CompositePart.h PlantPart.h
 Reproductive\PlantFruit.obj: Reproductive\PlantFruit.cpp Reproductive\PlantFruit.h CompositePart.h
 Reproductive\FruitCohort.obj: Reproductive\FruitCohort.cpp Reproductive\FruitCohort.h PlantPart.h CompositePart.h
+Reproductive\FruitCohortFN.obj: Reproductive\FruitCohortFN.cpp Reproductive\FruitCohortFN.h PlantPart.h CompositePart.h
 Utility\Data.obj: Utility\Data.cpp PlantLibrary.h
 Utility\ExternalFunction.obj: Utility\ExternalFunction.cpp Utility\ExternalFunction.h
 Utility\InterpolationFunction.obj: Utility\InterpolationFunction.cpp Utility\InterpolationFunction.h
