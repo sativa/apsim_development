@@ -1106,7 +1106,7 @@ void Plant::plant_process ( void )
         rootPart->doPlantWaterStress (tops.SWDemand(), swStress);
 
         phenology->prepare (Environment);
-        fruitPart->prepare ();
+//        fruitPart->prepare ();  // need to prepare fruit phenology?
 
         pheno_stress_t ps;
         ps.swdef = swStress->swDef.pheno;
