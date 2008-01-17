@@ -24,6 +24,7 @@ void processRecordFilter(DataContainer& parent,
    if (source != NULL && source->Active)
       {
       result.FieldDefs->Assign(source->FieldDefs);
+      result.Active = true;
 
       bool firstRecord = Str_i_Eq(properties.childValue("firstRecord"), "yes");
       bool lastRecord = Str_i_Eq(properties.childValue("lastRecord"), "yes");

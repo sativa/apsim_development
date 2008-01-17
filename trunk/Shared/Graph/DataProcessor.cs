@@ -192,7 +192,10 @@ namespace Graph
             // Return a list of all field names for specified dataset
             // ------------------------------------------------------
             FieldNames(DataContainer, Name, contents);
-            return contents.ToString().Split("\t".ToCharArray());
+            if (contents.Length == 0)
+                return new string[0];
+            else
+                return contents.ToString().Split("\t".ToCharArray());
             }
         public DataTable GetXYData(string Name, string x, string y)
             {
