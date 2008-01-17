@@ -436,6 +436,7 @@ namespace ApsimFile
             }
         private static void MakeNodeShortcuts(XmlNode ShortCutNode, XmlNode RealNode, Configuration Config)
             {
+            XmlHelper.SetName(ShortCutNode, XmlHelper.Name(RealNode));
             foreach (XmlNode Child in XmlHelper.ChildNodes(RealNode, ""))
                 {
                 if (Config.IsComponentVisible(Child.Name) || Child.Name == "rule")
@@ -444,7 +445,6 @@ namespace ApsimFile
                     string ShortCutPath = XmlHelper.FullPath(RealNode) + "/" + XmlHelper.Name(Child);
                     XmlNode RealChildNode = XmlHelper.Find(RealNode, ShortCutPath);
                     XmlHelper.SetAttribute(NewNode, "shortcut", ShortCutPath);
-                    XmlHelper.SetName(NewNode, XmlHelper.Name(RealChildNode));
                     MakeNodeShortcuts(NewNode, Child, Config);
                     }
                 }
