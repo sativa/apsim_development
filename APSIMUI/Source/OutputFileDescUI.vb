@@ -390,17 +390,19 @@ Public Class OutputFileDescUI
             VariableListView.Columns(1).Width = 0
             Grid.Columns(1).Visible = False
             Grid.Columns(2).Visible = False
+            TopPanel.Visible = False
 
         Else
             VariableListView.Columns(1).Width = 45
             Grid.Columns(1).Visible = True
             Grid.Columns(2).Visible = True
+            TopPanel.Visible = True
+            PopulateConstants()
         End If
 
         Dim InputMap As FarPoint.Win.Spread.InputMap = Spread.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused)
         InputMap.Put(New FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), FarPoint.Win.Spread.SpreadActions.MoveToNextRow)
 
-        PopulateConstants()
     End Sub
 
     Private Sub PopulateComponentFilter()
@@ -437,10 +439,7 @@ Public Class OutputFileDescUI
     End Sub
     Private Sub PopulateConstants()
         Dim ConstantsNode As XmlNode = XmlHelper.Find(Data, "constants")
-        If IsNothing(ConstantsNode) Then
-            Dim OutputFileName As String = BaseActions.CalcFileName(Controller.ApsimData.Find(NodePath).Parent)
-            ConstantsBox.Text = "Title = " + Path.GetFileNameWithoutExtension(OutputFileName)
-        Else
+        If Not IsNothing(ConstantsNode) Then
             Dim NumConstants As Integer = XmlHelper.ChildNodes(ConstantsNode, "").Count
             Dim Lines(NumConstants) As String
             Dim Index As Integer = 0
