@@ -283,6 +283,24 @@ namespace Test
             Assert.AreEqual(FileDoc.DocumentElement.InnerXml, Doc.DocumentElement.InnerXml);
             File.Delete("Temp.xml");
             }
+        [Test] public void TestReplace()
+            {
+            const string NewSimulationXml = 
+                    "  <simulation name=\"My Sim\">\r\n" +
+                    "    <clock>\r\n" +
+                    "      <start_date>1/01/1940</start_date>\r\n" +
+                    "      <end_date>31/01/1999</end_date>\r\n" +
+                    "    </clock>\r\n" +
+                    "    <outputfile>\r\n" +
+                    "      <variable>variable3</variable>\r\n" +
+                    "    </outputfile>\r\n" +
+                    "  </simulation>\r\n";
+
+            Component Simulation = Simulations.Find("/folder/My Sim");
+            Simulation.Replace(NewSimulationXml);
+            Assert.AreEqual(Simulation.ChildNodes.Count, 2);
+
+            }
 
 
         }
