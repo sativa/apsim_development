@@ -106,7 +106,7 @@ void ApsimRuns::addSimulationsFromApsimFile(const std::string& fileName, XMLNode
                           node != parent.end();
                           node++)
       {
-      if (Str_i_Eq(node->getName(), "simulation"))
+      if (Str_i_Eq(node->getName(), "simulation") && !Str_i_Eq(node->getAttribute("enabled"), "no"))
          addSimulation(fileName, node->getAttribute("name"));
       else if (Str_i_Eq(node->getName(), "folder"))
          addSimulationsFromApsimFile(fileName, *node);
