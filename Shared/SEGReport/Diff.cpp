@@ -21,7 +21,7 @@ void processDiff(DataContainer& parent,
                  TDataSet& result)
    {
    vector<string> sourceNames = properties.childValues("source");
-   vector<string> diffFieldNames = properties.childValues("diffFieldName");
+   vector<string> diffFieldNames = properties.childValues("FieldName");
 
    result.Active = false;
    result.FieldDefs->Clear();
@@ -31,8 +31,7 @@ void processDiff(DataContainer& parent,
       TDataSet* source2 = parent.data(sourceNames[1]);
       if (source1 != NULL && source2 != NULL && source1->Active && source2->Active)
          {
-         TDataSet* source = parent.data(properties.childValue("source"));
-         result.FieldDefs->Assign(source->FieldDefs);
+         result.FieldDefs->Assign(source1->FieldDefs);
 
          if (result.FieldDefs->Count > 0)
             {
