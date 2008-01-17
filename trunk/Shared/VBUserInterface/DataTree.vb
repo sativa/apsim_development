@@ -87,15 +87,18 @@ Public Class DataTree
         ' ---------------------------------------------------------
         ' The file name has changed so expand all folder nodes.
         ' ---------------------------------------------------------
-        CollapseAll()
-        If Nodes.Count = 1 AndAlso _
-           Nodes(0).Nodes.Count > 0 AndAlso _
-           Nodes(0).Nodes(0).Tag.ToString.ToLower = "simulation" Then
-            ExpandAll()
-        Else
-            ExpandAllFolders(Nodes(0))
+        If Nodes.Count = 1 Then
+            Dim RootNode As TreeNode = Nodes(0)
+            CollapseAll()
+            RootNode.Expand()
+            If RootNode.Nodes.Count = 1 AndAlso _
+               RootNode.Nodes(0).Tag.ToString.ToLower = "simulation" Then
+                ExpandAll()
+            Else
+                ExpandAllFolders(RootNode)
+            End If
+            Controller.SelectedPath = Controller.ApsimData.RootComponent.FullPath
         End If
-        Controller.SelectedPath = Controller.ApsimData.RootComponent.FullPath
     End Sub
     Private Sub ExpandAllFolders(ByVal Node As TreeNode)
         If Node.Tag.ToString.ToLower = "folder" Then
@@ -208,11 +211,11 @@ Public Class DataTree
 
     Private Sub ColourNode(ByVal Node As TreeNode)
         If Node.ToolTipText.IndexOf("Linked to") = 0 Then
-            Node.ForeColor = SystemColors.HotTrack
-            Node.BackColor = BackColor
-        ElseIf Node.ToolTipText.IndexOf("Disabled") = 0 Then
             Node.ForeColor = SystemColors.GrayText
             Node.BackColor = BackColor
+        ElseIf Node.ToolTipText.IndexOf("Disabled") = 0 Then
+            Node.ForeColor = SystemColors.InactiveCaptionText
+            Node.BackColor = SystemColors.InactiveCaption
 
         ElseIf Controller.SelectedPaths.IndexOf(GetPathFromNode(Node)) = -1 Then
             Node.ForeColor = ForeColor
@@ -226,7 +229,18 @@ Public Class DataTree
 
 
 #Region "Rename methods"
-    Private Sub TreeView_AfterLabelEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.NodeLabelEditEventArgs) Handles Me.AfterLabelEdit
+    Private Sub OnBeforeEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.NodeLabelEditEventArgs) Handles Me.BeforeLabelEdit
+        ' ---------------------------------------------------
+        ' User is about to start editing a tree node.
+        ' We must disable the popup menu because if the user
+        ' hits DELETE while editing the node, the ACTION
+        ' will trigger, deleting the whole node rather than
+        ' the bit of text on the node caption.
+        ' ---------------------------------------------------
+        PopupMenu.Enabled = False
+    End Sub
+
+    Private Sub OnAfterEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.NodeLabelEditEventArgs) Handles Me.AfterLabelEdit
         ' ---------------------------------------------------
         ' User has just finished editing the label of a node.
         ' ---------------------------------------------------
@@ -246,6 +260,7 @@ Public Class DataTree
             LabelEdit = False
         End If
         FirstTimeRename = False
+        PopupMenu.Enabled = True
     End Sub
 #End Region
 
@@ -387,4 +402,13 @@ Public Class DataTree
     End Sub
 #End Region
 
+    Private Sub InitializeComponent()
+        Me.SuspendLayout()
+        '
+        'DataTree
+        '
+        Me.ForeColor = System.Drawing.Color.Goldenrod
+        Me.ResumeLayout(False)
+
+    End Sub
 End Class
