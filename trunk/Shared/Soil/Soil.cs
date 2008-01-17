@@ -1078,21 +1078,14 @@ namespace Soils
                         {
                         XmlHelper.SetValue(Node, "initdata/ll", Utility.LayeredToString(LL(CropName)));
                         XmlHelper.SetValue(Node, "initdata/kl", Utility.LayeredToString(KL(CropName)));
-
-                        double[] xf = XF(CropName);
-                        double[] ec = EC;
-                        if (MaxRootDepth > 0)
-                            ApplyMaxRootDepth(Thickness, MaxRootDepth * 10, ref xf);
-                        if (UseEC && EC.Length > 0)
-                            ApplyECXFFunction(Thickness, ec, ref xf);
-
-                        XmlHelper.SetValue(Node, "initdata/xf", Utility.LayeredToString(xf));
+                        XmlHelper.SetValue(Node, "initdata/xf", Utility.LayeredToString(XF(CropName)));
                         }
                     return Node;
                     }
                 }
             throw new Exception("Cannot find crop node : " + CropName);
             }
+
         #endregion
 
         #region Upgrade version
@@ -1443,53 +1436,6 @@ namespace Soils
         #endregion
 
         #region Manipulation / fudges
-        public static void ApplyECXFFunction(double[] Thickness, double[] EC, ref double[] xf)
-			{
-            // -------------------------------------------------
-            // Using the soil's EC values - create an XF profile
-            // -------------------------------------------------
-            if (EC.Length > 0 && MathUtility.ValuesInArray(EC))
-				{
-				for (int i = 0; i != Thickness.Length; i++)
-					{
-					if (EC[i] <= 0.68)
-						xf[i] = 1.0;
-					else
-						{
-						xf[i] = 2.06 / (1 + 2 * EC[i]) - 0.351;
-						xf[i] = CSGeneral.MathUtility.Constrain(0.0, 1.0, xf[i]);
-						}
-					}
-				}
-			}
-        private static void ApplyMaxRootDepth(double[] Thickness, int RootingDepth, ref double[] xf)
-			{
-            // --------------------------------------------------------
-            // Using the specified rooting depth modify the XF profile
-            // --------------------------------------------------------
-            if (xf.Length > 0 && MathUtility.ValuesInArray(xf) && RootingDepth > 0)
-				{
-                double[] CumThickness = Utility.ToCumThickness(Thickness);
-				for (int i = 0; i != CumThickness.Length; i++)
-					{
-					if (CumThickness[i] > RootingDepth)
-						{
-						double PreviousCumThickness = 0.0;
-						if(i > 0)
-							PreviousCumThickness = CumThickness[i-1];
-
-						if (PreviousCumThickness > RootingDepth)
-							xf[i] = 0.0;
-						else
-							{
-							double Proportion = (RootingDepth - PreviousCumThickness) / Thickness[i];
-							xf[i] = xf[i] * Proportion;
-							xf[i] = CSGeneral.MathUtility.Constrain(0.0, 1.0, xf[i]);
-							}
-						}
-					}
-				}
-			}
         public void ApplyMaxWaterCapacity(int maxWaterCapacity)
             {
             //---------------------------------------------------
