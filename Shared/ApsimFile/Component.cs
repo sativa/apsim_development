@@ -44,7 +44,7 @@ namespace ApsimFile
                     if (Count == 1)
                         return;
                     UniqueChildName = BaseName + i.ToString();
-                    Name = UniqueChildName;
+                    MyName = UniqueChildName;
                 }
                 throw new Exception("Cannot find a unique name for component: " + BaseName);
 
@@ -165,20 +165,20 @@ namespace ApsimFile
             }
         public string Contents
             {
-            get {
+            get
+                {
+                string OuterContents = "<" + Type;
+                if (Name != Type)
+                    OuterContents += " name=\"" + Name + "\"";
+                OuterContents += ">";
+
                 if (MyShortCutTo == null)
-                    {
-                    string OuterContents = "<" + Type;
-                    if (Name != Type)
-                        OuterContents += " name=\"" + Name + "\"";
-                    OuterContents += ">";
                     OuterContents += MyContents;
-                    OuterContents += "</" + Type + ">";
-                    return OuterContents;
-                    }
                 else
-                    return MyShortCutTo.Contents;
-                    }
+                    OuterContents += MyShortCutTo.MyContents;
+                OuterContents += "</" + Type + ">";
+                return OuterContents;
+                }
             set
                 {
                 if (MyShortCutTo == null)
@@ -214,7 +214,12 @@ namespace ApsimFile
             }
         public bool Enabled
             {
-            get { return MyEnabled; }
+            get { 
+                if (ShortCutTo == null)
+                    return MyEnabled; 
+                else 
+                    return ShortCutTo.Enabled && MyEnabled;
+                }
             set { 
                 MyEnabled = value;
                 MyFile.PublishComponentChanged(this);
@@ -273,12 +278,13 @@ namespace ApsimFile
             {
             get { return MyChildNodes; }
             }
-        public void Add(string Xml)
+        public Component Add(string Xml)
             {
             // ---------------------------------------------------------------------
             // Add the specified xml as children. The xml might be multiple children
             // i.e. have multiple root nodes and so not valid XML. Add a dummy
-            // root node around the xml so that we can parse it.
+            // root node around the xml so that we can parse it. Returns the first
+            // child component
             // ---------------------------------------------------------------------
             XmlDocument Doc;
 
@@ -289,9 +295,10 @@ namespace ApsimFile
                 }
             catch (Exception)
                 {
-                return;
+                return null;
                 }
 
+            Component FirstChildComponent = null;
             MyFile.BeginUpdate();
             foreach (XmlNode Child in Doc.DocumentElement.ChildNodes)
                 {
@@ -301,10 +308,13 @@ namespace ApsimFile
                     MyChildNodes.Add(ChildComponent);
                     ChildComponent.Read(Child);
                     ChildComponent.EnsureNameIsUnique();
+                    if (FirstChildComponent == null)
+                        FirstChildComponent = ChildComponent;
                     }
                 }
             MyFile.EndUpdate();
             MyFile.PublishComponentChanged(this);
+            return FirstChildComponent;
             }
         public bool AllowAdd(string Xml)
             {
@@ -334,7 +344,7 @@ namespace ApsimFile
                 return names;
                 }
             }
-        public void AddShortCut(Component SourceComponent)
+        public Component AddShortCut(Component SourceComponent)
             {
             // ---------------------------------------------------------------------
             // Add the source component as a child shortcut component.
@@ -351,6 +361,7 @@ namespace ApsimFile
 
             MyFile.EndUpdate();
             MyFile.PublishComponentChanged(this);
+            return ShortCutComponent;
             }
         public void Delete(Component ComponentToDelete)
             {
@@ -367,7 +378,13 @@ namespace ApsimFile
             ChildNodes.Remove(ComponentToDelete);
             MyFile.PublishComponentChanged(this);
             }
-
+        public Component Duplicate(Component ComponentToDuplicate)
+            {
+            XmlDocument Doc = new XmlDocument();
+            Doc.AppendChild(Doc.CreateElement(Type));
+            Write(Doc.DocumentElement);
+            return Parent.Add(Doc.DocumentElement.OuterXml);
+            }
         private void ChildNodesRecursively(List<Component> AllChildNodes)
             {
             // ---------------------------------------------------------------------
@@ -390,6 +407,7 @@ namespace ApsimFile
                 {
                 MyContents = ShortCutTo.MyContents;
                 MyShortCutTo = null;
+                MyFile.PublishComponentChanged(this);
                 }
             foreach (Component Child in ChildNodes)
                 Child.MakeShortCutsConrete(Nodes);
@@ -619,6 +637,47 @@ namespace ApsimFile
                         return 1;
                     }
                 return 0; // neither are in list!!
+                }
+            }
+
+        public void Replace(string Xml)
+            {
+            // -------------------------------------------------------
+            // We need to replace 'this' component with the one
+            // passed in - need to be mindfull of shortcuts.
+            // -------------------------------------------------------
+            Component TempComponent = Parent.Add(Xml);
+            Replace(TempComponent);
+            Parent.Delete(TempComponent);
+            MyFile.PublishComponentChanged(this);
+            }
+        private void Replace(Component Rhs)
+            {
+            // -------------------------------------------------------
+            // Replace 'this' component with 'Rhs'
+            // -------------------------------------------------------
+            Contents = Rhs.Contents;
+            string[] Children = ChildNames;
+            foreach (Component TempChild in Rhs.MyChildNodes)
+                {
+                int Pos = VBGeneral.Utility.IndexOfCaseInsensitive(Children, TempChild.Name);
+                if (Pos == -1)
+                    MyChildNodes.Add(TempChild);
+                else
+                    MyChildNodes[Pos].Replace(TempChild);
+                }
+
+            // Remove unwanted children.
+            for (int i = ChildNames.Length - 1; i >= 0; i--)
+                {
+                bool Found = false;
+                foreach (Component RhsChild in Rhs.MyChildNodes)
+                    {
+                    if (ChildNames[i].ToLower() == RhsChild.Name.ToLower())
+                        Found = true;
+                    }
+                if (!Found)
+                    Delete(MyChildNodes[i]);
                 }
             }
 
