@@ -42,11 +42,11 @@ Public Class ApsimUIActions
             While Comp.Type <> "simulation" AndAlso Comp.Type <> "folder" AndAlso Comp.Type <> "simulations"
                 Comp = Comp.Parent
             End While
-            If Comp.Type = "simulation" Then
+            If Comp.Type = "simulation" And Comp.Enabled Then
                 SimulationsToRun.Add(Comp.FullPath)
             ElseIf Comp.Type = "folder" Then
                 For Each Child As ApsimFile.Component In Comp.ChildNodes
-                    If Child.Type = "simulation" Then
+                    If Child.Type = "simulation" And Child.Enabled Then
                         SimulationsToRun.Add(Child.FullPath)
                     End If
                 Next
@@ -56,7 +56,7 @@ Public Class ApsimUIActions
                     While Comp.Type <> "simulation"
                         Comp = Comp.Parent
                     End While
-                    If Comp.Type = "simulation" Then
+                    If Comp.Type = "simulation" And Comp.Enabled Then
                         SimulationsToRun.Add(Comp.FullPath)
                     End If
                 End If
