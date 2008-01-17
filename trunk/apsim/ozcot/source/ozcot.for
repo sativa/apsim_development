@@ -413,6 +413,10 @@
 ! ====================================================================
 
       type OzcotParameters
+!
+!     20080109 DBJ  added p%BckGndRetn  to allow varietal adjustment for
+!                   background retention.
+! ---------------------------------------------------------------------
       Sequence
 
          real    UNUL(max_layers)
@@ -439,6 +443,9 @@
          real     x_co2_fert(20)
          real     y_co2_fert(20)
          integer  num_co2_fert
+
+         real     BckGndRetn
+
       end type OzcotParameters
 ! ====================================================================
 
@@ -850,6 +857,7 @@
       g%CARCAP_N            = 0.0
       p%scboll          = 0.0
       p%FBURR               = 0.0
+      p%BckGndRetn        = 0.0
       g%FRUNO(:)          = 0.0
       g%FRUWT(:)          = 0.0
       g%FRMARK(:,:)       = 0.0
@@ -1051,6 +1059,7 @@
       p%UNUL(:)           = 0.0
       p%num_ll_vals       = 0
       p%num_co2_fert      = 0
+
 
       call pop_routine (my_name)
       return
@@ -5103,6 +5112,10 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 * ====================================================================
       real FUNCTION ozcot_survive(CAPACITY,bload)
 * ====================================================================
+!
+!     20070911 DBJ  added p%BckGndRetn  to allow varietal adjustment for
+!                   background retention.
+! ---------------------------------------------------------------------
       Use Infrastructure
       implicit none
 
@@ -5130,7 +5143,11 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       ozcot_survive=A-B*bload ! prortion surviving
       IF(ozcot_survive.LT.0.)ozcot_survive=0.
       IF(ozcot_survive.GT.1.)ozcot_survive=1.
-      ozcot_survive = ozcot_survive*0.8  ! background, sub-threshold shedding
+      IF(p%BckGndRetn.GT.0.0) THEN
+         ozcot_survive = ozcot_survive*p%BckGndRetn  ! varietal specific background retention (1 - sub-threshold shedding)
+      ELSE
+         ozcot_survive = ozcot_survive*0.8  ! background, sub-threshold shedding default value
+      ENDIF
 
       call pop_routine(myname)
       RETURN
@@ -6585,6 +6602,10 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
 *+  Changes
 *       090994 jngh specified and programmed
+!
+!      20070911 DBJ  added p%BckGndRetn  to allow varietal adjustment for
+!                    background retention. (optional parameter)
+! ---------------------------------------------------------------------
 
 *+  Calls
                                        ! lu_src_sum
@@ -6689,6 +6710,12 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
      :                     , p%rate_emergence, numvals
      :                     , 0.0, 10.0)
 
+                           
+      call read_real_var_optional (g%cultivar 
+     :                              , 'BckGndRetn', '()' 
+     :                              , p%BckGndRetn, numvals 
+     :                              , 0.0, 1.0)
+
 
              ! report
 
@@ -6783,6 +6810,17 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       write (string, '(4x, a, f7.2)')
      :                'rate_emergence  = '
      :               , p%rate_emergence
+      call write_string (string)
+
+      IF(p%BckGndRetn.GT.0.0) THEN
+      		write (string, '(4x, a, f7.2)') 
+     :                'Background_Retention = ' 
+     :                , p%BckGndRetn
+      ELSE
+      		write (string, '(4x, a, f7.2)') 
+     :                'Background_Retention (default) = ' 
+     :                , 0.8
+      ENDIF
       call write_string (string)
 
 
