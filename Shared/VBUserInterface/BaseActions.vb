@@ -70,7 +70,7 @@ Public Class BaseActions
         Next
     End Sub
 
-    Public Shared Sub Cut(ByVal Controller As BaseController, ByVal NodePath As String)
+    Public Shared Sub Cut(ByVal Controller As BaseController)
         ' --------------------------------------------------------
         ' Perform a clipboard cut operation
         ' --------------------------------------------------------
