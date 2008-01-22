@@ -36,8 +36,8 @@ namespace Graph
             LastRecordCheck.CheckedChanged -= OnLastRecordChanged;
             RecordNumberEdit.TextChanged -= OnRecordNumberChanged;
 
-            FirstRecordCheck.Checked = (XmlHelper.Value(Data, "FirstRecord") == "yes");
-            LastRecordCheck.Checked = (XmlHelper.Value(Data, "LastRecord") == "yes");
+            FirstRecordCheck.Checked = (XmlHelper.Value(Data, "FirstRecord").ToLower() == "yes");
+            LastRecordCheck.Checked = (XmlHelper.Value(Data, "LastRecord").ToLower() == "yes");
             RecordNumberEdit.Text = XmlHelper.Value(Data, "RecordNumber");
 
             FirstRecordCheck.CheckedChanged += OnFirstRecordChanged;

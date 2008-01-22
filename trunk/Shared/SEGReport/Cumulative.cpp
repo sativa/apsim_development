@@ -19,7 +19,7 @@ void processCumulative(DataContainer& parent,
                        const XMLNode& properties,
                        TDataSet& result)
    {
-   TDataSet* source = parent.data(properties.childValue("source"));
+   TDataSet* source = parent.data(parent.read(properties, "source"));
    if (source != NULL && source->Active)
       {
       result.Active = false;
@@ -36,7 +36,7 @@ void processCumulative(DataContainer& parent,
                                   fieldDef->Size, false);
          }
 
-      result.Active = false;
+      result.Active = true;
 
       // setup some space to store cumulative values for each column.
       int numColumns = source->FieldDefs->Count;

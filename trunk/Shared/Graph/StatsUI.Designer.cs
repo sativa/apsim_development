@@ -45,7 +45,7 @@ namespace Graph
             this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupBox.Location = new System.Drawing.Point(0, 18);
             this.GroupBox.Name = "GroupBox";
-            this.GroupBox.Size = new System.Drawing.Size(206, 145);
+            this.GroupBox.Size = new System.Drawing.Size(206, 139);
             this.GroupBox.TabIndex = 2;
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "GroupBox";
@@ -81,7 +81,7 @@ namespace Graph
             "90"});
             this.StatsList.Location = new System.Drawing.Point(110, 38);
             this.StatsList.Name = "StatsList";
-            this.StatsList.Size = new System.Drawing.Size(90, 79);
+            this.StatsList.Size = new System.Drawing.Size(90, 94);
             this.StatsList.TabIndex = 2;
             // 
             // label1
@@ -100,14 +100,14 @@ namespace Graph
             this.FieldList.FormattingEnabled = true;
             this.FieldList.Location = new System.Drawing.Point(6, 38);
             this.FieldList.Name = "FieldList";
-            this.FieldList.Size = new System.Drawing.Size(98, 79);
+            this.FieldList.Size = new System.Drawing.Size(98, 94);
             this.FieldList.TabIndex = 0;
             // 
             // StatsUI
             // 
             this.Controls.Add(this.GroupBox);
             this.Name = "StatsUI";
-            this.Size = new System.Drawing.Size(206, 163);
+            this.Size = new System.Drawing.Size(206, 157);
             this.Controls.SetChildIndex(this.GroupBox, 0);
             this.GroupBox.ResumeLayout(false);
             this.GroupBox.PerformLayout();

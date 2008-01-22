@@ -38,13 +38,16 @@ namespace Graph
 
             FieldList.Items.Clear();
             FieldList.Items.AddRange(ParentUI.Processor.GetFieldNamesForDataSet(XmlHelper.Value(Data, "source")));
-            foreach (string FieldName in XmlHelper.Values(Data, "FieldName"))
+            if (FieldList.Items.Count > 0)
                 {
-                int FieldIndex = FieldList.Items.IndexOf(FieldName);
-                if (FieldIndex == -1)
-                    Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "FieldName", FieldName));
-                else
-                    FieldList.SetItemChecked(FieldIndex, true);
+                foreach (string FieldName in XmlHelper.Values(Data, "FieldName"))
+                    {
+                    int FieldIndex = FieldList.Items.IndexOf(FieldName);
+                    if (FieldIndex == -1)
+                        Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "FieldName", FieldName));
+                    else
+                        FieldList.SetItemChecked(FieldIndex, true);
+                    }
                 }
             foreach (string Stat in XmlHelper.Values(Data, "Stat"))
                 {

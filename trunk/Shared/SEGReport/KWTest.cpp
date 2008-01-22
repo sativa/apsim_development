@@ -47,8 +47,8 @@ void processKWTest(DataContainer& parent,
                    const XMLNode& properties,
                    TDataSet& result)
    {
-   vector<string> sourceNames = properties.childValues("source");
-   string fieldName = properties.childValue("fieldName");
+   vector<string> sourceNames = parent.reads(properties, "source");
+   string fieldName = parent.read(properties, "fieldName");
 
    result.Active = false;
    result.FieldDefs->Clear();
@@ -61,6 +61,8 @@ void processKWTest(DataContainer& parent,
          addDBField(&result, "PValue", "1.0");
          addDBField(&result, "Description", "a");
          addDBField(&result, "AreNot", "a");
+
+         result.Active = true;
 
          vector<RealSet> distributions;
          AddDistributionFromTable(source1, distributions, fieldName);

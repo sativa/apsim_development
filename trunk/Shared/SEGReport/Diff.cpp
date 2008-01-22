@@ -20,8 +20,8 @@ void processDiff(DataContainer& parent,
                  const XMLNode& properties,
                  TDataSet& result)
    {
-   vector<string> sourceNames = properties.childValues("source");
-   vector<string> diffFieldNames = properties.childValues("FieldName");
+   vector<string> sourceNames = parent.reads(properties, "source");
+   vector<string> diffFieldNames = parent.reads(properties, "FieldName");
 
    result.Active = false;
    result.FieldDefs->Clear();

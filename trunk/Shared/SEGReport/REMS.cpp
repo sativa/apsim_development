@@ -148,10 +148,10 @@ void processREMS(DataContainer& parent,
                  const XMLNode& properties,
                  TDataSet& result)
    {
-   string fileName = properties.childValue("fileName");
-   string experimentName = properties.childValue("experiment");
-   vector<std::string> treatmentNames = properties.childValues("treatment");
-   string dataSourceName = properties.childValue("dataSource");
+   string fileName = parent.read(properties, "fileName");
+   string experimentName = parent.read(properties, "experiment");
+   vector<std::string> treatmentNames = parent.reads(properties, "treatment");
+   string dataSourceName = parent.read(properties, "dataSource");
 
    if (experimentName != "")
       {

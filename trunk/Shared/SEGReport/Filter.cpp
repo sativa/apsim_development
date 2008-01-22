@@ -17,8 +17,8 @@ void processFilter(DataContainer& parent,
                    const XMLNode& properties,
                    TDataSet& result)
    {
-   TDataSet* source = parent.data(properties.childValue("source"));
-   std::string filter = properties.childValue("FilterString");
+   TDataSet* source = parent.data(parent.read(properties, "source"));
+   std::string filter = parent.read(properties, "FilterString");
 
    result.Active = false;
    if (source != NULL && source->Active && filter != "")

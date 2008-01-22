@@ -131,16 +131,16 @@ void processSOI(DataContainer& parent,
    result.Active = false;
    result.FieldDefs->Clear();
 
-   TDataSet* source = parent.data(properties.childValue("source"));
+   TDataSet* source = parent.data(parent.read(properties, "source"));
    if (source != NULL && source->Active)
       {
       result.FieldDefs->Assign(source->FieldDefs);
       addDBField(&result, SOI_PHASE_FIELD_NAME, "xxxx");
 
-      string soiFilename = properties.childValue("filename");
-      unsigned monthToUse = longMonthToInt(properties.childValue("month"));
-      vector<string> phaseNamesToKeep = properties.childValues("Phase");
-
+      string soiFilename = parent.read(properties, "filename");
+      string monthString = parent.read(properties, "month");
+      unsigned monthToUse = longMonthToInt(monthString);
+      vector<string> phaseNamesToKeep = parent.reads(properties, "Phase");
       bool allOtherYears = (find_if(phaseNamesToKeep.begin(), phaseNamesToKeep.end(),
                                     CaseInsensitiveStringComparison("AllOtherYears"))
                        != phaseNamesToKeep.end());

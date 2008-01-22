@@ -20,10 +20,10 @@ void processFrequency(DataContainer& parent,
    result.Active = false;
    result.FieldDefs->Clear();
 
-   vector<string> labels = properties.childValues("label");
-   vector<string> filters = properties.childValues("FilterString");
-   bool percent = Str_i_Eq(properties.childValue("percent"), "yes");
-   TDataSet* source = parent.data(properties.childValue("source"));
+   vector<string> labels = parent.reads(properties, "label");
+   vector<string> filters = parent.reads(properties, "FilterString");
+   bool percent = Str_i_Eq(parent.read(properties, "percent"), "yes");
+   TDataSet* source = parent.data(parent.read(properties, "source"));
    if (source != NULL && source->Active)
       {
       if (labels.size() == filters.size() && source != NULL)

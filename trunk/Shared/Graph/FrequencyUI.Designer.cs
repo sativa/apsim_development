@@ -43,7 +43,7 @@ namespace Graph
             this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupBox.Location = new System.Drawing.Point(0, 18);
             this.GroupBox.Name = "GroupBox";
-            this.GroupBox.Size = new System.Drawing.Size(302, 132);
+            this.GroupBox.Size = new System.Drawing.Size(242, 132);
             this.GroupBox.TabIndex = 2;
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "GroupBox";
@@ -62,7 +62,7 @@ namespace Graph
             this.Spread.RowSplitBoxPolicy = FarPoint.Win.Spread.SplitBoxPolicy.AsNeeded;
             this.Spread.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
             this.Grid});
-            this.Spread.Size = new System.Drawing.Size(227, 107);
+            this.Spread.Size = new System.Drawing.Size(230, 107);
             this.Spread.TabIndex = 0;
             tipAppearance1.BackColor = System.Drawing.SystemColors.Info;
             tipAppearance1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -93,7 +93,7 @@ namespace Graph
             // 
             this.Controls.Add(this.GroupBox);
             this.Name = "FrequencyUI";
-            this.Size = new System.Drawing.Size(302, 150);
+            this.Size = new System.Drawing.Size(242, 150);
             this.Controls.SetChildIndex(this.GroupBox, 0);
             this.GroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Spread)).EndInit();

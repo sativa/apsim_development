@@ -32,8 +32,8 @@ void processPredObs(DataContainer& parent,
                     const XMLNode& properties,
                     TDataSet& result)
    {
-   vector<string> keyFieldNames = properties.childValues("FieldName");
-   vector<string> sourceNames = properties.childValues("source");
+   vector<string> keyFieldNames = parent.reads(properties, "FieldName");
+   vector<string> sourceNames = parent.reads(properties, "source");
 
    result.Active = false;
    result.FieldDefs->Clear();

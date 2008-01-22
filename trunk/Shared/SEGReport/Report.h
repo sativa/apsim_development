@@ -176,6 +176,7 @@ class __declspec(dllexport) Report
       void addObjectToXML(std::istream& in, const std::string& objectName,
                             const std::string& objectType, XMLDocument& doc);
       void nestAllObjectsUsingSource(XMLDocument& doc);
+      void refreshIfNecessary(bool quiet);
       void refreshAllPages();
       void refreshControls(TWinControl* parent);
       void safeMode(const std::string& fileName);

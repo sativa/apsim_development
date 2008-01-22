@@ -13,6 +13,7 @@
 #include <general\path.h>
 #include <general\xml.h>
 #include <general\io_functions.h>
+#include "DataContainer.h"
 
 using namespace std;
 
@@ -124,7 +125,7 @@ void processXmlFileReader(DataContainer& parent,
    if (result.FieldDefs->Count > 0)
       {
       result.Active = true;
-      std::string fileName = properties.childValue("filename");
+      std::string fileName = parent.read(properties, "filename");
       vector<string> fieldNames, fieldValues;
       readXmlFile(fileName, fieldNames, fieldValues);
       for (unsigned i = 0; i != fieldNames.size(); i++)
