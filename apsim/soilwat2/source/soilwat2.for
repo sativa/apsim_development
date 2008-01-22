@@ -6754,6 +6754,7 @@ c dsg 070302 added runon
       integer  numConc
       character  dummy*100             ! first half of solute concatenation
       character  default_name*100      ! concatenated parameter name for initial solute concentration
+      integer dummyID
 
 *- Implementation Section ----------------------------------
 
@@ -6811,8 +6812,43 @@ c dsg 070302 added runon
             call read_real_var_optional (section_name
      :                                  , default_name
      :                                  , '(ppm)'
-     +                  , p%solute_conc_rain(g%num_solutes)
+     :                  , p%solute_conc_rain(g%num_solutes)
      :                  , numConc, 0.0, 10000.0)
+
+            dummy = string_concat('flow_',
+     :                            g%solute_names(g%num_solutes))
+            dummyID = add_registration_with_units(respondToGetReg
+     :                                          , dummy
+     :                                          , floatArrayTypeDDML
+     :                                          , 'kg/ha')
+
+            dummy = string_concat('leach_',
+     :                            g%solute_names(g%num_solutes))
+            dummyID = add_registration_with_units(respondToGetReg
+     :                                          , dummy
+     :                                          , floatTypeDDML
+     :                                          , 'kg/ha')
+
+            dummy = string_concat(g%solute_names(g%num_solutes),
+     :                            '_leach')
+            dummyID = add_registration_with_units(respondToGetReg
+     :                                          , dummy
+     :                                          , floatArrayTypeDDML
+     :                                          , 'kg/ha')
+
+            dummy = string_concat(g%solute_names(g%num_solutes),
+     :                            '_up')
+            dummyID = add_registration_with_units(respondToGetReg
+     :                                          , dummy
+     :                                          , floatArrayTypeDDML
+     :                                          , 'kg/ha')
+
+            dummy = string_concat('dlt_',
+     :                            g%solute_names(g%num_solutes))
+            dummyID = add_registration_with_units(setVariableReg
+     :                                          , dummy
+     :                                          , floatArrayTypeDDML
+     :                                          , 'kg/ha')
 
   100    continue
       endif
