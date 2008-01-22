@@ -89,7 +89,7 @@ bool ControlFileConverter::needsConversion(const std::string& fileName)
 // If callback is not null, then it will be called for every section
 // in con file being converter.
 //---------------------------------------------------------------------------
-void ControlFileConverter::convert(const string& fileName,
+bool ControlFileConverter::convert(const string& fileName,
                                    TControlFileConverterEvent callback) throw(runtime_error)
    {
    vector<string> scriptFileNames;
@@ -100,13 +100,16 @@ void ControlFileConverter::convert(const string& fileName,
    logPath.Set_extension(".conversions");
    log.open(logPath.Get_path().c_str());
 
+   bool somethingConverted = false;
    for (unsigned f = 0; f != scriptFileNames.size(); f++)
-      convert(fileName, scriptFileNames[f], callback);
+      somethingConverted = convert(fileName, scriptFileNames[f], callback)
+                           || somethingConverted;
 
    log.close();
 
    int apsimVersion = atof(getApsimVersion().c_str())*10;
    ApsimControlFile::setVersionNumber(fileName, apsimVersion);
+   return somethingConverted;
    }
 //---------------------------------------------------------------------------
 // convert the specified control file using the commands in the specified
@@ -249,9 +252,6 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
             ok = executeRemoveReportVariable(arguments) || ok;
          else if (routineName == "DeleteModule")
             ok = executeDeleteModule(arguments) || ok;
-
-         if (!ok)
-            return false;
          }
       }
    catch (const exception& err)

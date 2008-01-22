@@ -216,21 +216,23 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
       }
    }
 
-void ApsimRuns::convertFiles()
+bool ApsimRuns::convertFiles()
    //---------------------------------------------------------
    // This is only called by main program to call control file
    // converter on all simulations.
+   // Return true if something was converted.
    {
    ControlFileConverter converter;
 
+   bool somethingConverted = false;
    for (unsigned f = 0; f != fileNames.size(); f++)
       {
       try
          {
          if (fileExtension(fileNames[f]) == "con")
             {
-            converter.convert(fileNames[f],
-                               (TControlFileConverterEvent)NULL);
+            somethingConverted = converter.convert(fileNames[f], (TControlFileConverterEvent)NULL)
+                                 || somethingConverted;
             }
          }
       catch (const exception& err)
@@ -239,6 +241,7 @@ void ApsimRuns::convertFiles()
          log << err.what();
          }
       }
+   return somethingConverted;
    }
 
 

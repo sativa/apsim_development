@@ -59,8 +59,11 @@ void TRunForm::setup(ApsimRuns& apsimRuns, bool autoRun)
    runs->getFilesNeedingConversion(filesNeedingConversion);
    if (filesNeedingConversion.size() > 0)
       {
-      if (autoRun || runs->count() == 1)
+      if (autoRun)
+         {
          runs->convertFiles();
+         MainPanel->ActivePage = Page3;
+         }
       else
          {
          MainPanel->ActivePage = Page1;
@@ -74,7 +77,7 @@ void TRunForm::setup(ApsimRuns& apsimRuns, bool autoRun)
       }
 
    // Do we automatically start the simulations running?
-   if (autoRun || runs->count() == 1)
+   if (MainPanel->ActivePage == Page3 && (autoRun || runs->count() == 1))
       {
       MainPanel->ActivePage = Page3;
       populatePage3();
