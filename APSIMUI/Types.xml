@@ -2966,6 +2966,64 @@
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/input/docs/input_science.htm</Documentation>
    </input>
+   <ocean_data>
+      <UItype>APSIMUI.FileUI</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/input/docs/input_science.htm</Documentation>
+      <LargeIcon>Images\thermometer32.png</LargeIcon>
+      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="sst" description="Sea surface temperature anomaly (oC)"/>
+         <variable name="soi_index" description="SOI Index "/>
+         <variable name="soi_phase" description="SOI phase"/>
+         <variable name="epi" description="epi"/>
+         <variable name="soi_a" description="SOI average"/>
+         <variable name="nhi" description="nhi"/>
+         <variable name="qri" description="qri"/>
+         <variable name="swpi" description="swpi"/>
+         <variable name="bom_Pacific_SSTs" description="bom"/>
+
+      </variables>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\input\lib\input.dll</dll>
+      </ApsimToSim>
+   </ocean_data>
+   <gcm_data>
+      <UItype>APSIMUI.FileUI</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/input/docs/input_science.htm</Documentation>
+      <LargeIcon>Images\thermometer32.png</LargeIcon>
+      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables>
+         <variable name="cerfac" description="cerfac"/>
+         <variable name="ecmwf" description="ecmwfm"/>
+         <variable name="ingv" description="ingv"/>
+         <variable name="lodyc" description="lodyc"/>
+         <variable name="meteo" description="meteo"/>
+         <variable name="mpi" description="mpi"/>
+         <variable name="ukmet" description="ukmet"/>
+
+      </variables>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\input\lib\input.dll</dll>
+      </ApsimToSim>
+   </gcm_data>
    <map>
       <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>

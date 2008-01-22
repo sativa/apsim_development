@@ -7,9 +7,11 @@ Imports CSGeneral
 Public Class FileUI
     Inherits BaseView
     Private FileDateTime As DateTime
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents SearchButton As System.Windows.Forms.Button
-    Friend WithEvents SearchTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents BrowseButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripLabel1 As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents SearchTextBox As System.Windows.Forms.ToolStripTextBox
+    Friend WithEvents SearchButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Dim FullFileName As String
 
 #Region " Windows Form Designer generated code "
@@ -43,19 +45,18 @@ Public Class FileUI
     Friend WithEvents OpenFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents ImageList As System.Windows.Forms.ImageList
     Friend WithEvents FileContentsBox As System.Windows.Forms.RichTextBox
-    Friend WithEvents BrowseButton As System.Windows.Forms.ToolBarButton
-    Friend WithEvents BrowseToolBar As System.Windows.Forms.ToolBar
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FileUI))
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.FileContentsBox = New System.Windows.Forms.RichTextBox
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
-        Me.BrowseToolBar = New System.Windows.Forms.ToolBar
-        Me.BrowseButton = New System.Windows.Forms.ToolBarButton
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.SearchButton = New System.Windows.Forms.Button
-        Me.SearchTextBox = New System.Windows.Forms.TextBox
+        Me.BrowseButton = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel
+        Me.SearchTextBox = New System.Windows.Forms.ToolStripTextBox
+        Me.SearchButton = New System.Windows.Forms.ToolStripButton
+        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip
+        Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'ImageList
@@ -71,10 +72,10 @@ Public Class FileUI
         '
         Me.FileContentsBox.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FileContentsBox.Font = New System.Drawing.Font("Courier New", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FileContentsBox.Location = New System.Drawing.Point(0, 40)
+        Me.FileContentsBox.Location = New System.Drawing.Point(0, 43)
         Me.FileContentsBox.Name = "FileContentsBox"
         Me.FileContentsBox.ReadOnly = True
-        Me.FileContentsBox.Size = New System.Drawing.Size(794, 428)
+        Me.FileContentsBox.Size = New System.Drawing.Size(794, 425)
         Me.FileContentsBox.TabIndex = 3
         Me.FileContentsBox.Text = ""
         Me.FileContentsBox.WordWrap = False
@@ -83,73 +84,54 @@ Public Class FileUI
         '
         Me.OpenFileDialog.Filter = "All files|*.*"
         '
-        'BrowseToolBar
-        '
-        Me.BrowseToolBar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BrowseToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.BrowseToolBar.AutoSize = False
-        Me.BrowseToolBar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.BrowseToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.BrowseButton})
-        Me.BrowseToolBar.ButtonSize = New System.Drawing.Size(65, 20)
-        Me.BrowseToolBar.Divider = False
-        Me.BrowseToolBar.Dock = System.Windows.Forms.DockStyle.None
-        Me.BrowseToolBar.DropDownArrows = True
-        Me.BrowseToolBar.ImageList = Me.ImageList
-        Me.BrowseToolBar.Location = New System.Drawing.Point(708, 3)
-        Me.BrowseToolBar.Name = "BrowseToolBar"
-        Me.BrowseToolBar.ShowToolTips = True
-        Me.BrowseToolBar.Size = New System.Drawing.Size(80, 31)
-        Me.BrowseToolBar.TabIndex = 11
-        Me.BrowseToolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
-        Me.BrowseToolBar.Wrappable = False
-        '
         'BrowseButton
         '
-        Me.BrowseButton.ImageIndex = 0
+        Me.BrowseButton.Image = CType(resources.GetObject("BrowseButton.Image"), System.Drawing.Image)
+        Me.BrowseButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BrowseButton.Name = "BrowseButton"
+        Me.BrowseButton.Size = New System.Drawing.Size(70, 22)
         Me.BrowseButton.Text = "Browse"
         '
-        'Label1
+        'ToolStripLabel1
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.BackColor = System.Drawing.SystemColors.Info
-        Me.Label1.Location = New System.Drawing.Point(469, 5)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(44, 13)
-        Me.Label1.TabIndex = 13
-        Me.Label1.Text = "Search:"
-        '
-        'SearchButton
-        '
-        Me.SearchButton.FlatAppearance.BorderSize = 0
-        Me.SearchButton.Image = Global.APSIMUI.My.Resources.Resources.text
-        Me.SearchButton.Location = New System.Drawing.Point(625, 2)
-        Me.SearchButton.Name = "SearchButton"
-        Me.SearchButton.Size = New System.Drawing.Size(24, 21)
-        Me.SearchButton.TabIndex = 14
-        Me.SearchButton.UseVisualStyleBackColor = True
+        Me.ToolStripLabel1.Name = "ToolStripLabel1"
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(53, 22)
+        Me.ToolStripLabel1.Text = "Search:"
         '
         'SearchTextBox
         '
-        Me.SearchTextBox.Location = New System.Drawing.Point(519, 2)
         Me.SearchTextBox.Name = "SearchTextBox"
-        Me.SearchTextBox.Size = New System.Drawing.Size(100, 20)
-        Me.SearchTextBox.TabIndex = 15
+        Me.SearchTextBox.Size = New System.Drawing.Size(100, 25)
+        '
+        'SearchButton
+        '
+        Me.SearchButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.SearchButton.Image = CType(resources.GetObject("SearchButton.Image"), System.Drawing.Image)
+        Me.SearchButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.SearchButton.Name = "SearchButton"
+        Me.SearchButton.Size = New System.Drawing.Size(23, 22)
+        Me.SearchButton.Text = "ToolStripButton1"
+        '
+        'ToolStrip1
+        '
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BrowseButton, Me.ToolStripLabel1, Me.SearchTextBox, Me.SearchButton})
+        Me.ToolStrip1.Location = New System.Drawing.Point(0, 18)
+        Me.ToolStrip1.Name = "ToolStrip1"
+        Me.ToolStrip1.ShowItemToolTips = False
+        Me.ToolStrip1.Size = New System.Drawing.Size(794, 25)
+        Me.ToolStrip1.TabIndex = 16
+        Me.ToolStrip1.Text = "ToolStrip1"
         '
         'FileUI
         '
-        Me.Controls.Add(Me.SearchTextBox)
-        Me.Controls.Add(Me.SearchButton)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.BrowseToolBar)
         Me.Controls.Add(Me.FileContentsBox)
+        Me.Controls.Add(Me.ToolStrip1)
         Me.Name = "FileUI"
         Me.Size = New System.Drawing.Size(794, 468)
+        Me.Controls.SetChildIndex(Me.ToolStrip1, 0)
         Me.Controls.SetChildIndex(Me.FileContentsBox, 0)
-        Me.Controls.SetChildIndex(Me.BrowseToolBar, 0)
-        Me.Controls.SetChildIndex(Me.Label1, 0)
-        Me.Controls.SetChildIndex(Me.SearchButton, 0)
-        Me.Controls.SetChildIndex(Me.SearchTextBox, 0)
+        Me.ToolStrip1.ResumeLayout(False)
+        Me.ToolStrip1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -169,21 +151,19 @@ Public Class FileUI
             FileContentsBox.ReadOnly = True
         Else
             FileName = XmlHelper.Value(Data, "filename")
-            If XmlHelper.Type(Data) = "ini" Then
-                FileContentsBox.ReadOnly = False
-            Else
-                FileContentsBox.ReadOnly = True
-            End If
+            FileContentsBox.ReadOnly = False
         End If
 
+        HelpText = FileName
+
+        FullFileName = FileName.Replace("%apsuite", APSIMSettings.ApsimDirectory)
         ' Add a path to filename if necessary.
         If Controller.ApsimData.FileName <> "" Then
-            FullFileName = Path.Combine(Path.GetDirectoryName(Controller.ApsimData.FileName), FileName)
+            FullFileName = Path.Combine(Path.GetDirectoryName(Controller.ApsimData.FileName), FullFileName)
         Else
-            FullFileName = FileName
+            FullFileName = FullFileName
         End If
 
-        HelpText = FullFileName
         If File.Exists(FullFileName) Then
             Dim text As String
             Dim sr As StreamReader
@@ -212,17 +192,20 @@ Public Class FileUI
             End If
         End While
 
-        BrowseToolBar.Visible = (XmlHelper.Type(Data) <> "outputfile" And XmlHelper.Type(Data) <> "summaryfile")
+        BrowseButton.Visible = (XmlHelper.Type(Data) <> "outputfile" And XmlHelper.Type(Data) <> "summaryfile")
     End Sub
 
 
-    Private Sub ToolBar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles BrowseToolBar.ButtonClick
+    Private Sub OnBrowseClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BrowseButton.Click
         ' ----------------------------------------------
         ' User has clicked on browse button
         ' ----------------------------------------------
         If OpenFileDialog.ShowDialog() = DialogResult.OK Then
             HelpText = OpenFileDialog.FileName
-            XmlHelper.SetValue(Data, "filename", OpenFileDialog.FileName)
+            Dim FileName As String = OpenFileDialog.FileName
+            FileName = FileName.Replace(Path.GetDirectoryName(Controller.ApsimData.FileName) + "\", "")
+            FileName = FileName.Replace(APSIMSettings.ApsimDirectory, "%apsuite")
+            XmlHelper.SetValue(Data, "filename", FileName)
             Me.OnRefresh()
         End If
     End Sub
@@ -235,11 +218,8 @@ Public Class FileUI
     End Sub
 
     Public Overrides Sub OnSave()
-        If XmlHelper.Type(Data) = "ini" Then
-            Dim FileName As String = XmlHelper.Value(Data, "filename")
-            If FileName <> "" Then
-                FileContentsBox.SaveFile(FileName, RichTextBoxStreamType.PlainText)
-            End If
+        If Not FileContentsBox.ReadOnly Then
+            FileContentsBox.SaveFile(FullFileName, RichTextBoxStreamType.PlainText)
         End If
     End Sub
 
@@ -261,13 +241,17 @@ Public Class FileUI
         End If
     End Sub
 
-    Private Sub FileContentsBox_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles FileContentsBox.KeyDown, SearchTextBox.KeyDown
-        If e.KeyCode.Equals(Keys.F3) Or e.KeyCode.Equals(Keys.Return) Then
+    Private Sub FileContentsBox_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles FileContentsBox.KeyDown
+        If e.KeyCode.Equals(Keys.F3) Then
             SearchString(SearchTextBox.Text)
         End If
     End Sub
 
-    Private Sub SearchTextBox_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchTextBox.TextChanged
+
+    Private Sub OnSearchBoxKeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles SearchTextBox.KeyDown
+        If e.KeyCode.Equals(Keys.F3) Or e.KeyCode.Equals(Keys.Return) Then
+            SearchString(SearchTextBox.Text)
+        End If
 
     End Sub
 End Class
