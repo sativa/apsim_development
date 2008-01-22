@@ -263,6 +263,12 @@
       <c_interception name="c_interception">0.0</c_interception>
       <d_interception name="d_interception">0.0</d_interception>
     </micromet>
+    <Ocean_data name="Ocean_data">
+      <filename name="filename">%apsuite\soi\ocean_data.dat</filename>
+    </Ocean_data>
+    <gcm_data name="gcm_data">
+      <filename name="filename">%apsuite\soi\gcm_data.dat</filename>
+    </gcm_data>
   </folder>
   <folder name="Management">
     <YPCalc />
