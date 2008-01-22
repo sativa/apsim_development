@@ -13,6 +13,7 @@
 #include <dir.h>
 #include <general\xml.h>
 #include <ApsimShared\ApsimDirectories.h>
+#include "DataContainer.h"
 using namespace std;
 
 // ------------------------------------------------------------------
@@ -97,10 +98,10 @@ int readApsimHeader(istream& in,
 //---------------------------------------------------------------------------
 // Get a list of file names for this reader - takes care of filespecs.
 //---------------------------------------------------------------------------
-vector<string> getFileNames(const XMLNode& properties)
+vector<string> getFileNames(DataContainer& parent, const XMLNode& properties)
    {
    vector<string> fileNames;
-   vector<string> fileSpecs = properties.childValues("filename");
+   vector<string> fileSpecs = parent.reads(properties, "filename");
    for (unsigned i = 0; i != fileSpecs.size(); i++)
       {
       if (fileSpecs[i].find('*') == string::npos &&
@@ -132,7 +133,7 @@ void processApsimFileReader(DataContainer& parent,
                             const XMLNode& properties,
                             TDataSet& result)
    {
-   vector<string> fileNames = getFileNames(properties);
+   vector<string> fileNames = getFileNames(parent, properties);
 
    // Read all headings.
    result.Active = false;

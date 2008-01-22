@@ -82,6 +82,8 @@
                <get name="met_end_date" type="integer4"/>
                <get name="met_start_date_string" type="string"/>
                <get name="met_end_date_string" type="string"/>
+               <get name="simulation_start_date" type="string"/>
+               <get name="simulation_end_date" type="string"/>
       
                <respondToGet name="plant2stock" array="F" type="plant2stock" />
                <respondToGet name="streamflow" type="single"/>
@@ -218,7 +220,7 @@
       <SmallIcon>%apsuite\apsimui\Images\document_edit16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
- 			<drop name="area"/>
+         <drop name="area"/>
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
@@ -1354,7 +1356,7 @@
          </calldll>
       </ApsimToSim>
    </canola>
-	<centro>
+   <centro>
       <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -2823,7 +2825,7 @@
       </ApsimToSim>
    </wheat>
 
-	<oats>
+   <oats>
       <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -3873,40 +3875,40 @@
       <SmallIcon>%apsuite\apsimui\Images\note_pinned16.png</SmallIcon>
       <drops>
         <drop name="barley" />
-    	<drop name="bambatsi" />
-    	<drop name="broccoli" />
-    	<drop name="butterflypea" />
-    	<drop name="canola" />
-    	<drop name="chickpea" />
-    	<drop name="cowpea" />
-    	<drop name="egrandis" />
-    	<drop name="fababean" />
-    	<drop name="fieldpea" />
-    	<drop name="horsegram" />
-    	<drop name="lablab" />
-    	<drop name="lucerne" />
-    	<drop name="lupin" />
-    	<drop name="maize" />
-    	<drop name="mucuna" />
-    	<drop name="mungbean" />
-    	<drop name="navybean" />
-    	<drop name="oats" />
-    	<drop name="peanut" />
-    	<drop name="pigeonp" />
-    	<drop name="sorghum" />
-    	<drop name="soybean" />
-    	<drop name="stylo" />
-    	<drop name="sugar" />
-    	<drop name="sunflower" />
-    	<drop name="SweetCorn" />
-    	<drop name="SweetSorghum" />
-    	<drop name="weed" />
-    	<drop name="wheat" />
-    	<drop name="cotton" />
-    	<drop name="rice"/>
+      <drop name="bambatsi" />
+      <drop name="broccoli" />
+      <drop name="butterflypea" />
+      <drop name="canola" />
+      <drop name="chickpea" />
+      <drop name="cowpea" />
+      <drop name="egrandis" />
+      <drop name="fababean" />
+      <drop name="fieldpea" />
+      <drop name="horsegram" />
+      <drop name="lablab" />
+      <drop name="lucerne" />
+      <drop name="lupin" />
+      <drop name="maize" />
+      <drop name="mucuna" />
+      <drop name="mungbean" />
+      <drop name="navybean" />
+      <drop name="oats" />
+      <drop name="peanut" />
+      <drop name="pigeonp" />
+      <drop name="sorghum" />
+      <drop name="soybean" />
+      <drop name="stylo" />
+      <drop name="sugar" />
+      <drop name="sunflower" />
+      <drop name="SweetCorn" />
+      <drop name="SweetSorghum" />
+      <drop name="weed" />
+      <drop name="wheat" />
+      <drop name="cotton" />
+      <drop name="rice"/>
       <drop name="seedling"/>
-    	<drop name="surfaceom"/>
-    	<drop name="venlink"/>
+      <drop name="surfaceom"/>
+      <drop name="venlink"/>
       </drops>
    </ini>
    <patchinput>
@@ -4152,7 +4154,7 @@
          <drop name="excelreader"/>
      </drops>
    </Stats>
-   <SOI>
+   <SOIData>
       <UItype>Graph.SOIUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
       <ShowInData>Yes</ShowInData>
@@ -4165,7 +4167,7 @@
          <drop name="rems"/>
          <drop name="excelreader"/>
      </drops>
-   </SOI>   
+   </SOIData>   
    <RecordFilter>
       <UItype>Graph.RecordFilterUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>

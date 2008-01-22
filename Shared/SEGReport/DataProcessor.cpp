@@ -60,7 +60,7 @@ void processData(DataContainer& parent, const std::string& xml, TDataSet& result
       processREMS(parent, doc.documentElement(), result);
    else if (Str_i_Eq(type, "Regression"))
       processRegression(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "SOI"))
+   else if (Str_i_Eq(type, "SOIData"))
       processSOI(parent, doc.documentElement(), result);
    else if (Str_i_Eq(type, "Stats"))
       processStats(parent, doc.documentElement(), result);

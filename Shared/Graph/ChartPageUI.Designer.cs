@@ -50,6 +50,7 @@ namespace Graph
             // 
             // ChartPageUI
             // 
+            this.AutoScroll = false;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ContextMenuStrip = this.PopupMenu;
             this.Name = "ChartPageUI";

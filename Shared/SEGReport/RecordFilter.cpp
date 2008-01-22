@@ -19,16 +19,16 @@ void processRecordFilter(DataContainer& parent,
    {
    result.Active = false;
    result.FieldDefs->Clear();
-   TDataSet* source = parent.data(properties.childValue("source"));
+   TDataSet* source = parent.data(parent.read(properties, "source"));
 
    if (source != NULL && source->Active)
       {
       result.FieldDefs->Assign(source->FieldDefs);
       result.Active = true;
 
-      bool firstRecord = Str_i_Eq(properties.childValue("firstRecord"), "yes");
-      bool lastRecord = Str_i_Eq(properties.childValue("lastRecord"), "yes");
-      int recordNumber = atoi(properties.childValue("RecordNumber").c_str());
+      bool firstRecord = Str_i_Eq(parent.read(properties, "firstRecord"), "yes");
+      bool lastRecord = Str_i_Eq(parent.read(properties, "lastRecord"), "yes");
+      int recordNumber = atoi(parent.read(properties, "RecordNumber").c_str());
 
       // loop through all records.
       source->First();

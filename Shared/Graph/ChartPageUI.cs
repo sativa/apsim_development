@@ -102,7 +102,6 @@ namespace Graph
             foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
                 Add(Child);
             }
-
         private void Add(XmlNode NewComponent)
             {
             BaseView View = null;
@@ -156,6 +155,7 @@ namespace Graph
                 XmlHelper.SetAttribute(Data, "Width", Width.ToString());
                 XmlHelper.SetAttribute(Data, "Height", Height.ToString());
                 XmlDocument Doc = new XmlDocument();
+                int MinimumTop = 1000;
                 foreach (Control ViewControl in Controls)
                     {
                     if (ViewControl is BaseView)
@@ -168,6 +168,25 @@ namespace Graph
                         XmlHelper.SetAttribute(ChildNode, "Top", View.Top.ToString());
                         XmlHelper.SetAttribute(ChildNode, "Width", View.Width.ToString());
                         XmlHelper.SetAttribute(ChildNode, "Height", View.Height.ToString());
+                        MinimumTop = Math.Min(MinimumTop, View.Top);
+                        }
+                    }
+
+                // There seems to be a bug in studio where if the user scrolls vertically down
+                // the page while in edit mode and then exits edit mode, the Top positions of
+                // all controls end up being negative. The code below simply corrects the problem
+                // by correcting all control's Top location.
+                if (MinimumTop < 0)
+                    {
+                    foreach (Control ViewControl in Controls)
+                        {
+                        if (ViewControl is BaseView)
+                            {
+                            BaseView View = (BaseView)ViewControl;
+                            ViewControl.Top = ViewControl.Top - MinimumTop + 10;  // an extra 10 pixels down.
+                            XmlNode ChildNode = XmlHelper.Find(Data, ViewControl.Name);
+                            XmlHelper.SetAttribute(ChildNode, "Top", ViewControl.Top.ToString());
+                            }
                         }
                     }
                 }
@@ -325,6 +344,19 @@ namespace Graph
 
             Toolbox.Visible = false;
             Invalidate();
+            }
+
+        private Control FindWindow(Control ctrl, string ControlName)
+            {
+            if (ctrl.Text == ControlName)
+                return ctrl;
+            foreach (Control Child in ctrl.Controls)
+                {
+                Control F = FindWindow(Child, ControlName);
+                if (F != null)
+                    return F;
+                }
+            return null;
             }
         private void OnArrowClick(object sender, EventArgs e)
             {

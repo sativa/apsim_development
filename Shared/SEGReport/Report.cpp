@@ -268,7 +268,7 @@ void Report::loadFromContents(const string& contents, bool quiet)
       }
 
    showPage(0);
-   refresh(quiet);
+   refreshIfNecessary(quiet);
    isDirty = false;
    }
 
@@ -668,6 +668,30 @@ void Report::print(bool currentPageOnly)
 // Refresh the report
 //---------------------------------------------------------------------------
 void Report::refresh(bool quiet)
+   {
+   TCursor savedCursor = Screen->Cursor;
+   Screen->Cursor = crHourGlass;
+   try
+      {
+      data->refresh();
+      refreshAllPages();
+      }
+   catch (Exception* err)
+      {
+      MessageBox(NULL, err->Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
+      }
+   catch (exception& err)
+      {
+      MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
+      }
+
+   Screen->Cursor = savedCursor;
+   }
+
+//---------------------------------------------------------------------------
+// Refresh the report
+//---------------------------------------------------------------------------
+void Report::refreshIfNecessary(bool quiet)
    {
    TCursor savedCursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
@@ -1170,6 +1194,22 @@ void Report::nestAllObjectsUsingSource(XMLDocument& doc)
       }
    }
 
+void replaceFileContents(const std::string& fileName,
+                         const std::string& oldText,
+                         const std::string& newText)
+   {
+   ifstream in (fileName.c_str());
+   ostringstream contentsBuffer;
+   contentsBuffer << in.rdbuf();
+   in.close();
+   string contents = contentsBuffer.str();
+   replaceAll(contents, oldText, "~~~~");
+   replaceAll(contents, "~~~~", newText);
+   ofstream out(fileName.c_str());
+   out << contents;
+   out.close();
+   }
+
 //---------------------------------------------------------------------------
 // Version 4 to 5 - Flatten out the children of data so that they are all
 // the same level i.e. they are a child of "<Data>"
@@ -1189,11 +1229,13 @@ void Report::convertVersion4To5(ifstream& in, const std::string& fileName)
                                          "KWTest",
                                          "REMS",
                                          "Regression",
-                                         "SOI",
+                                         "SOIData",
                                          "Stats",
                                          "RecordFilter"};
    vector<string> validNames(Names, Names + MAXNAMES);
    in.close();
+   replaceFileContents(fileName, "<SOI", "<SOIData");
+   replaceFileContents(fileName, "</SOI>", "</SOIData>");
    XMLDocument doc(fileName);
    XMLNode::iterator data = find_if(doc.documentElement().begin(), doc.documentElement().end(),
                                     EqualToName<XMLNode>("Data"));

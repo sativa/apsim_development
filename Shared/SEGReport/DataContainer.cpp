@@ -11,6 +11,7 @@
 #include <kbmmemtable.hpp>
 #include <DBAdvgrd.hpp>
 #include "TGridForm.h"
+#include "ReportMacros.h"
 
 //---------------------------------------------------------------------------
 // constructor
@@ -301,6 +302,29 @@ std::vector<std::string> DataContainer::childNames()
       names.push_back(children[i].name);
    return names;
    }
+
+//---------------------------------------------------------------------------
+// Free standing routine to read a parameter and replace any macros.
+//---------------------------------------------------------------------------
+std::string DataContainer::read(const XMLNode& properties, const std::string& propertyName)
+   {
+   vector<string> values = reads(properties, propertyName);
+   if (values.size() >= 1)
+      return values[0];
+   return "";
+   }
+
+//---------------------------------------------------------------------------
+// Free standing routine to read parameter(s) and replace any macros.
+//---------------------------------------------------------------------------
+std::vector<std::string> DataContainer::reads(const XMLNode& properties, const std::string& propertyName)
+   {
+   vector<string> values = properties.childValues(propertyName);
+   for (unsigned i = 0; i != values.size(); i++)
+      values[i] = ReportMacros::resolve(owner, values[i]);
+   return values;
+   }
+
 
 
 #define BEGINSAFE   TCursor savedCursor = Screen->Cursor;  \
@@ -599,4 +623,6 @@ extern "C" void _export __stdcall REMSTreatmentNames(DataContainer* container,
       }
    ENDSAFE;
    }
+
+
 

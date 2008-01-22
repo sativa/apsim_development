@@ -13,7 +13,7 @@ namespace Graph
     {
     public partial class DataGridUI : BaseView
         {
-        private uint DataWindow;
+        private uint DataWindow = 0;
         private ChartPageUI ParentUI;
 
         public DataGridUI()
@@ -24,7 +24,8 @@ namespace Graph
         protected override void OnLoad()
             {
             ParentUI = (ChartPageUI)Parent;
-            DataWindow = ParentUI.Processor.CreateDataWindow(Handle);
+            if (DataWindow == 0)
+                DataWindow = ParentUI.Processor.CreateDataWindow(Handle);
             }
 
         public override void OnRefresh()
@@ -40,7 +41,8 @@ namespace Graph
 
         public override void OnClose()
             {
-            ParentUI.Processor.DeleteDataWindow(DataWindow);
+            if (DataWindow != 0)
+                ParentUI.Processor.DeleteDataWindow(DataWindow);
             }
 
         private void OnResize(object sender, EventArgs e)

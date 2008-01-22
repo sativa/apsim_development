@@ -20,9 +20,9 @@ void processRegression(DataContainer& parent,
    result.Active = false;
    result.FieldDefs->Clear();
 
-   string XFieldName = properties.childValue("XFieldName");
-   string YFieldName = properties.childValue("YFieldName");
-   TDataSet* source = parent.data(properties.childValue("source"));
+   string XFieldName = parent.read(properties, "XFieldName");
+   string YFieldName = parent.read(properties, "YFieldName");
+   TDataSet* source = parent.data(parent.read(properties, "source"));
    if (XFieldName != "" && YFieldName != "" && source != NULL && source->Active)
       {
       addDBField(&result, "RegrX", "1.0");

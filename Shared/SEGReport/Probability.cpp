@@ -19,9 +19,9 @@ void processProbability(DataContainer& parent,
                         const XMLNode& properties,
                         TDataSet& result)
    {
-   vector<string> fieldNames = properties.childValues("fieldname");
-   bool exceedence = Str_i_Eq(properties.childValue("exceedence"), "yes");
-   TDataSet* source = parent.data(properties.childValue("source"));
+   vector<string> fieldNames = parent.reads(properties, "fieldname");
+   bool exceedence = Str_i_Eq(parent.read(properties, "exceedence"), "yes");
+   TDataSet* source = parent.data(parent.read(properties, "source"));
    if (source != NULL && source->Active)
       {
       result.Active = false;

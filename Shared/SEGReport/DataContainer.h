@@ -38,6 +38,12 @@ class DataContainer
       // Rename node
       void rename(const std::string& name, const std::string& newName);
 
+      // Read property values from an XMLNode. It replaces any macros found.
+      std::string              read(const XMLNode& properties,
+                                    const std::string& propertyName);
+      std::vector<std::string> reads(const XMLNode& properties,
+                                     const std::string& propertyName);
+
       // Go set the properties for an existing node.
       void set(const XMLNode& properties);
 
@@ -69,4 +75,7 @@ class DataContainer
       void save(string& st, int level);
 
    };
+
+
+
 #endif

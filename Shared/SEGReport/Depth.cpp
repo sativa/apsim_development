@@ -54,7 +54,7 @@ void processDepth(DataContainer& parent,
    {
    result.Active = false;
    result.FieldDefs->Clear();
-   TDataSet* source = parent.data(properties.childValue("source"));
+   TDataSet* source = parent.data(parent.read(properties, "source"));
    if (source != NULL && source->Active)
       {
       vector<string> variableNames;

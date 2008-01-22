@@ -29,24 +29,18 @@ namespace Graph
 
             FileNameEdit.TextChanged -= OnFileNameChanged;
             MonthDropDown.TextChanged -= OnMonthChanged;
-            PhaseList.ItemCheck -= OnPhaseItemCheck;
+            PhaseList.CellChanged -= OnPhaseChanged;
 
             FileNameEdit.Text = XmlHelper.Value(Data, "FileName");
             MonthDropDown.Text = XmlHelper.Value(Data, "Month");
 
+            int Row = 0;
             foreach (string PhaseName in XmlHelper.Values(Data, "Phase"))
-                {
-                int Index = PhaseList.Items.IndexOf(PhaseName);
-                if (Index == -1)
-                    Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "Phase", PhaseName));
-                else
-                    PhaseList.SetItemChecked(Index, true);
-                }
-
+                PhaseList.Cells[Row, 0].Text = PhaseName;
 
             FileNameEdit.TextChanged += OnFileNameChanged;
             MonthDropDown.TextChanged += OnMonthChanged;
-            PhaseList.ItemCheck += OnPhaseItemCheck;
+            PhaseList.CellChanged += OnPhaseChanged;
             }
 
         private void OnFileNameChanged(object sender, EventArgs e)
@@ -55,16 +49,11 @@ namespace Graph
             PublishViewChanged();
             }
 
-        private void OnPhaseItemCheck(object sender, ItemCheckEventArgs e)
+        private void OnPhaseChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
             {
-            if (e.NewValue == CheckState.Checked)
-                {
-                XmlNode NewPhase = XmlHelper.CreateNode(Data.OwnerDocument, "Phase", "");
-                NewPhase.InnerText = PhaseList.Items[e.Index].ToString();
-                Data.AppendChild(NewPhase);
-                }
-            else
-                Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "Phase", PhaseList.Items[e.Index].ToString()));
+            int NumPhases = GridUtils.FindFirstBlankCell(PhaseList, 0);
+            List<string> Phases = new List<string>(GridUtils.GetColumnAsStrings(PhaseList, 0, NumPhases));
+            XmlHelper.SetValues(Data, "Phases", Phases);
             PublishViewChanged();
             }
 
@@ -72,7 +61,8 @@ namespace Graph
             {
             XmlHelper.SetValue(Data, "Month", MonthDropDown.Text);
             PublishViewChanged();
-            }        
+            }
+      
         }
     }
 
