@@ -25,7 +25,7 @@ class __declspec(dllexport) ControlFileConverter
       // If callback is not null, then it will be called for every section
       // in con file being converter.
       //---------------------------------------------------------------------------
-      void convert(const string& fileName,
+      bool convert(const string& fileName,
                    TControlFileConverterEvent callback) throw(runtime_error);
 
       //---------------------------------------------------------------------------

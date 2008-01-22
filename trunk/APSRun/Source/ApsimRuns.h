@@ -53,7 +53,7 @@ class ApsimRuns
       //---------------------------------------------------------------------------
       // Convert all Apsim runs if necessary.
       //---------------------------------------------------------------------------
-      void convertFiles();
+      bool convertFiles();
 
       // ---------------------
       // Set .sim file format
