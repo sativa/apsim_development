@@ -729,15 +729,14 @@ IniFile* ApsimControlFile::getParFile(const std::string& parFileName, bool check
       throw runtime_error("The control file has referenced a non-existant file.\n"
                           "File = " + filePath);
 
-   if (!fileExtensionEquals(filePath, "met") &&
+   if (iniToReturn == NULL &&
+       !fileExtensionEquals(filePath, "met") &&
        !fileExtensionEquals(filePath, "soi"))
       {
       IniFile* par = new IniFile(filePath, true);
       openedParFiles.push_back(par);
       iniToReturn = par;
       }
-   else
-      iniToReturn = NULL;
 
    return iniToReturn;
    }
