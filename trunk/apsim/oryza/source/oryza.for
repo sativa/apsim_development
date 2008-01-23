@@ -251,7 +251,7 @@
          
          LOGICAL GRAINS            ! Logical parameter indicating whether grains are formed   !- 
          LOGICAL TESTL             !Logical variable to indicate whether the difference between simulated and imposed SLA is smaller than TESTSET  !-
-         character*50 eo_source    ! system variable name of external eo source
+                       
       end type oryzaGlobals
 ! ===================================================================
       type oryzaParameters
@@ -833,9 +833,6 @@
       character*(*) myname                 ! Name of this procedure
       parameter (myname = 'oryza_init')
 
-      character section_name*(*)
-      parameter (section_name = 'parameters')
-
 *+  Local variables
       Integer I,num_layers, numvals
       REAL zrti
@@ -886,16 +883,6 @@
         call write_string('Non - limiting Soil Nitrogen conditions')
       else
         p%nitroenv=env_limited 
-      endif
-
-      call read_char_var_optional (section_name
-     :                   ,'eo_source', '()'
-     :                   , g%eo_source
-     :                   , numvals)
-      if (numvals .le. 0) then
-          g%eo_source = ' '
-      else
-          call write_string('Eo taken from '//g%eo_source)
       endif
       
       call pop_routine (myname)
@@ -1235,8 +1222,6 @@
       p%WSTI  =0.0
       p%WRTI  =0.0
 
-      g%eo_source = ' '
-
       call pop_routine (myname)
       return
       end subroutine
@@ -1291,83 +1276,85 @@
      :              ,p%crop_type)      ! variable
        
       elseif (variable_name .eq. 'lrstrs') then
-
+!              drought stress factor causing leaf rolling
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%lrstrs)         ! variable
        
       elseif (variable_name .eq. 'ldstrs') then
-
+!              drought stress factor accelerating leaf death
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%ldstrs)         ! variable
      
       elseif (variable_name .eq. 'lestrs') then
-
+!              drought stress reducing leaf expansion
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%lestrs)         ! variable
       
       elseif (variable_name .eq. 'pcew') then
-
+!             Effect of drought stress on daily total gross CO2 assimilation of crop; 
+!             reduction in potential transpiration rate
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%pcew)         ! variable
       
       elseif (variable_name .eq. 'nflv') then
-
+!             Nitrogen fraction in leaves on leaf area basis
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%nflv)         ! variable
       
       elseif (variable_name .eq. 'fnlv') then
-
+!             Fraction of N in leaves on weight basis
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%fnlv)         ! variable
       
       elseif (variable_name .eq. 'nacr') then
-
+!             Actual nitrogen uptake rate by crop (kg N ha-1 d-1)
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%nacr)         ! variable
       
       elseif (variable_name .eq. 'tnsoil') then
-
+!             Daily amount of N available for uptake from soil (kg N ha-1 d-1)
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%tnsoil)         ! variable
       
       elseif (variable_name .eq. 'wso') then
-
+!             Dry weight of storage organs (kg/ha)
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%wso)         ! variable
       
       elseif (variable_name .eq. 'wst') then
-
+!             Dry weight of stems  (kg/ha)
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%wst)         ! variable
       
       elseif (variable_name .eq. 'ancr') then
-
+!             Amount of N in crop (live and dead material)(kg N/ha)
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%ancr)         ! variable
       
       elseif (variable_name .eq. 'anso') then
+!             Amount of N in storage organs 
 
          call respond2get_real_var (
      :               variable_name    ! variable name
@@ -1375,56 +1362,56 @@
      :              ,g%anso)         ! variable
       
       elseif (variable_name .eq. 'wagt') then
-
+!             Total aboveground dry matter (kg/ha)
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%wagt)         ! variable
            
       elseif (variable_name .eq. 'rnstrs') then
-
+!             Reduction factor on relative leaf growth rate caused by N stress
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%rnstrs)         ! variable
      
       elseif (variable_name .eq. 'anlv') then
-
+!              Amount of N in leaves (kg/ha)
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%anlv)         ! variable
       
       elseif (variable_name .eq. 'wlvg') then
-
+!             Dry weight of green leaves  (kg/ha)
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%wlvg)         ! variable
       
       elseif (variable_name .eq. 'wlvd') then
-
+!             Dry weight of dead leaves (kg/ha)
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%wlvd)         ! variable
       
       elseif (variable_name .eq. 'dtga') then
-
+!             Daily total gross CO2 assimilation of crop  (kg CO2 ha-1 d-1)
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%dtga)         ! variable
       
       elseif (variable_name .eq. 'dvs') then
-
+!             Development stage of crop 
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%dvs)         ! variable
       
       elseif (variable_name .eq. 'eff') then
-
+!  
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
@@ -2534,15 +2521,9 @@
           g%TNSOIL = 10000.0
       endif
 
-      if (g%eo_source .ne. ' ') then
-         call get_real_var (unknown_module, g%eo_source, '(mm)'
-     :                                , g%etd, numvals
-     :                                , 0.0, 100.0)
-      else
-         call get_real_var (unknown_module, 'eo', '(mm)'
+      call get_real_var (unknown_module, 'eo', '(mm/day)'
      :                                  , g%etd, numvals
      :                                  , 0.0, 500.0)
-      endif
 
       call get_real_var_optional (unknown_module
      :                           , 'co2', '()'
@@ -3833,7 +3814,7 @@
      :      new_line, ' CKCIN=',g%CKCIN,
      :      new_line, ' CKCFL=',g%CKCFL
 
-         call fatal_error(err_user, string)
+!         call fatal_error(err_user, string)
       END IF
           
       RETURN
