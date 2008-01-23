@@ -5,13 +5,6 @@ outputfile =oryza-wl.out
 [wnl.report.parameters]
 outputfile =oryza-wnl.out
 
-[fp.SummaryFile.parameters]
-summaryfile =oryza-fp.sum
-[wl.SummaryFile.parameters]
-summaryfile =oryza-wl.sum
-[wnl.SummaryFile.parameters]
-summaryfile =oryza-wnl.sum
-
 [sample.report.parameters]
 variable = clock.year
 variable = clock.day
@@ -55,19 +48,29 @@ variable = oryza.etd             ! Reference evapotranspiration (mm d-1)
 variable = oryza.etrd            ! Radiation-driven part of reference evapotranspiration rate  !mm d-1 
 variable = oryza.etae            ! Dryness-driven part of reference evapotranspiration rate  !mm d-1 
 variable = oryza.trc             ! Potential transpiration rate of crop with given LAI  !mm d-1
+variable = oryza.rlv
+variable = oryza.root_weight_layer
+variable = oryza.sw_demand
+variable = oryza.no3_demand
+variable = oryza.zrt
+variable = oryza.wrt
+variable = oryza.zll
+variable = oryza.wrr
+variable = oryza.wlv
+variable = oryza.wagt
 
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
-start_date=1/1/1992
-end_date=31/12/1992
+start_date=1/10/1990
+end_date=31/12/1994
 
 [sample.manager.start_of_day]
-if (day = 4) then
-  oryza sow cultivar = IR72, establishment_section = transplanted
+if (day = 288) then
+  oryza sow cultivar = experimental, establishment_section = direct-seed
 endif
 
-if (day = 165) then
-  oryza sow cultivar = IR72, establishment_section = transplanted
+if oryza.plant_status = 'alive' then
+   irrigate apply amount = 50
 endif
 
 [sample.manager.end_of_day]
@@ -78,17 +81,17 @@ endif
 report do_output
 
 
-[potential.oryza.parameters]
-eo_source = eo.eo_transp
+[sample.oryza.direct-seed]
+estab = direct-seed  ! direct-seed !rice establishment method
+sbdur = 50          ! duration of seed on bed (day)
+NPLH   = 10.         ! Number of plants per hill 
+NH     = 2.        ! Number of hills
+nplsb  = 250.      ! Number of plants in seed-bed 
+nplds  = 180.       ! Number of plants/m2 direct-seeded
 
-[sample.oryza.transplanted]
-estab = transplant  ! direct-seed !rice establishment method
-sbdur = 12          ! duration of seed on bed (day)
-NPLH   = 5.         ! Number of plants per hill 
-NH     = 25.        ! Number of hills
-nplsb  = 1000.      ! Number of plants in seed-bed 
-nplds  = 200.       ! Number of plants/m2 direct-seeded
 
+[sample.Screen.parameters]
+screen_output = on
 
 [sample.micromet.parameters]
 soil_albedo = 0.23
