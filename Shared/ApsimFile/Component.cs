@@ -383,7 +383,10 @@ namespace ApsimFile
             XmlDocument Doc = new XmlDocument();
             Doc.AppendChild(Doc.CreateElement(Type));
             Write(Doc.DocumentElement);
-            return Parent.Add(Doc.DocumentElement.OuterXml);
+            if (XmlHelper.Attribute(Doc.DocumentElement, "shortcut") == "")
+                return Parent.Add(Doc.DocumentElement.OuterXml);
+            else
+                return Parent.AddShortCut(ComponentToDuplicate);
             }
         private void ChildNodesRecursively(List<Component> AllChildNodes)
             {
@@ -405,7 +408,9 @@ namespace ApsimFile
             // ---------------------------------------------------------------------
             if (ShortCutTo != null && Nodes.Contains(ShortCutTo))
                 {
-                MyContents = ShortCutTo.MyContents;
+                XmlDocument Doc = new XmlDocument();
+                Doc.LoadXml(ShortCutTo.Contents);
+                MyContents = Doc.DocumentElement.InnerXml;
                 MyShortCutTo = null;
                 MyFile.PublishComponentChanged(this);
                 }
@@ -662,7 +667,7 @@ namespace ApsimFile
                 {
                 int Pos = VBGeneral.Utility.IndexOfCaseInsensitive(Children, TempChild.Name);
                 if (Pos == -1)
-                    MyChildNodes.Add(TempChild);
+                    Add(TempChild.Contents);
                 else
                     MyChildNodes[Pos].Replace(TempChild);
                 }
