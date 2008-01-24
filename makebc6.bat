@@ -75,6 +75,21 @@ cd %APSROOT%\apsrun\source\test
 echo ------Compiling  %APSROOT%\apsrun\source\test\TestAPSRun >> %APSROOT%\build.win32.out
 cmd /c c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f TestAPSRun.mak  >> %APSROOT%\build.win32.out
 
+REM -------Build TestApsimShared
+cd %APSROOT%\Shared\ApsimShared\test
+echo ------Compiling  %APSROOT%\Shared\ApsimShared\test\TestApsimShared >> %APSROOT%\build.win32.out
+cmd /c c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f Makefile.bc6  >> %APSROOT%\build.win32.out
+
+REM -------Build TestGeneral
+cd %APSROOT%\Shared\General\test
+echo ------Compiling  %APSROOT%\Shared\General\test\TestGeneral >> %APSROOT%\build.win32.out
+cmd /c c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f Makefile.bc6  >> %APSROOT%\build.win32.out
+
+REM -------Build TestComponentInterface2
+cd %APSROOT%\Shared\ComponentInterface2\test
+echo ------Compiling  %APSROOT%\Shared\ComponentInterface2\test\TestComponentInterface2 >> %APSROOT%\build.win32.out
+cmd /c c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f Makefile.bc6  >> %APSROOT%\build.win32.out
+
 REM -------Everything else..
 cd %APSROOT%\apsim
 echo ------Compiling  %APSROOT%\apsim >> %APSROOT%\build.win32.out
