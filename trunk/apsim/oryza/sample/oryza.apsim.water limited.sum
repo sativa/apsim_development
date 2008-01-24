@@ -11,16 +11,16 @@
 
 Version                = 5.4
 Title                  = oryza Sample Simulation - water limited
-Component      "clock" = c:\users\hol353\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\users\hol353\development\apsim\report\lib\report.dll
-Component        "met" = c:\users\hol353\development\apsim\input\lib\input.dll
-Component   "micromet" = c:\users\hol353\development\apsim\micromet\lib\micromet.dll
-Component   "fertiliz" = c:\users\hol353\development\apsim\fertiliz\lib\fertiliz.dll
-Component   "irrigate" = c:\users\hol353\development\apsim\irrigate\lib\irrigate.dll
-Component    "manager" = c:\users\hol353\development\apsim\manager\lib\manager.dll
-Component         "eo" = c:\users\hol353\development\apsim\eo\lib\eo.dll
-Component   "soilwat2" = c:\users\hol353\development\apsim\soilwat2\lib\soilwat2.dll
-Component      "oryza" = c:\users\hol353\development\apsim\oryza\lib\oryza.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component   "micromet" = c:\development\apsim\micromet\lib\micromet.dll
+Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component         "eo" = c:\development\apsim\eo\lib\eo.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component      "oryza" = c:\development\apsim\oryza\lib\oryza.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
