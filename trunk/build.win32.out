@@ -22,14 +22,39 @@ http.cpp:
 dll.cpp:
 TLIB 4.5 Copyright (c) 1987, 1999 Inprise Corporation
  date_class.obj exec.obj general.obj IniFile.obj   io_functions.obj math_functions.obj path.obj stream_functions.obj   stream_processor.obj string_functions.obj StringTokenizer.obj stristr.obj Macro.obj   xml.obj http.obj dll.obj c:\PROGRA~1\Borland\CBUILD~1\Bin\..\components\boost\libs\filesystem\src\path_posix_windows.obj  c:\PROGRA~1\Borland\CBUILD~1\Bin\..\components\boost\libs\filesystem\src\convenience.obj  c:\PROGRA~1\Borland\CBUILD~1\Bin\..\components\boost\libs\filesystem\src\exception.obj  c:\PROGRA~1\Borland\CBUILD~1\Bin\..\components\boost\libs\filesystem\src\operations_posix_windows.obj
+Warning: 'date_class' not found in library
+Warning: 'exec' not found in library
+Warning: 'general' not found in library
+Warning: 'IniFile' not found in library
+Warning: 'io_functions' not found in library
+Warning: 'math_functions' not found in library
+Warning: 'path' not found in library
+Warning: 'stream_functions' not found in library
+Warning: 'stream_processor' not found in library
+Warning: 'string_functions' not found in library
+Warning: 'StringTokenizer' not found in library
+Warning: 'stristr' not found in library
+Warning: 'Macro' not found in library
+Warning: 'xml' not found in library
+Warning: 'http' not found in library
+Warning: 'dll' not found in library
+Warning: 'path_posix_windows' not found in library
+Warning: 'convenience' not found in library
+Warning: 'exception' not found in library
+Warning: 'operations_posix_windows' not found in library
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 vcl_functions.cpp:
 db_functions.cpp:
 Loaded cached pre-compiled headers.
 TLIB 4.5 Copyright (c) 1987, 1999 Inprise Corporation
  /P128 vcl_functions.obj db_functions.obj
+Warning: 'vcl_functions' not found in library
+Warning: 'db_functions' not found in library
 ------Compiling  C:\Development\Tools\def2imp 
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+def2imp.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 ------Compiling  C:\Development\Shared\ApsimShared 
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
@@ -77,8 +102,13 @@ Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 Microsoft (R) Visual Studio Version 8.0.50727.42.
 Copyright (C) Microsoft Corp 1984-2005. All rights reserved.
 ------ Build started: Project: ProcessDataTypesInterface, Configuration: Release Any CPU ------
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /nowarn:1701,1702 /errorreport:prompt /warn:4 /define:TRACE /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /debug:pdbonly /optimize+ /out:obj\Release\ProcessDataTypesInterface.exe /target:exe ProcessDataTypesInterface.cs Properties\AssemblyInfo.cs
+
+Compile complete -- 0 errors, 0 warnings
 ProcessDataTypesInterface -> C:\Development\Bin\ProcessDataTypesInterface.exe
 ------ Build started: Project: VBGeneral, Configuration: Release Any CPU ------
+C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\bin\LC.exe /target:VBGeneral.dll /complist:"My Project\licenses.licx" /outdir:obj\Release\ /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll 
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Vbc.exe /noconfig /imports:Microsoft.VisualBasic,System,System.Collections,System.Collections.Generic,System.Diagnostics /nowarn:42016,41999,42017,42018,42019,42032,42036,42020,42021,42022 /rootnamespace:VBGeneral /doc:obj\Release\VBGeneral.xml /define:"CONFIG=\"Release\",TRACE=-1,_MyType=\"Windows\",PLATFORM=\"AnyCPU\"" /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /debug:pdbonly /optimize+ /out:obj\Release\VBGeneral.dll /resource:obj\Release\VBGeneral.Resources.resources /resource:obj\Release\VBGeneral.dll.licenses /target:library APSIMSettings.vb "My Project\AssemblyInfo.vb" "My Project\Application.Designer.vb" "My Project\Resources.Designer.vb" "My Project\Settings.Designer.vb" Utility.vb
 VBGeneral -> C:\Development\Shared\VBGeneral\bin\Release\VBGeneral.dll
 ========== Build: 2 succeeded or up-to-date, 0 failed, 0 skipped ==========
 ------Compiling RunMacro 
@@ -88,6 +118,9 @@ Copyright (C) Microsoft Corp 1984-2005. All rights reserved.
 ------ Build started: Project: VBGeneral, Configuration: Release Any CPU ------
 VBGeneral -> C:\Development\Shared\VBGeneral\bin\Release\VBGeneral.dll
 ------ Build started: Project: CSGeneral, Configuration: Release Any CPU ------
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702 /nostdlib- /errorreport:prompt /warn:4 /baseaddress:285212672 /define:TRACE /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\Development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug- /filealign:4096 /optimize+ /out:obj\Release\CSGeneral.dll /target:library /warnaserror- APSIMInputFile.cs CallDll.cs ComponentDescription.cs DataTableUtility.cs Macro.cs MathUtility.cs Properties\AssemblyInfo.cs StringManip.cs Utility.cs XmlHelper.cs
+
+Compile complete -- 0 errors, 0 warnings
 CSGeneral -> C:\Development\Shared\CSGeneral\bin\Release\CSGeneral.dll
 ------ Build started: Project: RunMacro, Configuration: Release Any CPU ------
 C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /nowarn:1701,1702 /errorreport:prompt /warn:4 /define:TRACE /reference:C:\Development\Shared\CSGeneral\bin\Release\CSGeneral.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\Development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug:pdbonly /optimize+ /out:obj\Release\RunMacro.exe /target:exe RunMacro.cs Properties\AssemblyInfo.cs
@@ -139,8 +172,18 @@ SimpleWrapper.cpp:
 ------Compiling  C:\Development\Shared\ComponentInterface2 
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+ComponentInterface.cpp:
+message.cpp:
+TypeConverter.cpp:
+ArraySpecifier.cpp:
 DataTypes.cpp:
+CMPData.cpp:
+CMPComponentEntryPoints.cpp:
+CMPComponentInterface.cpp:
 CMPScienceAPI.cpp:
+CreateComponent.cpp:
+Variant.cpp:
+EntryPoints.cpp:
 Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 
 Borland Implib Version 3.0.22 Copyright (c) 1991, 2000 Inprise Corporation
@@ -747,9 +790,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit ManagerModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 3726:
-Compiling program unit Main at line 3751:
-Compiling program unit respondToEvent at line 3811:
+Compiling program unit alloc_dealloc_instance at line 3727:
+Compiling program unit Main at line 3752:
+Compiling program unit respondToEvent at line 3812:
 Encountered 0 errors, 0 warnings in file manager.for.
 Compiling file manager.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -853,9 +896,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit oryzaModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 5440:
-Compiling program unit Main at line 5467:
-Compiling program unit respondToEvent at line 5539:
+Compiling program unit alloc_dealloc_instance at line 5421:
+Compiling program unit Main at line 5448:
+Compiling program unit respondToEvent at line 5520:
 Encountered 0 errors, 0 warnings in file oryza.for.
 Compiling file oryza.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -868,10 +911,10 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit OzcotModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 7431:
-Compiling program unit Main at line 7461:
-Compiling program unit doInit1 at line 7605:
-Compiling program unit respondToEvent at line 7781:
+Compiling program unit alloc_dealloc_instance at line 7469:
+Compiling program unit Main at line 7499:
+Compiling program unit doInit1 at line 7643:
+Compiling program unit respondToEvent at line 7819:
 Encountered 0 errors, 0 warnings in file ozcot.for.
 Compiling file ozcot.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -949,15 +992,18 @@ Utility\Date.cpp:
 Loaded cached pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantComms.cpp:
-Loaded pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantP.cpp:
 Loaded pre-compiled headers.
-Warning W8004 PlantP.cpp 66: 'section_name' is assigned a value that is never used in function Plant::read_p_constants(PlantComponent *)
 Population.cpp:
 Loaded cached pre-compiled headers.
+PlantStress.cpp:
+Warning W8004 PlantStress.cpp 126: 'section_name' is assigned a value that is never used in function PStress::read_p_constants()
+Warning W8004 PlantStress.cpp 317: 'section_name' is assigned a value that is never used in function NStress::read_n_constants()
+Co2Modifier.cpp:
+Warning W8066 Co2Modifier.cpp 146: Unreachable code in function Co2Modifier::plant_rue_co2_modifier(float,float)
 StageBasedInterpolationFunction.cpp:
-Loaded cached pre-compiled headers.
+Loaded pre-compiled headers.
 Environment.cpp:
 Loaded cached pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
@@ -984,6 +1030,8 @@ Reproductive\GrainPartGN.cpp:
 Loaded cached pre-compiled headers.
 Reproductive\FruitCohort.cpp:
 Loaded cached pre-compiled headers.
+Reproductive\FruitCohortFN.cpp:
+Loaded cached pre-compiled headers.
 Reproductive\PlantFruit.cpp:
 Loaded cached pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
@@ -997,7 +1045,7 @@ Loaded pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Root\RootPart.cpp:
 Loaded pre-compiled headers.
-Warning W8012 Root\RootPart.cpp 1092: Comparing signed and unsigned values in function RootPart::onNewProfile(protocol::NewProfileType &)
+Warning W8012 Root\RootPart.cpp 1058: Comparing signed and unsigned values in function RootPart::onNewProfile(protocol::NewProfileType &)
 Root\NoRoot.cpp:
 Loaded cached pre-compiled headers.
 Root\MultiRoot.cpp:
@@ -1008,10 +1056,8 @@ Root\RootGrowthOption2.cpp:
 Loaded cached pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Utility\Output.cpp:
-Loaded pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Utility\OutputVariable.cpp:
-Loaded pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Leaf\genericLeafPart.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
@@ -1227,10 +1273,10 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit Soilwat2Module at line 1:
-Compiling program unit alloc_dealloc_instance at line 7132:
-Compiling program unit Main at line 7166:
-Compiling program unit respondToEvent at line 7311:
-Compiling program unit doInit1 at line 7332:
+Compiling program unit alloc_dealloc_instance at line 7203:
+Compiling program unit Main at line 7237:
+Compiling program unit respondToEvent at line 7382:
+Compiling program unit doInit1 at line 7403:
 Encountered 0 errors, 0 warnings in file soilwat2.for.
 Compiling file soilwat2.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -1418,6 +1464,31 @@ Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
 ------Compiling C:\Development\apsim\tcllink\source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+740 File(s) copied
+797 File(s) copied
+        1 file(s) copied.
+        1 file(s) copied.
+        1 file(s) copied.
+        1 file(s) copied.
+        1 file(s) copied.
+        1 file(s) copied.
+        1 file(s) copied.
+114 File(s) copied
+124 File(s) copied
+342 File(s) copied
+75 File(s) copied
+23 File(s) copied
+4 File(s) copied
+2 File(s) copied
+80 File(s) copied
+Installing activeX control
+dir=C:/Development/apsim/tcllink/lib
+Dll=C:/Development/apsim/tcllink/lib/tclcontrol84.dll
+Uninstalling C:\Development\apsim\tcllink\lib\tclcontrol84.dll
+Installed ok. clsid={E796A72F-F130-11D2-8003-0040055861F2}
+COFF to OMF Converter Version 1.0.0.74 Copyright (c) 1999, 2000 Inprise Corporation
+COFF to OMF Converter Version 1.0.0.74 Copyright (c) 1999, 2000 Inprise Corporation
+        1 file(s) copied.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 TclLink.cpp:
 TclComponent.cpp:
