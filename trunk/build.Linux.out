@@ -1,118 +1,136 @@
 if [ ! -d /home/Reds/development/lib ]; then mkdir /home/Reds/development/lib; fi ; \
-for dir in /home/Reds/development/Shared/general /home/Reds/development/Shared/ApsimShared /home/Reds/development/APSBuild/source /home/Reds/development/Shared/Protocol /home/Reds/development/Shared/ComponentInterface /home/Reds/development/apsim/infra/source /home/Reds/development/apsim/infra/engine /home/Reds/development/APSRun/ConToSim; do \
+for dir in /home/Reds/development/Shared/general /home/Reds/development/Shared/ApsimShared /home/Reds/development/APSBuild/source /home/Reds/development/Shared/Protocol /home/Reds/development/Shared/ComponentInterface /home/Reds/development/Shared/ComponentInterface2 /home/Reds/development/apsim/infra/source /home/Reds/development/apsim/infra/engine /home/Reds/development/APSRun/ConToSim; do \
 	make -f Makefile.linux  CPPDEBUGFLAGS=-g LDDEBUGFLAGS=-lg -C $dir; \
 done
 make[1]: Entering directory `/home/Reds/development/Shared/general'
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o date_class.o date_class.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o date_class.o date_class.cpp
 ar rv /home/Reds/development/lib/libgeneral.a date_class.o
 ar: creating /home/Reds/development/lib/libgeneral.a
 a - date_class.o
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o math_functions.o math_functions.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o math_functions.o math_functions.cpp
 ar rv /home/Reds/development/lib/libgeneral.a math_functions.o
 a - math_functions.o
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o stream_functions.o stream_functions.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o stream_functions.o stream_functions.cpp
 ar rv /home/Reds/development/lib/libgeneral.a stream_functions.o
 a - stream_functions.o
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o string_functions.o string_functions.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o string_functions.o string_functions.cpp
 ar rv /home/Reds/development/lib/libgeneral.a string_functions.o
 a - string_functions.o
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o StringTokenizer.o StringTokenizer.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o StringTokenizer.o StringTokenizer.cpp
 ar rv /home/Reds/development/lib/libgeneral.a StringTokenizer.o
 a - StringTokenizer.o
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o stristr.o stristr.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o stristr.o stristr.cpp
 ar rv /home/Reds/development/lib/libgeneral.a stristr.o
 a - stristr.o
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o macro.o macro.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o macro.o macro.cpp
 ar rv /home/Reds/development/lib/libgeneral.a macro.o
 a - macro.o
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o io_functions.o io_functions.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o io_functions.o io_functions.cpp
 ar rv /home/Reds/development/lib/libgeneral.a io_functions.o
 a - io_functions.o
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o xml.o xml.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o xml.o xml.cpp
 ar rv /home/Reds/development/lib/libgeneral.a xml.o
 a - xml.o
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o path.o path.cpp
-path.cpp:572:5: warning: no newline at end of file
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o path.o path.cpp
 ar rv /home/Reds/development/lib/libgeneral.a path.o
 a - path.o
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o IniFile.o IniFile.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o IniFile.o IniFile.cpp
 ar rv /home/Reds/development/lib/libgeneral.a IniFile.o
 a - IniFile.o
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o stream_processor.o stream_processor.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o stream_processor.o stream_processor.cpp
 ar rv /home/Reds/development/lib/libgeneral.a stream_processor.o
 a - stream_processor.o
-rm IniFile.o path.o date_class.o xml.o math_functions.o stristr.o macro.o string_functions.o StringTokenizer.o stream_functions.o io_functions.o stream_processor.o
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o dll.o dll.cpp
+ar rv /home/Reds/development/lib/libgeneral.a dll.o
+a - dll.o
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o http.o http.cpp
+ar rv /home/Reds/development/lib/libgeneral.a http.o
+a - http.o
+rm IniFile.o path.o date_class.o xml.o math_functions.o stristr.o macro.o string_functions.o StringTokenizer.o stream_functions.o io_functions.o http.o stream_processor.o dll.o
 make[1]: Leaving directory `/home/Reds/development/Shared/general'
 make[1]: Entering directory `/home/Reds/development/Shared/ApsimShared'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o phi_functions.o phi_functions.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimSimulationFile.o ApsimSimulationFile.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimDataTypesFile.o ApsimDataTypesFile.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o phi_functions.o phi_functions.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimSimulationFile.o ApsimSimulationFile.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimDataTypesFile.o ApsimDataTypesFile.cpp
 ApsimDataTypesFile.cpp: In member function 'TreeNodeAliasIterator<TreeNodeIterator<XMLNode>, ApsimDataTypeData> ApsimDataTypesFile::begin() const':
 ApsimDataTypesFile.cpp:59: warning: passing 'const XMLDocument' as 'this' argument of 'XMLNode XMLDocument::documentElement()' discards qualifiers
 ApsimDataTypesFile.cpp: In member function 'TreeNodeAliasIterator<TreeNodeIterator<XMLNode>, ApsimDataTypeData> ApsimDataTypesFile::end() const':
 ApsimDataTypesFile.cpp:66: warning: passing 'const XMLDocument' as 'this' argument of 'XMLNode XMLDocument::documentElement()' discards qualifiers
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimDataTypeData.o ApsimDataTypeData.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimRegistrationData.o ApsimRegistrationData.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimMacroFile.o ApsimMacroFile.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o FString.o FString.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o FStringExt.o FStringExt.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimComponentData.o ApsimComponentData.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimSystemData.o ApsimSystemData.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimServiceData.o ApsimServiceData.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimDataFile.o ApsimDataFile.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o SimCreator.o SimCreator.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimControlFile.o ApsimControlFile.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimVersion.o ApsimVersion.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimSettings.o ApsimSettings.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o SimCreatorSection.o SimCreatorSection.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimDirectories.o ApsimDirectories.cpp
-/usr/bin/gcc -shared -o /home/Reds/development/lib/libApsimShared.so phi_functions.o ApsimSimulationFile.o ApsimDataTypesFile.o ApsimDataTypeData.o ApsimRegistrationData.o ApsimMacroFile.o FString.o FStringExt.o ApsimComponentData.o ApsimSystemData.o ApsimServiceData.o ApsimDataFile.o SimCreator.o ApsimControlFile.o ApsimVersion.o ApsimSettings.o SimCreatorSection.o ApsimDirectories.o -L/usr/lib -L/home/Reds/development/lib -lg -lgeneral -lxml2 -lboost_filesystem -lboost_date_time -lc
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimDataTypeData.o ApsimDataTypeData.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimRegistrationData.o ApsimRegistrationData.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimMacroFile.o ApsimMacroFile.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o FString.o FString.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o FStringExt.o FStringExt.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimComponentData.o ApsimComponentData.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimSystemData.o ApsimSystemData.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimServiceData.o ApsimServiceData.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimDataFile.o ApsimDataFile.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o SimCreator.o SimCreator.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimControlFile.o ApsimControlFile.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimVersion.o ApsimVersion.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimSettings.o ApsimSettings.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o SimCreatorSection.o SimCreatorSection.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimDirectories.o ApsimDirectories.cpp
+/usr/bin/gcc -shared -o /home/Reds/development/lib/libApsimShared.so phi_functions.o ApsimSimulationFile.o ApsimDataTypesFile.o ApsimDataTypeData.o ApsimRegistrationData.o ApsimMacroFile.o FString.o FStringExt.o ApsimComponentData.o ApsimSystemData.o ApsimServiceData.o ApsimDataFile.o SimCreator.o ApsimControlFile.o ApsimVersion.o ApsimSettings.o SimCreatorSection.o ApsimDirectories.o -L/usr/lib	-L/home/Reds/development/lib -lg -lgeneral -lxml2 -lboost_filesystem -lboost_date_time -lc
 make[1]: Leaving directory `/home/Reds/development/Shared/ApsimShared'
 make[1]: Entering directory `/home/Reds/development/APSBuild/source'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -g  -c -o CreateDataTypesSource.o CreateDataTypesSource.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -g  -c -o CreateSource.o CreateSource.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -g  -c -o CreateDataTypesF90.o CreateDataTypesF90.cpp
-/usr/bin/g++ -o /home/Reds/development/Bin/CreateDataTypesSource CreateDataTypesSource.o CreateSource.o CreateDataTypesF90.o -L/usr/lib -L/home/Reds/development/lib -lg -lApsimShared -lgeneral -lxml2 -lboost_filesystem -lboost_date_time -lboost_regex -liberty		
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -g  -c -o CreateComponentInterfaceSource.o CreateComponentInterfaceSource.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -g  -c -o ComponentInterfaceGenerator.o ComponentInterfaceGenerator.cpp
-/usr/bin/g++ -o /home/Reds/development/Bin/CreateComponentInterfaceSource CreateComponentInterfaceSource.o ComponentInterfaceGenerator.o -L/usr/lib -L/home/Reds/development/lib -lg -lApsimShared -lgeneral -lxml2 -lboost_filesystem -lboost_date_time -lboost_regex -liberty		
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -g  -c -o CreateDataTypesSource.o CreateDataTypesSource.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -g  -c -o CreateSource.o CreateSource.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -g  -c -o CreateDataTypesF90.o CreateDataTypesF90.cpp
+/usr/bin/g++ -o /home/Reds/development/Bin/CreateDataTypesSource CreateDataTypesSource.o CreateSource.o CreateDataTypesF90.o -L/usr/lib -L/home/Reds/development/lib -lg -lApsimShared -lxml2 -lgeneral -lboost_filesystem -lboost_date_time -lboost_regex -liberty		
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -g  -c -o CreateComponentInterfaceSource.o CreateComponentInterfaceSource.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -g  -c -o ComponentInterfaceGenerator.o ComponentInterfaceGenerator.cpp
+/usr/bin/g++ -o /home/Reds/development/Bin/CreateComponentInterfaceSource CreateComponentInterfaceSource.o ComponentInterfaceGenerator.o -L/usr/lib -L/home/Reds/development/lib -lg -lApsimShared -lxml2 -lgeneral -lboost_filesystem -lboost_date_time -lboost_regex -liberty		
 make[1]: Leaving directory `/home/Reds/development/APSBuild/source'
 make[1]: Entering directory `/home/Reds/development/Shared/Protocol'
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o Transport.o Transport.cpp
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -Wno-deprecated -fpermissive -fPIC -g  -c -o Computation.o Computation.cpp
-/usr/bin/gcc -shared -o /home/Reds/development/lib/libprotocol.so Transport.o Computation.o -L/usr/lib -L/home/Reds/development/lib -lg -lApsimShared -lgeneral -lxml2 -lboost_filesystem -lboost_date_time -lc
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Transport.o Transport.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Computation.o Computation.cpp
+/usr/bin/gcc -shared -o /home/Reds/development/lib/libprotocol.so Transport.o Computation.o -L/usr/lib	-L/home/Reds/development/lib -lg -lApsimShared -lgeneral -lxml2 -lboost_filesystem -lboost_date_time -lc
 make[1]: Leaving directory `/home/Reds/development/Shared/Protocol'
 make[1]: Entering directory `/home/Reds/development/Shared/ComponentInterface'
 ( cd /home/Reds/development/Bin && /home/Reds/development/Bin/CreateDataTypesSource /home/Reds/development/apsim/infra/datatypes.interface /home/Reds/development/APSBuild/datatypes.macro )
 Wrote:/home/Reds/development/Bin/../Shared/ComponentInterface/datatypes.h /home/Reds/development/Bin/../Shared/ComponentInterface/datatypes.cpp /home/Reds/development/Bin/../apsim/infra/source/datatypes.f90 /home/Reds/development/Bin/../Shared/ComponentInterface/FORTRANdatatypes.cpp /home/Reds/development/Bin/../apsim/infra/source/datatypes.f90 /home/Reds/development/Bin/../apsim/infra/source/datatypesinterface.f90 /home/Reds/development/Bin/../apsim/tcllink/lib/apsimDatatypes.tcl 
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Component.o Component.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Component.o Component.cpp
 Component.cpp: In member function 'virtual void protocol::Component::messageToLogic(const protocol::Message*)':
-Component.cpp:169: warning: passing 'const protocol::MessageData' as 'this' argument of 'void protocol::MessageData::reset()' discards qualifiers
-Component.cpp: In member function 'void protocol::Component::ExportReadWriteVariable(const std::string&, const std::string&, const std::string&, const boost::function1<protocol::Variable, const std::string&, std::allocator<boost::function_base> >&, const protocol::INamedData&)':
-Component.cpp:1183: warning: passing 'const protocol::INamedData' as 'this' argument of 'virtual void protocol::INamedData::SetName(const std::string&)' discards qualifiers
-Component.cpp: In member function 'void protocol::Component::SubscribeToEvent(const std::string&, const protocol::INamedData&)':
-Component.cpp:1192: warning: passing 'const protocol::INamedData' as 'this' argument of 'virtual void protocol::INamedData::SetName(const std::string&)' discards qualifiers
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o message.o message.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o MessageData.o MessageData.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ArraySpecifier.o ArraySpecifier.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ProtocolVector.o ProtocolVector.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o RegistrationType.o RegistrationType.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Variant.o Variant.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Variants.o Variants.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Type.o Type.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o TypeConverter.o TypeConverter.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimVariant.o ApsimVariant.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Registrations.o Registrations.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o RegistrationItem.o RegistrationItem.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Variable.o Variable.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o VariableRef.o VariableRef.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o datatypes.o datatypes.cpp
-/usr/bin/gcc -shared -lc -o /home/Reds/development/lib/libComponentInterface.so Component.o message.o MessageData.o ArraySpecifier.o ProtocolVector.o RegistrationType.o Variant.o Variants.o Type.o TypeConverter.o ApsimVariant.o Registrations.o RegistrationItem.o Variable.o VariableRef.o datatypes.o 	 -L/usr/lib -L/home/Reds/development/lib -lg -lprotocol -lApsimShared -lgeneral -lxml2 -lboost_filesystem -lboost_date_time -lc
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o FORTRANComponentWrapper.o FORTRANComponentWrapper.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o EntryPoints.o EntryPoints.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o SimpleWrapper.o SimpleWrapper.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o FORTRANdatatypes.o FORTRANdatatypes.cpp
+Component.cpp:162: warning: passing 'const protocol::MessageData' as 'this' argument of 'void protocol::MessageData::reset()' discards qualifiers
+Component.cpp: In member function 'virtual void protocol::Component::respondToEvent(unsigned int&, unsigned int&, protocol::Variant&)':
+Component.cpp:425: warning: passing 'const protocol::MessageData' as 'this' argument of 'void protocol::MessageData::reset()' discards qualifiers
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o message.o message.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o MessageData.o MessageData.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ArraySpecifier.o ArraySpecifier.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ProtocolVector.o ProtocolVector.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o RegistrationType.o RegistrationType.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Variant.o Variant.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Variants.o Variants.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Type.o Type.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o TypeConverter.o TypeConverter.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ApsimVariant.o ApsimVariant.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Registrations.o Registrations.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o RegistrationItem.o RegistrationItem.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Variable.o Variable.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o VariableRef.o VariableRef.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o datatypes.o datatypes.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ScienceAPI.o ScienceAPI.cpp
+/usr/bin/gcc -shared -lc -o /home/Reds/development/lib/libComponentInterface.so Component.o message.o MessageData.o ArraySpecifier.o ProtocolVector.o RegistrationType.o Variant.o Variants.o Type.o TypeConverter.o ApsimVariant.o Registrations.o RegistrationItem.o Variable.o VariableRef.o datatypes.o ScienceAPI.o 	 -L/usr/lib	-L/home/Reds/development/lib -lg -lprotocol -lApsimShared -lgeneral -lxml2 -lboost_filesystem -lboost_date_time -lc
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o FORTRANComponentWrapper.o FORTRANComponentWrapper.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o EntryPoints.o EntryPoints.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o SimpleWrapper.o SimpleWrapper.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o FORTRANdatatypes.o FORTRANdatatypes.cpp
 make[1]: Leaving directory `/home/Reds/development/Shared/ComponentInterface'
+make[1]: Entering directory `/home/Reds/development/Shared/ComponentInterface2'
+g++  -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o message.o message.cpp
+g++  -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o TypeConverter.o TypeConverter.cpp
+g++  -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ArraySpecifier.o ArraySpecifier.cpp
+g++  -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o DataTypes.o DataTypes.cpp
+g++  -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o CMPScienceAPI.o CMPScienceAPI.cpp
+g++  -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o CMPComponentInterface.o CMPComponentInterface.cpp
+g++  -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o CMPData.o CMPData.cpp
+g++  -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o CMPComponentEntryPoints.o CMPComponentEntryPoints.cpp
+g++  -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o EntryPoints.o EntryPoints.cpp
+g++  -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Variant.o Variant.cpp
+g++  -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o CreateComponent.o CreateComponent.cpp
+/usr/bin/gcc -shared -lc -o /home/Reds/development/lib/libComponentInterface2.so message.o TypeConverter.o ArraySpecifier.o DataTypes.o CMPScienceAPI.o CMPComponentInterface.o CMPData.o CMPComponentEntryPoints.o EntryPoints.o Variant.o CreateComponent.o -L/usr/lib	-L/home/Reds/development/lib -lg -lApsimShared -lgeneral -lxml2 -lc
+make[1]: Leaving directory `/home/Reds/development/Shared/ComponentInterface2'
 make[1]: Entering directory `/home/Reds/development/apsim/infra/source'
 lf95 -I. -I/usr/local/APSIM/apsim/infra/source -g --tp -nco --o0 --pca -nsav -stchk -trace -nchk -nin --ml cdecl --staticlink  -c -o ProtocolModule.o ProtocolModule.f90
 Encountered 0 errors, 0 warnings in file ProtocolModule.f90.
@@ -174,23 +192,23 @@ a - Infrastructure.o
 rm data.o datastr.o ConvertModule.o string.o ProtocolModule.o Infrastructure.o error.o datatypesinterface.o read.o date.o ComponentInterfaceModule.o science.o ConstantsModule.o datatypes.o
 make[1]: Leaving directory `/home/Reds/development/apsim/infra/source'
 make[1]: Entering directory `/home/Reds/development/apsim/infra/engine'
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -g  -c -o Simulation.o Simulation.cpp
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -g  -c -o apsim.o apsim.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -g  -c -o Simulation.o Simulation.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -g  -c -o apsim.o apsim.cpp
 /usr/bin/g++ -o /home/Reds/development/Bin/apsim.x Simulation.o apsim.o /home/Reds/development/Shared/ComponentInterface/message.o -L/usr/lib -L/home/Reds/development/lib -L/usr/local/lf9562/lib -lg -lprotocol -lApsimShared -lgeneral -lxml2 -lboost_filesystem -lboost_date_time -lboost_regex -liberty -lfj9i6 -lfj9f6 -lfj9e6 -lfccx86_6a -ldl
 make[1]: Leaving directory `/home/Reds/development/apsim/infra/engine'
 make[1]: Entering directory `/home/Reds/development/APSRun/ConToSim'
-/usr/bin/gcc -I/usr/include/boost -I/home/Reds/development/Shared -I/usr/include/libxml2 -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -g  -c -o ConToSim.o ConToSim.cpp
-/usr/bin/g++ -o /home/Reds/development/Bin/ConToSim.x ConToSim.o -L/usr/lib -L/home/Reds/development/lib -L/usr/local/lf9562/lib -lg -lprotocol -lApsimShared -lgeneral -lxml2 -lboost_filesystem -lboost_date_time -lboost_regex -liberty			
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -g  -c -o ConToSim.o ConToSim.cpp
+/usr/bin/g++ -o /home/Reds/development/Bin/ConToSim.x ConToSim.o -L/usr/lib	-L/home/Reds/development/lib -L/usr/local/lf9562/lib  -lg -lprotocol -lApsimShared -lgeneral -lxml2 -lboost_filesystem -lboost_date_time -lboost_regex -liberty			
 make[1]: Leaving directory `/home/Reds/development/APSRun/ConToSim'
-for dir in apsim/ProtocolManager/Source apsim/accum/source apsim/apswim/source apsim/canopy/source apsim/clock/source apsim/croptemp/source apsim/CropMod/source apsim/erosion/source apsim/fertiliz/source apsim/grasp/source apsim/input/source apsim/irrigate/source apsim/maize/source apsim/manager/source apsim/millet/source apsim/operatns/source apsim/ozcot/source apsim/Plant/source apsim/report/source apsim/soilwat2/source apsim/soiln2/source apsim/SoilP/source apsim/solute/source apsim/sorghum/source apsim/SummaryFile/Source apsim/SurfaceOM/source apsim/Tracker/Source apsim/tcllink/source ; do \
+for dir in apsim/ProtocolManager/Source apsim/accum/source apsim/apswim/source apsim/canopy/source apsim/clock/source apsim/croptemp/source apsim/CropMod/source apsim/erosion/source apsim/fertiliz/source apsim/grasp/source apsim/graz/source apsim/input/source apsim/irrigate/source apsim/Log/Source apsim/maize/source apsim/manager/source apsim/millet/source apsim/operatns/source apsim/ozcot/source apsim/Plant/source apsim/report/source apsim/SiloInput/source apsim/soilwat2/source apsim/soiln2/source apsim/SoilP/source apsim/solute/source apsim/sorghum/source apsim/SurfaceOM/source apsim/sysbal/source apsim/Tracker/Source apsim/tcllink/source ; do \
 	if [ ! -d `dirname $dir`/lib ]; then mkdir `dirname $dir`/lib; fi ; \
 	make -f Makefile.linux CPPDEBUGFLAGS=-g LDDEBUGFLAGS=-lg -C /home/Reds/development/$dir; \
 done
 make[1]: Entering directory `/home/Reds/development/apsim/ProtocolManager/Source'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ComponentAlias.o ComponentAlias.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Coordinator.o Coordinator.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Registrations.o Registrations.cpp
-/usr/bin/gcc -shared -o ../lib/ProtocolManager.so ComponentAlias.o Coordinator.o Registrations.o /home/Reds/development/Shared/ComponentInterface/EntryPoints.o -L/usr/lib -L/home/Reds/development/lib -lg -lComponentInterface -lprotocol -lApsimShared -lgeneral -lc
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o ComponentAlias.o ComponentAlias.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Coordinator.o Coordinator.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -Wno-deprecated -fpermissive -fPIC -g  -c -o Registrations.o Registrations.cpp
+/usr/bin/gcc -shared -o ../lib/ProtocolManager.so ComponentAlias.o Coordinator.o Registrations.o /home/Reds/development/Shared/ComponentInterface/EntryPoints.o -L/usr/lib	-L/home/Reds/development/lib -lg -lComponentInterface -lprotocol -lApsimShared -lgeneral -lc
 make[1]: Leaving directory `/home/Reds/development/apsim/ProtocolManager/Source'
 make[1]: Entering directory `/home/Reds/development/apsim/accum/source'
 /home/Reds/development/Bin/CreateComponentInterfaceSource ../accum.interface
@@ -305,15 +323,11 @@ make[1]: Entering directory `/home/Reds/development/apsim/CropMod/source'
 lf95 -I/home/Reds/development/apsim/infra/source -I/home/Reds/development/apsim/croptemp/source -g --tp -nco --o0 --pca -nsav -trace -nchk -nin --ml cdecl --staticlink -c -o CropModData.o CropModData.for
 Encountered 0 errors, 0 warnings in file CropModData.for.
 lf95 -I/home/Reds/development/apsim/infra/source -I/home/Reds/development/apsim/croptemp/source -g --tp -nco --o0 --pca -nsav -trace -nchk -nin --ml cdecl --staticlink -c -o CropMod.o CropMod.for
- Module subprogram name(maize_nit_demand_est)
-  2438-W: "maize.for", line 1677: Name 'demand_parts' enclosed in slashes is not a common block name in a SAVE statement.
  Module subprogram name(biomass_retranslocation)
   2438-W: "cropmodtree.for", line 2482: Name 'supply_pools' enclosed in slashes is not a common block name in a SAVE statement.
- Module subprogram name(Maize_bio_retrans)
-  2438-W: "maize.for", line 3034: Name 'supply_pools' enclosed in slashes is not a common block name in a SAVE statement.
  Module subprogram name(nitrogen_demand)
-  2438-W: "cropmodtree.for", line 5015: Name 'demand_parts' enclosed in slashes is not a common block name in a SAVE statement.
-Encountered 0 errors, 4 warnings in file CropMod.for.
+  2438-W: "cropmodtree.for", line 5035: Name 'demand_parts' enclosed in slashes is not a common block name in a SAVE statement.
+Encountered 0 errors, 2 warnings in file CropMod.for.
 lf95 -I/home/Reds/development/apsim/infra/source -I/home/Reds/development/apsim/croptemp/source -g --tp -nco --o0 --pca -nsav -trace -nchk -nin --ml cdecl --staticlink -c -o CropModMain.o CropModMain.for
 Encountered 0 errors, 0 warnings in file CropModMain.for.
 g++ CropModData.o CropMod.o CropModMain.o ../../../Shared/ComponentInterface/SimpleWrapper.o ../../../Shared/ComponentInterface/EntryPoints.o ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o ../../../Shared/ComponentInterface/FORTRANdatatypes.o ../../../Shared/ComponentInterface/datatypes.o -o ../lib/CropMod.so -shared -L/home/Reds/development/lib -L/home/Reds/development/apsim/infra/lib -L/home/Reds/development/apsim/croptemp/lib -L/usr/lib -lg -lComponentInterface -lapsinfra -lcroptemp
@@ -342,10 +356,14 @@ lf95 -I/home/Reds/development/apsim/infra/source -I/home/Reds/development/apsim/
 Encountered 0 errors, 0 warnings in file grasp.for.
 g++ Registrations.o grasp.o ../../../Shared/ComponentInterface/SimpleWrapper.o ../../../Shared/ComponentInterface/EntryPoints.o ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o ../../../Shared/ComponentInterface/FORTRANdatatypes.o ../../../Shared/ComponentInterface/datatypes.o -o ../lib/grasp.so -shared -L/home/Reds/development/lib -L/home/Reds/development/apsim/infra/lib -L/home/Reds/development/apsim/croptemp/lib	-lg -lComponentInterface -lcroptemp -lapsinfra 
 make[1]: Leaving directory `/home/Reds/development/apsim/grasp/source'
+make[1]: Entering directory `/home/Reds/development/apsim/graz/source'
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o graz.o graz.cpp
+/usr/bin/gcc -shared -o ../lib/graz.so graz.o /home/Reds/development/Shared/ComponentInterface2/CMPComponentEntryPoints.o -L/usr/lib	-L/home/Reds/development/lib -lg -lComponentInterface2 -lgeneral -lboost_filesystem -lxml2
+make[1]: Leaving directory `/home/Reds/development/apsim/graz/source'
 make[1]: Entering directory `/home/Reds/development/apsim/input/source'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o InputComponent.o InputComponent.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o StringVariant.o StringVariant.cpp
-/usr/bin/gcc -shared -o ../lib/input.so InputComponent.o StringVariant.o /home/Reds/development/Shared/ComponentInterface/EntryPoints.o -L/usr/lib -L/home/Reds/development/lib -lg -lComponentInterface -lprotocol -lApsimShared -lgeneral -lboost_filesystem -lxml2 -lc
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o InputComponent.o InputComponent.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o StringVariant.o StringVariant.cpp
+/usr/bin/gcc -shared -o ../lib/input.so InputComponent.o StringVariant.o /home/Reds/development/Shared/ComponentInterface/EntryPoints.o -L/usr/lib	-L/home/Reds/development/lib -lg -lComponentInterface -lprotocol -lApsimShared -lgeneral -lboost_filesystem -lxml2 -lc
 make[1]: Leaving directory `/home/Reds/development/apsim/input/source'
 make[1]: Entering directory `/home/Reds/development/apsim/irrigate/source'
 /home/Reds/development/Bin/CreateComponentInterfaceSource ../irrigate.interface
@@ -355,14 +373,19 @@ lf95 -I/home/Reds/development/apsim/infra/source -M. -M/home/Reds/development/ap
 Encountered 0 errors, 0 warnings in file irrigate.for.
 g++ Registrations.o irrigate.o ../../../Shared/ComponentInterface/SimpleWrapper.o ../../../Shared/ComponentInterface/EntryPoints.o ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o ../../../Shared/ComponentInterface/FORTRANdatatypes.o ../../../Shared/ComponentInterface/datatypes.o -o ../lib/irrigate.so -shared -L/home/Reds/development/lib -L/home/Reds/development/apsim/infra/lib -L/usr/lib -lg -lComponentInterface -lapsinfra -lc
 make[1]: Leaving directory `/home/Reds/development/apsim/irrigate/source'
+make[1]: Entering directory `/home/Reds/development/apsim/Log/Source'
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -D_NO_VCL  -g  -c -o LogComponent.o LogComponent.cpp
+if [ ! -d ../lib ]; then mkdir -p ../lib; fi 
+/usr/bin/gcc -shared -o ../lib/Log.so LogComponent.o /home/Reds/development/Shared/ComponentInterface/EntryPoints.o -L/usr/lib	-L/home/Reds/development/lib -lg -lComponentInterface -lprotocol -lApsimShared -lgeneral -lboost_filesystem -lxml2 -lc
+make[1]: Leaving directory `/home/Reds/development/apsim/Log/Source'
 make[1]: Entering directory `/home/Reds/development/apsim/maize/source'
 lf95 -I/home/Reds/development/apsim/infra/source -I/home/Reds/development/apsim/croptemp/source -I/home/Reds/development/apsim/CropMod/source -g --tp -nco --o0 --pca -nsav -trace -nchk -nin --ml cdecl --staticlink -c -o maize.o maize.for
  Module subprogram name(Maize_bio_retrans)
-  2438-W: "maize.for", line 2376: Name 'supply_pools' enclosed in slashes is not a common block name in a SAVE statement.
+  2438-W: "maize.for", line 2390: Name 'supply_pools' enclosed in slashes is not a common block name in a SAVE statement.
  Module subprogram name(maize_nit_demand_est)
-  2438-W: "maize.for", line 3093: Name 'demand_parts' enclosed in slashes is not a common block name in a SAVE statement.
+  2438-W: "maize.for", line 3107: Name 'demand_parts' enclosed in slashes is not a common block name in a SAVE statement.
  Module subprogram name(Maize_nit_demand)
-  2438-W: "maize.for", line 4312: Name 'demand_parts' enclosed in slashes is not a common block name in a SAVE statement.
+  2438-W: "maize.for", line 4326: Name 'demand_parts' enclosed in slashes is not a common block name in a SAVE statement.
 Encountered 0 errors, 3 warnings in file maize.for.
 g++ maize.o ../../../Shared/ComponentInterface/SimpleWrapper.o ../../../Shared/ComponentInterface/EntryPoints.o ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o ../../../Shared/ComponentInterface/FORTRANdatatypes.o ../../../Shared/ComponentInterface/datatypes.o -o ../lib/maize.so -shared -L/home/Reds/development/lib -L/home/Reds/development/apsim/infra/lib -L/home/Reds/development/apsim/croptemp/lib -L/usr/lib -lg -lComponentInterface -lapsinfra -lcroptemp
 make[1]: Leaving directory `/home/Reds/development/apsim/maize/source'
@@ -388,7 +411,7 @@ lf95 -I/home/Reds/development/apsim/infra/source -M. -M/home/Reds/development/ap
 Encountered 0 errors, 0 warnings in file Registrations.f90.
 lf95 -I/home/Reds/development/apsim/infra/source -M. -M/home/Reds/development/apsim/infra/source -g --tp -nco --o0 --pca -nsav -trace -nchk -nin --ml cdecl --staticlink -c -o operatns.o operatns.for
 Encountered 0 errors, 0 warnings in file operatns.for.
-g++ Registrations.o operatns.o ../../../Shared/ComponentInterface/SimpleWrapper.o ../../../Shared/ComponentInterface/EntryPoints.o ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o ../../../Shared/ComponentInterface/datatypes.o -o ../lib/operatns.so -shared -L/home/Reds/development/lib -L/home/Reds/development/apsim/infra/lib -L/usr/lib -lg -lComponentInterface -lapsinfra -lc
+g++ Registrations.o operatns.o ../../../Shared/ComponentInterface/SimpleWrapper.o ../../../Shared/ComponentInterface/EntryPoints.o ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o ../../../Shared/ComponentInterface/FORTRANdatatypes.o ../../../Shared/ComponentInterface/datatypes.o -o ../lib/operatns.so -shared -L/home/Reds/development/lib -L/home/Reds/development/apsim/infra/lib -L/usr/lib -lg -lComponentInterface -lapsinfra -lc
 make[1]: Leaving directory `/home/Reds/development/apsim/operatns/source'
 make[1]: Entering directory `/home/Reds/development/apsim/ozcot/source'
 lf95 -I/home/Reds/development/apsim/infra/source -I/home/Reds/development/apsim/croptemp/source -M/home/Reds/development/apsim/infra/source -M/home/Reds/development/apsim/croptemp/source -g --tp -nco --o0 --pca -nsav -trace -nchk -nin --ml cdecl --staticlink -c -o ozcot.o ozcot.for
@@ -396,157 +419,95 @@ Encountered 0 errors, 0 warnings in file ozcot.for.
 g++ ozcot.o ../../../Shared/ComponentInterface/SimpleWrapper.o ../../../Shared/ComponentInterface/EntryPoints.o ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o ../../../Shared/ComponentInterface/FORTRANdatatypes.o ../../../Shared/ComponentInterface/datatypes.o -o ../lib/ozcot.so -shared -L/home/Reds/development/lib -L/home/Reds/development/apsim/infra/lib -L/home/Reds/development/apsim/croptemp/lib	-lg -lComponentInterface -lcroptemp -lapsinfra 
 make[1]: Leaving directory `/home/Reds/development/apsim/ozcot/source'
 make[1]: Entering directory `/home/Reds/development/apsim/Plant/source'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantComponent.o PlantComponent.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Plant.o Plant.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantPart.o PlantPart.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantBiomass.o PlantBiomass.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantCanopy.o PlantCanopy.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantFail.o PlantFail.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantLibrary.o PlantLibrary.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantNitrogen.o PlantNitrogen.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantRoot.o PlantRoot.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantTemp.o PlantTemp.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantUtility.o PlantUtility.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantWater.o PlantWater.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Data.o Data.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Science.o Science.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Date.o Date.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantComms.o PlantComms.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantP.o PlantP.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Environment.o Environment.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Observers.o Observers.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o LeafPart.o LeafPart.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o StemPart.o StemPart.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PodPart.o PodPart.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o MealPart.o MealPart.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o OilPart.o OilPart.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o GrainPart.o GrainPart.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o CompositePart.o CompositePart.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o RootPart.o RootPart.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o FruitCohort.o FruitCohort.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Output.o Output.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o OutputVariable.o OutputVariable.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o genericLeafPart.o genericLeafPart.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o cohortingLeafPart.o cohortingLeafPart.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o arbitrator.o arbitrator.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/PlantPhenology.o Phenology/PlantPhenology.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/Phase.o Phenology/Phase.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/CompositePhase.o Phenology/CompositePhase.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/TTTPhenology.o Phenology/TTTPhenology.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/CropPhenology.o Phenology/CropPhenology.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/TTTRatePhenology.o Phenology/TTTRatePhenology.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/WheatPhenology.o Phenology/WheatPhenology.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/FixedPhase.o Phenology/FixedPhase.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/VernalPhase.o Phenology/VernalPhase.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/BroccoliPhenology.o Phenology/BroccoliPhenology.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/GenericPhenology.o Phenology/GenericPhenology.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/PhotoPhase.o Phenology/PhotoPhase.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/EmergentPhase.o Phenology/EmergentPhase.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/LeafAppPhase.o Phenology/LeafAppPhase.cpp
-/usr/bin/gcc -shared -o ../lib/Plant.so PlantComponent.o Plant.o PlantPart.o PlantBiomass.o PlantCanopy.o PlantFail.o PlantLibrary.o PlantNitrogen.o PlantRoot.o PlantTemp.o PlantUtility.o PlantWater.o Data.o Science.o Date.o PlantComms.o PlantP.o Environment.o Observers.o LeafPart.o StemPart.o PodPart.o MealPart.o OilPart.o GrainPart.o CompositePart.o RootPart.o FruitCohort.o Output.o OutputVariable.o genericLeafPart.o cohortingLeafPart.o arbitrator.o Phenology/PlantPhenology.o Phenology/Phase.o Phenology/CompositePhase.o Phenology/TTTPhenology.o Phenology/CropPhenology.o Phenology/TTTRatePhenology.o Phenology/WheatPhenology.o Phenology/FixedPhase.o Phenology/VernalPhase.o Phenology/BroccoliPhenology.o Phenology/GenericPhenology.o Phenology/PhotoPhase.o Phenology/EmergentPhase.o Phenology/LeafAppPhase.o ../../../Shared/ComponentInterface/EntryPoints.o -L/home/Reds/development/lib -L/usr/lib -lg -lComponentInterface -lprotocol -lApsimShared -lgeneral -lboost_filesystem -lxml2
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantComponent.o PlantComponent.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Plant.o Plant.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantPart.o PlantPart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantBiomass.o PlantBiomass.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantCanopy.o PlantCanopy.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantLibrary.o PlantLibrary.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantNitrogen.o PlantNitrogen.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantTemp.o PlantTemp.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Utility/PlantUtility.o Utility/PlantUtility.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Utility/Data.o Utility/Data.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Utility/ExternalFunction.o Utility/ExternalFunction.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Utility/InterpolationFunction.o Utility/InterpolationFunction.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o StageBasedInterpolationFunction.o StageBasedInterpolationFunction.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Utility/LookupFunction.o Utility/LookupFunction.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Utility/Science.o Utility/Science.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Utility/Date.o Utility/Date.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantComms.o PlantComms.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantP.o PlantP.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Population.o Population.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantStress.o PlantStress.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Co2Modifier.o Co2Modifier.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Environment.o Environment.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Utility/Observers.o Utility/Observers.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Leaf/LeafPart.o Leaf/LeafPart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o StemPart.o StemPart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Storage/StoragePart.o Storage/StoragePart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o ReproductivePart.o ReproductivePart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Reproductive/PodPart.o Reproductive/PodPart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Reproductive/FloretPart.o Reproductive/FloretPart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Reproductive/MealPart.o Reproductive/MealPart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Reproductive/OilPart.o Reproductive/OilPart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Reproductive/GrainPart.o Reproductive/GrainPart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Reproductive/GrainPartHI.o Reproductive/GrainPartHI.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Reproductive/GrainPartGN.o Reproductive/GrainPartGN.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Reproductive/FruitCohort.o Reproductive/FruitCohort.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Reproductive/FruitCohortFN.o Reproductive/FruitCohortFN.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Reproductive/PlantFruit.o Reproductive/PlantFruit.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o CompositePart.o CompositePart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o SimplePart.o SimplePart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Root/RootBase.o Root/RootBase.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Root/RootPart.o Root/RootPart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Root/NoRoot.o Root/NoRoot.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Root/MultiRoot.o Root/MultiRoot.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Root/RootGrowthOption1.o Root/RootGrowthOption1.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Root/RootGrowthOption2.o Root/RootGrowthOption2.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Utility/Output.o Utility/Output.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Utility/OutputVariable.o Utility/OutputVariable.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Leaf/genericLeafPart.o Leaf/genericLeafPart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Leaf/cohortingLeafPart.o Leaf/cohortingLeafPart.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Arbitrators/arbitrator.o Arbitrators/arbitrator.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Arbitrators/NullArbitrator.o Arbitrators/NullArbitrator.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Arbitrators/CerealArbitrator.o Arbitrators/CerealArbitrator.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Arbitrators/AllometricArbitrator.o Arbitrators/AllometricArbitrator.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Arbitrators/GenericArbitrator.o Arbitrators/GenericArbitrator.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Arbitrators/GenericArbitratorXY.o Arbitrators/GenericArbitratorXY.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o PlantSpatial.o PlantSpatial.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Pool.o Pool.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o CompositePool.o CompositePool.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Delta.o Delta.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Biomass.o Biomass.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/PlantPhenology.o Phenology/PlantPhenology.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/Phase.o Phenology/Phase.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/CompositePhase.o Phenology/CompositePhase.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/TTTPhenology.o Phenology/TTTPhenology.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/CropPhenology.o Phenology/CropPhenology.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/TTTRatePhenology.o Phenology/TTTRatePhenology.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/WheatPhenology.o Phenology/WheatPhenology.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/FixedPhase.o Phenology/FixedPhase.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/VernalPhase.o Phenology/VernalPhase.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/BroccoliPhenology.o Phenology/BroccoliPhenology.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/GenericPhenology.o Phenology/GenericPhenology.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/PhotoPhase.o Phenology/PhotoPhase.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/EmergentPhase.o Phenology/EmergentPhase.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/home/Reds/development/apsim/Plant/source -Wno-deprecated -fpermissive -fPIC -g  -c -o Phenology/LeafAppPhase.o Phenology/LeafAppPhase.cpp
+/usr/bin/gcc -shared -o ../lib/Plant.so PlantComponent.o Plant.o PlantPart.o PlantBiomass.o PlantCanopy.o PlantLibrary.o PlantNitrogen.o PlantTemp.o Utility/PlantUtility.o Utility/Data.o Utility/ExternalFunction.o Utility/InterpolationFunction.o StageBasedInterpolationFunction.o Utility/LookupFunction.o Utility/Science.o Utility/Date.o PlantComms.o PlantP.o Population.o PlantStress.o Co2Modifier.o Environment.o Utility/Observers.o Leaf/LeafPart.o StemPart.o Storage/StoragePart.o ReproductivePart.o Reproductive/PodPart.o Reproductive/FloretPart.o Reproductive/MealPart.o Reproductive/OilPart.o Reproductive/GrainPart.o Reproductive/GrainPartHI.o Reproductive/GrainPartGN.o Reproductive/FruitCohort.o Reproductive/FruitCohortFN.o Reproductive/PlantFruit.o CompositePart.o SimplePart.o Root/RootBase.o Root/RootPart.o Root/NoRoot.o Root/MultiRoot.o Root/RootGrowthOption1.o Root/RootGrowthOption2.o Utility/Output.o Utility/OutputVariable.o Leaf/genericLeafPart.o Leaf/cohortingLeafPart.o Arbitrators/arbitrator.o Arbitrators/NullArbitrator.o Arbitrators/CerealArbitrator.o Arbitrators/AllometricArbitrator.o Arbitrators/GenericArbitrator.o Arbitrators/GenericArbitratorXY.o PlantSpatial.o Pool.o CompositePool.o Delta.o Biomass.o Phenology/PlantPhenology.o Phenology/Phase.o Phenology/CompositePhase.o Phenology/TTTPhenology.o Phenology/CropPhenology.o Phenology/TTTRatePhenology.o Phenology/WheatPhenology.o Phenology/FixedPhase.o Phenology/VernalPhase.o Phenology/BroccoliPhenology.o Phenology/GenericPhenology.o Phenology/PhotoPhase.o Phenology/EmergentPhase.o Phenology/LeafAppPhase.o ../../../Shared/ComponentInterface/EntryPoints.o -L/usr/lib	-L/home/Reds/development/lib -lg -lComponentInterface -lprotocol -lApsimShared -lgeneral -lboost_filesystem -lxml2
 make[1]: Leaving directory `/home/Reds/development/apsim/Plant/source'
 make[1]: Entering directory `/home/Reds/development/apsim/report/source'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o ReportComponent.o ReportComponent.cpp
-ReportComponent.cpp:3:44: error: ComponentInterface2/ScienceAPI.h: No such file or directory
-ReportComponent.cpp: In member function 'void Field::writeHeadings(std::ostream&)':
-ReportComponent.cpp:65: error: no matching function for call to 'max(int, unsigned int)'
-ReportComponent.cpp:66: error: no matching function for call to 'max(int&, unsigned int)'
-ReportComponent.cpp:67: error: no matching function for call to 'max(int&, unsigned int)'
-ReportComponent.cpp: In member function 'void Field::getValues()':
-ReportComponent.cpp:93: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp: At global scope:
-ReportComponent.cpp:165: error: expected initializer before 'EXPORT'
-ReportComponent.cpp:169: error: expected initializer before 'EXPORT'
-ReportComponent.cpp: In constructor 'ReportComponent::ReportComponent(ScienceAPI&)':
-ReportComponent.cpp:180: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:180: error: 'nullFunction' was not declared in this scope
-ReportComponent.cpp: In member function 'virtual void ReportComponent::onInit1()':
-ReportComponent.cpp:189: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:189: error: 'nullFunction' was not declared in this scope
-ReportComponent.cpp:190: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:191: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:192: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:193: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp: In member function 'virtual void ReportComponent::onInit2()':
-ReportComponent.cpp:204: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:212: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:215: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:220: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:221: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:221: error: 'nullFunction' was not declared in this scope
-ReportComponent.cpp:225: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:230: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:234: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:244: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:245: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:247: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:249: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:255: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:261: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp: In member function 'void ReportComponent::createVariable(const std::string&)':
-ReportComponent.cpp:296: error: 'QueryMatch' was not declared in this scope
-ReportComponent.cpp:296: error: template argument 1 is invalid
-ReportComponent.cpp:296: error: template argument 2 is invalid
-ReportComponent.cpp:296: error: invalid type in declaration before ';' token
-ReportComponent.cpp:298: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:300: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:305: error: request for member 'size' in 'matches', which is of non-class type 'int'
-ReportComponent.cpp:310: error: request for member 'size' in 'matches', which is of non-class type 'int'
-ReportComponent.cpp:313: error: request for member 'size' in 'matches', which is of non-class type 'int'
-ReportComponent.cpp:314: error: invalid types 'int[unsigned int]' for array subscript
-ReportComponent.cpp:316: error: invalid types 'int[unsigned int]' for array subscript
-ReportComponent.cpp:316: error: invalid types 'int[unsigned int]' for array subscript
-ReportComponent.cpp: In member function 'std::string ReportComponent::calcFileName()':
-ReportComponent.cpp:329: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:331: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:341: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:345: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp: In member function 'void ReportComponent::writeLineOfOutput()':
-ReportComponent.cpp:413: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp: In member function 'void ReportComponent::writeHeadings()':
-ReportComponent.cpp:439: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.cpp:444: error: invalid use of undefined type 'struct ScienceAPI'
-ReportComponent.h:7: error: forward declaration of 'struct ScienceAPI'
-ReportComponent.h: In member function 'Field& Field::operator=(const Field&)':
-ReportComponent.h:15:   instantiated from 'void std::vector<_Tp, _Alloc>::_M_insert_aux(__gnu_cxx::__normal_iterator<typename _Alloc::pointer, std::vector<_Tp, _Alloc> >, const _Tp&) [with _Tp = Field, _Alloc = std::allocator<Field>]'
-/usr/lib/gcc/i386-redhat-linux/4.0.2/../../../../include/c++/4.0.2/bits/stl_vector.h:610:   instantiated from 'void std::vector<_Tp, _Alloc>::push_back(const _Tp&) [with _Tp = Field, _Alloc = std::allocator<Field>]'
-ReportComponent.cpp:307:   instantiated from here
-ReportComponent.h:15: error: non-static reference member 'ScienceAPI& Field::scienceAPI', can't use default assignment operator
-/usr/lib/gcc/i386-redhat-linux/4.0.2/../../../../include/c++/4.0.2/bits/vector.tcc: In member function 'void std::vector<_Tp, _Alloc>::_M_insert_aux(__gnu_cxx::__normal_iterator<typename _Alloc::pointer, std::vector<_Tp, _Alloc> >, const _Tp&) [with _Tp = Field, _Alloc = std::allocator<Field>]':
-/usr/lib/gcc/i386-redhat-linux/4.0.2/../../../../include/c++/4.0.2/bits/stl_vector.h:610:   instantiated from 'void std::vector<_Tp, _Alloc>::push_back(const _Tp&) [with _Tp = Field, _Alloc = std::allocator<Field>]'
-ReportComponent.cpp:307:   instantiated from here
-/usr/lib/gcc/i386-redhat-linux/4.0.2/../../../../include/c++/4.0.2/bits/vector.tcc:260: warning: synthesized method 'Field& Field::operator=(const Field&)' first required here 
-make[1]: *** [ReportComponent.o] Error 1
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o ReportComponent.o ReportComponent.cpp
+/usr/bin/gcc -shared -o ../lib/report.so ReportComponent.o /home/Reds/development/Shared/ComponentInterface2/CMPComponentEntryPoints.o -L/usr/lib	-L/home/Reds/development/lib -lg -lComponentInterface2 -lgeneral -lboost_filesystem -lxml2
 make[1]: Leaving directory `/home/Reds/development/apsim/report/source'
+make[1]: Entering directory `/home/Reds/development/apsim/SiloInput/source'
+/usr/bin/gcc   -I/home/Reds/development/apsim/input/source -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC  -c -o SiloInputComponent.o SiloInputComponent.cpp
+/usr/bin/gcc -shared -o ../lib/libSiloInput.so SiloInputComponent.o /home/Reds/development/apsim/input/source/InputComponent.o /home/Reds/development/apsim/input/source/StringVariant.o /home/Reds/development/Shared/ComponentInterface/EntryPoints.o  -L/home/Reds/development/lib -lg -lComponentInterface -lprotocol -lApsimShared -lgeneral -lboost_filesystem -lxml2
+/home/Reds/development/apsim/input/source/InputComponent.o(.text+0x29a4): In function `createComponent()':
+/home/Reds/development/apsim/input/source/InputComponent.cpp:61: multiple definition of `createComponent()'
+SiloInputComponent.o(.text+0x42):SiloInputComponent.cpp: first defined here
+collect2: ld returned 1 exit status
+make[1]: *** [../lib/libSiloInput.so] Error 1
+make[1]: Leaving directory `/home/Reds/development/apsim/SiloInput/source'
 make[1]: Entering directory `/home/Reds/development/apsim/soilwat2/source'
 lf95 -I/home/Reds/development/apsim/infra/source -M. -M/home/Reds/development/apsim/infra/source -g --tp -nco --o0 --pca -nsav -trace -nchk -nin --ml cdecl --staticlink -c -o evap.o evap.for
 Encountered 0 errors, 0 warnings in file evap.for.
@@ -559,7 +520,7 @@ make[1]: Leaving directory `/home/Reds/development/apsim/soilwat2/source'
 make[1]: Entering directory `/home/Reds/development/apsim/soiln2/source'
 lf95 -I/home/Reds/development/apsim/infra/source -M. -M/home/Reds/development/apsim/infra/source -g --tp -nco --o0 --pca -nsav -trace -nchk -nin --ml cdecl --staticlink -c -o soiln2.o soiln2.f90
  Module subprogram name(soiln2_notification)
-  0511-W: "soiln2.f90", line 4236, column 30: Logical type cannot be mixed with arithmetic type in initializations, assignments, arithmetic operations, relational operations or statement function definitions.
+  0511-W: "soiln2.f90", line 4484, column 30: Logical type cannot be mixed with arithmetic type in initializations, assignments, arithmetic operations, relational operations or statement function definitions.
 Encountered 0 errors, 1 warning in file soiln2.f90.
 g++ soiln2.o ../../../Shared/ComponentInterface/SimpleWrapper.o ../../../Shared/ComponentInterface/EntryPoints.o ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o ../../../Shared/ComponentInterface/FORTRANdatatypes.o ../../../Shared/ComponentInterface/datatypes.o -o ../lib/soiln2.so -shared -L/home/Reds/development/lib -L/home/Reds/development/apsim/infra/lib -L/usr/lib -lg -lComponentInterface -lapsinfra -lc
 make[1]: Leaving directory `/home/Reds/development/apsim/soiln2/source'
@@ -580,46 +541,32 @@ Encountered 0 errors, 0 warnings in file solute.for.
 g++ ../../../Shared/ComponentInterface/SimpleWrapper.o ../../../Shared/ComponentInterface/EntryPoints.o ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o ../../../Shared/ComponentInterface/FORTRANdatatypes.o ../../../Shared/ComponentInterface/datatypes.o Registrations.o solute.o -o ../lib/solute.so -shared -L/home/Reds/development/lib -L/home/Reds/development/apsim/infra/lib -L/usr/lib -lg -lComponentInterface -lapsinfra -lc
 make[1]: Leaving directory `/home/Reds/development/apsim/solute/source'
 make[1]: Entering directory `/home/Reds/development/apsim/sorghum/source'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OOLeaf.o OOLeaf.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OOPlantInterface.o OOPlantInterface.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OOBiomass.o OOBiomass.cpp
-OOBiomass.cpp: In member function 'void Biomass::Summary()':
-OOBiomass.cpp:348: warning: passing NULL to non-pointer argument 4 of 'void summaryLine(PlantInterface*, char*, float, float)'
-OOBiomass.cpp:349: warning: passing NULL to non-pointer argument 4 of 'void summaryLine(PlantInterface*, char*, float, float)'
-OOBiomass.cpp:350: warning: passing NULL to non-pointer argument 4 of 'void summaryLine(PlantInterface*, char*, float, float)'
-OOBiomass.cpp:352: warning: passing NULL to non-pointer argument 4 of 'void summaryLine(PlantInterface*, char*, float, float)'
-OOBiomass.cpp:354: warning: passing NULL to non-pointer argument 4 of 'void summaryLine(PlantInterface*, char*, float, float)'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OOPhosphorus.o OOPhosphorus.cpp
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OOLeaf.o OOLeaf.cpp
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OOPlantInterface.o OOPlantInterface.cpp
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OOBiomass.o OOBiomass.cpp
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OOPhosphorus.o OOPhosphorus.cpp
 OOPhosphorus.cpp: In member function 'virtual void Phosphorus::initialize()':
-OOPhosphorus.cpp:113: warning: converting to 'int' from 'double'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OOPlantActions.o OOPlantActions.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OOStem.o OOStem.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o Utilities.o Utilities.cpp
-Utilities.cpp: In member function 'void aDate::convertJulian(float)':
-Utilities.cpp:60: warning: converting to 'int' from 'float'
+OOPhosphorus.cpp:87: warning: converting to 'int' from 'double'
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OOPlantActions.o OOPlantActions.cpp
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OOStem.o OOStem.cpp
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o Utilities.o Utilities.cpp
 Utilities.cpp: In function 'int CalendarToJulian(int, int, int)':
-Utilities.cpp:93: warning: converting to 'int' from 'double'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OONitrogen.o OONitrogen.cpp
+Utilities.cpp:44: warning: converting to 'int' from 'double'
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OONitrogen.o OONitrogen.cpp
 OONitrogen.cpp: In member function 'virtual void Nitrogen::initialize()':
-OONitrogen.cpp:94: warning: converting to 'int' from 'double'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OORachis.o OORachis.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OOGrain.o OOGrain.cpp
-OOGrain.cpp: In member function 'void Grain::Summary()':
-OOGrain.cpp:267: warning: passing NULL to non-pointer argument 4 of 'void summaryLine(PlantInterface*, char*, float, float)'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OOPlantComponents.o OOPlantComponents.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OOWater.o OOWater.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OOPhenology.o OOPhenology.cpp
+OONitrogen.cpp:83: warning: converting to 'int' from 'double'
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OORachis.o OORachis.cpp
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OOGrain.o OOGrain.cpp
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OOPlantComponents.o OOPlantComponents.cpp
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OOWater.o OOWater.cpp
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OOPhenology.o OOPhenology.cpp
 OOPhenology.cpp: In member function 'virtual void Phenology::development()':
-OOPhenology.cpp:208: warning: passing 'float' for argument 1 to 'virtual void PlantPart::phenologyEvent(int)'
-OOPhenology.cpp:210: warning: passing 'float' for argument 1 to 'void OOPlant::phenologyEvent(int)'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OOPlant.o OOPlant.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o OORoots.o OORoots.cpp
-/usr/bin/gcc -shared -o ../lib/sorghum.so OOLeaf.o OOPlantInterface.o OOBiomass.o OOPhosphorus.o OOPlantActions.o OOStem.o Utilities.o OONitrogen.o OORachis.o OOGrain.o OOPlantComponents.o OOWater.o OOPhenology.o OOPlant.o OORoots.o  /home/Reds/development/Shared/ComponentInterface/EntryPoints.o -L/usr/lib -L/home/Reds/development/lib -lg -lComponentInterface -lprotocol -lApsimShared -lgeneral -lboost_filesystem -lxml2
+OOPhenology.cpp:204: warning: passing 'float' for argument 1 to 'virtual void PlantPart::phenologyEvent(int)'
+OOPhenology.cpp:206: warning: passing 'float' for argument 1 to 'void OOPlant::phenologyEvent(int)'
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OOPlant.o OOPlant.cpp
+/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface2 -Wno-deprecated -fpermissive -fPIC -g  -c -o OORoots.o OORoots.cpp
+/usr/bin/gcc -shared -o ../lib/sorghum.so OOLeaf.o OOPlantInterface.o OOBiomass.o OOPhosphorus.o OOPlantActions.o OOStem.o Utilities.o OONitrogen.o OORachis.o OOGrain.o OOPlantComponents.o OOWater.o OOPhenology.o OOPlant.o OORoots.o  /home/Reds/development/Shared/ComponentInterface2/CMPComponentEntryPoints.o -L/usr/lib -L/home/Reds/development/lib -lg -lComponentInterface2 -lprotocol -lApsimShared -lgeneral -lboost_filesystem -lxml2
 make[1]: Leaving directory `/home/Reds/development/apsim/sorghum/source'
-make[1]: Entering directory `/home/Reds/development/apsim/SummaryFile/Source'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -g  -c -o SummaryFileComponent.o SummaryFileComponent.cpp
-/usr/bin/gcc -shared -o ../lib/SummaryFile.so SummaryFileComponent.o /home/Reds/development/Shared/ComponentInterface/EntryPoints.o -L/usr/lib -L/home/Reds/development/lib -lg -lComponentInterface -lprotocol -lApsimShared -lgeneral -lboost_filesystem -lxml2
-make[1]: Leaving directory `/home/Reds/development/apsim/SummaryFile/Source'
 make[1]: Entering directory `/home/Reds/development/apsim/SurfaceOM/source'
 /home/Reds/development/Bin/CreateComponentInterfaceSource ../SurfaceOM.interface
 lf95 -I/home/Reds/development/apsim/infra/source -M. -M/home/Reds/development/apsim/infra/source --tp -nco --o0 --pca -nsav -trace -nchk -nin --ml cdecl --staticlink -c -o Registrations.o Registrations.f90
@@ -628,12 +575,20 @@ lf95 -I/home/Reds/development/apsim/infra/source -M. -M/home/Reds/development/ap
 Encountered 0 errors, 0 warnings in file SurfaceOM.f90.
 g++ Registrations.o SurfaceOM.o ../../../Shared/ComponentInterface/SimpleWrapper.o ../../../Shared/ComponentInterface/EntryPoints.o ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o ../../../Shared/ComponentInterface/FORTRANdatatypes.o ../../../Shared/ComponentInterface/datatypes.o -o ../lib/SurfaceOM.so -shared -L/home/Reds/development/lib -L/home/Reds/development/apsim/infra/lib -L/usr/lib -lComponentInterface -lapsinfra -lc
 make[1]: Leaving directory `/home/Reds/development/apsim/SurfaceOM/source'
+make[1]: Entering directory `/home/Reds/development/apsim/sysbal/source'
+/home/Reds/development/Bin/CreateComponentInterfaceSource ../sysbal.interface
+lf95 -I/home/Reds/development/apsim/infra/source -I/home/Reds/development/apsim/croptemp/source -M/home/Reds/development/apsim/infra/source -M/home/Reds/development/apsim/croptemp/source -g --tp -nco --o0 --pca -nsav -trace -nchk -nin --ml cdecl --staticlink -c -o Registrations.o Registrations.f90
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+lf95 -I/home/Reds/development/apsim/infra/source -I/home/Reds/development/apsim/croptemp/source -M/home/Reds/development/apsim/infra/source -M/home/Reds/development/apsim/croptemp/source -g --tp -nco --o0 --pca -nsav -trace -nchk -nin --ml cdecl --staticlink -c -o sysbal.o sysbal.for
+Encountered 0 errors, 0 warnings in file sysbal.for.
+g++ Registrations.o sysbal.o ../../../Shared/ComponentInterface/SimpleWrapper.o ../../../Shared/ComponentInterface/EntryPoints.o ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o ../../../Shared/ComponentInterface/FORTRANdatatypes.o ../../../Shared/ComponentInterface/datatypes.o -o ../lib/sysbal.so -shared -L/home/Reds/development/lib -L/home/Reds/development/apsim/infra/lib -L/home/Reds/development/apsim/croptemp/lib	-lg -lComponentInterface -lcroptemp -lapsinfra 
+make[1]: Leaving directory `/home/Reds/development/apsim/sysbal/source'
 make[1]: Entering directory `/home/Reds/development/apsim/Tracker/Source'
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -D_NO_VCL  -g  -c -o TrackerComponent.o TrackerComponent.cpp
-/usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -D_NO_VCL  -g  -c -o TrackerVariable.o TrackerVariable.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -D_NO_VCL  -g  -c -o TrackerComponent.o TrackerComponent.cpp
+/usr/bin/gcc -I/usr/include -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -Wno-deprecated -fpermissive -fPIC -D_NO_VCL  -g  -c -o TrackerVariable.o TrackerVariable.cpp
 TrackerVariable.cpp: In member function 'void TrackerVariable::doSample()':
-TrackerVariable.cpp:292: warning: passing 'double' for argument 1 to 'boost::gregorian::date::date(const long unsigned int&)'
-/usr/bin/gcc -shared -o ../lib/Tracker.so TrackerComponent.o TrackerVariable.o /home/Reds/development/Shared/ComponentInterface/EntryPoints.o -L/usr/lib -L/home/Reds/development/lib -lg -lComponentInterface -lprotocol -lApsimShared -lgeneral -lboost_filesystem -lxml2 -lc
+TrackerVariable.cpp:295: warning: passing 'double' for argument 1 to 'boost::gregorian::date::date(const long unsigned int&)'
+/usr/bin/gcc -shared -o ../lib/Tracker.so TrackerComponent.o TrackerVariable.o /home/Reds/development/Shared/ComponentInterface/EntryPoints.o -L/usr/lib	-L/home/Reds/development/lib -lg -lComponentInterface -lprotocol -lApsimShared -lgeneral -lboost_filesystem -lxml2 -lc
 make[1]: Leaving directory `/home/Reds/development/apsim/Tracker/Source'
 make[1]: Entering directory `/home/Reds/development/apsim/tcllink/source'
 /usr/bin/gcc -I/usr/include/boost -I/usr/include/libxml2 -I/home/Reds/development/Shared -I/home/Reds/development/Shared/ComponentInterface -I/usr/include/tcl-private/generic -I/usr/include/tk-private/generic -Wno-deprecated -fpermissive -fPIC -g  -c -o TclLink.o TclLink.cpp
