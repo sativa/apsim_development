@@ -9,11 +9,12 @@
       ..\ApsimControlFile.obj ..\ApsimSimulationFile.obj ..\ApsimSettings.obj 
       ..\ApsimComponentData.obj ..\ApsimSystemData.obj ..\ApsimDirectories.obj 
       ..\ApsimShared.obj ..\ApsimServiceData.obj ..\ApsimDataTypesFile.obj 
-      ..\ControlFileConverter.obj ..\ApsimDataFile.obj 
-      ..\TMoveParametersForm.obj ..\ApsimVersion.obj"/>
+      ..\ControlFileConverter.obj ..\ApsimDataFile.obj ..\ApsimVersion.obj 
+      ..\phi_functions.obj ..\SimCreatorSection.obj ..\FString.obj 
+      ..\FStringExt.obj"/>
     <RESFILES value="test.res"/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) ..\TMoveParametersForm.dfm"/>
+    <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\src\test.lib&quot; 
       ..\..\general\general.lib 
       &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot; 
@@ -76,12 +77,15 @@
       <FILE FILENAME="..\ApsimDataTypesFile.cpp" FORMNAME="" UNITNAME="ApsimDataTypesFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\ControlFileConverter.cpp" FORMNAME="" UNITNAME="ControlFileConverter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\ApsimDataFile.cpp" FORMNAME="" UNITNAME="ApsimDataFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\TMoveParametersForm.cpp" FORMNAME="MoveParametersForm" UNITNAME="TMoveParametersForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\ApsimVersion.cpp" FORMNAME="" UNITNAME="ApsimVersion" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib" FORMNAME="" UNITNAME="libxml2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\phi_functions.cpp" FORMNAME="" UNITNAME="phi_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\SimCreatorSection.cpp" FORMNAME="" UNITNAME="SimCreatorSection.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\FString.cpp" FORMNAME="" UNITNAME="FString" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\FStringExt.cpp" FORMNAME="" UNITNAME="FStringExt" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
