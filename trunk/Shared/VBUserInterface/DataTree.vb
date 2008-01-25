@@ -208,22 +208,25 @@ Public Class DataTree
         Next
     End Sub
 #End Region
+    Private LinkFont As Font = New System.Drawing.Font(Me.Font.FontFamily, Me.Font.Size, FontStyle.Underline)
 
     Private Sub ColourNode(ByVal Node As TreeNode)
+
         If Node.ToolTipText.IndexOf("Linked to") = 0 Then
-            Node.ForeColor = SystemColors.GrayText
+            Node.ForeColor = Color.Blue
+            Node.NodeFont = LinkFont
             Node.BackColor = BackColor
         ElseIf Node.ToolTipText.IndexOf("Disabled") = 0 Then
             Node.ForeColor = SystemColors.InactiveCaptionText
             Node.BackColor = SystemColors.InactiveCaption
 
         ElseIf Controller.SelectedPaths.IndexOf(GetPathFromNode(Node)) = -1 Then
-            Node.ForeColor = ForeColor
+            Node.ForeColor = Color.Black 'ForeColor
             Node.BackColor = BackColor
         Else
-        Node.ForeColor = SystemColors.HighlightText
-        Node.BackColor = SystemColors.Highlight
-        SelectedNode = Node
+            Node.ForeColor = SystemColors.HighlightText
+            Node.BackColor = SystemColors.Highlight
+            SelectedNode = Node
         End If
     End Sub
 
