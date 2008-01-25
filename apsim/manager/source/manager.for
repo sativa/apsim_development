@@ -1416,7 +1416,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          endif
       else if (Action .eq. 'kill_crop') then
          call PublishKillCrop(Module_name, Data_string)
-         
+
       else
          ! some other action
          call New_postbox ()
@@ -1448,7 +1448,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       Use infrastructure
 
       implicit none
-      
+
       character DataString*(*)        ! (INPUT) Should be blank or have a plants_kill_fraction
       character ModuleName*(*)        ! (INPUT) Name of module to send event to.
       character Name*(MAX_VARIABLE_NAME_SIZE)
@@ -1456,7 +1456,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       type(KillCropType) Kill
       integer KillCropID
       integer NumVals
-      
+
       call Get_next_variable(DataString, Name, Value)
       Name = Lower_case(Name)
       if (Name .eq. 'plants_kill_fraction') then
@@ -1464,7 +1464,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
       else
          Kill%KillFraction = 1.0
       endif
-      KillCropID = add_registration(eventReg, 
+      Kill%KillFraction = Fraction
+      KillCropID = add_registration(eventReg,
      .                              'kill_crop',
      .                              KillCropTypeDDML, '', ModuleName)
       call publish_KillCrop(KillCropID, Kill)
