@@ -321,12 +321,14 @@ namespace Graph
                     XmlNode RenamedChild = XmlHelper.Find(Data, OldName);
                     XmlHelper.SetName(RenamedChild, NewName);
                     XmlHelper.EnsureNodeIsUnique(RenamedChild);
-                    NewName = RenamedChild.Name;
+                    NewName = XmlHelper.Name(RenamedChild);
                     ComponentToRename.Name = NewName;
                     ComponentToRename.Text = NewName;
                     Processor.Rename(OldName, NewName);
                     OnSave();
                     PublishViewChanged();
+                    ComponentToRename.OnLoad(Controller, ComponentToRename.NodePath, RenamedChild.OuterXml);
+                    ComponentToRename.OnRefresh();
                     }
                 }
             }
