@@ -954,30 +954,38 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !- Implementation Section ----------------------------------
       Is_apsim_variable = (index(variable_name, '.') .gt. 0)
 
-      ! Look for function first.
+      ! Look for function first. 
 
-      if (variable_name(1:5) .eq. 'date(') then
+      if (variable_name .eq. ' ') then
+         ! do nothing
+         
+      else if (variable_name(1:5) .eq. 'date(') then
          call Manager_get_params (variable_name, Params)
          call Get_char_var (Unknown_module, 'today', '', Todaystr,
      .                        numvals)
          call string_to_double_var (Todaystr, Today, numvals)
          numvals = 0
-         call String_to_jday (Params(1), d_var_val, numvals, Today)
-         if (numvals .eq. 0) then
-            call Parse_get_variable(Params(1), Str, IsReal)
-            if (.not. IsReal) then
-               call Double_var_to_string (Date(Str, Today),
-     .                                    Variable_value)
-            else
-               ! This will give a fatal_error
-               call Double_var_to_string (Date(Params(1), Today),
-     .                                    Variable_value)
-            endif
+         if (Params(1) .eq. ' ') then
+            valueIsReal = .true.
+            variable_value = '0'
          else
-            call Double_var_to_string (Date(Params(1), Today),
-     .                                Variable_value)
-         endif
-         valueIsReal = .false.
+            call String_to_jday (Params(1), d_var_val, numvals, Today)
+            if (numvals .eq. 0) then
+               call Parse_get_variable(Params(1), Str, IsReal)
+               if (.not. IsReal) then
+                  call Double_var_to_string (Date(Str, Today),
+     .                                       Variable_value)
+               else
+                  ! This will give a fatal_error
+                  call Double_var_to_string (Date(Params(1), Today),
+     .                                       Variable_value)
+               endif
+            else
+               call Double_var_to_string (Date(Params(1), Today),
+     .                                   Variable_value)
+            endif
+            valueIsReal = .false.
+         endif   
 
       else if (variable_name(1:6) .eq. 'month(') then
          call Manager_get_params (variable_name, Params)
