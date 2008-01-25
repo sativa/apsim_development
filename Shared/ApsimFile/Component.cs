@@ -381,12 +381,12 @@ namespace ApsimFile
         public Component Duplicate(Component ComponentToDuplicate)
             {
             XmlDocument Doc = new XmlDocument();
-            Doc.AppendChild(Doc.CreateElement(Type));
-            Write(Doc.DocumentElement);
+            Doc.AppendChild(Doc.CreateElement(ComponentToDuplicate.Type));
+            ComponentToDuplicate.Write(Doc.DocumentElement);
             if (XmlHelper.Attribute(Doc.DocumentElement, "shortcut") == "")
-                return Parent.Add(Doc.DocumentElement.OuterXml);
+                return Add(Doc.DocumentElement.OuterXml);
             else
-                return Parent.AddShortCut(ComponentToDuplicate);
+                return AddShortCut(ComponentToDuplicate);
             }
         private void ChildNodesRecursively(List<Component> AllChildNodes)
             {
@@ -684,6 +684,17 @@ namespace ApsimFile
                 if (!Found)
                     Delete(MyChildNodes[i]);
                 }
+            }
+
+
+
+
+        public string FullXML()
+            {
+            XmlDocument Doc = new XmlDocument();
+            Doc.AppendChild(Doc.CreateElement(Type));
+            Write(Doc.DocumentElement);
+            return Doc.OuterXml;
             }
 
 

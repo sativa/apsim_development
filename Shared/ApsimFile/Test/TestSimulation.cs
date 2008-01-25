@@ -299,7 +299,14 @@ namespace Test
             Component Simulation = Simulations.Find("/folder/My Sim");
             Simulation.Replace(NewSimulationXml);
             Assert.AreEqual(Simulation.ChildNodes.Count, 2);
-
+            }
+        [Test] public void Duplicate()
+            {
+            Component Simulation = Simulations.Find("/folder/My Sim");
+            Simulation.Parent.Duplicate(Simulation);
+            Component NewSim = Simulations.Find("/folder/My Sim2");
+            Assert.IsNotNull(NewSim);
+            Assert.IsNull(NewSim.ShortCutTo);
             }
 
 
