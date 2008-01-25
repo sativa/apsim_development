@@ -28,11 +28,17 @@ bool readNextRecord(istream& in, int index, vector<string>& fieldValues)
       int start = line.find_first_not_of(' ');
       while ((start >= 0) && (start < n))
          {
-         int stop = line.find_first_of(' ', start);
+         int stop;
+         if (line[start] == '"')
+            stop = line.find_first_of('"', start+1)+1;
+         else
+            stop = line.find_first_of(' ', start);
          if ((stop < 0) || (stop > n)) stop = n;
          string word = line.substr(start, stop - start);
          if (word == "*" || word == "?")
             word = "";
+         if (word[0] == '"' && word[word.length()-1] == '"')
+            word = word.substr(1, word.length()-2);
          if (fieldValues.size() <= (unsigned)index)
             fieldValues.push_back(word);
          else
@@ -84,7 +90,7 @@ int readApsimHeader(istream& in,
          {
          foundHeadings = true;
          numConstants = fieldNames.size();
-         split(previousLine, " ", fieldNames);
+         SplitStringHonouringQuotes(previousLine, " ", fieldNames);
          break;
          }
       previousLine = line;
