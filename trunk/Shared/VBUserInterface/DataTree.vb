@@ -276,12 +276,10 @@ Public Class DataTree
         End If
 
         Dim FullXML As String = ""
+
         For Each SelectedPath As String In Controller.SelectedPaths
-            ' If Data is in shared then only drag a shortcut. Otherwise drag the full
-            ' XML.
             Dim Comp As ApsimFile.Component = Controller.ApsimData.Find(SelectedPath)
-            'Dim P As XmlNode = Data.Parent
-            FullXML = FullXML + Comp.Contents
+            FullXML = FullXML + Comp.FullXML
         Next
         PathsBeingDragged = Controller.SelectedPaths
         DoDragDrop(FullXML, DragDropEffects.Copy Or DragDropEffects.Link Or DragDropEffects.Move)

@@ -161,7 +161,9 @@ Public Class areaui
     ' User is trying to initiate a drag - allow drag operation
     ' --------------------------------------------------------
     Private Sub ListView_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles ListView.ItemDrag
-        Dim DataString As String = XmlHelper.Find(Data, ListView.SelectedItems.Item(0).Text).OuterXml
+        Dim Comp As ApsimFile.Component = Controller.ApsimData.Find(NodePath)
+        Dim SelectedComp As ApsimFile.Component = Comp.Find(ListView.SelectedItems.Item(0).Text)
+        Dim DataString As String = SelectedComp.FullXML
         ListView.DoDragDrop(DataString, DragDropEffects.All)
     End Sub
 
