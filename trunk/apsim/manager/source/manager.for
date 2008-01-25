@@ -954,11 +954,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !- Implementation Section ----------------------------------
       Is_apsim_variable = (index(variable_name, '.') .gt. 0)
 
-      ! Look for function first. 
+      ! Look for function first.
 
       if (variable_name .eq. ' ') then
          ! do nothing
-         
+
       else if (variable_name(1:5) .eq. 'date(') then
          call Manager_get_params (variable_name, Params)
          call Get_char_var (Unknown_module, 'today', '', Todaystr,
@@ -985,7 +985,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                                   Variable_value)
             endif
             valueIsReal = .false.
-         endif   
+         endif
 
       else if (variable_name(1:6) .eq. 'month(') then
          call Manager_get_params (variable_name, Params)
@@ -1464,7 +1464,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
       else
          Kill%KillFraction = 1.0
       endif
-      Kill%KillFraction = Fraction
       KillCropID = add_registration(eventReg,
      .                              'kill_crop',
      .                              KillCropTypeDDML, '', ModuleName)
