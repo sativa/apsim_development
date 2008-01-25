@@ -90,7 +90,7 @@ int readApsimHeader(istream& in,
          {
          foundHeadings = true;
          numConstants = fieldNames.size();
-         SplitStringHonouringQuotes(previousLine, " ", fieldNames);
+         split(previousLine, " ", fieldNames);
          break;
          }
       previousLine = line;
