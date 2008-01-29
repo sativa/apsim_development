@@ -448,7 +448,7 @@ namespace Soils
 
                 XmlHelper.SetValue(NitrogenSimNode, "initdata/ph", Utility.LayeredToString(PHMapedToSoil));
                 }
-            if (ParentSoil.UseEC && MathUtility.ValuesInArray(EC))
+            if (ParentSoil.MaxRootDepth > 0 || (ParentSoil.UseEC && MathUtility.ValuesInArray(EC)))
                 {
                 foreach (string CropName in ParentSoil.Crops)
                     {
@@ -460,7 +460,11 @@ namespace Soils
                         double[] xf = new double[XfStrings.Length];
                         for (int i = 0; i != XfStrings.Length; i++)
                             xf[i] = Convert.ToDouble(XfStrings[i]);
-                        ApplyECXFFunction(ParentSoil.Thickness, ECMapedToSoil, ref xf);
+                        if (ParentSoil.UseEC && MathUtility.ValuesInArray(EC))
+                            ApplyECXFFunction(ParentSoil.Thickness, ECMapedToSoil, ref xf);
+
+                        if (ParentSoil.MaxRootDepth > 0)
+                            ApplyMaxRootDepth(ParentSoil.Thickness, ParentSoil.MaxRootDepth * 10, ref xf);
 
                         XmlHelper.SetValue(CropSimNode, "initdata/xf", Utility.LayeredToString(xf));
 
@@ -489,7 +493,34 @@ namespace Soils
                     }
                 }
             }
+        private static void ApplyMaxRootDepth(double[] Thickness, int RootingDepth, ref double[] xf)
+            {
+            // --------------------------------------------------------
+            // Using the specified rooting depth modify the XF profile
+            // --------------------------------------------------------
+            if (xf.Length > 0 && MathUtility.ValuesInArray(xf) && RootingDepth > 0)
+                {
+                double[] CumThickness = Utility.ToCumThickness(Thickness);
+                for (int i = 0; i != CumThickness.Length; i++)
+                    {
+                    if (CumThickness[i] > RootingDepth)
+                        {
+                        double PreviousCumThickness = 0.0;
+                        if (i > 0)
+                            PreviousCumThickness = CumThickness[i - 1];
 
+                        if (PreviousCumThickness > RootingDepth)
+                            xf[i] = 0.0;
+                        else
+                            {
+                            double Proportion = (RootingDepth - PreviousCumThickness) / Thickness[i];
+                            xf[i] = xf[i] * Proportion;
+                            xf[i] = CSGeneral.MathUtility.Constrain(0.0, 1.0, xf[i]);
+                            }
+                        }
+                    }
+                }
+            }
 
         }
 	}
