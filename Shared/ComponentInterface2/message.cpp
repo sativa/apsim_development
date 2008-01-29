@@ -16,7 +16,7 @@ unsigned nextFreeMessage = 0;
 
 
           
-void initMessageFactory(void)
+void EXPORT initMessageFactory(void)
    // ------------------------------------------------------------------
    // Initialise the message factory.
    // ------------------------------------------------------------------
@@ -29,7 +29,7 @@ void initMessageFactory(void)
       }
    }
 
-void shutDownMessageFactory(void)
+void EXPORT shutDownMessageFactory(void)
    // ------------------------------------------------------------------
    // Shutdown the message system.
    // ------------------------------------------------------------------
@@ -99,7 +99,7 @@ void EXPORT deleteMessage(Message& message)
 // to it. The caller should delete the memory when finished by
 // calling deleteClonedMessage below
 // ------------------------------------------------------------------
-Message* cloneMessage(const Message& from)
+Message* EXPORT cloneMessage(const Message& from)
    {
    Message* message = (Message*) new char[sizeof(Message) + from.nDataBytes];
    memcpy(message, &from, sizeof(Message));
@@ -111,7 +111,7 @@ Message* cloneMessage(const Message& from)
 // ------------------------------------------------------------------
 // Delete a message that was created via the clonedMessage routine above.
 // ------------------------------------------------------------------
-void deleteClonedMessage(Message* msg)
+void EXPORT deleteClonedMessage(Message* msg)
    {
    delete [] (char*) msg;
    }

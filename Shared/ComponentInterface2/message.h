@@ -2,6 +2,7 @@
 #ifndef MessageH
 #define MessageH
 
+#include <general/platform.h>
 // ------------------------------------------------------------------
 //  Short description:
 //    This class encapsulates a protocol message.
@@ -70,17 +71,17 @@ struct Message
 // ------------------------------------------------------------------
 // Initialise the message factory.
 // ------------------------------------------------------------------
-void initMessageFactory(void);
+void EXPORT initMessageFactory(void);
 
 // ------------------------------------------------------------------
 // Shutdown the message factory.
 // ------------------------------------------------------------------
-void shutDownMessageFactory(void);
+void EXPORT shutDownMessageFactory(void);
 
 // ------------------------------------------------------------------
 // Creates a new message that can hold a given number of bytes for data.
 // ------------------------------------------------------------------
-Message& constructMessage(Message::Type messageType,
+Message& EXPORT constructMessage(Message::Type messageType,
                           unsigned int fromID,
                           unsigned int toID,
                           bool acknowledgementRequired,
@@ -89,19 +90,19 @@ Message& constructMessage(Message::Type messageType,
 // ------------------------------------------------------------------
 // Delete the specified message that was created by constructMessage
 // ------------------------------------------------------------------
-void deleteMessage(Message& message);
+void EXPORT deleteMessage(Message& message);
 
 // ------------------------------------------------------------------
 // Create a new message from the specified one and return a pointer
 // to it. The caller should delete the memory when finished by
 // calling deleteClonedMessage below
 // ------------------------------------------------------------------
-Message* cloneMessage(const Message& from);
+Message* EXPORT cloneMessage(const Message& from);
 
 // ------------------------------------------------------------------
 // Delete a message that was created via the cloneMessage routine above.
 // ------------------------------------------------------------------
-void deleteClonedMessage(Message* msg);
+void EXPORT deleteClonedMessage(Message* msg);
 
 
 #endif

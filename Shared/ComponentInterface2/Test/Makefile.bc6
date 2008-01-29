@@ -15,22 +15,13 @@ VERSION = BCB.06.00
 # ---------------------------------------------------------------------------
 PROJECT = $(APSROOT)\Bin\TestComponentInterface2.exe
 OBJFILES = testComponentInterface.obj \
-   ..\message.obj \
-   ..\TypeConverter.obj \
-   ..\ArraySpecifier.obj \
-          ..\DataTypes.obj                \
-          ..\CMPScienceAPI.obj            \
-          ..\CMPComponentInterface.obj    \
-          ..\CMPData.obj                  \
-   ..\CMPComponentInterface.obj \
-   ..\CMPScienceAPI.obj \
-   ..\CMPData.obj \
    TestVariables.obj TestParameters.obj TestEvents.obj TestMisc.obj
    
 RESFILES = 
 MAINSOURCE = TestComponentInterface2.bpf
 RESDEPEN = $(RESFILES)
 LIBFILES = "C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\test.lib" \
+    $(APSROOT)\Shared\ComponentInterface2\ComponentInterface2.lib \
     $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
     $(APSROOT)\Shared\general\general.lib \
     "C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib"
@@ -60,12 +51,14 @@ PATHPAS = .;
 PATHRC = .;
 PATHOBJ = .;$(LIBPATH)
 # ---------------------------------------------------------------------------
-CFLAG1 = -vGc -vGt -vGd -Od -Vx -Ve -fp -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM -c
+CFLAG1 =                                     -Vx -Ve -X- -a8 -b- -tWM -tWD -O2 -c -V -w-inl
+#CFLAG1 = -vGc -vGt -vGd -Od -Vx -Ve -fp -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM -c
 IDLCFLAGS = 
 PFLAGS = -$YD -$W -$O- -$A8 -v -JPHNE -M
 RFLAGS = 
 AFLAGS = /mx /w2 /zi
-LFLAGS = -l. -D"" -ap -Tpe -x -Gn -wdpl -v
+LFLAGS = $(SYSLDFLAGS) -aa -Tpe -x -Gn -Gi -v
+#LFLAGS = -l. -D"" -ap -Tpe -x -Gn -wdpl -v
 # ---------------------------------------------------------------------------
 ALLOBJ = c0x32.obj $(PACKAGES) $(OBJFILES)
 ALLRES = $(RESFILES)
@@ -209,4 +202,6 @@ $(PROJECT): $(OTHERFILES) $(IDLGENFILES) $(OBJFILES) $(RESDEPEN) $(DEFFILE)
 
 
 
+clean:
+	del /q $(PROJECT) $(OBJFILES)
 
