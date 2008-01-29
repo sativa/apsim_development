@@ -182,8 +182,9 @@ void appendDBRecord(TDataSet* dataset,
       {
       for (fieldI = 0; fieldI < fieldNames.size(); fieldI++)
          {
-         if (fieldValues[fieldI] != "")
-            dataset->FieldValues[fieldNames[fieldI].c_str()] = fieldValues[fieldI].c_str();
+         AnsiString fieldName = fieldNames[fieldI].c_str();
+         if (fieldValues[fieldI] != "" && dataset->FieldDefs->IndexOf(fieldName) != -1)
+            dataset->FieldValues[fieldName] = fieldValues[fieldI].c_str();
          }
       }
    catch (const Exception& err)
