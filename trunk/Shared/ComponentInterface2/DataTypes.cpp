@@ -6,53 +6,53 @@
 #include "Interfaces.h"
 
    //------ Null ------
-   void pack(MessageData& messageData, const Null& data) { }
-   void unpack(MessageData& messageData, Null& data) { }
-   unsigned memorySize(const Null& data) {return 0;}
-   std::string DDML(const Null& data) {return "<type/>";}
+   void EXPORT pack(MessageData& messageData, const Null& data) { }
+   void EXPORT unpack(MessageData& messageData, Null& data) { }
+   unsigned EXPORT memorySize(const Null& data) {return 0;}
+   std::string EXPORT DDML(const Null& data) {return "<type/>";}
 
 
    //------ Complete ------
 
-   void pack(MessageData& messageData, const CompleteType& data)
+   void EXPORT pack(MessageData& messageData, const CompleteType& data)
       {
       pack(messageData, data.ackID);
       }
-   void unpack(MessageData& messageData, CompleteType& data)
+   void EXPORT unpack(MessageData& messageData, CompleteType& data)
       {
       unpack(messageData, data.ackID);
       }
-   unsigned memorySize(const CompleteType& data)
+   unsigned EXPORT memorySize(const CompleteType& data)
       {
       return 0
               + ::memorySize(data.ackID)
               ;
       }
-   std::string DDML(const CompleteType& data)
+   std::string EXPORT DDML(const CompleteType& data)
       {return "<type name=\"Complete\">"
                "<field name=\"ackID\" kind=\"integer4\" />"
                "</type>";}
 
    //------ Error ------
 
-   void pack(MessageData& messageData, const ErrorType& data)
+   void EXPORT pack(MessageData& messageData, const ErrorType& data)
       {
       pack(messageData, data.isFatal);
       pack(messageData, data.msg);
       }
-   void unpack(MessageData& messageData, ErrorType& data)
+   void EXPORT unpack(MessageData& messageData, ErrorType& data)
       {
       unpack(messageData, data.isFatal);
       unpack(messageData, data.msg);
       }
-   unsigned memorySize(const ErrorType& data)
+   unsigned EXPORT memorySize(const ErrorType& data)
       {
       return 0
               + ::memorySize(data.isFatal)
               + ::memorySize(data.msg)
               ;
       }
-   std::string DDML(const ErrorType& data)
+   std::string EXPORT DDML(const ErrorType& data)
       {return "<type name=\"Error\">"
                "<field name=\"isFatal\" kind=\"boolean\" />"
                "<field name=\"msg\" kind=\"string\" />"
@@ -60,19 +60,19 @@
 
    //------ Event ------
 
-   void pack(MessageData& messageData, const EventType& data)
+   void EXPORT pack(MessageData& messageData, const EventType& data)
       {
       pack(messageData, data.ID);
       pack(messageData, data.publishedBy);
       pack(messageData, data.ddml);
       }
-   void unpack(MessageData& messageData, EventType& data)
+   void EXPORT unpack(MessageData& messageData, EventType& data)
       {
       unpack(messageData, data.ID);
       unpack(messageData, data.publishedBy);
       unpack(messageData, data.ddml);
       }
-   unsigned memorySize(const EventType& data)
+   unsigned EXPORT memorySize(const EventType& data)
       {
       return 0
               + ::memorySize(data.ID)
@@ -80,7 +80,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const EventType& data)
+   std::string EXPORT DDML(const EventType& data)
       {return "<type name=\"Event\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"publishedBy\" kind=\"integer4\" />"
@@ -89,40 +89,40 @@
 
    //------ GetValue ------
 
-   void pack(MessageData& messageData, const GetValueType& data)
+   void EXPORT pack(MessageData& messageData, const GetValueType& data)
       {
       pack(messageData, data.ID);
       }
-   void unpack(MessageData& messageData, GetValueType& data)
+   void EXPORT unpack(MessageData& messageData, GetValueType& data)
       {
       unpack(messageData, data.ID);
       }
-   unsigned memorySize(const GetValueType& data)
+   unsigned EXPORT memorySize(const GetValueType& data)
       {
       return 0
               + ::memorySize(data.ID)
               ;
       }
-   std::string DDML(const GetValueType& data)
+   std::string EXPORT DDML(const GetValueType& data)
       {return "<type name=\"GetValue\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "</type>";}
 
    //------ Init1 ------
 
-   void pack(MessageData& messageData, const Init1Type& data)
+   void EXPORT pack(MessageData& messageData, const Init1Type& data)
       {
       pack(messageData, data.sdml);
       pack(messageData, data.fqn);
       pack(messageData, data.inStartup);
       }
-   void unpack(MessageData& messageData, Init1Type& data)
+   void EXPORT unpack(MessageData& messageData, Init1Type& data)
       {
       unpack(messageData, data.sdml);
       unpack(messageData, data.fqn);
       unpack(messageData, data.inStartup);
       }
-   unsigned memorySize(const Init1Type& data)
+   unsigned EXPORT memorySize(const Init1Type& data)
       {
       return 0
               + ::memorySize(data.sdml)
@@ -130,7 +130,7 @@
               + ::memorySize(data.inStartup)
               ;
       }
-   std::string DDML(const Init1Type& data)
+   std::string EXPORT DDML(const Init1Type& data)
       {return "<type name=\"Init1\">"
                "<field name=\"sdml\" kind=\"string\" />"
                "<field name=\"fqn\" kind=\"string\" />"
@@ -139,24 +139,24 @@
 
    //------ NotifySetValueSuccess ------
 
-   void pack(MessageData& messageData, const NotifySetValueSuccessType& data)
+   void EXPORT pack(MessageData& messageData, const NotifySetValueSuccessType& data)
       {
       pack(messageData, data.ID);
       pack(messageData, data.success);
       }
-   void unpack(MessageData& messageData, NotifySetValueSuccessType& data)
+   void EXPORT unpack(MessageData& messageData, NotifySetValueSuccessType& data)
       {
       unpack(messageData, data.ID);
       unpack(messageData, data.success);
       }
-   unsigned memorySize(const NotifySetValueSuccessType& data)
+   unsigned EXPORT memorySize(const NotifySetValueSuccessType& data)
       {
       return 0
               + ::memorySize(data.ID)
               + ::memorySize(data.success)
               ;
       }
-   std::string DDML(const NotifySetValueSuccessType& data)
+   std::string EXPORT DDML(const NotifySetValueSuccessType& data)
       {return "<type name=\"NotifySetValueSuccess\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"success\" kind=\"boolean\" />"
@@ -164,24 +164,24 @@
 
    //------ PublishEvent ------
 
-   void pack(MessageData& messageData, const PublishEventType& data)
+   void EXPORT pack(MessageData& messageData, const PublishEventType& data)
       {
       pack(messageData, data.ID);
       pack(messageData, data.ddml);
       }
-   void unpack(MessageData& messageData, PublishEventType& data)
+   void EXPORT unpack(MessageData& messageData, PublishEventType& data)
       {
       unpack(messageData, data.ID);
       unpack(messageData, data.ddml);
       }
-   unsigned memorySize(const PublishEventType& data)
+   unsigned EXPORT memorySize(const PublishEventType& data)
       {
       return 0
               + ::memorySize(data.ID)
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const PublishEventType& data)
+   std::string EXPORT DDML(const PublishEventType& data)
       {return "<type name=\"PublishEvent\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"ddml\" kind=\"string\" />"
@@ -189,24 +189,24 @@
 
    //------ QueryInfo ------
 
-   void pack(MessageData& messageData, const QueryInfoType& data)
+   void EXPORT pack(MessageData& messageData, const QueryInfoType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.kind);
       }
-   void unpack(MessageData& messageData, QueryInfoType& data)
+   void EXPORT unpack(MessageData& messageData, QueryInfoType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.kind);
       }
-   unsigned memorySize(const QueryInfoType& data)
+   unsigned EXPORT memorySize(const QueryInfoType& data)
       {
       return 0
               + ::memorySize(data.name)
               + ::memorySize(data.kind)
               ;
       }
-   std::string DDML(const QueryInfoType& data)
+   std::string EXPORT DDML(const QueryInfoType& data)
       {return "<type name=\"QueryInfo\">"
                "<field name=\"name\" kind=\"string\" />"
                "<field name=\"kind\" kind=\"integer4\" />"
@@ -214,7 +214,7 @@
 
    //------ Register ------
 
-   void pack(MessageData& messageData, const RegisterType& data)
+   void EXPORT pack(MessageData& messageData, const RegisterType& data)
       {
       pack(messageData, data.kind);
       pack(messageData, data.ID);
@@ -222,7 +222,7 @@
       pack(messageData, data.name);
       pack(messageData, data.ddml);
       }
-   void unpack(MessageData& messageData, RegisterType& data)
+   void EXPORT unpack(MessageData& messageData, RegisterType& data)
       {
       unpack(messageData, data.kind);
       unpack(messageData, data.ID);
@@ -230,7 +230,7 @@
       unpack(messageData, data.name);
       unpack(messageData, data.ddml);
       }
-   unsigned memorySize(const RegisterType& data)
+   unsigned EXPORT memorySize(const RegisterType& data)
       {
       return 0
               + ::memorySize(data.kind)
@@ -240,7 +240,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const RegisterType& data)
+   std::string EXPORT DDML(const RegisterType& data)
       {return "<type name=\"Register\">"
                "<field name=\"kind\" kind=\"integer4\" />"
                "<field name=\"ID\" kind=\"integer4\" />"
@@ -251,24 +251,24 @@
 
    //------ ReplyValue ------
 
-   void pack(MessageData& messageData, const ReplyValueType& data)
+   void EXPORT pack(MessageData& messageData, const ReplyValueType& data)
       {
       pack(messageData, data.queryID);
       pack(messageData, data.ddml);
       }
-   void unpack(MessageData& messageData, ReplyValueType& data)
+   void EXPORT unpack(MessageData& messageData, ReplyValueType& data)
       {
       unpack(messageData, data.queryID);
       unpack(messageData, data.ddml);
       }
-   unsigned memorySize(const ReplyValueType& data)
+   unsigned EXPORT memorySize(const ReplyValueType& data)
       {
       return 0
               + ::memorySize(data.queryID)
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const ReplyValueType& data)
+   std::string EXPORT DDML(const ReplyValueType& data)
       {return "<type name=\"ReplyValue\">"
                "<field name=\"queryID\" kind=\"integer4\" />"
                "<field name=\"ddml\" kind=\"string\" />"
@@ -276,24 +276,24 @@
 
    //------ RequestSetValue ------
 
-   void pack(MessageData& messageData, const RequestSetValueType& data)
+   void EXPORT pack(MessageData& messageData, const RequestSetValueType& data)
       {
       pack(messageData, data.ID);
       pack(messageData, data.ddml);
       }
-   void unpack(MessageData& messageData, RequestSetValueType& data)
+   void EXPORT unpack(MessageData& messageData, RequestSetValueType& data)
       {
       unpack(messageData, data.ID);
       unpack(messageData, data.ddml);
       }
-   unsigned memorySize(const RequestSetValueType& data)
+   unsigned EXPORT memorySize(const RequestSetValueType& data)
       {
       return 0
               + ::memorySize(data.ID)
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const RequestSetValueType& data)
+   std::string EXPORT DDML(const RequestSetValueType& data)
       {return "<type name=\"RequestSetValue\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"ddml\" kind=\"string\" />"
@@ -301,7 +301,7 @@
 
    //------ ReturnInfo ------
 
-   void pack(MessageData& messageData, const ReturnInfoType& data)
+   void EXPORT pack(MessageData& messageData, const ReturnInfoType& data)
       {
       pack(messageData, data.queryID);
       pack(messageData, data.compID);
@@ -310,7 +310,7 @@
       pack(messageData, data.type);
       pack(messageData, data.kind);
       }
-   void unpack(MessageData& messageData, ReturnInfoType& data)
+   void EXPORT unpack(MessageData& messageData, ReturnInfoType& data)
       {
       unpack(messageData, data.queryID);
       unpack(messageData, data.compID);
@@ -319,7 +319,7 @@
       unpack(messageData, data.type);
       unpack(messageData, data.kind);
       }
-   unsigned memorySize(const ReturnInfoType& data)
+   unsigned EXPORT memorySize(const ReturnInfoType& data)
       {
       return 0
               + ::memorySize(data.queryID)
@@ -330,7 +330,7 @@
               + ::memorySize(data.kind)
               ;
       }
-   std::string DDML(const ReturnInfoType& data)
+   std::string EXPORT DDML(const ReturnInfoType& data)
       {return "<type name=\"ReturnInfo\">"
                "<field name=\"queryID\" kind=\"integer4\" />"
                "<field name=\"compID\" kind=\"integer4\" />"
@@ -342,19 +342,19 @@
 
    //------ ReturnValue ------
 
-   void pack(MessageData& messageData, const ReturnValueType& data)
+   void EXPORT pack(MessageData& messageData, const ReturnValueType& data)
       {
       pack(messageData, data.compID);
       pack(messageData, data.ID);
       pack(messageData, data.ddml);
       }
-   void unpack(MessageData& messageData, ReturnValueType& data)
+   void EXPORT unpack(MessageData& messageData, ReturnValueType& data)
       {
       unpack(messageData, data.compID);
       unpack(messageData, data.ID);
       unpack(messageData, data.ddml);
       }
-   unsigned memorySize(const ReturnValueType& data)
+   unsigned EXPORT memorySize(const ReturnValueType& data)
       {
       return 0
               + ::memorySize(data.compID)
@@ -362,7 +362,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const ReturnValueType& data)
+   std::string EXPORT DDML(const ReturnValueType& data)
       {return "<type name=\"ReturnValue\">"
                "<field name=\"compID\" kind=\"integer4\" />"
                "<field name=\"ID\" kind=\"integer4\" />"
@@ -371,24 +371,24 @@
 
    //------ QueryValue ------
 
-   void pack(MessageData& messageData, const QueryValueType& data)
+   void EXPORT pack(MessageData& messageData, const QueryValueType& data)
       {
       pack(messageData, data.ID);
       pack(messageData, data.requestedByID);
       }
-   void unpack(MessageData& messageData, QueryValueType& data)
+   void EXPORT unpack(MessageData& messageData, QueryValueType& data)
       {
       unpack(messageData, data.ID);
       unpack(messageData, data.requestedByID);
       }
-   unsigned memorySize(const QueryValueType& data)
+   unsigned EXPORT memorySize(const QueryValueType& data)
       {
       return 0
               + ::memorySize(data.ID)
               + ::memorySize(data.requestedByID)
               ;
       }
-   std::string DDML(const QueryValueType& data)
+   std::string EXPORT DDML(const QueryValueType& data)
       {return "<type name=\"QueryValue\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"requestedByID\" kind=\"integer4\" />"
@@ -396,24 +396,24 @@
 
    //------ QuerySetValue ------
 
-   void pack(MessageData& messageData, const QuerySetValueType& data)
+   void EXPORT pack(MessageData& messageData, const QuerySetValueType& data)
       {
       pack(messageData, data.ID);
       pack(messageData, data.ddml);
       }
-   void unpack(MessageData& messageData, QuerySetValueType& data)
+   void EXPORT unpack(MessageData& messageData, QuerySetValueType& data)
       {
       unpack(messageData, data.ID);
       unpack(messageData, data.ddml);
       }
-   unsigned memorySize(const QuerySetValueType& data)
+   unsigned EXPORT memorySize(const QuerySetValueType& data)
       {
       return 0
               + ::memorySize(data.ID)
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const QuerySetValueType& data)
+   std::string EXPORT DDML(const QuerySetValueType& data)
       {return "<type name=\"QuerySetValue\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"ddml\" kind=\"string\" />"
@@ -421,24 +421,24 @@
 
    //------ Layered ------
 
-   void pack(MessageData& messageData, const LayeredType& data)
+   void EXPORT pack(MessageData& messageData, const LayeredType& data)
       {
       pack(messageData, data.layer);
       pack(messageData, data.value);
       }
-   void unpack(MessageData& messageData, LayeredType& data)
+   void EXPORT unpack(MessageData& messageData, LayeredType& data)
       {
       unpack(messageData, data.layer);
       unpack(messageData, data.value);
       }
-   unsigned memorySize(const LayeredType& data)
+   unsigned EXPORT memorySize(const LayeredType& data)
       {
       return 0
               + ::memorySize(data.layer)
               + ::memorySize(data.value)
               ;
       }
-   std::string DDML(const LayeredType& data)
+   std::string EXPORT DDML(const LayeredType& data)
       {return "<type name=\"Layered\" description=\"Layered soil data\">"
                "<field name=\"layer\" kind=\"double\" array=\"T\" />"
                "<field name=\"value\" kind=\"double\" array=\"T\" />"
@@ -446,7 +446,7 @@
 
    //------ Time ------
 
-   void pack(MessageData& messageData, const TimeType& data)
+   void EXPORT pack(MessageData& messageData, const TimeType& data)
       {
       pack(messageData, data.startday);
       pack(messageData, data.startsec);
@@ -455,7 +455,7 @@
       pack(messageData, data.endsec);
       pack(messageData, data.endsecpart);
       }
-   void unpack(MessageData& messageData, TimeType& data)
+   void EXPORT unpack(MessageData& messageData, TimeType& data)
       {
       unpack(messageData, data.startday);
       unpack(messageData, data.startsec);
@@ -464,7 +464,7 @@
       unpack(messageData, data.endsec);
       unpack(messageData, data.endsecpart);
       }
-   unsigned memorySize(const TimeType& data)
+   unsigned EXPORT memorySize(const TimeType& data)
       {
       return 0
               + ::memorySize(data.startday)
@@ -475,7 +475,7 @@
               + ::memorySize(data.endsecpart)
               ;
       }
-   std::string DDML(const TimeType& data)
+   std::string EXPORT DDML(const TimeType& data)
       {return "<type name=\"Time\" description=\"Change in the simulation system time and the duration of the new time step\">"
                "<field name=\"startday\" kind=\"integer4\" description=\"Day number of the start of the timestep\" />"
                "<field name=\"startsec\" kind=\"integer4\" description=\"Seconds past midnight of the start of the timestep (0-86399)\" />"
@@ -487,7 +487,7 @@
 
    //------ NewMet ------
 
-   void pack(MessageData& messageData, const NewMetType& data)
+   void EXPORT pack(MessageData& messageData, const NewMetType& data)
       {
       pack(messageData, data.today);
       pack(messageData, data.radn);
@@ -496,7 +496,7 @@
       pack(messageData, data.rain);
       pack(messageData, data.vp);
       }
-   void unpack(MessageData& messageData, NewMetType& data)
+   void EXPORT unpack(MessageData& messageData, NewMetType& data)
       {
       unpack(messageData, data.today);
       unpack(messageData, data.radn);
@@ -505,7 +505,7 @@
       unpack(messageData, data.rain);
       unpack(messageData, data.vp);
       }
-   unsigned memorySize(const NewMetType& data)
+   unsigned EXPORT memorySize(const NewMetType& data)
       {
       return 0
               + ::memorySize(data.today)
@@ -516,7 +516,7 @@
               + ::memorySize(data.vp)
               ;
       }
-   std::string DDML(const NewMetType& data)
+   std::string EXPORT DDML(const NewMetType& data)
       {return "<type name=\"NewMet\">"
                "<field name=\"today\" kind=\"double\" />"
                "<field name=\"radn\" kind=\"single\" lower_bound=\"0.0\" upper_bound=\"50.0\" units=\"MJ/m2/d\" />"
@@ -528,7 +528,7 @@
 
    //------ SoilWaterProfileLayer ------
 
-   void pack(MessageData& messageData, const SoilWaterProfileLayerType& data)
+   void EXPORT pack(MessageData& messageData, const SoilWaterProfileLayerType& data)
       {
       pack(messageData, data.thickness);
       pack(messageData, data.BulkDensity);
@@ -538,7 +538,7 @@
       pack(messageData, data.AirDryDepth);
       pack(messageData, data.SWDepth);
       }
-   void unpack(MessageData& messageData, SoilWaterProfileLayerType& data)
+   void EXPORT unpack(MessageData& messageData, SoilWaterProfileLayerType& data)
       {
       unpack(messageData, data.thickness);
       unpack(messageData, data.BulkDensity);
@@ -548,7 +548,7 @@
       unpack(messageData, data.AirDryDepth);
       unpack(messageData, data.SWDepth);
       }
-   unsigned memorySize(const SoilWaterProfileLayerType& data)
+   unsigned EXPORT memorySize(const SoilWaterProfileLayerType& data)
       {
       return 0
               + ::memorySize(data.thickness)
@@ -560,7 +560,7 @@
               + ::memorySize(data.SWDepth)
               ;
       }
-   std::string DDML(const SoilWaterProfileLayerType& data)
+   std::string EXPORT DDML(const SoilWaterProfileLayerType& data)
       {return "<type name=\"SoilWaterProfileLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
@@ -575,24 +575,24 @@
 
    //------ SoilWaterLayer ------
 
-   void pack(MessageData& messageData, const SoilWaterLayerType& data)
+   void EXPORT pack(MessageData& messageData, const SoilWaterLayerType& data)
       {
       pack(messageData, data.thickness);
       pack(messageData, data.amount);
       }
-   void unpack(MessageData& messageData, SoilWaterLayerType& data)
+   void EXPORT unpack(MessageData& messageData, SoilWaterLayerType& data)
       {
       unpack(messageData, data.thickness);
       unpack(messageData, data.amount);
       }
-   unsigned memorySize(const SoilWaterLayerType& data)
+   unsigned EXPORT memorySize(const SoilWaterLayerType& data)
       {
       return 0
               + ::memorySize(data.thickness)
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const SoilWaterLayerType& data)
+   std::string EXPORT DDML(const SoilWaterLayerType& data)
       {return "<type name=\"SoilWaterLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
@@ -602,24 +602,24 @@
 
    //------ LateralFlowLayer ------
 
-   void pack(MessageData& messageData, const LateralFlowLayerType& data)
+   void EXPORT pack(MessageData& messageData, const LateralFlowLayerType& data)
       {
       pack(messageData, data.thickness);
       pack(messageData, data.amount);
       }
-   void unpack(MessageData& messageData, LateralFlowLayerType& data)
+   void EXPORT unpack(MessageData& messageData, LateralFlowLayerType& data)
       {
       unpack(messageData, data.thickness);
       unpack(messageData, data.amount);
       }
-   unsigned memorySize(const LateralFlowLayerType& data)
+   unsigned EXPORT memorySize(const LateralFlowLayerType& data)
       {
       return 0
               + ::memorySize(data.thickness)
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const LateralFlowLayerType& data)
+   std::string EXPORT DDML(const LateralFlowLayerType& data)
       {return "<field name=\"LateralFlowLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" />"
@@ -629,21 +629,21 @@
 
    //------ SoilWaterBalance ------
 
-   void pack(MessageData& messageData, const SoilWaterBalanceType& data)
+   void EXPORT pack(MessageData& messageData, const SoilWaterBalanceType& data)
       {
       pack(messageData, data.infiltration);
       pack(messageData, data.drainage);
       pack(messageData, data.evaporation);
       pack(messageData, data.LateralFlowLayer);
       }
-   void unpack(MessageData& messageData, SoilWaterBalanceType& data)
+   void EXPORT unpack(MessageData& messageData, SoilWaterBalanceType& data)
       {
       unpack(messageData, data.infiltration);
       unpack(messageData, data.drainage);
       unpack(messageData, data.evaporation);
       unpack(messageData, data.LateralFlowLayer);
       }
-   unsigned memorySize(const SoilWaterBalanceType& data)
+   unsigned EXPORT memorySize(const SoilWaterBalanceType& data)
       {
       return 0
               + ::memorySize(data.infiltration)
@@ -652,7 +652,7 @@
               + ::memorySize(data.LateralFlowLayer)
               ;
       }
-   std::string DDML(const SoilWaterBalanceType& data)
+   std::string EXPORT DDML(const SoilWaterBalanceType& data)
       {return "<type name=\"SoilWaterBalance\">"
                "<field name=\"infiltration\" kind=\"single\" />"
                "<field name=\"drainage\" kind=\"single\" />"
@@ -667,7 +667,7 @@
 
    //------ NewSolute ------
 
-   void pack(MessageData& messageData, const NewSoluteType& data)
+   void EXPORT pack(MessageData& messageData, const NewSoluteType& data)
       {
       pack(messageData, data.sender_name);
       pack(messageData, data.sender_numbytes);
@@ -685,7 +685,7 @@
       pack(messageData, data.solute_names_isarray);
       pack(messageData, data.solute_names_value);
       }
-   void unpack(MessageData& messageData, NewSoluteType& data)
+   void EXPORT unpack(MessageData& messageData, NewSoluteType& data)
       {
       unpack(messageData, data.sender_name);
       unpack(messageData, data.sender_numbytes);
@@ -703,7 +703,7 @@
       unpack(messageData, data.solute_names_isarray);
       unpack(messageData, data.solute_names_value);
       }
-   unsigned memorySize(const NewSoluteType& data)
+   unsigned EXPORT memorySize(const NewSoluteType& data)
       {
       return 0
               + ::memorySize(data.sender_name)
@@ -723,7 +723,7 @@
               + ::memorySize(data.solute_names_value)
               ;
       }
-   std::string DDML(const NewSoluteType& data)
+   std::string EXPORT DDML(const NewSoluteType& data)
       {return "<type name=\"NewSolute\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -744,24 +744,24 @@
 
    //------ layer ------
 
-   void pack(MessageData& messageData, const layerType& data)
+   void EXPORT pack(MessageData& messageData, const layerType& data)
       {
       pack(messageData, data.thickness);
       pack(messageData, data.amount);
       }
-   void unpack(MessageData& messageData, layerType& data)
+   void EXPORT unpack(MessageData& messageData, layerType& data)
       {
       unpack(messageData, data.thickness);
       unpack(messageData, data.amount);
       }
-   unsigned memorySize(const layerType& data)
+   unsigned EXPORT memorySize(const layerType& data)
       {
       return 0
               + ::memorySize(data.thickness)
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const layerType& data)
+   std::string EXPORT DDML(const layerType& data)
       {return "<field name=\"layer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" />"
@@ -771,24 +771,24 @@
 
    //------ SoluteProfile ------
 
-   void pack(MessageData& messageData, const SoluteProfileType& data)
+   void EXPORT pack(MessageData& messageData, const SoluteProfileType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.layer);
       }
-   void unpack(MessageData& messageData, SoluteProfileType& data)
+   void EXPORT unpack(MessageData& messageData, SoluteProfileType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.layer);
       }
-   unsigned memorySize(const SoluteProfileType& data)
+   unsigned EXPORT memorySize(const SoluteProfileType& data)
       {
       return 0
               + ::memorySize(data.name)
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const SoluteProfileType& data)
+   std::string EXPORT DDML(const SoluteProfileType& data)
       {return "<type name=\"SoluteProfile\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -803,7 +803,7 @@
 
    //------ Irrigated ------
 
-   void pack(MessageData& messageData, const IrrigatedType& data)
+   void EXPORT pack(MessageData& messageData, const IrrigatedType& data)
       {
       pack(messageData, data.sender_name);
       pack(messageData, data.sender_numbytes);
@@ -821,7 +821,7 @@
       pack(messageData, data.amount_isarray);
       pack(messageData, data.amount_value);
       }
-   void unpack(MessageData& messageData, IrrigatedType& data)
+   void EXPORT unpack(MessageData& messageData, IrrigatedType& data)
       {
       unpack(messageData, data.sender_name);
       unpack(messageData, data.sender_numbytes);
@@ -839,7 +839,7 @@
       unpack(messageData, data.amount_isarray);
       unpack(messageData, data.amount_value);
       }
-   unsigned memorySize(const IrrigatedType& data)
+   unsigned EXPORT memorySize(const IrrigatedType& data)
       {
       return 0
               + ::memorySize(data.sender_name)
@@ -859,7 +859,7 @@
               + ::memorySize(data.amount_value)
               ;
       }
-   std::string DDML(const IrrigatedType& data)
+   std::string EXPORT DDML(const IrrigatedType& data)
       {return "<type name=\"Irrigated\" description=\"Sent when an irrigation occurs\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -880,40 +880,40 @@
 
    //------ KillCrop ------
 
-   void pack(MessageData& messageData, const KillCropType& data)
+   void EXPORT pack(MessageData& messageData, const KillCropType& data)
       {
       pack(messageData, data.KillFraction);
       }
-   void unpack(MessageData& messageData, KillCropType& data)
+   void EXPORT unpack(MessageData& messageData, KillCropType& data)
       {
       unpack(messageData, data.KillFraction);
       }
-   unsigned memorySize(const KillCropType& data)
+   unsigned EXPORT memorySize(const KillCropType& data)
       {
       return 0
               + ::memorySize(data.KillFraction)
               ;
       }
-   std::string DDML(const KillCropType& data)
+   std::string EXPORT DDML(const KillCropType& data)
       {return "<type name=\"KillCrop\">"
                "<field name=\"KillFraction\" kind=\"single\" />"
                "</type>";}
 
    //------ Interception ------
 
-   void pack(MessageData& messageData, const InterceptionType& data)
+   void EXPORT pack(MessageData& messageData, const InterceptionType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.CropType);
       pack(messageData, data.layer);
       }
-   void unpack(MessageData& messageData, InterceptionType& data)
+   void EXPORT unpack(MessageData& messageData, InterceptionType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.CropType);
       unpack(messageData, data.layer);
       }
-   unsigned memorySize(const InterceptionType& data)
+   unsigned EXPORT memorySize(const InterceptionType& data)
       {
       return 0
               + ::memorySize(data.name)
@@ -921,7 +921,7 @@
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const InterceptionType& data)
+   std::string EXPORT DDML(const InterceptionType& data)
       {return "<field name=\"Interception\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -937,24 +937,24 @@
 
    //------ LightProfile ------
 
-   void pack(MessageData& messageData, const LightProfileType& data)
+   void EXPORT pack(MessageData& messageData, const LightProfileType& data)
       {
       pack(messageData, data.Interception);
       pack(messageData, data.transmission);
       }
-   void unpack(MessageData& messageData, LightProfileType& data)
+   void EXPORT unpack(MessageData& messageData, LightProfileType& data)
       {
       unpack(messageData, data.Interception);
       unpack(messageData, data.transmission);
       }
-   unsigned memorySize(const LightProfileType& data)
+   unsigned EXPORT memorySize(const LightProfileType& data)
       {
       return 0
               + ::memorySize(data.Interception)
               + ::memorySize(data.transmission)
               ;
       }
-   std::string DDML(const LightProfileType& data)
+   std::string EXPORT DDML(const LightProfileType& data)
       {return "<type name=\"LightProfile\">"
                "<field name=\"Interception\" array=\"T\">"
                "<element>"
@@ -973,19 +973,19 @@
 
    //------ Canopy ------
 
-   void pack(MessageData& messageData, const CanopyType& data)
+   void EXPORT pack(MessageData& messageData, const CanopyType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.CropType);
       pack(messageData, data.PotentialEp);
       }
-   void unpack(MessageData& messageData, CanopyType& data)
+   void EXPORT unpack(MessageData& messageData, CanopyType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.CropType);
       unpack(messageData, data.PotentialEp);
       }
-   unsigned memorySize(const CanopyType& data)
+   unsigned EXPORT memorySize(const CanopyType& data)
       {
       return 0
               + ::memorySize(data.name)
@@ -993,7 +993,7 @@
               + ::memorySize(data.PotentialEp)
               ;
       }
-   std::string DDML(const CanopyType& data)
+   std::string EXPORT DDML(const CanopyType& data)
       {return "<field name=\"Canopy\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1004,19 +1004,19 @@
 
    //------ CanopyWaterBalance ------
 
-   void pack(MessageData& messageData, const CanopyWaterBalanceType& data)
+   void EXPORT pack(MessageData& messageData, const CanopyWaterBalanceType& data)
       {
       pack(messageData, data.Canopy);
       pack(messageData, data.eo);
       pack(messageData, data.interception);
       }
-   void unpack(MessageData& messageData, CanopyWaterBalanceType& data)
+   void EXPORT unpack(MessageData& messageData, CanopyWaterBalanceType& data)
       {
       unpack(messageData, data.Canopy);
       unpack(messageData, data.eo);
       unpack(messageData, data.interception);
       }
-   unsigned memorySize(const CanopyWaterBalanceType& data)
+   unsigned EXPORT memorySize(const CanopyWaterBalanceType& data)
       {
       return 0
               + ::memorySize(data.Canopy)
@@ -1024,7 +1024,7 @@
               + ::memorySize(data.interception)
               ;
       }
-   std::string DDML(const CanopyWaterBalanceType& data)
+   std::string EXPORT DDML(const CanopyWaterBalanceType& data)
       {return "<type name=\"CanopyWaterBalance\">"
                "<field name=\"Canopy\" array=\"T\">"
                "<element>"
@@ -1039,7 +1039,7 @@
 
    //------ OrganicMatterFraction ------
 
-   void pack(MessageData& messageData, const OrganicMatterFractionType& data)
+   void EXPORT pack(MessageData& messageData, const OrganicMatterFractionType& data)
       {
       pack(messageData, data.amount);
       pack(messageData, data.C);
@@ -1047,7 +1047,7 @@
       pack(messageData, data.P);
       pack(messageData, data.AshAlk);
       }
-   void unpack(MessageData& messageData, OrganicMatterFractionType& data)
+   void EXPORT unpack(MessageData& messageData, OrganicMatterFractionType& data)
       {
       unpack(messageData, data.amount);
       unpack(messageData, data.C);
@@ -1055,7 +1055,7 @@
       unpack(messageData, data.P);
       unpack(messageData, data.AshAlk);
       }
-   unsigned memorySize(const OrganicMatterFractionType& data)
+   unsigned EXPORT memorySize(const OrganicMatterFractionType& data)
       {
       return 0
               + ::memorySize(data.amount)
@@ -1065,7 +1065,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const OrganicMatterFractionType& data)
+   std::string EXPORT DDML(const OrganicMatterFractionType& data)
       {return "<field name=\"OrganicMatterFraction\" array=\"T\">"
                "<element>"
                "<field name=\"amount\" kind=\"single\" units=\"kg/ha\" />"
@@ -1078,21 +1078,21 @@
 
    //------ Residue ------
 
-   void pack(MessageData& messageData, const ResidueType& data)
+   void EXPORT pack(MessageData& messageData, const ResidueType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.OrganicMatterType);
       pack(messageData, data.OrganicMatterFraction);
       pack(messageData, data.Cover);
       }
-   void unpack(MessageData& messageData, ResidueType& data)
+   void EXPORT unpack(MessageData& messageData, ResidueType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.OrganicMatterType);
       unpack(messageData, data.OrganicMatterFraction);
       unpack(messageData, data.Cover);
       }
-   unsigned memorySize(const ResidueType& data)
+   unsigned EXPORT memorySize(const ResidueType& data)
       {
       return 0
               + ::memorySize(data.name)
@@ -1101,7 +1101,7 @@
               + ::memorySize(data.Cover)
               ;
       }
-   std::string DDML(const ResidueType& data)
+   std::string EXPORT DDML(const ResidueType& data)
       {return "<type name=\"Residue\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1121,24 +1121,24 @@
 
    //------ solute ------
 
-   void pack(MessageData& messageData, const soluteType& data)
+   void EXPORT pack(MessageData& messageData, const soluteType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.amount);
       }
-   void unpack(MessageData& messageData, soluteType& data)
+   void EXPORT unpack(MessageData& messageData, soluteType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.amount);
       }
-   unsigned memorySize(const soluteType& data)
+   unsigned EXPORT memorySize(const soluteType& data)
       {
       return 0
               + ::memorySize(data.name)
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const soluteType& data)
+   std::string EXPORT DDML(const soluteType& data)
       {return "<field name=\"solute\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1148,24 +1148,24 @@
 
    //------ SurfaceWater ------
 
-   void pack(MessageData& messageData, const SurfaceWaterType& data)
+   void EXPORT pack(MessageData& messageData, const SurfaceWaterType& data)
       {
       pack(messageData, data.amount);
       pack(messageData, data.solute);
       }
-   void unpack(MessageData& messageData, SurfaceWaterType& data)
+   void EXPORT unpack(MessageData& messageData, SurfaceWaterType& data)
       {
       unpack(messageData, data.amount);
       unpack(messageData, data.solute);
       }
-   unsigned memorySize(const SurfaceWaterType& data)
+   unsigned EXPORT memorySize(const SurfaceWaterType& data)
       {
       return 0
               + ::memorySize(data.amount)
               + ::memorySize(data.solute)
               ;
       }
-   std::string DDML(const SurfaceWaterType& data)
+   std::string EXPORT DDML(const SurfaceWaterType& data)
       {return "<type name=\"SurfaceWater\">"
                "<field name=\"amount\" kind=\"single\" />"
                "<field name=\"solute\" array=\"T\">"
@@ -1178,21 +1178,21 @@
 
    //------ SurfaceWaterBalance ------
 
-   void pack(MessageData& messageData, const SurfaceWaterBalanceType& data)
+   void EXPORT pack(MessageData& messageData, const SurfaceWaterBalanceType& data)
       {
       pack(messageData, data.runoff);
       pack(messageData, data.evaporation);
       pack(messageData, data.runon);
       pack(messageData, data.WaterInput);
       }
-   void unpack(MessageData& messageData, SurfaceWaterBalanceType& data)
+   void EXPORT unpack(MessageData& messageData, SurfaceWaterBalanceType& data)
       {
       unpack(messageData, data.runoff);
       unpack(messageData, data.evaporation);
       unpack(messageData, data.runon);
       unpack(messageData, data.WaterInput);
       }
-   unsigned memorySize(const SurfaceWaterBalanceType& data)
+   unsigned EXPORT memorySize(const SurfaceWaterBalanceType& data)
       {
       return 0
               + ::memorySize(data.runoff)
@@ -1201,7 +1201,7 @@
               + ::memorySize(data.WaterInput)
               ;
       }
-   std::string DDML(const SurfaceWaterBalanceType& data)
+   std::string EXPORT DDML(const SurfaceWaterBalanceType& data)
       {return "<type name=\"SurfaceWaterBalance\">"
                "<field name=\"runoff\" kind=\"single\" />"
                "<field name=\"evaporation\" kind=\"single\" />"
@@ -1211,19 +1211,19 @@
 
    //------ FertiliserConstituents ------
 
-   void pack(MessageData& messageData, const FertiliserConstituentsType& data)
+   void EXPORT pack(MessageData& messageData, const FertiliserConstituentsType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.SurfaceAmount);
       pack(messageData, data.layer);
       }
-   void unpack(MessageData& messageData, FertiliserConstituentsType& data)
+   void EXPORT unpack(MessageData& messageData, FertiliserConstituentsType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.SurfaceAmount);
       unpack(messageData, data.layer);
       }
-   unsigned memorySize(const FertiliserConstituentsType& data)
+   unsigned EXPORT memorySize(const FertiliserConstituentsType& data)
       {
       return 0
               + ::memorySize(data.name)
@@ -1231,7 +1231,7 @@
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const FertiliserConstituentsType& data)
+   std::string EXPORT DDML(const FertiliserConstituentsType& data)
       {return "<type name=\"FertiliserConstituents\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1247,21 +1247,21 @@
 
    //------ FPool ------
 
-   void pack(MessageData& messageData, const FPoolType& data)
+   void EXPORT pack(MessageData& messageData, const FPoolType& data)
       {
       pack(messageData, data.C);
       pack(messageData, data.N);
       pack(messageData, data.P);
       pack(messageData, data.AshAlk);
       }
-   void unpack(MessageData& messageData, FPoolType& data)
+   void EXPORT unpack(MessageData& messageData, FPoolType& data)
       {
       unpack(messageData, data.C);
       unpack(messageData, data.N);
       unpack(messageData, data.P);
       unpack(messageData, data.AshAlk);
       }
-   unsigned memorySize(const FPoolType& data)
+   unsigned EXPORT memorySize(const FPoolType& data)
       {
       return 0
               + ::memorySize(data.C)
@@ -1270,7 +1270,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const FPoolType& data)
+   std::string EXPORT DDML(const FPoolType& data)
       {return "<field name=\"FPool\" array=\"T\">"
                "<element>"
                "<field name=\"C\" kind=\"single\" units=\"kg/ha\" />"
@@ -1282,7 +1282,7 @@
 
    //------ FPoolProfileLayer ------
 
-   void pack(MessageData& messageData, const FPoolProfileLayerType& data)
+   void EXPORT pack(MessageData& messageData, const FPoolProfileLayerType& data)
       {
       pack(messageData, data.thickness);
       pack(messageData, data.no3);
@@ -1290,7 +1290,7 @@
       pack(messageData, data.po4);
       pack(messageData, data.FPool);
       }
-   void unpack(MessageData& messageData, FPoolProfileLayerType& data)
+   void EXPORT unpack(MessageData& messageData, FPoolProfileLayerType& data)
       {
       unpack(messageData, data.thickness);
       unpack(messageData, data.no3);
@@ -1298,7 +1298,7 @@
       unpack(messageData, data.po4);
       unpack(messageData, data.FPool);
       }
-   unsigned memorySize(const FPoolProfileLayerType& data)
+   unsigned EXPORT memorySize(const FPoolProfileLayerType& data)
       {
       return 0
               + ::memorySize(data.thickness)
@@ -1308,7 +1308,7 @@
               + ::memorySize(data.FPool)
               ;
       }
-   std::string DDML(const FPoolProfileLayerType& data)
+   std::string EXPORT DDML(const FPoolProfileLayerType& data)
       {return "<type name=\"FPoolProfileLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
@@ -1328,7 +1328,7 @@
 
    //------ StandingFraction ------
 
-   void pack(MessageData& messageData, const StandingFractionType& data)
+   void EXPORT pack(MessageData& messageData, const StandingFractionType& data)
       {
       pack(messageData, data.amount);
       pack(messageData, data.C);
@@ -1336,7 +1336,7 @@
       pack(messageData, data.P);
       pack(messageData, data.AshAlk);
       }
-   void unpack(MessageData& messageData, StandingFractionType& data)
+   void EXPORT unpack(MessageData& messageData, StandingFractionType& data)
       {
       unpack(messageData, data.amount);
       unpack(messageData, data.C);
@@ -1344,7 +1344,7 @@
       unpack(messageData, data.P);
       unpack(messageData, data.AshAlk);
       }
-   unsigned memorySize(const StandingFractionType& data)
+   unsigned EXPORT memorySize(const StandingFractionType& data)
       {
       return 0
               + ::memorySize(data.amount)
@@ -1354,7 +1354,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const StandingFractionType& data)
+   std::string EXPORT DDML(const StandingFractionType& data)
       {return "<field name=\"StandingFraction\" array=\"T\">"
                "<element>"
                "<field name=\"amount\" kind=\"single\" units=\"kg/ha\" />"
@@ -1367,7 +1367,7 @@
 
    //------ LyingFraction ------
 
-   void pack(MessageData& messageData, const LyingFractionType& data)
+   void EXPORT pack(MessageData& messageData, const LyingFractionType& data)
       {
       pack(messageData, data.amount);
       pack(messageData, data.C);
@@ -1375,7 +1375,7 @@
       pack(messageData, data.P);
       pack(messageData, data.AshAlk);
       }
-   void unpack(MessageData& messageData, LyingFractionType& data)
+   void EXPORT unpack(MessageData& messageData, LyingFractionType& data)
       {
       unpack(messageData, data.amount);
       unpack(messageData, data.C);
@@ -1383,7 +1383,7 @@
       unpack(messageData, data.P);
       unpack(messageData, data.AshAlk);
       }
-   unsigned memorySize(const LyingFractionType& data)
+   unsigned EXPORT memorySize(const LyingFractionType& data)
       {
       return 0
               + ::memorySize(data.amount)
@@ -1393,7 +1393,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const LyingFractionType& data)
+   std::string EXPORT DDML(const LyingFractionType& data)
       {return "<field name=\"LyingFraction\" array=\"T\">"
                "<element>"
                "<field name=\"amount\" kind=\"single\" units=\"kg/ha\" />"
@@ -1406,7 +1406,7 @@
 
    //------ SurfaceOrganicMatter ------
 
-   void pack(MessageData& messageData, const SurfaceOrganicMatterType& data)
+   void EXPORT pack(MessageData& messageData, const SurfaceOrganicMatterType& data)
       {
       pack(messageData, data.Name);
       pack(messageData, data.OrganicMatterType);
@@ -1417,7 +1417,7 @@
       pack(messageData, data.StandingFraction);
       pack(messageData, data.LyingFraction);
       }
-   void unpack(MessageData& messageData, SurfaceOrganicMatterType& data)
+   void EXPORT unpack(MessageData& messageData, SurfaceOrganicMatterType& data)
       {
       unpack(messageData, data.Name);
       unpack(messageData, data.OrganicMatterType);
@@ -1428,7 +1428,7 @@
       unpack(messageData, data.StandingFraction);
       unpack(messageData, data.LyingFraction);
       }
-   unsigned memorySize(const SurfaceOrganicMatterType& data)
+   unsigned EXPORT memorySize(const SurfaceOrganicMatterType& data)
       {
       return 0
               + ::memorySize(data.Name)
@@ -1441,7 +1441,7 @@
               + ::memorySize(data.LyingFraction)
               ;
       }
-   std::string DDML(const SurfaceOrganicMatterType& data)
+   std::string EXPORT DDML(const SurfaceOrganicMatterType& data)
       {return "<type name=\"SurfaceOrganicMatter\" array=\"T\">"
                "<element>"
                "<field name=\"Name\" kind=\"string\" />"
@@ -1473,7 +1473,7 @@
 
    //------ SurfaceOrganicMatterDecomp ------
 
-   void pack(MessageData& messageData, const SurfaceOrganicMatterDecompType& data)
+   void EXPORT pack(MessageData& messageData, const SurfaceOrganicMatterDecompType& data)
       {
       pack(messageData, data.Name);
       pack(messageData, data.OrganicMatterType);
@@ -1483,7 +1483,7 @@
       pack(messageData, data.P);
       pack(messageData, data.AshAlk);
       }
-   void unpack(MessageData& messageData, SurfaceOrganicMatterDecompType& data)
+   void EXPORT unpack(MessageData& messageData, SurfaceOrganicMatterDecompType& data)
       {
       unpack(messageData, data.Name);
       unpack(messageData, data.OrganicMatterType);
@@ -1493,7 +1493,7 @@
       unpack(messageData, data.P);
       unpack(messageData, data.AshAlk);
       }
-   unsigned memorySize(const SurfaceOrganicMatterDecompType& data)
+   unsigned EXPORT memorySize(const SurfaceOrganicMatterDecompType& data)
       {
       return 0
               + ::memorySize(data.Name)
@@ -1505,7 +1505,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const SurfaceOrganicMatterDecompType& data)
+   std::string EXPORT DDML(const SurfaceOrganicMatterDecompType& data)
       {return "<type name=\"SurfaceOrganicMatterDecomp\" array=\"T\">"
                "<element>"
                "<field name=\"Name\" kind=\"string\" />"
@@ -1520,7 +1520,7 @@
 
    //------ NBalance ------
 
-   void pack(MessageData& messageData, const NBalanceType& data)
+   void EXPORT pack(MessageData& messageData, const NBalanceType& data)
       {
       pack(messageData, data.sender_name);
       pack(messageData, data.sender_numbytes);
@@ -1553,7 +1553,7 @@
       pack(messageData, data.dlt_no3_net_isarray);
       pack(messageData, data.dlt_no3_net_value);
       }
-   void unpack(MessageData& messageData, NBalanceType& data)
+   void EXPORT unpack(MessageData& messageData, NBalanceType& data)
       {
       unpack(messageData, data.sender_name);
       unpack(messageData, data.sender_numbytes);
@@ -1586,7 +1586,7 @@
       unpack(messageData, data.dlt_no3_net_isarray);
       unpack(messageData, data.dlt_no3_net_value);
       }
-   unsigned memorySize(const NBalanceType& data)
+   unsigned EXPORT memorySize(const NBalanceType& data)
       {
       return 0
               + ::memorySize(data.sender_name)
@@ -1621,7 +1621,7 @@
               + ::memorySize(data.dlt_no3_net_value)
               ;
       }
-   std::string DDML(const NBalanceType& data)
+   std::string EXPORT DDML(const NBalanceType& data)
       {return "<type name=\"NBalance\" description=\"Notification of the completion of the soil N calculations\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -1657,7 +1657,7 @@
 
    //------ CBalance ------
 
-   void pack(MessageData& messageData, const CBalanceType& data)
+   void EXPORT pack(MessageData& messageData, const CBalanceType& data)
       {
       pack(messageData, data.sender_name);
       pack(messageData, data.sender_numbytes);
@@ -1680,7 +1680,7 @@
       pack(messageData, data.dlt_om_isarray);
       pack(messageData, data.dlt_om_value);
       }
-   void unpack(MessageData& messageData, CBalanceType& data)
+   void EXPORT unpack(MessageData& messageData, CBalanceType& data)
       {
       unpack(messageData, data.sender_name);
       unpack(messageData, data.sender_numbytes);
@@ -1703,7 +1703,7 @@
       unpack(messageData, data.dlt_om_isarray);
       unpack(messageData, data.dlt_om_value);
       }
-   unsigned memorySize(const CBalanceType& data)
+   unsigned EXPORT memorySize(const CBalanceType& data)
       {
       return 0
               + ::memorySize(data.sender_name)
@@ -1728,7 +1728,7 @@
               + ::memorySize(data.dlt_om_value)
               ;
       }
-   std::string DDML(const CBalanceType& data)
+   std::string EXPORT DDML(const CBalanceType& data)
       {return "<type name=\"CBalance\" description=\"Notification of the completion of the soil C calculations\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -1754,7 +1754,7 @@
 
    //------ IncorpFom ------
 
-   void pack(MessageData& messageData, const IncorpFomType& data)
+   void EXPORT pack(MessageData& messageData, const IncorpFomType& data)
       {
       pack(messageData, data.dlt_fom_type_name);
       pack(messageData, data.dlt_fom_type_numbytes);
@@ -1777,7 +1777,7 @@
       pack(messageData, data.dlt_fom_p_isarray);
       pack(messageData, data.dlt_fom_p_value);
       }
-   void unpack(MessageData& messageData, IncorpFomType& data)
+   void EXPORT unpack(MessageData& messageData, IncorpFomType& data)
       {
       unpack(messageData, data.dlt_fom_type_name);
       unpack(messageData, data.dlt_fom_type_numbytes);
@@ -1800,7 +1800,7 @@
       unpack(messageData, data.dlt_fom_p_isarray);
       unpack(messageData, data.dlt_fom_p_value);
       }
-   unsigned memorySize(const IncorpFomType& data)
+   unsigned EXPORT memorySize(const IncorpFomType& data)
       {
       return 0
               + ::memorySize(data.dlt_fom_type_name)
@@ -1825,7 +1825,7 @@
               + ::memorySize(data.dlt_fom_p_value)
               ;
       }
-   std::string DDML(const IncorpFomType& data)
+   std::string EXPORT DDML(const IncorpFomType& data)
       {return "<type name=\"IncorpFom\">"
                "<field name=\"dlt_fom_type_name\" kind=\"string\" />"
                "<field name=\"dlt_fom_type_numbytes\" kind=\"integer4\" />"
@@ -1851,24 +1851,24 @@
 
    //------ SoilOrganicMatter ------
 
-   void pack(MessageData& messageData, const SoilOrganicMatterType& data)
+   void EXPORT pack(MessageData& messageData, const SoilOrganicMatterType& data)
       {
       pack(messageData, data.OrganicMatterType);
       pack(messageData, data.layer);
       }
-   void unpack(MessageData& messageData, SoilOrganicMatterType& data)
+   void EXPORT unpack(MessageData& messageData, SoilOrganicMatterType& data)
       {
       unpack(messageData, data.OrganicMatterType);
       unpack(messageData, data.layer);
       }
-   unsigned memorySize(const SoilOrganicMatterType& data)
+   unsigned EXPORT memorySize(const SoilOrganicMatterType& data)
       {
       return 0
               + ::memorySize(data.OrganicMatterType)
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const SoilOrganicMatterType& data)
+   std::string EXPORT DDML(const SoilOrganicMatterType& data)
       {return "<type name=\"SoilOrganicMatter\">"
                "<field name=\"OrganicMatterType\" kind=\"string\" />"
                "<field name=\"layer\" array=\"T\">"
@@ -1888,7 +1888,7 @@
 
    //------ CropChopped ------
 
-   void pack(MessageData& messageData, const CropChoppedType& data)
+   void EXPORT pack(MessageData& messageData, const CropChoppedType& data)
       {
       pack(messageData, data.crop_type);
       pack(messageData, data.dm_type);
@@ -1896,7 +1896,7 @@
       pack(messageData, data.dlt_dm_n);
       pack(messageData, data.fraction_to_residue);
       }
-   void unpack(MessageData& messageData, CropChoppedType& data)
+   void EXPORT unpack(MessageData& messageData, CropChoppedType& data)
       {
       unpack(messageData, data.crop_type);
       unpack(messageData, data.dm_type);
@@ -1904,7 +1904,7 @@
       unpack(messageData, data.dlt_dm_n);
       unpack(messageData, data.fraction_to_residue);
       }
-   unsigned memorySize(const CropChoppedType& data)
+   unsigned EXPORT memorySize(const CropChoppedType& data)
       {
       return 0
               + ::memorySize(data.crop_type)
@@ -1914,7 +1914,7 @@
               + ::memorySize(data.fraction_to_residue)
               ;
       }
-   std::string DDML(const CropChoppedType& data)
+   std::string EXPORT DDML(const CropChoppedType& data)
       {return "<type name=\"CropChopped\">"
                "<field name=\"crop_type\" kind=\"string\" />"
                "<field name=\"dm_type\" kind=\"string\" array=\"T\" />"
@@ -1925,7 +1925,7 @@
 
    //------ NewProfile ------
 
-   void pack(MessageData& messageData, const NewProfileType& data)
+   void EXPORT pack(MessageData& messageData, const NewProfileType& data)
       {
       pack(messageData, data.dlayer);
       pack(messageData, data.air_dry_dep);
@@ -1935,7 +1935,7 @@
       pack(messageData, data.sw_dep);
       pack(messageData, data.bd);
       }
-   void unpack(MessageData& messageData, NewProfileType& data)
+   void EXPORT unpack(MessageData& messageData, NewProfileType& data)
       {
       unpack(messageData, data.dlayer);
       unpack(messageData, data.air_dry_dep);
@@ -1945,7 +1945,7 @@
       unpack(messageData, data.sw_dep);
       unpack(messageData, data.bd);
       }
-   unsigned memorySize(const NewProfileType& data)
+   unsigned EXPORT memorySize(const NewProfileType& data)
       {
       return 0
               + ::memorySize(data.dlayer)
@@ -1957,7 +1957,7 @@
               + ::memorySize(data.bd)
               ;
       }
-   std::string DDML(const NewProfileType& data)
+   std::string EXPORT DDML(const NewProfileType& data)
       {return "<type name=\"NewProfile\">"
                "<field name=\"dlayer\" kind=\"single\" array=\"T\" />"
                "<field name=\"air_dry_dep\" kind=\"single\" array=\"T\" />"
@@ -1970,24 +1970,24 @@
 
    //------ NewPotentialGrowth ------
 
-   void pack(MessageData& messageData, const NewPotentialGrowthType& data)
+   void EXPORT pack(MessageData& messageData, const NewPotentialGrowthType& data)
       {
       pack(messageData, data.sender);
       pack(messageData, data.frgr);
       }
-   void unpack(MessageData& messageData, NewPotentialGrowthType& data)
+   void EXPORT unpack(MessageData& messageData, NewPotentialGrowthType& data)
       {
       unpack(messageData, data.sender);
       unpack(messageData, data.frgr);
       }
-   unsigned memorySize(const NewPotentialGrowthType& data)
+   unsigned EXPORT memorySize(const NewPotentialGrowthType& data)
       {
       return 0
               + ::memorySize(data.sender)
               + ::memorySize(data.frgr)
               ;
       }
-   std::string DDML(const NewPotentialGrowthType& data)
+   std::string EXPORT DDML(const NewPotentialGrowthType& data)
       {return "<type name=\"NewPotentialGrowth\">"
                "<field name=\"sender\" kind=\"string\" />"
                "<field name=\"frgr\" kind=\"single\" units=\"\" />"
@@ -1995,7 +1995,7 @@
 
    //------ NewCanopy ------
 
-   void pack(MessageData& messageData, const NewCanopyType& data)
+   void EXPORT pack(MessageData& messageData, const NewCanopyType& data)
       {
       pack(messageData, data.sender);
       pack(messageData, data.height);
@@ -2005,7 +2005,7 @@
       pack(messageData, data.cover);
       pack(messageData, data.cover_tot);
       }
-   void unpack(MessageData& messageData, NewCanopyType& data)
+   void EXPORT unpack(MessageData& messageData, NewCanopyType& data)
       {
       unpack(messageData, data.sender);
       unpack(messageData, data.height);
@@ -2015,7 +2015,7 @@
       unpack(messageData, data.cover);
       unpack(messageData, data.cover_tot);
       }
-   unsigned memorySize(const NewCanopyType& data)
+   unsigned EXPORT memorySize(const NewCanopyType& data)
       {
       return 0
               + ::memorySize(data.sender)
@@ -2027,7 +2027,7 @@
               + ::memorySize(data.cover_tot)
               ;
       }
-   std::string DDML(const NewCanopyType& data)
+   std::string EXPORT DDML(const NewCanopyType& data)
       {return "<type name=\"NewCanopy\">"
                "<field name=\"sender\" kind=\"string\" />"
                "<field name=\"height\" kind=\"single\" />"
@@ -2040,24 +2040,24 @@
 
    //------ NewCrop ------
 
-   void pack(MessageData& messageData, const NewCropType& data)
+   void EXPORT pack(MessageData& messageData, const NewCropType& data)
       {
       pack(messageData, data.sender);
       pack(messageData, data.crop_type);
       }
-   void unpack(MessageData& messageData, NewCropType& data)
+   void EXPORT unpack(MessageData& messageData, NewCropType& data)
       {
       unpack(messageData, data.sender);
       unpack(messageData, data.crop_type);
       }
-   unsigned memorySize(const NewCropType& data)
+   unsigned EXPORT memorySize(const NewCropType& data)
       {
       return 0
               + ::memorySize(data.sender)
               + ::memorySize(data.crop_type)
               ;
       }
-   std::string DDML(const NewCropType& data)
+   std::string EXPORT DDML(const NewCropType& data)
       {return "<type name=\"NewCrop\">"
                "<field name=\"sender\" kind=\"string\" />"
                "<field name=\"crop_type\" kind=\"string\" />"
@@ -2065,7 +2065,7 @@
 
    //------ NewZone ------
 
-   void pack(MessageData& messageData, const NewZoneType& data)
+   void EXPORT pack(MessageData& messageData, const NewZoneType& data)
       {
       pack(messageData, data.sender);
       pack(messageData, data.area);
@@ -2073,7 +2073,7 @@
       pack(messageData, data.X);
       pack(messageData, data.Y);
       }
-   void unpack(MessageData& messageData, NewZoneType& data)
+   void EXPORT unpack(MessageData& messageData, NewZoneType& data)
       {
       unpack(messageData, data.sender);
       unpack(messageData, data.area);
@@ -2081,7 +2081,7 @@
       unpack(messageData, data.X);
       unpack(messageData, data.Y);
       }
-   unsigned memorySize(const NewZoneType& data)
+   unsigned EXPORT memorySize(const NewZoneType& data)
       {
       return 0
               + ::memorySize(data.sender)
@@ -2091,7 +2091,7 @@
               + ::memorySize(data.Y)
               ;
       }
-   std::string DDML(const NewZoneType& data)
+   std::string EXPORT DDML(const NewZoneType& data)
       {return "<type name=\"NewZone\">"
                "<field name=\"sender\" kind=\"string\" />"
                "<field name=\"area\" kind=\"single\" />"
@@ -2102,24 +2102,24 @@
 
    //------ SoilLayers ------
 
-   void pack(MessageData& messageData, const SoilLayersType& data)
+   void EXPORT pack(MessageData& messageData, const SoilLayersType& data)
       {
       pack(messageData, data.layers);
       pack(messageData, data.value);
       }
-   void unpack(MessageData& messageData, SoilLayersType& data)
+   void EXPORT unpack(MessageData& messageData, SoilLayersType& data)
       {
       unpack(messageData, data.layers);
       unpack(messageData, data.value);
       }
-   unsigned memorySize(const SoilLayersType& data)
+   unsigned EXPORT memorySize(const SoilLayersType& data)
       {
       return 0
               + ::memorySize(data.layers)
               + ::memorySize(data.value)
               ;
       }
-   std::string DDML(const SoilLayersType& data)
+   std::string EXPORT DDML(const SoilLayersType& data)
       {return "<type name=\"SoilLayers\">"
                "<field name=\"layers\" kind=\"double\" unit=\"mm\" array=\"T\" />"
                "<field name=\"value\" kind=\"double\" unit=\"mm\" array=\"T\" />"
@@ -2127,24 +2127,24 @@
 
    //------ rlv_layer ------
 
-   void pack(MessageData& messageData, const rlv_layerType& data)
+   void EXPORT pack(MessageData& messageData, const rlv_layerType& data)
       {
       pack(messageData, data.layers);
       pack(messageData, data.rlv);
       }
-   void unpack(MessageData& messageData, rlv_layerType& data)
+   void EXPORT unpack(MessageData& messageData, rlv_layerType& data)
       {
       unpack(messageData, data.layers);
       unpack(messageData, data.rlv);
       }
-   unsigned memorySize(const rlv_layerType& data)
+   unsigned EXPORT memorySize(const rlv_layerType& data)
       {
       return 0
               + ::memorySize(data.layers)
               + ::memorySize(data.rlv)
               ;
       }
-   std::string DDML(const rlv_layerType& data)
+   std::string EXPORT DDML(const rlv_layerType& data)
       {return "<field name=\"rlv_layer\">"
                "<field name=\"layers\" kind=\"double\" units=\"mm\" array=\"T\" />"
                "<field name=\"rlv\" kind=\"double\" units=\"mmmm^3\" array=\"T\" />"
@@ -2152,21 +2152,21 @@
 
    //------ demands ------
 
-   void pack(MessageData& messageData, const demandsType& data)
+   void EXPORT pack(MessageData& messageData, const demandsType& data)
       {
       pack(messageData, data.crop_ident);
       pack(messageData, data.crop_type);
       pack(messageData, data.rlv_layer);
       pack(messageData, data.demand);
       }
-   void unpack(MessageData& messageData, demandsType& data)
+   void EXPORT unpack(MessageData& messageData, demandsType& data)
       {
       unpack(messageData, data.crop_ident);
       unpack(messageData, data.crop_type);
       unpack(messageData, data.rlv_layer);
       unpack(messageData, data.demand);
       }
-   unsigned memorySize(const demandsType& data)
+   unsigned EXPORT memorySize(const demandsType& data)
       {
       return 0
               + ::memorySize(data.crop_ident)
@@ -2175,7 +2175,7 @@
               + ::memorySize(data.demand)
               ;
       }
-   std::string DDML(const demandsType& data)
+   std::string EXPORT DDML(const demandsType& data)
       {return "<field name=\"demands\" array=\"T\">"
                "<element>"
                "<field name=\"crop_ident\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -2190,21 +2190,21 @@
 
    //------ PastureWaterDemand ------
 
-   void pack(MessageData& messageData, const PastureWaterDemandType& data)
+   void EXPORT pack(MessageData& messageData, const PastureWaterDemandType& data)
       {
       pack(messageData, data.demands);
       }
-   void unpack(MessageData& messageData, PastureWaterDemandType& data)
+   void EXPORT unpack(MessageData& messageData, PastureWaterDemandType& data)
       {
       unpack(messageData, data.demands);
       }
-   unsigned memorySize(const PastureWaterDemandType& data)
+   unsigned EXPORT memorySize(const PastureWaterDemandType& data)
       {
       return 0
               + ::memorySize(data.demands)
               ;
       }
-   std::string DDML(const PastureWaterDemandType& data)
+   std::string EXPORT DDML(const PastureWaterDemandType& data)
       {return "<type name=\"PastureWaterDemand\" description=\"Message sent to add crop water demand terms to water balance calculations.\">"
                "<field name=\"demands\" array=\"T\">"
                "<element>"
@@ -2221,19 +2221,19 @@
 
    //------ supplies ------
 
-   void pack(MessageData& messageData, const suppliesType& data)
+   void EXPORT pack(MessageData& messageData, const suppliesType& data)
       {
       pack(messageData, data.crop_ident);
       pack(messageData, data.layers);
       pack(messageData, data.supply);
       }
-   void unpack(MessageData& messageData, suppliesType& data)
+   void EXPORT unpack(MessageData& messageData, suppliesType& data)
       {
       unpack(messageData, data.crop_ident);
       unpack(messageData, data.layers);
       unpack(messageData, data.supply);
       }
-   unsigned memorySize(const suppliesType& data)
+   unsigned EXPORT memorySize(const suppliesType& data)
       {
       return 0
               + ::memorySize(data.crop_ident)
@@ -2241,7 +2241,7 @@
               + ::memorySize(data.supply)
               ;
       }
-   std::string DDML(const suppliesType& data)
+   std::string EXPORT DDML(const suppliesType& data)
       {return "<field name=\"supplies\" array=\"T\">"
                "<element>"
                "<field name=\"crop_ident\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -2252,21 +2252,21 @@
 
    //------ PastureWaterSupply ------
 
-   void pack(MessageData& messageData, const PastureWaterSupplyType& data)
+   void EXPORT pack(MessageData& messageData, const PastureWaterSupplyType& data)
       {
       pack(messageData, data.supplies);
       }
-   void unpack(MessageData& messageData, PastureWaterSupplyType& data)
+   void EXPORT unpack(MessageData& messageData, PastureWaterSupplyType& data)
       {
       unpack(messageData, data.supplies);
       }
-   unsigned memorySize(const PastureWaterSupplyType& data)
+   unsigned EXPORT memorySize(const PastureWaterSupplyType& data)
       {
       return 0
               + ::memorySize(data.supplies)
               ;
       }
-   std::string DDML(const PastureWaterSupplyType& data)
+   std::string EXPORT DDML(const PastureWaterSupplyType& data)
       {return "<type name=\"PastureWaterSupply\">"
                "<field name=\"supplies\" array=\"T\">"
                "<element>"
@@ -2279,19 +2279,19 @@
 
    //------ water_uptake ------
 
-   void pack(MessageData& messageData, const water_uptakeType& data)
+   void EXPORT pack(MessageData& messageData, const water_uptakeType& data)
       {
       pack(messageData, data.crop_ident);
       pack(messageData, data.layers);
       pack(messageData, data.uptake);
       }
-   void unpack(MessageData& messageData, water_uptakeType& data)
+   void EXPORT unpack(MessageData& messageData, water_uptakeType& data)
       {
       unpack(messageData, data.crop_ident);
       unpack(messageData, data.layers);
       unpack(messageData, data.uptake);
       }
-   unsigned memorySize(const water_uptakeType& data)
+   unsigned EXPORT memorySize(const water_uptakeType& data)
       {
       return 0
               + ::memorySize(data.crop_ident)
@@ -2299,7 +2299,7 @@
               + ::memorySize(data.uptake)
               ;
       }
-   std::string DDML(const water_uptakeType& data)
+   std::string EXPORT DDML(const water_uptakeType& data)
       {return "<field name=\"water_uptake\" array=\"T\">"
                "<element>"
                "<field name=\"crop_ident\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -2310,21 +2310,21 @@
 
    //------ PastureWaterUptake ------
 
-   void pack(MessageData& messageData, const PastureWaterUptakeType& data)
+   void EXPORT pack(MessageData& messageData, const PastureWaterUptakeType& data)
       {
       pack(messageData, data.water_uptake);
       }
-   void unpack(MessageData& messageData, PastureWaterUptakeType& data)
+   void EXPORT unpack(MessageData& messageData, PastureWaterUptakeType& data)
       {
       unpack(messageData, data.water_uptake);
       }
-   unsigned memorySize(const PastureWaterUptakeType& data)
+   unsigned EXPORT memorySize(const PastureWaterUptakeType& data)
       {
       return 0
               + ::memorySize(data.water_uptake)
               ;
       }
-   std::string DDML(const PastureWaterUptakeType& data)
+   std::string EXPORT DDML(const PastureWaterUptakeType& data)
       {return "<type name=\"PastureWaterUptake\">"
                "<field name=\"water_uptake\" array=\"T\">"
                "<element>"
@@ -2337,7 +2337,7 @@
 
    //------ water_info ------
 
-   void pack(MessageData& messageData, const water_infoType& data)
+   void EXPORT pack(MessageData& messageData, const water_infoType& data)
       {
       pack(messageData, data.crop_ident);
       pack(messageData, data.params);
@@ -2346,7 +2346,7 @@
       pack(messageData, data.rlv);
       pack(messageData, data.root_radius);
       }
-   void unpack(MessageData& messageData, water_infoType& data)
+   void EXPORT unpack(MessageData& messageData, water_infoType& data)
       {
       unpack(messageData, data.crop_ident);
       unpack(messageData, data.params);
@@ -2355,7 +2355,7 @@
       unpack(messageData, data.rlv);
       unpack(messageData, data.root_radius);
       }
-   unsigned memorySize(const water_infoType& data)
+   unsigned EXPORT memorySize(const water_infoType& data)
       {
       return 0
               + ::memorySize(data.crop_ident)
@@ -2366,7 +2366,7 @@
               + ::memorySize(data.root_radius)
               ;
       }
-   std::string DDML(const water_infoType& data)
+   std::string EXPORT DDML(const water_infoType& data)
       {return "<field name=\"water_info\" array=\"T\">"
                "<element>"
                "<field name=\"crop_ident\" kind=\"string\" description=\"sub-population name\" />"
@@ -2380,21 +2380,21 @@
 
    //------ WaterInfo ------
 
-   void pack(MessageData& messageData, const WaterInfoType& data)
+   void EXPORT pack(MessageData& messageData, const WaterInfoType& data)
       {
       pack(messageData, data.water_info);
       }
-   void unpack(MessageData& messageData, WaterInfoType& data)
+   void EXPORT unpack(MessageData& messageData, WaterInfoType& data)
       {
       unpack(messageData, data.water_info);
       }
-   unsigned memorySize(const WaterInfoType& data)
+   unsigned EXPORT memorySize(const WaterInfoType& data)
       {
       return 0
               + ::memorySize(data.water_info)
               ;
       }
-   std::string DDML(const WaterInfoType& data)
+   std::string EXPORT DDML(const WaterInfoType& data)
       {return "<type name=\"WaterInfo\">"
                "<field name=\"water_info\" array=\"T\">"
                "<element>"
@@ -2410,7 +2410,7 @@
 
    //------ fom ------
 
-   void pack(MessageData& messageData, const fomType& data)
+   void EXPORT pack(MessageData& messageData, const fomType& data)
       {
       pack(messageData, data.weight);
       pack(messageData, data.n);
@@ -2419,7 +2419,7 @@
       pack(messageData, data.ash_alk);
       pack(messageData, data.dmd);
       }
-   void unpack(MessageData& messageData, fomType& data)
+   void EXPORT unpack(MessageData& messageData, fomType& data)
       {
       unpack(messageData, data.weight);
       unpack(messageData, data.n);
@@ -2428,7 +2428,7 @@
       unpack(messageData, data.ash_alk);
       unpack(messageData, data.dmd);
       }
-   unsigned memorySize(const fomType& data)
+   unsigned EXPORT memorySize(const fomType& data)
       {
       return 0
               + ::memorySize(data.weight)
@@ -2439,7 +2439,7 @@
               + ::memorySize(data.dmd)
               ;
       }
-   std::string DDML(const fomType& data)
+   std::string EXPORT DDML(const fomType& data)
       {return "<field name=\"fom\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/ha\" kind=\"double\" />"
@@ -2453,24 +2453,24 @@
 
    //------ FomAdded ------
 
-   void pack(MessageData& messageData, const FomAddedType& data)
+   void EXPORT pack(MessageData& messageData, const FomAddedType& data)
       {
       pack(messageData, data.layers);
       pack(messageData, data.fom);
       }
-   void unpack(MessageData& messageData, FomAddedType& data)
+   void EXPORT unpack(MessageData& messageData, FomAddedType& data)
       {
       unpack(messageData, data.layers);
       unpack(messageData, data.fom);
       }
-   unsigned memorySize(const FomAddedType& data)
+   unsigned EXPORT memorySize(const FomAddedType& data)
       {
       return 0
               + ::memorySize(data.layers)
               + ::memorySize(data.fom)
               ;
       }
-   std::string DDML(const FomAddedType& data)
+   std::string EXPORT DDML(const FomAddedType& data)
       {return "<type name=\"FomAdded\">"
                "<field name=\"layers\" unit=\"mm\" kind=\"double\" array=\"T\" />"
                "<field name=\"fom\" array=\"T\">"
@@ -2487,19 +2487,19 @@
 
    //------ PastureNutrientUptake ------
 
-   void pack(MessageData& messageData, const PastureNutrientUptakeType& data)
+   void EXPORT pack(MessageData& messageData, const PastureNutrientUptakeType& data)
       {
       pack(messageData, data.nutrient);
       pack(messageData, data.layers);
       pack(messageData, data.uptake);
       }
-   void unpack(MessageData& messageData, PastureNutrientUptakeType& data)
+   void EXPORT unpack(MessageData& messageData, PastureNutrientUptakeType& data)
       {
       unpack(messageData, data.nutrient);
       unpack(messageData, data.layers);
       unpack(messageData, data.uptake);
       }
-   unsigned memorySize(const PastureNutrientUptakeType& data)
+   unsigned EXPORT memorySize(const PastureNutrientUptakeType& data)
       {
       return 0
               + ::memorySize(data.nutrient)
@@ -2507,7 +2507,7 @@
               + ::memorySize(data.uptake)
               ;
       }
-   std::string DDML(const PastureNutrientUptakeType& data)
+   std::string EXPORT DDML(const PastureNutrientUptakeType& data)
       {return "<type name=\"PastureNutrientUptake\">"
                "<field name=\"nutrient\" kind=\"string\" />"
                "<field name=\"layers\" unit=\"mm\" kind=\"double\" array=\"T\" />"
@@ -2516,45 +2516,45 @@
 
    //------ PastureSow ------
 
-   void pack(MessageData& messageData, const PastureSowType& data)
+   void EXPORT pack(MessageData& messageData, const PastureSowType& data)
       {
       pack(messageData, data.rate);
       }
-   void unpack(MessageData& messageData, PastureSowType& data)
+   void EXPORT unpack(MessageData& messageData, PastureSowType& data)
       {
       unpack(messageData, data.rate);
       }
-   unsigned memorySize(const PastureSowType& data)
+   unsigned EXPORT memorySize(const PastureSowType& data)
       {
       return 0
               + ::memorySize(data.rate)
               ;
       }
-   std::string DDML(const PastureSowType& data)
+   std::string EXPORT DDML(const PastureSowType& data)
       {return "<type name=\"PastureSow\">"
                "<field name=\"rate\" unit=\"kg/ha\" kind=\"double\" />"
                "</type>";}
 
    //------ PastureKill ------
 
-   void pack(MessageData& messageData, const PastureKillType& data)
+   void EXPORT pack(MessageData& messageData, const PastureKillType& data)
       {
       pack(messageData, data.propn_herbage);
       pack(messageData, data.propn_seed);
       }
-   void unpack(MessageData& messageData, PastureKillType& data)
+   void EXPORT unpack(MessageData& messageData, PastureKillType& data)
       {
       unpack(messageData, data.propn_herbage);
       unpack(messageData, data.propn_seed);
       }
-   unsigned memorySize(const PastureKillType& data)
+   unsigned EXPORT memorySize(const PastureKillType& data)
       {
       return 0
               + ::memorySize(data.propn_herbage)
               + ::memorySize(data.propn_seed)
               ;
       }
-   std::string DDML(const PastureKillType& data)
+   std::string EXPORT DDML(const PastureKillType& data)
       {return "<type name=\"PastureKill\">"
                "<field name=\"propn_herbage\" unit=\"-\" kind=\"double\" />"
                "<field name=\"propn_seed\" unit=\"-\" kind=\"double\" />"
@@ -2562,19 +2562,19 @@
 
    //------ PastureCultivate ------
 
-   void pack(MessageData& messageData, const PastureCultivateType& data)
+   void EXPORT pack(MessageData& messageData, const PastureCultivateType& data)
       {
       pack(messageData, data.depth);
       pack(messageData, data.propn_incorp);
       pack(messageData, data.propn_mixed);
       }
-   void unpack(MessageData& messageData, PastureCultivateType& data)
+   void EXPORT unpack(MessageData& messageData, PastureCultivateType& data)
       {
       unpack(messageData, data.depth);
       unpack(messageData, data.propn_incorp);
       unpack(messageData, data.propn_mixed);
       }
-   unsigned memorySize(const PastureCultivateType& data)
+   unsigned EXPORT memorySize(const PastureCultivateType& data)
       {
       return 0
               + ::memorySize(data.depth)
@@ -2582,7 +2582,7 @@
               + ::memorySize(data.propn_mixed)
               ;
       }
-   std::string DDML(const PastureCultivateType& data)
+   std::string EXPORT DDML(const PastureCultivateType& data)
       {return "<type name=\"PastureCultivate\">"
                "<field name=\"depth\" unit=\"mm\" kind=\"double\" />"
                "<field name=\"propn_incorp\" unit=\"-\" kind=\"double\" />"
@@ -2591,21 +2591,21 @@
 
    //------ PastureCut ------
 
-   void pack(MessageData& messageData, const PastureCutType& data)
+   void EXPORT pack(MessageData& messageData, const PastureCutType& data)
       {
       pack(messageData, data.cut_height);
       pack(messageData, data.gathered);
       pack(messageData, data.dmd_loss);
       pack(messageData, data.dm_content);
       }
-   void unpack(MessageData& messageData, PastureCutType& data)
+   void EXPORT unpack(MessageData& messageData, PastureCutType& data)
       {
       unpack(messageData, data.cut_height);
       unpack(messageData, data.gathered);
       unpack(messageData, data.dmd_loss);
       unpack(messageData, data.dm_content);
       }
-   unsigned memorySize(const PastureCutType& data)
+   unsigned EXPORT memorySize(const PastureCutType& data)
       {
       return 0
               + ::memorySize(data.cut_height)
@@ -2614,7 +2614,7 @@
               + ::memorySize(data.dm_content)
               ;
       }
-   std::string DDML(const PastureCutType& data)
+   std::string EXPORT DDML(const PastureCutType& data)
       {return "<type name=\"PastureCut\">"
                "<field name=\"cut_height\" unit=\"mm\" kind=\"double\" />"
                "<field name=\"gathered\" unit=\"-\" kind=\"double\" />"
@@ -2624,19 +2624,19 @@
 
    //------ PastureBurn ------
 
-   void pack(MessageData& messageData, const PastureBurnType& data)
+   void EXPORT pack(MessageData& messageData, const PastureBurnType& data)
       {
       pack(messageData, data.kill_plants);
       pack(messageData, data.kill_seed);
       pack(messageData, data.propn_unburnt);
       }
-   void unpack(MessageData& messageData, PastureBurnType& data)
+   void EXPORT unpack(MessageData& messageData, PastureBurnType& data)
       {
       unpack(messageData, data.kill_plants);
       unpack(messageData, data.kill_seed);
       unpack(messageData, data.propn_unburnt);
       }
-   unsigned memorySize(const PastureBurnType& data)
+   unsigned EXPORT memorySize(const PastureBurnType& data)
       {
       return 0
               + ::memorySize(data.kill_plants)
@@ -2644,7 +2644,7 @@
               + ::memorySize(data.propn_unburnt)
               ;
       }
-   std::string DDML(const PastureBurnType& data)
+   std::string EXPORT DDML(const PastureBurnType& data)
       {return "<type name=\"PastureBurn\">"
                "<field name=\"kill_plants\" unit=\"-\" kind=\"double\" />"
                "<field name=\"kill_seed\" unit=\"-\" kind=\"double\" />"
@@ -2653,7 +2653,7 @@
 
    //------ PastureOnCut ------
 
-   void pack(MessageData& messageData, const PastureOnCutType& data)
+   void EXPORT pack(MessageData& messageData, const PastureOnCutType& data)
       {
       pack(messageData, data.fresh_wt);
       pack(messageData, data.dm_content);
@@ -2663,7 +2663,7 @@
       pack(messageData, data.s_conc);
       pack(messageData, data.ash_alk);
       }
-   void unpack(MessageData& messageData, PastureOnCutType& data)
+   void EXPORT unpack(MessageData& messageData, PastureOnCutType& data)
       {
       unpack(messageData, data.fresh_wt);
       unpack(messageData, data.dm_content);
@@ -2673,7 +2673,7 @@
       unpack(messageData, data.s_conc);
       unpack(messageData, data.ash_alk);
       }
-   unsigned memorySize(const PastureOnCutType& data)
+   unsigned EXPORT memorySize(const PastureOnCutType& data)
       {
       return 0
               + ::memorySize(data.fresh_wt)
@@ -2685,7 +2685,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const PastureOnCutType& data)
+   std::string EXPORT DDML(const PastureOnCutType& data)
       {return "<type name=\"PastureOnCut\">"
                "<field name=\"fresh_wt\" unit=\"kg\" kind=\"double\" />"
                "<field name=\"dm_content\" unit=\"kg/kg\" kind=\"double\" />"
@@ -2698,7 +2698,7 @@
 
    //------ PastureWeather ------
 
-   void pack(MessageData& messageData, const PastureWeatherType& data)
+   void EXPORT pack(MessageData& messageData, const PastureWeatherType& data)
       {
       pack(messageData, data.maxt);
       pack(messageData, data.mint);
@@ -2708,7 +2708,7 @@
       pack(messageData, data.vpd);
       pack(messageData, data.wind);
       }
-   void unpack(MessageData& messageData, PastureWeatherType& data)
+   void EXPORT unpack(MessageData& messageData, PastureWeatherType& data)
       {
       unpack(messageData, data.maxt);
       unpack(messageData, data.mint);
@@ -2718,7 +2718,7 @@
       unpack(messageData, data.vpd);
       unpack(messageData, data.wind);
       }
-   unsigned memorySize(const PastureWeatherType& data)
+   unsigned EXPORT memorySize(const PastureWeatherType& data)
       {
       return 0
               + ::memorySize(data.maxt)
@@ -2730,7 +2730,7 @@
               + ::memorySize(data.wind)
               ;
       }
-   std::string DDML(const PastureWeatherType& data)
+   std::string EXPORT DDML(const PastureWeatherType& data)
       {return "<type name=\"PastureWeather\">"
                "<field name=\"maxt\" unit=\"oC\" kind=\"double\" />"
                "<field name=\"mint\" unit=\"oC\" kind=\"double\" />"
@@ -2743,7 +2743,7 @@
 
    //------ Faeces ------
 
-   void pack(MessageData& messageData, const FaecesType& data)
+   void EXPORT pack(MessageData& messageData, const FaecesType& data)
       {
       pack(messageData, data.weight);
       pack(messageData, data.n);
@@ -2751,7 +2751,7 @@
       pack(messageData, data.s);
       pack(messageData, data.ash_alk);
       }
-   void unpack(MessageData& messageData, FaecesType& data)
+   void EXPORT unpack(MessageData& messageData, FaecesType& data)
       {
       unpack(messageData, data.weight);
       unpack(messageData, data.n);
@@ -2759,7 +2759,7 @@
       unpack(messageData, data.s);
       unpack(messageData, data.ash_alk);
       }
-   unsigned memorySize(const FaecesType& data)
+   unsigned EXPORT memorySize(const FaecesType& data)
       {
       return 0
               + ::memorySize(data.weight)
@@ -2769,7 +2769,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const FaecesType& data)
+   std::string EXPORT DDML(const FaecesType& data)
       {return "<type name=\"Faeces\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/d\" kind=\"double\" />"
@@ -2782,19 +2782,19 @@
 
    //------ FaecesInorg ------
 
-   void pack(MessageData& messageData, const FaecesInorgType& data)
+   void EXPORT pack(MessageData& messageData, const FaecesInorgType& data)
       {
       pack(messageData, data.n);
       pack(messageData, data.p);
       pack(messageData, data.s);
       }
-   void unpack(MessageData& messageData, FaecesInorgType& data)
+   void EXPORT unpack(MessageData& messageData, FaecesInorgType& data)
       {
       unpack(messageData, data.n);
       unpack(messageData, data.p);
       unpack(messageData, data.s);
       }
-   unsigned memorySize(const FaecesInorgType& data)
+   unsigned EXPORT memorySize(const FaecesInorgType& data)
       {
       return 0
               + ::memorySize(data.n)
@@ -2802,7 +2802,7 @@
               + ::memorySize(data.s)
               ;
       }
-   std::string DDML(const FaecesInorgType& data)
+   std::string EXPORT DDML(const FaecesInorgType& data)
       {return "<type name=\"FaecesInorg\" array=\"T\">"
                "<element>"
                "<field name=\"n\" unit=\"kg/d\" kind=\"double\" />"
@@ -2813,7 +2813,7 @@
 
    //------ Intake ------
 
-   void pack(MessageData& messageData, const IntakeType& data)
+   void EXPORT pack(MessageData& messageData, const IntakeType& data)
       {
       pack(messageData, data.weight);
       pack(messageData, data.n);
@@ -2821,7 +2821,7 @@
       pack(messageData, data.s);
       pack(messageData, data.ash_alk);
       }
-   void unpack(MessageData& messageData, IntakeType& data)
+   void EXPORT unpack(MessageData& messageData, IntakeType& data)
       {
       unpack(messageData, data.weight);
       unpack(messageData, data.n);
@@ -2829,7 +2829,7 @@
       unpack(messageData, data.s);
       unpack(messageData, data.ash_alk);
       }
-   unsigned memorySize(const IntakeType& data)
+   unsigned EXPORT memorySize(const IntakeType& data)
       {
       return 0
               + ::memorySize(data.weight)
@@ -2839,7 +2839,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const IntakeType& data)
+   std::string EXPORT DDML(const IntakeType& data)
       {return "<type name=\"Intake\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/d\" kind=\"double\" />"
@@ -2852,7 +2852,7 @@
 
    //------ PastIntake ------
 
-   void pack(MessageData& messageData, const PastIntakeType& data)
+   void EXPORT pack(MessageData& messageData, const PastIntakeType& data)
       {
       pack(messageData, data.weight);
       pack(messageData, data.n);
@@ -2860,7 +2860,7 @@
       pack(messageData, data.s);
       pack(messageData, data.ash_alk);
       }
-   void unpack(MessageData& messageData, PastIntakeType& data)
+   void EXPORT unpack(MessageData& messageData, PastIntakeType& data)
       {
       unpack(messageData, data.weight);
       unpack(messageData, data.n);
@@ -2868,7 +2868,7 @@
       unpack(messageData, data.s);
       unpack(messageData, data.ash_alk);
       }
-   unsigned memorySize(const PastIntakeType& data)
+   unsigned EXPORT memorySize(const PastIntakeType& data)
       {
       return 0
               + ::memorySize(data.weight)
@@ -2878,7 +2878,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const PastIntakeType& data)
+   std::string EXPORT DDML(const PastIntakeType& data)
       {return "<type name=\"PastIntake\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/d\" kind=\"double\" />"
@@ -2891,7 +2891,7 @@
 
    //------ SuppIntake ------
 
-   void pack(MessageData& messageData, const SuppIntakeType& data)
+   void EXPORT pack(MessageData& messageData, const SuppIntakeType& data)
       {
       pack(messageData, data.weight);
       pack(messageData, data.n);
@@ -2899,7 +2899,7 @@
       pack(messageData, data.s);
       pack(messageData, data.ash_alk);
       }
-   void unpack(MessageData& messageData, SuppIntakeType& data)
+   void EXPORT unpack(MessageData& messageData, SuppIntakeType& data)
       {
       unpack(messageData, data.weight);
       unpack(messageData, data.n);
@@ -2907,7 +2907,7 @@
       unpack(messageData, data.s);
       unpack(messageData, data.ash_alk);
       }
-   unsigned memorySize(const SuppIntakeType& data)
+   unsigned EXPORT memorySize(const SuppIntakeType& data)
       {
       return 0
               + ::memorySize(data.weight)
@@ -2917,7 +2917,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const SuppIntakeType& data)
+   std::string EXPORT DDML(const SuppIntakeType& data)
       {return "<type name=\"SuppIntake\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/d\" kind=\"double\" />"
@@ -2930,7 +2930,7 @@
 
    //------ faeces_om ------
 
-   void pack(MessageData& messageData, const faeces_omType& data)
+   void EXPORT pack(MessageData& messageData, const faeces_omType& data)
       {
       pack(messageData, data.weight);
       pack(messageData, data.n);
@@ -2938,7 +2938,7 @@
       pack(messageData, data.s);
       pack(messageData, data.ash_alk);
       }
-   void unpack(MessageData& messageData, faeces_omType& data)
+   void EXPORT unpack(MessageData& messageData, faeces_omType& data)
       {
       unpack(messageData, data.weight);
       unpack(messageData, data.n);
@@ -2946,7 +2946,7 @@
       unpack(messageData, data.s);
       unpack(messageData, data.ash_alk);
       }
-   unsigned memorySize(const faeces_omType& data)
+   unsigned EXPORT memorySize(const faeces_omType& data)
       {
       return 0
               + ::memorySize(data.weight)
@@ -2956,7 +2956,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const faeces_omType& data)
+   std::string EXPORT DDML(const faeces_omType& data)
       {return "<type name=\"faeces_om\">"
                "<field name=\"weight\" unit=\"kg/ha\" kind=\"double\" />"
                "<field name=\"n\" unit=\"kg/ha\" kind=\"double\" />"
@@ -2967,19 +2967,19 @@
 
    //------ faeces_inorg ------
 
-   void pack(MessageData& messageData, const faeces_inorgType& data)
+   void EXPORT pack(MessageData& messageData, const faeces_inorgType& data)
       {
       pack(messageData, data.n);
       pack(messageData, data.p);
       pack(messageData, data.s);
       }
-   void unpack(MessageData& messageData, faeces_inorgType& data)
+   void EXPORT unpack(MessageData& messageData, faeces_inorgType& data)
       {
       unpack(messageData, data.n);
       unpack(messageData, data.p);
       unpack(messageData, data.s);
       }
-   unsigned memorySize(const faeces_inorgType& data)
+   unsigned EXPORT memorySize(const faeces_inorgType& data)
       {
       return 0
               + ::memorySize(data.n)
@@ -2987,7 +2987,7 @@
               + ::memorySize(data.s)
               ;
       }
-   std::string DDML(const faeces_inorgType& data)
+   std::string EXPORT DDML(const faeces_inorgType& data)
       {return "<type name=\"faeces_inorg\">"
                "<field name=\"n\" unit=\"kg/ha\" kind=\"double\" />"
                "<field name=\"p\" unit=\"kg/ha\" kind=\"double\" />"
@@ -2996,7 +2996,7 @@
 
    //------ urine ------
 
-   void pack(MessageData& messageData, const urineType& data)
+   void EXPORT pack(MessageData& messageData, const urineType& data)
       {
       pack(messageData, data.volume);
       pack(messageData, data.urea);
@@ -3004,7 +3004,7 @@
       pack(messageData, data.so4);
       pack(messageData, data.ash_alk);
       }
-   void unpack(MessageData& messageData, urineType& data)
+   void EXPORT unpack(MessageData& messageData, urineType& data)
       {
       unpack(messageData, data.volume);
       unpack(messageData, data.urea);
@@ -3012,7 +3012,7 @@
       unpack(messageData, data.so4);
       unpack(messageData, data.ash_alk);
       }
-   unsigned memorySize(const urineType& data)
+   unsigned EXPORT memorySize(const urineType& data)
       {
       return 0
               + ::memorySize(data.volume)
@@ -3022,7 +3022,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const urineType& data)
+   std::string EXPORT DDML(const urineType& data)
       {return "<type name=\"urine\">"
                "<field name=\"volume\" unit=\"m3/ha\" kind=\"double\" />"
                "<field name=\"urea\" unit=\"kg/ha\" kind=\"double\" />"
@@ -3033,19 +3033,19 @@
 
    //------ AddExcreta ------
 
-   void pack(MessageData& messageData, const AddExcretaType& data)
+   void EXPORT pack(MessageData& messageData, const AddExcretaType& data)
       {
       pack(messageData, data.faeces_om);
       pack(messageData, data.faeces_inorg);
       pack(messageData, data.urine);
       }
-   void unpack(MessageData& messageData, AddExcretaType& data)
+   void EXPORT unpack(MessageData& messageData, AddExcretaType& data)
       {
       unpack(messageData, data.faeces_om);
       unpack(messageData, data.faeces_inorg);
       unpack(messageData, data.urine);
       }
-   unsigned memorySize(const AddExcretaType& data)
+   unsigned EXPORT memorySize(const AddExcretaType& data)
       {
       return 0
               + ::memorySize(data.faeces_om)
@@ -3053,7 +3053,7 @@
               + ::memorySize(data.urine)
               ;
       }
-   std::string DDML(const AddExcretaType& data)
+   std::string EXPORT DDML(const AddExcretaType& data)
       {return "<type name=\"AddExcreta\">"
                "<type name=\"faeces_om\">"
                "<field name=\"weight\" unit=\"kg/ha\" kind=\"double\" />"
@@ -3078,24 +3078,24 @@
 
    //------ RemoveHerbage ------
 
-   void pack(MessageData& messageData, const RemoveHerbageType& data)
+   void EXPORT pack(MessageData& messageData, const RemoveHerbageType& data)
       {
       pack(messageData, data.herbage);
       pack(messageData, data.seed);
       }
-   void unpack(MessageData& messageData, RemoveHerbageType& data)
+   void EXPORT unpack(MessageData& messageData, RemoveHerbageType& data)
       {
       unpack(messageData, data.herbage);
       unpack(messageData, data.seed);
       }
-   unsigned memorySize(const RemoveHerbageType& data)
+   unsigned EXPORT memorySize(const RemoveHerbageType& data)
       {
       return 0
               + ::memorySize(data.herbage)
               + ::memorySize(data.seed)
               ;
       }
-   std::string DDML(const RemoveHerbageType& data)
+   std::string EXPORT DDML(const RemoveHerbageType& data)
       {return "<type name=\"RemoveHerbage\">"
                "<field name=\"herbage\" unit=\"kg/ha\" kind=\"double\" array=\"T\" />"
                "<field name=\"seed\" unit=\"kg/ha\" kind=\"double\" array=\"T\" />"
@@ -3103,24 +3103,24 @@
 
    //------ SuppEaten ------
 
-   void pack(MessageData& messageData, const SuppEatenType& data)
+   void EXPORT pack(MessageData& messageData, const SuppEatenType& data)
       {
       pack(messageData, data.paddock);
       pack(messageData, data.eaten);
       }
-   void unpack(MessageData& messageData, SuppEatenType& data)
+   void EXPORT unpack(MessageData& messageData, SuppEatenType& data)
       {
       unpack(messageData, data.paddock);
       unpack(messageData, data.eaten);
       }
-   unsigned memorySize(const SuppEatenType& data)
+   unsigned EXPORT memorySize(const SuppEatenType& data)
       {
       return 0
               + ::memorySize(data.paddock)
               + ::memorySize(data.eaten)
               ;
       }
-   std::string DDML(const SuppEatenType& data)
+   std::string EXPORT DDML(const SuppEatenType& data)
       {return "<type name=\"SuppEaten\" array=\"T\">"
                "<element>"
                "<field name=\"paddock\" unit=\"\" kind=\"string\" />"
@@ -3130,7 +3130,7 @@
 
    //------ herbage ------
 
-   void pack(MessageData& messageData, const herbageType& data)
+   void EXPORT pack(MessageData& messageData, const herbageType& data)
       {
       pack(messageData, data.dm);
       pack(messageData, data.dmd);
@@ -3141,7 +3141,7 @@
       pack(messageData, data.ash_alk);
       pack(messageData, data.height_ratio);
       }
-   void unpack(MessageData& messageData, herbageType& data)
+   void EXPORT unpack(MessageData& messageData, herbageType& data)
       {
       unpack(messageData, data.dm);
       unpack(messageData, data.dmd);
@@ -3152,7 +3152,7 @@
       unpack(messageData, data.ash_alk);
       unpack(messageData, data.height_ratio);
       }
-   unsigned memorySize(const herbageType& data)
+   unsigned EXPORT memorySize(const herbageType& data)
       {
       return 0
               + ::memorySize(data.dm)
@@ -3165,7 +3165,7 @@
               + ::memorySize(data.height_ratio)
               ;
       }
-   std::string DDML(const herbageType& data)
+   std::string EXPORT DDML(const herbageType& data)
       {return "<field name=\"herbage\" array=\"T\">"
                "<element>"
                "<field name=\"dm\" unit=\"kg/ha\" kind=\"double\" />"
@@ -3181,7 +3181,7 @@
 
    //------ seed ------
 
-   void pack(MessageData& messageData, const seedType& data)
+   void EXPORT pack(MessageData& messageData, const seedType& data)
       {
       pack(messageData, data.dm);
       pack(messageData, data.dmd);
@@ -3192,7 +3192,7 @@
       pack(messageData, data.ash_alk);
       pack(messageData, data.height_ratio);
       }
-   void unpack(MessageData& messageData, seedType& data)
+   void EXPORT unpack(MessageData& messageData, seedType& data)
       {
       unpack(messageData, data.dm);
       unpack(messageData, data.dmd);
@@ -3203,7 +3203,7 @@
       unpack(messageData, data.ash_alk);
       unpack(messageData, data.height_ratio);
       }
-   unsigned memorySize(const seedType& data)
+   unsigned EXPORT memorySize(const seedType& data)
       {
       return 0
               + ::memorySize(data.dm)
@@ -3216,7 +3216,7 @@
               + ::memorySize(data.height_ratio)
               ;
       }
-   std::string DDML(const seedType& data)
+   std::string EXPORT DDML(const seedType& data)
       {return "<field name=\"seed\" array=\"T\">"
                "<element>"
                "<field name=\"dm\" unit=\"kg/ha\" kind=\"double\" />"
@@ -3232,7 +3232,7 @@
 
    //------ Plant2Stock ------
 
-   void pack(MessageData& messageData, const Plant2StockType& data)
+   void EXPORT pack(MessageData& messageData, const Plant2StockType& data)
       {
       pack(messageData, data.herbage);
       pack(messageData, data.propn_green);
@@ -3241,7 +3241,7 @@
       pack(messageData, data.seed);
       pack(messageData, data.seed_class);
       }
-   void unpack(MessageData& messageData, Plant2StockType& data)
+   void EXPORT unpack(MessageData& messageData, Plant2StockType& data)
       {
       unpack(messageData, data.herbage);
       unpack(messageData, data.propn_green);
@@ -3250,7 +3250,7 @@
       unpack(messageData, data.seed);
       unpack(messageData, data.seed_class);
       }
-   unsigned memorySize(const Plant2StockType& data)
+   unsigned EXPORT memorySize(const Plant2StockType& data)
       {
       return 0
               + ::memorySize(data.herbage)
@@ -3261,7 +3261,7 @@
               + ::memorySize(data.seed_class)
               ;
       }
-   std::string DDML(const Plant2StockType& data)
+   std::string EXPORT DDML(const Plant2StockType& data)
       {return "<type name=\"Plant2Stock\">"
                "<field name=\"herbage\" array=\"T\">"
                "<element>"
@@ -3295,7 +3295,7 @@
 
    //------ BuyStock ------
 
-   void pack(MessageData& messageData, const BuyStockType& data)
+   void EXPORT pack(MessageData& messageData, const BuyStockType& data)
       {
       pack(messageData, data.genotype);
       pack(messageData, data.number);
@@ -3311,7 +3311,7 @@
       pack(messageData, data.young_wt);
       pack(messageData, data.young_fleece_wt);
       }
-   void unpack(MessageData& messageData, BuyStockType& data)
+   void EXPORT unpack(MessageData& messageData, BuyStockType& data)
       {
       unpack(messageData, data.genotype);
       unpack(messageData, data.number);
@@ -3327,7 +3327,7 @@
       unpack(messageData, data.young_wt);
       unpack(messageData, data.young_fleece_wt);
       }
-   unsigned memorySize(const BuyStockType& data)
+   unsigned EXPORT memorySize(const BuyStockType& data)
       {
       return 0
               + ::memorySize(data.genotype)
@@ -3345,7 +3345,7 @@
               + ::memorySize(data.young_fleece_wt)
               ;
       }
-   std::string DDML(const BuyStockType& data)
+   std::string EXPORT DDML(const BuyStockType& data)
       {return "<type name=\"BuyStock\">"
                "<field name=\"genotype\" unit=\"\" kind=\"string\" />"
                "<field name=\"number\" unit=\"\" kind=\"integer4\" />"
@@ -3364,24 +3364,24 @@
 
    //------ SellStock ------
 
-   void pack(MessageData& messageData, const SellStockType& data)
+   void EXPORT pack(MessageData& messageData, const SellStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.number);
       }
-   void unpack(MessageData& messageData, SellStockType& data)
+   void EXPORT unpack(MessageData& messageData, SellStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.number);
       }
-   unsigned memorySize(const SellStockType& data)
+   unsigned EXPORT memorySize(const SellStockType& data)
       {
       return 0
               + ::memorySize(data.group)
               + ::memorySize(data.number)
               ;
       }
-   std::string DDML(const SellStockType& data)
+   std::string EXPORT DDML(const SellStockType& data)
       {return "<type name=\"SellStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"number\" unit=\"\" kind=\"integer4\" />"
@@ -3389,24 +3389,24 @@
 
    //------ CastrateStock ------
 
-   void pack(MessageData& messageData, const CastrateStockType& data)
+   void EXPORT pack(MessageData& messageData, const CastrateStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.number);
       }
-   void unpack(MessageData& messageData, CastrateStockType& data)
+   void EXPORT unpack(MessageData& messageData, CastrateStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.number);
       }
-   unsigned memorySize(const CastrateStockType& data)
+   unsigned EXPORT memorySize(const CastrateStockType& data)
       {
       return 0
               + ::memorySize(data.group)
               + ::memorySize(data.number)
               ;
       }
-   std::string DDML(const CastrateStockType& data)
+   std::string EXPORT DDML(const CastrateStockType& data)
       {return "<type name=\"CastrateStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"number\" unit=\"\" kind=\"integer4\" />"
@@ -3414,24 +3414,24 @@
 
    //------ DryOffStock ------
 
-   void pack(MessageData& messageData, const DryOffStockType& data)
+   void EXPORT pack(MessageData& messageData, const DryOffStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.number);
       }
-   void unpack(MessageData& messageData, DryOffStockType& data)
+   void EXPORT unpack(MessageData& messageData, DryOffStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.number);
       }
-   unsigned memorySize(const DryOffStockType& data)
+   unsigned EXPORT memorySize(const DryOffStockType& data)
       {
       return 0
               + ::memorySize(data.group)
               + ::memorySize(data.number)
               ;
       }
-   std::string DDML(const DryOffStockType& data)
+   std::string EXPORT DDML(const DryOffStockType& data)
       {return "<type name=\"DryOffStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"number\" unit=\"\" kind=\"integer4\" />"
@@ -3439,19 +3439,19 @@
 
    //------ JoinStock ------
 
-   void pack(MessageData& messageData, const JoinStockType& data)
+   void EXPORT pack(MessageData& messageData, const JoinStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.mate_to);
       pack(messageData, data.mate_days);
       }
-   void unpack(MessageData& messageData, JoinStockType& data)
+   void EXPORT unpack(MessageData& messageData, JoinStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.mate_to);
       unpack(messageData, data.mate_days);
       }
-   unsigned memorySize(const JoinStockType& data)
+   unsigned EXPORT memorySize(const JoinStockType& data)
       {
       return 0
               + ::memorySize(data.group)
@@ -3459,7 +3459,7 @@
               + ::memorySize(data.mate_days)
               ;
       }
-   std::string DDML(const JoinStockType& data)
+   std::string EXPORT DDML(const JoinStockType& data)
       {return "<type name=\"JoinStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"mate_to\" unit=\"\" kind=\"string\" />"
@@ -3468,24 +3468,24 @@
 
    //------ MoveStock ------
 
-   void pack(MessageData& messageData, const MoveStockType& data)
+   void EXPORT pack(MessageData& messageData, const MoveStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.paddock);
       }
-   void unpack(MessageData& messageData, MoveStockType& data)
+   void EXPORT unpack(MessageData& messageData, MoveStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.paddock);
       }
-   unsigned memorySize(const MoveStockType& data)
+   unsigned EXPORT memorySize(const MoveStockType& data)
       {
       return 0
               + ::memorySize(data.group)
               + ::memorySize(data.paddock)
               ;
       }
-   std::string DDML(const MoveStockType& data)
+   std::string EXPORT DDML(const MoveStockType& data)
       {return "<type name=\"MoveStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"paddock\" unit=\"\" kind=\"string\" />"
@@ -3493,24 +3493,24 @@
 
    //------ ShearStock ------
 
-   void pack(MessageData& messageData, const ShearStockType& data)
+   void EXPORT pack(MessageData& messageData, const ShearStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.sub_group);
       }
-   void unpack(MessageData& messageData, ShearStockType& data)
+   void EXPORT unpack(MessageData& messageData, ShearStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.sub_group);
       }
-   unsigned memorySize(const ShearStockType& data)
+   unsigned EXPORT memorySize(const ShearStockType& data)
       {
       return 0
               + ::memorySize(data.group)
               + ::memorySize(data.sub_group)
               ;
       }
-   std::string DDML(const ShearStockType& data)
+   std::string EXPORT DDML(const ShearStockType& data)
       {return "<type name=\"ShearStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"sub_group\" unit=\"\" kind=\"string\" />"
@@ -3518,19 +3518,19 @@
 
    //------ SplitStock ------
 
-   void pack(MessageData& messageData, const SplitStockType& data)
+   void EXPORT pack(MessageData& messageData, const SplitStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.type);
       pack(messageData, data.value);
       }
-   void unpack(MessageData& messageData, SplitStockType& data)
+   void EXPORT unpack(MessageData& messageData, SplitStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.type);
       unpack(messageData, data.value);
       }
-   unsigned memorySize(const SplitStockType& data)
+   unsigned EXPORT memorySize(const SplitStockType& data)
       {
       return 0
               + ::memorySize(data.group)
@@ -3538,7 +3538,7 @@
               + ::memorySize(data.value)
               ;
       }
-   std::string DDML(const SplitStockType& data)
+   std::string EXPORT DDML(const SplitStockType& data)
       {return "<type name=\"SplitStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"type\" unit=\"\" kind=\"string\" />"
@@ -3547,24 +3547,24 @@
 
    //------ TagStock ------
 
-   void pack(MessageData& messageData, const TagStockType& data)
+   void EXPORT pack(MessageData& messageData, const TagStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.value);
       }
-   void unpack(MessageData& messageData, TagStockType& data)
+   void EXPORT unpack(MessageData& messageData, TagStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.value);
       }
-   unsigned memorySize(const TagStockType& data)
+   unsigned EXPORT memorySize(const TagStockType& data)
       {
       return 0
               + ::memorySize(data.group)
               + ::memorySize(data.value)
               ;
       }
-   std::string DDML(const TagStockType& data)
+   std::string EXPORT DDML(const TagStockType& data)
       {return "<type name=\"TagStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"value\" unit=\"\" kind=\"integer4\" />"
@@ -3572,19 +3572,19 @@
 
    //------ WeanStock ------
 
-   void pack(MessageData& messageData, const WeanStockType& data)
+   void EXPORT pack(MessageData& messageData, const WeanStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.sex);
       pack(messageData, data.number);
       }
-   void unpack(MessageData& messageData, WeanStockType& data)
+   void EXPORT unpack(MessageData& messageData, WeanStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.sex);
       unpack(messageData, data.number);
       }
-   unsigned memorySize(const WeanStockType& data)
+   unsigned EXPORT memorySize(const WeanStockType& data)
       {
       return 0
               + ::memorySize(data.group)
@@ -3592,7 +3592,7 @@
               + ::memorySize(data.number)
               ;
       }
-   std::string DDML(const WeanStockType& data)
+   std::string EXPORT DDML(const WeanStockType& data)
       {return "<type name=\"WeanStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"sex\" unit=\"\" kind=\"string\" />"
@@ -3601,19 +3601,19 @@
 
    //------ dm ------
 
-   void pack(MessageData& messageData, const dmType& data)
+   void EXPORT pack(MessageData& messageData, const dmType& data)
       {
       pack(messageData, data.pool);
       pack(messageData, data.part);
       pack(messageData, data.dlt);
       }
-   void unpack(MessageData& messageData, dmType& data)
+   void EXPORT unpack(MessageData& messageData, dmType& data)
       {
       unpack(messageData, data.pool);
       unpack(messageData, data.part);
       unpack(messageData, data.dlt);
       }
-   unsigned memorySize(const dmType& data)
+   unsigned EXPORT memorySize(const dmType& data)
       {
       return 0
               + ::memorySize(data.pool)
@@ -3621,7 +3621,7 @@
               + ::memorySize(data.dlt)
               ;
       }
-   std::string DDML(const dmType& data)
+   std::string EXPORT DDML(const dmType& data)
       {return "<field name=\"dm\" array=\"T\">"
                "<element>"
                "<field name=\"pool\" kind=\"string\" />"
@@ -3632,21 +3632,21 @@
 
    //------ RemoveCropDm ------
 
-   void pack(MessageData& messageData, const RemoveCropDmType& data)
+   void EXPORT pack(MessageData& messageData, const RemoveCropDmType& data)
       {
       pack(messageData, data.dm);
       }
-   void unpack(MessageData& messageData, RemoveCropDmType& data)
+   void EXPORT unpack(MessageData& messageData, RemoveCropDmType& data)
       {
       unpack(messageData, data.dm);
       }
-   unsigned memorySize(const RemoveCropDmType& data)
+   unsigned EXPORT memorySize(const RemoveCropDmType& data)
       {
       return 0
               + ::memorySize(data.dm)
               ;
       }
-   std::string DDML(const RemoveCropDmType& data)
+   std::string EXPORT DDML(const RemoveCropDmType& data)
       {return "<type name=\"RemoveCropDm\">"
                "<field name=\"dm\" array=\"T\">"
                "<element>"
@@ -3659,24 +3659,24 @@
 
    //------ RemoveResidueDm ------
 
-   void pack(MessageData& messageData, const RemoveResidueDmType& data)
+   void EXPORT pack(MessageData& messageData, const RemoveResidueDmType& data)
       {
       pack(messageData, data.dm_type);
       pack(messageData, data.dlt_residue_dm);
       }
-   void unpack(MessageData& messageData, RemoveResidueDmType& data)
+   void EXPORT unpack(MessageData& messageData, RemoveResidueDmType& data)
       {
       unpack(messageData, data.dm_type);
       unpack(messageData, data.dlt_residue_dm);
       }
-   unsigned memorySize(const RemoveResidueDmType& data)
+   unsigned EXPORT memorySize(const RemoveResidueDmType& data)
       {
       return 0
               + ::memorySize(data.dm_type)
               + ::memorySize(data.dlt_residue_dm)
               ;
       }
-   std::string DDML(const RemoveResidueDmType& data)
+   std::string EXPORT DDML(const RemoveResidueDmType& data)
       {return "<type name=\"RemoveResidueDm\">"
                "<field name=\"dm_type\" kind=\"string\" array=\"T\" />"
                "<field name=\"dlt_residue_dm\" kind=\"single\" array=\"T\" />"
@@ -3684,24 +3684,24 @@
 
    //------ SupplementBuy ------
 
-   void pack(MessageData& messageData, const SupplementBuyType& data)
+   void EXPORT pack(MessageData& messageData, const SupplementBuyType& data)
       {
       pack(messageData, data.supplement);
       pack(messageData, data.amount);
       }
-   void unpack(MessageData& messageData, SupplementBuyType& data)
+   void EXPORT unpack(MessageData& messageData, SupplementBuyType& data)
       {
       unpack(messageData, data.supplement);
       unpack(messageData, data.amount);
       }
-   unsigned memorySize(const SupplementBuyType& data)
+   unsigned EXPORT memorySize(const SupplementBuyType& data)
       {
       return 0
               + ::memorySize(data.supplement)
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const SupplementBuyType& data)
+   std::string EXPORT DDML(const SupplementBuyType& data)
       {return "<type name=\"SupplementBuy\">"
                "<field name=\"supplement\" kind=\"string\" unit=\"-\" />"
                "<field name=\"amount\" kind=\"double\" unit=\"kg\" />"
@@ -3709,19 +3709,19 @@
 
    //------ SupplementFeed ------
 
-   void pack(MessageData& messageData, const SupplementFeedType& data)
+   void EXPORT pack(MessageData& messageData, const SupplementFeedType& data)
       {
       pack(messageData, data.supplement);
       pack(messageData, data.amount);
       pack(messageData, data.paddock);
       }
-   void unpack(MessageData& messageData, SupplementFeedType& data)
+   void EXPORT unpack(MessageData& messageData, SupplementFeedType& data)
       {
       unpack(messageData, data.supplement);
       unpack(messageData, data.amount);
       unpack(messageData, data.paddock);
       }
-   unsigned memorySize(const SupplementFeedType& data)
+   unsigned EXPORT memorySize(const SupplementFeedType& data)
       {
       return 0
               + ::memorySize(data.supplement)
@@ -3729,7 +3729,7 @@
               + ::memorySize(data.paddock)
               ;
       }
-   std::string DDML(const SupplementFeedType& data)
+   std::string EXPORT DDML(const SupplementFeedType& data)
       {return "<type name=\"SupplementFeed\">"
                "<field name=\"supplement\" kind=\"string\" unit=\"-\" />"
                "<field name=\"amount\" kind=\"double\" unit=\"kg\" />"
@@ -3738,19 +3738,19 @@
 
    //------ SupplementMix ------
 
-   void pack(MessageData& messageData, const SupplementMixType& data)
+   void EXPORT pack(MessageData& messageData, const SupplementMixType& data)
       {
       pack(messageData, data.src_store);
       pack(messageData, data.amount);
       pack(messageData, data.dest_store);
       }
-   void unpack(MessageData& messageData, SupplementMixType& data)
+   void EXPORT unpack(MessageData& messageData, SupplementMixType& data)
       {
       unpack(messageData, data.src_store);
       unpack(messageData, data.amount);
       unpack(messageData, data.dest_store);
       }
-   unsigned memorySize(const SupplementMixType& data)
+   unsigned EXPORT memorySize(const SupplementMixType& data)
       {
       return 0
               + ::memorySize(data.src_store)
@@ -3758,7 +3758,7 @@
               + ::memorySize(data.dest_store)
               ;
       }
-   std::string DDML(const SupplementMixType& data)
+   std::string EXPORT DDML(const SupplementMixType& data)
       {return "<type name=\"SupplementMix\">"
                "<field name=\"src_store\" kind=\"string\" unit=\"-\" />"
                "<field name=\"amount\" kind=\"double\" unit=\"kg\" />"
@@ -3767,7 +3767,7 @@
 
    //------ ExternalMassFlow ------
 
-   void pack(MessageData& messageData, const ExternalMassFlowType& data)
+   void EXPORT pack(MessageData& messageData, const ExternalMassFlowType& data)
       {
       pack(messageData, data.PoolClass);
       pack(messageData, data.FlowType);
@@ -3777,7 +3777,7 @@
       pack(messageData, data.DM);
       pack(messageData, data.SW);
       }
-   void unpack(MessageData& messageData, ExternalMassFlowType& data)
+   void EXPORT unpack(MessageData& messageData, ExternalMassFlowType& data)
       {
       unpack(messageData, data.PoolClass);
       unpack(messageData, data.FlowType);
@@ -3787,7 +3787,7 @@
       unpack(messageData, data.DM);
       unpack(messageData, data.SW);
       }
-   unsigned memorySize(const ExternalMassFlowType& data)
+   unsigned EXPORT memorySize(const ExternalMassFlowType& data)
       {
       return 0
               + ::memorySize(data.PoolClass)
@@ -3799,7 +3799,7 @@
               + ::memorySize(data.SW)
               ;
       }
-   std::string DDML(const ExternalMassFlowType& data)
+   std::string EXPORT DDML(const ExternalMassFlowType& data)
       {return "<type name=\"ExternalMassFlow\">"
                "<field name=\"PoolClass\" kind=\"string\" unit=\"-\" />"
                "<field name=\"FlowType\" kind=\"string\" unit=\"-\" />"

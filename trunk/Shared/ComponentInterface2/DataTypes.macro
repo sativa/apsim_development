@@ -2,6 +2,7 @@
 [file DataTypes.h]
 #ifndef DataTypesH
 #define DataTypesH
+#include <general/platform.h>
 #include <general/stl_functions.h>
 #include <general/TreeNodeIterator.h>
 #include <general/xml.h>
@@ -14,10 +15,10 @@
       int i;
       };
 
-   void pack(MessageData& messageData, const Null& data);
-   void unpack(MessageData& messageData, Null& data);
-   unsigned memorySize(const Null& data);
-   std::string DDML(const Null& data);
+   void EXPORT pack(MessageData& messageData, const Null& data);
+   void EXPORT unpack(MessageData& messageData, Null& data);
+   unsigned EXPORT memorySize(const Null& data);
+   std::string EXPORT DDML(const Null& data);
 
 [foreach types.type]
    //------ [type.name] ------
@@ -28,17 +29,17 @@
       [endfor]
       };
 
-   void pack(MessageData& messageData, const [type.name]Type& data);
-   void unpack(MessageData& messageData, [type.name]Type& data);
-   unsigned memorySize(const [type.name]Type& data);
-   std::string DDML(const [type.name]Type& data);
+   void EXPORT pack(MessageData& messageData, const [type.name]Type& data);
+   void EXPORT unpack(MessageData& messageData, [type.name]Type& data);
+   unsigned EXPORT memorySize(const [type.name]Type& data);
+   std::string EXPORT DDML(const [type.name]Type& data);
 
 [endfor]
    class Variant;
-   void pack(MessageData& messageData, const Variant& data);
-   void unpack(MessageData& messageData, Variant& data);
-   unsigned memorySize(Variant& data) ;
-   std::string DDML(const Variant& data);
+   void EXPORT pack(MessageData& messageData, const Variant& data);
+   void EXPORT unpack(MessageData& messageData, Variant& data);
+   unsigned EXPORT memorySize(Variant& data) ;
+   std::string EXPORT DDML(const Variant& data);
 #endif
 [endfile]
 ##################################################
@@ -51,34 +52,34 @@
 #include "Interfaces.h"
 
    //------ Null ------
-   void pack(MessageData& messageData, const Null& data) { }
-   void unpack(MessageData& messageData, Null& data) { }
-   unsigned memorySize(const Null& data) {return 0;}
-   std::string DDML(const Null& data) {return "<type/>";}
+   void EXPORT pack(MessageData& messageData, const Null& data) { }
+   void EXPORT unpack(MessageData& messageData, Null& data) { }
+   unsigned EXPORT memorySize(const Null& data) {return 0;}
+   std::string EXPORT DDML(const Null& data) {return "<type/>";}
 
 
 [foreach types.type]
    //------ [type.name] ------
 
-   void pack(MessageData& messageData, const [type.name]Type& data)
+   void EXPORT pack(MessageData& messageData, const [type.name]Type& data)
       {
       [foreach type.field]
       pack(messageData, data.[field.name]);
       [endfor]
       }
-   void unpack(MessageData& messageData, [type.name]Type& data)
+   void EXPORT unpack(MessageData& messageData, [type.name]Type& data)
       {
       [foreach type.field]
       unpack(messageData, data.[field.name]);
       [endfor]
       }
-   unsigned memorySize(const [type.name]Type& data)
+   unsigned EXPORT memorySize(const [type.name]Type& data)
       {
       return 0
        [foreach type.field]              + ::memorySize(data.[field.name])
        [endfor]              ;
       }
-   std::string DDML(const [type.name]Type& data)
+   std::string EXPORT DDML(const [type.name]Type& data)
       {return [type.cddml];}
 
 [endfor]
@@ -107,7 +108,7 @@ struct QueryMatch
    };
 class Variant;
 
-class ScienceAPI
+class EXPORT ScienceAPI
    {
    public:
       virtual ~ScienceAPI() {};

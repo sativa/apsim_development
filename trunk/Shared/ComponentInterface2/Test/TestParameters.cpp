@@ -55,7 +55,7 @@ void ReadParameter()
    sendInit1();
 
    BOOST_ASSERT(scienceAPI->name() == "abc");
-   BOOST_ASSERT(scienceAPI->parent() == "parent");
+   BOOST_ASSERT(scienceAPI->FQName() == "parent");
 
    float a;
    scienceAPI->read("a", "", false, a, (float)0.0, (float)1.0);

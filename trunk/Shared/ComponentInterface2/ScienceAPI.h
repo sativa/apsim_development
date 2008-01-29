@@ -19,7 +19,7 @@ struct QueryMatch
    };
 class Variant;
 
-class ScienceAPI
+class EXPORT ScienceAPI
    {
    public:
       virtual ~ScienceAPI() {};
