@@ -25,6 +25,7 @@
 #include "DataContainer.h"
 #include "RecordFilter.h"
 #include "ReportMacros.h"
+#include "Joiner.h"
 
 //---------------------------------------------------------------------------
 // Create a dataprocessor object based on the settings
@@ -66,6 +67,8 @@ void processData(DataContainer& parent, const std::string& xml, TDataSet& result
       processStats(parent, doc.documentElement(), result);
    else if (Str_i_Eq(type, "RecordFilter"))
       processRecordFilter(parent, doc.documentElement(), result);
-   
+   else if (Str_i_Eq(type, "Joiner"))
+      processJoiner(parent, doc.documentElement(), result);
+
    }
 

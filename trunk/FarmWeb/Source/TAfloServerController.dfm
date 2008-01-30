@@ -28,7 +28,7 @@ object ServerController: TServerController
   SSLOptions.Port = 0
   ThreadPoolSize = 32
   UnknownBrowserAction = ubReject
-  Version = '7.0.19'
+  Version = '7.0.20'
   OnNewSession = OnCreateNewSession
   Left = 367
   Top = 314

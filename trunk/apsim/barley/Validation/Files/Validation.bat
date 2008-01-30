@@ -23,4 +23,7 @@ c:\progra~1\R\R-2.4.0\bin\Rterm.exe --slave < validation-1.r
 
 \development\bin\apsimreport.exe barley_validation.report ../Barley_validation.gif
 
+cd ..
+\development\bin\apsimreport.exe yieldprophet.report YieldProphet.gif
+
 popd

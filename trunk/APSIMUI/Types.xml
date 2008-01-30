@@ -22,7 +22,7 @@
                <event name="error" type="string"/>
                <event name="NotifyTermination" type="string"/>
                <event name="gimme_water" type="string"/>
-      
+
                <respondToEvent name="tick" type="time"/>
                <respondToEvent name="newmet" type="newmet"/>
                <respondToEvent name="prepare" type="prepare"/>
@@ -46,7 +46,7 @@
                <respondToEvent name="add_excreta" type="add_excreta" />
                <respondToEvent name="sellstock" type="string" />
                <respondToEvent name="buystock" type="string" />
-      
+
                <get name="today" type="integer4"/>
                <get name="day" type="integer4"/>
                <get name="year" type="integer4"/>
@@ -84,7 +84,7 @@
                <get name="met_end_date_string" type="string"/>
                <get name="simulation_start_date" type="string"/>
                <get name="simulation_end_date" type="string"/>
-      
+
                <respondToGet name="plant2stock" array="F" type="plant2stock" />
                <respondToGet name="streamflow" type="single"/>
                <respondToGet name="root_sw_uptake_vol" type="single"/>
@@ -105,7 +105,7 @@
                <respondToGet name="weight_all" type="single" />
                <respondToGet name="wt_change_all" type="single" />
                <respondToGet name="intake_all" type="single" />
-               <respondToSet name="root_sw_demand_vol" type="single"/>         
+               <respondToSet name="root_sw_demand_vol" type="single"/>
             </Registrations>
            <component name="accum" executable="%apsuite\apsim\accum\lib\accum.dll">
              <initdata>
@@ -441,7 +441,7 @@
             <class>CSUserInterface.SoilActions</class>
             <method>WriteInitNitrogenSim</method>
          </calldll>
-      </ApsimToSim>      
+      </ApsimToSim>
    </InitNitrogen>
    <SoilSample>
       <UItype>CSUserInterface.SampleUI</UItype>
@@ -856,9 +856,9 @@
             [endfor]
             [foreach variables.constants]
             [constants.innerxml]
-            [endfor]            
+            [endfor]
          </sim>
-      </ApsimToSim>     
+      </ApsimToSim>
    </variables>
    <events>
       <UItype>APSIMUI.OutputFileDescUI</UItype>
@@ -1906,58 +1906,58 @@
       <cultivar name="Siok"/>
       <cultivar name="V15"/>
       <variables>
-<variable name="crop_type" description="Type of crop" units = ""/> 
-<variable name="ozcot_crop_in" description="Crop sown flag" units = ""/> 
-<variable name="ozcot_status" description="ozcot termination indicators" units = ""/> 
-<variable name="das" description="Days after sowing" units = "days"/> 
-<variable name="yield" description="Lint produced (bales/ha)" units = "bales/ha"/> 
-<variable name="dm" description="Dry matter (kg/ha)" units = "kg/ha"/> 
-<variable name="lai" description="Leaf Area Index (m^2/m^2)" units = "m^2/m^2"/> 
-<variable name="sumdd" description="Cumulative thermal time (dd)" units = "oCd"/> 
-<variable name="sites" description="Number of fruiting sites /m" units = "1/m2"/> 
-<variable name="squarz" description="Number of squares /m" units = "1/m2"/> 
-<variable name="fru_no_cat" description="fruit nos in each fruit category /m" units = "1/m2" array="T"/> 
-<variable name="bollz" description="Number of bolls /m" units = "1/m2"/> 
-<variable name="openz" description="Number of open bolls /m" units = "1/m2"/> 
-<variable name="alint" description="Weight of lint, ginned equivalent (kg/ha)" units = "kg/ha"/> 
-<variable name="openwt" description="Weight of open bolls (kg/ha)" units = "kg/ha"/> 
-<variable name="frudw" description="Dry wt of growing fruit (kg/ha)" units= "kg/ha"/> 
-<variable name="frudw_tot" description="Total dry wt of fruit (kg/ha)" units = "kg/ha"/> 
-<variable name="frudw_shed" description="Dry wt of shedded flowers and fruit (kg/ha)" units = "kg/ha"/> 
-<variable name="frun" description="Fruit number" units=""/> 
+<variable name="crop_type" description="Type of crop" units = ""/>
+<variable name="ozcot_crop_in" description="Crop sown flag" units = ""/>
+<variable name="ozcot_status" description="ozcot termination indicators" units = ""/>
+<variable name="das" description="Days after sowing" units = "days"/>
+<variable name="yield" description="Lint produced (bales/ha)" units = "bales/ha"/>
+<variable name="dm" description="Dry matter (kg/ha)" units = "kg/ha"/>
+<variable name="lai" description="Leaf Area Index (m^2/m^2)" units = "m^2/m^2"/>
+<variable name="sumdd" description="Cumulative thermal time (dd)" units = "oCd"/>
+<variable name="sites" description="Number of fruiting sites /m" units = "1/m2"/>
+<variable name="squarz" description="Number of squares /m" units = "1/m2"/>
+<variable name="fru_no_cat" description="fruit nos in each fruit category /m" units = "1/m2" array="T"/>
+<variable name="bollz" description="Number of bolls /m" units = "1/m2"/>
+<variable name="openz" description="Number of open bolls /m" units = "1/m2"/>
+<variable name="alint" description="Weight of lint, ginned equivalent (kg/ha)" units = "kg/ha"/>
+<variable name="openwt" description="Weight of open bolls (kg/ha)" units = "kg/ha"/>
+<variable name="frudw" description="Dry wt of growing fruit (kg/ha)" units= "kg/ha"/>
+<variable name="frudw_tot" description="Total dry wt of fruit (kg/ha)" units = "kg/ha"/>
+<variable name="frudw_shed" description="Dry wt of shedded flowers and fruit (kg/ha)" units = "kg/ha"/>
+<variable name="frun" description="Fruit number" units=""/>
 <variable name="bload" description="Boll load" units = ""/>
 <variable name="carcap_c" description="Carrying Capacity - Carbon" units = ""/>
 <variable name="carcap_n" description="Carrying Capacity - Nitrogen" units = ""/>
 <variable name="vnstrs" description="Vegetative nitrogen stress" units = ""/>
 <variable name="fnstrs" description="Fruit nitrogen stress" units = ""/>
-<variable name="dw_boll" description="Dry wt of bolls" units = "kg/ha"/> 
-<variable name="dw_root" description="Dry wt of roots" units = "kg/ha"/> 
-<variable name="dw_leaf" description="Dry wt of leaf" units = "kg/ha"/> 
-<variable name="dw_stem" description="Dry wt of stem" units = "kg/ha"/> 
-<variable name="totnup" description="Total nitrogen uptake" units = "kg/ha"/> 
-<variable name="lint_yield" description="Lint produced" units= "bales/ha"/> 
-<variable name="bolls_sc" description="Seed Cotton per boll" units = "g/boll"/> 
-<variable name="squarz_max" description="Peak square numbers for any day" units = "1/m2"/> 
-<variable name="cover_green" description="Green cover" units = ""/> 
-<variable name="cover_tot" description="Total cover" units = ""/> 
-<variable name="height" description="Plant height" units = "mm"/> 
-<variable name="tsno3" description="total soil NO3 over all layers" units = "kg/ha"/> 
-<variable name="ysno3" description="yesterday's soil NO3 over all layers" units = "kg/ha"/> 
-<variable name="tsnh4" description="total soil NH4 over all layers" units = "kg/ha"/> 
-<variable name="ysnh4" description="yesterday's soil NH4 over all layers" units = "kg/ha"/> 
-<variable name="rtdep" description="Rooting depth (cm)" units = "cm"/> 
-<variable name="s_bed_mi" description="Seed bed moisture index" units = ""/> 
-<variable name="smi" description="Soil Moisture Index" units = ""/> 
-<variable name="wli" description="Waterlogging Index" units = ""/> 
-<variable name="ep" description="Plant transpiration (mm)" units = "mm"/> 
-<variable name="evap_plant" description="Evaporation from plants (cm)" units = "cm"/> 
-<variable name="evap_soil" description="Evaporation from soil (cm)" units = "cm"/> 
-<variable name="evap_pot" description="Potential et over bare soil (cm)" units = "cm"/> 
-<variable name="availn" description="Nitrogen available for uptake" units = "kg/ha"/> 
-<variable name="uptakn" description="Nitrogen taken up by crop" units = "kg/ha"/> 
-<variable name="n_uptake" description="Daily nitrogen uptake" units = "kg/ha"/> 
-<variable name="lai_max" description="Peak LAI" units = "m2/m2"/> 
-<variable name="i_def" description="Day of first defoliation spray" units = "das"/> 
+<variable name="dw_boll" description="Dry wt of bolls" units = "kg/ha"/>
+<variable name="dw_root" description="Dry wt of roots" units = "kg/ha"/>
+<variable name="dw_leaf" description="Dry wt of leaf" units = "kg/ha"/>
+<variable name="dw_stem" description="Dry wt of stem" units = "kg/ha"/>
+<variable name="totnup" description="Total nitrogen uptake" units = "kg/ha"/>
+<variable name="lint_yield" description="Lint produced" units= "bales/ha"/>
+<variable name="bolls_sc" description="Seed Cotton per boll" units = "g/boll"/>
+<variable name="squarz_max" description="Peak square numbers for any day" units = "1/m2"/>
+<variable name="cover_green" description="Green cover" units = ""/>
+<variable name="cover_tot" description="Total cover" units = ""/>
+<variable name="height" description="Plant height" units = "mm"/>
+<variable name="tsno3" description="total soil NO3 over all layers" units = "kg/ha"/>
+<variable name="ysno3" description="yesterday's soil NO3 over all layers" units = "kg/ha"/>
+<variable name="tsnh4" description="total soil NH4 over all layers" units = "kg/ha"/>
+<variable name="ysnh4" description="yesterday's soil NH4 over all layers" units = "kg/ha"/>
+<variable name="rtdep" description="Rooting depth (cm)" units = "cm"/>
+<variable name="s_bed_mi" description="Seed bed moisture index" units = ""/>
+<variable name="smi" description="Soil Moisture Index" units = ""/>
+<variable name="wli" description="Waterlogging Index" units = ""/>
+<variable name="ep" description="Plant transpiration (mm)" units = "mm"/>
+<variable name="evap_plant" description="Evaporation from plants (cm)" units = "cm"/>
+<variable name="evap_soil" description="Evaporation from soil (cm)" units = "cm"/>
+<variable name="evap_pot" description="Potential et over bare soil (cm)" units = "cm"/>
+<variable name="availn" description="Nitrogen available for uptake" units = "kg/ha"/>
+<variable name="uptakn" description="Nitrogen taken up by crop" units = "kg/ha"/>
+<variable name="n_uptake" description="Daily nitrogen uptake" units = "kg/ha"/>
+<variable name="lai_max" description="Peak LAI" units = "m2/m2"/>
+<variable name="i_def" description="Day of first defoliation spray" units = "das"/>
 <variable name="i_def2" description="Day of second defoliation spray" units="das"/>
       </variables>
       <events>
@@ -4027,7 +4027,7 @@
          <drop name="folder"/>
       </drops>
    </Page>
-   <DataGrid> 
+   <DataGrid>
       <UItype>Graph.DataGridUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
       <ShowInData>Yes</ShowInData>
@@ -4071,7 +4071,7 @@
       <drops>
          <drop name="data"/>
      </drops>
-   </XY>   
+   </XY>
    <Probability>
       <UItype>Graph.FieldListUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
@@ -4128,6 +4128,20 @@
          <drop name="excelreader"/>
      </drops>
    </Depth>
+   <Joiner>
+      <UItype>Graph.EmptyGraphUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
+      <LargeIcon>%apsuite\apsimui\Images\depth16.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\depth16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="apsimfilereader"/>
+         <drop name="xmlfilereader"/>
+         <drop name="rems"/>
+         <drop name="excelreader"/>
+     </drops>
+   </Joiner>
    <Diff>
       <UItype>Graph.FieldListUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
@@ -4225,7 +4239,7 @@
          <drop name="rems"/>
          <drop name="excelreader"/>
      </drops>
-   </SOIData>   
+   </SOIData>
    <RecordFilter>
       <UItype>Graph.RecordFilterUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
