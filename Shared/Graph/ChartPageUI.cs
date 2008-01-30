@@ -50,6 +50,7 @@ namespace Graph
             Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(SOIUI), "SOI"), "Data");
             Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(RecordFilterUI), "RecordFilter"), "Data");
             Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(REMSUI), "REMS"), "Data");
+            Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(EmptyGraphUI), "Joiner"), "Data");
             Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(XYPickerUI), "XY"), "Visual");
             Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(ChartUI), "Chart"), "Visual");
             Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(DataGridUI), "DataGrid"), "Visual");

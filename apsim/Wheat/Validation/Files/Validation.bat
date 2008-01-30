@@ -21,7 +21,7 @@ rem \development\bin\apsimreport.exe cunderdin.report ..\cunderdin\cunderdin.gif
 mkdir ..\mer-73
 \development\bin\apsimreport.exe merredin73.report ..\mer-73\merredin73.gif
 
-cd yieldprophet\2005
-\development\bin\apsimreport.exe YieldProphet2005.report ..\..\..\YieldProphet2005.gif
+cd ..\yieldprophet
+\development\bin\apsimreport.exe YieldProphet.report ..\YieldProphet.gif
 
 popd

@@ -10,7 +10,7 @@
       DataContainer.obj DataProcessor.obj ApsimFileReader.obj Probability.obj 
       PredObs.obj XmlFileReader.obj Filter.obj Cumulative.obj Depth.obj Diff.obj 
       Frequency.obj KWTest.obj REMS.obj Regression.obj SOI.obj Stats.obj 
-      RecordFilter.obj"/>
+      RecordFilter.obj Joiner.obj"/>
     <RESFILES value="SEGReport.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TPropertyForm.dfm TTextForm.dfm TChartForm.dfm TImageForm.dfm 
@@ -111,6 +111,7 @@
       <FILE FILENAME="SOI.cpp" FORMNAME="" UNITNAME="SOI" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Stats.cpp" FORMNAME="" UNITNAME="Stats" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="RecordFilter.cpp" FORMNAME="" UNITNAME="RecordFilter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Joiner.cpp" FORMNAME="" UNITNAME="Joiner" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
