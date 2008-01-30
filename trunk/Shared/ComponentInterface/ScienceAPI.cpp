@@ -534,3 +534,9 @@ void ScienceAPI::publish(const std::string& name, protocol::ExternalMassFlowType
    unsigned id = component->addRegistration(RegistrationType::event, name.c_str(), ddml.c_str(), "", "");
    component->publish(id, value);
    }
+void ScienceAPI::publish(const std::string& name, protocol::NewCanopyType& value)
+   {
+   string ddml = protocol::DDML(value);
+   unsigned id = component->addRegistration(RegistrationType::event, name.c_str(), ddml.c_str(), "", "");
+   component->publish(id, value);
+   }
