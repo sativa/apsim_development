@@ -96,6 +96,11 @@ class EXPORT ScienceAPI
       #define ExternalMassFlowFunctionType boost::function1<void, protocol::ExternalMassFlowType&>
       #define ExternalMassFlowFunction(address) ExternalMassFlowFunctionType(boost::bind(address, this, _1))
       void publish(const std::string& name, protocol::ExternalMassFlowType& value);
+
+      #define NewCanopyFunctionType boost::function1<void, protocol::NewCanopyType&>
+      #define NewCanopyFunction(address) NewCanopyFunctionType(boost::bind(address, this, _1))
+      void publish(const std::string& name, protocol::NewCanopyType& value);
+
    private:
       std::string currentClass1;
       std::string currentClass2;
