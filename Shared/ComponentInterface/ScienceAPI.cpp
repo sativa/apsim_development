@@ -132,18 +132,9 @@ string ScienceAPI::readFromSection(const std::string& section, const std::string
    {
    // -------------------------------------------------
    // Read the specified parameter name from the
-   // specified section name. This method takes
-   // "derived_from" into account and uses recursion
-   // to find parameters in base sections.
+   // specified section name.
    // -------------------------------------------------
-   string value = component->getProperty(section, name);
-   if (value == "")
-      {
-      string baseSection = component->getProperty(section, "derived_from");
-      if (baseSection != "")
-         value = readFromSection(baseSection, name);
-      }
-   return value;
+   return component->getProperty(section, name);
    }
 
 bool ScienceAPI::read(const std::string& name, std::vector<int>& data, int lower, int upper)

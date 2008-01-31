@@ -120,8 +120,15 @@ bool Is_numerical (const char* Text)
 void To_lower (string& St)
    {
    std::transform(St.begin(), St.end(), St.begin(), ::tolower);
-
    }
+
+std::string ToLower(const std::string& st)
+   {
+   std::string lowerSt = st;
+   To_lower(lowerSt);
+   return lowerSt;
+   }
+
 
 // ------------------------------------------------------------------
 //  Short description:
