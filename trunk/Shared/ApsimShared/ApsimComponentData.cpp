@@ -141,63 +141,60 @@ void ApsimComponentData::setExecutableFileName(const std::string& executable)
 // ------------------------------------------------------------------
 // Return the value of a specific property to caller.
 // ------------------------------------------------------------------
-std::string ApsimComponentData::getProperty(const std::string& propType,
+std::string ApsimComponentData::getProperty(const std::string& sectionName,
                                             const std::string& name) const
    {
-   string propertyType = propType;
-   char *endptr;
-   strtod(propertyType.c_str(), &endptr);
-   if (endptr != propertyType.c_str()) propertyType = "_" + propertyType;
-
-   vector<string> matches;
-   if (Str_i_Eq(propertyType, "parameters") ||
-       Str_i_Eq(propertyType, "constants"))
+   Sections::iterator section = findSection(sectionName);
+   if (section != sections.end())
       {
-      if (!haveReadBaseProperties)
+      Parameters::iterator parameter = section->parameters.find(ToLower(name));
+      if (parameter != section->parameters.end())
+         return parameter->second;
+      else
          {
-         getProperties(propertyType, baseNames, baseValues);
-         haveReadBaseProperties = true;
+         // Not found - go look in any derived_from sections.
+         parameter = section->parameters.find("derived_from");
+         if (parameter != section->parameters.end())
+            return getProperty(parameter->second, name);
          }
-      return matchProperty(name, baseNames, baseValues);
       }
-   else
-      {
-      vector<string> names, values, matches;
-      getProperties(propertyType, names, values);
-      return matchProperty(name, names, values);
-      }
+
+   return "";
    }
-
 // ------------------------------------------------------------------
-// Match and return the specified name
+// Return a matching section to caller for the specified section name
 // ------------------------------------------------------------------
-string ApsimComponentData::matchProperty(const std::string& name,
-                                         const vector<string>& names,
-                                         const vector<string>& values) const
+ApsimComponentData::Sections::iterator
+ApsimComponentData::findSection(const std::string& sectionName) const
    {
-   vector<string> matches;
-   for (unsigned int i = 0; i != names.size(); i++)
-      if (Str_i_Eq(names[i].c_str(), name.c_str()))
-        matches.push_back(values[i]);
-
-   if (matches.size() > 1)
-      throw std::runtime_error("Parameter " + name + " has multiple definitions");
-   if (matches.size() == 1) return matches[0];
-
-   // look in all tables if we can't find the parameter.
-   if (find_if(names.begin(), names.end(), CaseInsensitiveStringComparison(name))
-       != names.end())
+   string realSectionName = sectionName;
+   if (Str_i_Eq(realSectionName, "constants") || Str_i_Eq(realSectionName, "parameters"))
+      realSectionName = "";
+   Sections::iterator section = find_if(sections.begin(), sections.end(),
+                                        EqualToName<Section>(realSectionName));
+   if (section == sections.end())
       {
-      for (XMLNode::iterator propertyI = getInitData().begin();
-                             propertyI != getInitData().end() && matches.size() == 0;
-                             propertyI++)
-         if (Str_i_Eq(propertyI->getName(), "table"))
-            matches.push_back(getValuesFromTable(name, *propertyI));
+      XMLNode sectionNode = getInitData();
+      if (realSectionName != "")
+          {
+          sectionNode = findNodeWithName(getInitData(), realSectionName);
+          if (!sectionNode.isValid())
+             sectionNode = findNode(getInitData(), realSectionName);
+          }
+
+      if (sectionNode.isValid())
+         {
+         section = sections.insert(sections.end(), Section());
+         section->name = realSectionName;
+         for (XMLNode::iterator parameter = sectionNode.begin();
+                                parameter != sectionNode.end();
+                                parameter++)
+            section->parameters.insert(make_pair(ToLower(parameter->getName()),
+                                                 parameter->getValue()));
+         }
       }
-   if (matches.size() == 1)
-      return matches[0];
-   else
-      return "";
+
+   return section;
    }
 // ------------------------------------------------------------------
 // Return values from the specified table for the specific property
@@ -226,33 +223,29 @@ string ApsimComponentData::getValuesFromTable(const std::string& name, XMLNode t
 // ------------------------------------------------------------------
 // Return the value of a specific property to caller.
 // ------------------------------------------------------------------
-void ApsimComponentData::getProperties(const std::string& propertyType,
+void ApsimComponentData::getProperties(const std::string& sectionName,
                                        vector<string>& names,
                                        vector<string>& values) const
    {
-   if ((Str_i_Eq(propertyType, "parameters") ||
-        Str_i_Eq(propertyType, "constants")) && haveReadBaseProperties)
-      {
-      names = baseNames;
-      values = baseValues;
-      }
-   else
-      {
-      XMLNode parentNode = getInitData();
-      if (propertyType != "" && !Str_i_Eq(propertyType, "parameters") &&
-          !Str_i_Eq(propertyType, "constants"))
-          {
-          parentNode = findNodeWithName(getInitData(), propertyType);
-          if (!parentNode.isValid())
-             parentNode = findNode(getInitData(), propertyType);
-          }
+   names.erase(names.begin(), names.end());
+   values.erase(values.begin(), values.end());
 
-      for (XMLNode::iterator propertyI = parentNode.begin();
-                             propertyI != parentNode.end();
-                             propertyI++)
+   Sections::iterator section = findSection(sectionName);
+   if (section != sections.end())
+      {
+      for (Parameters::iterator parameter = section->parameters.begin();
+                                parameter != section->parameters.end();
+                                parameter++)
          {
-         names.push_back(propertyI->getName());
-         values.push_back(propertyI->getValue());
+         names.push_back(parameter->first);
+         values.push_back(parameter->second);
+         }
+      if (names.size() == 0)
+         {
+         // Not found - go look in any derived_from sections.
+         Parameters::iterator parameter = section->parameters.find("derived_from");
+         if (parameter != section->parameters.end())
+            return getProperties(parameter->second, names, values);
          }
       }
    }
@@ -261,10 +254,13 @@ void ApsimComponentData::getProperties(const std::string& propertyType,
 // ------------------------------------------------------------------
 void ApsimComponentData::getVariables(vector<string>& variables) const
    {
-   XMLNode initData = getInitData();
-   for_each_if(initData.begin(), initData.end(),
-               GetValueFunction<vector<string>, XMLNode>(variables),
-               EqualToName<XMLNode>("variable"));
+   variables.erase(variables.begin(), variables.end());
+   
+   Sections::iterator section = findSection("");
+   pair<Parameters::iterator, Parameters::iterator>
+      p = section->parameters.equal_range(ToLower("variable"));
+   for (Parameters::iterator parameter = p.first; parameter != p.second; parameter++)
+      variables.push_back(parameter->second);
    }
 // Helper function for below
 template <class T, class CT=std::vector<std::string> >

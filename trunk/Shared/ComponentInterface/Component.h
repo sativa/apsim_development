@@ -334,7 +334,7 @@ class EXPORT Component
       std::string author;
       int active;
       std::string state;
-      
+
       Registrations* registrations;
       vector<ReturnInfoData*> returnInfos;
       unsigned int errorID;
@@ -360,7 +360,7 @@ class EXPORT Component
 
       void clearReturnInfos(void);
       void waitForComplete(void);
-      
+
 
       friend class TypeConverter;
       friend void EXPORT STDCALL messageToLogic (unsigned* instanceNumber,
@@ -468,14 +468,7 @@ class EXPORT Component
                              const std::string& variableName)
        {
        std::string valueString = componentData->getProperty(sectionName, variableName);
-       if (valueString.length() <= 0)
-          {
-          std::string baseSection = componentData->getProperty(sectionName, "derived_from");
-          if (baseSection.length() > 0)
-             {
-             return readParameter(baseSection, variableName);
-             }
-          }
+
        // remove any Units specifier "(..)":
        unsigned int posBracket = valueString.find('(');
        if (posBracket != std::string::npos)

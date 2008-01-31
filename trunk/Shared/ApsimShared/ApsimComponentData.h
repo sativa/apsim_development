@@ -4,6 +4,7 @@
 
 #include <general/platform.h>
 #include <general/xml.h>
+#include <map>
 class ApsimSystemData;
 class ApsimRegistrationData;
 class ApsimDataTypeData;
@@ -88,6 +89,18 @@ class EXPORT ApsimComponentData
       std::string matchProperty(const std::string& name,
                                 const std::vector<std::string>& names,
                                 const std::vector<std::string>& values) const;
+
+      typedef std::multimap<std::string, std::string> Parameters;
+      struct Section
+         {
+         std::string name;
+         std::string getName() {return name;}
+         Parameters parameters;
+         };
+      typedef std::vector<Section> Sections;
+      mutable Sections sections;
+      Sections::iterator findSection(const std::string& sectionName) const;
+
 
       friend class ApsimSystemData;  // so that ApsimSystemData::appendChild can get to node.
    };

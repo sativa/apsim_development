@@ -206,6 +206,8 @@ void To_upper (std::string& St);
 // ------------------------------------------------------------------
 void To_lower (std::string& St);
 
+std::string ToLower(const std::string& st);
+
 // ------------------------------------------------------------------
 //  Short description:
 //    converts all strings in container to lowercase
