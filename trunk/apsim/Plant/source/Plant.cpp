@@ -443,6 +443,11 @@ void Plant::onInit2(void)
    doPInit(parent);
 
    plant_get_other_variables (); // sw etc..
+
+   protocol::NewCropType NewCrop;
+   NewCrop.crop_type = c.crop_type;
+   scienceAPI.publish ("newcrop",NewCrop);
+
    }
 
 
@@ -1514,6 +1519,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     plantSpatial.setCanopyWidth(leafPart->width());
 
     plant.doCover(plantSpatial);
+    UpdateCanopy();
 
 // other plant states
     plant.doNConccentrationLimits(co2Modifier->n_conc());
@@ -1560,6 +1566,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     plantSpatial.setCanopyWidth(leafPart->width());
 
     plant.doCover(plantSpatial);
+    UpdateCanopy();
 
     plant.doNConccentrationLimits( co2Modifier->n_conc() )  ;                  // plant N concentr
 
@@ -1655,6 +1662,7 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     plantSpatial.setCanopyWidth(leafPart->width());
 
     plant.doCover(plantSpatial);
+    UpdateCanopy();
 
     phenology->onRemoveBiomass(g.remove_biom_pheno);
 
@@ -1864,6 +1872,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            parent->writeString (msg);
 
            plantSpatial.startCrop (parent, v);
+           UpdateCanopy();
 
            // Bang.
            g.plant_status = alive;
@@ -2081,7 +2090,30 @@ void Plant::plant_update_other_variables (void)
                                       dm_p,
                                       fraction_to_residue);
 
+    UpdateCanopy();
+
     }
+
+void Plant::UpdateCanopy()
+//=======================================================================================
+// Tell APSIM system that our canopy has changed to a new state.
+   {
+
+    float cover_tot = 1.0
+        - (1.0 - plant.coverGreen())
+        * (1.0 - plant.coverSen());
+
+   protocol::NewCanopyType NewCanopy;
+   NewCanopy.height = stemPart->height();
+   NewCanopy.depth = stemPart->height();
+   NewCanopy.lai = leafPart->getLAI();
+   NewCanopy.lai_tot = leafPart->getLAI() + leafPart->getSLAI();
+   NewCanopy.cover = plant.coverGreen();
+   NewCanopy.cover_tot = cover_tot;
+
+   scienceAPI.publish ("new_canopy",NewCanopy);
+
+   }
 
 void Plant::plant_read_constants ( void )
 //=======================================================================================
@@ -2117,6 +2149,11 @@ void Plant::plant_prepare (void)
    float SWDemandMaxFactor = p.eo_crop_factor * g.eo ;
    plant.doSWDemand(SWDemandMaxFactor);
    doNDemandEstimate(1);
+
+   protocol::NewPotentialGrowthType NewPotentialGrowth;
+   NewPotentialGrowth.frgr = 1.0;
+   scienceAPI.publish ("newpotentialgrowth",NewPotentialGrowth);
+
 
    // Note actually should send total plant
    // potential growth rather than just tops - NIH
