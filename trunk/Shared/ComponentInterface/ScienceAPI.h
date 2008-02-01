@@ -101,6 +101,14 @@ class EXPORT ScienceAPI
       #define NewCanopyFunction(address) NewCanopyFunctionType(boost::bind(address, this, _1))
       void publish(const std::string& name, protocol::NewCanopyType& value);
 
+      #define NewCropFunctionType boost::function1<void, protocol::NewCropType&>
+      #define NewCropFunction(address) NewCropFunctionType(boost::bind(address, this, _1))
+      void publish(const std::string& name, protocol::NewCropType& value);
+
+      #define NewPotentialGrowthFunctionType boost::function1<void, protocol::NewPotentialGrowthType&>
+      #define NewPotentialGrowthFunction(address) NewPotentialGrowthFunctionType(boost::bind(address, this, _1))
+      void publish(const std::string& name, protocol::NewPotentialGrowthType& value);
+
    private:
       std::string currentClass1;
       std::string currentClass2;
