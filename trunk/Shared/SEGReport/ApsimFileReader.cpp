@@ -19,20 +19,23 @@ using namespace std;
 // ------------------------------------------------------------------
 // Read in the next record.  Return true if values are returned.
 // ------------------------------------------------------------------
-bool readNextRecord(istream& in, int index, vector<string>& fieldValues)
+bool readNextRecord(istream& in, bool csv, int index, vector<string>& fieldValues)
    {
    string line;
    if (getline(in, line) && line.length() > 0)
       {
+      char delimiter = ' ';
+      if (csv)
+         delimiter = ',';
       int n = line.length();
-      int start = line.find_first_not_of(' ');
+      int start = line.find_first_not_of(delimiter);
       while ((start >= 0) && (start < n))
          {
          int stop;
          if (line[start] == '"')
             stop = line.find_first_of('"', start+1)+1;
          else
-            stop = line.find_first_of(' ', start);
+            stop = line.find_first_of(delimiter, start);
          if ((stop < 0) || (stop > n)) stop = n;
          string word = line.substr(start, stop - start);
          if (word == "*" || word == "?")
@@ -43,7 +46,7 @@ bool readNextRecord(istream& in, int index, vector<string>& fieldValues)
             fieldValues.push_back(word);
          else
             fieldValues[index] = word;
-         start = line.find_first_not_of(' ', stop+1);
+         start = line.find_first_not_of(delimiter, stop+1);
          index++;
          }
       return true;
@@ -59,7 +62,7 @@ bool readNextRecord(istream& in, int index, vector<string>& fieldValues)
 // Returns the number of 'constants' found. The 'in' stream
 // will be position at the start of the 2nd line of data.
 // ------------------------------------------------------------------
-int readApsimHeader(istream& in,
+int readApsimHeader(istream& in, bool csv,
                     vector<string>& fieldNames,
                     vector<string>& fieldValues)
    {
@@ -74,9 +77,18 @@ int readApsimHeader(istream& in,
       if (posEquals != string::npos)
          {
          string KeyName = line.substr(0, posEquals);
-         stripLeadingTrailing(KeyName, " ");
          string KeyValue = line.substr(posEquals+1);
-         stripLeadingTrailing(KeyValue, " ");
+         if (csv)
+            {
+            stripLeadingTrailing(KeyName, ",");
+            stripLeadingTrailing(KeyValue, ",");
+            }
+         else
+            {
+            stripLeadingTrailing(KeyName, " ");
+            stripLeadingTrailing(KeyValue, " ");
+            }
+
          fieldNames.push_back(KeyName);
          fieldValues.push_back(KeyValue);
          }
@@ -90,13 +102,16 @@ int readApsimHeader(istream& in,
          {
          foundHeadings = true;
          numConstants = fieldNames.size();
-         split(previousLine, " ", fieldNames);
+         if (csv)
+            split(previousLine, ",", fieldNames);
+         else
+            split(previousLine, " ", fieldNames);
          break;
          }
       previousLine = line;
       }
    if (numConstants >= 0)
-      readNextRecord(in, numConstants, fieldValues);
+      readNextRecord(in, csv, numConstants, fieldValues);
 
    return numConstants;
    }
@@ -149,10 +164,11 @@ void processApsimFileReader(DataContainer& parent,
       {
       if (FileExists(fileNames[f].c_str()))
          {
+         bool csv = (stristr(fileNames[f].c_str(), ".csv") != NULL);
          // add fields to our result dataset.
          ifstream in(fileNames[f].c_str());
          vector<string> fieldNames, fieldValues;
-         int numConstants = readApsimHeader(in, fieldNames, fieldValues);
+         int numConstants = readApsimHeader(in, csv, fieldNames, fieldValues);
          if (!result.Active)
             {
             addDBFields(&result, fieldNames, fieldValues);
@@ -165,7 +181,7 @@ void processApsimFileReader(DataContainer& parent,
                {
                appendDBRecord(&result, fieldNames, fieldValues);
                }
-            while (readNextRecord(in, numConstants, fieldValues));
+            while (readNextRecord(in, csv, numConstants, fieldValues));
             }
          }
       }

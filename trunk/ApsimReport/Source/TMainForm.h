@@ -61,7 +61,6 @@ __published:	// IDE-managed Components
    TSpeedButton *CopyButton;
    TSpeedButton *PageSetupButton;
    TSpeedButton *PrintAllButton;
-   TSpeedButton *PrintCurrentButton;
    TPanel *Panel3;
    TPanel *Panel4;
    TPanel *ObjectInspector;
@@ -69,6 +68,8 @@ __published:	// IDE-managed Components
    TSpeedButton *PageButton;
    TAction *PageAction;
    TPopupMenu *OpenMenu;
+   TSpeedButton *ExportButton;
+   TSaveDialog *ExportDialog;
    void __fastcall FormShow(TObject *Sender);
    void __fastcall ExitActionExecute(TObject *Sender);
    void __fastcall OpenActionExecute(TObject *Sender);
@@ -100,6 +101,7 @@ __published:	// IDE-managed Components
    void __fastcall onDragDrop(TObject* sender, TObject* source,
                               int x, int y);
    void __fastcall PageActionExecute(TObject *Sender);
+   void __fastcall OnExport(TObject *Sender);
 
 
 private:	// User declarations

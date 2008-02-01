@@ -234,6 +234,14 @@ void __fastcall TMainForm::SaveAsActionExecute(TObject *Sender)
       save(SaveDialog1->FileName);
    }
 //---------------------------------------------------------------------------
+// Export the specified file to a PDF or RTF or another file type.
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::OnExport(TObject *Sender)
+   {
+   if (ExportDialog->Execute())
+      save(ExportDialog->FileName);
+   }
+//---------------------------------------------------------------------------
 // Go open the specified file.
 //---------------------------------------------------------------------------
 void TMainForm::open(AnsiString file, bool quiet, bool safe)
@@ -517,4 +525,5 @@ void __fastcall TMainForm::PageActionExecute(TObject *Sender)
    PagePopupMenu->Popup(Pos.x, Pos.y);
 
    }
+
 
