@@ -241,9 +241,9 @@ Component    "Venlink" = c:\development\apsim\venlink\lib\venlink.dll
         sum htt
      Vensim constants:
         initial_sum_htt = 0
-        soil_temp_threshold = 20
-        soil_moisture_threshold = -0.9
         ll15 = 0.5
+        soil_moisture_threshold = -0.9
+        soil_temp_threshold = 20
 ------- Start of simulation  --------------------------------------------------
 31 December 1988(Day of year=366), clock: 
      Simulation is terminating due to end criteria being met.
