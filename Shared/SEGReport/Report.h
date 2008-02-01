@@ -7,6 +7,7 @@
 #include "DataContainer.h"
 namespace Quickrpt {
    class TQuickRep;
+   class TQRCompositeReport;
    };
 namespace Classes {
    class TComponent;
@@ -118,6 +119,7 @@ class __declspec(dllexport) Report
       TScrollBox* scrollBox;
       TImageList* buttonImages;
       HINSTANCE handle;
+      Quickrpt::TQRCompositeReport* compositeReport;
       void _export __stdcall (*callDLL)(const char* dllFileName, const char* className,
                               const char* methodName, const char* methodArgument);
 
@@ -180,6 +182,8 @@ class __declspec(dllexport) Report
       void refreshAllPages();
       void refreshControls(TWinControl* parent);
       void safeMode(const std::string& fileName);
+
+      void __fastcall OnAddReports(TObject* sender);
 
    };
 #endif

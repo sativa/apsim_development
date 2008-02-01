@@ -39,7 +39,7 @@ namespace Graph
             // OpenFileDialog
             // 
             this.OpenFileDialog.DefaultExt = "out";
-            this.OpenFileDialog.Filter = "Output files (*.out)|*.out|(All files (*.*)|*.*";
+            this.OpenFileDialog.Filter = "Output files (*.out)|*.out|CSV files (*.csv)|*.csv|(All files (*.*)|*.*";
             this.OpenFileDialog.Multiselect = true;
             this.OpenFileDialog.RestoreDirectory = true;
             this.OpenFileDialog.Title = "Select 1 or more output files";

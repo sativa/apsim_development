@@ -57,6 +57,9 @@ Report::Report(TWinControl* p)
    scrollBox->Align = alClient;
    clear();
 
+   compositeReport = new TQRCompositeReport(reportForm);
+   compositeReport->OnAddReports = OnAddReports;
+
    isEditing = false;
    isDirty = false;
    zoomToFit = false;
@@ -293,6 +296,12 @@ void Report::save(const std::string& fileName)
       exportCurrentToFile(fileName);
    }
 
+void __fastcall Report::OnAddReports(TObject* sender)
+   {
+   compositeReport->Reports->Clear();
+   for (unsigned page = 0; page != pages.size(); page++)
+      compositeReport->Reports->Add(pages[page]);
+   }
 //---------------------------------------------------------------------------
 // write the full report xml to the specified stream.
 //---------------------------------------------------------------------------
@@ -651,18 +660,9 @@ void Report::copyToClipboard(void)
 //---------------------------------------------------------------------------
 void Report::print(bool currentPageOnly)
    {
-   if (currentPage != NULL)
-      {
-      currentPage->PrinterSetup();
-      if (currentPageOnly)
-         currentPage->Print();
-
-      else
-         {
-         for (unsigned p = 0; p != pages.size(); p++)
-            pages[p]->Print();
-         }
-      }
+   compositeReport->PrinterSetup();
+   if (compositeReport->Tag == 0)
+      currentPage->Print();
    }
 //---------------------------------------------------------------------------
 // Refresh the report
@@ -755,72 +755,79 @@ void Report::refreshControls(TWinControl* control)
 void Report::exportCurrentToFile(const std::string& fileNameBase)
    {
    for (vector<Quickrpt::TQuickRep*>::iterator page = pages.begin(); page != pages.end(); page++)
+      (*page)->Zoom = 100;
+   if (ExtractFileExt(fileNameBase.c_str()) == ".pdf")
       {
-      string fileName = fileNameBase;
-      if (pages.size() > 1)
+      OnAddReports(NULL);
+      CompositeExportToFile(compositeReport, etPDF, fileNameBase.c_str(), false, false);
+      }
+   else if (ExtractFileExt(fileNameBase.c_str()) == ".rtf")
+      {
+      OnAddReports(NULL);
+      CompositeExportToFile(compositeReport, etRTF, fileNameBase.c_str(), false, false);
+      }
+   else
+      {
+      for (vector<Quickrpt::TQuickRep*>::iterator page = pages.begin(); page != pages.end(); page++)
          {
-         Path p(fileName);
-         fileName = p.Get_name_without_ext();
-         if (p.Get_directory() != "")
-            fileName = p.Get_directory() + "\\" + fileName;
-         int pageNumber = page - pages.begin() + 1;
-         fileName += "[page" + itoa(pageNumber) + "]";
-         fileName += p.Get_extension();
-         }
-      setZoom(100);
-      try
-         {
-         if (ExtractFileExt(fileName.c_str()) == ".bmp")
-            ExportToBMP(*page, fileName.c_str(), false, true);
-         else if (ExtractFileExt(fileName.c_str()) == ".jpg")
+         string fileName = fileNameBase;
+         if (pages.size() > 1)
             {
-            gtQRJPEGSettings->PixelFormat = pf8bit;
-            ExportToJPEG(*page, fileName.c_str(), false, false);
+            Path p(fileName);
+            fileName = p.Get_name_without_ext();
+            if (p.Get_directory() != "")
+               fileName = p.Get_directory() + "\\" + fileName;
+            int pageNumber = page - pages.begin() + 1;
+            fileName += "[page" + itoa(pageNumber) + "]";
+            fileName += p.Get_extension();
             }
-         else if (ExtractFileExt(fileName.c_str()) == ".html")
+         try
             {
-            gtQRHTMLSettings->ExportImageFormat = ifGIF;
-            ExportToHTML(*page, fileName.c_str(), false, false);
-            }
-         else if (ExtractFileExt(fileName.c_str()) == ".pdf")
-            ExportToPDF(*page, fileName.c_str(), false, false);
-         else if (ExtractFileExt(fileName.c_str()) == ".gif")
-            {
-            gtQRGIFSettings->PixelFormat = pf24bit;
-            ExportToGIF(*page, fileName.c_str(), false, true);
-            }
-         else if (ExtractFileExt(fileName.c_str()) == ".rtf")
-            {
-            gtQRRTFSettings->ExportImageFormat = ifBMP;
-            ExportToRTF(*page, fileName.c_str(), false, false);
-            }
-         else if (ExtractFileExt(fileName.c_str()) == ".wmf")
-            ExportToWMF(*page, fileName.c_str(), false, false);
-         else if (ExtractFileExt(fileName.c_str()) == ".emf")
-            ExportToEMF(*page, fileName.c_str(), false, false);
+            if (ExtractFileExt(fileName.c_str()) == ".bmp")
+               ExportToBMP(*page, fileName.c_str(), false, true);
+            else if (ExtractFileExt(fileName.c_str()) == ".jpg")
+               {
+               gtQRJPEGSettings->PixelFormat = pf8bit;
+               ExportToJPEG(*page, fileName.c_str(), false, false);
+               }
+            else if (ExtractFileExt(fileName.c_str()) == ".html")
+               {
+               gtQRHTMLSettings->ExportImageFormat = ifGIF;
+               ExportToHTML(*page, fileName.c_str(), false, false);
+               }
+            else if (ExtractFileExt(fileName.c_str()) == ".gif")
+               {
+               gtQRGIFSettings->PixelFormat = pf24bit;
+               ExportToGIF(*page, fileName.c_str(), false, true);
+               }
+            else if (ExtractFileExt(fileName.c_str()) == ".wmf")
+               ExportToWMF(*page, fileName.c_str(), false, false);
+            else if (ExtractFileExt(fileName.c_str()) == ".emf")
+               ExportToEMF(*page, fileName.c_str(), false, false);
 
-         AnsiString tempFilePath = ExtractFileDir(fileName.c_str());
-         if (tempFilePath != "")
-            tempFilePath += "\\";
-         AnsiString tempFile =  tempFilePath
-                             + Path(fileName).Get_name_without_ext().c_str()
-                             + "0001"
-                             + ExtractFileExt(fileName.c_str());
-         CopyFile(tempFile.c_str(), fileName.c_str(), false);
-         DeleteFile(tempFile);
+            AnsiString tempFilePath = ExtractFileDir(fileName.c_str());
+            if (tempFilePath != "")
+               tempFilePath += "\\";
+            AnsiString tempFile =  tempFilePath
+                                + Path(fileName).Get_name_without_ext().c_str()
+                                + "0001"
+                                + ExtractFileExt(fileName.c_str());
+            CopyFile(tempFile.c_str(), fileName.c_str(), false);
+            DeleteFile(tempFile);
 
-         // html exports do things this way!!!!!???
-         tempFilePath = ExtractFileDir(fileName.c_str());
-         if (tempFilePath != "")
-            tempFilePath += "\\";
-         tempFile =  tempFilePath
-                             + Path(fileName).Get_name_without_ext().c_str()
-                             + ".0001.htm";
-         CopyFile(tempFile.c_str(), fileName.c_str(), false);
-         DeleteFile(tempFile);
-         }
-      catch (const Exception& err)
-         {
+            // html exports do things this way!!!!!???
+            tempFilePath = ExtractFileDir(fileName.c_str());
+            if (tempFilePath != "")
+               tempFilePath += "\\";
+            tempFile =  tempFilePath
+                                + Path(fileName).Get_name_without_ext().c_str()
+                                + ".0001.htm";
+            CopyFile(tempFile.c_str(), fileName.c_str(), false);
+            DeleteFile(tempFile);
+            }
+         catch (const Exception& err)
+            {
+            }
          }
       }
    }
