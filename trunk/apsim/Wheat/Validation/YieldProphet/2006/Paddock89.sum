@@ -963,7 +963,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     27.2500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     110.395024300000
+     Manager creating a new local real variable : nitrogen =     110.394998600000
      Manager creating a new local real variable : availablewater =    -6.42608600000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1099,7 +1099,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     5.83 (%)    extractable sw =   25.50 (mm)
 16 August 2006(Day of year=228), Wheat: 
       stage 5.0 floral_initiation
-                     biomass =         249.74 (g/m^2)   lai          =   3.464 (m^2/m^2)
+                     biomass =         249.73 (g/m^2)   lai          =   3.464 (m^2/m^2)
                      stover N conc =     2.20 (%)    extractable sw =   33.70 (mm)
 22 August 2006(Day of year=234), Fertilise1: 
      Manager sending message :- fertiliser apply  amount = 23 (kg/ha), depth = 20 (mm), type = no3_n
@@ -1110,7 +1110,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                                               added at depth   20.00 (layer   1)
 26 September 2006(Day of year=269), Wheat: 
       stage 6.0 flowering
-                     biomass =         442.27 (g/m^2)   lai          =   0.505 (m^2/m^2)
+                     biomass =         442.26 (g/m^2)   lai          =   0.506 (m^2/m^2)
                      stover N conc =     1.82 (%)    extractable sw =    4.14 (mm)
 4 October 2006(Day of year=277), Wheat: 
       stage 7.0 start_grain_fill
@@ -1118,7 +1118,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     1.79 (%)    extractable sw =    2.40 (mm)
 5 October 2006(Day of year=278), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     15.0000000000000
-     Manager creating a new local real variable : avg_swdef =    0.928800032000000E-001
+     Manager creating a new local real variable : avg_swdef =    0.928810015000000E-001
 5 November 2006(Day of year=309), Wheat: 
       stage 8.0 end_grain_fill
                      biomass =         452.84 (g/m^2)   lai          =   0.016 (m^2/m^2)
@@ -1132,14 +1132,14 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         452.87 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.40 (%)    extractable sw =    0.11 (mm)
 8 November 2006(Day of year=312), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     163.376831040000
+     Manager creating a new local real variable : fullprice =     163.376869200000
 8 November 2006(Day of year=312), Harvest: 
      Manager sending message :- wheat harvest
      
-      flowering day          =  269                           stover (kg/ha)         =     3618.2
+      flowering day          =  269                           stover (kg/ha)         =     3618.1
       maturity day           =  311                           grain yield (kg/ha)    =      910.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1040.6
-      grain wt (g)           =    0.016                       grains/m^2             =     5776.6
+      grain wt (g)           =    0.016                       grains/m^2             =     5776.5
       grains/plant           =   57.8                         maximum lai            =      3.750
       total above ground biomass (kg/ha)    =     4528.7
       live above ground biomass (kg/ha)     =     4528.7
@@ -1157,12 +1157,12 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          end_of_juvenile      to floral_initiation       0.002        0.005        0.056        0.080
          floral_initiation    to flowering               0.483        0.561        0.149        0.179
          flowering            to start_grain_fill        1.018        1.129        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.805        0.904        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.804        0.904        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3618.2                     0.0
+                          DM (kg/ha) =                3618.1                     0.0
                           N  (kg/ha) =                  35.70                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots

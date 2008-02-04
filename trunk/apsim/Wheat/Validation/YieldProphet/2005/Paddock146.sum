@@ -975,7 +975,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     26.5000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     94.5208640000000
+     Manager creating a new local real variable : nitrogen =     94.5207939000000
      Manager creating a new local real variable : availablewater =     62.0374760000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1125,43 +1125,43 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                                               added at depth   20.00 (layer   1)
 28 September 2005(Day of year=271), Wheat: 
       stage 5.0 floral_initiation
-                     biomass =         376.72 (g/m^2)   lai          =   5.110 (m^2/m^2)
+                     biomass =         376.71 (g/m^2)   lai          =   5.110 (m^2/m^2)
                      stover N conc =     2.23 (%)    extractable sw =   64.67 (mm)
 26 October 2005(Day of year=299), Wheat: 
       stage 6.0 flowering
-                     biomass =         755.34 (g/m^2)   lai          =   3.594 (m^2/m^2)
+                     biomass =         755.33 (g/m^2)   lai          =   3.594 (m^2/m^2)
                      stover N conc =     1.18 (%)    extractable sw =   68.39 (mm)
 2 November 2005(Day of year=306), Wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         849.52 (g/m^2)   lai          =   2.942 (m^2/m^2)
+                     biomass =         849.51 (g/m^2)   lai          =   2.942 (m^2/m^2)
                      stover N conc =     0.90 (%)    extractable sw =   65.22 (mm)
 3 November 2005(Day of year=307), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     19.7500000000000
-     Manager creating a new local real variable : avg_swdef =    0.562738001000000
+     Manager creating a new local real variable : avg_swdef =    0.562741995000000
 3 December 2005(Day of year=337), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1150.01 (g/m^2)   lai          =   0.799 (m^2/m^2)
+                     biomass =        1150.00 (g/m^2)   lai          =   0.799 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   28.93 (mm)
 5 December 2005(Day of year=339), Wheat: 
       stage 9.0 maturity
-                     biomass =        1150.76 (g/m^2)   lai          =   0.704 (m^2/m^2)
+                     biomass =        1150.75 (g/m^2)   lai          =   0.704 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   27.64 (mm)
 6 December 2005(Day of year=340), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1150.76 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1150.75 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   27.35 (mm)
 6 December 2005(Day of year=340), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     140.454292388000
+     Manager creating a new local real variable : fullprice =     140.453689604000
 6 December 2005(Day of year=340), Harvest: 
      Manager sending message :- wheat harvest
      
-      flowering day          =  299                           stover (kg/ha)         =     8332.7
+      flowering day          =  299                           stover (kg/ha)         =     8332.6
       maturity day           =  339                           grain yield (kg/ha)    =     3174.9
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3628.4
-      grain wt (g)           =    0.032                       grains/m^2             =     9806.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3628.5
+      grain wt (g)           =    0.032                       grains/m^2             =     9806.7
       grains/plant           =   98.1                         maximum lai            =      5.298
-      total above ground biomass (kg/ha)    =    11507.6
-      live above ground biomass (kg/ha)     =    11507.6
+      total above ground biomass (kg/ha)    =    11507.5
+      live above ground biomass (kg/ha)     =    11507.5
       green above ground biomass (kg/ha)    =     9123.0
       senesced above ground biomass (kg/ha) =     2384.6
       number of leaves       =     49.9
@@ -1181,7 +1181,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                8332.7                     0.0
+                          DM (kg/ha) =                8332.6                     0.0
                           N  (kg/ha) =                  30.04                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots

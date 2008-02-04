@@ -1097,19 +1097,19 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     5.84 (%)    extractable sw =   16.22 (mm)
 12 September 2006(Day of year=255), barley: 
       stage 5.0 floral_initiation
-                     biomass =          80.16 (g/m^2)   lai          =   1.150 (m^2/m^2)
+                     biomass =          80.15 (g/m^2)   lai          =   1.150 (m^2/m^2)
                      stover N conc =     1.92 (%)    extractable sw =   36.86 (mm)
 28 September 2006(Day of year=271), barley: 
       stage 6.0 flowering
-                     biomass =         154.27 (g/m^2)   lai          =   0.796 (m^2/m^2)
+                     biomass =         154.26 (g/m^2)   lai          =   0.796 (m^2/m^2)
                      stover N conc =     0.98 (%)    extractable sw =   17.62 (mm)
 6 October 2006(Day of year=279), barley: 
       stage 7.0 start_grain_fill
-                     biomass =         179.29 (g/m^2)   lai          =   0.504 (m^2/m^2)
+                     biomass =         179.28 (g/m^2)   lai          =   0.504 (m^2/m^2)
                      stover N conc =     0.71 (%)    extractable sw =    9.81 (mm)
 7 October 2006(Day of year=280), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     15.7500000000000
-     Manager creating a new local real variable : avg_swdef =    0.366953999000000
+     Manager creating a new local real variable : avg_swdef =    0.366982996000000
 8 November 2006(Day of year=312), barley: 
       stage 8.0 end_grain_fill
                      biomass =         202.80 (g/m^2)   lai          =   0.094 (m^2/m^2)
@@ -1127,8 +1127,8 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
 11 November 2006(Day of year=315), Harvest: 
      Manager sending message :- barley harvest
      
-      flowering day          =  271                           stover (kg/ha)         =     1350.1
-      maturity day           =  314                           grain yield (kg/ha)    =      678.6
+      flowering day          =  271                           stover (kg/ha)         =     1350.0
+      maturity day           =  314                           grain yield (kg/ha)    =      678.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      775.6
       grain wt (g)           =    0.034                       grains/m^2             =     1987.9
       grains/plant           =   19.9                         maximum lai            =      1.150
@@ -1153,11 +1153,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                1350.1                     0.0
+                          DM (kg/ha) =                1350.0                     0.0
                           N  (kg/ha) =                   4.99                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                 678.6                     0.0
+                          DM (kg/ha) =                 678.7                     0.0
                           N  (kg/ha) =                   9.71                    0.00
      
       stage 4.0 end_of_juvenile

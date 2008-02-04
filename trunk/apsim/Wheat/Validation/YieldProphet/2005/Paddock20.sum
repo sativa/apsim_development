@@ -959,7 +959,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     26.2500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     89.9239064000000
+     Manager creating a new local real variable : nitrogen =     89.9238205000000
      Manager creating a new local real variable : availablewater =     55.2702480000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1120,14 +1120,14 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.31 (%)    extractable sw =    3.38 (mm)
 18 October 2005(Day of year=291), Wheat: 
       stage 9.0 maturity
-                     biomass =         645.25 (g/m^2)   lai          =   0.257 (m^2/m^2)
+                     biomass =         645.24 (g/m^2)   lai          =   0.257 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =    3.09 (mm)
 19 October 2005(Day of year=292), Wheat: 
       stage 10.0 harvest_ripe
                      biomass =         645.24 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    2.94 (mm)
 19 October 2005(Day of year=292), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     155.301139840000
+     Manager creating a new local real variable : fullprice =     155.300720200000
 19 October 2005(Day of year=292), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1136,8 +1136,8 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2908.6
       grain wt (g)           =    0.038                       grains/m^2             =     6743.4
       grains/plant           =   67.4                         maximum lai            =      2.642
-      total above ground biomass (kg/ha)    =     6452.5
-      live above ground biomass (kg/ha)     =     6452.5
+      total above ground biomass (kg/ha)    =     6452.4
+      live above ground biomass (kg/ha)     =     6452.4
       green above ground biomass (kg/ha)    =     5350.8
       senesced above ground biomass (kg/ha) =     1101.7
       number of leaves       =     34.4

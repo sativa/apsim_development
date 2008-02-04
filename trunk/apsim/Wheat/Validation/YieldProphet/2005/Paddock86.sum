@@ -983,7 +983,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     29.0000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     128.796534920000
+     Manager creating a new local real variable : nitrogen =     128.796439060000
      Manager creating a new local real variable : availablewater =     119.721344000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1163,13 +1163,13 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =        1662.57 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   67.77 (mm)
 5 November 2005(Day of year=309), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     143.436897276000
+     Manager creating a new local real variable : fullprice =     143.436317684000
 5 November 2005(Day of year=309), Harvest: 
      Manager sending message :- wheat harvest
      
       flowering day          =  264                           stover (kg/ha)         =    10900.5
-      maturity day           =  308                           grain yield (kg/ha)    =     5725.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6543.1
+      maturity day           =  308                           grain yield (kg/ha)    =     5725.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6543.0
       grain wt (g)           =    0.037                       grains/m^2             =    15635.8
       grains/plant           =  156.4                         maximum lai            =      5.151
       total above ground biomass (kg/ha)    =    16625.7
@@ -1197,7 +1197,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                           N  (kg/ha) =                  37.92                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                5725.2                     0.0
+                          DM (kg/ha) =                5725.1                     0.0
                           N  (kg/ha) =                 113.89                    0.00
      
       stage 4.0 end_of_juvenile
@@ -1207,7 +1207,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                   0.0                  1987.4
-                          N  (kg/ha) =                   0.00                   38.11
+                          N  (kg/ha) =                   0.00                   38.10
      
 6 November 2005(Day of year=310), GrossMargin: 
      Manager creating a new local real variable : twotimescost =     0.00000000000000

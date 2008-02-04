@@ -971,7 +971,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     28.5000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     116.698198300000
+     Manager creating a new local real variable : nitrogen =     116.698114400000
      Manager creating a new local real variable : availablewater =     26.5701290000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1116,11 +1116,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                                               added at depth   20.00 (layer   1)
 11 September 2005(Day of year=254), barley: 
       stage 5.0 floral_initiation
-                     biomass =         288.46 (g/m^2)   lai          =   4.263 (m^2/m^2)
+                     biomass =         288.45 (g/m^2)   lai          =   4.263 (m^2/m^2)
                      stover N conc =     2.43 (%)    extractable sw =   46.42 (mm)
 30 September 2005(Day of year=273), barley: 
       stage 6.0 flowering
-                     biomass =         476.89 (g/m^2)   lai          =   2.733 (m^2/m^2)
+                     biomass =         476.88 (g/m^2)   lai          =   2.733 (m^2/m^2)
                      stover N conc =     1.65 (%)    extractable sw =   36.75 (mm)
 9 October 2005(Day of year=282), barley: 
       stage 7.0 start_grain_fill
@@ -1128,7 +1128,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     1.39 (%)    extractable sw =   29.23 (mm)
 10 October 2005(Day of year=283), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     12.0000000000000
-     Manager creating a new local real variable : avg_swdef =    0.679247022000000
+     Manager creating a new local real variable : avg_swdef =    0.679243982000000
 5 November 2005(Day of year=309), barley: 
       stage 8.0 end_grain_fill
                      biomass =         655.83 (g/m^2)   lai          =   0.503 (m^2/m^2)
@@ -1142,25 +1142,25 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         657.56 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.45 (%)    extractable sw =   39.04 (mm)
 8 November 2005(Day of year=312), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     151.593097680000
+     Manager creating a new local real variable : fullprice =     151.592754360000
 8 November 2005(Day of year=312), Harvest: 
      Manager sending message :- barley harvest
      
       flowering day          =  273                           stover (kg/ha)         =     4160.5
-      maturity day           =  311                           grain yield (kg/ha)    =     2415.0
+      maturity day           =  311                           grain yield (kg/ha)    =     2415.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2760.1
       grain wt (g)           =    0.040                       grains/m^2             =     6031.7
       grains/plant           =   60.3                         maximum lai            =      4.526
       total above ground biomass (kg/ha)    =     6575.6
       live above ground biomass (kg/ha)     =     6575.6
       green above ground biomass (kg/ha)    =     4763.8
-      senesced above ground biomass (kg/ha) =     1811.8
+      senesced above ground biomass (kg/ha) =     1811.7
       number of leaves       =     44.1
       DM Root:Shoot ratio    =     0.19                       Harvest Index          =       0.37
-      Stover C:N ratio       =    85.28                       Root C:N ratio         =      21.91
+      Stover C:N ratio       =    85.29                       Root C:N ratio         =      21.91
       grain N percent        =     2.35                       total N content (kg/ha)=      76.18
       grain N uptake (kg/ha) =    56.67                       senesced N content (kg/ha)=    9.06
-      green N content (kg/ha)=    10.46
+      green N content (kg/ha)=    10.45
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -1176,7 +1176,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                           N  (kg/ha) =                  19.51                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2415.0                     0.0
+                          DM (kg/ha) =                2415.1                     0.0
                           N  (kg/ha) =                  56.67                    0.00
      
       stage 4.0 end_of_juvenile

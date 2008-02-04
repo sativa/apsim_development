@@ -951,7 +951,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     25.7500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     90.0442840900000
+     Manager creating a new local real variable : nitrogen =     90.0442383000000
      Manager creating a new local real variable : availablewater =     44.5201420000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1091,15 +1091,15 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     2.08 (%)    extractable sw =   34.23 (mm)
 18 September 2006(Day of year=261), barley: 
       stage 6.0 flowering
-                     biomass =         340.63 (g/m^2)   lai          =   1.820 (m^2/m^2)
+                     biomass =         340.62 (g/m^2)   lai          =   1.820 (m^2/m^2)
                      stover N conc =     1.51 (%)    extractable sw =   40.02 (mm)
 25 September 2006(Day of year=268), barley: 
       stage 7.0 start_grain_fill
-                     biomass =         385.31 (g/m^2)   lai          =   1.299 (m^2/m^2)
+                     biomass =         385.30 (g/m^2)   lai          =   1.299 (m^2/m^2)
                      stover N conc =     1.31 (%)    extractable sw =   34.56 (mm)
 26 September 2006(Day of year=269), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     16.7500000000000
-     Manager creating a new local real variable : avg_swdef =    0.396207005000000
+     Manager creating a new local real variable : avg_swdef =    0.396218002000000
 24 October 2006(Day of year=297), barley: 
       stage 8.0 end_grain_fill
                      biomass =         479.31 (g/m^2)   lai          =   0.303 (m^2/m^2)
@@ -1113,19 +1113,19 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         480.73 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.42 (%)    extractable sw =   19.04 (mm)
 27 October 2006(Day of year=300), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     152.122177120000
+     Manager creating a new local real variable : fullprice =     152.121379840000
 27 October 2006(Day of year=300), Harvest: 
      Manager sending message :- barley harvest
      
-      flowering day          =  261                           stover (kg/ha)         =     3006.5
+      flowering day          =  261                           stover (kg/ha)         =     3006.4
       maturity day           =  299                           grain yield (kg/ha)    =     1800.9
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2058.1
-      grain wt (g)           =    0.043                       grains/m^2             =     4229.6
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2058.2
+      grain wt (g)           =    0.043                       grains/m^2             =     4229.5
       grains/plant           =   42.3                         maximum lai            =      3.319
       total above ground biomass (kg/ha)    =     4807.3
       live above ground biomass (kg/ha)     =     4807.3
       green above ground biomass (kg/ha)    =     3457.7
-      senesced above ground biomass (kg/ha) =     1349.7
+      senesced above ground biomass (kg/ha) =     1349.6
       number of leaves       =     61.8
       DM Root:Shoot ratio    =     0.21                       Harvest Index          =       0.37
       Stover C:N ratio       =    87.43                       Root C:N ratio         =      28.46
@@ -1143,7 +1143,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3006.5                     0.0
+                          DM (kg/ha) =                3006.4                     0.0
                           N  (kg/ha) =                  13.75                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots

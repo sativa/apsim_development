@@ -1039,7 +1039,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     29.0000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     42.8255779500000
+     Manager creating a new local real variable : nitrogen =     42.8254850400000
      Manager creating a new local real variable : availablewater =     46.4243160000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1208,7 +1208,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager sending message :- irrigation apply  amount = 25 (mm)
 18 September 2005(Day of year=261), Wheat: 
       stage 6.0 flowering
-                     biomass =         981.50 (g/m^2)   lai          =   3.566 (m^2/m^2)
+                     biomass =         981.49 (g/m^2)   lai          =   3.566 (m^2/m^2)
                      stover N conc =     1.29 (%)    extractable sw =   55.80 (mm)
 25 September 2005(Day of year=268), Irrigate4: 
      Manager sending message :- irrigation apply  amount = 25 (mm)
@@ -1218,21 +1218,21 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     1.19 (%)    extractable sw =   58.33 (mm)
 28 September 2005(Day of year=271), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     14.7500000000000
-     Manager creating a new local real variable : avg_swdef =    0.689957023000000
+     Manager creating a new local real variable : avg_swdef =    0.689957976000000
 1 November 2005(Day of year=305), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1376.44 (g/m^2)   lai          =   0.483 (m^2/m^2)
+                     biomass =        1376.43 (g/m^2)   lai          =   0.483 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =   82.21 (mm)
 2 November 2005(Day of year=306), Wheat: 
       stage 9.0 maturity
-                     biomass =        1376.44 (g/m^2)   lai          =   0.415 (m^2/m^2)
+                     biomass =        1376.43 (g/m^2)   lai          =   0.415 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =   78.28 (mm)
 3 November 2005(Day of year=307), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1376.44 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1376.43 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   76.48 (mm)
 3 November 2005(Day of year=307), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     148.107673640000
+     Manager creating a new local real variable : fullprice =     148.107532520000
 3 November 2005(Day of year=307), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1241,10 +1241,10 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     6427.9
       grain wt (g)           =    0.040                       grains/m^2             =    13961.7
       grains/plant           =  139.6                         maximum lai            =      4.967
-      total above ground biomass (kg/ha)    =    13764.4
-      live above ground biomass (kg/ha)     =    13764.4
+      total above ground biomass (kg/ha)    =    13764.3
+      live above ground biomass (kg/ha)     =    13764.3
       green above ground biomass (kg/ha)    =    11432.2
-      senesced above ground biomass (kg/ha) =     2332.2
+      senesced above ground biomass (kg/ha) =     2332.1
       number of leaves       =     58.5
       DM Root:Shoot ratio    =     0.13                       Harvest Index          =       0.41
       Stover C:N ratio       =   107.30                       Root C:N ratio         =      23.85
@@ -1257,7 +1257,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          end_of_juvenile      to floral_initiation       0.000        0.000        0.087        0.152
          floral_initiation    to flowering               0.072        0.111        0.037        0.203
          flowering            to start_grain_fill        0.196        0.271        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.211        0.258        0.237        0.364
+         start_grain_fill     to end_grain_fill          0.211        0.258        0.236        0.364
      
      
      Crop harvested.

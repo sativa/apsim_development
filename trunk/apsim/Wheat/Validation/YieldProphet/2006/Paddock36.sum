@@ -959,7 +959,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     28.5000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     69.3546266000000
+     Manager creating a new local real variable : nitrogen =     69.3545838000000
      Manager creating a new local real variable : availablewater =     8.22015399999998
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1099,19 +1099,19 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager sending message :- irrigation apply  amount = 5 (mm)
 24 August 2006(Day of year=236), barley: 
       stage 5.0 floral_initiation
-                     biomass =         118.31 (g/m^2)   lai          =   1.821 (m^2/m^2)
+                     biomass =         118.30 (g/m^2)   lai          =   1.821 (m^2/m^2)
                      stover N conc =     1.98 (%)    extractable sw =   40.02 (mm)
 12 September 2006(Day of year=255), barley: 
       stage 6.0 flowering
-                     biomass =         249.43 (g/m^2)   lai          =   1.555 (m^2/m^2)
+                     biomass =         249.42 (g/m^2)   lai          =   1.555 (m^2/m^2)
                      stover N conc =     1.00 (%)    extractable sw =   42.09 (mm)
 20 September 2006(Day of year=263), barley: 
       stage 7.0 start_grain_fill
-                     biomass =         300.76 (g/m^2)   lai          =   1.154 (m^2/m^2)
+                     biomass =         300.75 (g/m^2)   lai          =   1.154 (m^2/m^2)
                      stover N conc =     0.71 (%)    extractable sw =   25.63 (mm)
 21 September 2006(Day of year=264), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     14.7500000000000
-     Manager creating a new local real variable : avg_swdef =    0.714287996000000
+     Manager creating a new local real variable : avg_swdef =    0.714308977000000
 19 October 2006(Day of year=292), barley: 
       stage 8.0 end_grain_fill
                      biomass =         368.89 (g/m^2)   lai          =   0.282 (m^2/m^2)
@@ -1132,8 +1132,8 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       flowering day          =  255                           stover (kg/ha)         =     2212.6
       maturity day           =  294                           grain yield (kg/ha)    =     1479.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1690.5
-      grain wt (g)           =    0.046                       grains/m^2             =     3242.5
-      grains/plant           =   32.4                         maximum lai            =      1.841
+      grain wt (g)           =    0.046                       grains/m^2             =     3242.4
+      grains/plant           =   32.4                         maximum lai            =      1.840
       total above ground biomass (kg/ha)    =     3691.8
       live above ground biomass (kg/ha)     =     3691.8
       green above ground biomass (kg/ha)    =     2957.3

@@ -943,7 +943,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     29.0000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     73.7102824000000
+     Manager creating a new local real variable : nitrogen =     73.7102794000000
      Manager creating a new local real variable : availablewater =     135.428467000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1079,11 +1079,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     5.83 (%)    extractable sw =   56.40 (mm)
 25 August 2006(Day of year=237), barley: 
       stage 5.0 floral_initiation
-                     biomass =         339.17 (g/m^2)   lai          =   4.873 (m^2/m^2)
-                     stover N conc =     2.06 (%)    extractable sw =  110.58 (mm)
+                     biomass =         339.16 (g/m^2)   lai          =   4.873 (m^2/m^2)
+                     stover N conc =     2.06 (%)    extractable sw =  110.59 (mm)
 16 September 2006(Day of year=259), barley: 
       stage 6.0 flowering
-                     biomass =         617.09 (g/m^2)   lai          =   3.760 (m^2/m^2)
+                     biomass =         617.08 (g/m^2)   lai          =   3.760 (m^2/m^2)
                      stover N conc =     1.14 (%)    extractable sw =   57.43 (mm)
 23 September 2006(Day of year=266), barley: 
       stage 7.0 start_grain_fill
@@ -1091,7 +1091,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.87 (%)    extractable sw =   43.33 (mm)
 24 September 2006(Day of year=267), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     16.2500000000000
-     Manager creating a new local real variable : avg_swdef =    0.622922003000000
+     Manager creating a new local real variable : avg_swdef =    0.622932971000000
 27 October 2006(Day of year=300), barley: 
       stage 8.0 end_grain_fill
                      biomass =         849.20 (g/m^2)   lai          =   0.843 (m^2/m^2)
@@ -1109,10 +1109,10 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
 31 October 2006(Day of year=304), Harvest: 
      Manager sending message :- barley harvest
      
-      flowering day          =  259                           stover (kg/ha)         =     5393.8
-      maturity day           =  303                           grain yield (kg/ha)    =     3116.6
+      flowering day          =  259                           stover (kg/ha)         =     5393.7
+      maturity day           =  303                           grain yield (kg/ha)    =     3116.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3561.9
-      grain wt (g)           =    0.040                       grains/m^2             =     7878.0
+      grain wt (g)           =    0.040                       grains/m^2             =     7877.9
       grains/plant           =   78.8                         maximum lai            =      4.885
       total above ground biomass (kg/ha)    =     8510.4
       live above ground biomass (kg/ha)     =     8510.4
@@ -1135,11 +1135,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                5393.8                     0.0
+                          DM (kg/ha) =                5393.7                     0.0
                           N  (kg/ha) =                  20.06                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3116.6                     0.0
+                          DM (kg/ha) =                3116.7                     0.0
                           N  (kg/ha) =                  47.80                    0.00
      
       stage 4.0 end_of_juvenile

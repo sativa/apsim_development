@@ -975,7 +975,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     28.7500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     158.594734600000
+     Manager creating a new local real variable : nitrogen =     158.594692700000
      Manager creating a new local real variable : availablewater =     40.2929690000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1140,29 +1140,29 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avg_swdef =     1.00000000000000
 25 November 2005(Day of year=329), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1233.84 (g/m^2)   lai          =   0.614 (m^2/m^2)
+                     biomass =        1233.85 (g/m^2)   lai          =   0.614 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   23.28 (mm)
 27 November 2005(Day of year=331), Wheat: 
       stage 9.0 maturity
-                     biomass =        1234.63 (g/m^2)   lai          =   0.457 (m^2/m^2)
+                     biomass =        1234.64 (g/m^2)   lai          =   0.457 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   21.72 (mm)
 28 November 2005(Day of year=332), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1234.63 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   21.04 (mm)
+                     biomass =        1234.64 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.31 (%)    extractable sw =   21.03 (mm)
 28 November 2005(Day of year=332), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     148.957370760000
+     Manager creating a new local real variable : fullprice =     148.957351680000
 28 November 2005(Day of year=332), Harvest: 
      Manager sending message :- wheat harvest
      
       flowering day          =  295                           stover (kg/ha)         =     8006.3
-      maturity day           =  331                           grain yield (kg/ha)    =     4340.0
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4960.0
+      maturity day           =  331                           grain yield (kg/ha)    =     4340.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4960.1
       grain wt (g)           =    0.033                       grains/m^2             =    13297.7
       grains/plant           =  133.0                         maximum lai            =      6.345
-      total above ground biomass (kg/ha)    =    12346.3
-      live above ground biomass (kg/ha)     =    12346.3
-      green above ground biomass (kg/ha)    =     9388.5
+      total above ground biomass (kg/ha)    =    12346.4
+      live above ground biomass (kg/ha)     =    12346.4
+      green above ground biomass (kg/ha)    =     9388.6
       senesced above ground biomass (kg/ha) =     2957.8
       number of leaves       =     49.2
       DM Root:Shoot ratio    =     0.17                       Harvest Index          =       0.35
@@ -1185,12 +1185,12 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                           N  (kg/ha) =                  30.19                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                4340.0                     0.0
+                          DM (kg/ha) =                4340.1                     0.0
                           N  (kg/ha) =                  96.83                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   21.04 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   21.03 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
