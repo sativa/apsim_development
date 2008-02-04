@@ -963,7 +963,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     26.5000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     90.6834631000000
+     Manager creating a new local real variable : nitrogen =     90.6834154000000
      Manager creating a new local real variable : availablewater =   -0.979857999999979
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1110,7 +1110,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     2.52 (%)    extractable sw =  125.32 (mm)
 23 September 2005(Day of year=266), barley: 
       stage 6.0 flowering
-                     biomass =         647.59 (g/m^2)   lai          =   4.656 (m^2/m^2)
+                     biomass =         647.58 (g/m^2)   lai          =   4.656 (m^2/m^2)
                      stover N conc =     1.39 (%)    extractable sw =   84.35 (mm)
 2 October 2005(Day of year=275), barley: 
       stage 7.0 start_grain_fill
@@ -1121,7 +1121,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avg_swdef =    0.623082995000000
 3 November 2005(Day of year=307), barley: 
       stage 8.0 end_grain_fill
-                     biomass =        1233.19 (g/m^2)   lai          =   1.685 (m^2/m^2)
+                     biomass =        1233.20 (g/m^2)   lai          =   1.685 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =   59.41 (mm)
 5 November 2005(Day of year=309), barley: 
       stage 9.0 maturity
@@ -1137,8 +1137,8 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager sending message :- barley harvest
      
       flowering day          =  266                           stover (kg/ha)         =     7316.5
-      maturity day           =  309                           grain yield (kg/ha)    =     5034.0
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     5753.2
+      maturity day           =  309                           grain yield (kg/ha)    =     5034.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     5753.3
       grain wt (g)           =    0.059                       grains/m^2             =     8521.2
       grains/plant           =   85.2                         maximum lai            =      5.147
       total above ground biomass (kg/ha)    =    12350.6
@@ -1166,7 +1166,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                           N  (kg/ha) =                  26.46                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                5034.0                     0.0
+                          DM (kg/ha) =                5034.1                     0.0
                           N  (kg/ha) =                  69.14                    0.00
      
       stage 4.0 end_of_juvenile

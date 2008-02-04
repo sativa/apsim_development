@@ -971,7 +971,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     28.5000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     142.519870900000
+     Manager creating a new local real variable : nitrogen =     142.519797900000
      Manager creating a new local real variable : availablewater =     75.4201660000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1142,13 +1142,13 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         886.88 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   12.82 (mm)
 20 November 2005(Day of year=324), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     161.507595080000
+     Manager creating a new local real variable : fullprice =     161.507473000000
 20 November 2005(Day of year=324), Harvest: 
      Manager sending message :- wheat harvest
      
       flowering day          =  284                           stover (kg/ha)         =     6050.6
       maturity day           =  323                           grain yield (kg/ha)    =     2818.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3220.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3220.9
       grain wt (g)           =    0.028                       grains/m^2             =    10128.6
       grains/plant           =  101.3                         maximum lai            =      4.917
       total above ground biomass (kg/ha)    =     8868.8
@@ -1158,7 +1158,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       number of leaves       =     49.7
       DM Root:Shoot ratio    =     0.18                       Harvest Index          =       0.32
       Stover C:N ratio       =   104.53                       Root C:N ratio         =      17.09
-      grain N percent        =     2.78                       total N content (kg/ha)=     101.51
+      grain N percent        =     2.78                       total N content (kg/ha)=     101.52
       grain N uptake (kg/ha) =    78.36                       senesced N content (kg/ha)=   11.81
       green N content (kg/ha)=    11.34
      
@@ -1167,7 +1167,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          end_of_juvenile      to floral_initiation       0.009        0.016        0.010        0.039
          floral_initiation    to flowering               0.326        0.397        0.001        0.048
          flowering            to start_grain_fill        0.722        0.822        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.191        0.246        0.146        0.311
+         start_grain_fill     to end_grain_fill          0.191        0.246        0.145        0.311
      
      
      Crop harvested.

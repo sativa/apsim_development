@@ -959,7 +959,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     25.7500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     74.8934250000000
+     Manager creating a new local real variable : nitrogen =     74.8933773000000
      Manager creating a new local real variable : availablewater =     47.7177430000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1101,11 +1101,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                                               added at depth   20.00 (layer   1)
 29 July 2006(Day of year=210), Wheat: 
       stage 5.0 floral_initiation
-                     biomass =         183.59 (g/m^2)   lai          =   2.564 (m^2/m^2)
+                     biomass =         183.58 (g/m^2)   lai          =   2.564 (m^2/m^2)
                      stover N conc =     2.46 (%)    extractable sw =   90.79 (mm)
 10 September 2006(Day of year=253), Wheat: 
       stage 6.0 flowering
-                     biomass =         702.93 (g/m^2)   lai          =   2.311 (m^2/m^2)
+                     biomass =         702.92 (g/m^2)   lai          =   2.311 (m^2/m^2)
                      stover N conc =     1.30 (%)    extractable sw =   35.46 (mm)
 17 September 2006(Day of year=260), Wheat: 
       stage 7.0 start_grain_fill
@@ -1113,7 +1113,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     1.08 (%)    extractable sw =   27.91 (mm)
 18 September 2006(Day of year=261), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     22.6499996000000
-     Manager creating a new local real variable : avg_swdef =    0.356404990000000
+     Manager creating a new local real variable : avg_swdef =    0.356413990000000
 20 October 2006(Day of year=293), Wheat: 
       stage 8.0 end_grain_fill
                      biomass =         889.52 (g/m^2)   lai          =   0.532 (m^2/m^2)
@@ -1127,19 +1127,19 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         890.53 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   15.89 (mm)
 23 October 2006(Day of year=296), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     147.734790800000
+     Manager creating a new local real variable : fullprice =     147.734245320000
 23 October 2006(Day of year=296), Harvest: 
      Manager sending message :- wheat harvest
      
       flowering day          =  253                           stover (kg/ha)         =     5650.9
       maturity day           =  295                           grain yield (kg/ha)    =     3254.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3719.3
-      grain wt (g)           =    0.032                       grains/m^2             =    10307.9
+      grain wt (g)           =    0.032                       grains/m^2             =    10307.8
       grains/plant           =  103.1                         maximum lai            =      3.089
       total above ground biomass (kg/ha)    =     8905.3
       live above ground biomass (kg/ha)     =     8905.3
-      green above ground biomass (kg/ha)    =     7528.4
-      senesced above ground biomass (kg/ha) =     1377.0
+      green above ground biomass (kg/ha)    =     7528.3
+      senesced above ground biomass (kg/ha) =     1376.9
       number of leaves       =     47.1
       DM Root:Shoot ratio    =     0.15                       Harvest Index          =       0.37
       Stover C:N ratio       =   114.03                       Root C:N ratio         =      20.74

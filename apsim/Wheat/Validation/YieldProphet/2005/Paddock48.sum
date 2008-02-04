@@ -971,7 +971,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     28.2500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     252.349049100000
+     Manager creating a new local real variable : nitrogen =     252.348884200000
      Manager creating a new local real variable : availablewater =     42.8985600000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1131,34 +1131,34 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avg_swdef =     1.00000000000000
 25 November 2005(Day of year=329), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1466.36 (g/m^2)   lai          =   0.861 (m^2/m^2)
+                     biomass =        1466.37 (g/m^2)   lai          =   0.861 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =   30.70 (mm)
 27 November 2005(Day of year=331), Wheat: 
       stage 9.0 maturity
-                     biomass =        1467.51 (g/m^2)   lai          =   0.686 (m^2/m^2)
+                     biomass =        1467.52 (g/m^2)   lai          =   0.686 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   28.20 (mm)
 28 November 2005(Day of year=332), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1467.51 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1467.52 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   27.38 (mm)
 28 November 2005(Day of year=332), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     163.975120560000
+     Manager creating a new local real variable : fullprice =     163.975685120000
 28 November 2005(Day of year=332), Harvest: 
      Manager sending message :- wheat harvest
      
       flowering day          =  295                           stover (kg/ha)         =     9196.0
       maturity day           =  331                           grain yield (kg/ha)    =     5479.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6261.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6261.9
       grain wt (g)           =    0.035                       grains/m^2             =    15618.4
       grains/plant           =  156.2                         maximum lai            =      7.045
-      total above ground biomass (kg/ha)    =    14675.1
-      live above ground biomass (kg/ha)     =    14675.1
+      total above ground biomass (kg/ha)    =    14675.2
+      live above ground biomass (kg/ha)     =    14675.2
       green above ground biomass (kg/ha)    =    11457.3
       senesced above ground biomass (kg/ha) =     3217.8
       number of leaves       =     49.3
       DM Root:Shoot ratio    =     0.16                       Harvest Index          =       0.37
       Stover C:N ratio       =   105.32                       Root C:N ratio         =      17.47
-      grain N percent        =     2.89                       total N content (kg/ha)=     193.19
+      grain N percent        =     2.89                       total N content (kg/ha)=     193.20
       grain N uptake (kg/ha) =   158.27                       senesced N content (kg/ha)=   16.09
       green N content (kg/ha)=    18.84
      
@@ -1173,7 +1173,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                9196.0                     0.0
-                          N  (kg/ha) =                  34.92                    0.00
+                          N  (kg/ha) =                  34.93                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                5479.1                     0.0
