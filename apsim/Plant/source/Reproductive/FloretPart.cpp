@@ -290,16 +290,6 @@ void FloretPart::doDmPotRUE (void )                    // (OUTPUT) potential dry
    dlt.dm_pot_rue = (radiationInterceptedGreen * cRue_Floret) * stress_factor * plant->getCo2ModifierRue();
 }
 
-
-void FloretPart::doTECO2()          // (OUTPUT) transpiration coefficient
-   //==========================================================================
-{
-   cproc_transp_eff_co2_1(plant->getVpd()
-                          , c.transpEffCf[(int)plant->getStageNumber()-1]
-                          , plant->getCo2ModifierTe()
-                          , &transpEff);
-}
-
 void FloretPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water demand (mm)
    //===========================================================================
    /*  Purpose
@@ -309,6 +299,11 @@ void FloretPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop wat
 {
    // get potential transpiration from potential
    // carbohydrate production and transpiration efficiency
+
+   cproc_transp_eff_co2_1(plant->getVpd()
+                          , c.transpEffCf[(int)plant->getStageNumber()-1]
+                          , plant->getCo2ModifierTe()
+                          , &transpEff);
 
    cproc_sw_demand1 (dlt.dm_pot_rue
                      , transpEff

@@ -825,15 +825,6 @@ void cohortingLeafPart::doDmPotRUE (void )                    // (OUTPUT) potent
    dlt.dm_pot_rue = (radiationInterceptedGreen * cRue.value(plant->getStageNumber())) * stress_factor * plant->getCo2ModifierRue();
 }
 
-void cohortingLeafPart::doTECO2()          // (OUTPUT) transpiration coefficient
-   //==========================================================================
-{
-   cproc_transp_eff_co2_1(plant->getVpd()
-                          , c.transpEffCf[(int)plant->getStageNumber()-1]
-                          , plant->getCo2ModifierTe()
-                          , &transpEff);
-}
-
 void cohortingLeafPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water demand (mm)
    //===========================================================================
    /*  Purpose
@@ -843,6 +834,11 @@ void cohortingLeafPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) c
 {
    // get potential transpiration from potential
    // carbohydrate production and transpiration efficiency
+
+   cproc_transp_eff_co2_1(plant->getVpd()
+                          , c.transpEffCf[(int)plant->getStageNumber()-1]
+                          , plant->getCo2ModifierTe()
+                          , &transpEff);
 
    cproc_sw_demand1 (dlt.dm_pot_rue
                      , transpEff

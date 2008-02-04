@@ -303,7 +303,6 @@ protected:
    virtual void doGrainNumber (void);
    virtual void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
    virtual void doNInit (void);
-   virtual void doTECO2(void);                                       // (OUTPUT) transpiration coefficient                         //FIXME
    virtual void writeCultivarInfo (protocol::Component *);
 
    virtual bool isYieldPart(void)  {return false;};

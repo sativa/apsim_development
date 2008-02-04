@@ -1103,7 +1103,7 @@ void Plant::plant_process ( void )
     //!!!!!!!! check order dependency of deltas
 
     rootPart->plant_root_depth ();
-    rootPart->doWaterSupply();
+    //rootPart->doWaterSupply();
 
     if (g.plant_status == alive)
         {
@@ -1136,7 +1136,7 @@ void Plant::plant_process ( void )
 
         plant.doDmPotTE(rootPart->waterUptake());
         // Calculate Potential Photosynthesis
-        plant.doDmPotRUE();
+        plant.doDmPotRUE();               // NIH - WHY IS THIS HERE!!!!?????  Not needed I hope.
 
         if(phenology->on_day_of(phenology->stageName()))
            fruitPart->onDayOf(phenology->stageName());
@@ -1152,9 +1152,10 @@ void Plant::plant_process ( void )
 
         doDmRetranslocate ();
 
+        //Combine these 3 calls into a AreaOrLengthGrowth call
+        //Note this will fix a bug - the floret area dlt is not currently calculated!!!
         leafPart->actual ();
         fruitPart->calcDlt_pod_area ();
-
         rootPart->root_length_growth();
 
         leafPart->leaf_death( min(nStress->nFact.expansion, pStress->pFact.expansion), phenology->get_dlt_tt());
@@ -2143,15 +2144,15 @@ void Plant::plant_prepare (void)
 
    // Calculate Potential Photosynthesis
    plant.doDmPotRUE();
-   // Calculate Transpiration Efficiency
-   plant.doTECO2();
+
    // Calculate Plant Water Demand
    float SWDemandMaxFactor = p.eo_crop_factor * g.eo ;
    plant.doSWDemand(SWDemandMaxFactor);
    doNDemandEstimate(1);
 
    protocol::NewPotentialGrowthType NewPotentialGrowth;
-   NewPotentialGrowth.frgr = 1.0;
+   NewPotentialGrowth.frgr = min(min(getTempStressPhoto(),getNfactPhoto()),min(getOxdefPhoto(),getPfactPhoto()));
+
    scienceAPI.publish ("newpotentialgrowth",NewPotentialGrowth);
 
 
