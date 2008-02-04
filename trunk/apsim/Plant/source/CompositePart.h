@@ -67,7 +67,6 @@ public:                                             // member functions
    virtual void  doSenescence (float sen_fr);
    virtual void  doSoilNDemand(void);
    virtual void  doSWDemand(float SWDemandMaxFactor);     //(OUTPUT) crop water demand (mm)               //FIXME
-   virtual void  doTECO2(void);                           // (OUTPUT) transpiration coefficient                         //FIXME
    virtual float grainNo(void);
    virtual float grainWt(void);
    virtual void  morphology(void);

@@ -1334,7 +1334,6 @@ void SimplePart::doDmPotTE(float /*swSupply*/){}                           //(OU
 void SimplePart::doGrainNumber (void){}
 void SimplePart::doNDemandGrain(float /* nfact_grain_conc*/, float /* swdef_expansion*/){}
 void SimplePart::doNInit (void){}
-void SimplePart::doTECO2(void){}                              // (OUTPUT) transpiration coefficient                         //FIXME
 void SimplePart::writeCultivarInfo (protocol::Component *){}
 
 float SimplePart::giveDmGreen(float delta)

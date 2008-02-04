@@ -129,7 +129,6 @@ public:
    virtual void  doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report) = 0;
    virtual void  doSoilNDemand(void) = 0;
    virtual void  doSWDemand(float SWDemandMaxFactor) = 0;
-   virtual void  doTECO2(void) = 0;                                       // (OUTPUT) transpiration coefficient                         //FIXME
 
    virtual void  get_dlt_dm_green_retrans(vector<float> &) = 0;
    virtual void  get_dlt_p_retrans(vector<float> &dlt_p_retrans) = 0;

@@ -1449,6 +1449,7 @@ void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
 //       Plant transpiration and soil water extraction
 void RootPart::doWaterUptake (int option, float SWDemand)
     {
+    doWaterSupply();
     if (Str_i_Eq(uptake_source,"apsim"))
         {
         doWaterUptakeExternal(SWDemand);
@@ -1461,7 +1462,6 @@ void RootPart::doWaterUptake (int option, float SWDemand)
         {
         throw std::invalid_argument ("invalid template option");
         }
-
     }
 
 // SWIM

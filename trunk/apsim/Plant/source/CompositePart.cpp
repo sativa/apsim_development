@@ -954,14 +954,6 @@ void CompositePart::doDmPotRUE (void )
       (*part)->doDmPotRUE ();
 }
 
-void CompositePart::doTECO2(void)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->doTECO2();
-}
-
 void CompositePart::doSWDemand(float SWDemandMaxFactor)
    //===========================================================================
 {
