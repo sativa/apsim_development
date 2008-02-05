@@ -109,6 +109,10 @@ class EXPORT ScienceAPI
       #define NewPotentialGrowthFunction(address) NewPotentialGrowthFunctionType(boost::bind(address, this, _1))
       void publish(const std::string& name, protocol::NewPotentialGrowthType& value);
 
+      #define CanopyWaterBalanceFunctionType boost::function1<void, protocol::CanopyWaterBalanceType&>
+      #define CanopyWaterBalanceFunction(address) CanopyWaterBalanceFunctionType(boost::bind(address, this, _1))
+      void subscribe(const std::string& name, CanopyWaterBalanceFunctionType handler);
+
    private:
       std::string currentClass1;
       std::string currentClass2;

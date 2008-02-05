@@ -509,6 +509,18 @@ void ScienceAPI::subscribe(const std::string& name, NewProfileFunctionType handl
                        fn, wrapper->DDML());
    }
 
+void ScienceAPI::subscribe(const std::string& name, CanopyWaterBalanceFunctionType handler)
+   {
+   typedef CMPMethod1<CanopyWaterBalanceFunctionType, protocol::CanopyWaterBalanceType> WrapperType;
+   WrapperType* wrapper = new WrapperType (handler);
+   stuffToDelete.push_back(wrapper);
+
+   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
+   fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
+   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+                       fn, wrapper->DDML());
+   }
+
 // -------------------------------------------------------------
 // Publish methods
 // -------------------------------------------------------------
