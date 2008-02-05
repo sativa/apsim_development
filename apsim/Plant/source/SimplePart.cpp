@@ -1325,7 +1325,6 @@ void SimplePart::doDmDemand (float /* dlt_dm_supply_by_veg*/){}
 void SimplePart::doDmPotRUE (void){}                         // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
 void SimplePart::doGrainNumber (void){}
 void SimplePart::doNDemandGrain(float /* nfact_grain_conc*/, float /* swdef_expansion*/){}
-void SimplePart::doNInit (void){}
 void SimplePart::writeCultivarInfo (protocol::Component *){}
 
 float SimplePart::giveDmGreen(float delta)

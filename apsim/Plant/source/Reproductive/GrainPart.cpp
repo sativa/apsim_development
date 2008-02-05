@@ -275,9 +275,10 @@ void fruitGrainPart::doNDemandGrain(float nfact_grain_conc      //   (INPUT)
    //    Calculate plant n demand
 
 //   float   n_potential;           // maximum grain N demand (g/m^2)
-
    if (plant->inPhase("grainfill"))
    {
+      doNConcGrainLimits();
+
       gN_grain_demand = mealPart->dltDmGreenNew()
                       * dltNGrainConc(cSfac_slope
                                      , cSw_fac_max
@@ -359,14 +360,6 @@ void fruitGrainPart::doDMDemandStress (void)
                                    , &gDlt_dm_stress_max);
 }
 
-void fruitGrainPart::doNInit (void)
-   //============================================================================
-{
-   //       Initialise plant nitrogen.
-
-   if (plant->inPhase("grainfill"))
-      doNConcGrainLimits();
-}
 
 void fruitGrainPart::doNConcGrainLimits (void)
    //============================================================================

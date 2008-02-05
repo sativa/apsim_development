@@ -77,7 +77,6 @@ public:                                             // member functions
 
    float calcDmDemand (void);
 
-   void doNInit (void);
    void doNRetranslocate( float N_avail_rep, float g_grain_n_demand);
 
 

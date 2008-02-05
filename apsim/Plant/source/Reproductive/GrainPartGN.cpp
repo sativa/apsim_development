@@ -245,6 +245,7 @@ void fruitGrainPartGN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
 
    if (plant->inPhase("reproductive"))
       {
+
       // we are in grain filling stage
       Tav = meanT();
 

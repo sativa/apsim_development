@@ -53,7 +53,6 @@ public:                                             // member functions
    virtual void  doNDemand2(float, float);
    virtual void  doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
    virtual void  doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
-   virtual void  doNInit (void);
    virtual void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
    virtual void  doNRetranslocate( float N_avail_rep, float grain_n_demand);
    virtual void  doNSenescence(void);

@@ -299,7 +299,6 @@ protected:
    virtual void doDmPotRUE (void );                      // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    virtual void doGrainNumber (void);
    virtual void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
-   virtual void doNInit (void);
    virtual void writeCultivarInfo (protocol::Component *);
 
    virtual bool isYieldPart(void)  {return false;};
