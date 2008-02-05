@@ -75,6 +75,8 @@ void GenericLeaf::readSpeciesParameters (protocol::Component *system, vector<str
 void GenericLeaf::onInit1(protocol::Component *system)
 {
    SimplePart::onInit1(system);
+   Leaf::onInit1(system);
+
    setupGetFunction(system, "leaf_no", protocol::DTsingle, false,
                     &GenericLeaf::get_leaf_no, "leaves/plant", "Number of leaves per plant");
 

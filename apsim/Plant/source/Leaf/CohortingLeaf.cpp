@@ -95,6 +95,7 @@ void CohortingLeaf::onInit1(protocol::Component *system)
 // Connect our bits to the system
    {
    SimplePart::onInit1(system);
+   Leaf::onInit1(system);
    setupGetFunction(system, "node_no", protocol::DTsingle, false,
                     &CohortingLeaf::get_node_no, "/plant", "Number of main stem nodes");
 
