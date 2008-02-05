@@ -19,16 +19,19 @@ class Leaf : public SimplePart {
    virtual void zeroAllGlobals(void) =0;
    virtual void zeroDeltas(void) =0;
    virtual void checkBounds(void) =0;
-   virtual void onInit1(protocol::Component *) =0;
+   //virtual void onInit1(protocol::Component *) =0;
    virtual void readConstants (protocol::Component *, const string &) =0;
    virtual void readSpeciesParameters(protocol::Component *system, vector<string> &search_order) =0;
    virtual void onEmergence(void) =0;
    virtual void onKillStem(void) = 0;
+   virtual void onCanopyWaterBalance(protocol::CanopyWaterBalanceType &v);
    virtual float getLAI(void) = 0;                             //
    virtual float getSLAI(void) = 0;                            //
    virtual float getLeafNo(void) = 0;                          // The number of leaves
    virtual float senFract (void) = 0;                          // Fraction of canopy senescing today
    virtual float dmGreenDemand(void) =0;                       // Maximum DM this part can take today
+
+   virtual void onInit1(protocol::Component *);
 
    virtual void CanopyExpansion (int option, float, float, float) =0;             // Calculate potentials
    virtual void actual(void) =0;                                     // Calculate actual leaf development from potential & stressed

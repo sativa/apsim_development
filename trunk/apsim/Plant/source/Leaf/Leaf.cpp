@@ -23,6 +23,17 @@ Leaf* constructLeafPart (ScienceAPI& scienceAPI, plantInterface *p, const string
   return (object);
   }
 
+void Leaf::onInit1(protocol::Component *)
+   {
+   scienceAPI.subscribe("CanopyWaterBalance", CanopyWaterBalanceFunction(&Leaf::onCanopyWaterBalance));
+   }
+
+void Leaf::onCanopyWaterBalance(protocol::CanopyWaterBalanceType &CWB)
+//=======================================================================================
+// Handler for CanopyWaterBalance event
+   {
+
+   }
 
 void Leaf::doNConccentrationLimits(float modifier)
 {
