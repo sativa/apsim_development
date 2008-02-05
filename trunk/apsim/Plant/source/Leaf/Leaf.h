@@ -39,7 +39,29 @@ class Leaf : public SimplePart {
 
    virtual float dmRetransSupply(void);
    virtual void  doNConccentrationLimits(float modifier);
+   virtual void doSWDemand(float SWDemandMaxFactor);
+   virtual void doBioActual (void);
 
+   virtual float interceptRadiationGreen(float radiation);
+   virtual float interceptRadiationTotal(float radiation);
+   virtual float coverTotal(void)  ;
+   virtual float coverGreen(void)  ;
+   virtual float coverSen(void)  ;
+   virtual void doCover (PlantSpatial &spatial);
+   virtual void doDmPotRUE (void );
+
+   struct Cover
+   {
+      float green;
+      float sen;
+   };
+   Cover coverLeaf;
+   float cXRowSpacing[max_table];
+   float cYExtinctCoef[max_table];
+   float cYExtinctCoefDead[max_table];
+   int cNumRowSpacing;
+
+   interpolationFunction cRue;                        // radiation use efficiency as f(stage number) (g dm/mj)
 };
 
 Leaf* constructLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name);
