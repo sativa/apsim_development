@@ -1097,15 +1097,6 @@ void CompositePart::doDmMin (void)       // (OUTPUT) actual biomass senesced fro
       (*part)->doDmMin();
 }
 
-void CompositePart::doNInit (void)
-   //============================================================================
-{
-   //       Initialise plant nitrogen.
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->doNInit();
-}
-
 float CompositePart::availableRetranslocateN(void)
    //============================================================================
 {

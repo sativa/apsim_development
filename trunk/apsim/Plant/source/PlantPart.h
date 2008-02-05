@@ -121,7 +121,6 @@ public:
    virtual void  doNDemand1Pot(float, float) = 0;
    virtual void  doNDemand2(float, float) = 0;
    virtual void  doNDemandGrain(float nfact_grain_conc, float swdef_expansion) = 0;
-   virtual void  doNInit (void) = 0;
    virtual void  doNRetranslocate( float N_supply, float g_grain_n_demand) = 0;
    virtual void  doNSenescedRetrans(float navail, float n_demand_tot) = 0;
    virtual void  doNSenescence(void) = 0;

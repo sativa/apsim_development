@@ -1163,7 +1163,6 @@ void Plant::plant_process ( void )
         plant.doSenescence(leafPart->senFract());
         rootPart->sen_length();
 
-        plant.doNInit();
         plant.doNDemandGrain(nStress->nFact.grain, swStress->swDef.expansion);
 
         float biomass = tops.Green.DM() + plant.dltDm();
