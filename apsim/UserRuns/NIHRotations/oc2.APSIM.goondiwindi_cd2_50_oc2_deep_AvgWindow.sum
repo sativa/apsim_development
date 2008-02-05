@@ -3126,7 +3126,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- sorghum end_crop
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               4103.95		 1432.21
+                         DM (kg/ha) =               4103.96		 1432.21
                          N  (kg/ha) =                 15.49		    2.86
                          P  (kg/ha) =                  0.00		    0.00
 20 June 1984(Day of year=172), manager: 
@@ -4092,28 +4092,28 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     0.32 (%)    extractable sw =   26.60 (mm)
 26 October 1990(Day of year=299), wheat: 
       stage 9.0 maturity
-                     biomass =         732.18 (g/m^2)   lai          =   0.279 (m^2/m^2)
+                     biomass =         732.06 (g/m^2)   lai          =   0.279 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   21.49 (mm)
 27 October 1990(Day of year=300), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         732.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         732.06 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   20.45 (mm)
 28 October 1990(Day of year=301), manager: 
      Manager sending message :- wheat harvest
 28 October 1990(Day of year=301), wheat: 
      
-      flowering day          =  264                           stover (kg/ha)         =     5079.4
+      flowering day          =  264                           stover (kg/ha)         =     5078.2
       maturity day           =  299                           grain yield (kg/ha)    =     2242.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2562.8
       grain wt (g)           =    0.025                       grains/m^2             =     8844.3
       grains/plant           =   88.4                         maximum lai            =      3.574
-      total above ground biomass (kg/ha)    =     7321.8
-      live above ground biomass (kg/ha)     =     7321.8
-      green above ground biomass (kg/ha)    =     5664.8
+      total above ground biomass (kg/ha)    =     7320.6
+      live above ground biomass (kg/ha)     =     7320.6
+      green above ground biomass (kg/ha)    =     5663.6
       senesced above ground biomass (kg/ha) =     1657.0
       number of leaves       =     52.5
       DM Root:Shoot ratio    =     0.19                       Harvest Index          =       0.31
-      Stover C:N ratio       =   106.43                       Root C:N ratio         =      34.04
+      Stover C:N ratio       =   106.41                       Root C:N ratio         =      34.04
       grain N percent        =     1.92                       total N content (kg/ha)=      62.25
       grain N uptake (kg/ha) =    43.16                       senesced N content (kg/ha)=    8.29
       green N content (kg/ha)=    10.80
@@ -4128,7 +4128,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                5079.4                     0.0
+                          DM (kg/ha) =                5078.2                     0.0
                           N  (kg/ha) =                  19.09                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -4249,14 +4249,14 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     1.75 (%)    extractable sw =   12.97 (mm)
 29 October 1991(Day of year=302), chickpea: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 3002.89 (kg/ha)
+     Plant death. standing above-ground dm = 3002.85 (kg/ha)
 30 October 1991(Day of year=303), manager: 
      Manager sending message :- chickpea harvest
 30 October 1991(Day of year=303), chickpea: 
      
       flowering day          =  231                           stover (kg/ha)         =     2121.0
       maturity day           =  300                           grain yield (kg/ha)    =      881.9
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1002.2
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1002.1
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      1.862
       total above ground biomass (kg/ha)    =     3002.9
@@ -4381,27 +4381,27 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      		stover N conc =   1.01 		 extractable sw =  66.83
 30 January 1992(Day of year=30), sorghum: 
       stage 6.0 flag_leaf
-     		biomass = 176.37 		 lai =   1.74
-     		stover N conc =   2.13 		 extractable sw =  38.34
+     		biomass = 176.36 		 lai =   1.74
+     		stover N conc =   2.13 		 extractable sw =  38.33
 7 February 1992(Day of year=38), sorghum: 
       stage 7.0 flowering
-     		biomass = 244.40 		 lai =   1.65
+     		biomass = 244.39 		 lai =   1.65
      		stover N conc =   2.93 		 extractable sw =  44.45
 8 February 1992(Day of year=39), sorghum: 
       stage 8.0 start_grain_fill
-     		biomass = 250.59 		 lai =   1.64
+     		biomass = 250.58 		 lai =   1.64
      		stover N conc =   2.97 		 extractable sw =  42.32
 13 March 1992(Day of year=73), sorghum: 
       stage 9.0 end_grain_fill
-     		biomass = 458.58 		 lai =   0.67
+     		biomass = 458.55 		 lai =   0.67
      		stover N conc =   1.51 		 extractable sw =  23.58
 15 March 1992(Day of year=75), sorghum: 
       stage 10.0 maturity
-     		biomass = 463.07 		 lai =   0.60
+     		biomass = 463.04 		 lai =   0.60
      		stover N conc =   1.49 		 extractable sw =  22.79
 16 March 1992(Day of year=76), sorghum: 
       stage 11.0 harvest_ripe
-     		biomass = 464.86 		 lai =   0.57
+     		biomass = 464.83 		 lai =   0.57
      		stover N conc =   1.47 		 extractable sw =  22.47
 17 March 1992(Day of year=77), manager: 
      Manager sending message :- sorghum harvest
@@ -4411,17 +4411,17 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      flowering (DAS)       = 54 	 maturity (DAS)          = 91
      flowering day         = 38 	 maturity day            = 75
      maximum lai           = 1.747 	 number of leaves        = 14.972
-     total above ground biomass    (kg/ha) = 4662.2
-     live above ground biomass     (kg/ha) = 4662.2
-     green above ground biomass    (kg/ha) = 3823.4
+     total above ground biomass    (kg/ha) = 4661.9
+     live above ground biomass     (kg/ha) = 4661.9
+     green above ground biomass    (kg/ha) = 3823.1
      senesced above ground biomass (kg/ha) = 838.8
      dead above ground biomass     (kg/ha) = 0.0
-     stover (kg/ha)        = 2304.2 	 grain yield (kg/ha)     = 2358.0
-     grain % water content = 13.0 	 grain yield wet (kg/ha) = 2710.3
-     grain wt (g)          = 0.021 	 grains/m^2              = 11367.2
-     grains/head           = 1748.8
-     grain N percent            =     1.187 	 grain N uptake     (kg/ha) =   28.000
-     total N content    (kg/ha) =    42.677 	 senesced N content (kg/ha) =    7.069
+     stover (kg/ha)        = 2304.1 	 grain yield (kg/ha)     = 2357.8
+     grain % water content = 13.0 	 grain yield wet (kg/ha) = 2710.1
+     grain wt (g)          = 0.021 	 grains/m^2              = 11366.5
+     grains/head           = 1748.7
+     grain N percent            =     1.187 	 grain N uptake     (kg/ha) =   27.998
+     total N content    (kg/ha) =    42.674 	 senesced N content (kg/ha) =    7.068
      green N content    (kg/ha) =     9.970 	 dead N content     (kg/ha) =    0.000
      
 
@@ -4435,15 +4435,15 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =               2357.95		    0.00
+                         DM (kg/ha) =               2357.76		    0.00
                          N  (kg/ha) =                 28.00		    0.00
      Manager sending message :- sorghum kill_crop
      Kill Crop
-     Crop kill. Standing above-ground dm =  2304.2 kg/ha
+     Crop kill. Standing above-ground dm =  2304.1 kg/ha
      Manager sending message :- sorghum end_crop
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               2304.24		 1053.68
+                         DM (kg/ha) =               2304.12		 1053.64
                          N  (kg/ha) =                  6.82		    2.11
                          P  (kg/ha) =                  0.00		    0.00
 19 November 1994(Day of year=323), manager: 
@@ -4546,7 +4546,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 17 February 1995(Day of year=48), sorghum: 
       stage 10.0 maturity
      		biomass = 707.72 		 lai =   0.77
-     		stover N conc =   2.95 		 extractable sw = 125.91
+     		stover N conc =   2.95 		 extractable sw = 125.90
 18 February 1995(Day of year=49), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 714.34 		 lai =   0.72
@@ -4569,7 +4569,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      grain wt (g)          = 0.023 	 grains/m^2              = 15817.2
      grains/head           = 2433.4
      grain N percent            =     1.182 	 grain N uptake     (kg/ha) =   43.029
-     total N content    (kg/ha) =    72.118 	 senesced N content (kg/ha) =   13.695
+     total N content    (kg/ha) =    72.119 	 senesced N content (kg/ha) =   13.695
      green N content    (kg/ha) =    18.260 	 dead N content     (kg/ha) =    0.000
      
 
@@ -4677,32 +4677,32 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     1.24 (%)    extractable sw =   42.75 (mm)
 30 October 1995(Day of year=303), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         425.27 (g/m^2)   lai          =   0.257 (m^2/m^2)
+                     biomass =         425.28 (g/m^2)   lai          =   0.257 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =   27.24 (mm)
 1 November 1995(Day of year=305), wheat: 
       stage 9.0 maturity
-                     biomass =         425.68 (g/m^2)   lai          =   0.221 (m^2/m^2)
+                     biomass =         425.63 (g/m^2)   lai          =   0.221 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =   23.81 (mm)
 2 November 1995(Day of year=306), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         425.68 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         425.63 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   22.70 (mm)
 3 November 1995(Day of year=307), manager: 
      Manager sending message :- wheat harvest
 3 November 1995(Day of year=307), wheat: 
      
-      flowering day          =  271                           stover (kg/ha)         =     2785.2
+      flowering day          =  271                           stover (kg/ha)         =     2784.8
       maturity day           =  305                           grain yield (kg/ha)    =     1471.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1681.7
       grain wt (g)           =    0.033                       grains/m^2             =     4487.5
       grains/plant           =   44.9                         maximum lai            =      1.463
-      total above ground biomass (kg/ha)    =     4256.8
-      live above ground biomass (kg/ha)     =     4256.8
-      green above ground biomass (kg/ha)    =     3149.2
+      total above ground biomass (kg/ha)    =     4256.3
+      live above ground biomass (kg/ha)     =     4256.3
+      green above ground biomass (kg/ha)    =     3148.8
       senesced above ground biomass (kg/ha) =     1107.5
       number of leaves       =     40.1
       DM Root:Shoot ratio    =     0.21                       Harvest Index          =       0.35
-      Stover C:N ratio       =   102.52                       Root C:N ratio         =      17.57
+      Stover C:N ratio       =   102.51                       Root C:N ratio         =      17.57
       grain N percent        =     2.37                       total N content (kg/ha)=      45.69
       grain N uptake (kg/ha) =    34.82                       senesced N content (kg/ha)=    5.54
       green N content (kg/ha)=     5.33
@@ -4712,12 +4712,12 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
          end_of_juvenile      to floral_initiation       0.164        0.197        0.000        0.034
          floral_initiation    to flowering               0.372        0.453        0.000        0.000
          flowering            to start_grain_fill        0.188        0.238        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.211        0.272        0.280        0.448
+         start_grain_fill     to end_grain_fill          0.211        0.272        0.280        0.447
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2785.2                     0.0
+                          DM (kg/ha) =                2784.8                     0.0
                           N  (kg/ha) =                  10.87                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -4827,11 +4827,11 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      		stover N conc =   5.41 		 extractable sw = 153.42
 18 January 1996(Day of year=18), sorghum: 
       stage 7.0 flowering
-     		biomass = 447.60 		 lai =   2.76
-     		stover N conc =   6.88 		 extractable sw = 115.52
+     		biomass = 447.59 		 lai =   2.76
+     		stover N conc =   6.88 		 extractable sw = 115.51
 20 January 1996(Day of year=20), sorghum: 
       stage 8.0 start_grain_fill
-     		biomass = 490.06 		 lai =   2.72
+     		biomass = 490.05 		 lai =   2.72
      		stover N conc =   7.17 		 extractable sw = 106.08
 21 February 1996(Day of year=52), sorghum: 
       stage 9.0 end_grain_fill
@@ -4839,7 +4839,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      		stover N conc =   3.84 		 extractable sw =  72.89
 23 February 1996(Day of year=54), sorghum: 
       stage 10.0 maturity
-     		biomass = 1007.79 		 lai =   1.08
+     		biomass = 1007.78 		 lai =   1.08
      		stover N conc =   3.77 		 extractable sw =  69.85
 24 February 1996(Day of year=55), sorghum: 
       stage 11.0 harvest_ripe
@@ -4853,17 +4853,17 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      flowering (DAS)       = 54 	 maturity (DAS)          = 90
      flowering day         = 18 	 maturity day            = 54
      maximum lai           = 2.857 	 number of leaves        = 14.972
-     total above ground biomass    (kg/ha) = 10209.0
-     live above ground biomass     (kg/ha) = 10209.0
-     green above ground biomass    (kg/ha) = 8916.1
+     total above ground biomass    (kg/ha) = 10208.9
+     live above ground biomass     (kg/ha) = 10208.9
+     green above ground biomass    (kg/ha) = 8916.0
      senesced above ground biomass (kg/ha) = 1292.9
      dead above ground biomass     (kg/ha) = 0.0
      stover (kg/ha)        = 5014.1 	 grain yield (kg/ha)     = 5194.8
-     grain % water content = 13.0 	 grain yield wet (kg/ha) = 5971.1
-     grain wt (g)          = 0.022 	 grains/m^2              = 24076.2
+     grain % water content = 13.0 	 grain yield wet (kg/ha) = 5971.0
+     grain wt (g)          = 0.022 	 grains/m^2              = 24076.0
      grains/head           = 3704.0
-     grain N percent            =     1.138 	 grain N uptake     (kg/ha) =   59.115
-     total N content    (kg/ha) =    96.707 	 senesced N content (kg/ha) =   17.260
+     grain N percent            =     1.138 	 grain N uptake     (kg/ha) =   59.119
+     total N content    (kg/ha) =    96.711 	 senesced N content (kg/ha) =   17.260
      green N content    (kg/ha) =    24.215 	 dead N content     (kg/ha) =    0.000
      
 
@@ -4877,7 +4877,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =               5194.83		    0.00
+                         DM (kg/ha) =               5194.80		    0.00
                          N  (kg/ha) =                 59.12		    0.00
      Manager sending message :- sorghum kill_crop
      Kill Crop
@@ -4885,7 +4885,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- sorghum end_crop
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               5014.12		 1745.93
+                         DM (kg/ha) =               5014.10		 1745.92
                          N  (kg/ha) =                 18.36		    3.49
                          P  (kg/ha) =                  0.00		    0.00
 21 May 1996(Day of year=142), manager: 
@@ -4991,14 +4991,14 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     1.84 (%)    extractable sw =   19.39 (mm)
 27 October 1996(Day of year=301), chickpea: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 3748.47 (kg/ha)
+     Plant death. standing above-ground dm = 3748.46 (kg/ha)
 28 October 1996(Day of year=302), manager: 
      Manager sending message :- chickpea harvest
 28 October 1996(Day of year=302), chickpea: 
      
       flowering day          =  229                           stover (kg/ha)         =     2303.0
       maturity day           =  299                           grain yield (kg/ha)    =     1445.4
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1642.6
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1642.5
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      2.076
       total above ground biomass (kg/ha)    =     3748.5
@@ -5140,7 +5140,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       flowering day          =  259                           stover (kg/ha)         =     3303.0
       maturity day           =  294                           grain yield (kg/ha)    =     1694.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1936.5
-      grain wt (g)           =    0.030                       grains/m^2             =     5647.6
+      grain wt (g)           =    0.030                       grains/m^2             =     5647.5
       grains/plant           =   56.5                         maximum lai            =      2.200
       total above ground biomass (kg/ha)    =     4997.4
       live above ground biomass (kg/ha)     =     4997.4
@@ -5284,7 +5284,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     1.82 (%)    extractable sw =   51.37 (mm)
 24 October 1998(Day of year=297), chickpea: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 5284.73 (kg/ha)
+     Plant death. standing above-ground dm = 5284.72 (kg/ha)
 25 October 1998(Day of year=298), manager: 
      Manager sending message :- chickpea harvest
 25 October 1998(Day of year=298), chickpea: 
@@ -5413,7 +5413,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 10 December 1998(Day of year=344), sorghum: 
       stage 5.0 floral_initiation
      		biomass =   2.32 		 lai =   0.05
-     		stover N conc =   0.07 		 extractable sw =  74.92
+     		stover N conc =   0.07 		 extractable sw =  74.91
 30 December 1998(Day of year=364), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 131.20 		 lai =   1.59
@@ -5432,7 +5432,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      		stover N conc =   1.74 		 extractable sw = 109.04
 8 February 1999(Day of year=39), sorghum: 
       stage 10.0 maturity
-     		biomass = 481.81 		 lai =   0.63
+     		biomass = 481.80 		 lai =   0.63
      		stover N conc =   1.73 		 extractable sw = 110.45
 9 February 1999(Day of year=40), sorghum: 
       stage 11.0 harvest_ripe
@@ -5446,15 +5446,15 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      flowering (DAS)       = 65 	 maturity (DAS)          = 98
      flowering day         = 6 	 maturity day            = 39
      maximum lai           = 1.589 	 number of leaves        = 14.972
-     total above ground biomass    (kg/ha) = 4859.8
-     live above ground biomass     (kg/ha) = 4859.8
+     total above ground biomass    (kg/ha) = 4859.7
+     live above ground biomass     (kg/ha) = 4859.7
      green above ground biomass    (kg/ha) = 4370.2
      senesced above ground biomass (kg/ha) = 489.5
      dead above ground biomass     (kg/ha) = 0.0
      stover (kg/ha)        = 2113.0 	 grain yield (kg/ha)     = 2746.8
      grain % water content = 13.0 	 grain yield wet (kg/ha) = 3157.2
-     grain wt (g)          = 0.022 	 grains/m^2              = 12435.5
-     grains/head           = 1913.2
+     grain wt (g)          = 0.022 	 grains/m^2              = 12435.4
+     grains/head           = 1913.1
      grain N percent            =     1.034 	 grain N uptake     (kg/ha) =   28.393
      total N content    (kg/ha) =    45.620 	 senesced N content (kg/ha) =    6.774
      green N content    (kg/ha) =    11.932 	 dead N content     (kg/ha) =    0.000
@@ -5470,7 +5470,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =               2746.78		    0.00
+                         DM (kg/ha) =               2746.76		    0.00
                          N  (kg/ha) =                 28.39		    0.00
      Manager sending message :- sorghum kill_crop
      Kill Crop
@@ -5478,7 +5478,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- sorghum end_crop
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               2112.99		  676.96
+                         DM (kg/ha) =               2112.97		  676.96
                          N  (kg/ha) =                  9.36		    1.35
                          P  (kg/ha) =                  0.00		    0.00
 11 June 1999(Day of year=162), manager: 
@@ -5591,7 +5591,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       total above ground biomass (kg/ha)    =     5456.7
       live above ground biomass (kg/ha)     =     5456.7
       green above ground biomass (kg/ha)    =     4277.5
-      senesced above ground biomass (kg/ha) =     1179.2
+      senesced above ground biomass (kg/ha) =     1179.1
       number of leaves       =     41.7
       DM Root:Shoot ratio    =     0.19                       Harvest Index          =       0.33
       Stover C:N ratio       =   108.71                       Root C:N ratio         =      24.93
@@ -5731,7 +5731,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      		stover N conc =   3.03 		 extractable sw =  47.66
 31 March 2000(Day of year=91), sorghum: 
       stage 10.0 maturity
-     		biomass = 617.58 		 lai =   0.77
+     		biomass = 617.57 		 lai =   0.77
      		stover N conc =   3.00 		 extractable sw =  41.67
 1 April 2000(Day of year=92), sorghum: 
       stage 11.0 harvest_ripe
@@ -5750,11 +5750,11 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      green above ground biomass    (kg/ha) = 5259.2
      senesced above ground biomass (kg/ha) = 1038.7
      dead above ground biomass     (kg/ha) = 0.0
-     stover (kg/ha)        = 3495.9 	 grain yield (kg/ha)     = 2802.1
+     stover (kg/ha)        = 3495.8 	 grain yield (kg/ha)     = 2802.1
      grain % water content = 13.0 	 grain yield wet (kg/ha) = 3220.8
-     grain wt (g)          = 0.016 	 grains/m^2              = 17011.1
+     grain wt (g)          = 0.016 	 grains/m^2              = 17011.0
      grains/head           = 2617.1
-     grain N percent            =     1.484 	 grain N uptake     (kg/ha) =   41.574
+     grain N percent            =     1.484 	 grain N uptake     (kg/ha) =   41.573
      total N content    (kg/ha) =    70.941 	 senesced N content (kg/ha) =   14.116
      green N content    (kg/ha) =    18.196 	 dead N content     (kg/ha) =    0.000
      
@@ -5773,11 +5773,11 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                          N  (kg/ha) =                 41.57		    0.00
      Manager sending message :- sorghum kill_crop
      Kill Crop
-     Crop kill. Standing above-ground dm =  3495.9 kg/ha
+     Crop kill. Standing above-ground dm =  3495.8 kg/ha
      Manager sending message :- sorghum end_crop
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               3495.86		 1318.03
+                         DM (kg/ha) =               3495.85		 1318.03
                          N  (kg/ha) =                 13.85		    2.64
                          P  (kg/ha) =                  0.00		    0.00
 31 December 2000(Day of year=366), clock: 
