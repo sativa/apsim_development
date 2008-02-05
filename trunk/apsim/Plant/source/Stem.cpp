@@ -4,10 +4,10 @@
 #include <string>
 #include "SimplePart.h"
 
-#include "StemPart.h"
+#include "Stem.h"
 using namespace std;
 
-void plantStemPart::onHarvest(float cutting_height, float remove_fr,
+void Stem::onHarvest(float cutting_height, float remove_fr,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,
                               vector<float> &dlt_dm_n,
@@ -53,7 +53,7 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
    dlt_dm_p.push_back(dlt_p_harvest * gm2kg/sm2ha);
    }
 
-void plantStemPart::removeBiomass2(float )
+void Stem::removeBiomass2(float )
 //=======================================================================================
    {
    float dm_plant;               // dry matter of part (g/plant)

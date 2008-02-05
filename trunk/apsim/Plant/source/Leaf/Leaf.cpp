@@ -4,19 +4,19 @@
 #include <string>
 #include "SimplePart.h"
 
-#include "LeafPart.h"
-#include "genericLeafPart.h"
-#include "cohortingLeafPart.h"
+#include "Leaf.h"
+#include "GenericLeaf.h"
+#include "CohortingLeaf.h"
 using namespace std;
 
 // Return one of the leaf objects we know about.
-plantLeafPart* constructLeafPart (ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name)
+Leaf* constructLeafPart (ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name)
   {
-  plantLeafPart *object;
+  Leaf *object;
   if (type == "generic_leaf")
-    object = new genericLeafPart(scienceAPI, p, name);
+    object = new GenericLeaf(scienceAPI, p, name);
   else if (type == "cohorting")
-    object = new cohortingLeafPart(scienceAPI, p, name);
+    object = new CohortingLeaf(scienceAPI, p, name);
   else
     throw std::invalid_argument("Unknown leaf_object '" + type + "'");
 
@@ -24,7 +24,7 @@ plantLeafPart* constructLeafPart (ScienceAPI& scienceAPI, plantInterface *p, con
   }
 
 
-void plantLeafPart::doNConccentrationLimits(float modifier)
+void Leaf::doNConccentrationLimits(float modifier)
 {
    SimplePart::doNConccentrationLimits(modifier);
    g.n_conc_crit *= modifier;
@@ -33,7 +33,7 @@ void plantLeafPart::doNConccentrationLimits(float modifier)
 }
 
 
-float plantLeafPart::dmRetransSupply(void)
+float Leaf::dmRetransSupply(void)
   {
   float dm_part_avail = Green.DM() - DMPlantMin * plant->getPlants();
   return (l_bound (dm_part_avail, 0.0));

@@ -2,12 +2,12 @@
 #define StemPartH
 
 
-class plantStemPart : public SimplePart
+class Stem : public SimplePart
    {
    public:
-      plantStemPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+      Stem(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
          : SimplePart(scienceAPI, p, name) {};
-      ~plantStemPart() {};
+      ~Stem() {};
       void onHarvest(float height, float remove_fr,
                      vector<string> &dm_type,
                      vector<float> &dlt_crop_dm,

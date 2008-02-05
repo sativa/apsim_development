@@ -8,10 +8,10 @@
 #include "Plant.h"
 #include "CompositePart.h"
 #include "Phenology/PlantPhenology.h"
-#include "Leaf/LeafPart.h"
+#include "Leaf/Leaf.h"
 #include "Reproductive/PlantFruit.h"
-#include "StemPart.h"
-#include "Leaf/LeafPart.h"
+#include "Stem.h"
+#include "Leaf/Leaf.h"
 #include "Reproductive/PodPart.h"
 #include "Reproductive/MealPart.h"
 #include "Reproductive/OilPart.h"
@@ -181,7 +181,7 @@ void Plant::onInit1(void)
     plant.add(leafPart);
     tops.add(leafPart);
 
-    stemPart = new plantStemPart(scienceAPI, this, "Stem");
+    stemPart = new Stem(scienceAPI, this, "Stem");
     myThings.push_back(stemPart);
     myParts.push_back(stemPart);
     plant.add(stemPart);

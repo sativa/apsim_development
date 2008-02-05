@@ -4,7 +4,7 @@
 #include <string>
 #include "PlantPart.h"
 
-#include "Leaf/LeafPart.h"
+#include "Leaf/Leaf.h"
 #include "arbitrator.h"
 #include "GenericArbitrator.h"
 
