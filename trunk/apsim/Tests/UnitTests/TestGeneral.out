@@ -1,9 +1,0 @@
-Running 83 test cases...
-.\TestDateClass.cpp(61): error in "GDate_test::TestGDateMemberFunctions": test string(out.str()) == string("1/1/2000") failed [1/1/2000ƞƞƞƞ�� != 1/1/2000]
-.\TestDateClass.cpp(91): error in "GDate_test::TestGDateValidEnquire": test string(out.str()) == string("1/1/2000") failed [1/1/2000͞͞͞͞�� != 1/1/2000]
-.\TestPathClass.cpp(191): error in "Path_test::TestSetDirectory": test a.Get_path() == "c:\\sth" failed [\sth != c:\sth]
-.\TestPathClass.cpp(427): error in "Path_test::TestfileDirName": test fileDirName("a.b.c") == "a.b.c" failed [ != a.b.c]
-.\TestStringFunctions.cpp(359): error in "TestDoubleContainer2String": test a == "5.32 2.31 " failed
-.\TestStringFunctions.cpp(364): error in "TestDoubleContainer2String": test b == "5.3 2.3 " failed
-.\TestStringFunctions.cpp(369): error in "TestDoubleContainer2String": test d == "5.320 2.310 " failed
-.\TestStringFunctions.cpp(375): error in "TestDoubleContainer2String": test c == "" failed

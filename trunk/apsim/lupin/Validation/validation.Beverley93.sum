@@ -479,34 +479,34 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     2.09 (%)    extractable sw =   43.74 (mm)
 10 November 1993(Day of year=314), lupin: 
       stage 8.0 end_grain_fill
-                     biomass =         869.12 (g/m^2)   lai          =   1.222 (m^2/m^2)
-                     stover N conc =     1.73 (%)    extractable sw =    8.22 (mm)
+                     biomass =         868.09 (g/m^2)   lai          =   1.222 (m^2/m^2)
+                     stover N conc =     1.74 (%)    extractable sw =    8.22 (mm)
 13 November 1993(Day of year=317), lupin: 
       stage 9.0 maturity
-                     biomass =         872.79 (g/m^2)   lai          =   1.091 (m^2/m^2)
-                     stover N conc =     1.71 (%)    extractable sw =    6.02 (mm)
+                     biomass =         871.76 (g/m^2)   lai          =   1.091 (m^2/m^2)
+                     stover N conc =     1.72 (%)    extractable sw =    6.02 (mm)
 14 November 1993(Day of year=318), lupin: 
       stage 10.0 harvest_ripe
-                     biomass =         872.79 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.85 (%)    extractable sw =   12.49 (mm)
+                     biomass =         871.76 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.86 (%)    extractable sw =   12.49 (mm)
 14 November 1993(Day of year=318), manager: 
      Manager sending message :- lupin harvest
      
-      flowering day          =  247                           stover (kg/ha)         =     6764.0
-      maturity day           =  317                           grain yield (kg/ha)    =     1963.9
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2231.7
+      flowering day          =  247                           stover (kg/ha)         =     6762.7
+      maturity day           =  317                           grain yield (kg/ha)    =     1954.9
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2221.4
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      5.700
-      total above ground biomass (kg/ha)    =     8727.9
-      live above ground biomass (kg/ha)     =     8727.9
-      green above ground biomass (kg/ha)    =     5817.5
+      total above ground biomass (kg/ha)    =     8717.6
+      live above ground biomass (kg/ha)     =     8717.6
+      green above ground biomass (kg/ha)    =     5807.2
       senesced above ground biomass (kg/ha) =     2910.5
       number of leaves       =    294.4
-      DM Root:Shoot ratio    =     0.35                       Harvest Index          =       0.23
-      Stover C:N ratio       =    31.52                       Root C:N ratio         =      18.15
-      grain N percent        =     5.23                       total N content (kg/ha)=     188.47
-      grain N uptake (kg/ha) =   102.63                       senesced N content (kg/ha)=   14.55
-      green N content (kg/ha)=    71.28
+      DM Root:Shoot ratio    =     0.35                       Harvest Index          =       0.22
+      Stover C:N ratio       =    31.37                       Root C:N ratio         =      18.15
+      grain N percent        =     5.23                       total N content (kg/ha)=     188.40
+      grain N uptake (kg/ha) =   102.16                       senesced N content (kg/ha)=   14.55
+      green N content (kg/ha)=    71.69
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.006
@@ -518,12 +518,12 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                6764.0                     0.0
-                          N  (kg/ha) =                  85.84                    0.00
+                          DM (kg/ha) =                6762.7                     0.0
+                          N  (kg/ha) =                  86.24                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1963.9                     0.0
-                          N  (kg/ha) =                 102.63                    0.00
+                          DM (kg/ha) =                1954.9                     0.0
+                          N  (kg/ha) =                 102.16                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- lupin kill_crop

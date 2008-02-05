@@ -443,10 +443,10 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
      Manager sending message :- economics expenditure  category = contract, name = broadacre_harvesting, rate = 1, area = 200 (ha), incrop_cost = ?
 10 October 1942(Day of year=283), Economics: 
      Costed broadacre_harvesting contract (rate=1, price=250) over 200 ha = 50000
-     Manager creating a new local real variable : cropyieldtonnes =     3.52736963000000
-     Manager creating a new local real variable : protein =     13.9497299000000
-     Manager sending message :- economics income  category = cropprice, name = wheat, yield = 3.52736963000000, protein = 13.9497299000000, area = 200 (ha)
-     Priced wheat cropprice (price='180.0', yield='4.10159259302' wet) over '200' ha = '147657.333349'
+     Manager creating a new local real variable : cropyieldtonnes =     3.52736914000000
+     Manager creating a new local real variable : protein =     13.9497404000000
+     Manager sending message :- economics income  category = cropprice, name = wheat, yield = 3.52736914000000, protein = 13.9497404000000, area = 200 (ha)
+     Priced wheat cropprice (price='180.0', yield='4.10159202326' wet) over '200' ha = '147657.312837'
      Manager sending message :- wheat harvest
      
       flowering day          =  243                           stover (kg/ha)         =     5989.3
