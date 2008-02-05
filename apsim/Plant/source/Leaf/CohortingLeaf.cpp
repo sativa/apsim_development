@@ -480,9 +480,10 @@ void CohortingLeaf::leaf_death (float  /* g_nfact_expansion*/, float  /* g_dlt_t
 //XXX Fix me
    }
 
-void CohortingLeaf::potential (int leaf_no_pot_option, /* (INPUT) option number*/
+void CohortingLeaf::CanopyExpansion (int leaf_no_pot_option, /* (INPUT) option number*/
                                    float stressFactor,     /* (INPUT) stress factor */
-                                   float dlt_tt)           /* (INPUT) Thermal Time */
+                                   float dlt_tt,           /* (INPUT) Thermal Time */
+                                   float AreaStressFactor)
 //=======================================================================================
 // Plant is telling us to calculate potentials
    {
@@ -492,6 +493,7 @@ void CohortingLeaf::potential (int leaf_no_pot_option, /* (INPUT) option number*
 
    this->leaf_no_pot (stressFactor, dlt_tt);
    this->leaf_area_potential (dlt_tt);
+   this->leaf_area_stressed (AreaStressFactor);
    }
 
 void CohortingLeaf::leaf_no_pot (float stressFactor, float dlt_tt)

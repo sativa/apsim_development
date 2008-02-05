@@ -413,12 +413,14 @@ void GenericLeaf::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
    }
 
 // Public interface to calculate potentials
-void GenericLeaf::potential (int leaf_no_pot_option /* (INPUT) option number*/
+void GenericLeaf::CanopyExpansion (int leaf_no_pot_option /* (INPUT) option number*/
                               , float stressFactor    /* (INPUT) stress factor */
-                              , float dlt_tt)         /* (INPUT) Thermal Time */
+                              , float dlt_tt         /* (INPUT) Thermal Time */
+                              , float AreaStressFactor)
    {
    this->leaf_no_pot (leaf_no_pot_option, stressFactor, dlt_tt);
    this->leaf_area_potential ();
+   this->leaf_area_stressed(AreaStressFactor);
    }
 
 //+  Purpose

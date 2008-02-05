@@ -30,9 +30,7 @@ class Leaf : public SimplePart {
    virtual float senFract (void) = 0;                          // Fraction of canopy senescing today
    virtual float dmGreenDemand(void) =0;                       // Maximum DM this part can take today
 
-   virtual void potential (int option, float, float) =0;             // Calculate potentials
-   virtual void leaf_area_stressed(float) =0;                        // the leaf area development from the
-                                                                     //   potential daily increase in lai and stress factors
+   virtual void CanopyExpansion (int option, float, float, float) =0;             // Calculate potentials
    virtual void actual(void) =0;                                     // Calculate actual leaf development from potential & stressed
    virtual void leaf_death (float nfact_expansion, float  dlt_tt) =0;//
    virtual void leaf_area_sen (float, float) =0;
