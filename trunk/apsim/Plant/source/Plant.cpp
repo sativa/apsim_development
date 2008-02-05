@@ -1128,11 +1128,9 @@ void Plant::plant_process ( void )
 
         plant.morphology();
 
-        leafPart->potential(c.leaf_no_pot_option,
+        leafPart->CanopyExpansion(c.leaf_no_pot_option,
                             min(pow(min(nStress->nFact.expansion, pStress->pFact.expansion),2),swStress->swDef.expansion),
-                            phenology->get_dlt_tt() );
-
-        leafPart->leaf_area_stressed (min(swStress->swDef.expansion, min(nStress->nFact.expansion, pStress->pFact.expansion)));
+                            phenology->get_dlt_tt(),min(swStress->swDef.expansion, min(nStress->nFact.expansion, pStress->pFact.expansion)));
 
         // Calculate Potential Photosynthesis
         plant.doDmPotRUE();               // NIH - WHY IS THIS HERE!!!!?????  Not needed I hope.
