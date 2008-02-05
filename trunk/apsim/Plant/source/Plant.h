@@ -246,7 +246,6 @@ public:
    void get_dm_plant_min(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_pot_rue(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_dm_pot_te(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_green_retrans(protocol::Component *, protocol::QueryValueData &);
    void get_biomass_n(protocol::Component *, protocol::QueryValueData &);
    void get_n_uptake(protocol::Component *, protocol::QueryValueData &);

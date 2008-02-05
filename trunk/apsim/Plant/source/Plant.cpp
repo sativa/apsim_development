@@ -1134,7 +1134,6 @@ void Plant::plant_process ( void )
 
         leafPart->leaf_area_stressed (min(swStress->swDef.expansion, min(nStress->nFact.expansion, pStress->pFact.expansion)));
 
-        plant.doDmPotTE(rootPart->waterUptake());
         // Calculate Potential Photosynthesis
         plant.doDmPotRUE();               // NIH - WHY IS THIS HERE!!!!?????  Not needed I hope.
 

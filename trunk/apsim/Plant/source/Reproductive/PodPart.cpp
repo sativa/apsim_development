@@ -26,7 +26,6 @@ void fruitPodPart::onInit1(protocol::Component *system)
    system->addGettableVar("pai", gPai, "m^2/m^2", "Pod area index");
    system->addGettableVar("dlt_pai", gDlt_pai, "m^2/m^2", "Delta Pod area index");
    system->addGettableVar("dlt_dm_pot_rue_pod", dlt.dm_pot_rue, "g/m^2", "Potential dry matter production via photosynthesis");
-   system->addGettableVar("dlt_dm_pot_te_pod", dlt.dm_pot_rue, "g/m^2", "Potential dry matter production via transpiration");
 
 }
 
@@ -253,11 +252,11 @@ void fruitPodPart::doProcessBioDemand(void)
 void fruitPodPart::doBioActual (void)
    //===========================================================================
 {
-   //       Takes the minimum of biomass production limited by radiation and
-   //       biomass production limited by water.
-
-   // use whichever is limiting
-   dlt.dm = min (dlt.dm_pot_rue, dlt.dm_pot_te);
+   //       Takes biomass production limited by radiation and discounted by water supply.
+   if (plant->Tops().SWDemand() > 0.0)
+      dlt.dm = dlt.dm_pot_rue * plant->getSwdefPhoto();
+   else
+      dlt.dm = 0.0;
 }
 
 void fruitPodPart::calcDlt_pod_area (void)
@@ -326,13 +325,4 @@ void fruitPodPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop w
    transpEff = transpEff * divide(sw_demand_te, sw_demand, 1.0);
 }
 
-void fruitPodPart::doDmPotTE (float swSupply)  //(OUTPUT) potential dry matter production by transpiration (g/m^2)
-   //===========================================================================
-   //   Calculate the potential biomass production based upon today's water supply.
-
-{
-   // potential (supply) by transpiration
-
-   dlt.dm_pot_te = swSupply * transpEff;
-}
 

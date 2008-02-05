@@ -246,7 +246,6 @@ void SimplePart::zeroAllGlobals(void)
 void SimplePart::zeroDeltas(void)
 //=======================================================================================
    {
-   dlt.dm_pot_te = 0.0;
    dlt.dm_pot_rue = 0.0;
    dlt.dm = 0.0;
    Growth.Clear();
@@ -1008,12 +1007,6 @@ float SimplePart::dltDmPotRue(void)
    return (dlt.dm_pot_rue);
    }
 
-float SimplePart::dltDmPotTe(void)
-//=======================================================================================
-   {
-   return (dlt.dm_pot_te);
-   }
-
 float SimplePart::dltDm(void)
 //=======================================================================================
    {
@@ -1330,7 +1323,6 @@ void SimplePart::calcDlt_pod_area (void){}   //FIXME
 void SimplePart::doBioActual (void){}
 void SimplePart::doDmDemand (float /* dlt_dm_supply_by_veg*/){}
 void SimplePart::doDmPotRUE (void){}                         // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
-void SimplePart::doDmPotTE(float /*swSupply*/){}                           //(OUTPUT) potential dry matter production by transpiration (g/m^2)
 void SimplePart::doGrainNumber (void){}
 void SimplePart::doNDemandGrain(float /* nfact_grain_conc*/, float /* swdef_expansion*/){}
 void SimplePart::doNInit (void){}

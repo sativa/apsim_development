@@ -37,7 +37,6 @@ class fruitPodPart : public SimplePart {
    void doDmPotRUE (void );
 
    void doSWDemand(float SWDemandMaxFactor);
-   void doDmPotTE(float swSupply);
    void doBioActual (void);
 
    private:
