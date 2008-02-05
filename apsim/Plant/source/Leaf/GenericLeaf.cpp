@@ -5,22 +5,22 @@
 #include "SimplePart.h"
 #include "CompositePart.h"
 
-#include "LeafPart.h"
-#include "genericLeafPart.h"
+#include "Leaf.h"
+#include "GenericLeaf.h"
 using namespace std;
 
 const float  tolerance_lai = 1.0e-4 ;
 
 
 // Read Constants
-void genericLeafPart::readConstants (protocol::Component *system, const string &section)
+void GenericLeaf::readConstants (protocol::Component *system, const string &section)
 {
     SimplePart::readConstants(system, section);
    // Nothing to do here..
 }
 
 // Read species specific parameters
-void genericLeafPart::readSpeciesParameters (protocol::Component *system, vector<string> &search_order)
+void GenericLeaf::readSpeciesParameters (protocol::Component *system, vector<string> &search_order)
    {
    SimplePart::readSpeciesParameters(system, search_order);
    scienceAPI.read("leaf_no_at_emerg", cLeafNumberAtEmerg, 0.0f, 100.0f);
@@ -72,28 +72,28 @@ void genericLeafPart::readSpeciesParameters (protocol::Component *system, vector
    }
 
 // Connect our bits to the system
-void genericLeafPart::onInit1(protocol::Component *system)
+void GenericLeaf::onInit1(protocol::Component *system)
 {
    SimplePart::onInit1(system);
    setupGetFunction(system, "leaf_no", protocol::DTsingle, false,
-                    &genericLeafPart::get_leaf_no, "leaves/plant", "Number of leaves per plant");
+                    &GenericLeaf::get_leaf_no, "leaves/plant", "Number of leaves per plant");
 
    system->addGettableVar("node_no", gNodeNo, "nodes/plant", "Number of mainstem nodes per plant");
 
    setupGetFunction(system, "leaf_no_sen", protocol::DTsingle, false,
-                     &genericLeafPart::get_leaf_no_sen, "leaves/m2", "Number of senesced leaves per square meter");
+                     &GenericLeaf::get_leaf_no_sen, "leaves/m2", "Number of senesced leaves per square meter");
 
    setupGetFunction(system, "leaf_area", protocol::DTsingle, true,
-                    &genericLeafPart::get_leaf_area, "mm^2", "Leaf area for each node");
+                    &GenericLeaf::get_leaf_area, "mm^2", "Leaf area for each node");
 
    setupGetFunction(system, "leaf_area_tot", protocol::DTsingle, false,
-                    &genericLeafPart::get_leaf_area_tot, "m^2", "Total plant leaf area");
+                    &GenericLeaf::get_leaf_area_tot, "m^2", "Total plant leaf area");
 
    setupGetFunction(system, "lai_sum", protocol::DTsingle, false,
-                    &genericLeafPart::get_lai_sum, "m^2/m^2", "LAI of all leaf components");
+                    &GenericLeaf::get_lai_sum, "m^2/m^2", "LAI of all leaf components");
 
    setupGetFunction(system, "tlai", protocol::DTsingle, false,
-                    &genericLeafPart::get_tlai, "m^2/m^2", "Total lai");
+                    &GenericLeaf::get_tlai, "m^2/m^2", "Total lai");
 
    system->addGettableVar("slai", gSLAI, "m^2/m^2", "Senesced lai");
 
@@ -121,49 +121,49 @@ void genericLeafPart::onInit1(protocol::Component *system)
 
 }
 
-void genericLeafPart::get_tlai(protocol::Component *system, protocol::QueryValueData &qd)
+void GenericLeaf::get_tlai(protocol::Component *system, protocol::QueryValueData &qd)
 {
     float tlai = gLAI + gSLAI;
     system->sendVariable(qd, tlai);
 }
 
-void genericLeafPart::get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd)
+void GenericLeaf::get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd)
 {
     float lai_sum = gLAI + gSLAI;
     system->sendVariable(qd, lai_sum);
 }
-void genericLeafPart::get_leaf_no(protocol::Component *system, protocol::QueryValueData &qd)
+void GenericLeaf::get_leaf_no(protocol::Component *system, protocol::QueryValueData &qd)
 {
    system->sendVariable(qd, this->getLeafNo());
 }
-float genericLeafPart::getLeafNo(void)
+float GenericLeaf::getLeafNo(void)
 {
    float sum = 0.0;
    for (int i = 0; i < max_node; i++) sum += gLeafNo[i];
    return sum;
 }
 
-void genericLeafPart::get_leaf_area_tot(protocol::Component *system, protocol::QueryValueData &qd)
+void GenericLeaf::get_leaf_area_tot(protocol::Component *system, protocol::QueryValueData &qd)
 {
    float sum = 0.0;
    for (int i = 0; i < max_node; i++) sum += gLeafArea[i];
    system->sendVariable(qd, sum);
 }
 
-void genericLeafPart::get_leaf_no_sen(protocol::Component *system, protocol::QueryValueData &qd)
+void GenericLeaf::get_leaf_no_sen(protocol::Component *system, protocol::QueryValueData &qd)
 {
    float sum = 0.0;
    for (int i = 0; i < max_node; i++) sum += gLeafNoSen[i];
    system->sendVariable(qd, sum);
 }
 
-void genericLeafPart::get_leaf_area(protocol::Component *system, protocol::QueryValueData &qd)
+void GenericLeaf::get_leaf_area(protocol::Component *system, protocol::QueryValueData &qd)
 {
    system->sendVariable(qd, protocol::vector<float>(gLeafArea, gLeafArea+20/*max_node*/)); // XX system can't handle big arrays..
 }
 
 // Clean out yesterday's rate calculations
-void genericLeafPart::zeroDeltas(void)
+void GenericLeaf::zeroDeltas(void)
 {
    SimplePart::zeroDeltas();
    dltLAI = 0.0;
@@ -182,7 +182,7 @@ void genericLeafPart::zeroDeltas(void)
 }
 
 // Initialise all constants & parameters
-void genericLeafPart::zeroAllGlobals(void)
+void GenericLeaf::zeroAllGlobals(void)
 {
    SimplePart::zeroAllGlobals();
    cLeafNumberAtEmerg = 0.0;
@@ -210,18 +210,18 @@ void genericLeafPart::zeroAllGlobals(void)
 }
 
 // Leaf, Node number and area initialisation
-void genericLeafPart::onEmergence(void)
+void GenericLeaf::onEmergence(void)
    {
    SimplePart::onEmergence();
    initialiseAreas();
    }
 
-void genericLeafPart::onTransplanting(void)
+void GenericLeaf::onTransplanting(void)
    {
    SimplePart::onEmergence();
    initialiseAreas();
    }
-void genericLeafPart::onKillStem(void)
+void GenericLeaf::onKillStem(void)
    // transfer plant leaf area
    {
    SimplePart::onKillStem();
@@ -231,7 +231,7 @@ void genericLeafPart::onKillStem(void)
    }
 
 // Initialise leaf areas to a newly emerged state.
-void genericLeafPart::initialiseAreas(void)
+void GenericLeaf::initialiseAreas(void)
    {
    gNodeNo = cLeafNumberAtEmerg;
 
@@ -259,7 +259,7 @@ void genericLeafPart::initialiseAreas(void)
    }
 
 // Harvest event
-void genericLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
+void GenericLeaf::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,
                               vector<float> &dlt_dm_n,
@@ -271,7 +271,7 @@ void genericLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
 }
 
 // Sanity checks
-void genericLeafPart::checkBounds(void)
+void GenericLeaf::checkBounds(void)
 {
    SimplePart::checkBounds();
    if (gLAI < 0.0) throw std::runtime_error(myName + " LAI is negative! (" + ftoa(gLAI,".6") + ")");
@@ -315,7 +315,7 @@ void genericLeafPart::checkBounds(void)
 }
 
 // Calculate deltas from potential and stresses
-void genericLeafPart::actual(void)
+void GenericLeaf::actual(void)
    {
    this->leaf_area_actual ();
    this->leaf_no_actual ();
@@ -326,7 +326,7 @@ void genericLeafPart::actual(void)
 //   development matches D_m production via a maximum specific leaf area
 //   for the daily increase in LAI. SLA_max changes as a function of LAI.
 //
-void genericLeafPart::leaf_area_actual(void)
+void GenericLeaf::leaf_area_actual(void)
 {
    float sla_max = cSLAMax.value(gLAI);                    //calculated daily max spec leaf area
 
@@ -337,7 +337,7 @@ void genericLeafPart::leaf_area_actual(void)
 
 //Purpose
 //   Simulate actual leaf number increase as limited by dry matter production.
-void genericLeafPart::leaf_no_actual (void)
+void GenericLeaf::leaf_no_actual (void)
    {
    //ratio of actual to potential lai
    float lai_ratio = divide (dltLAI, dltLAI_stressed, 0.0);
@@ -360,7 +360,7 @@ void genericLeafPart::leaf_no_actual (void)
 
 //+  Purpose
 //     Calculate the fractional death of oldest green leaf.
-void genericLeafPart::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
+void GenericLeaf::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
    {
    float leaf_no_now;                            // total number of leaves yesterday
    float leaf_no_sen_now;                       // total number of dead leaves yesterday
@@ -413,7 +413,7 @@ void genericLeafPart::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
    }
 
 // Public interface to calculate potentials
-void genericLeafPart::potential (int leaf_no_pot_option /* (INPUT) option number*/
+void GenericLeaf::potential (int leaf_no_pot_option /* (INPUT) option number*/
                               , float stressFactor    /* (INPUT) stress factor */
                               , float dlt_tt)         /* (INPUT) Thermal Time */
    {
@@ -423,7 +423,7 @@ void genericLeafPart::potential (int leaf_no_pot_option /* (INPUT) option number
 
 //+  Purpose
 //     Calculate leaf number development
-void genericLeafPart::leaf_no_pot (int option, float stressFactor, float dlt_tt)
+void GenericLeaf::leaf_no_pot (int option, float stressFactor, float dlt_tt)
     {
     if (option == 1)
         {
@@ -461,7 +461,7 @@ void genericLeafPart::leaf_no_pot (int option, float stressFactor, float dlt_tt)
 //  Calculate the potential increase in leaf area development (mm^2)
 //  on an individual leaf basis, with account taken of the area of
 //  currently expanding leaves (node_no_correction).
-void genericLeafPart::leaf_area_potential ()
+void GenericLeaf::leaf_area_potential ()
    {
    float node_no_now = gNodeNo + cNodeNoCorrection;
 
@@ -475,12 +475,12 @@ void genericLeafPart::leaf_area_potential ()
 //   Calculate the biomass non-limiting leaf area development from the
 //   potential daily increase in lai and stress factors (water &
 //   nitrogen)
-void genericLeafPart::leaf_area_stressed (float stressFactor)
+void GenericLeaf::leaf_area_stressed (float stressFactor)
     {
     dltLAI_stressed = dltLAI_pot * stressFactor;
     }
 
-void genericLeafPart::Detachment (void)
+void GenericLeaf::Detachment (void)
    {
         cproc_lai_detachment1 (c.sen_detach_frac
                                , gSLAI
@@ -496,7 +496,7 @@ void genericLeafPart::Detachment (void)
    }
 
 //   Calculate todays leaf area senescence
-void genericLeafPart::leaf_area_sen(float swdef_photo , float mint)
+void GenericLeaf::leaf_area_sen(float swdef_photo , float mint)
 {
     float plants = plant->getPlants();
 
@@ -529,7 +529,7 @@ void genericLeafPart::leaf_area_sen(float swdef_photo , float mint)
 }
 
 // Update state variables
-void genericLeafPart::update(void)
+void GenericLeaf::update(void)
 {
     SimplePart::update();
     // need to account for truncation of partially developed leaf (add 1)
@@ -581,7 +581,7 @@ void genericLeafPart::update(void)
 }
 
 // Remove detachment from leaf area record
-void genericLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_removed )
+void GenericLeaf::remove_detachment (float dlt_slai_detached, float dlt_lai_removed )
     {
     // Remove detachment from leaf area record from bottom upwards
     float area_detached = dlt_slai_detached * sm2smm;  // (mm2/plant)
@@ -636,7 +636,7 @@ void genericLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_
       }
 }
 
-void genericLeafPart::removeBiomass(void)
+void GenericLeaf::removeBiomass(void)
 // (Re)-Initialise plant leaf area from deltas
     {
     float chop_fr_green = divide(dlt.dm_green_removed, Green.DM(), 0.0);
@@ -665,25 +665,25 @@ void genericLeafPart::removeBiomass(void)
                       Green.P());
 }
 
-float genericLeafPart::coverTotal(void)
+float GenericLeaf::coverTotal(void)
 //=======================================================================================
 {
    return 1.0 - (1.0 - coverLeaf.green) * (1.0 - coverLeaf.sen);
 }
 
-float genericLeafPart::coverGreen(void)
+float GenericLeaf::coverGreen(void)
 //=======================================================================================
 {
    return coverLeaf.green;
 }
 
-float genericLeafPart::coverSen(void)
+float GenericLeaf::coverSen(void)
 //=======================================================================================
 {
    return coverLeaf.sen;
 }
 
-void genericLeafPart::doCover (PlantSpatial &spatial)
+void GenericLeaf::doCover (PlantSpatial &spatial)
    //===========================================================================
 {
 
@@ -713,7 +713,7 @@ void genericLeafPart::doCover (PlantSpatial &spatial)
                  , &coverLeaf.sen);
 }
 
-float genericLeafPart::interceptRadiationGreen (float radiation)    // incident radiation on leafs
+float GenericLeaf::interceptRadiationGreen (float radiation)    // incident radiation on leafs
     //===========================================================================
 {
    //     Calculate leaf total radiation interception and return transmitted radiation
@@ -722,7 +722,7 @@ float genericLeafPart::interceptRadiationGreen (float radiation)    // incident 
    return radiationInterceptedGreen;
 }
 
-float genericLeafPart::interceptRadiationTotal (float radiation)    // incident radiation on leafs
+float GenericLeaf::interceptRadiationTotal (float radiation)    // incident radiation on leafs
     //===========================================================================
 {
    //     Calculate leaf total radiation interception and return transmitted radiation
@@ -731,7 +731,7 @@ float genericLeafPart::interceptRadiationTotal (float radiation)    // incident 
    return radiationInterceptedTotal;
 }
 
-void genericLeafPart::doDmPotRUE (void )                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+void GenericLeaf::doDmPotRUE (void )                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    //===========================================================================
 {
    //       Potential biomass (carbohydrate) production from
@@ -746,7 +746,7 @@ void genericLeafPart::doDmPotRUE (void )                    // (OUTPUT) potentia
 }
 
 
-void genericLeafPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water demand (mm)
+void GenericLeaf::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water demand (mm)
    //===========================================================================
    /*  Purpose
    *       Return crop water demand from soil by the crop (mm) calculated by
@@ -774,7 +774,7 @@ void genericLeafPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) cro
 }
 
 
-void genericLeafPart::doBioActual (void)
+void GenericLeaf::doBioActual (void)
    //===========================================================================
 {
    //       Takes biomass production limited by radiation and discounted by water supply.

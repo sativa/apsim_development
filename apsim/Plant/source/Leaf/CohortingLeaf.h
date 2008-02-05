@@ -1,11 +1,11 @@
-#ifndef cohortingLeafPartH
-#define cohortingLeafPartH
+#ifndef CohortingLeafH
+#define CohortingLeafH
 
-class cohortingLeafPart : public plantLeafPart {
+class CohortingLeaf : public Leaf {
   public:
-   cohortingLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-      : plantLeafPart(scienceAPI, p, name) {};
-   ~cohortingLeafPart() {};
+   CohortingLeaf(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+      : Leaf(scienceAPI, p, name) {};
+   ~CohortingLeaf() {};
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,
                   vector<float> &dlt_crop_dm,

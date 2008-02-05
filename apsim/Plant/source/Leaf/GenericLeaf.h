@@ -1,10 +1,10 @@
-#ifndef genericLeafPartH
-#define genericLeafPartH
+#ifndef GenericLeafH
+#define GenericLeafH
 
 #define max_node 1000                         // maximum number of plant nodes
 #define max_table 30
 
-class genericLeafPart : public plantLeafPart {
+class GenericLeaf : public Leaf {
   private:
    void leaf_no_pot (int option, float, float);
    void leaf_area_potential(void);
@@ -13,9 +13,9 @@ class genericLeafPart : public plantLeafPart {
    void initialiseAreas(void);
 
   public:
-   genericLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-      : plantLeafPart(scienceAPI, p, name) {};
-   ~genericLeafPart() {};
+   GenericLeaf(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+      : Leaf(scienceAPI, p, name) {};
+   ~GenericLeaf() {};
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,
                   vector<float> &dlt_crop_dm,

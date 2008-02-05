@@ -6,8 +6,8 @@ class PlantComponent;
 class PlantPhenology;
 class plantPart;
 class SimplePart;
-class plantStemPart;
-class plantLeafPart;
+class Stem;
+class Leaf;
 class RootBase;
 class plantThing;
 class eventObserver;
@@ -58,8 +58,8 @@ private:
    vector <plantThing *> myThings;
    vector <plantPart *> myParts;
 
-   plantStemPart  *stemPart;
-   plantLeafPart  *leafPart;
+   Stem  *stemPart;
+   Leaf  *leafPart;
    RootBase  *rootPart;
    PlantPhenology *phenology;
    plantPart     *fruitPart;

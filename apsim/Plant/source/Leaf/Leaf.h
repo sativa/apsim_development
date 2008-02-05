@@ -3,11 +3,11 @@
 #include "SimplePart.h"
 
 // Abstract class for leaf objects
-class plantLeafPart : public SimplePart {
+class Leaf : public SimplePart {
   public:
-   plantLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+   Leaf(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
       : SimplePart(scienceAPI, p, name) {};
-   virtual ~plantLeafPart() {};
+   virtual ~Leaf() {};
 
    virtual void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,
@@ -44,6 +44,6 @@ class plantLeafPart : public SimplePart {
 
 };
 
-plantLeafPart* constructLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name);
+Leaf* constructLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name);
 #endif
 

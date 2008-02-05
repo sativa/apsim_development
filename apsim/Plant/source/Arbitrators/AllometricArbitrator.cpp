@@ -4,7 +4,7 @@
 #include <string>
 #include "PlantPart.h"
 
-#include "Leaf/LeafPart.h"
+#include "Leaf/Leaf.h"
 #include "arbitrator.h"
 #include "NullArbitrator.h"
 #include "AllometricArbitrator.h"
@@ -56,7 +56,7 @@ void allometricArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts,
    {
 
    plantPart *rootPart = FindPart(Parts, "root");
-   plantLeafPart *leafPart = dynamic_cast<plantLeafPart*> (FindPart(Parts, "leaf"));
+   Leaf *leafPart = dynamic_cast<Leaf*> (FindPart(Parts, "leaf"));
    plantPart *stemPart= FindPart(Parts, "stem");
    plantPart *fruitPart= FindPart(Parts, FruitName);
 

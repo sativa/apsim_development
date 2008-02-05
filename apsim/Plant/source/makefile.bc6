@@ -35,8 +35,8 @@ OBJFILES=PlantComponent.obj \
    ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
    Environment.obj \
    Utility\Observers.obj \
-   Leaf\LeafPart.obj \
-   StemPart.obj \
+   Leaf\Leaf.obj \
+   Stem.obj \
    Storage\StoragePart.obj \
    ReproductivePart.obj \
    Reproductive\PodPart.obj \
@@ -59,8 +59,8 @@ OBJFILES=PlantComponent.obj \
    Root\RootGrowthOption2.obj \
    Utility\Output.obj \
    Utility\OutputVariable.obj \
-   Leaf\genericLeafPart.obj \
-   Leaf\cohortingLeafPart.obj \
+   Leaf\GenericLeaf.obj \
+   Leaf\CohortingLeaf.obj \
    Arbitrators\Arbitrator.obj \
    Arbitrators\NullArbitrator.obj \
    Arbitrators\GenericArbitrator.obj \
@@ -129,7 +129,7 @@ clean:
     del $(OBJFILES) *.bak *.csm
 
 PlantComponent.obj: PlantComponent.cpp plant.h
-Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\PlantPhenology.h Reproductive\PlantFruit.h PlantPart.h SimplePart.h Leaf\LeafPart.h
+Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\PlantPhenology.h Reproductive\PlantFruit.h PlantPart.h SimplePart.h Leaf\Leaf.h
 PlantBiomass.obj: PlantBiomass.cpp PlantLibrary.h
 PlantCanopy.obj: PlantCanopy.cpp PlantLibrary.h
 PlantComms.obj: PlantComms.cpp PlantLibrary.h
@@ -153,8 +153,8 @@ Science.obj: Utility\Science.cpp PlantLibrary.h
 Error.obj: Error.cpp PlantLibrary.h
 Environment.obj: Environment.cpp Environment.h
 Utility\Observers.obj: Utility\Observers.cpp Utility\Observers.h
-Leaf\LeafPart.obj: Leaf\LeafPart.cpp PlantPart.h Leaf\LeafPart.h SimplePart.h
-StemPart.obj: StemPart.cpp StemPart.h PlantPart.h SimplePart.h
+Leaf\Leaf.obj: Leaf\Leaf.cpp PlantPart.h Leaf\Leaf.h SimplePart.h
+Stem.obj: Stem.cpp Stem.h PlantPart.h SimplePart.h
 Storage\StoragePart.obj: Storage\StoragePart.cpp Storage\StoragePart.h PlantPart.h SimplePart.h
 ReproductivePart.obj: ReproductivePart.cpp ReproductivePart.h PlantPart.h SimplePart.h
 Reproductive\PodPart.obj: Reproductive\PodPart.cpp Reproductive\PodPart.h PlantPart.h SimplePart.h

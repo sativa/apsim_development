@@ -4,12 +4,12 @@
 #include <string>
 #include "SimplePart.h"
 #include "CompositePart.h"
-#include "LeafPart.h"
-#include "cohortingLeafPart.h"
+#include "Leaf.h"
+#include "CohortingLeaf.h"
 using namespace std;
 
 
-void cohortingLeafPart::readConstants (protocol::Component *system, const string &section)
+void CohortingLeaf::readConstants (protocol::Component *system, const string &section)
 //=======================================================================================
 // Read Constants
    {
@@ -17,7 +17,7 @@ void cohortingLeafPart::readConstants (protocol::Component *system, const string
    // Nothing to do here..
    }
 
-void cohortingLeafPart::readSpeciesParameters (protocol::Component *system, vector<string> &search_order)
+void CohortingLeaf::readSpeciesParameters (protocol::Component *system, vector<string> &search_order)
 //=======================================================================================
 // Read species specific parameters
    {
@@ -90,46 +90,46 @@ void cohortingLeafPart::readSpeciesParameters (protocol::Component *system, vect
    }
 
 
-void cohortingLeafPart::onInit1(protocol::Component *system)
+void CohortingLeaf::onInit1(protocol::Component *system)
 //=======================================================================================
 // Connect our bits to the system
    {
    SimplePart::onInit1(system);
    setupGetFunction(system, "node_no", protocol::DTsingle, false,
-                    &cohortingLeafPart::get_node_no, "/plant", "Number of main stem nodes");
+                    &CohortingLeaf::get_node_no, "/plant", "Number of main stem nodes");
 
    setupGetFunction(system, "node_no_sen", protocol::DTsingle, false,
-                    &cohortingLeafPart::get_node_no_sen, "/plant", "Number of main stem nodes senesced");
+                    &CohortingLeaf::get_node_no_sen, "/plant", "Number of main stem nodes senesced");
 
    setupGetFunction(system, "node_no_fx", protocol::DTsingle, false,
-                    &cohortingLeafPart::get_node_no_fx, "/plant", "Number of main stem nodes senesced");
+                    &CohortingLeaf::get_node_no_fx, "/plant", "Number of main stem nodes senesced");
 
    setupGetFunction(system, "leaf_no", protocol::DTsingle, false,
-                    &cohortingLeafPart::get_leaf_no, "/plant", "Number of leaves on the plant");
+                    &CohortingLeaf::get_leaf_no, "/plant", "Number of leaves on the plant");
 
    setupGetFunction(system, "leaf_area", protocol::DTsingle, true,
-                    &cohortingLeafPart::get_leaf_area, "mm^2/plant", "Leaf area for each leaf cohort");
+                    &CohortingLeaf::get_leaf_area, "mm^2/plant", "Leaf area for each leaf cohort");
 
    setupGetFunction(system, "leaf_area_max", protocol::DTsingle, true,
-                    &cohortingLeafPart::get_leaf_area_max, "mm^2/plant", "Maximum Leaf area for each leaf cohort");
+                    &CohortingLeaf::get_leaf_area_max, "mm^2/plant", "Maximum Leaf area for each leaf cohort");
 
    setupGetFunction(system, "leaf_area_tot", protocol::DTsingle, false,
-                    &cohortingLeafPart::get_leaf_area_tot, "mm^2/plant", "Total plant leaf area");
+                    &CohortingLeaf::get_leaf_area_tot, "mm^2/plant", "Total plant leaf area");
 
    setupGetFunction(system, "leaf_age", protocol::DTsingle, true,
-                    &cohortingLeafPart::get_leaf_age, "oCd", "Age of each leaf cohort");
+                    &CohortingLeaf::get_leaf_age, "oCd", "Age of each leaf cohort");
 
    setupGetFunction(system, "lai_sum", protocol::DTsingle, false,
-                    &cohortingLeafPart::get_lai_sum, "m^2/m^2", "LAI of all leaf components");
+                    &CohortingLeaf::get_lai_sum, "m^2/m^2", "LAI of all leaf components");
 
    setupGetFunction(system, "tlai", protocol::DTsingle, false,
-                    &cohortingLeafPart::get_tlai, "m^2/m^2", "Total lai");
+                    &CohortingLeaf::get_tlai, "m^2/m^2", "Total lai");
 
    setupGetFunction(system, "slai", protocol::DTsingle, false,
-                    &cohortingLeafPart::get_sen_leaf_area_index, "m^2/m^2", "Senesced leaf area index");
+                    &CohortingLeaf::get_sen_leaf_area_index, "m^2/m^2", "Senesced leaf area index");
 
    setupGetFunction(system, "lai", protocol::DTsingle, false,
-                    &cohortingLeafPart::get_leaf_area_index, "m^2/m^2", "Leaf area index");
+                    &CohortingLeaf::get_leaf_area_index, "m^2/m^2", "Leaf area index");
 
    system->addGettableVar("dlt_lai", dltLAI, "m^2/m^2", "Actual change in live plant lai");
 
@@ -148,10 +148,10 @@ void cohortingLeafPart::onInit1(protocol::Component *system)
    system->addGettableVar("dlt_node_no", dltNodeNo, "/m2", "Change in number of main stem nodes");
 
    setupGetFunction(system, "dlt_slai", protocol::DTsingle, false,
-                    &cohortingLeafPart::get_dlt_slai, "m^2/m^2", "Change in lai");
+                    &CohortingLeaf::get_dlt_slai, "m^2/m^2", "Change in lai");
 
    setupGetFunction(system, "dlt_slai_age", protocol::DTsingle, false,
-                    &cohortingLeafPart::get_dlt_slai_age, "m^2/m^2", "Change in lai via age");
+                    &CohortingLeaf::get_dlt_slai_age, "m^2/m^2", "Change in lai via age");
 
    system->addGettableVar("dlt_slai_light", dltSLAI_light, "m^2/m^2", "Change in lai via light");
 
@@ -160,27 +160,27 @@ void cohortingLeafPart::onInit1(protocol::Component *system)
    system->addGettableVar("dlt_slai_frost", dltSLAI_frost, "m^2/m^2", "Change in lai via low temperature");
    }
 
-void cohortingLeafPart::get_tlai(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_tlai(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
     float tlai = getLAI() + getSLAI();
     system->sendVariable(qd, tlai);
 }
 
-void cohortingLeafPart::get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
     float lai_sum = getLAI() + getSLAI();
     system->sendVariable(qd, lai_sum);
 }
 
-void cohortingLeafPart::get_leaf_no(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_leaf_no(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
    system->sendVariable(qd, sum(gLeafNo));
 }
 
-void cohortingLeafPart::get_node_no(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_node_no(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
    if (gNodeNo > 0)
@@ -189,7 +189,7 @@ void cohortingLeafPart::get_node_no(protocol::Component *system, protocol::Query
       system->sendVariable(qd, (float)(0.0));
 }
 
-void cohortingLeafPart::get_node_no_sen(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_node_no_sen(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
    float node_no_sen = 0.0;
@@ -211,7 +211,7 @@ void cohortingLeafPart::get_node_no_sen(protocol::Component *system, protocol::Q
    system->sendVariable(qd, node_no_sen);
 }
 
-void cohortingLeafPart::get_node_no_fx(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_node_no_fx(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
    float node_no_fx = gNodeNo;
@@ -232,55 +232,55 @@ void cohortingLeafPart::get_node_no_fx(protocol::Component *system, protocol::Qu
 
    system->sendVariable(qd, node_no_fx);
 }
-void cohortingLeafPart::get_dlt_slai_age(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_dlt_slai_age(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
    system->sendVariable(qd, sum(dltSLA_age) * plant->getPlants() * smm2sm);
 }
 
-float cohortingLeafPart::getLeafNo(void)
+float CohortingLeaf::getLeafNo(void)
 //=======================================================================================
 {
    return (sum(gLeafNo));
 }
 
-void cohortingLeafPart::get_leaf_area_tot(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_leaf_area_tot(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
    system->sendVariable(qd, sum(gLeafArea));
 }
 
-void cohortingLeafPart::get_leaf_area(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_leaf_area(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
    system->sendVariable(qd, gLeafArea);
 }
 
-void cohortingLeafPart::get_leaf_area_max(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_leaf_area_max(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
    system->sendVariable(qd, gLeafAreaMax);
 }
 
-void cohortingLeafPart::get_leaf_age(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_leaf_age(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
    system->sendVariable(qd, gLeafAge);
 }
 
-void cohortingLeafPart::get_leaf_area_index(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_leaf_area_index(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
    system->sendVariable(qd, getLAI());
 }
 
-void cohortingLeafPart::get_sen_leaf_area_index(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_sen_leaf_area_index(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
    system->sendVariable(qd, getSLAI());
 }
 
-void cohortingLeafPart::get_dlt_slai(protocol::Component *system, protocol::QueryValueData &qd)
+void CohortingLeaf::get_dlt_slai(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
    float dltSLAI = max(max(max(sum(dltSLA_age) * plant->getPlants() * smm2sm,
@@ -290,7 +290,7 @@ void cohortingLeafPart::get_dlt_slai(protocol::Component *system, protocol::Quer
    system->sendVariable(qd, dltSLAI);
 }
 
-void cohortingLeafPart::zeroDeltas(void)
+void CohortingLeaf::zeroDeltas(void)
 //=======================================================================================
 // Clean out yesterday's rate calculations
 {
@@ -309,7 +309,7 @@ void cohortingLeafPart::zeroDeltas(void)
    setTo(dltSLA_age, (float) 0.0);
 }
 
-void cohortingLeafPart::zeroAllGlobals(void)
+void CohortingLeaf::zeroAllGlobals(void)
 //=======================================================================================
 // Initialise all constants & parameters
 {
@@ -337,7 +337,7 @@ void cohortingLeafPart::zeroAllGlobals(void)
    coverLeaf.sen = 0.0;
 }
 
-void cohortingLeafPart::onEmergence(void)
+void CohortingLeaf::onEmergence(void)
 //=======================================================================================
 // Leaf, Node number and area initialisation
    {
@@ -345,14 +345,14 @@ void cohortingLeafPart::onEmergence(void)
    initialiseAreas();
    }
 
-void cohortingLeafPart::onTransplanting(void)
+void CohortingLeaf::onTransplanting(void)
    {
    cout << "ON TRANSPLANTING"<<endl;
    SimplePart::onEmergence();
    initialiseAreas();
    }
 
-void cohortingLeafPart::onKillStem(void)
+void CohortingLeaf::onKillStem(void)
 //=======================================================================================
 // transfer plant leaf area to dead pool
    {
@@ -364,7 +364,7 @@ void cohortingLeafPart::onKillStem(void)
       gLeafAreaSen[cohort] =gLeafAreaSen[cohort]+ dying[cohort];
    }
 
-void cohortingLeafPart::initialiseAreas(void)
+void CohortingLeaf::initialiseAreas(void)
 //=======================================================================================
 // Initialise leaf areas to a newly emerged state.
    {
@@ -401,7 +401,7 @@ void cohortingLeafPart::initialiseAreas(void)
 
    }
 
-void cohortingLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
+void CohortingLeaf::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,
                               vector<float> &dlt_dm_n,
@@ -414,7 +414,7 @@ void cohortingLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
    initialiseAreas();
 }
 
-void cohortingLeafPart::checkBounds(void)
+void CohortingLeaf::checkBounds(void)
 //=======================================================================================
 // Sanity checks
    {
@@ -432,7 +432,7 @@ void cohortingLeafPart::checkBounds(void)
       }
    }
 
-void cohortingLeafPart::actual(void)
+void CohortingLeaf::actual(void)
 //=======================================================================================
 // Plant is telling us to calculate deltas from potential and stresses
    {
@@ -440,7 +440,7 @@ void cohortingLeafPart::actual(void)
    this->leaf_no_actual ();
    }
 
-void cohortingLeafPart::leaf_area_actual(void)
+void CohortingLeaf::leaf_area_actual(void)
 //=======================================================================================
 //   Simulate actual crop leaf area development - checks that leaf area
 //   development matches D_m production via a maximum specific leaf area
@@ -458,7 +458,7 @@ void cohortingLeafPart::leaf_area_actual(void)
    dltLAI = min(dltLAI_carbon, dltLAI_stressed);
 }
 
-void cohortingLeafPart::leaf_no_actual (void)
+void CohortingLeaf::leaf_no_actual (void)
 //=======================================================================================
 //   Simulate actual leaf & tiller number increase as limited by dry matter production.
    {
@@ -473,14 +473,14 @@ void cohortingLeafPart::leaf_no_actual (void)
    }
 
 
-void cohortingLeafPart::leaf_death (float  /* g_nfact_expansion*/, float  /* g_dlt_tt*/)
+void CohortingLeaf::leaf_death (float  /* g_nfact_expansion*/, float  /* g_dlt_tt*/)
 //=======================================================================================
 //     Calculate the fractional death of oldest green leaf.
    {
 //XXX Fix me
    }
 
-void cohortingLeafPart::potential (int leaf_no_pot_option, /* (INPUT) option number*/
+void CohortingLeaf::potential (int leaf_no_pot_option, /* (INPUT) option number*/
                                    float stressFactor,     /* (INPUT) stress factor */
                                    float dlt_tt)           /* (INPUT) Thermal Time */
 //=======================================================================================
@@ -494,7 +494,7 @@ void cohortingLeafPart::potential (int leaf_no_pot_option, /* (INPUT) option num
    this->leaf_area_potential (dlt_tt);
    }
 
-void cohortingLeafPart::leaf_no_pot (float stressFactor, float dlt_tt)
+void CohortingLeaf::leaf_no_pot (float stressFactor, float dlt_tt)
 //=======================================================================================
 //     Calculate leaf number development
     {
@@ -524,7 +524,7 @@ void cohortingLeafPart::leaf_no_pot (float stressFactor, float dlt_tt)
         }
     }
 
-void cohortingLeafPart::leaf_area_potential (float tt)
+void CohortingLeaf::leaf_area_potential (float tt)
 //=======================================================================================
 //  Calculate the potential increase in leaf area development (mm^2)
    {
@@ -539,7 +539,7 @@ void cohortingLeafPart::leaf_area_potential (float tt)
    dltLAI_pot =  sum(gDltLeafAreaPot) * smm2sm * plant->getPlants();
    }
 
-void cohortingLeafPart::leaf_area_stressed (float stressFactor)
+void CohortingLeaf::leaf_area_stressed (float stressFactor)
 //=======================================================================================
 //   Calculate the biomass non-limiting leaf area development from the
 //   potential daily increase in lai and stress factors (water & nitrogen)
@@ -547,7 +547,7 @@ void cohortingLeafPart::leaf_area_stressed (float stressFactor)
    dltLAI_stressed = dltLAI_pot * stressFactor;
    }
 
-void cohortingLeafPart::Detachment (void)
+void CohortingLeaf::Detachment (void)
 //=======================================================================================
    {
    cproc_lai_detachment1 (c.sen_detach_frac
@@ -573,7 +573,7 @@ void cohortingLeafPart::Detachment (void)
     SimplePart::Detachment();
   }
 
-void cohortingLeafPart::leaf_area_sen(float swdef_photo , float mint)
+void CohortingLeaf::leaf_area_sen(float swdef_photo , float mint)
 //=======================================================================================
 //   Calculate todays leaf area senescence
 {
@@ -611,7 +611,7 @@ void cohortingLeafPart::leaf_area_sen(float swdef_photo , float mint)
 }
 
 // Update state variables
-void cohortingLeafPart::update(void)
+void CohortingLeaf::update(void)
 //=======================================================================================
 {
    unsigned int cohort;
@@ -727,13 +727,13 @@ void cohortingLeafPart::update(void)
 }
 
 // Remove detachment from leaf area record
-void cohortingLeafPart::remove_detachment (float /* dlt_slai_detached*/, float /* dlt_lai_removed*/ )
+void CohortingLeaf::remove_detachment (float /* dlt_slai_detached*/, float /* dlt_lai_removed*/ )
 //=======================================================================================
    {
 
    }
 
-float cohortingLeafPart::senFract (void)
+float CohortingLeaf::senFract (void)
 //=======================================================================================
    {
    float dltSLAI = max(max(max(sum(dltSLA_age) * plant->getPlants() * smm2sm,
@@ -744,25 +744,25 @@ float cohortingLeafPart::senFract (void)
    return(divide (dltSLAI, getLAI() + dltLAI, 0.0));             // fraction of canopy senescing
    }
 
-float cohortingLeafPart::coverTotal(void)
+float CohortingLeaf::coverTotal(void)
 //=======================================================================================
 {
    return 1.0 - (1.0 - coverLeaf.green) * (1.0 - coverLeaf.sen);
 }
 
-float cohortingLeafPart::coverGreen(void)
+float CohortingLeaf::coverGreen(void)
 //=======================================================================================
 {
    return coverLeaf.green;
 }
 
-float cohortingLeafPart::coverSen(void)
+float CohortingLeaf::coverSen(void)
 //=======================================================================================
 {
    return coverLeaf.sen;
 }
 
-void cohortingLeafPart::doCover (PlantSpatial &spatial)
+void CohortingLeaf::doCover (PlantSpatial &spatial)
    //===========================================================================
 {
 
@@ -793,7 +793,7 @@ void cohortingLeafPart::doCover (PlantSpatial &spatial)
 
 }
 
-float cohortingLeafPart::interceptRadiationGreen (float radiation)    // incident radiation on leafs
+float CohortingLeaf::interceptRadiationGreen (float radiation)    // incident radiation on leafs
     //===========================================================================
 {
    //     Calculate leaf total radiation interception and return transmitted radiation
@@ -802,7 +802,7 @@ float cohortingLeafPart::interceptRadiationGreen (float radiation)    // inciden
    return radiationInterceptedGreen;
 }
 
-float cohortingLeafPart::interceptRadiationTotal (float radiation)    // incident radiation on leafs
+float CohortingLeaf::interceptRadiationTotal (float radiation)    // incident radiation on leafs
     //===========================================================================
 {
    //     Calculate leaf total radiation interception and return transmitted radiation
@@ -811,7 +811,7 @@ float cohortingLeafPart::interceptRadiationTotal (float radiation)    // inciden
    return radiationInterceptedTotal;
 }
 
-void cohortingLeafPart::doDmPotRUE (void )                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+void CohortingLeaf::doDmPotRUE (void )                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    //===========================================================================
 {
    //       Potential biomass (carbohydrate) production from
@@ -825,7 +825,7 @@ void cohortingLeafPart::doDmPotRUE (void )                    // (OUTPUT) potent
    dlt.dm_pot_rue = (radiationInterceptedGreen * cRue.value(plant->getStageNumber())) * stress_factor * plant->getCo2ModifierRue();
 }
 
-void cohortingLeafPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water demand (mm)
+void CohortingLeaf::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water demand (mm)
    //===========================================================================
    /*  Purpose
    *       Return crop water demand from soil by the crop (mm) calculated by
@@ -852,7 +852,7 @@ void cohortingLeafPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) c
    transpEff = transpEff * divide(sw_demand_te, sw_demand, 1.0);
 }
 
-void cohortingLeafPart::doBioActual (void)
+void CohortingLeaf::doBioActual (void)
    //===========================================================================
 {
    //       Takes biomass production limited by radiation and discounted by water supply.
