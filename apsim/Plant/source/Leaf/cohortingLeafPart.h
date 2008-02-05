@@ -52,7 +52,6 @@ class cohortingLeafPart : public plantLeafPart {
    void doCover (PlantSpatial &spatial);
    void doDmPotRUE (void );
    void doSWDemand(float SWDemandMaxFactor);
-   void doDmPotTE(float swSupply);
    void doBioActual (void);
 
   private:

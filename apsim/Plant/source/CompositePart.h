@@ -47,7 +47,6 @@ public:                                             // member functions
    virtual void  doDmDemand (float dlt_dm_supply_by_veg);
    virtual void  doDmMin(void);
    virtual void  doDmPotRUE (void );                      // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
-   virtual void  doDmPotTE(float swSupply);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
    virtual void  doNConccentrationLimits(float);
    virtual void  doNDemand1Pot(float, float);
    virtual void  doNDemand1(float, float);
@@ -143,7 +142,6 @@ protected:
    virtual float dltDmRetranslocateSupply(float demand_differential) ;
    virtual float dltDmGreenRetransUptake(void);
    virtual float transpirationEfficiency(void);
-   virtual float dltDmPotTe(void);
 
    virtual float dltDmSenesced(void);
    virtual float dltDmDetached(void);

@@ -38,7 +38,6 @@ class FloretPart : public SimplePart {
    void doDmPotRUE (void );
 
    void doSWDemand(float SWDemandMaxFactor);
-   void doDmPotTE(float swSupply);
    void doBioActual (void);
 
    virtual float nDeadVeg(void) {return 0;}

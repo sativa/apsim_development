@@ -32,7 +32,6 @@ class SimplePart : public plantPart
 
    // deltas
    struct {
-      float dm_pot_te;
       float dm_pot_rue;
       float dm;
       float dm_green_removed;                     // green biomass removed (g/m^2)
@@ -117,7 +116,6 @@ public:
    virtual float dltNDetached(void);
    virtual float dltNSenesced(void);
    virtual float dltNSenescedTrans(void);
-   virtual void  doDmPotTE(float swSupply);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)
    virtual float giveNGreen(float) ;
    virtual float interceptRadiationGreen(float radiation);
    virtual float n_conc_crit(void);
@@ -284,7 +282,6 @@ protected:
    virtual float coverSen(void) ;
    virtual float coverTotal(void) ;
    virtual float dltDmGrainDemand(void);
-   virtual float dltDmPotTe(void);
    virtual float dltDm(void);
    virtual float grainWaterContent(void);
    virtual float dmGrainWetTotal(void);

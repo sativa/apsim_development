@@ -74,7 +74,6 @@ void CompositePart::onInit1(protocol::Component *system)
       scienceAPI.exposeFunction("sw_demand_te", "mm",  "TE Demand for soil water", FloatFunction(&CompositePart::SWDemandTE));
       scienceAPI.exposeFunction("dlt_dm", "g/m^2",  "Actual above_ground dry matter production", FloatFunction(&CompositePart::dltDm));
       scienceAPI.exposeFunction("dlt_dm_pot_rue", "g/m^2",  "Potential above_ground dry matter production via photosynthesis", FloatFunction(&CompositePart::dltDmPotRue));
-      scienceAPI.exposeFunction("dlt_dm_pot_te", "g/m^2",  "Potential above_ground dry matter production via transpiration", FloatFunction(&CompositePart::dltDmPotTe));
       scienceAPI.exposeFunction("cover_green", "",  "Green cover", FloatFunction(&CompositePart::coverGreen));
       }
    for (part =  myParts.begin(); part != myParts.end(); part++)
@@ -858,16 +857,6 @@ float CompositePart::transpirationEfficiency(void)
    return transpEff;
 }
 
-float CompositePart::dltDmPotTe(void)
-   //===========================================================================
-{
-   float dltDmPotTe = 0.0;
-   vector <plantPart *>::const_iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      dltDmPotTe += (*part)->dltDmPotTe();
-   return dltDmPotTe;
-}
-
 float CompositePart::dltDmPotRue(void)
    //===========================================================================
 {
@@ -980,17 +969,6 @@ float CompositePart::SWDemandTE(void)
    for (part =  myParts.begin(); part != myParts.end(); part++)
       SWDemandTE += (*part)->SWDemandTE();
    return SWDemandTE;
-}
-
-void CompositePart::doDmPotTE (float swSupply)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-   {
-      float swSupplyPart = swSupply * divide ((*part)->SWDemand(), SWDemand(), 0.0);
-      (*part)->doDmPotTE(swSupplyPart);
-   }
 }
 
 void CompositePart::doBioActual (void)
