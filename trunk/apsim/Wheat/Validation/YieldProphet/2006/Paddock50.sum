@@ -947,7 +947,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     28.0000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     186.367158100000
+     Manager creating a new local real variable : nitrogen =     186.367160960000
      Manager creating a new local real variable : availablewater =     61.3201290000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1101,29 +1101,29 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     1.49 (%)    extractable sw =    2.61 (mm)
 5 November 2006(Day of year=309), Wheat: 
       stage 9.0 maturity
-                     biomass =         582.87 (g/m^2)   lai          =   0.044 (m^2/m^2)
+                     biomass =         582.80 (g/m^2)   lai          =   0.044 (m^2/m^2)
                      stover N conc =     1.49 (%)    extractable sw =    1.54 (mm)
 6 November 2006(Day of year=310), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         582.87 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         582.80 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.50 (%)    extractable sw =    1.35 (mm)
 6 November 2006(Day of year=310), GrossMargin: 
      Manager creating a new local real variable : fullprice =     163.712028520000
 6 November 2006(Day of year=310), Harvest: 
      Manager sending message :- wheat harvest
      
-      flowering day          =  265                           stover (kg/ha)         =     4391.2
+      flowering day          =  265                           stover (kg/ha)         =     4390.5
       maturity day           =  309                           grain yield (kg/ha)    =     1437.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1642.8
       grain wt (g)           =    0.020                       grains/m^2             =     7311.9
       grains/plant           =   73.1                         maximum lai            =      3.795
-      total above ground biomass (kg/ha)    =     5828.7
-      live above ground biomass (kg/ha)     =     5828.7
-      green above ground biomass (kg/ha)    =     4006.2
+      total above ground biomass (kg/ha)    =     5828.0
+      live above ground biomass (kg/ha)     =     5828.0
+      green above ground biomass (kg/ha)    =     4005.6
       senesced above ground biomass (kg/ha) =     1822.4
       number of leaves       =     47.3
       DM Root:Shoot ratio    =     0.19                       Harvest Index          =       0.25
-      Stover C:N ratio       =    36.89                       Root C:N ratio         =      16.57
+      Stover C:N ratio       =    36.88                       Root C:N ratio         =      16.57
       grain N percent        =     2.88                       total N content (kg/ha)=      88.98
       grain N uptake (kg/ha) =    41.36                       senesced N content (kg/ha)=    9.11
       green N content (kg/ha)=    38.51
@@ -1138,7 +1138,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4391.2                     0.0
+                          DM (kg/ha) =                4390.5                     0.0
                           N  (kg/ha) =                  47.62                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
