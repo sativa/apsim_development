@@ -65,6 +65,7 @@ class Leaf : public SimplePart {
    int cNumRowSpacing;
 
    interpolationFunction cRue;                        // radiation use efficiency as f(stage number) (g dm/mj)
+   bool ExternalSWDemand;
 };
 
 Leaf* constructLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name);

@@ -209,6 +209,8 @@ void GenericLeaf::zeroAllGlobals(void)
    fill_real_array (cXRowSpacing, 0.0, max_table);
    fill_real_array (cYExtinctCoef, 0.0, max_table);
    cNumRowSpacing = 0;
+
+   ExternalSWDemand = false;
 }
 
 // Leaf, Node number and area initialisation
