@@ -971,7 +971,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     28.2500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     95.5792844200000
+     Manager creating a new local real variable : nitrogen =     95.5792696800000
      Manager creating a new local real variable : availablewater =     53.8000180000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1135,29 +1135,29 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.81 (%)    extractable sw =   17.80 (mm)
 24 November 2004(Day of year=329), Wheat: 
       stage 9.0 maturity
-                     biomass =         444.92 (g/m^2)   lai          =   0.122 (m^2/m^2)
+                     biomass =         444.67 (g/m^2)   lai          =   0.122 (m^2/m^2)
                      stover N conc =     0.81 (%)    extractable sw =   17.06 (mm)
 25 November 2004(Day of year=330), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         444.92 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.81 (%)    extractable sw =   16.81 (mm)
+                     biomass =         444.67 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.82 (%)    extractable sw =   16.81 (mm)
 25 November 2004(Day of year=330), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     164.362556440000
+     Manager creating a new local real variable : fullprice =     164.362548840000
 25 November 2004(Day of year=330), Harvest: 
      Manager sending message :- wheat harvest
      
-      flowering day          =  287                           stover (kg/ha)         =     3028.5
+      flowering day          =  287                           stover (kg/ha)         =     3026.0
       maturity day           =  329                           grain yield (kg/ha)    =     1420.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1623.6
       grain wt (g)           =    0.028                       grains/m^2             =     5143.9
       grains/plant           =   51.4                         maximum lai            =      1.829
-      total above ground biomass (kg/ha)    =     4449.2
-      live above ground biomass (kg/ha)     =     4449.2
-      green above ground biomass (kg/ha)    =     3275.6
+      total above ground biomass (kg/ha)    =     4446.7
+      live above ground biomass (kg/ha)     =     4446.7
+      green above ground biomass (kg/ha)    =     3273.2
       senesced above ground biomass (kg/ha) =     1173.5
       number of leaves       =     44.1
       DM Root:Shoot ratio    =     0.19                       Harvest Index          =       0.32
-      Stover C:N ratio       =    57.75                       Root C:N ratio         =      16.74
+      Stover C:N ratio       =    57.71                       Root C:N ratio         =      16.74
       grain N percent        =     2.91                       total N content (kg/ha)=      62.25
       grain N uptake (kg/ha) =    41.28                       senesced N content (kg/ha)=    5.87
       green N content (kg/ha)=    15.11
@@ -1172,7 +1172,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3028.5                     0.0
+                          DM (kg/ha) =                3026.0                     0.0
                           N  (kg/ha) =                  20.98                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots

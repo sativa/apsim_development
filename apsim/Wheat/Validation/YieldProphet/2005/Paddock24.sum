@@ -971,7 +971,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     28.2500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     183.320251960000
+     Manager creating a new local real variable : nitrogen =     183.320243860000
      Manager creating a new local real variable : availablewater =     30.9000250000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1135,29 +1135,29 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.70 (%)    extractable sw =   19.70 (mm)
 21 November 2005(Day of year=325), Wheat: 
       stage 9.0 maturity
-                     biomass =         755.83 (g/m^2)   lai          =   0.353 (m^2/m^2)
+                     biomass =         755.74 (g/m^2)   lai          =   0.353 (m^2/m^2)
                      stover N conc =     0.70 (%)    extractable sw =   17.27 (mm)
 22 November 2005(Day of year=326), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         755.83 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         755.74 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.71 (%)    extractable sw =   16.91 (mm)
 22 November 2005(Day of year=326), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     164.217895520000
+     Manager creating a new local real variable : fullprice =     164.217880240000
 22 November 2005(Day of year=326), Harvest: 
      Manager sending message :- wheat harvest
      
-      flowering day          =  285                           stover (kg/ha)         =     4710.1
-      maturity day           =  325                           grain yield (kg/ha)    =     2848.2
+      flowering day          =  285                           stover (kg/ha)         =     4709.2
+      maturity day           =  325                           grain yield (kg/ha)    =     2848.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3255.0
       grain wt (g)           =    0.036                       grains/m^2             =     7953.1
       grains/plant           =   79.5                         maximum lai            =      3.489
-      total above ground biomass (kg/ha)    =     7558.3
-      live above ground biomass (kg/ha)     =     7558.3
-      green above ground biomass (kg/ha)    =     5800.0
+      total above ground biomass (kg/ha)    =     7557.4
+      live above ground biomass (kg/ha)     =     7557.4
+      green above ground biomass (kg/ha)    =     5799.1
       senesced above ground biomass (kg/ha) =     1758.3
       number of leaves       =     43.8
       DM Root:Shoot ratio    =     0.16                       Harvest Index          =       0.38
-      Stover C:N ratio       =    63.29                       Root C:N ratio         =      17.07
+      Stover C:N ratio       =    63.28                       Root C:N ratio         =      17.07
       grain N percent        =     2.90                       total N content (kg/ha)=     112.34
       grain N uptake (kg/ha) =    82.57                       senesced N content (kg/ha)=    8.79
       green N content (kg/ha)=    20.98
@@ -1172,11 +1172,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4710.1                     0.0
+                          DM (kg/ha) =                4709.2                     0.0
                           N  (kg/ha) =                  29.77                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2848.2                     0.0
+                          DM (kg/ha) =                2848.1                     0.0
                           N  (kg/ha) =                  82.57                    0.00
      
       stage 4.0 end_of_juvenile
