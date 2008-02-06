@@ -417,6 +417,7 @@ void Plant::onInit2(void)
 //=======================================================================================
 // Init2. The rest of the system is here now..
    {
+
    nStress->init();
    pStress->init();
    swStress->init(rootPart);
@@ -446,8 +447,8 @@ void Plant::onInit2(void)
 
    protocol::NewCropType NewCrop;
    NewCrop.crop_type = c.crop_type;
+   NewCrop.sender = Name();
    scienceAPI.publish ("newcrop",NewCrop);
-
    }
 
 
@@ -492,6 +493,7 @@ void Plant::onPrepare(unsigned &, unsigned &, protocol::Variant &)
   if (g.plant_status == out)
      {
      plant_zero_variables ();
+     UpdateCanopy();
      }
   else
      {
@@ -792,7 +794,7 @@ void Plant::plant_update(void)
     if (phenology->inPhase("preflowering")) g.cswd_pheno.update();
 
     population.Update();
-
+    UpdateCanopy();
     plant.doNConccentrationLimits(co2Modifier->n_conc());
 
     }
@@ -2018,6 +2020,8 @@ void Plant::plant_end_crop (void)
         for (vector<plantThing *>::iterator t = myThings.begin(); t != myThings.end(); t++)
            (*t)->onPlantEvent("end_crop");
 
+        UpdateCanopy();
+
         }
     else
         {
@@ -2107,7 +2111,7 @@ void Plant::UpdateCanopy()
    NewCanopy.lai_tot = leafPart->getLAI() + leafPart->getSLAI();
    NewCanopy.cover = plant.coverGreen();
    NewCanopy.cover_tot = cover_tot;
-
+   NewCanopy.sender = Name();
    scienceAPI.publish ("new_canopy",NewCanopy);
 
    }
@@ -2148,7 +2152,7 @@ void Plant::plant_prepare (void)
 
    protocol::NewPotentialGrowthType NewPotentialGrowth;
    NewPotentialGrowth.frgr = min(min(getTempStressPhoto(),getNfactPhoto()),min(getOxdefPhoto(),getPfactPhoto()));
-
+   NewPotentialGrowth.sender = Name();
    scienceAPI.publish ("newpotentialgrowth",NewPotentialGrowth);
 
 

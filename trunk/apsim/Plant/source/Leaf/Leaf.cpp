@@ -25,14 +25,22 @@ Leaf* constructLeafPart (ScienceAPI& scienceAPI, plantInterface *p, const string
 
 void Leaf::onInit1(protocol::Component *)
    {
-   scienceAPI.subscribe("CanopyWaterBalance", CanopyWaterBalanceFunction(&Leaf::onCanopyWaterBalance));
+   scienceAPI.subscribe("canopy_water_balance", CanopyWaterBalanceFunction(&Leaf::onCanopyWaterBalance));
    }
 
 void Leaf::onCanopyWaterBalance(protocol::CanopyWaterBalanceType &CWB)
 //=======================================================================================
 // Handler for CanopyWaterBalance event
    {
-
+   ExternalSWDemand = false;
+   for (unsigned i = 0; i < CWB.Canopy.size(); i++)
+      {
+      if (CWB.Canopy[i].name == plant->Name())
+         {
+         sw_demand = CWB.Canopy[i].PotentialEp;
+         ExternalSWDemand = true;
+         }
+      }
    }
 
 void Leaf::doNConccentrationLimits(float modifier)
@@ -53,29 +61,37 @@ float Leaf::dmRetransSupply(void)
 void Leaf::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water demand (mm)
    //===========================================================================
    /*  Purpose
-   *       Return crop water demand from soil by the crop (mm) calculated by
-   *       dividing biomass production limited by radiation by transpiration efficiency.
    */
-{
-   // get potential transpiration from potential
-   // carbohydrate production and transpiration efficiency
+   {
+   if (ExternalSWDemand == true)
+      {
+      transpEff = dlt.dm_pot_rue/sw_demand;
+      ExternalSWDemand = false;
+      }
+   else
+      {
+      //*       Return crop water demand from soil by the crop (mm) calculated by
+      //*       dividing biomass production limited by radiation by transpiration efficiency.
+      // get potential transpiration from potential
+      // carbohydrate production and transpiration efficiency
 
-   cproc_transp_eff_co2_1(plant->getVpd()
-                          , c.transpEffCf[(int)plant->getStageNumber()-1]
-                          , plant->getCo2ModifierTe()
-                          , &transpEff);
+      cproc_transp_eff_co2_1(plant->getVpd()
+                             , c.transpEffCf[(int)plant->getStageNumber()-1]
+                             , plant->getCo2ModifierTe()
+                             , &transpEff);
 
-   cproc_sw_demand1 (dlt.dm_pot_rue
-                     , transpEff
-                     , &sw_demand_te);
+      cproc_sw_demand1 (dlt.dm_pot_rue
+                        , transpEff
+                        , &sw_demand_te);
 
-       // Capping of sw demand will create an effective TE- recalculate it here
-       // In an ideal world this should NOT be changed here - NIH
+          // Capping of sw demand will create an effective TE- recalculate it here
+          // In an ideal world this should NOT be changed here - NIH
 
-   float SWDemandMax = SWDemandMaxFactor * coverGreen() ;
-   sw_demand = u_bound(sw_demand_te, SWDemandMax);
-   transpEff = transpEff * divide(sw_demand_te, sw_demand, 1.0);
-}
+      float SWDemandMax = SWDemandMaxFactor * coverGreen() ;
+      sw_demand = u_bound(sw_demand_te, SWDemandMax);
+      transpEff = transpEff * divide(sw_demand_te, sw_demand, 1.0);
+      }
+   }
 
 
 void Leaf::doBioActual (void)
