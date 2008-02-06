@@ -2042,6 +2042,12 @@
 
       call push_routine (myname)
 
+      ! zero a few things
+      g%PET(:,:) = 0.0
+      g%PETr(:,:) = 0.0
+      g%PETa(:,:) = 0.0
+
+
       NetRadiation = ((1. - g%Albedo) * sum(g%Rs(:,:))
      :             + sum(g%Rl(:,:))
      :             + sum(g%Rsoil(:,:)))
