@@ -14,11 +14,11 @@ class ScienceAPI;
 class externalFunction {
  protected:
      std::string xName, yName, xUnits, yUnits;
- public:
+public:
    externalFunction();
    virtual ~externalFunction();
 
-   void read(ScienceAPI& scienceAPI,
+   virtual void read(ScienceAPI& scienceAPI,
                 const string& xname, const string& xunits, float x0, float x1,
                 const string& yname, const string& yunits, float y0, float y1);
 
