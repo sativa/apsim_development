@@ -98,6 +98,7 @@ void SimplePart::onInit1(protocol::Component*)
    scienceAPI.exposeFunction(addPartToVar("dlt_dm_retrans"), "g/m^2", addPartToDesc("DM retranslocated to/from "), FloatFunction(&SimplePart::dltDmGreenRetrans));
    scienceAPI.exposeFunction(addPartToVar("dm_demand"), "g/m^2", addPartToDesc("DM demand of "), FloatFunction(&SimplePart::dmGreenDemand));
    }
+
 void SimplePart::process(void)
 //=======================================================================================
    {

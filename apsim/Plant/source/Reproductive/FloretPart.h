@@ -1,7 +1,6 @@
 #ifndef FloretPartH
 #define FloretPartH
 #include "SimplePart.h"
-#include "Co2Modifier.h"
 
 class FloretPart : public SimplePart {
   public:

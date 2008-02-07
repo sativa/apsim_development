@@ -142,6 +142,7 @@ float Population::CropFailureGermination()
    // Crop failure from lack of germination within a specific maximum number of days.
    if (Plant.daysInCurrentPhase() >= days_germ_limit)
       {
+      scienceAPI.publish("failure");
       ostringstream out;
       out << "      crop failure because of lack of" << endl
           << "         germination within "
@@ -160,6 +161,7 @@ float Population::CropFailureEmergence()
    // thermal time sum from germination.
    if (Plant.ttInCurrentPhase() > tt_emerg_limit)
       {
+      scienceAPI.publish("failure");
       scienceAPI.write(" failed emergence due to deep planting");
       return -1.0 * plants;
       }
@@ -171,6 +173,7 @@ float Population::CropFailurePhenDelay()
    // Determine plant death from prolonged phenology delay.
    if (Plant.getCumSwdefPheno() >= swdf_pheno_limit)
       {
+      scienceAPI.publish("failure");
       scienceAPI.write("Crop failure because of prolonged"
                        "phenology delay through water stress.");
       return -1.0 * plants;
@@ -184,6 +187,7 @@ float Population::CropFailureLeafSen()
 
    if (reals_are_equal (leaf_area, 0.0, 1.0e-6))
       {
+      scienceAPI.publish("failure");
       scienceAPI.write("Crop failure because of total leaf senescence.");
       return -1.0 * plants;
       }
@@ -201,6 +205,7 @@ float Population::DeathSeedling()
 
    if (killfr > 0.0)
       {
+      scienceAPI.publish("failure");
       string msg= "Plant kill. ";
       msg = msg + ftoa(killfr*fract2pcnt, ".2").c_str();
       msg = msg + "% failure because of high soil surface temperatures.";
@@ -240,6 +245,7 @@ float Population::DeathDrought()
        && Plant.getCumSwdefPhoto() > swdf_photo_limit
         && Plant.getSwdefPhoto() < 1.0)
       {
+      scienceAPI.publish("failure");
       killfr = swdf_photo_rate * (Plant.getCumSwdefPhoto() - swdf_photo_limit);
       killfr = bound (killfr, 0.0, 1.0);
       dlt_plants = -plants*killfr;

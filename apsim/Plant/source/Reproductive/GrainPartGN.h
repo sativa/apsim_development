@@ -48,9 +48,9 @@ protected:
    float cPotential_grain_n_filling_rate ;
    float cMinimum_grain_n_filling_rate ;
    float cCrit_grainfill_rate;
-
-   interpolationFunction rel_grainfill;
-   interpolationFunction rel_grain_n_fill;
+   float cX_temp_grain_n_fill[max_table];
+   int   cNum_temp_grain_n_fill;
+   float cY_rel_grain_n_fill[max_table];
 };
 
 #endif

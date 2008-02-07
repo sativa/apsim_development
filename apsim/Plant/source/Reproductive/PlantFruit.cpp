@@ -28,8 +28,6 @@ plantPart* PlantFruit::construct(ScienceAPI& scienceAPI, plantInterface *p, cons
    scienceAPI.readOptional("fruit_part", type);
    if (type == "floret")
       return new FloretPart(scienceAPI, p, "Floret");
-   else if (type == "cohorting")
-      return new PlantFruitCohorting(scienceAPI, p, name);
    else
       return new PlantFruit(scienceAPI, p, name);
    }
@@ -79,7 +77,6 @@ void PlantFruit::process (void)
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
       (*part)->process ();
-
    }
 
 void PlantFruit::onInit1(protocol::Component *system)
@@ -103,7 +100,6 @@ void PlantFruit::display(ostream &os)
    //   os << "Dead meal: " << dead.meal << endl << endl;
    os << endl;
 }
-
 
 void PlantFruit::addNewCohort (protocol::Component *system)
    // ====================================================================
@@ -132,4 +128,5 @@ void PlantFruit::doNewCohort (protocol::Component *system)
    if (newCohort)
       addNewCohort(system);
 }
+
 
