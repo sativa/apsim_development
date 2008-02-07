@@ -1,6 +1,7 @@
 #ifndef LeafPartH
 #define LeafPartH
 #include "SimplePart.h"
+#include "Co2Modifier.h"
 
 // Abstract class for leaf objects
 class Leaf : public SimplePart {
@@ -28,6 +29,8 @@ class Leaf : public SimplePart {
    virtual float getLAI(void) = 0;                             //
    virtual float getSLAI(void) = 0;                            //
    virtual float getLeafNo(void) = 0;                          // The number of leaves
+   virtual float getNodeNo(void) = 0;                          // The number of nodes
+   virtual float getDltNodeNo(void) = 0;                       // The change in number of nodes
    virtual float senFract (void) = 0;                          // Fraction of canopy senescing today
    virtual float dmGreenDemand(void) =0;                       // Maximum DM this part can take today
 

@@ -19,7 +19,9 @@ namespace protocol {
   class ApsimGetQueryData;
 };
 class environment_t;
+class PlantPhenology;
 class pheno_stress_t;
+class Co2Modifier;
 class CompositePart;
 
 // An abstract plant interface, as seen from protocol::Component (outside)
@@ -41,10 +43,12 @@ class plantInterface {
 
       virtual void writeString (const char *line) = 0;
       virtual void warningError (const char *msg) = 0;
-
       virtual pheno_stress_t getPhotoStress(void) = 0;
       virtual float getPeswSeed(void) = 0;
       virtual float getFaswSeed(void) = 0;
+
+      virtual float getNodeNo (void) = 0;           // Node number
+      virtual float getDltNodeNo(void) = 0;         // The change in number of nodes
       virtual float getLeafNo (void) = 0;           // Leaf number (leaves/m^2)
       virtual float getLAI(void) = 0;
       virtual std::string Name() = 0;
@@ -64,9 +68,6 @@ class plantInterface {
       virtual float getTotalPotentialGrowthRate(void) = 0;
       // temporary
       virtual float getDyingFractionPlants(void) = 0;
-      virtual float getCo2ModifierRue(void) = 0;
-      virtual float getCo2ModifierTe(void) = 0;
-      virtual float getCo2ModifierNConc(void) = 0;
       virtual float getVpd(void) = 0;
 
       virtual float getTempStressPhoto(void) = 0;
@@ -88,7 +89,9 @@ class plantInterface {
       virtual void SetStatus(status_t NewStatus) = 0;
       virtual CompositePart& Tops() = 0;
 
+      virtual const Co2Modifier *getCo2Modifier(void) = 0;
       virtual const environment_t *getEnvironment(void) = 0;
+      virtual const PlantPhenology  *getPhenology(void) = 0;
       virtual const string & getCropType(void) = 0;
       virtual protocol::Component *getComponent(void) = 0;
 };

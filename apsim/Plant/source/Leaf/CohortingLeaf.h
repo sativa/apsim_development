@@ -22,6 +22,8 @@ class CohortingLeaf : public Leaf {
    void onEmergence(void);
    void onTransplanting(void);
    void onKillStem(void);
+   float getNodeNo(void) {return gNodeNo;};
+   float getDltNodeNo(void){return dltNodeNo;};
 
    float getLAI(void)
      { return sum(gLeafArea) * plant->getPlants() * smm2sm; };
