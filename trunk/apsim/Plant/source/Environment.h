@@ -22,7 +22,7 @@ class environment_t {
    float radn;                                       // solar radiation (Mj/m^2/day)
    float maxt;                                       // minimum air temperature (oC)
    float mint;                                       // maximum air temperature (oC)
-   float avet;                                       // maximum air temperature (oC)
+   float meanT;                                       // maximum air temperature (oC)
    float latitude;                                   // latitude (degrees, negative for southern hemisphere)
    int day_of_year;                                  // day of year
    int year;                                         // year

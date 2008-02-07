@@ -162,19 +162,19 @@ void Plant::onInit1(void)
    population.Initialise();
 
     string phenologyModel;
-    scienceAPI.readOptional("phenology_model", phenologyModel);
+    scienceAPI.readOptional("phenology_model", phenologyModel);         //FIXME Belongs in Phenology?
     phenology = constructPhenology(scienceAPI, this, phenologyModel);
     myThings.push_back(phenology);
 
     string rootModel;
-    scienceAPI.readOptional("root_part", rootModel);
+    scienceAPI.readOptional("root_part", rootModel);                     //FIXME belongs in root?
     rootPart = RootBase::construct(scienceAPI, this, rootModel, "Root");
     myThings.push_back(rootPart);
     myParts.push_back(rootPart);
     plant.add(rootPart);
 
     string leafModel;
-    scienceAPI.readOptional("leaf_part", leafModel);
+    scienceAPI.readOptional("leaf_part", leafModel);                      //FIXME belongs in leaf?
     leafPart = constructLeafPart(scienceAPI, this, leafModel, "Leaf");
     myThings.push_back(leafPart);
     myParts.push_back(leafPart);
@@ -1113,7 +1113,7 @@ void Plant::plant_process ( void )
         rootPart->doPlantWaterStress (tops.SWDemand(), swStress);
 
         phenology->prepare (Environment);
-//        fruitPart->prepare ();  // need to prepare fruit phenology?
+        fruitPart->prepare ();  // need to prepare fruit phenology?
 
         pheno_stress_t ps;
         ps.swdef = swStress->swDef.pheno;
@@ -2720,11 +2720,9 @@ float Plant::getStageCode(void)  {return phenology->stageCode();}
 float Plant::getStageNumber(void)  {return phenology->stageNumber();}
 float Plant::getPlants(void)  {return population.Density();}
 float Plant::getCo2(void)  {return Environment.co2;}
-//float Plant::getRadnInterceptedPod(void)  {return g.radn_int_pod;}
+float Plant::getNodeNo(void)  {return leafPart->getNodeNo();}
+float Plant::getDltNodeNo(void)  {return leafPart->getDltNodeNo();}
 float Plant::getDltDMPotRueVeg(void)  {return leafPart->dltDmPotRue();}
-//float Plant::getDltDmVeg(void)  {return leafPart->dltDmTotal() + stemPart->dltDmTotal();}
-////float Plant::getWaterSupplyPod(void)  {return g.swSupplyFruit;}
-////float Plant::getWaterSupplyLeaf(void)  {return g.swSupplyVeg;}
 float Plant::getDmTops(void) { return tops.Total.DM();}
 float Plant::getDltDm(void) { return plant.dltDm();}
 float Plant::getDltDmGreen(void) { return plant.dltDmGreen();}
@@ -2738,9 +2736,6 @@ float Plant::getDyingFractionPlants(void) {return population.DyingFractionPlants
 float Plant::getLAI() {return leafPart->getLAI();}
 float Plant::getCumSwdefPheno() {return g.cswd_pheno.getSum();}
 float Plant::getCumSwdefPhoto() {return g.cswd_photo.getSum();}
-float Plant::getCo2ModifierRue(void)  {return co2Modifier->rue();}
-float Plant::getCo2ModifierTe(void)  {return co2Modifier->te();}
-float Plant::getCo2ModifierNConc(void)  {return co2Modifier->n_conc();}
 float Plant::getVpd(void)  {return Environment.vpdEstimate();}
 float Plant::getTempStressPhoto(void)  {return tempStress->tFact.photo;}
 float Plant::getNfactPhoto(void)  {return nStress->nFact.photo;}

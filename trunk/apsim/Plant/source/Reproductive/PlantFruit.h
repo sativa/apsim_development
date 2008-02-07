@@ -7,9 +7,7 @@
 
 #include "CompositePart.h"
 #include "FruitCohort.h"
-#include "FruitCohortFN.h"
-
-
+#include "PlantFruitCohorting.h"
 
 
 class PlantFruit : public CompositePart
@@ -28,22 +26,10 @@ public:                                             // member functions
    void onInit1(protocol::Component *system);
    void doNewCohort(protocol::Component *system);
    void addNewCohort (protocol::Component *system);
-
 private:
    int cohortNum;
 
-   // Fruit Cohort specific
-      bool  setting_fruit;
-      int  num_fruit_cohorts;
-      float     Node_no_first_flower;
-      float     dlt_dm_daily[366];
-      float     veg_ratio[366];
 
-      float     fruit_site_no;
-      float     dlt_fruit_site_no;
-      float     dlt_fruit_flower_no;
-
-      float     fruit_no_potential;
 
 };
 

@@ -40,15 +40,18 @@ OBJFILES=PlantComponent.obj \
    Storage\StoragePart.obj \
    ReproductivePart.obj \
    Reproductive\PodPart.obj \
+   Reproductive\PodPartFN.obj \
    Reproductive\FloretPart.obj \
    Reproductive\MealPart.obj \
    Reproductive\OilPart.obj \
    Reproductive\GrainPart.obj \
    Reproductive\GrainPartHI.obj \
    Reproductive\GrainPartGN.obj \
+   Reproductive\GrainPartFN.obj \
    Reproductive\FruitCohort.obj \
    Reproductive\FruitCohortFN.obj \
    Reproductive\PlantFruit.obj \
+   Reproductive\PlantFruitCohorting.obj \
    CompositePart.obj \
    SimplePart.obj \
    Root\RootBase.obj \
@@ -142,6 +145,7 @@ PlantPart.obj: PlantPart.cpp PlantPart.h
 SimplePart.obj: SimplePart.cpp SimplePart.h PlantPart.h
 CompositePart.obj: CompositePart.cpp CompositePart.h PlantPart.h
 Reproductive\PlantFruit.obj: Reproductive\PlantFruit.cpp Reproductive\PlantFruit.h CompositePart.h
+Reproductive\PlantFruitCohorting.obj: Reproductive\PlantFruitCohorting.cpp Reproductive\PlantFruitCohorting.h Reproductive\PlantFruit.h CompositePart.h
 Reproductive\FruitCohort.obj: Reproductive\FruitCohort.cpp Reproductive\FruitCohort.h PlantPart.h CompositePart.h
 Reproductive\FruitCohortFN.obj: Reproductive\FruitCohortFN.cpp Reproductive\FruitCohortFN.h PlantPart.h CompositePart.h
 Utility\Data.obj: Utility\Data.cpp PlantLibrary.h
@@ -158,6 +162,7 @@ Stem.obj: Stem.cpp Stem.h PlantPart.h SimplePart.h
 Storage\StoragePart.obj: Storage\StoragePart.cpp Storage\StoragePart.h PlantPart.h SimplePart.h
 ReproductivePart.obj: ReproductivePart.cpp ReproductivePart.h PlantPart.h SimplePart.h
 Reproductive\PodPart.obj: Reproductive\PodPart.cpp Reproductive\PodPart.h PlantPart.h SimplePart.h
+Reproductive\PodPartFN.obj: Reproductive\PodPartFN.cpp Reproductive\PodPartFN.h Reproductive\PodPart.h PlantPart.h SimplePart.h
 Reproductive\FloretPart.obj: Reproductive\FloretPart.cpp Reproductive\FloretPart.h PlantPart.h SimplePart.h
 Reproductive\MealPart.obj: Reproductive\MealPart.cpp Reproductive\MealPart.h PlantPart.h SimplePart.h
 Root\RootBase.obj: Root\RootBase.cpp Root\RootBase.h PlantPart.h SimplePart.h
@@ -170,6 +175,7 @@ Reproductive\OilPart.obj: Reproductive\OilPart.cpp Reproductive\OilPart.h PlantP
 Reproductive\GrainPart.obj: Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h SimplePart.h
 GrainPartHI.obj: Reproductive\GrainPartHI.cpp Reproductive\GrainPartHI.h Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h SimplePart.h
 GrainPartGN.obj: Reproductive\GrainPartGN.cpp Reproductive\GrainPartGN.h Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h SimplePart.h.h
+GrainPartFN.obj: Reproductive\GrainPartFN.cpp Reproductive\GrainPartFN.h Reproductive\GrainPartGN.cpp Reproductive\GrainPartGN.h Reproductive\GrainPart.h CompositePart.h PlantPart.h SimplePart.h.h
 LeafAppPhase.obj: LeafAppPhase.cpp LeafAppPhase.h
 Utility\Output.obj: Utility\Output.cpp Utility\Output.h
 Utility\OutputVariable.obj: Utility\OutputVariable.cpp Utility\OutputVariable.h

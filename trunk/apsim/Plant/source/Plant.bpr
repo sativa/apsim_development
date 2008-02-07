@@ -6,7 +6,7 @@
     <PROJECT value="..\lib\Plant.dll"/>
     <OBJFILES value="PlantComponent.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj 
       Plant.obj PlantCanopy.obj PlantLibrary.obj PlantNitrogen.obj PlantTemp.obj 
-      PlantBiomass.obj PlantP.obj Environment.obj StemPart.obj CompositePart.obj 
+      PlantBiomass.obj PlantP.obj Environment.obj CompositePart.obj 
       PlantPart.obj PlantSpatial.obj Phenology\WheatPhenology.obj 
       Phenology\BroccoliPhenology.obj Phenology\CompositePhase.obj 
       Phenology\CropPhenology.obj Phenology\EmergentPhase.obj 
@@ -15,14 +15,13 @@
       Phenology\PlantPhenology.obj Phenology\TTTPhenology.obj 
       Phenology\TTTRatePhenology.obj Phenology\VernalPhase.obj 
       Arbitrators\NullArbitrator.obj Arbitrators\arbitrator.obj 
-      Arbitrators\GenericArbitrator.obj Leaf\LeafPart.obj 
-      Leaf\cohortingLeafPart.obj Leaf\genericLeafPart.obj 
-      Reproductive\PodPart.obj Reproductive\FruitCohort.obj 
-      Reproductive\GrainPart.obj Reproductive\GrainPartGN.obj 
-      Reproductive\GrainPartHI.obj Reproductive\MealPart.obj 
-      Reproductive\OilPart.obj Reproductive\PlantFruit.obj Root\RootPart.obj 
-      Root\RootGrowthOption1.obj Root\RootGrowthOption2.obj Utility\Science.obj 
-      Utility\Data.obj Utility\Date.obj Utility\Observers.obj Utility\Output.obj 
+      Arbitrators\GenericArbitrator.obj Reproductive\PodPart.obj 
+      Reproductive\FruitCohort.obj Reproductive\GrainPart.obj 
+      Reproductive\GrainPartGN.obj Reproductive\GrainPartHI.obj 
+      Reproductive\MealPart.obj Reproductive\OilPart.obj 
+      Reproductive\PlantFruit.obj Root\RootPart.obj Root\RootGrowthOption1.obj 
+      Root\RootGrowthOption2.obj Utility\Science.obj Utility\Data.obj 
+      Utility\Date.obj Utility\Observers.obj Utility\Output.obj 
       Utility\OutputVariable.obj Utility\PlantUtility.obj Root\MultiRoot.obj 
       Root\NoRoot.obj Root\RootBase.obj Reproductive\FloretPart.obj 
       Storage\StoragePart.obj Arbitrators\CerealArbitrator.obj 
@@ -31,7 +30,10 @@
       Utility\LookupFunction.obj Delta.obj Pool.obj CompositePool.obj 
       Biomass.obj Population.obj ReproductivePart.obj 
       StageBasedInterpolationFunction.obj SimplePart.obj PlantStress.obj 
-      Co2Modifier.obj Reproductive\FruitCohortFN.obj"/>
+      Co2Modifier.obj Reproductive\FruitCohortFN.obj 
+      Reproductive\PlantFruitCohorting.obj Leaf\GenericLeaf.obj Leaf\Leaf.obj 
+      Leaf\CohortingLeaf.obj Stem.obj Reproductive\GrainPartFN.obj 
+      Reproductive\PodPartFN.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -43,7 +45,7 @@
     <SPARELIBS value="rtl.lib vcl.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi 
       bdertl.bpi bcbsmp.bpi vcldbx.bpi dclocx.bpi qrpt.bpi"/>
-    <PATHCPP value=".;..\..\..\Shared\ComponentInterface;Phenology;Arbitrators;Leaf;Reproductive;Root;Utility;Storage"/>
+    <PATHCPP value=".;..\..\..\Shared\ComponentInterface;Phenology;Arbitrators;Reproductive;Root;Utility;Storage;Leaf"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -88,7 +90,6 @@
       <FILE FILENAME="PlantBiomass.cpp" FORMNAME="" UNITNAME="PlantBiomass.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantP.cpp" FORMNAME="" UNITNAME="PlantP" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Environment.cpp" FORMNAME="" UNITNAME="Environment" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="StemPart.cpp" FORMNAME="" UNITNAME="StemPart.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="CompositePart.cpp" FORMNAME="" UNITNAME="CompositePart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantPart.cpp" FORMNAME="" UNITNAME="PlantPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantSpatial.cpp" FORMNAME="" UNITNAME="PlantSpatial" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -109,9 +110,6 @@
       <FILE FILENAME="Arbitrators\NullArbitrator.cpp" FORMNAME="" UNITNAME="NullArbitrator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Arbitrators\arbitrator.cpp" FORMNAME="" UNITNAME="arbitrator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Arbitrators\GenericArbitrator.cpp" FORMNAME="" UNITNAME="GenericArbitrator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Leaf\LeafPart.cpp" FORMNAME="" UNITNAME="LeafPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Leaf\cohortingLeafPart.cpp" FORMNAME="" UNITNAME="cohortingLeafPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Leaf\genericLeafPart.cpp" FORMNAME="" UNITNAME="genericLeafPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Reproductive\PodPart.cpp" FORMNAME="" UNITNAME="PodPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Reproductive\FruitCohort.cpp" FORMNAME="" UNITNAME="FruitCohort" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Reproductive\GrainPart.cpp" FORMNAME="" UNITNAME="GrainPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -152,6 +150,13 @@
       <FILE FILENAME="PlantStress.cpp" FORMNAME="" UNITNAME="PlantStress" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Co2Modifier.cpp" FORMNAME="" UNITNAME="Co2Modifier" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Reproductive\FruitCohortFN.cpp" FORMNAME="" UNITNAME="FruitCohortFN" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Reproductive\PlantFruitCohorting.cpp" FORMNAME="" UNITNAME="PlantFruitCohorting" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Leaf\GenericLeaf.cpp" FORMNAME="" UNITNAME="GenericLeaf.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Leaf\Leaf.cpp" FORMNAME="" UNITNAME="Leaf.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Leaf\CohortingLeaf.cpp" FORMNAME="" UNITNAME="CohortingLeaf.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Stem.cpp" FORMNAME="" UNITNAME="Stem" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Reproductive\GrainPartFN.cpp" FORMNAME="" UNITNAME="GrainPartFN.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Reproductive\PodPartFN.cpp" FORMNAME="" UNITNAME="PodPartFN.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -256,7 +261,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=&quot;C:\data\Apsim\development\apsim\fababean\Sample\fababean.APSIM.sample_fababean.sim&quot;
+RunParams=&quot;C:\data\Apsim\development\apsim\canola\sample\canola.APSIM.sample_canola.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=

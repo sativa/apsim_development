@@ -45,6 +45,8 @@ class GenericLeaf : public Leaf {
    float getLAI(void)  {return gLAI;};
    float getSLAI(void)  {return gSLAI;};
    float getLeafNo(void);
+   float getNodeNo(void);
+   float getDltNodeNo(void);
    float senFract (void)
      { return(divide (dltSLAI, gLAI + dltLAI, 0.0)); };             // fraction of canopy senescing
    float dmGreenDemand(void)

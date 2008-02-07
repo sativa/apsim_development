@@ -145,6 +145,16 @@ float GenericLeaf::getLeafNo(void)
    return sum;
 }
 
+float GenericLeaf::getDltNodeNo(void)
+{
+   return dltNodeNo;
+}
+
+float GenericLeaf::getNodeNo(void)
+{
+   return gNodeNo;
+}
+
 void GenericLeaf::get_leaf_area_tot(protocol::Component *system, protocol::QueryValueData &qd)
 {
    float sum = 0.0;

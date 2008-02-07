@@ -2,20 +2,21 @@
 // Modification log
 // 2 Feb 05 J. Hargreaves  Implementation
 
-#ifndef GrainPartGN_H
-#define GrainPartGN_H
+#ifndef GrainPartFN_H
+#define GrainPartFN_H
 
 #include "GrainPart.h"
+class FruitCohortFN;
 
-class fruitGrainPartGN : public fruitGrainPart
+class fruitGrainPartFN : public fruitGrainPart
 {
-   friend ostream &operator<<(ostream &, const fruitGrainPartGN &);
+   friend ostream &operator<<(ostream &, const fruitGrainPartFN &);
 public:                                             // member functions
-   fruitGrainPartGN(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
-   ~fruitGrainPartGN();
+   fruitGrainPartFN(ScienceAPI& scienceAPI, plantInterface *p, FruitCohort *g, const string &name);
+   ~fruitGrainPartFN();
 
-   fruitGrainPartGN(const fruitGrainPartGN &fruitGrainPartGN);           // copy constructor
-   const fruitGrainPartGN &operator=(const fruitGrainPartGN &other);        // Assigment operator
+   fruitGrainPartFN(const fruitGrainPartFN &fruitGrainPartFN);           // copy constructor
+   const fruitGrainPartFN &operator=(const fruitGrainPartFN &other);        // Assigment operator
 
    void onInit1(protocol::Component *);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
@@ -51,6 +52,8 @@ protected:
 
    interpolationFunction rel_grainfill;
    interpolationFunction rel_grain_n_fill;
+
+   FruitCohort *myParent;
 };
 
 #endif
