@@ -14,7 +14,7 @@ static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 // Co2Modifier implementation
 //######################################################################################
 
-Co2Modifier::Co2Modifier(ScienceAPI& scienceAPI, protocol::Component *p)
+Co2Modifier::Co2Modifier(ScienceAPI& scienceAPI, PlantComponent *p)
    : scienceAPI(scienceAPI)
    , parent(p)
 {
@@ -97,7 +97,7 @@ void Co2Modifier::doPlant_Co2Modifier (environment_t& Environment)
 //         Get current temperature stress factors (0-1)
    {
          co2_modifier_rue = plant_rue_co2_modifier(Environment.co2,
-                               Environment.meanT);
+                               Environment.avet);
 
          co2_modifier_te = cTE.value(Environment.co2);
          co2_modifier_n_conc = cNConc.value(Environment.co2);

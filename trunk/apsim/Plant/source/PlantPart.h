@@ -88,7 +88,7 @@ public:
       // plant
    bool tempFlagToShortCircuitInit1;
 
-   virtual void  prepare(void) = 0;
+   virtual void  prepare(void);
    virtual void  checkBounds(void);
    virtual void  doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);   //???
    virtual void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);  //???

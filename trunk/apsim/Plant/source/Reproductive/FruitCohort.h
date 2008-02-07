@@ -2,10 +2,10 @@
 #define FruitCohortH
 
 #include "CompositePart.h"
-class fruitGrainPart;
-class fruitGrainPartGN;
-class fruitGrainPartHI;
-class fruitPodPart;
+#include "GrainPart.h"
+#include "GrainPartGN.h"
+#include "GrainPartHI.h"
+#include "PodPart.h"
 
 class FruitCohort : public CompositePart
 {
@@ -34,9 +34,6 @@ public:                                             // member functions
 
    virtual void display(ostream &os = cout) ;  // display function
    void doDmDemand (float dlt_dm_supply_by_veg);
-   float calcDmDemandGrain(void);
-   float getStageNumber(void);
-   bool  on_day_of(const string &what);
 
 #if TEST_FruitCohort
    virtual ~FruitCohort();                          // destructor
@@ -44,7 +41,9 @@ public:                                             // member functions
    ~FruitCohort();
 #endif
 
-protected:
+private:
+
+
 
    /* system interface: */
 ////   UInt2SetFnMap   IDtoSetFn;    /* setVariable */

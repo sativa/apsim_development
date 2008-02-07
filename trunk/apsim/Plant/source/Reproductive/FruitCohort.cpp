@@ -4,11 +4,6 @@
 #include <string>
 #include "PlantPart.h"
 
-#include "CompositePart.h"
-#include "GrainPart.h"
-#include "GrainPartGN.h"
-#include "GrainPartHI.h"
-#include "PodPart.h"
 #include "FruitCohort.h"
 
 using namespace std;
@@ -36,18 +31,6 @@ FruitCohort::~FruitCohort()
       delete (*part);
 }
 
-float FruitCohort::getStageNumber(void)
-   //===========================================================================
-{
-   return plant->getStageNumber();
-}
-
-bool  FruitCohort::on_day_of(const string &what)
-   //===========================================================================
-{
-   return (plant->on_day_of(what));
-}
-
 void FruitCohort::onInit1(protocol::Component *system)
    //===========================================================================
    {
@@ -63,7 +46,7 @@ void FruitCohort::onInit1(protocol::Component *system)
    else
      throw std::runtime_error("Unknown grain_part_type '" + grainType + "'");
 
-   podPart = new fruitPodPart(scienceAPI, plant, this, "pod");
+   podPart = new fruitPodPart(scienceAPI, plant, grainPart, "pod");
 
    add(podPart);
    myVegParts.push_back(podPart);
@@ -114,12 +97,6 @@ const FruitCohort &FruitCohort::operator=(const FruitCohort &/*other*/)
    //===========================================================================
 {
    throw std::invalid_argument("Assignment operator NI for FruitCohort");
-}
-
-float FruitCohort::calcDmDemandGrain(void)
-   //===========================================================================
-{
-   return grainPart->calcDmDemand();
 }
 
 float FruitCohort::nMax(void)

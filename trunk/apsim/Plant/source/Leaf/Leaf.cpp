@@ -75,10 +75,10 @@ void Leaf::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water dem
       // get potential transpiration from potential
       // carbohydrate production and transpiration efficiency
 
-   cproc_transp_eff_co2_1(plant->getVpd()
-                          , c.transpEffCf[(int)plant->getStageNumber()-1]
-                          , plant->getCo2Modifier()->te()
-                          , &transpEff);
+      cproc_transp_eff_co2_1(plant->getVpd()
+                             , c.transpEffCf[(int)plant->getStageNumber()-1]
+                             , plant->getCo2ModifierTe()
+                             , &transpEff);
 
       cproc_sw_demand1 (dlt.dm_pot_rue
                         , transpEff
@@ -182,7 +182,7 @@ void Leaf::doDmPotRUE (void )                    // (OUTPUT) potential dry matte
    double stress_factor = min(min(min(plant->getTempStressPhoto(), plant->getNfactPhoto())
                                   , plant->getOxdefPhoto()), plant->getPfactPhoto());
 
-   dlt.dm_pot_rue = (radiationInterceptedGreen * cRue.value(plant->getStageNumber())) * stress_factor * plant->getCo2Modifier()->rue();
+   dlt.dm_pot_rue = (radiationInterceptedGreen * cRue.value(plant->getStageNumber())) * stress_factor * plant->getCo2ModifierRue();
 }
 
 

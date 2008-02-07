@@ -14,7 +14,6 @@ class eventObserver;
 class Plant;
 class Arbitrator;
 class pheno_stress_t;
-class Co2Modifier;
 
 #include "PlantInterface.h"
 #include "Environment.h"
@@ -201,9 +200,7 @@ public:
    void get_plants(protocol::Component *, protocol::QueryValueData &);
    float getPlants(void);
    float getCo2(void);
-   float getNodeNo(void);
-   float getDltNodeNo(void);
-      //  float getRadnInterceptedPod(void);
+   //  float getRadnInterceptedPod(void);
    float getDltDMPotRueVeg(void);
    //  float getDltDmVeg(void);
    float getDmTops(void);
@@ -223,6 +220,9 @@ public:
 // FIXME - remove next line when corrections for P demand activated
    float getRelativeGrowthRate(void);
    float getTotalPotentialGrowthRate(void);
+   float getCo2ModifierRue(void);
+   float getCo2ModifierTe(void);
+   float getCo2ModifierNConc(void);
    float getVpd(void);
 
    float getTempStressPhoto(void);
@@ -316,9 +316,7 @@ public:
    void  doPPartition (void);
    void  doPRetranslocate (void);
 
-   const Co2Modifier  *getCo2Modifier(void) {return co2Modifier;};
    const environment_t *getEnvironment(void) {return &Environment;};
-   const PlantPhenology  *getPhenology(void) {return phenology;};
 
 private:
    /* system interface: */

@@ -1,9 +1,6 @@
 #ifndef PlantLibaryH
 #define PlantLibaryH
 
-#include <queue>
-#include <numeric>
-#include <iterator.h>
 #include <list>
 #include <math.h>
 #include <string>
@@ -118,32 +115,6 @@ const  StressDeficit &operator=(const float &y)
       float expansion;
       float fixation;
       float oxdef_photo;
-};
-
-// A queue class for returning moving averages.
-class plantQueue {
-   private:
-      unsigned int qSize;
-      deque<float> myqueue;
-
-   public:
-     plantQueue(unsigned int size=366) : qSize(size) {};
-     virtual ~plantQueue() {};
-     void setSize(float size)
-     {
-         qSize = size;
-     };
-     void storeValue(float value)
-     {
-         myqueue.push_back(value);
-         if(myqueue.size() > qSize)myqueue.pop_front();
-     };
-      float sum(void)
-      {
-        return accumulate(myqueue.begin(), myqueue.end(), 0.0F);
-      };
-     float count(void) {return myqueue.size();};
-     float average(void) {return (count() > 0 ? sum()/count() : 0.0);};
 };
 
 

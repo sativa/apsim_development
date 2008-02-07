@@ -21,8 +21,8 @@ public:                                             // member functions
    void add(plantPart* part);
 
       // plant
-   virtual void prepare(void);
    virtual void process(void);
+
    virtual float availableRetranslocateN(void);
    virtual void collectDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_residue

@@ -58,7 +58,9 @@ float fruitGrainPartGN::grainWt(void)
 void fruitGrainPartGN::get_grain_size(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, grainWt());
+   float grain_size = divide (Total.DM(), gGrain_no, 0.0);
+
+   system->sendVariable(qd, grain_size);
 }
 
 void fruitGrainPartGN::doGrainNumber (void)
@@ -126,6 +128,7 @@ void fruitGrainPartGN::zeroAllGlobals(void)
    cPotential_grain_n_filling_rate  = 0.0;
    cMinimum_grain_n_filling_rate  = 0.0;
    cCrit_grainfill_rate  = 0.0;
+   cNum_temp_grain_n_fill = 0;
    pGrains_per_gram_stem = 0.0;
    pPotential_grain_growth_rate = 0.0;
    pMaxGrainSize = 0.0;
@@ -145,13 +148,13 @@ void fruitGrainPartGN::readSpeciesParameters(protocol::Component *system, vector
    {
    fruitGrainPart::readSpeciesParameters(system, sections);
 
-   rel_grainfill.read(scienceAPI, "x_temp_grainfill", "oC", 0.0, 40.0
-                                   , "y_rel_grainfill", "-", 0.0, 1.0);
-   rel_grain_n_fill.read(scienceAPI, "x_temp_grain_n_fill", "oC", 0.0, 40.0
-                                   , "y_rel_grain_n_fill", "-", 0.0, 1.0);
+   scienceAPI.read("x_temp_grainfill", cX_temp_grainfill, cNum_temp_grainfill, 0.0f, 40.0f);
+   scienceAPI.read("y_rel_grainfill", cY_rel_grainfill, cNum_temp_grainfill, 0.0f, 1.0f);
    scienceAPI.read("potential_grain_n_filling_rate", cPotential_grain_n_filling_rate, 0.0f, 1.0f);
    scienceAPI.read("minimum_grain_n_filling_rate", cMinimum_grain_n_filling_rate, 0.0f, 1.0f);
    scienceAPI.read("crit_grainfill_rate", cCrit_grainfill_rate, 0.0f, 1.0f);
+   scienceAPI.read("x_temp_grain_n_fill", cX_temp_grain_n_fill, cNum_temp_grain_n_fill, 0.0f, 40.0f);
+   scienceAPI.read("y_rel_grain_n_fill", cY_rel_grain_n_fill, cNum_temp_grain_n_fill, 0.0f, 1.0f);
    }
 
 void fruitGrainPartGN::update(void)
@@ -198,13 +201,19 @@ void fruitGrainPartGN::doDMDemandGrain(void)
       if (plant->inPhase("grainfill"))
          gDlt_dm_grain_demand = gGrain_no
                               * pPotential_grain_filling_rate
-                              * rel_grainfill.value(tav);
+                              * linear_interp_real(tav
+                                                   ,cX_temp_grainfill
+                                                   ,cY_rel_grainfill
+                                                  ,cNum_temp_grainfill);
       else
          {
          // we are in the flowering to grainfill phase
          gDlt_dm_grain_demand = gGrain_no
                               * pPotential_grain_growth_rate
-                              * rel_grainfill.value(tav);
+                              * linear_interp_real(tav
+                                                   ,cX_temp_grainfill
+                                                   ,cY_rel_grainfill
+                                                  ,cNum_temp_grainfill);
           }
        // check that grain growth will not result in daily n conc below minimum conc
        // for daily grain growth
@@ -242,7 +251,7 @@ void fruitGrainPartGN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
 
       gN_grain_demand = gGrain_no
                      * cPotential_grain_n_filling_rate * nfact_grain_conc
-                     * rel_grain_n_fill.value(Tav);
+                     * linear_interp_real (Tav, cX_temp_grain_n_fill, cY_rel_grain_n_fill, cNum_temp_grain_n_fill);
       }
 
    if (plant->inPhase("postflowering"))

@@ -8,7 +8,6 @@
 #include "CompositePool.h"
 
 using namespace std;
-
 //  initialise data members.
 CompositePart::CompositePart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
    : plantPart(scienceAPI, p, name,
@@ -30,7 +29,6 @@ ostream &operator<<(ostream &output, const CompositePart /*&pool*/)
    output << endl;
    return output;
 }
-
 
 // Assigment operator
 //  assign data members of object
@@ -809,19 +807,11 @@ void CompositePart::display(ostream &os)
 
 
 void CompositePart::doCover(PlantSpatial &spatial)
-   //===========================================================================
 {
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->doCover(spatial);
 }
-void CompositePart::prepare (void)
-   //===========================================================================
-   {
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->prepare ();
-   }
 
 void CompositePart::process(void)
    //===========================================================================

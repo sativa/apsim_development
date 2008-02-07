@@ -1,61 +1,13 @@
 #ifndef PodPartH
 #define PodPartH
 #include "SimplePart.h"
-class Co2Modifier;
-class FruitCohort;
 
 class fruitGrainPart;
-class PlantPartArea {
-  public:
-   PlantPartArea(ScienceAPI& api, plantInterface *p, const string &name) ;
-   ~PlantPartArea() {};
-   void onInit1(protocol::Component *);
-   void update(void);
-   void onHarvest(float height, float remove_fr,
-                  vector<string> &dm_type,
-                  vector<float> &dlt_crop_dm,
-                  vector<float> &dlt_dm_n,
-                  vector<float> &dlt_dm_p,
-                  vector<float> &fraction_to_residue);
-
-   void readSpeciesParameters (protocol::Component *, vector<string> &);
-
-   void zeroAllGlobals(void);
-   void zeroDeltas(void);
-   float interceptRadiationGreen(float radiation);
-   float interceptRadiationTotal(float radiation);
-   float coverTotal(void)  ;
-   float coverGreen(void)  ;
-   float coverSen(void)  ;
-   void doCover (PlantSpatial &spatial);
-   void calcDlt_area (float dltDm);
-
-   protected:
-
-      float cExtinctionCoeff;
-      float cSpec_area;
-      float cRue;
-
-      float partAI;
-      float dlt_partAI;
-
-      struct Cover
-      {
-         float green;
-         float sen;
-      };
-
-      Cover cover;
-   string myName;                        // What we call ourselves
-   plantInterface *plant;                 // The plant we are attached to
-   ScienceAPI& scienceAPI;
-};
 class fruitPodPart : public SimplePart {
   public:
-   fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, FruitCohort *g, const string &name) ;
+   fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, fruitGrainPart *g, const string &name) ;
    ~fruitPodPart() {};
    void onInit1(protocol::Component *);
-   void prepare(void);
    void update(void);
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,
@@ -87,17 +39,37 @@ class fruitPodPart : public SimplePart {
    void doSWDemand(float SWDemandMaxFactor);
    void doBioActual (void);
 
-   protected:
+   private:
+      float fracPod(void);
+      float fracPod1(void);
+      void doDmDemand1(float  dlt_dm_supply);
+      void doDmDemand2(float  dlt_dm_supply);
 
+      float cExtinctionCoeffPod;
+      float cSpec_pod_area;
       float cRue_pod;
 
-      externalFunction *fracPod;
-      Co2Modifier *co2Modifier;
-      lookupFunction TECoeff;
-      FruitCohort *myParent;
-      PlantPartArea pod;
-      float radiationInterceptedGreen;
-      float radiationInterceptedTotal;
+      float gPai;
+      float gDlt_pai;
+      float cSvp_fract;
+      float cFrac_pod[max_table];                        // fraction of dm or grain weight allocated to pod
+      float cX_stage_no_partition[max_table];
+      float cY_frac_pod[max_table];                      // fraction of dm or grain weight allocated to pod
+      int   cNum_stage_no_partition;
+      float cPod_trans_frac;                            // fraction of pod used in translocat
+      float cX_co2_te_modifier[max_table];
+      float cY_co2_te_modifier[max_table];
+      int   cNum_co2_te_modifier;
+
+      int cPartition_option;
+      struct Cover
+      {
+         float green;
+         float sen;
+      };
+
+      Cover coverPod;
+      fruitGrainPart *myGrain;                           // The grain we encapsulate
 };
 
 #endif /* PodPartH */
