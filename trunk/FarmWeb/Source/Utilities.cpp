@@ -155,10 +155,10 @@ string createJobXML(TWebSession* webSession, Data* data, const string& userName,
           "   </localcommand>\n"
           "   <ftp>\n"
           "	     <from>" + GIFFileName + "</from>\n"
-          "      <tosite>www.apsim.info</tosite>\n"
-          "      <loginname>vs27262</loginname>\n"
-          "      <loginpassword>Thor19216805</loginpassword>\n"
-          "      <tofolder>/apsim/farmweb/data/files/[USERNAME]</tofolder>\n"
+          "      <tosite>apsrunet2.apsim.info</tosite>\n"
+          "      <loginname>apsrunet</loginname>\n"
+          "      <loginpassword>CsiroDMZ!</loginpassword>\n"
+          "      <tofolder>/afloman/files/[USERNAME]</tofolder>\n"
           "	  </ftp>\n"
           "	  <email>\n"
           "	     <to>" + userEmail + "</to>\n"
@@ -208,6 +208,9 @@ void sendEmail(TWebSession* webSession,
                vector<string>& files,
                const vector<string>& toEmailAddresses)
    {
+   files.push_back(createJobXML(webSession, data, userName, reportDescription));
+   createJobBat(webSession, userName, files);
+
    string emailScriptFileName = webSession->getFilesDir() + "\\" + userName + "Mail.asp";
    string emailScript =
        "<%@ Language=VBScript %>\n"
@@ -218,70 +221,35 @@ void sendEmail(TWebSession* webSession,
        "Set JMail = Server.CreateObject(\"JMail.Message\")\n"
        "JMail.Logging = True\n"
        "JMail.From = \"Dean.Holzworth@csiro.au\"\n"
-       "JMail.FromName = \"APSIM web server\"\n"
-       "zzzz"
+       "JMail.FromName = \"APSIM web server\"\n";
+
+   for (unsigned i = 0; i != toEmailAddresses.size(); i++)
+      emailScript += "JMail.AddRecipient " + doubleQuoted(toEmailAddresses[i]) + "\n";
+
+   emailScript +=
        "JMail.AddHeader \"X-Originating-IP\", Request.ServerVariables(\"REMOTE_ADDR\")\n"
        "JMail.AddHeader \"X-Originating-URL\", Request.ServerVariables(\"URL\")\n"
        "JMail.Priority = 1\n"
-       "JMail.Subject = \"APSIM run\"\n"
-       "$ATTACHMENTS$"
-       "JMail.Send (\"smtp-au.server-mail.com\")\n"
-//       "Response.Write \"<PRE>\" & vbCRLF\n"
-//       "Response.Write (JMail.Log)\n"
-//       "Response.Write \"</PRE>\"\n"
+       "JMail.Subject = \"APSIM run\"\n";
+
+   for (unsigned i = 0; i != files.size(); i++)
+      emailScript += "JMail.AddAttachment " + doubleQuoted(files[i]) + ", true\n";
+
+   emailScript +=
+       "JMail.Send (\"xns-act.csiro.au\")\n"
        "JMail.Close\n"
        "set JMail = nothing\n"
+       "Set FileSystem = CreateObject(\"Scripting.FileSystemObject\")\n";
+
+   for (unsigned i = 0; i != files.size(); i++)
+      emailScript += "FileSystem.DeleteFile " + doubleQuoted(files[i]) + "\n";
+
+   emailScript +=
        "%>\n"
        "<p>Your request for a report has been submitted. You will be informed "
        "via email once it has been generated</p>"
        "</BODY>\n"
        "</HTML>\n";
-
-   files.push_back(createJobXML(webSession, data, userName, reportDescription));
-   createJobBat(webSession, userName, files);
-
-   // replace the $ATTACHMENTS$ macro with a list of attachments.
-   string attachmentsString;
-   for (unsigned i = 0; i != files.size(); i++)
-      {
-      string fullFile = files[i];
-      string fullFileNoSpaces = fullFile;
-      replaceAll(fullFileNoSpaces, " ", "_");
-      if (!Str_i_Eq(fullFileNoSpaces, fullFile))
-         {
-         if (CopyFile(fullFile.c_str(), fullFileNoSpaces.c_str(), false) == 0)
-            {
-            char* lpMsgBuf;
-
-            FormatMessage(
-                FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-                NULL,
-                GetLastError(),
-                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-                (LPTSTR) &lpMsgBuf,
-                0,
-                NULL);
-            MessageBox( NULL, lpMsgBuf, "GetLastError", MB_OK|MB_ICONINFORMATION );
-            LocalFree( lpMsgBuf );
-            }
-         }
-
-      string file = ExtractFileName(fullFile.c_str()).c_str();
-      string fileNoSpaces = ExtractFileName(fullFileNoSpaces.c_str()).c_str();
-      string fileUrlNoSpaces = webSession->getBaseURL() + "/files/" + fileNoSpaces;
-      string alias = doubleQuoted(file);
-      if (alias.find(".xml") != string::npos)
-         alias = "\"job.xml\"";
-      attachmentsString += "JMail.AddURLAttachment " + doubleQuoted(fileUrlNoSpaces)
-                        + ", " + alias + "\n";
-      }
-   replaceAll(emailScript, "$ATTACHMENTS$", attachmentsString);
-
-   // replace zzzz macro with recipients.
-   string recipString;
-   for (unsigned i = 0; i != toEmailAddresses.size(); i++)
-      recipString += "JMail.AddRecipient \"" + toEmailAddresses[i] + "\"\n";
-   replaceAll(emailScript, "zzzz", recipString);
 
    ofstream out(emailScriptFileName.c_str());
    out << emailScript;

@@ -1511,19 +1511,7 @@ string Data::getSpecialURL(TWebSession* webSession,
                            const std::string& paddockName,
                            const std::string& baseFileName)
    {
-   string dirForFolder = webSession->getFilesDir() + "\\..\\..\\..\\Afloman\\Files\\" + userName;
-   dirForFolder = ExpandFileName(dirForFolder.c_str()).c_str();
-   dirForFolder += "\\";
-   string fileSpec = dirForFolder + paddockName + "-" + baseFileName + ".*";
-
-   struct ffblk ffblk;
-   int error = findfirst(fileSpec.c_str(), &ffblk, FA_ARCH);
-   if (error)
-      return "";
-   else
-      {
-      string urlForFolder = "http://www.apsim.info/apsim/afloman/files/" + userName;
-      return urlForFolder + "/" +  ffblk.ff_name;
-      }
+   return "http://www.apsim.info/apsim/afloman/files/" +
+          userName + "/" + paddockName + "-" + baseFileName + ".jpg";
    }
 
