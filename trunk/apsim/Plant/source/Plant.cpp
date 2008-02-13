@@ -162,19 +162,19 @@ void Plant::onInit1(void)
    population.Initialise();
 
     string phenologyModel;
-    scienceAPI.readOptional("phenology_model", phenologyModel);
+    scienceAPI.readOptional("phenology_model", phenologyModel);         //FIXME Belongs in Phenology?
     phenology = constructPhenology(scienceAPI, this, phenologyModel);
     myThings.push_back(phenology);
 
     string rootModel;
-    scienceAPI.readOptional("root_part", rootModel);
+    scienceAPI.readOptional("root_part", rootModel);                     //FIXME belongs in root?
     rootPart = RootBase::construct(scienceAPI, this, rootModel, "Root");
     myThings.push_back(rootPart);
     myParts.push_back(rootPart);
     plant.add(rootPart);
 
     string leafModel;
-    scienceAPI.readOptional("leaf_part", leafModel);
+    scienceAPI.readOptional("leaf_part", leafModel);                      //FIXME belongs in leaf?
     leafPart = constructLeafPart(scienceAPI, this, leafModel, "Leaf");
     myThings.push_back(leafPart);
     myParts.push_back(leafPart);
@@ -2721,6 +2721,8 @@ float Plant::getStageNumber(void)  {return phenology->stageNumber();}
 float Plant::getPlants(void)  {return population.Density();}
 float Plant::getCo2(void)  {return Environment.co2;}
 //float Plant::getRadnInterceptedPod(void)  {return g.radn_int_pod;}
+float Plant::getNodeNo(void)  {return leafPart->getNodeNo();}
+float Plant::getDltNodeNo(void)  {return leafPart->getDltNodeNo();}
 float Plant::getDltDMPotRueVeg(void)  {return leafPart->dltDmPotRue();}
 //float Plant::getDltDmVeg(void)  {return leafPart->dltDmTotal() + stemPart->dltDmTotal();}
 ////float Plant::getWaterSupplyPod(void)  {return g.swSupplyFruit;}

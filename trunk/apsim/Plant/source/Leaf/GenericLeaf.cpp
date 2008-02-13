@@ -144,6 +144,15 @@ float GenericLeaf::getLeafNo(void)
    for (int i = 0; i < max_node; i++) sum += gLeafNo[i];
    return sum;
 }
+float GenericLeaf::getDltNodeNo(void)
+{
+   return dltNodeNo;
+}
+
+float GenericLeaf::getNodeNo(void)
+{
+   return gNodeNo;
+}
 
 void GenericLeaf::get_leaf_area_tot(protocol::Component *system, protocol::QueryValueData &qd)
 {

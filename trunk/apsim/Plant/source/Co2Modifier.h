@@ -32,7 +32,7 @@ typedef enum {photosynthetic_pathway_UNDEF, photosynthetic_pathway_C3, photosynt
 
 class Co2Modifier {
 public:
-   Co2Modifier(ScienceAPI& scienceAPI,PlantComponent *p);
+   Co2Modifier(ScienceAPI& scienceAPI, protocol::Component *p);
    ~Co2Modifier(void);
    void init(void);
    void zero_co2_variables (void);
@@ -47,7 +47,7 @@ public:
 private:
    ScienceAPI& scienceAPI;
 
-   PlantComponent *parent;                 // The plant we are attached to
+   protocol::Component *parent;                 // The plant we are attached to
    interpolationFunction cTE;
    interpolationFunction cNConc;
 
@@ -61,7 +61,7 @@ private:
    }  c;   // Constants
 
    float plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
-                               float avet);          //!modifier (-)
+                               float meanT);          //!modifier (-)
 }; //Co2Modifier
 
 

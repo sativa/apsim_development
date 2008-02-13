@@ -19,7 +19,7 @@ environment_t::environment_t(ScienceAPI& sAPI)
 
    mint = 0.0;
    maxt = 0.0;
-   avet = 0.0;
+   meanT = 0.0;
    radn = 0.0;
    }
 
@@ -41,7 +41,7 @@ void environment_t::OnNewMet(protocol::NewMetType &newmet)
   radn = newmet.radn;
   maxt = newmet.maxt;
   mint = newmet.mint;
-  avet = (maxt + mint) * 0.5;
+  meanT = (maxt + mint) * 0.5;
   }
 
 void environment_t::OnTick(protocol::TimeType &Tick)
@@ -104,7 +104,7 @@ float environment_t::vpdEstimate (void)
 float environment_t::daylength(float sun_angle) const
 //===========================================================================
    {
-	return daylength(day_of_year, sun_angle);
+    return daylength(day_of_year, sun_angle);
    }
 
 float environment_t::daylength(int dyoyr, float sun_angle) const
