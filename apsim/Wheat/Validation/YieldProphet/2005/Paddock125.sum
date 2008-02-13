@@ -983,7 +983,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     27.5000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     50.4312782100000
+     Manager creating a new local real variable : nitrogen =     50.4313358800000
      Manager creating a new local real variable : availablewater =     46.9629820000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1154,11 +1154,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.33 (%)    extractable sw =   28.08 (mm)
 21 November 2005(Day of year=325), barley: 
       stage 9.0 maturity
-                     biomass =         919.56 (g/m^2)   lai          =   1.087 (m^2/m^2)
+                     biomass =         919.55 (g/m^2)   lai          =   1.087 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   25.33 (mm)
 22 November 2005(Day of year=326), barley: 
       stage 10.0 harvest_ripe
-                     biomass =         919.56 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         919.55 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   24.02 (mm)
 22 November 2005(Day of year=326), GrossMargin: 
      Manager creating a new local real variable : fullprice =     140.000000000000
@@ -1166,19 +1166,19 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager sending message :- barley harvest
      
       flowering day          =  284                           stover (kg/ha)         =     5306.8
-      maturity day           =  325                           grain yield (kg/ha)    =     3888.8
+      maturity day           =  325                           grain yield (kg/ha)    =     3888.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4444.3
-      grain wt (g)           =    0.050                       grains/m^2             =     7781.7
+      grain wt (g)           =    0.050                       grains/m^2             =     7781.6
       grains/plant           =   77.8                         maximum lai            =      4.799
-      total above ground biomass (kg/ha)    =     9195.6
-      live above ground biomass (kg/ha)     =     9195.6
-      green above ground biomass (kg/ha)    =     7289.5
+      total above ground biomass (kg/ha)    =     9195.5
+      live above ground biomass (kg/ha)     =     9195.5
+      green above ground biomass (kg/ha)    =     7289.4
       senesced above ground biomass (kg/ha) =     1906.1
       number of leaves       =     56.2
       DM Root:Shoot ratio    =     0.16                       Harvest Index          =       0.42
       Stover C:N ratio       =   107.87                       Root C:N ratio         =      26.54
       grain N percent        =     1.65                       total N content (kg/ha)=      83.79
-      grain N uptake (kg/ha) =    64.12                       senesced N content (kg/ha)=    9.53
+      grain N uptake (kg/ha) =    64.11                       senesced N content (kg/ha)=    9.53
       green N content (kg/ha)=    10.15
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -1195,8 +1195,8 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                           N  (kg/ha) =                  19.68                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3888.8                     0.0
-                          N  (kg/ha) =                  64.12                    0.00
+                          DM (kg/ha) =                3888.7                     0.0
+                          N  (kg/ha) =                  64.11                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
