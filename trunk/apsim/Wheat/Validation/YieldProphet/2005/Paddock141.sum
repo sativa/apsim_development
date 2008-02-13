@@ -983,7 +983,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     28.7500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     69.1812563100000
+     Manager creating a new local real variable : nitrogen =     69.1812810600000
      Manager creating a new local real variable : availablewater =     20.0201110000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1139,7 +1139,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     2.38 (%)    extractable sw =   48.74 (mm)
 9 October 2005(Day of year=282), Wheat: 
       stage 6.0 flowering
-                     biomass =         508.07 (g/m^2)   lai          =   0.957 (m^2/m^2)
+                     biomass =         508.08 (g/m^2)   lai          =   0.957 (m^2/m^2)
                      stover N conc =     1.38 (%)    extractable sw =   37.82 (mm)
 17 October 2005(Day of year=290), Wheat: 
       stage 7.0 start_grain_fill
@@ -1161,12 +1161,12 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         672.98 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   50.19 (mm)
 18 November 2005(Day of year=322), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     144.510913840000
+     Manager creating a new local real variable : fullprice =     144.510906200000
 18 November 2005(Day of year=322), Harvest: 
      Manager sending message :- wheat harvest
      
       flowering day          =  282                           stover (kg/ha)         =     4241.1
-      maturity day           =  321                           grain yield (kg/ha)    =     2488.8
+      maturity day           =  321                           grain yield (kg/ha)    =     2488.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2844.3
       grain wt (g)           =    0.036                       grains/m^2             =     6929.1
       grains/plant           =   69.3                         maximum lai            =      3.400
@@ -1195,7 +1195,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                           N  (kg/ha) =                  16.22                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2488.8                     0.0
+                          DM (kg/ha) =                2488.7                     0.0
                           N  (kg/ha) =                  50.68                    0.00
      
       stage 4.0 end_of_juvenile
