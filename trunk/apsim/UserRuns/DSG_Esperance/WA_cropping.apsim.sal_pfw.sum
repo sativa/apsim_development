@@ -876,8 +876,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      694.1
       grain wt (g)           =    0.012                       grains/m^2             =     5212.3
       grains/plant           =   52.1                         maximum lai            =      1.538
-      total above ground biomass (kg/ha)    =     5552.2
-      live above ground biomass (kg/ha)     =     5552.2
+      total above ground biomass (kg/ha)    =     5552.3
+      live above ground biomass (kg/ha)     =     5552.3
       green above ground biomass (kg/ha)    =     4861.3
       senesced above ground biomass (kg/ha) =      691.0
       number of leaves       =     42.5
@@ -1329,7 +1329,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       flowering day          =  295                           stover (kg/ha)         =     4120.0
       maturity day           =  334                           grain yield (kg/ha)    =     1647.6
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1882.9
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1883.0
       grain wt (g)           =    0.025                       grains/m^2             =     6552.5
       grains/plant           =   65.5                         maximum lai            =      2.408
       total above ground biomass (kg/ha)    =     5767.5
@@ -2925,7 +2925,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       flowering day          =  305                           stover (kg/ha)         =     2679.9
       maturity day           =  341                           grain yield (kg/ha)    =      892.4
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1019.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1019.9
       grain wt (g)           =    0.022                       grains/m^2             =     4099.1
       grains/plant           =   41.0                         maximum lai            =      2.009
       total above ground biomass (kg/ha)    =     3572.3
@@ -3600,7 +3600,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 4 October 1986(Day of year=277), wheat: 
       stage 7.0 start_grain_fill
                      biomass =         509.37 (g/m^2)   lai          =   0.836 (m^2/m^2)
-                     stover N conc =     0.37 (%)    extractable sw =   36.82 (mm)
+                     stover N conc =     0.37 (%)    extractable sw =   36.83 (mm)
 9 November 1986(Day of year=313), wheat: 
       stage 8.0 end_grain_fill
                      biomass =         658.30 (g/m^2)   lai          =   0.170 (m^2/m^2)
@@ -3840,7 +3840,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 1 November 1988(Day of year=306), wheat: 
       stage 10.0 harvest_ripe
                      biomass =         521.24 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   10.99 (mm)
+                     stover N conc =     0.30 (%)    extractable sw =   11.00 (mm)
 2 November 1988(Day of year=307), manager: 
      Manager sending message :- wheat harvest
 2 November 1988(Day of year=307), wheat: 
@@ -3880,7 +3880,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   10.99 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   11.00 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
@@ -4076,7 +4076,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       flowering day          =  306                           stover (kg/ha)         =     3560.0
       maturity day           =  343                           grain yield (kg/ha)    =     1310.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1497.8
-      grain wt (g)           =    0.022                       grains/m^2             =     6092.3
+      grain wt (g)           =    0.022                       grains/m^2             =     6092.2
       grains/plant           =   60.9                         maximum lai            =      2.091
       total above ground biomass (kg/ha)    =     4870.5
       live above ground biomass (kg/ha)     =     4870.5
@@ -4515,15 +4515,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     1.02 (%)    extractable sw =   15.48 (mm)
 5 December 1994(Day of year=339), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         510.36 (g/m^2)   lai          =   0.260 (m^2/m^2)
+                     biomass =         510.37 (g/m^2)   lai          =   0.260 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   10.15 (mm)
 6 December 1994(Day of year=340), wheat: 
       stage 9.0 maturity
-                     biomass =         510.36 (g/m^2)   lai          =   0.260 (m^2/m^2)
+                     biomass =         510.37 (g/m^2)   lai          =   0.260 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   10.07 (mm)
 7 December 1994(Day of year=341), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         510.36 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         510.37 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    9.96 (mm)
 8 December 1994(Day of year=342), manager: 
      Manager sending message :- wheat harvest
@@ -4534,8 +4534,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1594.5
       grain wt (g)           =    0.023                       grains/m^2             =     6173.5
       grains/plant           =   61.7                         maximum lai            =      3.210
-      total above ground biomass (kg/ha)    =     5103.6
-      live above ground biomass (kg/ha)     =     5103.6
+      total above ground biomass (kg/ha)    =     5103.7
+      live above ground biomass (kg/ha)     =     5103.7
       green above ground biomass (kg/ha)    =     3678.6
       senesced above ground biomass (kg/ha) =     1425.0
       number of leaves       =     40.0
