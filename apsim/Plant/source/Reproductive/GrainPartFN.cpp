@@ -4,26 +4,28 @@
 #include <string>
 #include "PlantPart.h"
 
-#include "GrainPartGN.h"
+#include "FruitCohortFN.h"
+#include "GrainPartFN.h"
 
 using namespace std;
 
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
 //  initialise data members.
-fruitGrainPartGN::fruitGrainPartGN(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+fruitGrainPartFN::fruitGrainPartFN(ScienceAPI& scienceAPI, plantInterface *p, FruitCohort *g, const string &name)
    : fruitGrainPart(scienceAPI, p, name)
+   , myParent(g)
 {
 }
 
 // destructor
-fruitGrainPartGN::~fruitGrainPartGN()
+fruitGrainPartFN::~fruitGrainPartFN()
 {
 }
 
-ostream &operator<<(ostream &output, const fruitGrainPartGN /*&pool*/)
+ostream &operator<<(ostream &output, const fruitGrainPartFN /*&pool*/)
 {
-   //   output << "fruitGrainPartGN:" << endl;
+   //   output << "fruitGrainPartFN:" << endl;
    //   output << "   Green meal:    " << pool.green.meal << endl;
    //   output << "   Senesced meal: " << pool.senesced.meal << endl;
    //   output << "   Dead meal:     " << pool.dead.meal << endl << endl;
@@ -34,34 +36,34 @@ ostream &operator<<(ostream &output, const fruitGrainPartGN /*&pool*/)
 // Assigment operator
 //  assign data members of object
 
-const fruitGrainPartGN &fruitGrainPartGN::operator=(const fruitGrainPartGN &/*other*/)
+const fruitGrainPartFN &fruitGrainPartFN::operator=(const fruitGrainPartFN &/*other*/)
    //===========================================================================
 {
-   throw std::invalid_argument("Assignment operator NI for fruitGrainPartGN");
+   throw std::invalid_argument("Assignment operator NI for fruitGrainPartFN");
 }
 
-void fruitGrainPartGN::onInit1(protocol::Component *system)
+void fruitGrainPartFN::onInit1(protocol::Component *system)
    //===========================================================================
 {
    fruitGrainPart::onInit1(system);
 
    system->addGettableVar("grain_no",gGrain_no, "/m^2", "Grain number");
-   setupGetFunction(system, "grain_size", protocol::DTsingle, false, &fruitGrainPartGN::get_grain_size, "g", "Size of each grain");
+   setupGetFunction(system, "grain_size", protocol::DTsingle, false, &fruitGrainPartFN::get_grain_size, "g", "Size of each grain");
 }
 
-float fruitGrainPartGN::grainWt(void)
+float fruitGrainPartFN::grainWt(void)
    //===========================================================================
 {
    return divide (Total.DM(), gGrain_no, 0.0);
 }
 
-void fruitGrainPartGN::get_grain_size(protocol::Component *system, protocol::QueryValueData &qd)
+void fruitGrainPartFN::get_grain_size(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
    system->sendVariable(qd, grainWt());
 }
 
-void fruitGrainPartGN::doGrainNumber (void)
+void fruitGrainPartFN::doGrainNumber (void)
    //===========================================================================
    //       Calculate Grain Number
 {
@@ -69,18 +71,18 @@ void fruitGrainPartGN::doGrainNumber (void)
                               , pGrains_per_gram_stem);
 }
 
-float fruitGrainPartGN::grainNumber (float stem_dm_green
+float fruitGrainPartFN::grainNumber (float stem_dm_green
                                       , float p_grains_per_gram_stem)    // OUTPUT
    //===========================================================================
    //       Perform grain number calculations
 {
    float grain_no;
-   if (plant->on_day_of ("emergence"))
+   if (myParent->on_day_of ("emergence"))
       {
       // seedling has just emerged.
       grain_no = 0.0;
       }
-   else if (plant->on_day_of ("flowering"))
+   else if (myParent->on_day_of ("flowering"))
       {
       // we are at first day of grainfill.
       grain_no = p_grains_per_gram_stem * stem_dm_green;
@@ -92,7 +94,7 @@ float fruitGrainPartGN::grainNumber (float stem_dm_green
    return grain_no;
 }
 
-void fruitGrainPartGN::readCultivarParameters (protocol::Component *system, const string &cultivar)
+void fruitGrainPartFN::readCultivarParameters (protocol::Component *system, const string &cultivar)
    //===========================================================================
    {
    fruitGrainPart::readCultivarParameters (system, cultivar);
@@ -102,7 +104,7 @@ void fruitGrainPartGN::readCultivarParameters (protocol::Component *system, cons
    scienceAPI.read("max_grain_size", pMaxGrainSize, 0.0f, 1.0f);
    }
 
-void fruitGrainPartGN::writeCultivarInfo (protocol::Component *system)
+void fruitGrainPartFN::writeCultivarInfo (protocol::Component *system)
    //===========================================================================
 {
 
@@ -119,7 +121,7 @@ void fruitGrainPartGN::writeCultivarInfo (protocol::Component *system)
 
 }
 
-void fruitGrainPartGN::zeroAllGlobals(void)
+void fruitGrainPartFN::zeroAllGlobals(void)
 {
    fruitGrainPart::zeroAllGlobals();
 
@@ -133,14 +135,14 @@ void fruitGrainPartGN::zeroAllGlobals(void)
 
 }
 
-void fruitGrainPartGN::onKillStem(void)
+void fruitGrainPartFN::onKillStem(void)
    // ====================================================================
 {
    fruitGrainPart::onKillStem();
    gGrain_no = 0.0;
 }
 
-void fruitGrainPartGN::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+void fruitGrainPartFN::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
    //===========================================================================
    {
    fruitGrainPart::readSpeciesParameters(system, sections);
@@ -154,7 +156,7 @@ void fruitGrainPartGN::readSpeciesParameters(protocol::Component *system, vector
    scienceAPI.read("crit_grainfill_rate", cCrit_grainfill_rate, 0.0f, 1.0f);
    }
 
-void fruitGrainPartGN::update(void)
+void fruitGrainPartFN::update(void)
    //===========================================================================
 {
    fruitGrainPart::update();
@@ -164,9 +166,9 @@ void fruitGrainPartGN::update(void)
 
 }
 
-//void fruitGrainPartGN::display(ostream &os)
+//void fruitGrainPartFN::display(ostream &os)
 //{
-//   //   os << "fruitGrainPartGN:" << endl;
+//   //   os << "fruitGrainPartFN:" << endl;
 //   //   os << "Green meal: " << green.meal << endl;
 //   //   os << "Senesced meal: " << senesced.meal << endl;
 //   //   os << "Dead meal: " << dead.meal << endl << endl;
@@ -174,7 +176,7 @@ void fruitGrainPartGN::update(void)
 //}
 //
 
-void fruitGrainPartGN::doProcessBioDemand(void)
+void fruitGrainPartFN::doProcessBioDemand(void)
    //===========================================================================
 {
 
@@ -184,9 +186,9 @@ void fruitGrainPartGN::doProcessBioDemand(void)
    doDMDemandGrain ();
 }
 
-float fruitGrainPartGN::grainNo(void)  {return gGrain_no;}
+float fruitGrainPartFN::grainNo(void)  {return gGrain_no;}
 
-void fruitGrainPartGN::doDMDemandGrain(void)
+void fruitGrainPartFN::doDMDemandGrain(void)
    //===========================================================================
    {
    if (plant->inPhase("postflowering"))
@@ -224,7 +226,7 @@ void fruitGrainPartGN::doDMDemandGrain(void)
 
    }
 
-void fruitGrainPartGN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
+void fruitGrainPartFN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
                                      , float /* swdef_expansion*/)    //   grain N demand (g/m^2)
    //===========================================================================
 {
@@ -236,7 +238,6 @@ void fruitGrainPartGN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
 
    if (plant->inPhase("reproductive"))
       {
-
       // we are in grain filling stage
       Tav = meanT();
 

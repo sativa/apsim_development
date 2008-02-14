@@ -2720,13 +2720,9 @@ float Plant::getStageCode(void)  {return phenology->stageCode();}
 float Plant::getStageNumber(void)  {return phenology->stageNumber();}
 float Plant::getPlants(void)  {return population.Density();}
 float Plant::getCo2(void)  {return Environment.co2;}
-//float Plant::getRadnInterceptedPod(void)  {return g.radn_int_pod;}
 float Plant::getNodeNo(void)  {return leafPart->getNodeNo();}
 float Plant::getDltNodeNo(void)  {return leafPart->getDltNodeNo();}
 float Plant::getDltDMPotRueVeg(void)  {return leafPart->dltDmPotRue();}
-//float Plant::getDltDmVeg(void)  {return leafPart->dltDmTotal() + stemPart->dltDmTotal();}
-////float Plant::getWaterSupplyPod(void)  {return g.swSupplyFruit;}
-////float Plant::getWaterSupplyLeaf(void)  {return g.swSupplyVeg;}
 float Plant::getDmTops(void) { return tops.Total.DM();}
 float Plant::getDltDm(void) { return plant.dltDm();}
 float Plant::getDltDmGreen(void) { return plant.dltDmGreen();}
@@ -2740,9 +2736,6 @@ float Plant::getDyingFractionPlants(void) {return population.DyingFractionPlants
 float Plant::getLAI() {return leafPart->getLAI();}
 float Plant::getCumSwdefPheno() {return g.cswd_pheno.getSum();}
 float Plant::getCumSwdefPhoto() {return g.cswd_photo.getSum();}
-float Plant::getCo2ModifierRue(void)  {return co2Modifier->rue();}
-float Plant::getCo2ModifierTe(void)  {return co2Modifier->te();}
-float Plant::getCo2ModifierNConc(void)  {return co2Modifier->n_conc();}
 float Plant::getVpd(void)  {return Environment.vpdEstimate();}
 float Plant::getTempStressPhoto(void)  {return tempStress->tFact.photo;}
 float Plant::getNfactPhoto(void)  {return nStress->nFact.photo;}

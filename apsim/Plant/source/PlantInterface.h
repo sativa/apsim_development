@@ -68,9 +68,6 @@ class plantInterface {
       virtual float getTotalPotentialGrowthRate(void) = 0;
       // temporary
       virtual float getDyingFractionPlants(void) = 0;
-      virtual float getCo2ModifierRue(void) = 0;
-      virtual float getCo2ModifierTe(void) = 0;
-      virtual float getCo2ModifierNConc(void) = 0;
       virtual float getVpd(void) = 0;
 
       virtual float getTempStressPhoto(void) = 0;

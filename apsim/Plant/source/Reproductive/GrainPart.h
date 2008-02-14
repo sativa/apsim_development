@@ -122,16 +122,11 @@ protected:
    stateObserver gDm_stress_max;                      // sum of maximum daily stress on dm production per phase
    float gDlt_dm_stress_max;                          // maximum daily stress on dm production (0-1)
 
-   float cX_temp_grainfill[max_table];
-   int   cNum_temp_grainfill;
-   float cY_rel_grainfill[max_table];
    float cSw_fac_max;
    float cTemp_fac_min;
    float cSfac_slope;
    float cTfac_slope;
    float cGrn_water_cont;
-   int   cNum_n_conc_stage;
-   float cX_stage_code[max_table];
    float cN_conc_crit_grain;
    float cN_conc_max_grain;
    float cN_conc_min_grain;
