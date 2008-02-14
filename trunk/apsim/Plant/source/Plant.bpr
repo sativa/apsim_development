@@ -30,8 +30,10 @@
       Utility\LookupFunction.obj Delta.obj Pool.obj CompositePool.obj 
       Biomass.obj Population.obj ReproductivePart.obj 
       StageBasedInterpolationFunction.obj SimplePart.obj PlantStress.obj 
-      Co2Modifier.obj Reproductive\FruitCohortFN.obj Stem.obj 
-      Leaf\CohortingLeaf.obj Leaf\GenericLeaf.obj Leaf\Leaf.obj"/>
+      Co2Modifier.obj Reproductive\FruitCohortFN.obj 
+      Reproductive\PlantFruitCohorting.obj Leaf\GenericLeaf.obj Leaf\Leaf.obj 
+      Leaf\CohortingLeaf.obj Stem.obj Reproductive\GrainPartFN.obj 
+      Reproductive\PodPartFN.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -148,10 +150,13 @@
       <FILE FILENAME="PlantStress.cpp" FORMNAME="" UNITNAME="PlantStress" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Co2Modifier.cpp" FORMNAME="" UNITNAME="Co2Modifier" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Reproductive\FruitCohortFN.cpp" FORMNAME="" UNITNAME="FruitCohortFN" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Stem.cpp" FORMNAME="" UNITNAME="Stem" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Leaf\CohortingLeaf.cpp" FORMNAME="" UNITNAME="CohortingLeaf.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Reproductive\PlantFruitCohorting.cpp" FORMNAME="" UNITNAME="PlantFruitCohorting" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Leaf\GenericLeaf.cpp" FORMNAME="" UNITNAME="GenericLeaf.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Leaf\Leaf.cpp" FORMNAME="" UNITNAME="Leaf.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Leaf\CohortingLeaf.cpp" FORMNAME="" UNITNAME="CohortingLeaf.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Stem.cpp" FORMNAME="" UNITNAME="Stem" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Reproductive\GrainPartFN.cpp" FORMNAME="" UNITNAME="GrainPartFN.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Reproductive\PodPartFN.cpp" FORMNAME="" UNITNAME="PodPartFN.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -256,7 +261,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=&quot;C:\data\Apsim\development\apsim\fababean\Sample\fababean.APSIM.sample_fababean.sim&quot;
+RunParams=&quot;C:\data\Apsim\development\apsim\canola\sample\canola.APSIM.sample_canola.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=

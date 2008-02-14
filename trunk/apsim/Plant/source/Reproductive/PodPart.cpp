@@ -9,7 +9,6 @@
 #include "Co2Modifier.h"
 #include "FruitCohort.h"
 using namespace std;
-
 // ================================ AREA =================================================
 // This class only has functionality for pods. It needs extra methods and data members to be used for leaf and other organs.
 
@@ -132,12 +131,12 @@ float PlantPartArea::interceptRadiationTotal (float radiation)    // incident ra
    return coverTotal() * radiation;
 }
 
-fruitPodPart::fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, fruitGrainPart *g, const string &name)
+fruitPodPart::fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, FruitCohort *g, const string &name)
    : SimplePart(scienceAPI, p, name)
    , pod(scienceAPI, p, name)
+   , myParent(g)
    {
     co2Modifier = new Co2Modifier(scienceAPI, plant->getComponent());
-   myGrain = g;
    }
 
 void fruitPodPart::onInit1(protocol::Component *system)
@@ -156,7 +155,6 @@ void fruitPodPart::prepare(void)
    co2Modifier->doPlant_Co2Modifier (*(plant->getEnvironment()));
 
 }
-
 
 void fruitPodPart::update(void)
 //=======================================================================================
@@ -198,19 +196,18 @@ void fruitPodPart::doDmMin(void)
 }
 
 
-
 void fruitPodPart::doDmDemand(float dlt_dm_supply)
 //=======================================================================================
 {
    float dlt_dm_supply_by_pod = 0.0;  // FIXME
    dlt_dm_supply += dlt_dm_supply_by_pod;
 
-   float dm_grain_demand = myGrain->calcDmDemand();
+   float dm_grain_demand = myParent->calcDmDemandGrain();
 
    if (dm_grain_demand > 0.0)
-      DMGreenDemand = dm_grain_demand * fracPodF->value(plant->getStageNumber()) - dlt_dm_supply_by_pod;
+      DMGreenDemand = dm_grain_demand * fracPod->value(myParent->getStageNumber()) - dlt_dm_supply_by_pod;
    else
-      DMGreenDemand = dlt_dm_supply * fracPodF->value(plant->getStageNumber())  - dlt_dm_supply_by_pod;
+      DMGreenDemand = dlt_dm_supply * fracPod->value(myParent->getStageNumber())  - dlt_dm_supply_by_pod;
 }
 
 void fruitPodPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
@@ -251,6 +248,7 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
 //=======================================================================================
 {
    SimplePart::readSpeciesParameters(system, sections);
+
    co2Modifier->init();
    co2Modifier->read_co2_constants ();
 
@@ -258,28 +256,30 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
 
    scienceAPI.read("transp_eff_cf", c.transpEffCf, numvals, 0.0f, 1.0f);
    scienceAPI.read("rue_pod", cRue_pod, 0.0f, 3.0f);
+
    //    plant_transp_eff
+
    TECoeff.read(scienceAPI, "stage_code", "-", 0.0, 100.0
                           , "transp_eff_cf", "-", 0.0, 1.0);
-
    string partition_option;
    scienceAPI.read("partition_option", partition_option);
 
    if (partition_option == "1")
       {
-      fracPodF = new lookupFunction();
-      fracPodF->read(scienceAPI, "stage_code", "-", 0.0, 100.0
+      fracPod = new lookupFunction();
+      fracPod->read(scienceAPI, "stage_code", "-", 0.0, 100.0
                               , "frac_pod", "-", 0.0, 2.0);
+
       }
    else if (partition_option == "2" || partition_option == "allometric")
       {
-      fracPodF = new interpolationFunction();
-      fracPodF->read(scienceAPI, "x_stage_no_partition", "-", 0.0, 20.0
+      fracPod = new interpolationFunction();
+      fracPod->read(scienceAPI, "x_stage_no_partition", "-", 0.0, 20.0
                              , "y_frac_pod", "-", 0.0, 2.0);
+
       }
    else
       throw std::invalid_argument("invalid template option in fruitPodPart::readSpeciesParameters");
-
    pod.readSpeciesParameters(system, sections);
 }
 
@@ -306,7 +306,6 @@ void fruitPodPart::doCover (PlantSpatial &spatial)
 
    //===========================================================================
 {
-
    pod.doCover (spatial);
 }
 

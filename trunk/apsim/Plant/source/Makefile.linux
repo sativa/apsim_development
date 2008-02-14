@@ -38,15 +38,18 @@ OBJ=PlantComponent.o \
    Storage/StoragePart.o \
    ReproductivePart.o \
    Reproductive/PodPart.o \
+   Reproductive\PodPartFN.o \
    Reproductive/FloretPart.o \
    Reproductive/MealPart.o \
    Reproductive/OilPart.o \
    Reproductive/GrainPart.o \
    Reproductive/GrainPartHI.o \
    Reproductive/GrainPartGN.o \
+   GrainPartFN.o \
    Reproductive/FruitCohort.o \
    Reproductive/FruitCohortFN.o \
    Reproductive/PlantFruit.o \
+   Reproductive\PlantFruitCohorting.o \
    CompositePart.o \
    SimplePart.o \
    Root/RootBase.o \

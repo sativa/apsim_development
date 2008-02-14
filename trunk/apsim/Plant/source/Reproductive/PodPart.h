@@ -52,7 +52,7 @@ class PlantPartArea {
 };
 class fruitPodPart : public SimplePart {
   public:
-   fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, fruitGrainPart *g, const string &name) ;
+   fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, FruitCohort *g, const string &name) ;
    ~fruitPodPart() {};
    void onInit1(protocol::Component *);
    void prepare(void);
@@ -88,16 +88,16 @@ class fruitPodPart : public SimplePart {
    void doBioActual (void);
 
    protected:
+
       float cRue_pod;
 
-      externalFunction *fracPodF;
+      externalFunction *fracPod;
       Co2Modifier *co2Modifier;
       lookupFunction TECoeff;
       FruitCohort *myParent;
       PlantPartArea pod;
       float radiationInterceptedGreen;
       float radiationInterceptedTotal;
-      fruitGrainPart *myGrain;                           // The grain we encapsulate
 };
 
 #endif /* PodPartH */

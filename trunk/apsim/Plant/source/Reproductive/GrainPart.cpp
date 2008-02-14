@@ -149,13 +149,11 @@ void fruitGrainPart::zeroAllGlobals(void)
 
    gDelayGrnFill  = false;
    gDaysDelayedGrnFill  = 0;
-   cNum_temp_grainfill = 0;
    cSw_fac_max  = 0.0;
    cTemp_fac_min  = 0.0;
    cSfac_slope  = 0.0;
    cTfac_slope  = 0.0;
    cGrn_water_cont  = 0.0;
-   cNum_n_conc_stage;
    cN_conc_crit_grain  = 0.0;
    cN_conc_max_grain  = 0.0;
    cN_conc_min_grain  = 0.0;
@@ -214,7 +212,6 @@ void fruitGrainPart::readSpeciesParameters(protocol::Component *system, vector<s
    scienceAPI.read("sfac_slope", cSfac_slope, -10.0f, 0.0f);
    scienceAPI.read("tfac_slope", cTfac_slope, 0.0f, 100.0f);
    scienceAPI.read("grn_water_cont", cGrn_water_cont, 0.0f, 1.0f);
-   scienceAPI.read("x_stage_code", cX_stage_code, cNum_n_conc_stage, 0.0f, 100.0f);
    scienceAPI.read("n_conc_crit_grain", cN_conc_crit_grain, 0.0f, 100.0f);
    scienceAPI.read("n_conc_max_grain", cN_conc_max_grain, 0.0f, 100.0f);
    scienceAPI.read("n_conc_min_grain", cN_conc_min_grain, 0.0f, 100.0f);
@@ -260,8 +257,7 @@ float fruitGrainPart::nConcPercent(void)  {return Total.NconcPercent();}   //rem
 float fruitGrainPart::dltDmDemand(void) {return gDlt_dm_grain_demand;}                               //remove
 float fruitGrainPart::dltDmGrainDemand(void)  {return gDlt_dm_grain_demand;}
 
-float fruitGrainPart::meanT (void) {return 0.5 * (plant->getEnvironment()->maxt +
-                                                  plant->getEnvironment()->mint);}
+float fruitGrainPart::meanT (void) {return plant->getEnvironment()->meanT;}
 
 void fruitGrainPart::doDMDemandGrain(void)
    //===========================================================================

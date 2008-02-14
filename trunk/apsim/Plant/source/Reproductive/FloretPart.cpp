@@ -286,7 +286,7 @@ void FloretPart::doDmPotRUE (void )                    // (OUTPUT) potential dry
    double stress_factor = min(min(min(plant->getTempStressPhoto(), plant->getNfactPhoto())
                                   , plant->getOxdefPhoto()), plant->getPfactPhoto());
 
-   dlt.dm_pot_rue = (radiationInterceptedGreen * cRue_Floret) * stress_factor * plant->getCo2ModifierRue();
+   dlt.dm_pot_rue = (radiationInterceptedGreen * cRue_Floret) * stress_factor * plant->getCo2Modifier()->rue();
 }
 
 void FloretPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water demand (mm)
@@ -301,7 +301,7 @@ void FloretPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop wat
 
    cproc_transp_eff_co2_1(plant->getVpd()
                           , c.transpEffCf[(int)plant->getStageNumber()-1]
-                          , plant->getCo2ModifierTe()
+                          , plant->getCo2Modifier()->te()
                           , &transpEff);
 
    cproc_sw_demand1 (dlt.dm_pot_rue

@@ -223,9 +223,6 @@ public:
 // FIXME - remove next line when corrections for P demand activated
    float getRelativeGrowthRate(void);
    float getTotalPotentialGrowthRate(void);
-   float getCo2ModifierRue(void);
-   float getCo2ModifierTe(void);
-   float getCo2ModifierNConc(void);
    float getVpd(void);
 
    float getTempStressPhoto(void);
