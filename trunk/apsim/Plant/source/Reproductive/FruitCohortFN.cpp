@@ -75,16 +75,10 @@ void FruitCohortFN::onInit1(protocol::Component *system)
    setupGetFunction(system, "head_p", protocol::DTsingle, false, &FruitCohortFN::get_head_p, "g/m^2","P in head");
    }
 
-void FruitCohortFN::prepare (void)
-//=======================================================================================
-   {
-      fruitPhenology->prepare (*(plant->getEnvironment()));
-      FruitCohort::prepare();
-   }
-
 void FruitCohortFN::process (void)
 //=======================================================================================
    {
+      fruitPhenology->prepare (*(plant->getEnvironment()));
       fruitPhenology->process (*(plant->getEnvironment()), plant->getPhotoStress(), plant->getFaswSeed(), plant->getPeswSeed());
       FruitCohort::process();
    }

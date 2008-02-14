@@ -14,7 +14,6 @@ public:                                             // member functions
 
    const FruitCohortFN &operator=(const FruitCohortFN &other);      // Assigment operator
 
-   void prepare(void);
    void process(void);
    void onInit1(protocol::Component *);
 

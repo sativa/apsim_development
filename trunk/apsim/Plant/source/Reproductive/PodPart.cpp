@@ -151,7 +151,6 @@ void fruitPodPart::onInit1(protocol::Component *system)
 void fruitPodPart::prepare(void)
 //=======================================================================================
    {
-   SimplePart::prepare();
    co2Modifier->doPlant_Co2Modifier (*(plant->getEnvironment()));
 
 }
