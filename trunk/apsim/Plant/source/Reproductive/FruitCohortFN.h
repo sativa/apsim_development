@@ -67,7 +67,7 @@ private:
       float     dlt_dm_green_abort;  //(max_part)
 
          // fruit cohorts
-   interpolationFunction frac_pod;
+   interpolationFunction fracPod;
    interpolationFunction start_to_end_grain;
    interpolationFunction sdr_min;
    interpolationFunction rel_grainfill;
