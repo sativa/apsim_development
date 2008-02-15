@@ -164,10 +164,9 @@ void fruitGrainPartHI::doDMDemandGrain(void)
 
       dlt_dm_yield_unadj = bound (dlt_dm_yield_unadj, 0.0, dm_grain_new);
 
-      dlt_dm_yield = dlt_dm_yield_unadj * oilPart->energyAdjustHI(harvest_index_new);
+      dlt_dm_yield = dlt_dm_yield_unadj * oilPart->energyAdjustHI(harvest_index_new);  // JNGH - I think this adjusts for energy contained in dlt_dm
 
-//      dlt_dm_grain_demand = oilPart->energyAdjustDM(dlt_dm_yield);       // JNGH - this doesn't seem to be correct!
-      dlt_dm_grain_demand = oilPart->energyAdjustDM(dlt_dm_yield_unadj);   // JNGH - I think it should be this
+      dlt_dm_grain_demand = oilPart->energyAdjustDM(dlt_dm_yield);
 
 
       // delay grainfill after cold snap
