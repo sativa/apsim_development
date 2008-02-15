@@ -114,7 +114,7 @@ void FruitCohortFN::readCultivarParameters (protocol::Component *system, const s
                                       , "y_rel_grainfill", "-", 0.0, 1.0);
 
       scienceAPI.read("potential_fruit_filling_rate", p.potential_fruit_filling_rate, 0.0f, 1.0f);  //'(g/fruit/degday)'
-      frac_pod.read(scienceAPI, "x_fruit_stage_no_partition", "-", 0.0, 20.0
+      fracPod.read(scienceAPI, "x_fruit_stage_no_partition", "-", 0.0, 20.0
                               , "y_fruit_frac_pod", "-", 0.0, 2.0);
 
       sdr_min.read(scienceAPI, "x_stage_supply_demand_ratio", "-", 1.0, 100.0
@@ -172,43 +172,44 @@ void FruitCohortFN::doDmDemand (float dlt_dm_supply_by_veg)
 //   //===========================================================================
 //        float *dlt_dm_grain_demand)                         //(OUTPUT)
 {
-////    cohort = 0;
-////    do {
-//       if (fruit_no > 0.0)
-//           {
-//           if (fruitPhenology->getPhenology()->inPhase("flowering"))                 //pod dm demand - pod stuff
-//               {                                                            //pod dm demand - pod stuff
-//               // we are in flowering phase                                 //pod dm demand - pod stuff
-//               float tt_fruit_age_max = fruitPhenology->TTTargetInPhase("fruiting");
-//               float dlt_fruit_age = divide(plant->getPhenology()->get_dlt_tt()                     //pod dm demand - pod stuff
-//                                           , tt_fruit_age_max, 0.0);               //pod dm demand - pod stuff
-//               float dm_max = p.dm_fruit_max                                      //pod dm demand - pod stuff
-//                            * rel_grainfill.value(plant->getEnvironment()->meanT)                                            //pod dm demand - pod stuff
-//                            * fruit_no;                                           //pod dm demand - pod stuff
-//                                                                            //pod dm demand - pod stuff
-//               float dlt_dm_fruit_demand_pot = dm_max * dlt_fruit_age;                  //pod dm demand - pod stuff
-//               podPart->doDmDemand(dlt_dm_fruit_demand_pot);                                                             //pod dm demand - pod stuff
-//               }
-//           else if (fruitPhenology->getPhenology()->inPhase("grainfilling"))
-//               {
-//               // we are in grain filling stage
+//    cohort = 0;
+//    do {
+       if (fruit_no > 0.0)
+           {
+           if (plant->getPhenology()->inPhase("flowering"))                 //pod dm demand - pod stuff
+               {                                                            //pod dm demand - pod stuff
+               // we are in flowering phase                                 //pod dm demand - pod stuff
+               float tt_fruit_age_max = fruitPhenology->TTTargetInPhase("fruiting");
+               float dlt_fruit_age = divide(plant->getPhenology()->get_dlt_tt()                     //pod dm demand - pod stuff
+                                           , tt_fruit_age_max, 0.0);               //pod dm demand - pod stuff
+               float dm_max = p.dm_fruit_max                                      //pod dm demand - pod stuff
+                            * rel_grainfill.value(plant->getEnvironment()->meanT)                                            //pod dm demand - pod stuff
+                            * fruit_no;                                           //pod dm demand - pod stuff
+                                                                            //pod dm demand - pod stuff
+               float dlt_dm_fruit_demand_pot = dm_max * dlt_fruit_age;                  //pod dm demand - pod stuff
+               podPart->doDmDemand(dlt_dm_fruit_demand_pot);                                                             //pod dm demand - pod stuff
+               }
+           else if (plant->getPhenology()->inPhase("grainfilling"))
+               {
+               // we are in grain filling stage
 //               float frac_pod = linear_interp_real(g_current_stage[cohort]
 //                                            ,c_x_stage_no_partition
 //                                            ,c_y_frac_pod
 //                                            ,c_num_stage_no_partition);
-//
-//               float potential_grain_filling_rate = divide(p_potential_fruit_filling_rate
-//                                                     , 1.0 + frac_pod
-//                                                     , 0.0);
-//
-//               float dlt_dm_yield_unadj = g_fruit_no[cohort]                                       //cohort/grain? dm demand - cohort stuff
-//                                       * potential_grain_filling_rate                        //cohort dm demand - cohort stuff
-//                                       * rel_grainfill.value(*(plant->getEnvironment()).meanT)                                            //cohort dm demand - cohort stuff
-//                                       * g_dlt_tt[cohort];                                   //cohort dm demand - cohort stuff
-//
-//              // adjust for grain energy
-//              dlt_dm_grain_demand[cohort] = dlt_dm_yield_unadj * g_grain_energy;              //grain dm demand - grain stuff
-//
+               float frac_pod = fracPod.value(plant->getStageCode());
+
+               float potential_grain_filling_rate = divide(p.potential_fruit_filling_rate
+                                                     , 1.0 + frac_pod
+                                                     , 0.0);
+
+               float dlt_dm_yield_unadj = fruit_no                                       //cohort/grain? dm demand - cohort stuff
+                                       * potential_grain_filling_rate                        //cohort dm demand - cohort stuff
+                                       * rel_grainfill.value(plant->getEnvironment()->meanT)                                            //cohort dm demand - cohort stuff
+                                       * fruitPhenology->get_dlt_tt();                                   //cohort dm demand - cohort stuff
+
+              // adjust for grain energy
+              float dlt_dm_grain_demand = oilPart->energyAdjustDM(dlt_dm_yield_unadj);              //grain dm demand - grain stuff
+
 //              dlt_dm_pod_demand = dlt_dm_yield_unadj * frac_pod;                              //pod dm demand - pod stuff
 //
 //              dlt_dm_fruit_demand[cohort] = dlt_dm_pod_demand + dlt_dm_grain_demand[cohort];  //cohort dm demand - cohort stuff
@@ -226,20 +227,20 @@ void FruitCohortFN::doDmDemand (float dlt_dm_supply_by_veg)
 //                                                           , 0.0);                            //grain dm demand - grain stuff
 //                  dlt_dm_fruit_demand[cohort] = dlt_dm_fruit_max;
 //                  }                                                                           //cohort dm demand - cohort stuff
-//              }
-//           else
-//              {
-//              // no changes
+              }
+           else
+              {
+              // no changes
 //              dlt_dm_grain_demand[cohort] = 0.0;
 //              dlt_dm_fruit_demand[cohort] = 0.0;
-//              }
-//           }
-//       else
-//           {
-//           // no fruit
+              }
+           }
+       else
+           {
+           // no fruit
 //           dlt_dm_grain_demand[cohort] = 0.0;
 //           dlt_dm_fruit_demand[cohort] = 0.0;
-//           }
+           }
 ////       cohort++;
 ////       } while (cohort < g_num_fruit_cohorts);
 ////       pop_routine (my_name);
