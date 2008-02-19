@@ -110,7 +110,6 @@ void fruitGrainPartHI::doProcessBioDemand(void)
 {
 
    doDMDemandStress ();
-   oilPart->doBioGrainOil ();
    doDMDemandGrain ();
 }
 
@@ -153,20 +152,20 @@ void fruitGrainPartHI::doDMDemandGrain(void)
       float dm_green_yield_parts = mealPart->Green.DM() + oilPart->Green.DM();
 
       harvest_index = divide (dm_green_yield_parts, plant->getDmTops(), 0.0);
-      dm_tops_new = plant->getDmTops() + plant->getDltDm();
+      dm_tops_new = plant->getDmTops() + plant->getDltDm();    // unadjusted for Grain Energy in dlt_dm
 
       harvest_index_new = u_bound (harvest_index + hi_incr, hi_max_pot);
 
-      dm_grain_new = dm_tops_new * harvest_index_new;
-      dlt_dm_yield_unadj = dm_grain_new - dm_green_yield_parts;
+      dm_grain_new = dm_tops_new * harvest_index_new;            // unadjusted for Grain Energy in dlt_dm
+      dlt_dm_yield_unadj = dm_grain_new - dm_green_yield_parts;  // unadjusted for Grain Energy in dlt_dm
 
       // adjust for grain energy
 
       dlt_dm_yield_unadj = bound (dlt_dm_yield_unadj, 0.0, dm_grain_new);
 
-      dlt_dm_yield = dlt_dm_yield_unadj * oilPart->energyAdjustHI(harvest_index_new);  // JNGH - I think this adjusts for energy contained in dlt_dm
+      dlt_dm_yield = dlt_dm_yield_unadj * oilPart->energyAdjustHI(harvest_index_new);  // finally adjust for Grain energy used from dlt_dm - this is the potential grain wt
 
-      dlt_dm_grain_demand = oilPart->energyAdjustDM(dlt_dm_yield);
+      dlt_dm_grain_demand = oilPart->addEnergy(dlt_dm_yield);   // adding grain energy to potential new grain wt to get grain demand
 
 
       // delay grainfill after cold snap

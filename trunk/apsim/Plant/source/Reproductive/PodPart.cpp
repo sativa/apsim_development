@@ -201,7 +201,7 @@ void fruitPodPart::doDmDemand(float dlt_dm_supply)
    float dlt_dm_supply_by_pod = 0.0;  // FIXME
    dlt_dm_supply += dlt_dm_supply_by_pod;
 
-   float dm_grain_demand = myParent->calcDmDemandGrain();
+   float dm_grain_demand = myParent->dltDmPotentialGrain();
 
    if (dm_grain_demand > 0.0)
       DMGreenDemand = dm_grain_demand * fracPod->value(myParent->getStageNumber()) - dlt_dm_supply_by_pod;
