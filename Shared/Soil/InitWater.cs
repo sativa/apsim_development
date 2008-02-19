@@ -226,7 +226,7 @@ namespace Soils
 
         public XmlNode ExportToSim(XmlNode ParentNode)
             {
-            XmlHelper.SetValue(ParentNode, "initdata/sw", Utility.LayeredToString(SWMapedToSoil));
+            XmlHelper.SetValue(ParentNode, "sw", Utility.LayeredToString(SWMapedToSoil));
             return ParentNode;
             }
         }

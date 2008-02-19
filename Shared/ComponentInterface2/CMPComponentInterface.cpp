@@ -227,9 +227,10 @@ bool CMPComponentInterface::read(const std::string& parName, IPackableData* valu
         section != simSectionsToSearch.rend(); 
         section++) 
       {  
-      XMLNode::iterator sectionData = find_if(initData->begin(),
-                                              initData->end(),
-                                              EqualToName<XMLNode>(*section));
+      XMLNode::iterator sectionData = findNode(*initData, *section);
+      if (sectionData == initData->end())
+         sectionData = findNodeWithName(*initData, *section);
+
       if (sectionData != initData->end())
          if (readFromSection(initData, sectionData, parName, value))
             return true;
