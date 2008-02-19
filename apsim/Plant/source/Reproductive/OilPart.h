@@ -23,8 +23,8 @@ class fruitOilPart : public SimplePart {
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    float grainEnergy(void);
    float energyAdjustHI(float harvestIndex) ;
-   float energyAdjustDM(float DM) ;
-   float calcDmDemand(float dmDemand) ;
+   float addEnergy(float DM) ;
+   float removeEnergy(float DM) ;
    void doDMDemand(float dlt_dm_grain_demand) ;       //remove
    void doDMDemandGrain(float dlt_dm_grain_demand);
    float giveDmGreen(float delta);

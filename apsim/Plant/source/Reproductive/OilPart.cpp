@@ -100,16 +100,16 @@ float fruitOilPart::energyAdjustHI (float harvestIndex)
                  , 0.0);
    }
 
-float fruitOilPart::energyAdjustDM (float DM)
+float fruitOilPart::addEnergy (float DM)
 //=======================================================================================
    {
    return DM * gGrain_energy;
    }
 
-float fruitOilPart::calcDmDemand (float dmDemand)
+float fruitOilPart::removeEnergy (float DM)
 //=======================================================================================
    {
-   return divide (dmDemand, gGrain_energy, 0.0);
+   return divide (DM, gGrain_energy, 0.0);
    }
 
 float fruitOilPart::dltDmGreen(void)
@@ -171,6 +171,7 @@ void fruitOilPart::readSpeciesParameters(protocol::Component *system, vector<str
 
    scienceAPI.read("carbo_oil_conv_ratio", cCarbo_oil_conv_ratio, 0.0f, 20.0f);
    scienceAPI.read("grain_oil_conc", cGrain_oil_conc, 0.0f, 1.0f);
+   doBioGrainOil();
    }
 
 

@@ -57,7 +57,6 @@ public:                                             // member functions
 
    void update(void);
 
-   float grainEnergy(void);        //remove
    float nConcPercent(void);         //remove
    float grainNConcPercent(void);
    float nDemandGrain(void);
@@ -75,7 +74,7 @@ public:                                             // member functions
 
    void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
 
-   float calcDmDemand (void);
+   float calcDltDmPotentialGrain (void);
 
    void doNRetranslocate( float N_avail_rep, float g_grain_n_demand);
 

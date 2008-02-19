@@ -116,10 +116,10 @@ const FruitCohort &FruitCohort::operator=(const FruitCohort &/*other*/)
    throw std::invalid_argument("Assignment operator NI for FruitCohort");
 }
 
-float FruitCohort::calcDmDemandGrain(void)
+float FruitCohort::dltDmPotentialGrain(void)
    //===========================================================================
 {
-   return grainPart->calcDmDemand();
+   return grainPart->calcDltDmPotentialGrain();
 }
 
 float FruitCohort::nMax(void)

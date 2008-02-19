@@ -208,7 +208,7 @@ void FruitCohortFN::doDmDemand (float dlt_dm_supply_by_veg)
                                        * fruitPhenology->get_dlt_tt();                                   //cohort dm demand - cohort stuff
 
               // adjust for grain energy
-              float dlt_dm_grain_demand = oilPart->energyAdjustDM(dlt_dm_yield_unadj);              //grain dm demand - grain stuff
+//              float dlt_dm_grain_demand = oilPart->addEnergy(dlt_dm_yield_unadj);              //grain dm demand - grain stuff
 
 //              dlt_dm_pod_demand = dlt_dm_yield_unadj * frac_pod;                              //pod dm demand - pod stuff
 //

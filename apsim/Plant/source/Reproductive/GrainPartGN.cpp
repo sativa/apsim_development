@@ -180,7 +180,6 @@ void fruitGrainPartGN::doProcessBioDemand(void)
 
    doDMDemandStress ();
    doGrainNumber();
-   oilPart->doBioGrainOil ();
    doDMDemandGrain ();
 }
 

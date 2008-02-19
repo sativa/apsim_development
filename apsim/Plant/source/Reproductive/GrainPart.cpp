@@ -247,7 +247,6 @@ void fruitGrainPart::doProcessBioDemand(void)
 {
 
    doDMDemandStress ();
-   oilPart->doBioGrainOil ();
    doDMDemandGrain ();
 }
 
@@ -336,13 +335,13 @@ float fruitGrainPart::dltNGrainConc(float sfac_slope      //(INPUT)  soil water 
    return  (N_conc_pot * max (N_grain_temp_fac, N_grain_sw_fac));
 }
 
-float fruitGrainPart::calcDmDemand (void)
+float fruitGrainPart::calcDltDmPotentialGrain (void)
    //===========================================================================
 {
    //       Calculate grain dm yield demand (g/m^2)
    //       (OUTPUT) assimilate demand for reproductive part (g/m^2)
 
-   return oilPart->calcDmDemand (gDlt_dm_grain_demand);
+   return oilPart->removeEnergy(gDlt_dm_grain_demand);
 }
 
 void fruitGrainPart::doDMDemandStress (void)
