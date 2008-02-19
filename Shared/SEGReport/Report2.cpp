@@ -3,7 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "Report.h"
+#include "Report2.h"
 #include "ComponentRegistration.h"
 
 #include <QuickRpt.hpp>

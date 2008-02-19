@@ -56,7 +56,7 @@ namespace Graph
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(679, 23);
             this.label1.TabIndex = 1;
-            this.label1.Text = "To get started, right click on the blank page below and select \"Edit\"";
+            this.label1.Text = "Right click on the page below to access a popup menu";
             // 
             // ApsimReportDataForm
             // 

@@ -6,7 +6,7 @@
     <PROJECT value="..\..\Bin\SEGReport.dll"/>
     <OBJFILES value="SEGReport.obj TPropertyForm.obj TTextForm.obj TChartForm.obj 
       TImageForm.obj TShapeForm.obj TGridForm.obj TGraph.obj TImage.obj 
-      TShape.obj TText.obj ComponentRegistration.obj Report.obj ReportMacros.obj 
+      TShape.obj TText.obj ComponentRegistration.obj Report2.obj ReportMacros.obj 
       DataContainer.obj DataProcessor.obj ApsimFileReader.obj Probability.obj 
       PredObs.obj XmlFileReader.obj Filter.obj Cumulative.obj Depth.obj Diff.obj 
       Frequency.obj KWTest.obj REMS.obj Regression.obj SOI.obj Stats.obj 
@@ -19,9 +19,7 @@
       ..\ApsimShared\ApsimShared.lib 
       &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot; 
       &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot; 
-      &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib&quot; 
-      &quot;C:\Program Files\Borland\CBuilder6\Components\goose-0.0.11\src\Goose.lib&quot; 
-      CallManagedDLL.lib"/>
+      &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib&quot; &quot;C:\Program Files\Borland\CBuilder6\Components\goose-0.0.11\src\Goose.lib&quot;"/>
     <LIBRARIES value="bcbsmp.lib ThirdParty.lib qrpt60.lib TeeImage7C6.lib gtCompressionC60.lib 
       bcb2kaxserver.lib kbmMemC6Run.lib VclSmp.lib TMSC6.lib dcctc6.lib 
       gtQRC60Pro.lib bdertl.lib"/>
@@ -91,7 +89,7 @@
       <FILE FILENAME="TShape.cpp" FORMNAME="" UNITNAME="TShape" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TText.cpp" FORMNAME="" UNITNAME="TText.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ComponentRegistration.cpp" FORMNAME="" UNITNAME="ComponentRegistration" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Report.cpp" FORMNAME="" UNITNAME="Report" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Report2.cpp" FORMNAME="" UNITNAME="Report2" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ReportMacros.cpp" FORMNAME="" UNITNAME="ReportMacros.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="DataContainer.cpp" FORMNAME="" UNITNAME="DataContainer" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="DataProcessor.cpp" FORMNAME="" UNITNAME="DataProcessor" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -101,7 +99,6 @@
       <FILE FILENAME="XmlFileReader.cpp" FORMNAME="" UNITNAME="XmlFileReader" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Filter.cpp" FORMNAME="" UNITNAME="Filter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Cumulative.cpp" FORMNAME="" UNITNAME="Cumulative" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="CallManagedDLL.lib" FORMNAME="" UNITNAME="CallManagedDLL.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Depth.cpp" FORMNAME="" UNITNAME="Depth" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Diff.cpp" FORMNAME="" UNITNAME="Diff" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Frequency.cpp" FORMNAME="" UNITNAME="Frequency" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>

@@ -17,22 +17,25 @@ void lookupExperimentNames(const string& fileName,
                            vector<string>& experimentNames,
                            vector<int>& experimentIDs)
    {
-   TADOQuery *query = new TADOQuery(NULL);
-   string provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
-         fileName + ";Persist Security Info=False";
-   query->ConnectionString = provider.c_str();
-   String SQL = "SELECT Experiments.ExpID, Experiments.Experiment FROM Experiments;";
-   query->SQL->Add(SQL);
-   query->Active = true;
-
-   while(!query->Eof)
+   if (FileExists(fileName.c_str()))
       {
-      experimentNames.push_back(AnsiString(query->FieldValues["Experiment"]).c_str());
-      experimentIDs.push_back(query->FieldValues["ExpID"]);
-      query->Next();
-      }
+      TADOQuery *query = new TADOQuery(NULL);
+      string provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
+            fileName + ";Persist Security Info=False";
+      query->ConnectionString = provider.c_str();
+      String SQL = "SELECT Experiments.ExpID, Experiments.Experiment FROM Experiments;";
+      query->SQL->Add(SQL);
+      query->Active = true;
 
-   delete query;
+      while(!query->Eof)
+         {
+         experimentNames.push_back(AnsiString(query->FieldValues["Experiment"]).c_str());
+         experimentIDs.push_back(query->FieldValues["ExpID"]);
+         query->Next();
+         }
+
+      delete query;
+      }
    }
 
 //---------------------------------------------------------------------------
@@ -45,42 +48,45 @@ void lookupTreatmentNames(const string& fileName,
                           vector<string>& treatmentNames,
                           vector<int>& treatmentIDs)
    {
-   unsigned experimentIndex = find(experimentNames.begin(), experimentNames.end(),
-                                   experimentName) - experimentNames.begin();
-   if (experimentIndex >= experimentNames.size())
-      throw runtime_error("Cannot find experiment name: " + experimentName);
-
-   int experimentID = experimentIDs[experimentIndex];
-
-   TADOQuery *query = new TADOQuery(NULL);
-   string provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
-         fileName + ";Persist Security Info=False";
-   query->ConnectionString = provider.c_str();
-   String SQL = "TRANSFORM First(Levels.Level) AS FirstOfLevel \
-      SELECT Experiments.ExpID, Designs.TreatmentID \
-      FROM (Experiments INNER JOIN Treatments ON Experiments.ExpID = \
-      Treatments.ExpID) INNER JOIN ((Factors INNER JOIN Levels ON \
-      Factors.FactorID = Levels.FactorID) INNER JOIN Designs ON Levels.LevelID = \
-      Designs.LevelID) ON Treatments.TreatmentID = Designs.TreatmentID \
-      WHERE (((Experiments.ExpID)=" + String(experimentID) + ")) \
-      GROUP BY Experiments.ExpID, Designs.TreatmentID \
-      ORDER BY Designs.TreatmentID \
-      PIVOT Factors.Factor;";
-
-   query->SQL->Add(SQL);
-   query->Active = true;
-
-   while(!query->Eof)
+   if (FileExists(fileName.c_str()) && experimentName != "")
       {
-      String treatment;
-      for(int i=2;i < query->FieldCount;i++)
-         treatment += query->Fields->Fields[i]->AsString + " ";
-      treatmentNames.push_back(treatment.c_str());
-      treatmentIDs.push_back(query->FieldValues["TreatmentID"]);
-      query->Next();
-      }
+      unsigned experimentIndex = find(experimentNames.begin(), experimentNames.end(),
+                                      experimentName) - experimentNames.begin();
+      if (experimentIndex >= experimentNames.size())
+         throw runtime_error("Cannot find experiment name: " + experimentName);
 
-   delete query;
+      int experimentID = experimentIDs[experimentIndex];
+
+      TADOQuery *query = new TADOQuery(NULL);
+      string provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
+            fileName + ";Persist Security Info=False";
+      query->ConnectionString = provider.c_str();
+      String SQL = "TRANSFORM First(Levels.Level) AS FirstOfLevel \
+         SELECT Experiments.ExpID, Designs.TreatmentID \
+         FROM (Experiments INNER JOIN Treatments ON Experiments.ExpID = \
+         Treatments.ExpID) INNER JOIN ((Factors INNER JOIN Levels ON \
+         Factors.FactorID = Levels.FactorID) INNER JOIN Designs ON Levels.LevelID = \
+         Designs.LevelID) ON Treatments.TreatmentID = Designs.TreatmentID \
+         WHERE (((Experiments.ExpID)=" + String(experimentID) + ")) \
+         GROUP BY Experiments.ExpID, Designs.TreatmentID \
+         ORDER BY Designs.TreatmentID \
+         PIVOT Factors.Factor;";
+
+      query->SQL->Add(SQL);
+      query->Active = true;
+
+      while(!query->Eof)
+         {
+         String treatment;
+         for(int i=2;i < query->FieldCount;i++)
+            treatment += query->Fields->Fields[i]->AsString + " ";
+         treatmentNames.push_back(treatment.c_str());
+         treatmentIDs.push_back(query->FieldValues["TreatmentID"]);
+         query->Next();
+         }
+
+      delete query;
+      }
    }
 
 //---------------------------------------------------------------------------
@@ -92,53 +98,69 @@ TADOQuery* createQuery(const string& fileName,
                        const vector<int>& treatmentIDs,
                        const string& dataSourceName)
    {
-   // Need to convert the treatment name to an ID.
-   vector<string>::const_iterator i = find_if(treatmentNames.begin(), treatmentNames.end(),
-                                        CaseInsensitiveStringComparison(treatmentName));
-   if (i == treatmentNames.end())
-      throw runtime_error("Cannot find treatment name: " + treatmentName);
-   int treatmentID = treatmentIDs[i-treatmentNames.begin()];
+   if (FileExists(fileName.c_str()))
+      {
+      // Need to convert the treatment name to an ID.
+      vector<string>::const_iterator i = find_if(treatmentNames.begin(), treatmentNames.end(),
+                                           CaseInsensitiveStringComparison(treatmentName));
+      if (i == treatmentNames.end())
+         throw runtime_error("Cannot find treatment name: " + treatmentName);
+      int treatmentID = treatmentIDs[i-treatmentNames.begin()];
 
-   TADOQuery* query = new TADOQuery(NULL);
-   string provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
-      fileName + ";Persist Security Info=False";
-   query->ConnectionString = provider.c_str();
-   String SQL;
-   if(dataSourceName == "Statistics")
-      {
-      SQL = "TRANSFORM Avg(Stats.Mean) AS AvgOfMean \
-      SELECT Stats.TreatmentID, Stats.Date \
-      FROM Traits INNER JOIN Stats ON Traits.TraitID = Stats.TraitID \
-      WHERE (((Stats.TreatmentID)=" + String(treatmentID) + ")) \
-      GROUP BY Stats.TreatmentID, Stats.Date PIVOT Traits.Trait;";
+      TADOQuery* query = new TADOQuery(NULL);
+      string provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
+         fileName + ";Persist Security Info=False";
+      query->ConnectionString = provider.c_str();
+      String SQL;
+      if(dataSourceName == "Statistics")
+         {
+         SQL = "TRANSFORM Avg(Stats.Mean) AS AvgOfMean \
+         SELECT Stats.TreatmentID, Stats.Date \
+         FROM Traits INNER JOIN Stats ON Traits.TraitID = Stats.TraitID \
+         WHERE (((Stats.TreatmentID)=" + String(treatmentID) + ")) \
+         GROUP BY Stats.TreatmentID, Stats.Date PIVOT Traits.Trait;";
+         }
+      else if (dataSourceName == "Plot")
+         {
+         SQL = "TRANSFORM Min(PlotData.Value) AS MinOfValue \
+         SELECT Plots.TreatmentID, PlotData.Date, Plots.Rep \
+         FROM Traits INNER JOIN (Plots INNER JOIN PlotData ON Plots.PlotID = PlotData.PlotID) ON \
+         Traits.TraitID = PlotData.TraitID \
+         WHERE (((Plots.TreatmentID)=" + String(treatmentID) + ")) \
+         GROUP BY Plots.TreatmentID, PlotData.Date, Plots.Rep \
+         ORDER BY PlotData.Date, Plots.Rep PIVOT Traits.Trait;";
+         }
+      else if (dataSourceName == "Crop")
+         {
+         SQL = "TRANSFORM Avg(PlotData.Value) AS AvgOfValue \
+         SELECT Plots.TreatmentID, PlotData.Date \
+         FROM Plots INNER JOIN (Traits INNER JOIN PlotData ON Traits.TraitID = \
+         PlotData.TraitID) ON Plots.PlotID = PlotData.PlotID \
+         WHERE (((Plots.TreatmentID)=" + String(treatmentID) + ")) \
+         GROUP BY Plots.TreatmentID, PlotData.Date \
+         ORDER BY PlotData.Date PIVOT Traits.Trait;";
+         }
+      else if (dataSourceName == "Soil Layered")
+         {
+         SQL = "TRANSFORM Avg(SoilLayerData.Value) AS AvgOfValue \
+         SELECT Treatments.TreatmentID, SoilLayerData.Date, SoilLayerData.DepthFrom, \
+         SoilLayerData.DepthTo FROM Treatments INNER JOIN (Traits INNER JOIN (Plots INNER \
+         JOIN SoilLayerData ON Plots.PlotID = SoilLayerData.PlotID) ON \
+         Traits.TraitID = SoilLayerData.TraitID) ON Treatments.TreatmentID = Plots.TreatmentID \
+         WHERE (((Plots.TreatmentID)=" + String(treatmentID) + ")) \
+         GROUP BY Treatments.TreatmentID, SoilLayerData.Date, \
+         SoilLayerData.DepthFrom, SoilLayerData.DepthTo \
+         ORDER BY SoilLayerData.Date, SoilLayerData.DepthFrom \
+         PIVOT Traits.Trait;";
+         }
+      if (SQL != "")
+         {
+         query->SQL->Add(SQL);
+         query->Active = true;
+         return query;
+         }
       }
-   else if (dataSourceName == "Crop")
-      {
-      SQL = "TRANSFORM Avg(PlotData.Value) AS AvgOfValue \
-      SELECT Plots.TreatmentID, PlotData.Date \
-      FROM Plots INNER JOIN (Traits INNER JOIN PlotData ON Traits.TraitID = \
-      PlotData.TraitID) ON Plots.PlotID = PlotData.PlotID \
-      WHERE (((Plots.TreatmentID)=" + String(treatmentID) + ")) \
-      GROUP BY Plots.TreatmentID, PlotData.Date \
-      ORDER BY PlotData.Date PIVOT Traits.Trait;";
-      }
-   else if (dataSourceName == "Soil Layered")
-      {
-      SQL = "TRANSFORM Avg(SoilLayerData.Value) AS AvgOfValue \
-      SELECT Treatments.TreatmentID, SoilLayerData.Date, SoilLayerData.DepthFrom, \
-      SoilLayerData.DepthTo FROM Treatments INNER JOIN (Traits INNER JOIN (Plots INNER \
-      JOIN SoilLayerData ON Plots.PlotID = SoilLayerData.PlotID) ON \
-      Traits.TraitID = SoilLayerData.TraitID) ON Treatments.TreatmentID = Plots.TreatmentID \
-      WHERE (((Plots.TreatmentID)=" + String(treatmentID) + ")) \
-      GROUP BY Treatments.TreatmentID, SoilLayerData.Date, \
-      SoilLayerData.DepthFrom, SoilLayerData.DepthTo \
-      ORDER BY SoilLayerData.Date, SoilLayerData.DepthFrom \
-      PIVOT Traits.Trait;";
-      }
-
-   query->SQL->Add(SQL);
-   query->Active = true;
-   return query;
+   return NULL;
    }
 
 //---------------------------------------------------------------------------
@@ -164,41 +186,43 @@ void processREMS(DataContainer& parent,
          {
          TADOQuery* query = createQuery(fileName, treatmentNames[0],
                                         treatmentNames, treatmentIDs, dataSourceName);
-
-         // for some reason FieldDefs in TADOQuery is protected.  The next line
-         // casts it back to a TDataSet to get around this.
-         TDataSet* tds = query;
-
-         result.FieldDefs->Clear();
-         result.FieldDefs->Add("experiment", ftString, 50, true);
-         result.FieldDefs->Add("treatment", ftString, 50, true);
-
-         for(int i=0;i < tds->FieldDefs->Count;i++)
+         if (query != NULL)
             {
-            TFieldDef* field = result.FieldDefs->AddFieldDef();
-            field->Assign(tds->FieldDefs->Items[i]);
-            field->Attributes.Clear();
-            }
+            // for some reason FieldDefs in TADOQuery is protected.  The next line
+            // casts it back to a TDataSet to get around this.
+            TDataSet* tds = query;
 
-         if (result.FieldDefs->Count > 0)
-            {
-            result.Active = true;
+            result.FieldDefs->Clear();
+            result.FieldDefs->Add("experiment", ftString, 50, true);
+            result.FieldDefs->Add("treatment", ftString, 50, true);
 
-            for (unsigned t = 0; t != treatmentNames.size(); t++)
+            for(int i=0;i < tds->FieldDefs->Count;i++)
                {
-               TADOQuery* query = createQuery(fileName, treatmentNames[t],
-                                              treatmentNames, treatmentIDs, dataSourceName);
-               while(!query->Eof)
+               TFieldDef* field = result.FieldDefs->AddFieldDef();
+               field->Assign(tds->FieldDefs->Items[i]);
+               field->Attributes.Clear();
+               }
+
+            if (result.FieldDefs->Count > 0)
+               {
+               result.Active = true;
+
+               for (unsigned t = 0; t != treatmentNames.size(); t++)
                   {
-                  result.Append();
-                  result.FieldValues["experiment"] = experimentName.c_str();
-                  result.FieldValues["treatment"] = treatmentNames[t].c_str();
-                  for(int i=0;i < query->FieldCount;i++)
-                     result.Fields->Fields[i+2] = query->Fields->Fields[i];
-                  result.Post();
-                  query->Next();
+                  TADOQuery* query = createQuery(fileName, treatmentNames[t],
+                                                 treatmentNames, treatmentIDs, dataSourceName);
+                  while(!query->Eof)
+                     {
+                     result.Append();
+                     result.FieldValues["experiment"] = experimentName.c_str();
+                     result.FieldValues["treatment"] = treatmentNames[t].c_str();
+                     for(int i=0;i < query->FieldCount;i++)
+                        result.Fields->Fields[i+2] = query->Fields->Fields[i];
+                     result.Post();
+                     query->Next();
+                     }
+                  delete query;
                   }
-               delete query;
                }
             }
          }

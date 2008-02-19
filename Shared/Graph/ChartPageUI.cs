@@ -58,7 +58,7 @@ namespace Graph
             Toolbox.ToolboxCtrl.AutoSize = true;
             Toolbox.AutoSize = true;
             Toolbox.FormBorderStyle = FormBorderStyle.SizableToolWindow;
-            Toolbox.Height = 450;
+            Toolbox.Height = 470;
             Toolbox.Width = 120;
             }
         private ToolboxItem CreateToolboxItem(Type t, string DisplayName)
@@ -280,8 +280,9 @@ namespace Graph
                     Processor.Add(NewChild.OuterXml);
 
                 NewControl.Parent = this;
-                NewControl.Name = NewChild.Name;
+                NewControl.Name = XmlHelper.Name(NewChild);
                 NewControl.OnLoad(Controller, XmlHelper.FullPath(NewChild), NewChild.OuterXml);
+                NewControl.OnRefresh();
                 NewControl.ViewChanged += OnViewChanged;
                 }
             }

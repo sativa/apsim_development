@@ -63,7 +63,7 @@ object MainForm: TMainForm
       Left = 11
       Top = 2
       Width = 772
-      Height = 48
+      Height = 52
       AutoSize = True
       BevelOuter = bvNone
       BorderWidth = 1
