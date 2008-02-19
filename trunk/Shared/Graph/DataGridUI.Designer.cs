@@ -33,9 +33,9 @@ namespace Graph
             // DataGridUI
             // 
             this.Name = "DataGridUI";
+            this.Size = new System.Drawing.Size(225, 233);
             this.Resize += new System.EventHandler(this.OnResize);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
             }
 

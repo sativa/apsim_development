@@ -28,7 +28,9 @@ namespace Graph
         /// </summary>
         private void InitializeComponent()
             {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(REMSUI));
             this.GroupBox = new System.Windows.Forms.GroupBox();
+            this.BrowseButton = new System.Windows.Forms.Button();
             this.DataSourceDropDown = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.TreatmentDropDown = new System.Windows.Forms.ComboBox();
@@ -37,11 +39,13 @@ namespace Graph
             this.label2 = new System.Windows.Forms.Label();
             this.FileNameEdit = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.GroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // GroupBox
             // 
+            this.GroupBox.Controls.Add(this.BrowseButton);
             this.GroupBox.Controls.Add(this.DataSourceDropDown);
             this.GroupBox.Controls.Add(this.label4);
             this.GroupBox.Controls.Add(this.TreatmentDropDown);
@@ -58,6 +62,17 @@ namespace Graph
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "GroupBox";
             // 
+            // BrowseButton
+            // 
+            this.BrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("BrowseButton.Image")));
+            this.BrowseButton.Location = new System.Drawing.Point(113, 15);
+            this.BrowseButton.Name = "BrowseButton";
+            this.BrowseButton.Size = new System.Drawing.Size(26, 26);
+            this.BrowseButton.TabIndex = 10;
+            this.BrowseButton.UseVisualStyleBackColor = true;
+            this.BrowseButton.Click += new System.EventHandler(this.OnBrowseClick);
+            // 
             // DataSourceDropDown
             // 
             this.DataSourceDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -65,6 +80,7 @@ namespace Graph
             this.DataSourceDropDown.FormattingEnabled = true;
             this.DataSourceDropDown.Items.AddRange(new object[] {
             "Statistics",
+            "Plot",
             "Crop",
             "Soil Layered"});
             this.DataSourceDropDown.Location = new System.Drawing.Point(9, 186);
@@ -137,6 +153,14 @@ namespace Graph
             this.label1.TabIndex = 0;
             this.label1.Text = "File name:";
             // 
+            // OpenFileDialog
+            // 
+            this.OpenFileDialog.DefaultExt = "mdb";
+            this.OpenFileDialog.Filter = "MDB files (*.MDB)|*.mdb|(All files (*.*)|*.*";
+            this.OpenFileDialog.Multiselect = true;
+            this.OpenFileDialog.RestoreDirectory = true;
+            this.OpenFileDialog.Title = "Select a REMS database file";
+            // 
             // REMSUI
             // 
             this.Controls.Add(this.GroupBox);
@@ -160,5 +184,7 @@ namespace Graph
         private System.Windows.Forms.ComboBox DataSourceDropDown;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox TreatmentDropDown;
+        private System.Windows.Forms.Button BrowseButton;
+        private System.Windows.Forms.OpenFileDialog OpenFileDialog;
         }
     }

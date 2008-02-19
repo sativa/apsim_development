@@ -75,6 +75,12 @@ namespace Graph
             PublishViewChanged();
             }
 
+        private void OnBrowseClick(object sender, EventArgs e)
+            {
+            if (OpenFileDialog.ShowDialog() == DialogResult.OK)
+                FileNameEdit.Text = OpenFileDialog.FileName;
+            }
+
         }
     }
 

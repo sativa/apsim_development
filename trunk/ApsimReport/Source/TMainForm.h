@@ -18,7 +18,7 @@
 #include <ExtCtrls.hpp>
 #include <Buttons.hpp>
 #include <general\xml.h>
-#include <SEGReport\report.h>
+#include <SEGReport\report2.h>
 //---------------------------------------------------------------------------
 class TMainForm : public TForm
 {
