@@ -402,8 +402,8 @@ namespace CSUserInterface
             Soils.Soil Soil = new Soils.Soil(Doc.DocumentElement);
 
             // Find the <component name="nitrogen"> node 
-            string NitrogenComponentName = XmlHelper.Name(ParentNode).Replace(" Water", " Nitrogen");
-            XmlNode NitrogenSimNode = XmlHelper.Find(ParentNode.ParentNode, NitrogenComponentName);
+            string NitrogenComponentName = XmlHelper.Name(ParentNode.ParentNode).Replace(" Water", " Nitrogen");
+            XmlNode NitrogenSimNode = XmlHelper.Find(ParentNode.ParentNode.ParentNode, NitrogenComponentName);
             if ((NitrogenSimNode == null))
                 {
                 throw new Exception("Cannot find soiln2 node");

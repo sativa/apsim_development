@@ -1186,7 +1186,7 @@ namespace Soils
                                 }
 
                             if (XmlHelper.Type(Data).ToLower() == "soilcrop")
-                                XmlHelper.SetName(LayerData, Data.Name);
+                                XmlHelper.SetName(LayerData, XmlHelper.Name(Data));
                             }
                         }
                     }

@@ -494,6 +494,12 @@ namespace ApsimFile
                 XmlNode SimNode = XmlHelper.Find(ApsimToSim, "sim");
                 XmlNode CallDllNode = XmlHelper.Find(ApsimToSim, "calldll");
                 XmlNode Node = ParentNode;
+                if (ParentNode != null)
+                    {
+                    Node = XmlHelper.Find(ParentNode, "initdata");
+                    if (Node == null)
+                        Node = ParentNode;
+                    }
                 if (ModuleType != "")
                     {
                     string ModuleDLL = XmlHelper.Value(ApsimToSim, "dll").Replace(APSIMSettings.ApsimDirectory(), "%apsuite");

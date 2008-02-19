@@ -53,10 +53,10 @@ Public Class ApsimUIActions
                 If SimulationsToRun.Count = 0 Then
                     ' Current selection must be in a folder inside a simulation step up to parent 
                     ' looking for the parent simulation
-                    While Comp.Type <> "simulation"
+                    While Not IsNothing(Comp) AndAlso Comp.Type <> "simulation"
                         Comp = Comp.Parent
                     End While
-                    If Comp.Type = "simulation" And Comp.Enabled Then
+                    If Not IsNothing(Comp) AndAlso Comp.Type = "simulation" AndAlso Comp.Enabled Then
                         SimulationsToRun.Add(Comp.FullPath)
                     End If
                 End If
