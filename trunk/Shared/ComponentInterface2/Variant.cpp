@@ -1,5 +1,11 @@
-#pragma hdrstop
+
 #include <stdexcept>
+
+#include <ComponentInterface2/Interfaces.h>
+#include <ComponentInterface2/MessageData.h>
+#include <ComponentInterface2/TypeConverter.h>
+#include <ComponentInterface2/ArraySpecifier.h>
+
 #include "Variant.h"
 
 // UGLY HACK for workarounds. rewrite this asap
@@ -23,7 +29,7 @@ EXPORT STDCALL Variant::~Variant() { if (bufStart) {free(bufStart); bufLen = 0;}
        }
    std::string DDML(const Variant& data)
        {
-       string result = "<type name=\"Variant\" array=\"T\">";
+       std::string result = "<type name=\"Variant\" array=\"T\">";
        //... WRONG. Needs to write each field..
        result += "</type>";
        return result;

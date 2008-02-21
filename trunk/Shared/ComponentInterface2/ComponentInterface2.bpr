@@ -7,7 +7,7 @@
     <OBJFILES value="ComponentInterface.obj message.obj TypeConverter.obj ArraySpecifier.obj 
       CMPScienceAPI.obj CMPComponentInterface.obj CMPData.obj 
       CMPComponentEntryPoints.obj EntryPoints.obj CreateComponent.obj 
-      DataTypes.obj"/>
+      DataTypes.obj Variant.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -64,6 +64,7 @@
       <FILE FILENAME="EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="CreateComponent.cpp" FORMNAME="" UNITNAME="CreateComponent" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="DataTypes.cpp" FORMNAME="" UNITNAME="DataTypes" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Variant.cpp" FORMNAME="" UNITNAME="Variant" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
