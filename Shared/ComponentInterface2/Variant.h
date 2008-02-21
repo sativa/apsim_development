@@ -1,11 +1,9 @@
 #ifndef VariantH
 #define VariantH
 
-#include <ComponentInterface2/Interfaces.h>
-#include <ComponentInterface2/MessageData.h>
-#include <ComponentInterface2/TypeConverter.h>
-#include <ComponentInterface2/ArraySpecifier.h>
-#include <ComponentInterface2/ScienceAPI.h>
+#include <general/platform.h>
+#include <string>
+#include <vector>
 
 class Variant 
       {
