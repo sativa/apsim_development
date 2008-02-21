@@ -112,39 +112,6 @@
       <field name="vp"    kind="single" units="????"/>
    </type>
 
-   <type name="SoilWaterProfileLayer" array="T">
-      <element>
-      <field name="thickness" kind="single" units="mm"/>
-      <field name="BulkDensity" kind="single" units="g/cc"/>
-      <field name="SatDepth" kind="single" units="mm"/>
-      <field name="DULDepth" kind="single" units="mm"/>
-      <field name="LL15Depth" kind="single" units="mm"/>
-      <field name="AirDryDepth" kind="single" units="mm"/>
-      <field name="SWDepth" kind="single" units="mm"/>
-      </element>
-   </type>
-
-   <type name="SoilWaterLayer" array="T">
-      <element>
-      <field name="thickness" kind="single" units="mm"/>
-      <field name="amount" kind="single" units="mm"/>
-      </element>
-   </type>
-
-   <type name="SoilWaterBalance">
-      <field name="infiltration" kind="single"/>
-      <field name="drainage" kind="single"/>
-      <field name="evaporation" kind="single"/>
-      <field name="LateralFlowLayer" array="T">
-         <element>
-         <field name="thickness" kind="single"/>
-         <field name="amount" kind="single"/>
-         </element>
-      </field>
-   </type>
-
-   <!--   !!!!! SOLUTE types !!!!! -->
-
    <type name="NewSolute">
       <field name="sender_name" kind="string"/>
       <field name="sender_numbytes" kind="integer4"/>
@@ -162,20 +129,6 @@
       <field name="solute_names_isarray" kind="boolean"/>
       <field name="solute_names_value" kind="string" array="T" />
    </type>
-
-   <type name="SoluteProfile" array="T">
-      <element>
-      <field name="name" kind="string"/>
-      <field name="layer" array="T">
-         <element>
-         <field name="thickness" kind="single"/>
-         <field name="amount" kind="single"/>
-         </element>
-      </field>
-      </element>
-   </type>
-
-
    <!--      !!!!! IRRIGATE types !!!!!  -->
    <type name="Irrigated" description="Sent when an irrigation occurs">
       <field name="sender_name" kind="string"/>
@@ -271,37 +224,8 @@
 
    <!--      !!!!! SURFACE types !!!!!-->
 
-   <type name="SurfaceWater">
-      <field name="amount" kind="single"/>
-      <field name="solute" array="T">
-         <element>
-         <field name="name" kind="string"/>
-         <field name="amount" kind="single" units="kg/ha"/>
-         </element>
-      </field>
-   </type>
-
-   <type name="SurfaceWaterBalance">
-      <field name="runoff" kind="single"/>
-      <field name="evaporation" kind="single"/>
-      <field name="runon" kind="single"/>
-      <field name="WaterInput" kind="single"/>
-   </type>
-
    <!--       !!!! FERTILISER Types !!!!!!-->
 
-   <type name="FertiliserConstituents" array="T">
-      <element>
-      <field name="name" kind="string"/>
-      <field name="SurfaceAmount" kind="single"/>
-      <field name="layer" array="T">
-         <element>
-         <field name="thickness" kind="single" units = "mm"/>
-         <field name="amount"    kind="single" units="kg/ha"/>
-         </element>
-      </field>
-      </element>
-   </type>
 
    <!--       !!!! ORGANIC MATTER Types !!!!!!
 ! dsg040702  this individual structure is currently part of several other structures, and can be used when inheritance is implemented
@@ -522,65 +446,6 @@
          <field name="sender" kind="string"/>
          <field name="crop_type" kind="string"/>
       </type>
-      <type name="NewZone">
-         <field name="sender" kind="string"/>
-         <field name="area" kind="single"/>
-         <field name="slope" kind="single"/>
-         <field name="X" kind="single"/>
-         <field name="Y" kind="single"/>
-      </type>
-
-   <type name="SoilLayers">
-      <field name="layers" kind="double" unit="mm"  array = "T"/>
-      <field name="value" kind="double" unit="mm"  array = "T"/>
-   </type>
-
-   <type name="PastureWaterDemand" description="Message sent to add crop water demand terms to water balance calculations.">
-      <field name="demands" array="T">
-         <element>
-            <field name="crop_ident" kind = "string" description="Cohort name + instance name"/>
-            <field name="crop_type" kind = "string"/>
-            <field name="rlv_layer">
-                <field name="layers" kind="double" units="mm" array = "T"/>
-                <field name="rlv" kind="double" units="mmmm^3" array = "T"/>
-            </field>
-            <field name="demand" kind="double" unit="mm"/>
-         </element>
-      </field>
-   </type>
-
-   <type name="PastureWaterSupply">
-      <field name="supplies" array="T">
-         <element>
-            <field name="crop_ident" kind = "string" description="Cohort name + instance name"/>
-            <field name="layers" kind="double" unit="mm"  array = "T"/>
-            <field name="supply" kind="double" unit="mm"  array = "T"/>
-         </element>
-      </field>
-   </type>
-
-   <type name="PastureWaterUptake">
-      <field name="water_uptake" array="T">
-         <element>
-            <field name="crop_ident" kind = "string" description="Cohort name + instance name"/>
-            <field name="layers" kind="double" unit="mm"  array = "T"/>
-            <field name="uptake" kind="double" unit="mm"  array = "T"/>
-         </element>
-      </field>
-   </type>
-
-   <type name="WaterInfo">
-      <field name="water_info" array="T">
-         <element>
-            <field name="crop_ident" kind = "string" description="sub-population name"/>
-            <field name="params" kind="double" unit="mm"  array = "T"/>
-            <field name="demand" kind="double" unit="mm"/>
-            <field name="layers" kind="double" unit="mm"  array = "T"/>
-            <field name="rlv" kind="double" unit="mm/mm^3"  array = "T"/>
-            <field name="root_radius" kind="double" unit="mm"  array = "T"/>
-         </element>
-      </field>
-   </type>
    <type name="FomAdded">
       <field name="layers" unit="mm" kind="double" array="T" />
       <field name="fom" array="T">
@@ -594,17 +459,9 @@
          </element>
       </field>
    </type>
-
-   <type name="PastureNutrientUptake">
-      <field name="nutrient" kind="string"/>
-      <field name="layers" unit="mm" kind="double" array="T" />
-      <field name="uptake" unit="kg/ha" kind="double" array="T" />
-   </type>
-
    <type name="PastureSow">
       <field name="rate" unit="kg/ha" kind="double"/>
    </type>
-
    <type name="PastureKill">
       <field name="propn_herbage" unit="-" kind="double"/>
       <field name="propn_seed" unit="-" kind="double"/>
@@ -639,15 +496,6 @@
       <field name="ash_alk" unit="mol/kg" kind="double"/>
    </type>
 
-   <type name="PastureWeather">
-      <field name="maxt" unit="oC" kind="double"/>
-      <field name="mint" unit="oC" kind="double"/>
-      <field name="rain" unit="mm/d" kind="double"/>
-      <field name="snow" unit="mm/d" kind="double"/>
-      <field name="radn" unit="MJ/m2/d" kind="double"/>
-      <field name="vpd" unit="kPa" kind="double"/>
-      <field name="wind" unit="m/s" kind="double"/>
-   </type>
 
    <!--!!!!! STOCK  types  !!!!!!!!!!!!!!!!!!!!!!-->
 
