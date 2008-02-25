@@ -41,6 +41,12 @@ float FruitCohortFN::getStageNumber(void)
    return fruitPhenology->stageNumber();
 }
 
+float FruitCohortFN::getDltTT(void)
+   //===========================================================================
+{
+   return fruitPhenology->get_dlt_tt();
+}
+
 bool  FruitCohortFN::on_day_of(const string &what)
    //===========================================================================
 {
@@ -144,6 +150,12 @@ void FruitCohortFN::readSpeciesParameters(protocol::Component *system, vector<st
       FruitCohort::readSpeciesParameters(system, sections);
 }
 
+void FruitCohortFN::doGrainNumber(void)
+   //===========================================================================
+{
+      doFruitNumber();
+}
+
 // Purpose
 //     Get change in plant fruit number
 void FruitCohortFN::doFruitNumber(void)
@@ -160,11 +172,35 @@ void FruitCohortFN::doFruitNumber(void)
          dlt_fruit_no = 0.0;
   }
 
+float FruitCohortFN::fruitNumber(void)
+   //===========================================================================
+  {
+      return fruit_no;
+  }
+
 float FruitCohortFN::flowerNumber(void)
    //===========================================================================
   {
       return flower_no;
   }
+
+void FruitCohortFN::giveFlowerNo(float dltFlowerNo)
+   //===========================================================================
+  {
+      flower_no += dltFlowerNo;
+  }
+
+float FruitCohortFN::potentialGrainFillRate(void)
+   //===========================================================================
+{
+   return podPart->removePodFraction(p.potential_fruit_filling_rate);
+}
+
+float FruitCohortFN::potentialCohortGrainFillRate(void)
+   //===========================================================================
+{
+   return fruit_no * potentialGrainFillRate();
+}
 
 //+  Purpose
 //       Perform grain filling calculations
@@ -172,8 +208,16 @@ void FruitCohortFN::doDmDemand (float dlt_dm_supply_by_veg)
 //   //===========================================================================
 //        float *dlt_dm_grain_demand)                         //(OUTPUT)
 {
+//   doProcessBioDemand();
+//   //       (OUTPUT) assimilate demand for reproductive part (g/m^2)
+//   // calculate demands of reproductive parts
+//   podPart->doDmDemand(dlt_dm_veg_supply);
+
 //    cohort = 0;
 //    do {
+       float dlt_dm_grain_demand = 0.0;
+       float dlt_dm_fruit_demand = 0.0;
+
        if (fruit_no > 0.0)
            {
            if (plant->getPhenology()->inPhase("flowering"))                 //pod dm demand - pod stuff
@@ -196,50 +240,49 @@ void FruitCohortFN::doDmDemand (float dlt_dm_supply_by_veg)
 //                                            ,c_x_stage_no_partition
 //                                            ,c_y_frac_pod
 //                                            ,c_num_stage_no_partition);
-               float frac_pod = fracPod.value(plant->getStageCode());
+//               float frac_pod = fracPod.value(plant->getStageCode());
 
-               float potential_grain_filling_rate = divide(p.potential_fruit_filling_rate
-                                                     , 1.0 + frac_pod
-                                                     , 0.0);
+////               float potential_grain_filling_rate = divide(p.potential_fruit_filling_rate
+////                                                     , 1.0 + frac_pod
+////                                                     , 0.0);
+               float potential_grain_filling_rate = podPart->removePodFraction(p.potential_fruit_filling_rate);
 
-               float dlt_dm_yield_unadj = fruit_no                                       //cohort/grain? dm demand - cohort stuff
-                                       * potential_grain_filling_rate                        //cohort dm demand - cohort stuff
-                                       * rel_grainfill.value(plant->getEnvironment()->meanT)                                            //cohort dm demand - cohort stuff
-                                       * fruitPhenology->get_dlt_tt();                                   //cohort dm demand - cohort stuff
+               float dlt_dm_yield = grainPart->dltDmYieldPotential();                                   //cohort dm demand - cohort stuff
 
               // adjust for grain energy
-//              float dlt_dm_grain_demand = oilPart->addEnergy(dlt_dm_yield_unadj);              //grain dm demand - grain stuff
+//              float dlt_dm_grain_demand = oilPart->addEnergy(dlt_dm_yield);              //grain dm demand - grain stuff
 
-//              dlt_dm_pod_demand = dlt_dm_yield_unadj * frac_pod;                              //pod dm demand - pod stuff
+//              dlt_dm_pod_demand = dlt_dm_yield * frac_pod;                              //pod dm demand - pod stuff
+               podPart->doDmDemand(dlt_dm_yield);                                                             //pod dm demand - pod stuff
 //
-//              dlt_dm_fruit_demand[cohort] = dlt_dm_pod_demand + dlt_dm_grain_demand[cohort];  //cohort dm demand - cohort stuff
+               dlt_dm_fruit_demand = dmGreenDemand();  //cohort dm demand - cohort stuff
 //
-//              dlt_dm_fruit_max = g_fruit_no[cohort] * p_dm_fruit_max                          //cohort dm demand - cohort stuff
+               float dlt_dm_fruit_max = fruit_no * p.dm_fruit_max - Green.DM();                         //cohort dm demand - cohort stuff
 //                      - sum_real_array(&g_dm_fruit_green[cohort][pod], max_part-pod);         //cohort dm demand - cohort stuff
-//              dlt_dm_fruit_max = l_bound (dlt_dm_fruit_max, 0.0);                             //cohort dm demand - cohort stuff
+               dlt_dm_fruit_max = l_bound (dlt_dm_fruit_max, 0.0);                             //cohort dm demand - cohort stuff
 //
-//              // adjust the demands
-//              if (dlt_dm_fruit_demand[cohort] > dlt_dm_fruit_max)                             //grain dm demand - grain stuff
-//                  {                                                                           //grain dm demand - grain stuff
-//                  dlt_dm_grain_demand[cohort] = dlt_dm_grain_demand[cohort]                   //grain dm demand - grain stuff
-//                                                 * divide (dlt_dm_fruit_max                   //grain dm demand - grain stuff
-//                                                           , dlt_dm_fruit_demand[cohort]      //grain dm demand - grain stuff
-//                                                           , 0.0);                            //grain dm demand - grain stuff
-//                  dlt_dm_fruit_demand[cohort] = dlt_dm_fruit_max;
-//                  }                                                                           //cohort dm demand - cohort stuff
+              // adjust the demands
+              if (dlt_dm_fruit_demand > dlt_dm_fruit_max)                             //grain dm demand - grain stuff
+                  {                                                                           //grain dm demand - grain stuff
+                  dlt_dm_grain_demand = dlt_dm_grain_demand                   //grain dm demand - grain stuff
+                                                 * divide (dlt_dm_fruit_max                   //grain dm demand - grain stuff
+                                                           , dlt_dm_fruit_demand      //grain dm demand - grain stuff
+                                                           , 0.0);                            //grain dm demand - grain stuff
+                  dlt_dm_fruit_demand = dlt_dm_fruit_max;
+                  }                                                                           //cohort dm demand - cohort stuff
               }
            else
               {
               // no changes
-//              dlt_dm_grain_demand[cohort] = 0.0;
-//              dlt_dm_fruit_demand[cohort] = 0.0;
+              dlt_dm_grain_demand = 0.0;
+              dlt_dm_fruit_demand = 0.0;
               }
            }
        else
            {
            // no fruit
-//           dlt_dm_grain_demand[cohort] = 0.0;
-//           dlt_dm_fruit_demand[cohort] = 0.0;
+           dlt_dm_grain_demand = 0.0;
+           dlt_dm_fruit_demand = 0.0;
            }
 ////       cohort++;
 ////       } while (cohort < g_num_fruit_cohorts);

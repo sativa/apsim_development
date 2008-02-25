@@ -77,6 +77,7 @@ public:                                             // member functions
    float calcDltDmPotentialGrain (void);
 
    void doNRetranslocate( float N_avail_rep, float g_grain_n_demand);
+   float dltDmYieldPotential(void);
 
 
 

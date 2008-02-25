@@ -12,7 +12,7 @@ using namespace std;
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
 //  initialise data members.
-fruitGrainPartFN::fruitGrainPartFN(ScienceAPI& scienceAPI, plantInterface *p, FruitCohort *g, const string &name)
+fruitGrainPartFN::fruitGrainPartFN(ScienceAPI& scienceAPI, plantInterface *p, FruitCohortFN *g, const string &name)
    : fruitGrainPart(scienceAPI, p, name)
    , myParent(g)
 {
@@ -187,6 +187,15 @@ void fruitGrainPartFN::doProcessBioDemand(void)
 
 float fruitGrainPartFN::grainNo(void)  {return gGrain_no;}
 
+float fruitGrainPartFN::dltDmYieldPotential(void)
+   //===========================================================================
+{
+
+   return myParent->potentialCohortGrainFillRate()
+                           * rel_grainfill.value(plant->getEnvironment()->meanT)                                            //cohort dm demand - cohort stuff
+                           * myParent->getDltTT();
+}
+
 void fruitGrainPartFN::doDMDemandGrain(void)
    //===========================================================================
    {
@@ -196,17 +205,25 @@ void fruitGrainPartFN::doDMDemandGrain(void)
       float tav;
       tav = meanT();
 
-      if (plant->inPhase("grainfill"))
-         gDlt_dm_grain_demand = gGrain_no
-                              * pPotential_grain_filling_rate
-                              * rel_grainfill.value(tav);
-      else
-         {
-         // we are in the flowering to grainfill phase
-         gDlt_dm_grain_demand = gGrain_no
-                              * pPotential_grain_growth_rate
-                              * rel_grainfill.value(tav);
-          }
+//      if (plant->inPhase("grainfill"))
+//         gDlt_dm_grain_demand = gGrain_no
+//                              * pPotential_grain_filling_rate
+//                              * rel_grainfill.value(tav);
+//      else
+//         {
+//         // we are in the flowering to grainfill phase
+//         gDlt_dm_grain_demand = gGrain_no
+//                              * pPotential_grain_growth_rate
+//                              * rel_grainfill.value(tav);
+//          }
+           if (plant->getPhenology()->inPhase("grainfilling"))
+               {
+               // we are in grain filling stage
+
+               float dlt_dm_yield = dltDmYieldPotential()                        //cohort dm demand - cohort stuff
+                                  * rel_grainfill.value(plant->getEnvironment()->meanT)                                            //cohort dm demand - cohort stuff
+                                  * myParent->getDltTT();                                   //cohort dm demand - cohort stuff
+
        // check that grain growth will not result in daily n conc below minimum conc
        // for daily grain growth
       float nfact_grain_conc = plant->getNfactGrainConc();
@@ -224,6 +241,7 @@ void fruitGrainPartFN::doDMDemandGrain(void)
       gDlt_dm_grain_demand = 0.0;
 
    }
+}
 
 void fruitGrainPartFN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
                                      , float /* swdef_expansion*/)    //   grain N demand (g/m^2)
