@@ -390,4 +390,10 @@ void fruitPodPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop w
    transpEff = transpEff * divide(sw_demand_te, sw_demand, 1.0);
 }
 
+float fruitPodPart::removePodFraction (float DM)
+    //===========================================================================
+{
+   float frac_pod = fracPod->value(myParent->getStageNumber());
+   return divide(DM, 1.0 + frac_pod, 0.0);
+}
 

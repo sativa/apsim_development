@@ -19,7 +19,7 @@ fruitMealPart::fruitMealPart(ScienceAPI& scienceAPI, plantInterface *p, const st
 void fruitMealPart::doDMDemand (float dm_demand)                    //remove
 //     ===========================================================  //remove
 {                                                                   //remove
-    DMGreenDemand = dm_demand;                                      //remove
+    doDMDemandGrain(dm_demand);                                      //remove
 }                                                                   //remove
 
 void fruitMealPart::doNDemand (float n_demand)                      //remove

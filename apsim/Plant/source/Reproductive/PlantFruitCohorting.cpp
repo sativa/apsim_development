@@ -121,6 +121,8 @@ void PlantFruitCohorting::addNewCohort (protocol::Component *system)
    cohort->onInit1(system);
    add(cohort);
    myCohorts.push_back(cohort);
+
+   cohort->giveFlowerNo(dlt_flower_no);
 }
 
 void PlantFruitCohorting::doNewCohort (protocol::Component *system)

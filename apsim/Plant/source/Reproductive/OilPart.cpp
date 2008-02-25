@@ -127,16 +127,14 @@ float fruitOilPart::dltDmGreenRetransUptake(void)
 void fruitOilPart::doDMDemand (float dlt_dm_grain_demand)                                                    //remove
 //=======================================================================================
    {                                                                                                           //remove
-   float dltDmOil = divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * cGrain_oil_conc;                    //remove
-   float dltDmOilConversion =  divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * (gGrain_energy - 1.0);   //remove
-   DMGreenDemand = dltDmOil + dltDmOilConversion;                                                          //remove
+	doDMDemandGrain (dlt_dm_grain_demand);
    }                                                                                                           //remove
 
 void fruitOilPart::doDMDemandGrain (float dlt_dm_grain_demand)
 //=======================================================================================
    {
-   float dltDmOil = divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * cGrain_oil_conc;
-   float dltDmOilConversion =  divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * (gGrain_energy - 1.0);
+   float dltDmOil = removeEnergy (dlt_dm_grain_demand) * cGrain_oil_conc;                    
+   float dltDmOilConversion =  removeEnergy (dlt_dm_grain_demand) * (gGrain_energy - 1.0);   
    DMGreenDemand = dltDmOil + dltDmOilConversion;
    }
 

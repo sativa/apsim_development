@@ -25,11 +25,17 @@ public:                                             // member functions
    void readCultivarParameters (protocol::Component *, const string &);
 
 
+   void doGrainNumber (void);
    void doFruitNumber(void);
    float flowerNumber(void);
+   float fruitNumber(void);
    void doDmDemand (float dlt_dm_supply_by_veg);
    float getStageNumber(void);
+   float getDltTT(void);
    bool  on_day_of(const string &what);
+   void giveFlowerNo(float dltFlowerNo);
+   float potentialCohortGrainFillRate(void);
+   float potentialGrainFillRate(void);
 
 #if TEST_FruitCohortFN
    virtual ~FruitCohortFN();                          // destructor

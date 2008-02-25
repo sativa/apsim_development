@@ -443,5 +443,6 @@ float fruitGrainPart::dmGrainWetTotal(void)
    }
 
 float fruitGrainPart::grainWaterContent(void) {return cGrn_water_cont;}
+float fruitGrainPart::dltDmYieldPotential(void) {}
 
 

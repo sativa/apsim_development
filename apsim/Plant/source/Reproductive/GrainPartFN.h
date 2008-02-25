@@ -12,7 +12,7 @@ class fruitGrainPartFN : public fruitGrainPart
 {
    friend ostream &operator<<(ostream &, const fruitGrainPartFN &);
 public:                                             // member functions
-   fruitGrainPartFN(ScienceAPI& scienceAPI, plantInterface *p, FruitCohort *g, const string &name);
+   fruitGrainPartFN(ScienceAPI& scienceAPI, plantInterface *p, FruitCohortFN *g, const string &name);
    ~fruitGrainPartFN();
 
    fruitGrainPartFN(const fruitGrainPartFN &fruitGrainPartFN);           // copy constructor
@@ -33,6 +33,7 @@ public:                                             // member functions
    float grainNo(void);
    float grainWt(void);
    void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
+   float dltDmYieldPotential(void);
 
 protected:
    void doDMDemandGrain(void) ;
@@ -53,7 +54,7 @@ protected:
    interpolationFunction rel_grainfill;
    interpolationFunction rel_grain_n_fill;
 
-   FruitCohort *myParent;
+   FruitCohortFN *myParent;
 };
 
 #endif
