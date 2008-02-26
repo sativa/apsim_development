@@ -204,8 +204,8 @@ namespace CSUserInterface
             NewSoil.Site = GetStringValue(Table, "Site", Row);
             NewSoil.ApsoilNumber = GetStringValue(Table, "APSoilNumber", Row);
             NewSoil.Classification = GetStringValue(Table, "Classification", Row);
-            NewSoil.Latitude = GetDoubleValue(Table, "Latitude(WGS84)", Row);
-            NewSoil.Longitude = GetDoubleValue(Table, "Longitude(WGS84)", Row);
+            NewSoil.Latitude = MathUtility.Round(GetDoubleValue(Table, "Latitude(WGS84)", Row), 3);
+            NewSoil.Longitude = MathUtility.Round(GetDoubleValue(Table, "Longitude(WGS84)", Row), 3);
             NewSoil.LocationAccuracy = GetStringValue(Table, "LocationAccuracy", Row);
             NewSoil.DataSource = GetStringValue(Table, "DataSource", Row);
 			NewSoil.Comment = GetStringValue(Table, "Comments", Row);

@@ -262,7 +262,7 @@ namespace CSUserInterface
         public static void CheckWebForDataUpdate(BaseController Controller)
             {
             Cursor.Current = Cursors.WaitCursor;
-            WebRequest request = WebRequest.Create("http://www.apsim.info/apsim/products/apsoil/APSRU-Australia-Soils.soils");
+            WebRequest request = WebRequest.Create("http://www.apsim.info/apsim/tools/APSRU-Australia-Soils.soils");
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             if (response.StatusDescription == "OK")
                 {
@@ -428,6 +428,8 @@ namespace CSUserInterface
 
                 // Do manager macro replacement.
                 XmlNode UI = XmlHelper.Find(Doc.DocumentElement, "ui");
+                Contents = Contents.Replace("[Name]", Component.Name);
+                Contents = Contents.Replace("[name]", Component.Name);
                 foreach (XmlNode Prop in XmlHelper.ChildNodes(UI, ""))
                     {
                     if (Prop.Name.ToLower() != "category")
