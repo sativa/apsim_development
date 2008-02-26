@@ -2,17 +2,16 @@ Imports VBGeneral
 
 Public Class ApsoilSplash
     Inherits System.Windows.Forms.Form
-    Private ApplicationName As String
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal ApplicationName As String)
+    Public Sub New()
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
-        Me.ApplicationName = ApplicationName
+
 
     End Sub
 
@@ -87,7 +86,4 @@ Public Class ApsoilSplash
 
 #End Region
 
-    Private Sub OnFormLoad(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        PictureBoxTop.Image = Image.FromFile(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), ApplicationName, "SplashScreen"))
-    End Sub
 End Class

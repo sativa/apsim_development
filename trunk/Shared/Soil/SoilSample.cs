@@ -407,8 +407,8 @@ namespace Soils
 
         public XmlNode ExportToSim(XmlNode ParentNode)
             {
-            string NitrogenComponentName = XmlHelper.Name(ParentNode).Replace(" Water", " Nitrogen");
-            XmlNode NitrogenSimNode = XmlHelper.Find(ParentNode.ParentNode, NitrogenComponentName);
+            string NitrogenComponentName = XmlHelper.Name(ParentNode.ParentNode).Replace(" Water", " Nitrogen");
+            XmlNode NitrogenSimNode = XmlHelper.Find(ParentNode.ParentNode.ParentNode, NitrogenComponentName);
 
             if (MathUtility.ValuesInArray(SW))
                 {
@@ -419,7 +419,7 @@ namespace Soils
                     sw[i] = Math.Max(sw[i], ParentSoil.Airdry[i]);
                     sw[i] = Math.Min(sw[i], ParentSoil.SAT[i]);
                     }
-                XmlHelper.SetValue(ParentNode, "initdata/sw", Utility.LayeredToString(sw));
+                XmlHelper.SetValue(ParentNode, "sw", Utility.LayeredToString(sw));
                 }
             if (MathUtility.ValuesInArray(NO3))
                 {
@@ -452,7 +452,7 @@ namespace Soils
                 {
                 foreach (string CropName in ParentSoil.Crops)
                     {
-                    XmlNode CropSimNode = XmlHelper.Find(ParentNode.ParentNode, CropName);
+                    XmlNode CropSimNode = XmlHelper.Find(ParentNode.ParentNode.ParentNode, CropName);
                     if (CropSimNode != null)
                         {
                         string XfString = XmlHelper.Value(CropSimNode, "initdata/xf");
