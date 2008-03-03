@@ -785,7 +785,7 @@ void Plant::plant_update(void)
 
     // now update new canopy covers
     plantSpatial.setPlants(getPlants());
-    plantSpatial.setCanopyWidth(leafPart->width());
+    plantSpatial.setCanopyWidth(stemPart->width());
 
     plant.doCover(plantSpatial);
 
