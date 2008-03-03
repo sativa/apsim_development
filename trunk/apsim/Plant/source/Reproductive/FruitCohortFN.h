@@ -36,6 +36,8 @@ public:                                             // member functions
    void giveFlowerNo(float dltFlowerNo);
    float potentialCohortGrainFillRate(void);
    float potentialGrainFillRate(void);
+   float dltDmFruitMax(void);
+   float dltDmGrainMax(void);
 
 #if TEST_FruitCohortFN
    virtual ~FruitCohortFN();                          // destructor

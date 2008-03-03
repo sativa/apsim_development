@@ -220,22 +220,22 @@ void fruitGrainPartFN::doDMDemandGrain(void)
                {
                // we are in grain filling stage
 
-               float dlt_dm_yield = dltDmYieldPotential()                        //cohort dm demand - cohort stuff
-                                  * rel_grainfill.value(plant->getEnvironment()->meanT)                                            //cohort dm demand - cohort stuff
-                                  * myParent->getDltTT();                                   //cohort dm demand - cohort stuff
+               float dlt_dm_yield = dltDmYieldPotential();                        //cohort dm demand - cohort stuff
+////                                  * rel_grainfill.value(plant->getEnvironment()->meanT)                                            //cohort dm demand - cohort stuff
+////                                  * myParent->getDltTT();                                   //cohort dm demand - cohort stuff
 
+               dlt_dm_yield = bound (dlt_dm_yield, 0.0, myParent->dltDmGrainMax());
+               gDlt_dm_grain_demand = oilPart->addEnergy(dlt_dm_yield);   // adding grain energy to potential new grain wt to get grain demand
        // check that grain growth will not result in daily n conc below minimum conc
        // for daily grain growth
-      float nfact_grain_conc = plant->getNfactGrainConc();
-      float nfact_grain_fill = min(1.0, nfact_grain_conc*cPotential_grain_n_filling_rate/cMinimum_grain_n_filling_rate);
-      gDlt_dm_grain_demand = gDlt_dm_grain_demand * nfact_grain_fill;
+//      float nfact_grain_conc = plant->getNfactGrainConc();
+//      float nfact_grain_fill = min(1.0, nfact_grain_conc*cPotential_grain_n_filling_rate/cMinimum_grain_n_filling_rate);
+//      gDlt_dm_grain_demand = gDlt_dm_grain_demand * nfact_grain_fill;
 
-      // Check that growth does not exceed maximum grain size
-      float max_grain = gGrain_no * pMaxGrainSize;
-      float max_dlt = max (max_grain - mealPart->Green.DM(), 0.0);
-      gDlt_dm_grain_demand = min (gDlt_dm_grain_demand, max_dlt);
+//      gDlt_dm_grain_demand = dlt_dm_grain_demand;
 
-      mealPart->doDMDemandGrain(gDlt_dm_grain_demand);
+      oilPart->doDMDemandGrain(gDlt_dm_grain_demand);
+      mealPart->doDMDemandGrain(gDlt_dm_grain_demand - oilPart->dmGreenDemand());
       }
    else
       gDlt_dm_grain_demand = 0.0;
