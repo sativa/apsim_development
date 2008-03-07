@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef ReportH
-#define ReportH
+#ifndef Report2H
+#define Report2H
 #include <string>
 #include <fstream>
 #include "DataContainer.h"
@@ -184,6 +184,7 @@ class __declspec(dllexport) Report
       void safeMode(const std::string& fileName);
 
       void __fastcall OnAddReports(TObject* sender);
+      void checkPageContents(std::string& pageContents);
 
    };
 #endif

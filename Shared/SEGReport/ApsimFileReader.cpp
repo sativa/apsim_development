@@ -42,11 +42,16 @@ bool readNextRecord(istream& in, bool csv, int index, vector<string>& fieldValue
             word = "";
          if (word[0] == '"' && word[word.length()-1] == '"')
             word = word.substr(1, word.length()-2);
+         if (csv)
+            stripLeadingTrailing(word, " ");
          if (fieldValues.size() <= (unsigned)index)
             fieldValues.push_back(word);
          else
             fieldValues[index] = word;
-         start = line.find_first_not_of(delimiter, stop+1);
+         if (csv)
+            start = stop+1;
+         else
+            start = line.find_first_not_of(delimiter, stop+1);
          index++;
          }
       return true;

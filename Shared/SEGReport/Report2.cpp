@@ -245,12 +245,14 @@ void Report::loadFromContents(const string& contents, bool quiet)
             delete data;
             data = new DataContainer(reportForm);
             data->setup(i->write());
+            refreshIfNecessary(quiet);
             }
          else if (Str_i_Eq(i->getName(), "page"))
             {
             TQuickRep* newPage = new TQuickRep(reportForm);
             pages.push_back(newPage);
             string pageContents = i->getValue();
+            checkPageContents(pageContents);
             istringstream pageStream (pageContents);
             if (pageContents != "")
                loadComponent(pageStream, newPage);
@@ -271,7 +273,7 @@ void Report::loadFromContents(const string& contents, bool quiet)
       }
 
    showPage(0);
-   refreshIfNecessary(quiet);
+
    isDirty = false;
    }
 
@@ -891,6 +893,54 @@ void __fastcall Report::buttonClick(TObject* sender)
    updateObjectInspector((TComponent*)button->Tag);
    }
 
+//---------------------------------------------------------------------------
+// Look through the page contents at all x/y sources for all charts.
+// If they don't exist, then remove them.
+//---------------------------------------------------------------------------
+void Report::checkPageContents(string& pageContents)
+   {
+   unsigned posValueSource = pageContents.find(".ValueSource = ");
+   while (posValueSource != string::npos)
+      {
+      unsigned posStartObject = pageContents.rfind("object ", posValueSource);
+      unsigned posDataSource = pageContents.rfind("DataSource = ", posValueSource);
+      if (posDataSource > posStartObject)
+         {
+         // check to make sure it is valid.
+
+         posValueSource += strlen(".ValueSource = ");
+         unsigned posValueSourceEoln = pageContents.find("\n", posValueSource);
+         string valueSource = pageContents.substr(posValueSource, posValueSourceEoln - posValueSource);
+         replaceAll(valueSource, "'", "");
+
+         posDataSource += strlen("DataSource = ");
+         unsigned posDataSourceEoln = pageContents.find("\n", posDataSource);
+         string dataSource = pageContents.substr(posDataSource, posDataSourceEoln - posDataSource);
+
+         if (reportForm->FindComponent(dataSource.c_str()) == NULL)
+            {
+//            string msg = "Cannot find data source: " + dataSource + ". " +
+//                         "Removing all chart references to it.";
+//            MessageBox(NULL, msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
+//            replaceAll(pageContents, "DataSource = " + dataSource, "DataSource = ");
+            }
+         else
+            {
+            TDataSet* data = dynamic_cast<TDataSet*> (reportForm->FindComponent(dataSource.c_str()));
+            if (data != NULL && data->Active && data->FieldDefs->IndexOf(valueSource.c_str()) == -1)
+               {
+               string msg = "Cannot find column: " + valueSource +
+                            " in data source: " + dataSource + ". " +
+                            "Removing all chart references to it.";
+               MessageBox(NULL, msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
+               unsigned posStartLine = pageContents.rfind("\n", posValueSource) + 1;
+               pageContents.erase(posStartLine, posValueSourceEoln - posStartLine);
+               }
+            }
+         }
+      posValueSource = pageContents.find(".ValueSource = '", posValueSource+1);
+      }
+   }
 //---------------------------------------------------------------------------
 // Safe mode is where we go through the .report file and remove all
 // .valuesource = lines. TChart gets quite upset when trying to load

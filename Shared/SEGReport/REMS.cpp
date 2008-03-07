@@ -79,7 +79,11 @@ void lookupTreatmentNames(const string& fileName,
          {
          String treatment;
          for(int i=2;i < query->FieldCount;i++)
-            treatment += query->Fields->Fields[i]->AsString + " ";
+            {
+            if (treatment.Length() > 0)
+               treatment += " ";
+            treatment += query->Fields->Fields[i]->AsString;
+            }
          treatmentNames.push_back(treatment.c_str());
          treatmentIDs.push_back(query->FieldValues["TreatmentID"]);
          query->Next();
@@ -174,18 +178,19 @@ void processREMS(DataContainer& parent,
    string experimentName = parent.read(properties, "experiment");
    vector<std::string> treatmentNames = parent.reads(properties, "treatment");
    string dataSourceName = parent.read(properties, "dataSource");
-
+   result.Active = false;
+   
    if (experimentName != "")
       {
-      vector<string> experimentNames, treatmentNames;
-      vector<int> experimentIDs, treatmentIDs;
+      vector<string> experimentNames, allTreatmentNames;
+      vector<int> experimentIDs, allTreatmentIDs;
       lookupExperimentNames(fileName, experimentNames, experimentIDs);
       lookupTreatmentNames(fileName, experimentName, experimentNames, experimentIDs,
-                           treatmentNames, treatmentIDs);
+                           allTreatmentNames, allTreatmentIDs);
       if (treatmentNames.size() > 0)
          {
          TADOQuery* query = createQuery(fileName, treatmentNames[0],
-                                        treatmentNames, treatmentIDs, dataSourceName);
+                                        allTreatmentNames, allTreatmentIDs, dataSourceName);
          if (query != NULL)
             {
             // for some reason FieldDefs in TADOQuery is protected.  The next line
@@ -210,7 +215,7 @@ void processREMS(DataContainer& parent,
                for (unsigned t = 0; t != treatmentNames.size(); t++)
                   {
                   TADOQuery* query = createQuery(fileName, treatmentNames[t],
-                                                 treatmentNames, treatmentIDs, dataSourceName);
+                                                 allTreatmentNames, allTreatmentIDs, dataSourceName);
                   while(!query->Eof)
                      {
                      result.Append();

@@ -157,10 +157,10 @@ void TMainForm::populateOpenMenu()
    NewItem->Caption = "Open";
    NewItem->OnClick = OpenMenuItemClick;
 
-   NewItem = new TMenuItem(OpenMenu);
+   /*NewItem = new TMenuItem(OpenMenu);
    OpenMenu->Items->Add(NewItem);
    NewItem->Caption = "Open (safe mode)";
-   NewItem->OnClick = OpenMenuItemClick;
+   NewItem->OnClick = OpenMenuItemClick;*/
 
    NewItem = new TMenuItem(OpenMenu);
    OpenMenu->Items->Add(NewItem);
