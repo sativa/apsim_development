@@ -315,7 +315,7 @@ namespace ApsimFile
                     {
                     string text = script.InnerText;
                     script.InnerText = "";
-                    string eventName = script.Name;
+                    string eventName = XmlHelper.Name(script);
                     eventName = eventName.Replace("startofday", "start_of_day");
                     eventName = eventName.Replace("endofday", "end_of_day");
                     XmlHelper.SetValue(script, "event", eventName);
@@ -429,7 +429,10 @@ namespace ApsimFile
                 {
                 ShortcutPath = "/" + XmlHelper.Name(Data.OwnerDocument.DocumentElement) 
                                    + "/shared/" + ShortcutPath.Replace("\\", "/");
-                XmlHelper.SetAttribute(Data, "shortcut", ShortcutPath);
+                if (XmlHelper.FullPath(Data) != ShortcutPath)
+                    XmlHelper.SetAttribute(Data, "shortcut", ShortcutPath);
+                else
+                    XmlHelper.DeleteAttribute(Data, "shortcut");
                 XmlNode RealNode = XmlHelper.Find(Data, ShortcutPath);
                 MakeNodeShortcuts(Data, RealNode, Config);
                 }
