@@ -12,9 +12,9 @@ PhotosynthesisModel* constructPhotosynthesisModel (ScienceAPI& scienceAPI, plant
   PhotosynthesisModel *object;
 
   string type;
-//  if(!scienceAPI.readOptional("photosynthesismodel", type))
-//    type = "rue";
-  scienceAPI.readOptional("photosynthesismodel", type);
+  if(!scienceAPI.readOptional("photosynthesismodel", type))
+    type = "rue";
+  //scienceAPI.readOptional("photosynthesismodel", type);
 
   if (type == "rue")
      {
