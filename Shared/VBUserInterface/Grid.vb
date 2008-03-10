@@ -168,4 +168,15 @@ Public Class GridUtils
         Next
         Return i
     End Function
+    ' --------------------------------------------------------------
+    ' Return the last row in the specified grid that has data in it.
+    ' --------------------------------------------------------------
+    Public Shared Function FindLastBlankCell(ByVal Grid As SheetView) As Integer
+        For RowIndex As Integer = Grid.RowCount - 1 To 0 Step -1
+            If Grid.Cells(RowIndex, 0).Text <> "" Then
+                Return RowIndex
+            End If
+        Next
+        Return 0
+    End Function
 End Class

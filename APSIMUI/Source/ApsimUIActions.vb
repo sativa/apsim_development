@@ -10,6 +10,7 @@ Public Class ApsimUIActions
         If Controller.FileSaveAfterPrompt() Then
             Dim NewDocForm As New NewDocumentForm
             If NewDocForm.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+                Controller.Explorer.CloseUI()
                 Dim Doc As New XmlDocument()
                 Dim Folder As XmlNode = Doc.AppendChild(Doc.CreateElement("folder"))
                 XmlHelper.SetName(Folder, "Simulations")

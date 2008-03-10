@@ -129,7 +129,7 @@ Public Class ExplorerUI
             End Try
         End If
     End Sub
-    Private Sub CloseUI()
+    Public Sub CloseUI()
         ' -------------------------------------------------
         ' Close the current UI
         ' -------------------------------------------------

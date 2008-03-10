@@ -506,15 +506,19 @@ Public Class OutputFileDescUI
             PropertyType = "variables"
         End If
         PropertyType = PropertyType.Remove(PropertyType.Length - 1)
-        Dim NumRows As Integer = GridUtils.FindRowsInSheet(Grid)
-        'reset all the children to the grid values
-        Dim Row As Integer = 0
-        XmlHelper.EnsureNumberOfChildren(Data, PropertyType, "", NumRows)
-        For Each Variable As XmlNode In XmlHelper.ChildNodes(Data, PropertyType)
-            XmlHelper.SetName(Variable, Grid.Cells(Row, 0).Text)
-            XmlHelper.SetAttribute(Variable, "array", Grid.Cells(Row, 1).Text)
-            XmlHelper.SetAttribute(Variable, "description", Grid.Cells(Row, 2).Text)
-            Row += 1
+        Dim NumRows As Integer = GridUtils.FindLastBlankCell(Grid)
+        Dim DataName As String = XmlHelper.Name(Data)
+        Data.RemoveAll()
+        XmlHelper.SetName(Data, DataName)
+
+        For Row As Integer = 0 To NumRows
+            Dim VariableName As String = Grid.Cells(Row, 0).Text
+            If (VariableName <> "") Then
+                Dim Variable As XmlNode = Data.AppendChild(Data.OwnerDocument.CreateElement(PropertyType))
+                XmlHelper.SetName(Variable, VariableName)
+                XmlHelper.SetAttribute(Variable, "array", Grid.Cells(Row, 1).Text)
+                XmlHelper.SetAttribute(Variable, "description", Grid.Cells(Row, 2).Text)
+            End If
         Next
     End Sub
     Private Sub SaveConstants()
@@ -569,7 +573,7 @@ Public Class OutputFileDescUI
                     Grid.Cells(e.Row, 2).Text = Item.SubItems(3).Text
                 End If
             Next
-            SaveVariableGrid()
+            'SaveVariableGrid()
             UserChange = True
         End If
     End Sub
