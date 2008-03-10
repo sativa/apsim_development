@@ -693,7 +693,7 @@ Public Class MetGraphControl
         Me.TabPage3.Location = New System.Drawing.Point(4, 23)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(1007, 657)
+        Me.TabPage3.Size = New System.Drawing.Size(1007, 679)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Monthly rainfall chart"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -1078,7 +1078,7 @@ Public Class MetGraphControl
         Me.MonthlyRainfallChart.Panel.Shadow.Visible = False
         Me.MonthlyRainfallChart.Series.Add(Me.MonthlyRainfallBar)
         Me.MonthlyRainfallChart.Series.Add(Me.MonthlyEvaporationLine)
-        Me.MonthlyRainfallChart.Size = New System.Drawing.Size(1001, 651)
+        Me.MonthlyRainfallChart.Size = New System.Drawing.Size(1001, 673)
         '
         '
         '
@@ -1250,7 +1250,7 @@ Public Class MetGraphControl
         Me.TabPage5.ImageIndex = 2
         Me.TabPage5.Location = New System.Drawing.Point(4, 23)
         Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Size = New System.Drawing.Size(1007, 657)
+        Me.TabPage5.Size = New System.Drawing.Size(1007, 679)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Temperature chart"
         Me.TabPage5.UseVisualStyleBackColor = True
@@ -1630,7 +1630,7 @@ Public Class MetGraphControl
         Me.TemperatureChart.Panel.Shadow.Visible = False
         Me.TemperatureChart.Series.Add(Me.MaximumTemperatureLine)
         Me.TemperatureChart.Series.Add(Me.MinimumTemperatureLine)
-        Me.TemperatureChart.Size = New System.Drawing.Size(1007, 657)
+        Me.TemperatureChart.Size = New System.Drawing.Size(1007, 679)
         '
         '
         '
@@ -1809,7 +1809,7 @@ Public Class MetGraphControl
         Me.TabPage4.ImageIndex = 3
         Me.TabPage4.Location = New System.Drawing.Point(4, 23)
         Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(1007, 657)
+        Me.TabPage4.Size = New System.Drawing.Size(1007, 679)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Radiation chart"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -2207,7 +2207,7 @@ Public Class MetGraphControl
         Me.RadiationChart.Series.Add(Me.RainfallBar2)
         Me.RadiationChart.Series.Add(Me.RadiationLine)
         Me.RadiationChart.Series.Add(Me.MaximumRadiationLine)
-        Me.RadiationChart.Size = New System.Drawing.Size(1007, 657)
+        Me.RadiationChart.Size = New System.Drawing.Size(1007, 679)
         '
         '
         '
@@ -2434,12 +2434,12 @@ Public Class MetGraphControl
         Me.YearBox.CausesValidation = False
         Me.YearBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.YearBox.Location = New System.Drawing.Point(84, 50)
-        Me.YearBox.Maximum = New Decimal(New Integer() {2000, 0, 0, 0})
+        Me.YearBox.Maximum = New Decimal(New Integer() {2050, 0, 0, 0})
         Me.YearBox.Minimum = New Decimal(New Integer() {1900, 0, 0, 0})
         Me.YearBox.Name = "YearBox"
         Me.YearBox.Size = New System.Drawing.Size(64, 21)
         Me.YearBox.TabIndex = 16
-        Me.YearBox.Value = New Decimal(New Integer() {1900, 0, 0, 0})
+        Me.YearBox.Value = New Decimal(New Integer() {2000, 0, 0, 0})
         '
         'MetGraphControl
         '
@@ -2495,6 +2495,7 @@ Public Class MetGraphControl
             Dim StartDate As DateTime
             Dim EndDate As DateTime
             Metfile.GetStartEndDate(FileName, StartDate, EndDate)
+            YearBox.Value = EndDate.Year
         End If
     End Sub
 
@@ -2621,11 +2622,6 @@ Public Class MetGraphControl
             End If
         Next
 
-    End Sub
-
-
-    Private Sub MonthlyRainfallChart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MonthlyRainfallChart.Click
-        MonthlyRainfallChart.ShowEditor()
     End Sub
 
 
