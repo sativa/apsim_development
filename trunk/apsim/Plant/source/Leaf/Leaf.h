@@ -2,12 +2,13 @@
 #define LeafPartH
 #include "SimplePart.h"
 #include "Co2Modifier.h"
+#include "Photosynthesis\PhotosynthesisModel.h"
 
 // Abstract class for leaf objects
 class Leaf : public SimplePart {
   public:
-   Leaf(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-      : SimplePart(scienceAPI, p, name) {};
+   Leaf(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
+
    virtual ~Leaf() {};
 
    virtual void onHarvest(float height, float remove_fr,
@@ -67,8 +68,8 @@ class Leaf : public SimplePart {
    float cYExtinctCoefDead[max_table];
    int cNumRowSpacing;
 
-   interpolationFunction cRue;                        // radiation use efficiency as f(stage number) (g dm/mj)
    bool ExternalSWDemand;
+   PhotosynthesisModel* Photosynthesis;
 };
 
 Leaf* constructLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name);

@@ -7,6 +7,8 @@
 #include "Leaf.h"
 #include "GenericLeaf.h"
 #include "CohortingLeaf.h"
+#include "Photosynthesis\PhotosynthesisModel.h"
+
 using namespace std;
 
 // Return one of the leaf objects we know about.
@@ -22,6 +24,12 @@ Leaf* constructLeafPart (ScienceAPI& scienceAPI, plantInterface *p, const string
 
   return (object);
   }
+
+Leaf::Leaf(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+   : SimplePart(scienceAPI, p, name)
+   {
+   Photosynthesis=constructPhotosynthesisModel(scienceAPI, *p);
+   }
 
 void Leaf::onInit1(protocol::Component *)
    {
@@ -173,16 +181,13 @@ float Leaf::interceptRadiationTotal (float radiation)    // incident radiation o
 
 void Leaf::doDmPotRUE (void )                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    //===========================================================================
-{
+   {
    //       Potential biomass (carbohydrate) production from
    //       photosynthesis (g/m^2).  The effect of factors such
    //       temperature and nutritional status of the plant are
    //       taken into account in the radiation use efficiency.
 
-   double stress_factor = min(min(min(plant->getTempStressPhoto(), plant->getNfactPhoto())
-                                  , plant->getOxdefPhoto()), plant->getPfactPhoto());
-
-   dlt.dm_pot_rue = (radiationInterceptedGreen * cRue.value(plant->getStageNumber())) * stress_factor * plant->getCo2Modifier()->rue();
-}
+   dlt.dm_pot_rue = Photosynthesis->Potential(radiationInterceptedGreen);
+   }
 
 

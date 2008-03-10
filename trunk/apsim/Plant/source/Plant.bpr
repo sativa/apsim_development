@@ -33,7 +33,8 @@
       Co2Modifier.obj Reproductive\FruitCohortFN.obj 
       Reproductive\PlantFruitCohorting.obj Leaf\GenericLeaf.obj Leaf\Leaf.obj 
       Leaf\CohortingLeaf.obj Stem.obj Reproductive\GrainPartFN.obj 
-      Reproductive\PodPartFN.obj"/>
+      Reproductive\PodPartFN.obj Photosynthesis\RUEModel.obj 
+      Photosynthesis\PhotosynthesisModel.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -45,7 +46,7 @@
     <SPARELIBS value="rtl.lib vcl.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi 
       bdertl.bpi bcbsmp.bpi vcldbx.bpi dclocx.bpi qrpt.bpi"/>
-    <PATHCPP value=".;..\..\..\Shared\ComponentInterface;Phenology;Arbitrators;Reproductive;Root;Utility;Storage;Leaf"/>
+    <PATHCPP value=".;..\..\..\Shared\ComponentInterface;Phenology;Arbitrators;Reproductive;Root;Utility;Storage;Leaf;Photosynthesis"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -55,8 +56,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="PlantComponent.cpp"/>
-    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared"/>
-    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="Photosynthesis;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared"/>
+    <LIBPATH value="Photosynthesis;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-wprc -wstv -wsig -w-par -wnod -w-8027 -w-8026 -wdef -wamb"/>
     <WARNOPTSTR value=""/>
     <OTHERFILES value=""/>
@@ -157,6 +158,8 @@
       <FILE FILENAME="Stem.cpp" FORMNAME="" UNITNAME="Stem" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Reproductive\GrainPartFN.cpp" FORMNAME="" UNITNAME="GrainPartFN.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Reproductive\PodPartFN.cpp" FORMNAME="" UNITNAME="PodPartFN.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Photosynthesis\RUEModel.cpp" FORMNAME="" UNITNAME="RUEModel.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Photosynthesis\PhotosynthesisModel.cpp" FORMNAME="" UNITNAME="PhotosynthesisModel.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
