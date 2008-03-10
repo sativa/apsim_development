@@ -1048,8 +1048,8 @@ std::string Component::getDescription()
             }
          }
       returnString += "\n</describecomp>\n";
-      std::ofstream out("d:\\tmp\\tempplant.xml");
-      out << returnString;
+      //std::ofstream out("d:\\tmp\\tempplant.xml");
+      //out << returnString;
       return returnString;
       }
    catch (const std::exception& err)
