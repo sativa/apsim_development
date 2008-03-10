@@ -1,434 +1,210 @@
 #pragma once
 
-#include "Message.h"
-#include "Utility.h"
 #include "Interfaces.h"
+#include "DataTypes.h"
 #include <string>
 #include <vcclr.h>
+using namespace System::Runtime::InteropServices;
 
-namespace ComponentInterface {
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIPackBool", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void pack(char* messageData, Boolean Data);
 
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIPackInt", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void pack(char* messageData, Int32 Data);
 
-class ApsimInteger4 : public IData
-	{
-	private:
-		int Data;
-	public:
-		ApsimInteger4() : Data(0) { }
-		ApsimInteger4(int value) : Data(value) { }
-		ApsimInteger4(Int32^ value) : Data(*value) { }
-		ApsimInteger4(Object^ value) {Data = Convert::ToInt32(value);}
-		ApsimInteger4(Message& message) {unpack(message);}
-		int value() {return Data;}
-		Object^ AsObject() {return Data;}
-		void SetValue(gcroot<Object^> Value) {Data = Convert::ToInt32(Value);}
-		void pack(Message& message) 
-			{
-			*(int*)message.dataStream() = Data; 
-			message.addToDataSize(4);	
-			message.advanceDataStream(4);
-			}
-		void unpack(Message& message) 
-			{
-			Data = *(int*)message.dataStream(); 
-			message.advanceDataStream(4);
-			}
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIPackSingle", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void pack(char* messageData, Single Data);
 
-		const char* ddml()
-			{
-			return "<type kind=\"integer4\"/>";
-			}
-	};
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIPackDouble", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void pack(char* messageData, Double Data);
 
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIPackString", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void pack(char* messageData, String^ Data);
 
-class ApsimString : public IData
-	{
-	private:
-		std::string Data;
-	public:
-		ApsimString() { }
-		ApsimString(const std::string& st) : Data(st) { }
-		ApsimString(String^ v) {Data = stringToStdString(v);}
-		ApsimString(Object^ v) {Data = stringToStdString(dynamic_cast<String^> (v));}
-		ApsimString(Message& message) {unpack(message);}
-		
-		String^ value() {return gcnew String(Data.c_str());}
-		const char* CValue() {return Data.c_str();}
-		Object^ AsObject() {return gcnew String(Data.c_str());}
-		void SetValue(gcroot<Object^> Value) {Data = stringToStdString(Convert::ToString(Value));}
-		
-		#pragma warning(disable : 4996)
-		void pack(Message& message) 
-			{
-			ApsimInteger4(Data.length()).pack(message);
-			strcpy(message.dataStream(), Data.c_str()); 
-			message.addToDataSize(Data.length());
-			message.advanceDataStream(Data.length());
-			}
-		void unpack(Message& message) 
-			{
-			ApsimInteger4 Length;
-			Length.unpack(message);
-			int length = Length.value();
-			
-			char* buffer = new char[length+1];
-			strncpy(buffer, message.dataStream(), length);
-			buffer[length] = 0; 
-			Data = buffer;
-			message.advanceDataStream(length);
-			delete [] buffer;
-			}
-		const char* ddml()
-			{
-			return "<type kind=\"string\"/>";
-			}	
-	};
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIUnPackBool", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void unpack(char* messageData, Boolean% Data);
 
-class ApsimSingle : public IData
-	{
-	private:
-		float Data;
-	public:
-		ApsimSingle() : Data(0) { }
-		ApsimSingle(float value) : Data(value) { }
-		ApsimSingle(Single^ value) : Data(*value) { }
-		ApsimSingle(Object^ value) {Data = Convert::ToSingle(value);}
-		ApsimSingle(Message& message) {unpack(message);}
-		
-		float value() {return Data;}
-		Object^ AsObject() {return Data;}
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIUnPackInt", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void unpack(char* messageData, Int32% Data);
 
-		void SetValue(gcroot<Object^> Value) {Data = Convert::ToSingle(Value);}
-		
-		
-		void pack(Message& message) 
-			{
-			*(float*)message.dataStream() = Data; 
-			message.addToDataSize(4);	
-			message.advanceDataStream(4);
-			}
-		void unpack(Message& message) 
-			{
-			Data = *(float*)message.dataStream(); 
-			message.advanceDataStream(4);
-			}
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIUnPackSingle", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void unpack(char* messageData, Single% Data);
 
-		const char* ddml()
-			{
-			return "<type kind=\"single\"/>";
-			}
-	};
-class ApsimDouble : public IData
-	{
-	private:
-		double Data;
-	public:
-		ApsimDouble() : Data(0) { }
-		ApsimDouble(double value) : Data(value) { }
-		ApsimDouble(Double^ value) : Data(*value) { }
-		ApsimDouble(Object^ value){Data = Convert::ToDouble(value);}
-		ApsimDouble(Message& message) {unpack(message);}
-		
-		double value() {return Data;}
-		Object^ AsObject() {return Data;}
-		void SetValue(gcroot<Object^> Value) {Data = Convert::ToDouble(Value);}
-		void pack(Message& message) 
-			{
-			*(double*)message.dataStream() = Data; 
-			message.addToDataSize(8);	
-			message.advanceDataStream(8);
-			}
-		void unpack(Message& message) 
-			{
-			Data = *(double*)message.dataStream(); 
-			message.advanceDataStream(8);
-			}
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIUnPackDouble", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void unpack(char* messageData, Double% Data);
 
-		const char* ddml()
-			{
-			return "<type kind=\"double\"/>";
-			}
-	};
-class ApsimBoolean : public IData
-	{
-	private:
-		bool Data;
-	public:
-		ApsimBoolean() : Data(0) { }
-		ApsimBoolean(bool value) : Data(value) { }
-		ApsimBoolean(Boolean^ value) : Data(*value) { }
-		ApsimBoolean(Object^ value){Data = Convert::ToBoolean(value);}
-		ApsimBoolean(Message& message) {unpack(message);}
-		
-		bool value() {return Data;}
-		Object^ AsObject() {return Data;}
-		void SetValue(gcroot<Object^> Value) {Data = Convert::ToBoolean(Value);}
-		void pack(Message& message) 
-			{
-			*(bool*)message.dataStream() = Data; 
-			message.addToDataSize(1);	
-			message.advanceDataStream(1);
-			}
-		void unpack(Message& message) 
-			{
-			Data = *(bool*)message.dataStream(); 
-			message.advanceDataStream(1);
-			}
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIUnPackString", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void unpack(char* messageData, System::Text::StringBuilder^ Data);
 
-		const char* ddml()
-			{
-			return "<type kind=\"boolean\"/>";
-			}
-	};
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIUnPackBoolWithConverter", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void unpackWithConverter(char* messageData, Boolean% Data);
 
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIUnPackIntWithConverter", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void unpackWithConverter(char* messageData, Int32% Data);
 
-template <class InternalT, class ExternalT>
-class ApsimArray : public IData
-	{
-	private:
-		InternalT* Data;
-		int Count;
-		std::string TypeString;
-		
-		template <class IT, class XT>
-		void SetValue(ApsimArray<IT, XT>* FromData)
-			{
-			Count = FromData->Length();
-			delete Data;
-			Data = new InternalT[Count];
-			for (int i = 0; i != Count; i++)
-				Data[i].SetValue((*FromData)[i].AsObject());
-			}		
-	public:
-		ApsimArray() : Data(NULL) { }
-		~ApsimArray() {delete Data;}
-		ApsimArray(Object^ Values)
-			{
-			array<ExternalT>^ Vals = safe_cast<array<ExternalT> > (Convert::ChangeType(Values, array<ExternalT>::typeid));
-			Count = Vals->Length;
-			Data = new InternalT[Count];
-			for (int i = 0; i != Count; i++)
-				Data[i] = InternalT(Vals[i]);
-			
-			}
-		ApsimArray(array<ExternalT>^ Values) 
-			{ 
-			Count = Values->Length;
-			Data = new InternalT[Count];
-			for (int i = 0; i != Count; i++)
-				Data[i] = InternalT(Values[i]);
-			}
-		ApsimArray(Message& message) 
-			{ 
-			Data = NULL;
-			unpack(message);
-			}
-			
-		array<ExternalT>^ value()
-			{
-			array<ExternalT>^ Vals = gcnew array<ExternalT>(Count);
-			for (int i = 0; i != Count; i++)
-				Vals[i] = Data[i].value();			
-			return Vals;
-			}
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIUnPackSingleWithConverter", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void unpackWithConverter(char* messageData, Single% Data);
 
-		InternalT operator[](int Index)
-			{
-			if (Index >= Count)
-				throw gcnew Exception("Invalid index found in ApsimArray");
-			return Data[Index].value();
-			}
-			
-		Object^ AsObject() {return value();}
-		virtual void SetValue(gcroot<Object^> Value) {throw gcnew Exception("Cannot convert an object to an array");}
-		
-		int Length() {return Count;}
-		
-		
-		void SetValue(ApsimArray<ApsimInteger4, Int32>* FromData) {SetValue<ApsimInteger4, Int32>(FromData);}
-		void SetValue(ApsimArray<ApsimSingle, Single>* FromData)  {SetValue<ApsimSingle, Single>(FromData);}
-		void SetValue(ApsimArray<ApsimDouble, Double>* FromData)  {SetValue<ApsimDouble, Double>(FromData);}
-		void SetValue(ApsimArray<ApsimString, String^>* FromData) {SetValue<ApsimString, String^>(FromData);}
-		void SetValue(ApsimArray<ApsimBoolean, Boolean>* FromData){SetValue<ApsimBoolean, Boolean>(FromData);}
-	
-		void pack(Message& message)
-			{
-			ApsimInteger4(Count).pack(message);
-			for (int i = 0; i != Count; i++)
-				Data[i].pack(message);
-			}
-		void unpack(Message& message)
-			{
-			ApsimInteger4 count;
-			count.unpack(message);
-			Count = count.value();
-			delete Data;
-			Data = new InternalT[Count];
-			for (int i = 0; i != Count; i++)
-				Data[i].unpack(message);
-			}
-		const char* ddml()
-			{
-			if (TypeString == "")
-				{
-				InternalT dummy;
-				TypeString = dummy.ddml();
-				TypeString = TypeString.substr(0, TypeString.length()-2) + " array=\"T\"/>";
-				}
-			return TypeString.c_str();
-			}
-	};
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIUnPackDoubleWithConverter", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void unpackWithConverter(char* messageData, Double% Data);
 
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIUnPackStringWithConverter", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	void unpackWithConverter(char* messageData, System::Text::StringBuilder^ Data);
 
-inline Object^ GetValueFromMember(Reflection::PropertyInfo^ Property, Object^ ComponentInstance)
-	{return Property->GetValue(ComponentInstance, nullptr);}
-inline Object^ GetValueFromMember(Reflection::FieldInfo^ Field, Object^ ComponentInstance)
-	{return Field->GetValue(ComponentInstance);}
-inline Object^ GetValueFromMember(Reflection::MethodInfo^ Method, Object^ ComponentInstance)
-	{throw gcnew Exception("Cannot get a value from an event handler");}
-	
-inline void SetValueInMember(Reflection::PropertyInfo^ Property, Object^ ComponentInstance, Object^ Value)
-	{Property->SetValue(ComponentInstance, Value, nullptr);}
-inline void SetValueInMember(Reflection::FieldInfo^ Field, Object^ ComponentInstance, Object^ Value)
-	{Field->SetValue(ComponentInstance, Value);}
-inline void SetValueInMember(Reflection::MethodInfo^ Method, Object^ ComponentInstance, Object^ Value)
-	{
-	array<Object^>^ Params = {Value};
-	Method->Invoke(ComponentInstance, Params);
-	}
-template <class T, class IT>
-class WrapMemberInfo : public IEventData
-   {
-   private:
-      gcroot<IT^> Member;
-      gcroot<Object^> ComponentInstance;
-      T Dummy;
-	  std::string TypeString;
-	  std::string Units;
-   public:
-      WrapMemberInfo(IT^ member, Object^ ComponentInst, const std::string& units) 
-         : Member(member), ComponentInstance(ComponentInst), Units(units)
-         { }
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIMemorySizeBool", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	unsigned memorySize(bool Data);
 
-	  void SetValue(Object^ Value)
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIMemorySizeInt", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	unsigned memorySize(int Data);
+
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIMemorySizeSingle", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	unsigned memorySize(float Data);
+
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIMemorySizeDouble", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	unsigned memorySize(double Data);
+
+	[DllImport("ComponentInterface2.dll", EntryPoint = "CIMemorySizeString", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
+	unsigned memorySize(String^ Data);
+
+	inline String^ DDML(Boolean Data)
 		{
-		T value;
-		value.SetValue(Value);
-		SetValueInMember(Member, ComponentInstance, value.AsObject());
-        }
-
-            
-      void pack(Message& message)
-         {
-         T value(GetValueFromMember(Member, ComponentInstance));
-         value.pack(message);
-		 }
-      void unpack(Message& message)
-         {
-         T value(message);
-         SetValueInMember(Member, ComponentInstance, value.AsObject());
-         }
-      const char* ddml()
-         {
-		 if (TypeString == "")
-			 {
-			 TypeString = Dummy.ddml();
-			 TypeString = TypeString.substr(0, TypeString.length()-2) + " unit=\"" + Units + "\"/>";
-			 }
-         return TypeString.c_str();
-         }
-   };
-template <class IT>
-class WrapMethodInfo : public IEventData
-   {
-   private:
-      gcroot<IT^> Member;
-      gcroot<Object^> ComponentInstance;
-      gcroot<IManagedData^> Dummy;
-   public:
-      WrapMethodInfo(IT^ member, Object^ ComponentInst) 
-         : Member(member), ComponentInstance(ComponentInst)
-         { 
-         Dummy = static_cast<IManagedData^> (Activator::CreateInstance(Member->GetParameters()[0]->ParameterType));
-         }
-            
-      void pack(Message& message)
-         {
-         throw gcnew Exception("Cannot pack a method");
-		 }
-      void unpack(Message& message)
-         {
-		 Dummy->unpack(message);
-		 }
-	  void invokeEvent(Message& message)
-		 {
-		 SetValueInMember(Member, ComponentInstance, Dummy);			
-         }
-      const char* ddml()
-         {
-         return Dummy->ddml();
-         }
-   };      
-template <class T>
-class WrapManaged : public IEventData
-	{
-	private:
-		gcroot<T> Data;
-	public:
-		WrapManaged(T d) : Data(d) { }
-		void pack(Message& message)
-			{
-			Data->pack(message);
-			}
-		void unpack(Message& message)
-			{
-			Data->unpack(message);
-			}
-		const char* ddml()
-			{
-			return Data->ddml();
-			}
-		void invokeEvent(Message& message)
-			{
-			Data->invokeEvent(message);
-			}
-	
-	};
-
-
-// Using this template IS NOT SAFE as it doesn't pin pointers. 
-// Two instances of SLURP confirmed this. See micromet sample.
-template <class InternalT, class ExternalT>
-class WrapVariableAlias : public IData
-   {
-   private:								 
-      gcroot<ExternalT> Variable  ;
-      InternalT* Dummy;
-	  std::string TypeString;
-	  std::string Units;
-   public:
-      WrapVariableAlias(ExternalT& v, const std::string& units) : Variable(v), Units(units) 
-		{Dummy = new InternalT;}
-      ~WrapVariableAlias() {delete Dummy;}
-      void pack(Message& message)
-         {
-         InternalT(Variable).pack(message);
-         }
-      const char* ddml()
-         {
-		 if (TypeString == "")
-			 {
-			 TypeString = Dummy->ddml();
-			 TypeString = TypeString.substr(0, TypeString.length()-2) + " unit=\"" + Units + "\"/>";
-			 }
- 		 return TypeString.c_str();
-         }
-      void unpack(Message& message) 
-		{
-		Variable = InternalT(message).value();
+		return "<type kind=\"bool\"/>";
 		}
-      virtual void invokeEvent(Message& message) {throw new Exception("Cannot unpack a calcFunction");}
-   };
+	inline String^ DDML(Int32 Data)
+		{
+		return "<type kind=\"integer4\"/>";
+		}
+	inline String^ DDML(Single Data)
+		{
+		return "<type kind=\"single\"/>";
+		}
+	inline String^ DDML(Double Data)
+		{
+		return "<type kind=\"double\"/>";
+		}
+	inline String^ DDML(String^ Data)
+		{
+		return "<type kind=\"string\"/>";
+		}
+
+	inline void unpack(char* messageData, String^% st)
+		{
+		System::Text::StringBuilder^ Contents = gcnew System::Text::StringBuilder(500);
+		::unpack(messageData, Contents);
+		st = Contents->ToString();
+		}
+	inline void unpackWithConverter(char* messageData, String^% st)
+		{
+		System::Text::StringBuilder^ Contents = gcnew System::Text::StringBuilder(500);
+		::unpackWithConverter(messageData, Contents);
+		st = Contents->ToString();
+		}
+
+	
+	template <class T>
+	void pack(char* messageData, array<T>^ values)
+	   {
+	   ::pack(messageData, values->Length);
+	   for (int i = 0; i < values->Length; i++)
+		  ::pack(messageData, values[i]);
+	   }
+
+	template <class T>
+	void unpack(char* messageData, array<T>^% values)
+	   {
+	   int count = 0;
+	   ::unpack(messageData, count);
+	   values = gcnew array<T>(count);
+	   for (int i = 0; i < count; i++)
+		  ::unpack(messageData, values[i]);
+	   }
+
+	template <class T>
+	void unpackArrayOfStructures(char* messageData, array<T^>^% values)
+	   {
+	   int count = 0;
+	   ::unpack(messageData, count);
+	   values = gcnew array<T^>(count);
+	   for (int i = 0; i < count; i++)
+		  {
+		  values[i] = gcnew T;
+		  ::unpack(messageData, values[i]);
+		  }
+	   }
+
+
+	template <class T>
+	unsigned memorySize(array<T>^ values)
+	   {
+	   return 4 + values->Length * ::memorySize(values[0]);
+	   }
+	template <class T>
+	String^ DDML(array<T>^ values)
+		{
+		T Dummy;
+		String^ TypeString = ::DDML(Dummy);
+		return TypeString->Substring(0, TypeString->Length-2) + " array=\"T\"/>";
+		}
+	   
+
+namespace ModelFramework {
+         
+template <class T>
+class WrapManaged : public UnmanagedData
+	{
+	public:
+		gcroot<ApsimComponent^> Component;
+		gcroot<T> Data;
+		WrapManaged(ApsimComponent^ Comp, T data) : Component(Comp) 
+			{
+			Data = data;
+			}
+		void pack(char* message)
+			{
+			::pack(message, (T) Data);
+			}
+		void unpack(char* message)
+			{
+			T Temp = Data;
+			::unpack(message, Temp);
+			Data = Temp;
+			}
+		unsigned memorySize()
+			{
+			return ::memorySize((T) Data);
+			}
+		String^ DDML()
+			{
+			return ::DDML((T) Data);
+			}
+		virtual ApsimComponent^ GetComponentInstance() 
+			{
+			return Component;
+			}
+	
+	};
+
+template <class T>
+class WrapManagedWithConverter : public WrapManaged<T>
+	{
+	public:
+		WrapManagedWithConverter(ApsimComponent^ Comp, T data) : WrapManaged<T>(Comp, data) 
+			{ }
+		void unpack(char* message)
+			{
+			T Temp = Data;
+			::unpackWithConverter(message, Temp);
+			Data = Temp;
+			}
+	};
+template <class T>
+class WrapManagedRefWithConverter : public WrapManagedWithConverter<T>
+	{
+	public:
+		WrapManagedRefWithConverter(ApsimComponent^ Comp, T^ data) : WrapManagedWithConverter<T>(Comp, *data) 
+			{ }
+	};	
+
 
 
 };	

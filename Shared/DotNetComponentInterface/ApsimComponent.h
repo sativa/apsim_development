@@ -3,257 +3,57 @@
 #using <System.Xml.dll>
 #include <vector>
 #include "datatypes.h"
-#include "ComponentInterface.h"
-#include "utility.h"
-#include "ApsimEvents.h"
-#include "ApsimProperties.h"
+#include "ScienceAPI.h"
 
 using namespace System::Reflection;
 using namespace System::Xml;
+typedef  void  (__stdcall *CallbackType)(const unsigned *callbackArg, char *message);
 
-namespace ComponentInterface {
+namespace ModelFramework {
 public ref class ApsimComponent
 	{
 	private:
-		ComponentComms* comms;
-		Assembly^ MyAssembly;
-	
-		// -------------------------------------------
-		// Look for all properties and register them.		
-		// -------------------------------------------
-		void RegisterAllProperties()
-			{
-			array<Type^>^ Types = MyAssembly->GetTypes();
-			for (int t = 0; t != Types->Length; t++)
-				{
-				if (Types[t]->BaseType->Name->CompareTo("ApsimComponent") == 0)
-					{
-					array<PropertyInfo^>^ Properties = Types[t]->GetProperties(static_cast<BindingFlags>(BindingFlags::Public | BindingFlags::Instance));
-					for (int p = 0; p != Properties->Length; p++)
-						{
-						ComponentComms::ReadWriteType ReadWrite;
-						if (Properties[p]->CanRead && Properties[p]->CanWrite)
-							ReadWrite = ComponentComms::readWrite;
-						else if (Properties[p]->CanRead)
-							ReadWrite = ComponentComms::read;
-						else
-							ReadWrite = ComponentComms::write;
-
-						String^ units = "";
-						String^ name = Properties[p]->Name;
-						array<Object^>^ myAttributes = Properties[p]->GetCustomAttributes(true);
-						for (int i = 0; i != myAttributes->Length; i++)
-							{
-							Attribute^ Attr = dynamic_cast<Attribute^> (myAttributes[i]);
-							String^ Str = Attr->ToString();
-							int PosDelimiter = Str->IndexOf("|");
-							if (PosDelimiter != -1)
-								{
-								name = Str->Substring(0, PosDelimiter);
-								units = Str->Substring(PosDelimiter+1);
-								if (name->Length == 0)
-								   name = Properties[p]->Name;
-								}
-							}
-						if (myAttributes->Length > 0)
-							{
-							IData* data = NULL;
-							String^ MemberType = Properties[p]->PropertyType->Name;
-							if (MemberType->CompareTo("Single") == 0)
-								data = new WrapMemberInfo<ApsimSingle, PropertyInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("Double") == 0)
-								data = new WrapMemberInfo<ApsimDouble, PropertyInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("Int32") == 0)
-								data = new WrapMemberInfo<ApsimInteger4, PropertyInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("String[]") == 0)
-								data = new WrapMemberInfo<ApsimArray<ApsimString, String^>, PropertyInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("Int32[]") == 0)
-								data = new WrapMemberInfo<ApsimArray<ApsimInteger4, Int32>, PropertyInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("Single[]") == 0)
-								data = new WrapMemberInfo<ApsimArray<ApsimSingle, Single>, PropertyInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("Double[]") == 0)
-								data = new WrapMemberInfo<ApsimArray<ApsimDouble, Double>, PropertyInfo>(Properties[p], this, stringToStdString(units));
-							
-							if (data != NULL)
-								comms->registerProperty(stringToStdString(name), stringToStdString(units), ReadWrite, data);
-							}
-						}
-					}
-				}
-			}	
-
-
-		// -------------------------------------------
-		// Look for all fields and register them.		
-		// -------------------------------------------
-		void RegisterAllFields()
-			{
-			array<Type^>^ Types = MyAssembly->GetTypes();
-			for (int t = 0; t != Types->Length; t++)
-				{
-				if (Types[t]->BaseType->Name->CompareTo("ApsimComponent") == 0)
-					{
-					array<FieldInfo^>^ Properties = Types[t]->GetFields(static_cast<BindingFlags>(BindingFlags::Public | BindingFlags::Instance));
-					for (int p = 0; p != Properties->Length; p++)
-						{
-						ComponentComms::ReadWriteType ReadWrite = ComponentComms::read;
-						String^ units = "";
-						String^ name = Properties[p]->Name;
-						
-						array<Object^>^ myAttributes = Properties[p]->GetCustomAttributes(true);
-						for (int i = 0; i != myAttributes->Length; i++)
-							{
-							Attribute^ Attr = dynamic_cast<Attribute^> (myAttributes[i]);
-							String^ Str = Attr->ToString();
-							int PosDelimiter = Str->IndexOf("|");
-							if (PosDelimiter != -1)
-								{
-								name = Str->Substring(0, PosDelimiter);
-								if (name->Length == 0)
-								   name = Properties[p]->Name;
-								units = Str->Substring(PosDelimiter+1);
-								PosDelimiter = units->IndexOf("|");
-								if (PosDelimiter != -1)
-									{
-									String^ ReadWriteString = units->Substring(PosDelimiter+1);
-									units = units->Substring(0, PosDelimiter);
-									if (ReadWriteString->CompareTo("Read") == 0)
-										ReadWrite = ComponentComms::read;
-									else if (ReadWriteString->CompareTo("Write") == 0)
-										ReadWrite = ComponentComms::write;
-									else	
-										ReadWrite = ComponentComms::readWrite;
-									}
-								}
-							if (name->Length > 0)
-								{
-								IData* data = NULL;
-								String^ MemberType = Properties[p]->FieldType->Name;
-								if (MemberType->CompareTo("Single") == 0)
-									data = new WrapMemberInfo<ApsimSingle, FieldInfo>(Properties[p], this, stringToStdString(units));
-								else if (MemberType->CompareTo("Double") == 0)
-									data = new WrapMemberInfo<ApsimDouble, FieldInfo>(Properties[p], this, stringToStdString(units));
-								else if (MemberType->CompareTo("Int32") == 0)
-									data = new WrapMemberInfo<ApsimInteger4, FieldInfo>(Properties[p], this, stringToStdString(units));
-								else if (MemberType->CompareTo("String") == 0)
-									data = new WrapMemberInfo<ApsimString, FieldInfo>(Properties[p], this, stringToStdString(units));
-								else if (MemberType->CompareTo("String[]") == 0)
-									data = new WrapMemberInfo<ApsimArray<ApsimString, String^>, FieldInfo>(Properties[p], this, stringToStdString(units));
-								else if (MemberType->CompareTo("Int32[]") == 0)
-									data = new WrapMemberInfo<ApsimArray<ApsimInteger4, Int32>, FieldInfo>(Properties[p], this, stringToStdString(units));
-								else if (MemberType->CompareTo("Single[]") == 0)
-									data = new WrapMemberInfo<ApsimArray<ApsimSingle, Single>, FieldInfo>(Properties[p], this, stringToStdString(units));
-								else if (MemberType->CompareTo("Double[]") == 0)
-									data = new WrapMemberInfo<ApsimArray<ApsimDouble, Double>, FieldInfo>(Properties[p], this, stringToStdString(units));
-								
-								if (data != NULL)
-									comms->registerProperty(stringToStdString(name), stringToStdString(units), ReadWrite, data);
-								}
-							}
-						}
-					}
-				}
-			}	
-			
-		// -------------------------------------------
-		// Look for all event handlers and register them.		
-		// -------------------------------------------
-		void RegisterAllEventHandlers()
-			{
-			array<Type^>^ Types = MyAssembly->GetTypes();
-			for (int t = 0; t != Types->Length; t++)
-				{
-				if (Types[t]->BaseType->Name->CompareTo("ApsimComponent") == 0)
-					{
-					array<MethodInfo^>^ Methods = Types[t]->GetMethods(static_cast<BindingFlags>(BindingFlags::Public | BindingFlags::Instance));
-					for (int m = 0; m != Methods->Length; m++)
-						{
-						array<Object^>^ myAttributes = Methods[m]->GetCustomAttributes(true);
-						for (int i = 0; i != myAttributes->Length; i++)
-							{
-							Attribute^ Attr = dynamic_cast<Attribute^> (myAttributes[i]);
-						    String^ EventName = Attr->ToString();
-							array<ParameterInfo^>^ pars = Methods[m]->GetParameters();
-							if (pars->Length == 1)
-								{
-								IEventData* data = new WrapMethodInfo<MethodInfo> (Methods[m], this);
-								comms->registerEventHandler(stringToStdString(EventName), data);
-								}			
-							}
-						}
-						
-					}
-				}
-			}
+		Object^ Model;
+		int ComponentI;
+		System::Text::StringBuilder^ Contents;	
+		ScienceAPI^ api;
+		
+		void RegisterAllProperties();
+		void RegisterAllEventHandlers();
 				
-		
-	protected:
-		String^ Name;
-		XmlNode^ Data;
-		ApsimEvents^ events;
-		ApsimProperties^ properties;		
-		
-		// ---------------------------------------
-		// Notify system of a warning.
-		// Errors should be thrown.
-		// ---------------------------------------
-		void warning(String^ msg) 
-			{ 
-			comms->warning(stringToStdString(msg));
-			}
+	internal:
+	    String^ Name();
+	    String^ Read(String^ Name, bool Optional);
+		void Get(String^ Name, String^ Units, bool Optional, UnmanagedData& Data);
+		void Set(String^ Name, String^ Units, UnmanagedData& Data);
+		void Publish(String^ Name, UnmanagedData& Data);
+		void CallMethodOfModel(MethodInfo^ Member, ApsimType^ Data);
+		void error(String^ Message, bool IsFatal);
+		void Warning(String^ msg);
+		void Write(String^ msg);
 
-		// ---------------------
-		// Write to summary file
-		// ---------------------
-		void writeToSummary(String^ line) 
-			{ 
-			comms->writeToSummary(stringToStdString(line));
-			}
-
-		// --------------------
-		// Terminate simulation
-		// --------------------
-		void terminateSimulation(void) 
-			{ 
-			comms->terminateSimulation();
-			}
-			
 	public:
+		ApsimComponent(Object^ Model);
 
+		// --------------------------------
+		// Called by entry point.
+		// --------------------------------
+		void createInstance(const char* dllFileName,
+							unsigned compID,
+							unsigned parentID,
+							const unsigned* callbackArg,
+							CallbackType callback);
 		
 		// --------------------------------
-		// Called by componentinterface
+		// Called by entry point.
 		// --------------------------------
-		void Setup(ComponentComms* componentComms, String^ N, String^ SDML)
-			{
-			comms = componentComms;
-			events = gcnew ApsimEvents(componentComms);
-			properties = gcnew ApsimProperties(componentComms);
-			Name = N;
-			XmlDocument^ Doc = gcnew XmlDocument();
-			Doc->LoadXml(SDML);
-			Data = Doc->DocumentElement;
-			RegisterAllProperties();
-			RegisterAllFields();
-			RegisterAllEventHandlers();
-			}
-
+		void deleteInstance ();
 
 		// --------------------------------
-		// Called by componentinterface
+		// Called by entry point.
 		// --------------------------------
-		void SetAssembly(Assembly^ assembly)
-			{
-			MyAssembly = assembly;
-			}
+		void messageToLogic (char* message);
 
-		// -----------------------------------
-		// Methods that may be overridden.
-		// -----------------------------------
-		virtual void Init1(void) { }
-		virtual void Init2(void) { }
-	
-					
 	};	
 	
 	

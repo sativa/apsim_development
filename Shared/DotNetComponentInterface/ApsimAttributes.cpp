@@ -1,54 +1,27 @@
-#include "ApsimProperties.h"
-
 using namespace System;
-using namespace ComponentInterface;
-
-
-[AttributeUsage(AttributeTargets::Property)]
-public ref class ApsimProperty : public System::Attribute
-	{
-	private:
-		String^ MyName;
-		String^ MyUnits;
-		
-	public:
-		ApsimProperty(String^ Name, String^ Units) : MyName(Name), MyUnits(Units) { }
-
-		virtual String^ ToString() override {return MyName->Concat(MyName, "|", MyUnits);}
-
-	};
-
 
 [AttributeUsage(AttributeTargets::Method)]
-public ref class ApsimEvent : public System::Attribute
+public ref class EventHandler : public System::Attribute
+	{};
+
+[AttributeUsage(AttributeTargets::Field | AttributeTargets::Property, AllowMultiple = true)]
+public ref class Output : public System::Attribute
 	{
-	private:
-		String^ MyName;
-		
-	public:
-		ApsimEvent(String^ Name) : MyName(Name) { }
-
-		virtual String^ ToString() override {return MyName;}
-
 	};
-
-
 [AttributeUsage(AttributeTargets::Field, AllowMultiple = true)]
-public ref class ApsimVariable : public System::Attribute
+public ref class Writable : public System::Attribute
+	{
+	};	
+[AttributeUsage(AttributeTargets::Field  | AttributeTargets::Property, AllowMultiple = true)]
+public ref class Units : public System::Attribute
 	{
 	private:
 		String^ St;
 		
 	public:
-		ApsimVariable(String^ Name, String^ Units, ApsimProperties::ReadWriteType ReadWrite) 
+		Units(String^ Units) 
 			{ 
-			St = String::Concat(Name, "|", Units, "|");
-			if (ReadWrite == ApsimProperties::ReadWriteType::Read)
-				St = String::Concat(St, "Read");
-			else if (ReadWrite == ApsimProperties::ReadWriteType::Write)
-				St = String::Concat(St, "Write");
-			else
-				St = String::Concat(St, "ReadWrite");
+			St = Units;
 			}
 
 		virtual String^ ToString() override 
@@ -56,5 +29,29 @@ public ref class ApsimVariable : public System::Attribute
 			return St;
 			}
 
-	};
+	};	
+[AttributeUsage(AttributeTargets::Field  | AttributeTargets::Property, AllowMultiple = true)]
+public ref class Description : public System::Attribute
+	{
+	private:
+		String^ St;
+		
+	public:
+		Description(String^ Description) 
+			{ 
+			St = Description;
+			}
+
+		virtual String^ ToString() override 
+			{
+			return St;
+			}
+
+	};	
+	
+
+[AttributeUsage(AttributeTargets::Class, AllowMultiple = true)]
+public ref class Model : public System::Attribute
+	{
+	};	
 

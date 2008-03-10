@@ -79,7 +79,9 @@ namespace ProcessDataTypesInterface
                 NewDataType.SetAttribute("cpptype", CalcCPPType(OldDataType));
                 NewDataType.SetAttribute("ctype", CalcCType(OldDataType));
                 NewDataType.SetAttribute("fortype", CalcForType(OldDataType));
-                if (getAttribute(OldDataType,"boundable") == "T")
+                NewDataType.SetAttribute("dotnettype", CalcDotNetType(OldDataType));
+                NewDataType.SetAttribute("dotnettypenohat", CalcDotNetTypeNoHat(OldDataType));
+                if (getAttribute(OldDataType, "boundable") == "T")
                     NewDataType.SetAttribute("boundable", "T");
 
                 createCDataChild(NewDataType, "cddml", DDMLToCPP(OldDataType));
@@ -95,12 +97,20 @@ namespace ProcessDataTypesInterface
                     FieldDataType.SetAttribute("name", getAttribute(child, "name"));
                     string Kind = getAttribute(child, "kind");
                     if (Kind != "")
-                        {
                         FieldDataType.SetAttribute("kind", Kind);
-                        FieldDataType.SetAttribute("dotnettype", DDMLKindToDotNet(Kind));
-                        }
+                    else
+                        FieldDataType.SetAttribute("structure", "T");
+
+                    FieldDataType.SetAttribute("dotnettype", CalcDotNetType(child));
+                    FieldDataType.SetAttribute("dotnettypenohat", CalcDotNetTypeNoHat(child));
                     FieldDataType.SetAttribute("cpptype", CalcCPPType(child));
                     FieldDataType.SetAttribute("ctype", CalcCType(child));
+                    if (hasAttribute(child, "array"))
+                        {
+                        FieldDataType.SetAttribute("array", "T");
+                        if (Kind == "")
+                            FieldDataType.SetAttribute("arrayofstructures", "T");
+                        }
                     }
                 }
             }
@@ -161,28 +171,6 @@ namespace ProcessDataTypesInterface
             return CTypeName;
             }
 
-        private static string DDMLKindToDotNet(string kind)
-            {
-            // ------------------------------------------------------------------
-            // convert a DDML 'kind' string to a CPP in .NET built in type.
-            // ------------------------------------------------------------------
-            string LowerKind = kind.ToLower();
-            if (LowerKind == "integer4")
-                return "Int32";
-            else if (LowerKind == "single")
-                return "Single";
-            else if (LowerKind == "double")
-                return "Double";
-            else if (LowerKind == "boolean")
-                return "Boolean";
-            else if (LowerKind == "char")
-                return "Char";
-            else if (LowerKind == "string")
-                return "String^";
-            else
-                return kind;
-            }
-
         private static string CalcForType(XmlNode DataType)
             {
             // ------------------------------------------------------------------
@@ -203,6 +191,46 @@ namespace ProcessDataTypesInterface
                 return "character(len=100)";
             else
                 return "";
+            }
+
+        private static string CalcDotNetTypeNoHat(XmlNode DataType)
+            {
+            string TypeName = CalcDotNetType(DataType);
+            if (TypeName[TypeName.Length-1] == '^')
+                TypeName = TypeName.Remove(TypeName.Length-1);
+            return TypeName;
+            }
+
+        private static string CalcDotNetType(XmlNode DataType)
+            {
+            // ------------------------------------------------------------------
+            // convert a DDML 'kind' string to a CPP built in type.
+            // ------------------------------------------------------------------
+            string TypeName = getAttribute(DataType,"kind");
+            if (TypeName == "")
+                TypeName = getAttribute(DataType,"name");
+            string LowerTypeName = TypeName.ToLower();
+            string CTypeName;
+            if (LowerTypeName == "integer4")
+                CTypeName = "Int32";
+            else if (LowerTypeName == "single")
+                CTypeName = "Single";
+            else if (LowerTypeName == "double")
+                CTypeName = "Double";
+            else if (LowerTypeName == "boolean")
+                CTypeName = "Boolean";
+            else if (LowerTypeName == "char")
+                CTypeName = "Char";
+            else if (LowerTypeName == "string")
+                CTypeName = "String^";
+            else
+                CTypeName = TypeName + "Type^";
+            if (getAttribute(DataType, "array") == "T")
+                {
+                CTypeName = "array<" + CTypeName;
+                CTypeName += ">^";
+                }
+            return CTypeName;
             }
 
         private static string DDMLToCPP(XmlNode DataType)

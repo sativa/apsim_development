@@ -200,19 +200,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ApsimComponent.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\DotNetComponentInterface\AssemblyInfo.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\DotNetComponentInterface\Component.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\DotNetComponentInterface\ComponentInterface.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DotNetComponentInterface.cpp"
+				RelativePath=".\datatypes.cpp"
 				>
 			</File>
 			<File
@@ -224,23 +220,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\DotNetComponentInterface\Message.cpp"
+				RelativePath=".\MessageData.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\DotNetComponentInterface\MessageFactory.cpp"
+				RelativePath=".\ScienceAPI.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\DotNetComponentInterface\Stdafx.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\general\stristr.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\DotNetComponentInterface\TypeConverter.cpp"
 				>
 			</File>
 		</Filter>
@@ -254,23 +242,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\DotNetComponentInterface\ApsimEvents.h"
-				>
-			</File>
-			<File
-				RelativePath="..\DotNetComponentInterface\ApsimProperties.h"
-				>
-			</File>
-			<File
-				RelativePath="..\DotNetComponentInterface\ComponentInterface.h"
-				>
-			</File>
-			<File
 				RelativePath="..\DotNetComponentInterface\datatypes.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DotNetComponentInterface.h"
 				>
 			</File>
 			<File
@@ -278,43 +250,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\DotNetComponentInterface\Message.h"
-				>
-			</File>
-			<File
 				RelativePath="..\DotNetComponentInterface\MessageData.h"
 				>
 			</File>
 			<File
-				RelativePath="..\DotNetComponentInterface\MessageFactory.h"
+				RelativePath=".\ReflectionTemplates.h"
 				>
 			</File>
 			<File
-				RelativePath="..\DotNetComponentInterface\Messages.h"
-				>
-			</File>
-			<File
-				RelativePath="..\DotNetComponentInterface\MessageType.h"
-				>
-			</File>
-			<File
-				RelativePath="..\DotNetComponentInterface\RegisteredEvents.h"
-				>
-			</File>
-			<File
-				RelativePath="..\DotNetComponentInterface\resource.h"
+				RelativePath=".\ScienceAPI.h"
 				>
 			</File>
 			<File
 				RelativePath="..\DotNetComponentInterface\Stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath="..\DotNetComponentInterface\TypeConverter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\DotNetComponentInterface\Utility.h"
 				>
 			</File>
 		</Filter>

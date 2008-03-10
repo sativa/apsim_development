@@ -64,8 +64,8 @@ class EXPORT CMPComponentInterface
       std::vector<std::string> simSectionsToSearch;
       std::string currentClass1;
       std::string currentClass2;
-      CMPMethod0* init1;
-      CMPMethod0* init2;
+      IPackableData* init1;
+      IPackableData* init2;
 
       typedef std::map<std::string, IPackableData*> NameToRegMap;
 		typedef std::vector<Message*> Messages;
