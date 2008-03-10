@@ -1,4 +1,5 @@
 #include "RUEModel.h"
+#include "Co2Modifier.h"
 using namespace std;
 
 RUEModel::RUEModel(ScienceAPI& scienceAPI, plantInterface& p)
@@ -14,7 +15,7 @@ float RUEModel::Potential (float radiationInterceptedGreen)
    double stress_factor = min(min(min(plant.getTempStressPhoto(), plant.getNfactPhoto())
                                , plant.getOxdefPhoto()), plant.getPfactPhoto());
 
-   return radiationInterceptedGreen  * RUE.value(plant.getStageNumber())* stress_factor;
+   return radiationInterceptedGreen  * RUE.value(plant.getStageNumber())* stress_factor * plant.getCo2Modifier()->rue();
    }
 
 void RUEModel::Read(void)
