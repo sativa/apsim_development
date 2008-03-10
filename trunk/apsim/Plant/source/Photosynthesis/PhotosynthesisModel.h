@@ -23,7 +23,7 @@ class PhotosynthesisModel
    virtual ~PhotosynthesisModel() {};
 
    virtual float Potential (float radiationInterceptedGreen) =0 ;
-
+   virtual void  Read (void) = 0;
   protected:
      ScienceAPI&     scienceAPI;
      plantInterface& plant;

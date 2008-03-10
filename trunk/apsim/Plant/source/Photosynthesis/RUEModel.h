@@ -21,6 +21,7 @@ class RUEModel : public PhotosynthesisModel {
   public:
   RUEModel(ScienceAPI& scienceAPI, plantInterface& p);
   float Potential (float radiationInterceptedGreen);
+  void  Read (void);
   private:
   interpolationFunction RUE;                        // radiation use efficiency as f(stage number) (g dm/mj)
 };

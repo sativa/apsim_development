@@ -83,6 +83,7 @@ void CohortingLeaf::readSpeciesParameters (protocol::Component *system, vector<s
    int   numvals;                                // number of values returned
    scienceAPI.read("transp_eff_cf", c.transpEffCf, numvals, 0.0f, 1.0f);
 
+   Photosynthesis->Read();
    }
 
 

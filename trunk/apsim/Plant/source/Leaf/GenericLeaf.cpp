@@ -66,6 +66,9 @@ void GenericLeaf::readSpeciesParameters (protocol::Component *system, vector<str
 
    int   numvals;                                // number of values returned
    scienceAPI.read("transp_eff_cf", c.transpEffCf, numvals, 0.0f, 1.0f);
+
+   Photosynthesis->Read();
+
    }
 
 // Connect our bits to the system
