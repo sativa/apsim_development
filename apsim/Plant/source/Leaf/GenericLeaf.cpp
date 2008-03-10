@@ -63,9 +63,6 @@ void GenericLeaf::readSpeciesParameters (protocol::Component *system, vector<str
    scienceAPI.read("x_row_spacing", cXRowSpacing, cNumRowSpacing, 0.0f, 2000.0f);
    scienceAPI.read("y_extinct_coef", cYExtinctCoef, cNumRowSpacing, 0.0f, 1.0f);
    scienceAPI.read("y_extinct_coef_dead", cYExtinctCoefDead, cNumRowSpacing, 0.0f, 1.0f);
-   cRue.read(scienceAPI,
-                 "x_stage_rue", "()", 0.0, 1000.0,
-                 "y_rue", "(g dm/mj)", 0.0, 1000.0);
 
    int   numvals;                                // number of values returned
    scienceAPI.read("transp_eff_cf", c.transpEffCf, numvals, 0.0f, 1.0f);

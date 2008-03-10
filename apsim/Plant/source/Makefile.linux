@@ -87,7 +87,9 @@ OBJ=PlantComponent.o \
    Phenology/PhotoPhase.o \
    Phenology/EmergentPhase.o \
    Phenology/LeafAppPhase.o \
-   ../../../Shared/ComponentInterface/EntryPoints.o
+   ../../../Shared/ComponentInterface/EntryPoints.o \
+   Photosynthesis/PhotosynthesisModel.o \
+   Photosynthesis/RUEModel.o
 
 #-----------------------------------------------------------------------
 # Compiler options
