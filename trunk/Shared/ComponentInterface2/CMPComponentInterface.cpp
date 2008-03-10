@@ -245,43 +245,45 @@ bool CMPComponentInterface::read(const std::string& parName, IPackableData* valu
    return false;
    }
 
-bool CMPComponentInterface::readFromSection(XMLNode::iterator initData, 
-                                            XMLNode::iterator sectionData, 
-                                            const std::string& parName, 
-                                            IPackableData* value)
+
+bool CMPComponentInterface::readFromSection(XMLNode::iterator initData,
+                                            XMLNode::iterator sectionData,
+                                            const std::string& parName,
+                                            IPackableData* returnValue)
    {
    // Read a parameter from a section.
    // If there's a "derived_from" member, try it.
-   vector<string> allValues;
-   for_each_if(sectionData->begin(), sectionData->end(),
-               GetValueFunction<vector<string>, XMLNode>(allValues),
-               EqualToName<XMLNode>(parName));
+   XMLNode::iterator match = find_if(sectionData->begin(), sectionData->end(),
+                                     EqualToName<XMLNode>(parName));
+   if (match == sectionData->end())
+      match = find_if(sectionData->begin(), sectionData->end(),
+                      AttributeEquals<XMLNode>("name", parName));
 
-   if (allValues.size() > 1)
-       {
-       throw std::runtime_error("Parameter \"" + parName + "\" has multiple definitions.");
-       }
-   else if (allValues.size() == 1)
-       {
-       string firstValue = allValues[0];
+   if (match != sectionData->end())
+      {
+      vector <string> result;
+      if (match->begin() == match->end())
+         {
+         string value = match->getValue();
+         // Remove any units specifier "(..)":
+         unsigned int posBracket = value.find('(');
+         if (posBracket != std::string::npos)
+            value = value.substr(0,posBracket);
 
-       // Remove any units specifier "(..)":
-       unsigned int posBracket = firstValue.find('(');
-       if (posBracket != std::string::npos)
-         firstValue = firstValue.substr(0,posBracket);
+         // And any whitespace...
+         stripLeadingTrailing(value, " \t");
 
-       // And any whitespace...
-       stripLeadingTrailing(firstValue, " \t");
-       
-       // Split into list if it can
-       vector <string> result;
-       splitIntoValues (firstValue, " ", result);
-       
-       // OK. Typeconverter kicks in here.
-       value->setValue(result);
-       return true;
-       }
-   
+         // Split into list if it can
+         splitIntoValues (value, " ", result);
+         }
+      else
+         result.push_back(match->write());
+
+      // OK. Typeconverter kicks in here.
+      returnValue->setValue(result);
+      return true;
+      }
+
    if (sectionData == initData) return false;     // Don't go circular 
    
    // Handle any "derived_from" directives
@@ -298,7 +300,7 @@ bool CMPComponentInterface::readFromSection(XMLNode::iterator initData,
                                               initData->end(),
                                               EqualToName<XMLNode>(*section));
        if (parentData != initData->end()) 
-          if (readFromSection(initData, parentData, parName, value))
+          if (readFromSection(initData, parentData, parName, returnValue))
              return true;
        }
    return false;
@@ -331,9 +333,9 @@ void CMPComponentInterface::subscribe(const std::string& name, IPackableData* ha
    // -----------------------------------------------------------------------
    {
    if (Str_i_Eq(name, "init1"))
-      init1 = dynamic_cast<CMPMethod0*> (handler);
+      init1 = handler;
    else if (Str_i_Eq(name, "init2"))
-      init2 = dynamic_cast<CMPMethod0*> (handler);
+      init2 = handler;
 
    else if (nameToRegistrationID(name, respondToEventReg) == 0)
       RegisterWithPM(name, "", "", respondToEventReg, handler);
@@ -555,7 +557,7 @@ void CMPComponentInterface::onInit1(const Message& message)
 
    simScript = new XMLDocument(init1.sdml, XMLDocument::xmlContents);
    if (this->init1 != NULL)
-      this->init1->invoke();
+      this->init1->unpack(messageData, "", NULL);
    }
 
 void CMPComponentInterface::onInit2(const Message& message)
@@ -565,7 +567,10 @@ void CMPComponentInterface::onInit2(const Message& message)
    {
    tickID = nameToRegistrationID("tick", respondToEventReg);
    if (init2 != NULL)
-      init2->invoke();
+      {
+      MessageData Data(message);
+      init2->unpack(Data, "", NULL);
+      }
    }
 
 void CMPComponentInterface::onQueryValue(const Message& message)
@@ -645,3 +650,5 @@ void CMPComponentInterface::terminate(void)
 
 std::string CMPComponentInterface::getName() {return name;}
 std::string CMPComponentInterface::getFQName() {return (pathName + "." + name);}
+
+

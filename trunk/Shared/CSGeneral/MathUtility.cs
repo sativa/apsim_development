@@ -186,6 +186,8 @@ namespace CSGeneral
 		public static double LinearInterpReal(double dX, double[] dXCoordinate, double[] dYCoordinate, ref bool  bDidInterpolate)
 			{
 			bDidInterpolate = false;
+            if (dXCoordinate == null || dYCoordinate == null)
+                return 0;
 			//find where x lies in the x coordinate
 			if(dXCoordinate.Length == 0 || dYCoordinate.Length == 0 || dXCoordinate.Length != dYCoordinate.Length)
 				{

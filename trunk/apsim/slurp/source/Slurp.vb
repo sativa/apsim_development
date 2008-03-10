@@ -1,38 +1,38 @@
-'Imports DotNetComponentInterface
 Option Explicit On
 Imports VBGeneral
 Imports System.Math
 Imports VBMet
 Imports CSGeneral
-Imports ComponentInterface
+Imports ModelFramework
 
-Public Class Slurp
-    Inherits ApsimComponent
+<Model()> Public Class Slurp
+
+    Public ScienceAPI As ScienceAPI
 
     ' ----------------------  Component Constants-------------------------
     Private Const SVPfrac As Single = 0.66
 
     ' ------------------------  APSIM Public Data ---------------------------
-    <ApsimVariable("crop_type", "", ApsimProperties.ReadWriteType.Read)> _
-    Public CropType As String = ""   ' Type of plant simulated
+    <Output()> _
+    Public Crop_Type As String = ""   ' Type of plant simulated
 
-    <ApsimVariable("int_radn", "MJ", ApsimProperties.ReadWriteType.Read)> _
+    <Output()> <Units("MJ")> _
     Public IntRadn As Single         ' Daily Intercepted Radiation (MJ/m2)
 
-    <ApsimVariable("rlv", "mm/mm3", ApsimProperties.ReadWriteType.Read)> _
+    <Output()> <Units("mm/mm3")> _
     Public rlv() As Single                 ' Root Length Density (mm/mm3)
 
     Public SWDemand As Single           ' Daily Soil Water Demand (mm)
 
     ' ------------------------  Component Data ---------------------------
-    Private LAI As Single                ' Leaf Area Index (Green)
-    Private LAId As Single               ' Leaf Area Index (Dead)
+    Private _LAI As Single                ' Leaf Area Index (Green)
+    Private _LAId As Single               ' Leaf Area Index (Dead)
     Private Kg As Single                 ' Extinction Coefficient (Green)
     Private Kd As Single                 ' Extinction Coefficient (Dead)
     Private FVPDFunction As New InterpSet  ' VPD effect on Growth Interpolation Set
-    Private Height As Single             ' Canopy height (mm)
-    Private Frgr As Single               ' Relative Growth Rate Factor
-    Public dlayer() As Single         ' Soil Layer Thickness (mm)
+    Private _Height As Single             ' Canopy height (mm)
+    Private _Frgr As Single               ' Relative Growth Rate Factor
+    Public dlayer() As Single        ' Soil Layer Thickness (mm)
 
     Private kl() As Single               ' SW uptake parameter (/day)
     Private ll() As Single               ' Crop Lower Limit (mm/mm)
@@ -42,13 +42,17 @@ Public Class Slurp
     Private RootExtent As Single         ' Extent of root system (in multiples of height)
     Private SWSupply() As Single         ' Daily water supply from each layer (mm)
     Private SWUptake() As Single         ' Daily uptake of SW from each layer (mm)
-    Private MetData As NewMet            ' Daily Met Data
+    Private MetData As New NewMetType    ' Daily Met Data
     Private UptakeSource As String       ' User choice for source of uptake information
     Private Zones() As String
     Private Distances() As Single
 
+    Public Sub New(ByVal api As ScienceAPI)
+        ScienceAPI = api
+    End Sub
+
     ' ===================================================
-    Public Overrides Sub init2()
+    <EventHandler()> Public Sub OnInit2()
         ReadParameters()             ' Get info from parameter data
         GetSoilData()                ' Get soil spec from water balance
         DoNewCropEvent()             ' Tell other modules that I exist
@@ -59,27 +63,28 @@ Public Class Slurp
     Private Sub ReadParameters()
 
         ' Get UptakeSource - if missing set to "calc"
-        UptakeSource = XmlHelper.Value(Data, "uptake_source")
-        If UptakeSource = "" Then UptakeSource = "calc"
-        If UptakeSource = "distributed" Then
-            Zones = StringToStringArray(XmlHelper.Value(Data, "zones"))
-            Distances = StringToSingleArray(XmlHelper.Value(Data, "distances"))
+        If ScienceAPI.Read("update_source", "", True, UptakeSource) Then
+            UptakeSource = "calc"
         End If
 
-        LAI = Convert.ToSingle(XmlHelper.Value(Data, "lai"))
-        LAId = Convert.ToSingle(XmlHelper.Value(Data, "laid"))
-        Kg = Convert.ToSingle(XmlHelper.Value(Data, "kg"))
-        Kd = Convert.ToSingle(XmlHelper.Value(Data, "kd"))
-        Height = Convert.ToSingle(XmlHelper.Value(Data, "height"))
-        CropType = XmlHelper.Value(Data, "crop_type")
-        Frgr = Convert.ToSingle(XmlHelper.Value(Data, "frgr"))
+        If UptakeSource = "distributed" Then
+            ScienceAPI.Read("zones", "", False, Zones)
+            ScienceAPI.Read("distances", "", False, Distances)
+        End If
 
-        FVPDFunction.data = XmlHelper.Find(Data, "fvpd")
-        FtFunction.data = XmlHelper.Find(Data, "ft")
+        ScienceAPI.Read("lai", "", False, _LAI)
+        ScienceAPI.Read("laid", "", False, _LAId)
+        ScienceAPI.Read("kg", "", False, Kg)
+        ScienceAPI.Read("kd", "", False, Kd)
+        ScienceAPI.Read("height", "", False, _Height)
+        ScienceAPI.Read("crop_type", "", False, Crop_Type)
+        ScienceAPI.Read("frgr", "", False, _Frgr)
+        ScienceAPI.Read("fvpd", "", False, FVPDFunction)
+        ScienceAPI.Read("ft", "", False, FtFunction)
 
-        rlv = StringToSingleArray(XmlHelper.Value(Data, "rlv"))
-        ll = StringToSingleArray(XmlHelper.Value(Data, "ll"))
-        kl = StringToSingleArray(XmlHelper.Value(Data, "kl"))
+        ScienceAPI.Read("rlv", "", False, rlv)
+        ScienceAPI.Read("ll", "", False, ll)
+        ScienceAPI.Read("kl", "", False, kl)
 
         'Dim RootData As New RootParameters(Data.Child("layers"))
         'rlv = RootData.rlv
@@ -90,7 +95,7 @@ Public Class Slurp
     ' ===================================================
     Private Sub GetSoilData()
         If UptakeSource = "calc" Then
-            properties.Get("dlayer", dlayer)
+            ScienceAPI.Get("dlayer", "()", dlayer)
             If dlayer.Length <> ll.Length Then
                 Throw New Exception("Number of values of LL does not match the number of soil layers.")
             End If
@@ -104,10 +109,12 @@ Public Class Slurp
     End Sub
 
 #Region "EventHandlers"
-    <ApsimEvent("prepare")> Public Sub OnPrepare(ByVal Null As Null)
+    <EventHandler()> _
+    Public Sub OnPrepare()
         DoNewPotentialGrowthEvent()
     End Sub
-    <ApsimEvent("process")> Public Sub OnProcess(ByVal Null As Null)
+    <EventHandler()> _
+    Public Sub OnProcess()
         If UptakeSource = "calc" Then
             SWSupply = CalcSWSupply()
             SWUptake = CalcSWUptake()
@@ -115,17 +122,17 @@ Public Class Slurp
             For layer As Integer = 0 To dlayer.Length - 1
                 DltSWDep(layer) = SWUptake(layer) * -1
             Next
-            properties.Set("dlt_sw_dep", DltSWDep)
+            ScienceAPI.Set("dlt_sw_dep", "mm", DltSWDep)
 
         ElseIf UptakeSource = "distributed" Then
-            Dim Supply(zones.Length - 1) As Single
+            Dim Supply(Zones.Length - 1) As Single
             Dim SupplyTot As Single = 0
             Dim WeightingTot As Single = 0
             Dim Weighting(Zones.Length - 1) As Single
             Dim AdjSupply(Zones.Length - 1) As Single
             Dim AdjSupplyTot As Single = 0
-            For i As Integer = 0 To zones.Length - 1
-                properties.Get(zones(i) + ".root_sw_supply", Supply(i))
+            For i As Integer = 0 To Zones.Length - 1
+                ScienceAPI.Get(Zones(i) + ".root_sw_supply", "()", Supply(i))
                 'MsgBox(SupplyTot(i), MsgBoxStyle.Information, "Paddock Es")
                 Weighting(i) = (1.0 - bound(Distances(i) / (3 * Height / 1000.0), 0.0, 1.0)) ^ 1
                 Supply(i) = Supply(i)
@@ -139,7 +146,7 @@ Public Class Slurp
                     ' Get as much as can be supplied
                     For i As Integer = 0 To Zones.Length - 1
                         If Weighting(i) > 0 And Supply(i) > 0.01 Then
-                            properties.Set(Zones(i) + ".sw_demand", Supply(i))
+                            ScienceAPI.Set(Zones(i) + ".sw_demand", "mm", Supply(i))
                         End If
                     Next
                 Else
@@ -147,31 +154,33 @@ Public Class Slurp
                     Dim Fraction = SWDemand / AdjSupplyTot
                     For i As Integer = 0 To Zones.Length - 1
                         Supply(i) = AdjSupply(i) * Fraction
-                        properties.Set(Zones(i) + ".sw_demand", Supply(i))
+                        ScienceAPI.Set(Zones(i) + ".sw_demand", "mm", Supply(i))
                     Next
                 End If
             Else
                 For i As Integer = 0 To Zones.Length - 1
                     Dim zilch As Single = 0
-                    properties.Set(Zones(i) + ".sw_demand", zilch)
+                    ScienceAPI.Set(Zones(i) + ".sw_demand", "mm", zilch)
                 Next
             End If
 
         Else
             ' uptake is calculated by another module in APSIM
             'Dim SWUptake(1) As Single
-            properties.Get(Trim("uptake_water_" + CropType), SWUptake)
+            ScienceAPI.Get(Trim("uptake_water_" + Crop_Type), "()", SWUptake)
             'SWUptake = CalcSWSupply()
         End If
     End Sub
-    <ApsimEvent("newmet")> Public Sub OnNewMet(ByVal NewMetData As NewMet)
+    <EventHandler()> _
+    Public Sub OnNewMet(ByVal NewMetData As NewMetType)
         MetData = NewMetData
     End Sub
-    <ApsimEvent("canopy_water_balance")> Public Sub OnCanopyWaterBalance(ByVal CWB As CanopyWaterBalance)
-        For i As Integer = 0 To CWB.Canopy.Count - 1
-            If CWB.Canopy.value(i).name = Name Then
+    <EventHandler()> _
+    Public Sub OnCanopy_Water_Balance(ByVal CWB As CanopyWaterBalanceType)
+        For i As Integer = 0 To CWB.Canopy.Length - 1
+            If CWB.Canopy(i).name = ScienceAPI.Name() Then
                 ' It's me
-                SWDemand = CWB.Canopy.value(i).PotentialEp
+                SWDemand = CWB.Canopy(i).PotentialEp
             End If
         Next
     End Sub
@@ -188,106 +197,106 @@ Public Class Slurp
 #Region "EventSenders"
     Private Sub DoNewCropEvent()
         ' Send out New Crop Event to tell other modules who I am and what I am
-        Dim EventData As New NewCrop
-        EventData.crop_type = CropType
-        EventData.sender = Me.Name
-        events.Publish("NewCrop", EventData)
+        Dim EventData As New NewCropType
+        EventData.crop_type = Crop_Type
+        EventData.sender = ScienceAPI.Name()
+        ScienceAPI.Publish("NewCrop", EventData)
     End Sub
     Private Sub DoNewCanopyEvent()
-        Dim EventData As New NewCanopy
-        EventData.sender = Me.Name
+        Dim EventData As New NewCanopyType
+        EventData.sender = ScienceAPI.Name()
         EventData.lai = LAI
         EventData.lai_tot = LAI + LAId
         EventData.height = Height
         EventData.depth = Height
-        EventData.cover = CoverGreen()
-        EventData.cover_tot = CoverTot()
+        EventData.cover = Cover_green()
+        EventData.cover_tot = Cover_tot()
 
-        events.Publish("new_canopy", EventData)
+        ScienceAPI.Publish("new_canopy", EventData)
     End Sub
     Private Sub DoNewPotentialGrowthEvent()
-        Dim EventData As New NewPotentialGrowth
-        EventData.sender = Me.Name
+        Dim EventData As New NewPotentialGrowthType
+        EventData.sender = ScienceAPI.Name()
         EventData.frgr = Min(Min(Frgr, Fvpd()), Ft())
-        events.Publish("newpotentialgrowth", EventData)
+        ScienceAPI.Publish("newpotentialgrowth", EventData)
     End Sub
 #End Region
 #Region "Properties"
-    <ApsimProperty("LAI", "")> Public Property LAIproperty() As Single
+    <Output()> Public Property LAI() As Single
         Get
-            Return LAI
+            Return _LAI
         End Get
         Set(ByVal Value As Single)
-            LAI = Value
+            _LAI = Value
             DoNewCanopyEvent()
         End Set
     End Property
-    <ApsimProperty("LAId", "")> Public Property LAIdproperty() As Single
+    <Output()> Public Property LAId() As Single
         Get
-            Return LAId
+            Return _LAId
         End Get
         Set(ByVal Value As Single)
-            LAId = Value
+            _LAId = Value
             DoNewCanopyEvent()
         End Set
     End Property
-    <ApsimProperty("height", "mm")> Public Property Heightproperty() As Single
+    <Output()> <Units("mm")> Public Property Height() As Single
         Get
-            Return Height
+            Return _Height
         End Get
         Set(ByVal Value As Single)
-            Height = Value
+            _Height = Value
             DoNewCanopyEvent()
         End Set
     End Property
-    <ApsimProperty("frgr", "")> Public Property Frgrproperty() As Single
+    <Output()> Public Property Frgr() As Single
         Get
-            Return Frgr
+            Return _Frgr
         End Get
         Set(ByVal Value As Single)
-            Frgr = Value
+            _Frgr = Value
             DoNewCanopyEvent()
         End Set
     End Property
-    <ApsimProperty("cover_green", "")> Public ReadOnly Property CoverGreen() As Single
+    <Output()> <Units("")> Public ReadOnly Property Cover_green() As Single
         Get
             Return 1.0 - Exp(-Kg * LAI)
         End Get
     End Property
-    <ApsimProperty("cover_tot", "")> Public ReadOnly Property CoverTot() As Single
+    <Output()> <Units("")> Public ReadOnly Property Cover_tot() As Single
         Get
-            Return 1.0 - (1 - CoverGreen()) * (1 - CoverDead())
+            Return 1.0 - (1 - Cover_green()) * (1 - Cover_dead())
         End Get
     End Property
-    <ApsimProperty("cover_dead", "")> Public ReadOnly Property CoverDead() As Single
+    <Output()> <Units("")> Public ReadOnly Property Cover_dead() As Single
         Get
             Return 1.0 - Exp(-Kd * LAId)
         End Get
     End Property
-    <ApsimProperty("Ft", "")> Public ReadOnly Property Ft() As Single
+    <Output()> Public ReadOnly Property Ft() As Single
         Get
             Dim Tav As Single = (MetData.maxt + MetData.mint) / 2.0
             Return FtFunction.value(Tav)
         End Get
     End Property
-    <ApsimProperty("Fvpd", "")> Public ReadOnly Property Fvpd() As Single
+    <Output()> Public ReadOnly Property Fvpd() As Single
         Get
             Return FVPDFunction.value(VPD())
         End Get
     End Property
-    <ApsimProperty("ep", "mm")> Public ReadOnly Property EP() As Single
+    <Output()> <Units("mm")> Public ReadOnly Property EP() As Single
         Get
             If UptakeSource = "distributed" Then
                 ' EP is daily total crop water use from all zones
                 Dim ReturnValue As Single = 0
                 Dim temp As Single = 0
                 For i As Integer = 0 To Zones.Length - 1
-                    properties.Get(Zones(i) + ".root_ep", temp)
+                    ScienceAPI.Get(Zones(i) + ".root_ep", "()", temp)
                     ReturnValue = ReturnValue + temp
                 Next
                 Return ReturnValue
 
-            Else
+            ElseIf Not IsNothing(SWUptake) Then
                 ' EP is daily total crop water use from all layers
                 Dim ReturnValue As Single = 0
                 For i As Integer = 0 To SWUptake.Length - 1
@@ -296,21 +305,22 @@ Public Class Slurp
                 Return ReturnValue
 
             End If
+            Return 0
         End Get
     End Property
-    <ApsimProperty("root_ep", "mm")> Public ReadOnly Property Root_EP() As Single
+    <Output()> <Units("mm")> Public ReadOnly Property Root_EP() As Single
         Get
             If UptakeSource = "distributed" Then
                 ' EP is daily total crop water use from all zones
                 Dim ReturnValue As Single = 0
                 Dim temp As Single = 0
                 For i As Integer = 0 To Zones.Length - 1
-                    properties.Get(Zones(i) + ".root_ep", temp)
+                    ScienceAPI.Get(Zones(i) + ".root_ep", "()", temp)
                     ReturnValue = ReturnValue + temp
                 Next
                 Return ReturnValue
 
-            Else
+            ElseIf Not IsNothing(SWUptake) Then
                 ' EP is daily total crop water use from all layers
                 Dim ReturnValue As Single = 0
                 For i As Integer = 0 To SWUptake.Length - 1
@@ -319,10 +329,11 @@ Public Class Slurp
                 Return ReturnValue
 
             End If
+            Return 0
         End Get
     End Property
 
-    <ApsimProperty("sw_demand", "mm")> Public Property SW_Demand() As Single
+    <Output()> <Units("mm")> Public Property SW_Demand() As Single
         Get
             Return SWDemand
         End Get
@@ -330,14 +341,17 @@ Public Class Slurp
             SWDemand = value
         End Set
     End Property
-    <ApsimProperty("root_sw_supply", "mm")> Public ReadOnly Property SW_Supply() As Single
+    <Output()> <Units("mm")> Public ReadOnly Property root_sw_supply() As Single
         Get
-            Dim SWSupplyTot As Single
-            Dim Supply As Single() = CalcSWSupply()
-            For layer As Integer = 0 To Supply.Length - 1
-                SWSupplyTot = SWSupplyTot + Supply(layer)
-            Next
-            Return SWSupplyTot
+            If Not IsNothing(dlayer) Then
+                Dim SWSupplyTot As Single
+                Dim Supply As Single() = CalcSWSupply()
+                For layer As Integer = 0 To Supply.Length - 1
+                    SWSupplyTot = SWSupplyTot + Supply(layer)
+                Next
+                Return SWSupplyTot
+            End If
+            Return 0
         End Get
     End Property
 
@@ -363,7 +377,7 @@ Public Class Slurp
     Private Function CalcSWSupply() As Single()
         Dim SWSupply(dlayer.Length - 1) As Single
         Dim SWdep() As Single
-        properties.Get("sw_dep", SWdep)
+        ScienceAPI.Get("sw_dep", "()", SWdep)
         For layer As Integer = 0 To dlayer.Length - 1
             SWSupply(layer) = Max(0.0, kl(layer) * (SWdep(layer) - ll(layer) * (dlayer(layer))))
         Next
@@ -409,24 +423,29 @@ Public Class Slurp
         Private XVals() As Double
         Private YVals() As Double
 
-        Public WriteOnly Property data() As Xml.XmlNode
-            Set(ByVal Points As Xml.XmlNode)
-                Dim NumPoints As Integer = XmlHelper.ChildNodes(Points, "").Count
-                ReDim XVals(NumPoints - 1)
-                ReDim YVals(NumPoints - 1)
-                Dim i As Integer = -1
-                For Each point As Xml.XmlNode In XmlHelper.ChildNodes(Points, "")
-                    i = i + 1
-                    XVals(i) = Convert.ToSingle(XmlHelper.Value(point, "x"))
-                    YVals(i) = Convert.ToSingle(XmlHelper.Value(point, "y"))
-                Next
-
-            End Set
-        End Property
         Public Function value(ByVal x As Single) As Single
             Dim flag As Boolean
             value = MathUtility.LinearInterpReal(CType(x, Single), XVals, YVals, flag)
         End Function
+
+        Public Shared Widening Operator CType(ByVal d As InterpSet) As String
+            Return ""
+        End Operator
+        Public Shared Narrowing Operator CType(ByVal Xml As String) As InterpSet
+            Dim Table As New Xml.XmlDocument()
+            Table.LoadXml(Xml)
+            Dim NumPoints As Integer = XmlHelper.ChildNodes(Table.DocumentElement, "").Count
+            Dim Result As New InterpSet
+            ReDim Result.XVals(NumPoints - 1)
+            ReDim Result.YVals(NumPoints - 1)
+            Dim i As Integer = -1
+            For Each point As Xml.XmlNode In XmlHelper.ChildNodes(Table.DocumentElement, "")
+                i = i + 1
+                Result.XVals(i) = Convert.ToSingle(XmlHelper.Value(point, "x"))
+                Result.YVals(i) = Convert.ToSingle(XmlHelper.Value(point, "y"))
+            Next
+            Return Result
+        End Operator
     End Class
 
     Private Class RootParameters
