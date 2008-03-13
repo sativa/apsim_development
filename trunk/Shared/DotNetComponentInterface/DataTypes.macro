@@ -151,7 +151,7 @@ void ScienceAPI::Warning(String^ Line)
 bool ScienceAPI::Read(String^ Name, String^ units, bool Optional, String^% Data)
    {
    Data = Component->Read(Name, Optional);
-   return true;
+   return (Data != "");
    }
 bool ScienceAPI::Read(String^ Name, String^ units, bool Optional, array<Single>^% Data)
    {
@@ -160,11 +160,13 @@ bool ScienceAPI::Read(String^ Name, String^ units, bool Optional, array<Single>^
    Data = gcnew array<Single>(Values->Length);
    for (int i = 0; i != Values->Length; i++)
       Data[i] = Convert::ToSingle(Values[i]);
-   return true;
+   return (Values->Length > 0);
    }
 bool ScienceAPI::Read(String^ Name, String^ units, bool Optional, array<String^>^% Data)
    {
    String^ St = Component->Read(Name, Optional);
+   if (St == "")
+	  return false;
    String^ Separators = " ";
    Data = St->Split(Separators->ToCharArray(), StringSplitOptions::RemoveEmptyEntries);
    return true;
