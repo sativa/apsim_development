@@ -29,7 +29,7 @@ plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
      plant = p;
      myName = name;
 
-     Initialise();
+     Initialise(true);
      }
 
 plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name,
@@ -55,21 +55,24 @@ plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name,
    {
    plant = p;
    myName = name;
-   Initialise();
+   Initialise(false);
    }
 
-void plantPart::Initialise()
+void plantPart::Initialise(bool isVegetative)
    {
    // setup summary pools
-   Vegetative.AddPool(Green);
+   if (isVegetative)
+      {
+      Vegetative.AddPool(Green);
+      VegetativeTotal.AddPool(Green);
+      VegetativeTotal.AddPool(Senesced);
+      }
 
    Total.AddPool(Green);
    Total.AddPool(Senesced);
-   VegetativeTotal.AddPool(Green);
-   VegetativeTotal.AddPool(Senesced);
 
-     zeroAllGlobals();
-     }
+   zeroAllGlobals();
+   }
 
 
 string plantPart::addPartToVar(const string& variableName)

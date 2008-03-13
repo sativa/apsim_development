@@ -9,7 +9,8 @@ class Delta;
 class Pool : public Biomass
    {
    public:
-      Pool(plantInterface& plant, ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName);
+      Pool(plantInterface& plant, ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName,
+           bool DoRegistrations = true);
       void Init ();
 
       StageBasedInterpolationFunction DigestibilityMax;
@@ -24,6 +25,7 @@ class Pool : public Biomass
       ScienceAPI& scienceAPI;
       plantInterface& Plant;
 
+      void DoRegistrations();
    };
 
 #endif

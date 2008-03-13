@@ -15,8 +15,6 @@ CompositePart::CompositePart(ScienceAPI& scienceAPI, plantInterface *p, const st
                *new CompositePool(*p, scienceAPI, "Green", name),
                *new CompositePool(*p, scienceAPI, "Senesced", name))
    {
-   Vegetative.ClearPools();
-   VegetativeTotal.ClearPools();
    }
 
 // destructor
