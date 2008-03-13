@@ -172,10 +172,12 @@ namespace ApsimFile
                     OuterContents += " name=\"" + Name + "\"";
                 OuterContents += ">";
 
-                if (MyShortCutTo == null)
-                    OuterContents += MyContents;
-                else
-                    OuterContents += MyShortCutTo.MyContents;
+                // Get the absolute base component.
+                Component BaseComponent = this;
+                while (BaseComponent.MyShortCutTo != null)
+                    BaseComponent = BaseComponent.MyShortCutTo;
+
+                OuterContents += BaseComponent.MyContents;
                 OuterContents += "</" + Type + ">";
                 return OuterContents;
                 }
@@ -307,6 +309,7 @@ namespace ApsimFile
                     Component ChildComponent = new Component(MyFile, this);
                     MyChildNodes.Add(ChildComponent);
                     ChildComponent.Read(Child);
+                    ChildComponent.ResolveShortcuts();
                     ChildComponent.EnsureNameIsUnique();
                     if (FirstChildComponent == null)
                         FirstChildComponent = ChildComponent;
