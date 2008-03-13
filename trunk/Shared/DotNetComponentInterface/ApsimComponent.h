@@ -17,6 +17,7 @@ public ref class ApsimComponent
 		int ComponentI;
 		System::Text::StringBuilder^ Contents;	
 		ScienceAPI^ api;
+		bool Init1;
 		
 		void RegisterAllProperties();
 		void RegisterAllEventHandlers();
