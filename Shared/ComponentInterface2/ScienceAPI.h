@@ -6,6 +6,7 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 #include <ComponentInterface2/DataTypes.h>
+#include <ComponentInterface2/Variant.h>
 
 // ------------------------------------------------------------------
 // Interface for interacting with simulation
@@ -17,7 +18,7 @@ struct QueryMatch
    std::string name;
    std::string ddml;
    };
-class Variant;
+
 
 class EXPORT ScienceAPI
    {
@@ -272,40 +273,10 @@ class EXPORT ScienceAPI
       virtual void subscribe(const std::string& name, boost::function1<void, NewMetType&> handler) = 0;
       virtual void publish(const std::string& name, NewMetType& data) = 0;
 
-      // SoilWaterProfileLayer
-      #define SoilWaterProfileLayerFunction(address) boost::function1<void, SoilWaterProfileLayerType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterProfileLayerType&> handler) = 0;
-      virtual void publish(const std::string& name, SoilWaterProfileLayerType& data) = 0;
-
-      // SoilWaterLayer
-      #define SoilWaterLayerFunction(address) boost::function1<void, SoilWaterLayerType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterLayerType&> handler) = 0;
-      virtual void publish(const std::string& name, SoilWaterLayerType& data) = 0;
-
-      // LateralFlowLayer
-      #define LateralFlowLayerFunction(address) boost::function1<void, LateralFlowLayerType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, LateralFlowLayerType&> handler) = 0;
-      virtual void publish(const std::string& name, LateralFlowLayerType& data) = 0;
-
-      // SoilWaterBalance
-      #define SoilWaterBalanceFunction(address) boost::function1<void, SoilWaterBalanceType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterBalanceType&> handler) = 0;
-      virtual void publish(const std::string& name, SoilWaterBalanceType& data) = 0;
-
       // NewSolute
       #define NewSoluteFunction(address) boost::function1<void, NewSoluteType& >(boost::bind(address, this, _1))
       virtual void subscribe(const std::string& name, boost::function1<void, NewSoluteType&> handler) = 0;
       virtual void publish(const std::string& name, NewSoluteType& data) = 0;
-
-      // layer
-      #define layerFunction(address) boost::function1<void, layerType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, layerType&> handler) = 0;
-      virtual void publish(const std::string& name, layerType& data) = 0;
-
-      // SoluteProfile
-      #define SoluteProfileFunction(address) boost::function1<void, SoluteProfileType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, SoluteProfileType&> handler) = 0;
-      virtual void publish(const std::string& name, SoluteProfileType& data) = 0;
 
       // Irrigated
       #define IrrigatedFunction(address) boost::function1<void, IrrigatedType& >(boost::bind(address, this, _1))
@@ -316,6 +287,11 @@ class EXPORT ScienceAPI
       #define KillCropFunction(address) boost::function1<void, KillCropType& >(boost::bind(address, this, _1))
       virtual void subscribe(const std::string& name, boost::function1<void, KillCropType&> handler) = 0;
       virtual void publish(const std::string& name, KillCropType& data) = 0;
+
+      // layer
+      #define layerFunction(address) boost::function1<void, layerType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, layerType&> handler) = 0;
+      virtual void publish(const std::string& name, layerType& data) = 0;
 
       // Interception
       #define InterceptionFunction(address) boost::function1<void, InterceptionType& >(boost::bind(address, this, _1))
@@ -346,26 +322,6 @@ class EXPORT ScienceAPI
       #define ResidueFunction(address) boost::function1<void, ResidueType& >(boost::bind(address, this, _1))
       virtual void subscribe(const std::string& name, boost::function1<void, ResidueType&> handler) = 0;
       virtual void publish(const std::string& name, ResidueType& data) = 0;
-
-      // solute
-      #define soluteFunction(address) boost::function1<void, soluteType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, soluteType&> handler) = 0;
-      virtual void publish(const std::string& name, soluteType& data) = 0;
-
-      // SurfaceWater
-      #define SurfaceWaterFunction(address) boost::function1<void, SurfaceWaterType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, SurfaceWaterType&> handler) = 0;
-      virtual void publish(const std::string& name, SurfaceWaterType& data) = 0;
-
-      // SurfaceWaterBalance
-      #define SurfaceWaterBalanceFunction(address) boost::function1<void, SurfaceWaterBalanceType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, SurfaceWaterBalanceType&> handler) = 0;
-      virtual void publish(const std::string& name, SurfaceWaterBalanceType& data) = 0;
-
-      // FertiliserConstituents
-      #define FertiliserConstituentsFunction(address) boost::function1<void, FertiliserConstituentsType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, FertiliserConstituentsType&> handler) = 0;
-      virtual void publish(const std::string& name, FertiliserConstituentsType& data) = 0;
 
       // FPool
       #define FPoolFunction(address) boost::function1<void, FPoolType& >(boost::bind(address, this, _1))
@@ -442,61 +398,6 @@ class EXPORT ScienceAPI
       virtual void subscribe(const std::string& name, boost::function1<void, NewCropType&> handler) = 0;
       virtual void publish(const std::string& name, NewCropType& data) = 0;
 
-      // NewZone
-      #define NewZoneFunction(address) boost::function1<void, NewZoneType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, NewZoneType&> handler) = 0;
-      virtual void publish(const std::string& name, NewZoneType& data) = 0;
-
-      // SoilLayers
-      #define SoilLayersFunction(address) boost::function1<void, SoilLayersType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, SoilLayersType&> handler) = 0;
-      virtual void publish(const std::string& name, SoilLayersType& data) = 0;
-
-      // rlv_layer
-      #define rlv_layerFunction(address) boost::function1<void, rlv_layerType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, rlv_layerType&> handler) = 0;
-      virtual void publish(const std::string& name, rlv_layerType& data) = 0;
-
-      // demands
-      #define demandsFunction(address) boost::function1<void, demandsType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, demandsType&> handler) = 0;
-      virtual void publish(const std::string& name, demandsType& data) = 0;
-
-      // PastureWaterDemand
-      #define PastureWaterDemandFunction(address) boost::function1<void, PastureWaterDemandType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, PastureWaterDemandType&> handler) = 0;
-      virtual void publish(const std::string& name, PastureWaterDemandType& data) = 0;
-
-      // supplies
-      #define suppliesFunction(address) boost::function1<void, suppliesType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, suppliesType&> handler) = 0;
-      virtual void publish(const std::string& name, suppliesType& data) = 0;
-
-      // PastureWaterSupply
-      #define PastureWaterSupplyFunction(address) boost::function1<void, PastureWaterSupplyType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, PastureWaterSupplyType&> handler) = 0;
-      virtual void publish(const std::string& name, PastureWaterSupplyType& data) = 0;
-
-      // water_uptake
-      #define water_uptakeFunction(address) boost::function1<void, water_uptakeType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, water_uptakeType&> handler) = 0;
-      virtual void publish(const std::string& name, water_uptakeType& data) = 0;
-
-      // PastureWaterUptake
-      #define PastureWaterUptakeFunction(address) boost::function1<void, PastureWaterUptakeType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, PastureWaterUptakeType&> handler) = 0;
-      virtual void publish(const std::string& name, PastureWaterUptakeType& data) = 0;
-
-      // water_info
-      #define water_infoFunction(address) boost::function1<void, water_infoType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, water_infoType&> handler) = 0;
-      virtual void publish(const std::string& name, water_infoType& data) = 0;
-
-      // WaterInfo
-      #define WaterInfoFunction(address) boost::function1<void, WaterInfoType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, WaterInfoType&> handler) = 0;
-      virtual void publish(const std::string& name, WaterInfoType& data) = 0;
-
       // fom
       #define fomFunction(address) boost::function1<void, fomType& >(boost::bind(address, this, _1))
       virtual void subscribe(const std::string& name, boost::function1<void, fomType&> handler) = 0;
@@ -506,11 +407,6 @@ class EXPORT ScienceAPI
       #define FomAddedFunction(address) boost::function1<void, FomAddedType& >(boost::bind(address, this, _1))
       virtual void subscribe(const std::string& name, boost::function1<void, FomAddedType&> handler) = 0;
       virtual void publish(const std::string& name, FomAddedType& data) = 0;
-
-      // PastureNutrientUptake
-      #define PastureNutrientUptakeFunction(address) boost::function1<void, PastureNutrientUptakeType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, PastureNutrientUptakeType&> handler) = 0;
-      virtual void publish(const std::string& name, PastureNutrientUptakeType& data) = 0;
 
       // PastureSow
       #define PastureSowFunction(address) boost::function1<void, PastureSowType& >(boost::bind(address, this, _1))
@@ -541,11 +437,6 @@ class EXPORT ScienceAPI
       #define PastureOnCutFunction(address) boost::function1<void, PastureOnCutType& >(boost::bind(address, this, _1))
       virtual void subscribe(const std::string& name, boost::function1<void, PastureOnCutType&> handler) = 0;
       virtual void publish(const std::string& name, PastureOnCutType& data) = 0;
-
-      // PastureWeather
-      #define PastureWeatherFunction(address) boost::function1<void, PastureWeatherType& >(boost::bind(address, this, _1))
-      virtual void subscribe(const std::string& name, boost::function1<void, PastureWeatherType&> handler) = 0;
-      virtual void publish(const std::string& name, PastureWeatherType& data) = 0;
 
       // Faeces
       #define FaecesFunction(address) boost::function1<void, FaecesType& >(boost::bind(address, this, _1))

@@ -6,6 +6,7 @@
 #include <general/xml.h>
 #include <ComponentInterface2/MessageData.h>
 #include <ComponentInterface2/Interfaces.h>
+#include <ComponentInterface2/Variant.h>
 
    //------ Null ------
    struct Null
@@ -250,61 +251,6 @@
    unsigned EXPORT memorySize(const NewMetType& data);
    std::string EXPORT DDML(const NewMetType& data);
 
-   //------ SoilWaterProfileLayer ------
-   struct SoilWaterProfileLayerType
-      {
-      float thickness;
-      float BulkDensity;
-      float SatDepth;
-      float DULDepth;
-      float LL15Depth;
-      float AirDryDepth;
-      float SWDepth;
-      };
-
-   void EXPORT pack(MessageData& messageData, const SoilWaterProfileLayerType& data);
-   void EXPORT unpack(MessageData& messageData, SoilWaterProfileLayerType& data);
-   unsigned EXPORT memorySize(const SoilWaterProfileLayerType& data);
-   std::string EXPORT DDML(const SoilWaterProfileLayerType& data);
-
-   //------ SoilWaterLayer ------
-   struct SoilWaterLayerType
-      {
-      float thickness;
-      float amount;
-      };
-
-   void EXPORT pack(MessageData& messageData, const SoilWaterLayerType& data);
-   void EXPORT unpack(MessageData& messageData, SoilWaterLayerType& data);
-   unsigned EXPORT memorySize(const SoilWaterLayerType& data);
-   std::string EXPORT DDML(const SoilWaterLayerType& data);
-
-   //------ LateralFlowLayer ------
-   struct LateralFlowLayerType
-      {
-      float thickness;
-      float amount;
-      };
-
-   void EXPORT pack(MessageData& messageData, const LateralFlowLayerType& data);
-   void EXPORT unpack(MessageData& messageData, LateralFlowLayerType& data);
-   unsigned EXPORT memorySize(const LateralFlowLayerType& data);
-   std::string EXPORT DDML(const LateralFlowLayerType& data);
-
-   //------ SoilWaterBalance ------
-   struct SoilWaterBalanceType
-      {
-      float infiltration;
-      float drainage;
-      float evaporation;
-      std::vector<LateralFlowLayerType> LateralFlowLayer;
-      };
-
-   void EXPORT pack(MessageData& messageData, const SoilWaterBalanceType& data);
-   void EXPORT unpack(MessageData& messageData, SoilWaterBalanceType& data);
-   unsigned EXPORT memorySize(const SoilWaterBalanceType& data);
-   std::string EXPORT DDML(const SoilWaterBalanceType& data);
-
    //------ NewSolute ------
    struct NewSoluteType
       {
@@ -329,30 +275,6 @@
    void EXPORT unpack(MessageData& messageData, NewSoluteType& data);
    unsigned EXPORT memorySize(const NewSoluteType& data);
    std::string EXPORT DDML(const NewSoluteType& data);
-
-   //------ layer ------
-   struct layerType
-      {
-      float thickness;
-      float amount;
-      };
-
-   void EXPORT pack(MessageData& messageData, const layerType& data);
-   void EXPORT unpack(MessageData& messageData, layerType& data);
-   unsigned EXPORT memorySize(const layerType& data);
-   std::string EXPORT DDML(const layerType& data);
-
-   //------ SoluteProfile ------
-   struct SoluteProfileType
-      {
-      std::string name;
-      std::vector<layerType> layer;
-      };
-
-   void EXPORT pack(MessageData& messageData, const SoluteProfileType& data);
-   void EXPORT unpack(MessageData& messageData, SoluteProfileType& data);
-   unsigned EXPORT memorySize(const SoluteProfileType& data);
-   std::string EXPORT DDML(const SoluteProfileType& data);
 
    //------ Irrigated ------
    struct IrrigatedType
@@ -389,6 +311,18 @@
    void EXPORT unpack(MessageData& messageData, KillCropType& data);
    unsigned EXPORT memorySize(const KillCropType& data);
    std::string EXPORT DDML(const KillCropType& data);
+
+   //------ layer ------
+   struct layerType
+      {
+      float thickness;
+      float amount;
+      };
+
+   void EXPORT pack(MessageData& messageData, const layerType& data);
+   void EXPORT unpack(MessageData& messageData, layerType& data);
+   unsigned EXPORT memorySize(const layerType& data);
+   std::string EXPORT DDML(const layerType& data);
 
    //------ Interception ------
    struct InterceptionType
@@ -469,57 +403,6 @@
    void EXPORT unpack(MessageData& messageData, ResidueType& data);
    unsigned EXPORT memorySize(const ResidueType& data);
    std::string EXPORT DDML(const ResidueType& data);
-
-   //------ solute ------
-   struct soluteType
-      {
-      std::string name;
-      float amount;
-      };
-
-   void EXPORT pack(MessageData& messageData, const soluteType& data);
-   void EXPORT unpack(MessageData& messageData, soluteType& data);
-   unsigned EXPORT memorySize(const soluteType& data);
-   std::string EXPORT DDML(const soluteType& data);
-
-   //------ SurfaceWater ------
-   struct SurfaceWaterType
-      {
-      float amount;
-      std::vector<soluteType> solute;
-      };
-
-   void EXPORT pack(MessageData& messageData, const SurfaceWaterType& data);
-   void EXPORT unpack(MessageData& messageData, SurfaceWaterType& data);
-   unsigned EXPORT memorySize(const SurfaceWaterType& data);
-   std::string EXPORT DDML(const SurfaceWaterType& data);
-
-   //------ SurfaceWaterBalance ------
-   struct SurfaceWaterBalanceType
-      {
-      float runoff;
-      float evaporation;
-      float runon;
-      float WaterInput;
-      };
-
-   void EXPORT pack(MessageData& messageData, const SurfaceWaterBalanceType& data);
-   void EXPORT unpack(MessageData& messageData, SurfaceWaterBalanceType& data);
-   unsigned EXPORT memorySize(const SurfaceWaterBalanceType& data);
-   std::string EXPORT DDML(const SurfaceWaterBalanceType& data);
-
-   //------ FertiliserConstituents ------
-   struct FertiliserConstituentsType
-      {
-      std::string name;
-      float SurfaceAmount;
-      std::vector<layerType> layer;
-      };
-
-   void EXPORT pack(MessageData& messageData, const FertiliserConstituentsType& data);
-   void EXPORT unpack(MessageData& messageData, FertiliserConstituentsType& data);
-   unsigned EXPORT memorySize(const FertiliserConstituentsType& data);
-   std::string EXPORT DDML(const FertiliserConstituentsType& data);
 
    //------ FPool ------
    struct FPoolType
@@ -800,145 +683,6 @@
    unsigned EXPORT memorySize(const NewCropType& data);
    std::string EXPORT DDML(const NewCropType& data);
 
-   //------ NewZone ------
-   struct NewZoneType
-      {
-      std::string sender;
-      float area;
-      float slope;
-      float X;
-      float Y;
-      };
-
-   void EXPORT pack(MessageData& messageData, const NewZoneType& data);
-   void EXPORT unpack(MessageData& messageData, NewZoneType& data);
-   unsigned EXPORT memorySize(const NewZoneType& data);
-   std::string EXPORT DDML(const NewZoneType& data);
-
-   //------ SoilLayers ------
-   struct SoilLayersType
-      {
-      std::vector<double> layers;
-      std::vector<double> value;
-      };
-
-   void EXPORT pack(MessageData& messageData, const SoilLayersType& data);
-   void EXPORT unpack(MessageData& messageData, SoilLayersType& data);
-   unsigned EXPORT memorySize(const SoilLayersType& data);
-   std::string EXPORT DDML(const SoilLayersType& data);
-
-   //------ rlv_layer ------
-   struct rlv_layerType
-      {
-      std::vector<double> layers;
-      std::vector<double> rlv;
-      };
-
-   void EXPORT pack(MessageData& messageData, const rlv_layerType& data);
-   void EXPORT unpack(MessageData& messageData, rlv_layerType& data);
-   unsigned EXPORT memorySize(const rlv_layerType& data);
-   std::string EXPORT DDML(const rlv_layerType& data);
-
-   //------ demands ------
-   struct demandsType
-      {
-      std::string crop_ident;
-      std::string crop_type;
-      rlv_layerType rlv_layer;
-      double demand;
-      };
-
-   void EXPORT pack(MessageData& messageData, const demandsType& data);
-   void EXPORT unpack(MessageData& messageData, demandsType& data);
-   unsigned EXPORT memorySize(const demandsType& data);
-   std::string EXPORT DDML(const demandsType& data);
-
-   //------ PastureWaterDemand ------
-   struct PastureWaterDemandType
-      {
-      std::vector<demandsType> demands;
-      };
-
-   void EXPORT pack(MessageData& messageData, const PastureWaterDemandType& data);
-   void EXPORT unpack(MessageData& messageData, PastureWaterDemandType& data);
-   unsigned EXPORT memorySize(const PastureWaterDemandType& data);
-   std::string EXPORT DDML(const PastureWaterDemandType& data);
-
-   //------ supplies ------
-   struct suppliesType
-      {
-      std::string crop_ident;
-      std::vector<double> layers;
-      std::vector<double> supply;
-      };
-
-   void EXPORT pack(MessageData& messageData, const suppliesType& data);
-   void EXPORT unpack(MessageData& messageData, suppliesType& data);
-   unsigned EXPORT memorySize(const suppliesType& data);
-   std::string EXPORT DDML(const suppliesType& data);
-
-   //------ PastureWaterSupply ------
-   struct PastureWaterSupplyType
-      {
-      std::vector<suppliesType> supplies;
-      };
-
-   void EXPORT pack(MessageData& messageData, const PastureWaterSupplyType& data);
-   void EXPORT unpack(MessageData& messageData, PastureWaterSupplyType& data);
-   unsigned EXPORT memorySize(const PastureWaterSupplyType& data);
-   std::string EXPORT DDML(const PastureWaterSupplyType& data);
-
-   //------ water_uptake ------
-   struct water_uptakeType
-      {
-      std::string crop_ident;
-      std::vector<double> layers;
-      std::vector<double> uptake;
-      };
-
-   void EXPORT pack(MessageData& messageData, const water_uptakeType& data);
-   void EXPORT unpack(MessageData& messageData, water_uptakeType& data);
-   unsigned EXPORT memorySize(const water_uptakeType& data);
-   std::string EXPORT DDML(const water_uptakeType& data);
-
-   //------ PastureWaterUptake ------
-   struct PastureWaterUptakeType
-      {
-      std::vector<water_uptakeType> water_uptake;
-      };
-
-   void EXPORT pack(MessageData& messageData, const PastureWaterUptakeType& data);
-   void EXPORT unpack(MessageData& messageData, PastureWaterUptakeType& data);
-   unsigned EXPORT memorySize(const PastureWaterUptakeType& data);
-   std::string EXPORT DDML(const PastureWaterUptakeType& data);
-
-   //------ water_info ------
-   struct water_infoType
-      {
-      std::string crop_ident;
-      std::vector<double> params;
-      double demand;
-      std::vector<double> layers;
-      std::vector<double> rlv;
-      std::vector<double> root_radius;
-      };
-
-   void EXPORT pack(MessageData& messageData, const water_infoType& data);
-   void EXPORT unpack(MessageData& messageData, water_infoType& data);
-   unsigned EXPORT memorySize(const water_infoType& data);
-   std::string EXPORT DDML(const water_infoType& data);
-
-   //------ WaterInfo ------
-   struct WaterInfoType
-      {
-      std::vector<water_infoType> water_info;
-      };
-
-   void EXPORT pack(MessageData& messageData, const WaterInfoType& data);
-   void EXPORT unpack(MessageData& messageData, WaterInfoType& data);
-   unsigned EXPORT memorySize(const WaterInfoType& data);
-   std::string EXPORT DDML(const WaterInfoType& data);
-
    //------ fom ------
    struct fomType
       {
@@ -966,19 +710,6 @@
    void EXPORT unpack(MessageData& messageData, FomAddedType& data);
    unsigned EXPORT memorySize(const FomAddedType& data);
    std::string EXPORT DDML(const FomAddedType& data);
-
-   //------ PastureNutrientUptake ------
-   struct PastureNutrientUptakeType
-      {
-      std::string nutrient;
-      std::vector<double> layers;
-      std::vector<double> uptake;
-      };
-
-   void EXPORT pack(MessageData& messageData, const PastureNutrientUptakeType& data);
-   void EXPORT unpack(MessageData& messageData, PastureNutrientUptakeType& data);
-   unsigned EXPORT memorySize(const PastureNutrientUptakeType& data);
-   std::string EXPORT DDML(const PastureNutrientUptakeType& data);
 
    //------ PastureSow ------
    struct PastureSowType
@@ -1059,23 +790,6 @@
    void EXPORT unpack(MessageData& messageData, PastureOnCutType& data);
    unsigned EXPORT memorySize(const PastureOnCutType& data);
    std::string EXPORT DDML(const PastureOnCutType& data);
-
-   //------ PastureWeather ------
-   struct PastureWeatherType
-      {
-      double maxt;
-      double mint;
-      double rain;
-      double snow;
-      double radn;
-      double vpd;
-      double wind;
-      };
-
-   void EXPORT pack(MessageData& messageData, const PastureWeatherType& data);
-   void EXPORT unpack(MessageData& messageData, PastureWeatherType& data);
-   unsigned EXPORT memorySize(const PastureWeatherType& data);
-   std::string EXPORT DDML(const PastureWeatherType& data);
 
    //------ Faeces ------
    struct FaecesType
@@ -1507,7 +1221,7 @@
    unsigned EXPORT memorySize(const ExternalMassFlowType& data);
    std::string EXPORT DDML(const ExternalMassFlowType& data);
 
-   class Variant;
+
    void EXPORT pack(MessageData& messageData, const Variant& data);
    void EXPORT unpack(MessageData& messageData, Variant& data);
    unsigned EXPORT memorySize(Variant& data) ;
