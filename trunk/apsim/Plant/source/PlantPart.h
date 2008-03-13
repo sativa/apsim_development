@@ -316,7 +316,7 @@ protected:
       std::string addPartToVar(const std::string& variableName);
       std::string addPartToDesc(const std::string& description);
 
-      void Initialise();
+      void Initialise(bool isVegetative);
 };
 
 

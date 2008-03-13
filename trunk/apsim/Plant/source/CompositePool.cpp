@@ -8,8 +8,9 @@
 #include "Delta.h"
 using namespace std;
 
-CompositePool::CompositePool(plantInterface& plant, ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName)
-   : Pool(plant, scienceAPI, Name, PartName)
+CompositePool::CompositePool(plantInterface& plant, ScienceAPI& scienceAPI, const std::string& Name,
+                             const std::string& PartName)
+   : Pool(plant, scienceAPI, Name, PartName, false)
    {
    }
 
@@ -24,6 +25,8 @@ void CompositePool::ClearPools()
    }
 void CompositePool::AddPool(Biomass& pool)
    {
+   if (Pools.size() == 0)
+      DoRegistrations();
    Pools.push_back(&pool);
    }
 
