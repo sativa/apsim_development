@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <report version="4">
 <Data>
-<ApsimFileReader name="Birchip300" Left="16" Top="12" Width="323" Height="193">
+<ApsimFileReader name="Birchip300" Left="0" Top="0" Width="323" Height="193">
   <FileName type="filenames">Birchip300.out</FileName>
 </ApsimFileReader>
-<Probability name="Dalby600Prob" Left="357" Top="12" Width="180" Height="229">
+<Probability name="Dalby600Prob" Left="200" Top="0" Width="180" Height="229">
   <FieldName type="fieldnames">yield</FieldName>
   <source>Birchip300</source>
 </Probability>

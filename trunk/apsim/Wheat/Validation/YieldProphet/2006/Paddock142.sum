@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock142
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -1088,7 +1088,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
 28 August 2006(Day of year=240), barley: 
       stage 5.0 floral_initiation
                      biomass =         229.65 (g/m^2)   lai          =   3.424 (m^2/m^2)
-                     stover N conc =     2.02 (%)    extractable sw =   15.29 (mm)
+                     stover N conc =     2.02 (%)    extractable sw =   15.28 (mm)
 14 September 2006(Day of year=257), barley: 
       stage 6.0 flowering
                      biomass =         302.24 (g/m^2)   lai          =   1.393 (m^2/m^2)
@@ -1099,7 +1099,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     1.66 (%)    extractable sw =    4.15 (mm)
 21 September 2006(Day of year=264), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     16.3500004000000
-     Manager creating a new local real variable : avg_swdef =    0.301764011000000
+     Manager creating a new local real variable : avg_swdef =    0.301757008000000
 20 October 2006(Day of year=293), barley: 
       stage 8.0 end_grain_fill
                      biomass =         328.06 (g/m^2)   lai          =   0.059 (m^2/m^2)
@@ -1113,19 +1113,19 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         328.12 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.38 (%)    extractable sw =    0.58 (mm)
 23 October 2006(Day of year=296), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     149.673458080000
+     Manager creating a new local real variable : fullprice =     149.673725120000
 23 October 2006(Day of year=296), Harvest: 
      Manager sending message :- barley harvest
      
-      flowering day          =  257                           stover (kg/ha)         =     2528.6
+      flowering day          =  257                           stover (kg/ha)         =     2528.7
       maturity day           =  295                           grain yield (kg/ha)    =      752.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      860.1
       grain wt (g)           =    0.021                       grains/m^2             =     3520.3
-      grains/plant           =   35.2                         maximum lai            =      3.434
+      grains/plant           =   35.2                         maximum lai            =      3.435
       total above ground biomass (kg/ha)    =     3281.2
       live above ground biomass (kg/ha)     =     3281.2
       green above ground biomass (kg/ha)    =     1891.6
-      senesced above ground biomass (kg/ha) =     1389.6
+      senesced above ground biomass (kg/ha) =     1389.7
       number of leaves       =     65.0
       DM Root:Shoot ratio    =     0.28                       Harvest Index          =       0.23
       Stover C:N ratio       =    44.66                       Root C:N ratio         =      22.51
@@ -1143,7 +1143,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2528.6                     0.0
+                          DM (kg/ha) =                2528.7                     0.0
                           N  (kg/ha) =                  22.65                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots

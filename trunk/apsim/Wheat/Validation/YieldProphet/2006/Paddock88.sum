@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock88
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -1109,7 +1109,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.78 (%)    extractable sw =    8.67 (mm)
 14 October 2006(Day of year=287), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     17.2500000000000
-     Manager creating a new local real variable : avg_swdef =    0.336149991000000
+     Manager creating a new local real variable : avg_swdef =    0.336147994000000
 14 November 2006(Day of year=318), barley: 
       stage 8.0 end_grain_fill
                      biomass =         198.20 (g/m^2)   lai          =   0.100 (m^2/m^2)
@@ -1130,7 +1130,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       flowering day          =  278                           stover (kg/ha)         =     1335.7
       maturity day           =  321                           grain yield (kg/ha)    =      648.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      740.5
-      grain wt (g)           =    0.034                       grains/m^2             =     1933.6
+      grain wt (g)           =    0.034                       grains/m^2             =     1933.7
       grains/plant           =   19.3                         maximum lai            =      1.259
       total above ground biomass (kg/ha)    =     1983.7
       live above ground biomass (kg/ha)     =     1983.7

@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock44
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -947,7 +947,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     25.7500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     122.232100200000
+     Manager creating a new local real variable : nitrogen =     122.232104100000
      Manager creating a new local real variable : availablewater =     101.846863000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1108,7 +1108,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         665.67 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.41 (%)    extractable sw =    1.99 (mm)
 15 November 2006(Day of year=319), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     163.442855840000
+     Manager creating a new local real variable : fullprice =     163.442832960000
 15 November 2006(Day of year=319), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1152,7 +1152,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                   0.0                  1355.3
-                          N  (kg/ha) =                   0.00                   24.42
+                          N  (kg/ha) =                   0.00                   24.43
      
 16 November 2006(Day of year=320), GrossMargin: 
      Manager creating a new local real variable : twotimescost =     0.00000000000000

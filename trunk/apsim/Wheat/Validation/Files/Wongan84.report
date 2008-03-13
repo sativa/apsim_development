@@ -1,59 +1,62 @@
 <report version="5">
 <Data>
-<REMS name="N000" Left="0" Top="0">
-    <FileName type="filename">Wheat.mdb</FileName>
-    <Experiment type="experiment">Wongan84</Experiment>
-    <Treatment type="treatment">N000 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-<REMS name="N050" Left="200" Top="0">
-    <FileName type="filename">Wheat.mdb</FileName>
-    <Experiment type="experiment">Wongan84</Experiment>
-    <Treatment type="treatment">N050 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-<REMS name="N300" Left="400" Top="0">
-    <FileName type="filename">Wheat.mdb</FileName>
-    <Experiment type="experiment">Wongan84</Experiment>
-    <Treatment type="treatment">N300 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-<REMS name="N325" Left="600" Top="0">
-    <FileName type="filename">Wheat.mdb</FileName>
-    <Experiment type="experiment">Wongan84</Experiment>
-    <Treatment type="treatment">N325 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-<ApsimFileReader name="ObsHarvest" Left="0" Top="200">
-    <FileName type="filenames">Observed\Wongan84.txt</FileName>
-  </ApsimFileReader>
-<ApsimFileReader name="N000pre" Left="200" Top="200">
-    <FileName type="filenames">Wheat_Wongan84_N000.out</FileName>
-  </ApsimFileReader>
-<ApsimFileReader name="N050pre" Left="400" Top="200">
-    <FileName type="filenames">Wheat_Wongan84_N050.out</FileName>
-  </ApsimFileReader>
-<ApsimFileReader name="N300pre" Left="600" Top="200">
-    <FileName type="filenames">Wheat_Wongan84_N300.out</FileName>
-  </ApsimFileReader>
-<ApsimFileReader name="N325pre" Left="0" Top="400">
-    <FileName type="filenames">Wheat_Wongan84_N325.out</FileName>
-  </ApsimFileReader>
-<ApsimFileReader name="Allpre" Left="200" Top="400">
-    <FileName type="filenames">Wheat_Wongan84_N000.out</FileName>
-    <FileName type="filenames">Wheat_Wongan84_N050.out</FileName>
-    <FileName type="filenames">Wheat_Wongan84_N300.out</FileName>
-    <FileName type="filenames">Wheat_Wongan84_N325.out</FileName>
-    
-  </ApsimFileReader>
-<Filter name="FinalPre" Left="400" Top="400">
-      <FilterString>day = 318</FilterString>
-    <source>Allpre</source></Filter>
+<REMS name="N000" Left="0" Top="0" Width="148" Height="234">
+  <FileName type="filename">Wheat.mdb</FileName>
+  <Experiment type="experiment">Wongan84</Experiment>
+  <Treatment type="treatment">N000</Treatment>
+  <DataSource type="datasource">Crop</DataSource>
+</REMS>
+<REMS name="N050" Left="200" Top="0" Width="148" Height="234">
+  <FileName type="filename">Wheat.mdb</FileName>
+  <Experiment type="experiment">Wongan84</Experiment>
+  <Treatment type="treatment">N050</Treatment>
+  <DataSource type="datasource">Crop</DataSource>
+</REMS>
+<REMS name="N300" Left="400" Top="0" Width="148" Height="234">
+  <FileName type="filename">Wheat.mdb</FileName>
+  <Experiment type="experiment">Wongan84</Experiment>
+  <Treatment type="treatment">N300</Treatment>
+  <DataSource type="datasource">Crop</DataSource>
+</REMS>
+<REMS name="N325" Left="600" Top="0" Width="148" Height="234">
+  <FileName type="filename">Wheat.mdb</FileName>
+  <Experiment type="experiment">Wongan84</Experiment>
+  <Treatment type="treatment">N325</Treatment>
+  <DataSource type="datasource">Crop</DataSource>
+</REMS>
+<ApsimFileReader name="ObsHarvest" Left="0" Top="200" Width="162" Height="150">
+  <FileName type="filenames">Observed\Wongan84.txt</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="N000pre" Left="200" Top="200" Width="162" Height="150">
+  <FileName type="filenames">Wheat_Wongan84_N000.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="N050pre" Left="400" Top="200" Width="162" Height="150">
+  <FileName type="filenames">Wheat_Wongan84_N050.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="N300pre" Left="600" Top="200" Width="162" Height="150">
+  <FileName type="filenames">Wheat_Wongan84_N300.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="N325pre" Left="0" Top="400" Width="162" Height="150">
+  <FileName type="filenames">Wheat_Wongan84_N325.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="Allpre" Left="200" Top="400" Width="162" Height="150">
+  <FileName type="filenames">Wheat_Wongan84_N000.out</FileName>
+  <FileName type="filenames">Wheat_Wongan84_N050.out</FileName>
+  <FileName type="filenames">Wheat_Wongan84_N300.out</FileName>
+  <FileName type="filenames">Wheat_Wongan84_N325.out</FileName>
+</ApsimFileReader>
+<Filter name="FinalPre" Left="400" Top="400" Width="135" Height="92">
+  <FilterString>day = 318</FilterString>
+  <source>Allpre</source>
+</Filter>
+<DataGrid Left="405" Top="512" Width="456" Height="200">
+  <source>N000</source>
+</DataGrid>
 </Data>
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 122
-  Top = 30
+  Left = 226
+  Top = 37
   Width = 556
   Height = 786
   Frame.Color = clBlack

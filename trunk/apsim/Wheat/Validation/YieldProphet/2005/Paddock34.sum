@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock34
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -1034,7 +1034,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     27.7500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     62.5838213200000
+     Manager creating a new local real variable : nitrogen =     62.5838287400000
      Manager creating a new local real variable : availablewater =     39.4027710000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1227,7 +1227,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =        1215.17 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.36 (%)    extractable sw =   39.83 (mm)
 10 December 2005(Day of year=344), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     159.118267040000
+     Manager creating a new local real variable : fullprice =     159.118209840000
 10 December 2005(Day of year=344), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1270,7 +1270,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1831.4
+                          DM (kg/ha) =                   0.0                  1831.5
                           N  (kg/ha) =                   0.00                   40.46
      
 11 December 2005(Day of year=345), GrossMargin: 

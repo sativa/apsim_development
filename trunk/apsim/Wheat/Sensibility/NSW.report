@@ -1,30 +1,31 @@
+<?xml version="1.0"?>
 <report version="4">
 <Data>
-<ApsimFileReader name="Gunnedah750" Left="13" Top="15" Width="140" Height="89">
+<ApsimFileReader name="Gunnedah750" Left="0" Top="0" Width="140" Height="89">
   <FileName type="filenames">Gunnedah750.out</FileName>
 </ApsimFileReader>
-<ApsimFileReader name="Gunnedah1500" Left="172" Top="19" Width="153" Height="85">
+<ApsimFileReader name="Gunnedah1500" Left="200" Top="0" Width="153" Height="85">
   <FileName type="filenames">Gunnedah1500.out</FileName>
 </ApsimFileReader>
-<ApsimFileReader name="Walgett750" Left="346" Top="19" Width="152" Height="103">
+<ApsimFileReader name="Walgett750" Left="400" Top="0" Width="152" Height="103">
   <FileName type="filenames">Walgett750.out</FileName>
 </ApsimFileReader>
-<ApsimFileReader name="Walgett1500" Left="504" Top="19" Width="138" Height="105">
+<ApsimFileReader name="Walgett1500" Left="600" Top="0" Width="138" Height="105">
   <FileName type="filenames">Walgett1500.out</FileName>
 </ApsimFileReader>
-<Probability name="Gunnedah750Prob" Left="13" Top="153" Width="140" Height="229">
+<Probability name="Gunnedah750Prob" Left="0" Top="200" Width="140" Height="229">
   <FieldName type="fieldnames">yield</FieldName>
   <source>Gunnedah750</source>
 </Probability>
-<Probability name="Gunnedah1500Prob" Left="172" Top="153" Width="138" Height="229">
+<Probability name="Gunnedah1500Prob" Left="200" Top="200" Width="138" Height="229">
   <FieldName type="fieldnames">yield</FieldName>
   <source>Gunnedah1500</source>
 </Probability>
-<Probability name="Walgett750Prob" Left="346" Top="153" Width="152" Height="229">
+<Probability name="Walgett750Prob" Left="400" Top="200" Width="152" Height="229">
   <FieldName type="fieldnames">yield</FieldName>
   <source>Walgett750</source>
 </Probability>
-<Probability name="Walgett1500Prob" Left="504" Top="153" Width="153" Height="229">
+<Probability name="Walgett1500Prob" Left="600" Top="200" Width="153" Height="229">
   <FieldName type="fieldnames">yield</FieldName>
   <source>Walgett1500</source>
 </Probability>

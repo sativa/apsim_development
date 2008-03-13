@@ -1,16 +1,17 @@
+<?xml version="1.0"?>
 <report version="4">
 <Data>
-<ApsimFileReader name="RedSCL" Left="299" Top="13" Width="155" Height="78">
+<ApsimFileReader name="RedSCL" Left="0" Top="0" Width="155" Height="78">
   <FileName type="filenames">Mingenew300RedSCL.out</FileName>
 </ApsimFileReader>
-<ApsimFileReader name="Gunnedah1500" Left="3" Top="13" Width="147" Height="85">
+<ApsimFileReader name="Gunnedah1500" Left="200" Top="0" Width="147" Height="85">
   <FileName type="filenames">Mingenew300Sand.out</FileName>
 </ApsimFileReader>
-<Probability name="RedSCLProb" Left="299" Top="177" Width="180" Height="229">
+<Probability name="RedSCLProb" Left="400" Top="0" Width="180" Height="229">
   <FieldName type="fieldnames">yield</FieldName>
   <source>RedSCL</source>
 </Probability>
-<Probability name="SandProb" Left="3" Top="177" Width="180" Height="229">
+<Probability name="SandProb" Left="600" Top="0" Width="180" Height="229">
   <FieldName type="fieldnames">yield</FieldName>
   <source>Gunnedah1500</source>
 </Probability>

@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock50
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -1128,7 +1128,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     1.39 (%)    extractable sw =   29.23 (mm)
 10 October 2005(Day of year=283), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     12.0000000000000
-     Manager creating a new local real variable : avg_swdef =    0.679243982000000
+     Manager creating a new local real variable : avg_swdef =    0.679244995000000
 5 November 2005(Day of year=309), barley: 
       stage 8.0 end_grain_fill
                      biomass =         655.83 (g/m^2)   lai          =   0.503 (m^2/m^2)
@@ -1142,7 +1142,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         656.86 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.45 (%)    extractable sw =   39.04 (mm)
 8 November 2005(Day of year=312), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     151.592754360000
+     Manager creating a new local real variable : fullprice =     151.592769640000
 8 November 2005(Day of year=312), Harvest: 
      Manager sending message :- barley harvest
      

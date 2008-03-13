@@ -1,88 +1,88 @@
 <report version="5">
 <Data>
-<REMS name="N1" Left="0" Top="0">
-    <FileName type="filename">Wheat.mdb</FileName>
-    <Experiment type="experiment">APS6</Experiment>
-    <Treatment type="treatment">N000 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-<REMS name="N2" Left="200" Top="0">
-    <FileName type="filename">Wheat.mdb</FileName>
-    <Experiment type="experiment">APS6</Experiment>
-    <Treatment type="treatment">N040 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-<REMS name="N3" Left="400" Top="0">
-    <FileName type="filename">Wheat.mdb</FileName>
-    <Experiment type="experiment">APS6</Experiment>
-    <Treatment type="treatment">N080 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-<REMS name="N4" Left="600" Top="0">
-    <FileName type="filename">Wheat.mdb</FileName>
-    <Experiment type="experiment">APS6</Experiment>
-    <Treatment type="treatment">N120 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-<REMS name="N5" Left="0" Top="200">
-    <FileName type="filename">Wheat.mdb</FileName>
-    <Experiment type="experiment">APS6</Experiment>
-    <Treatment type="treatment">N160 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-<REMS name="N6" Left="200" Top="200">
-    <FileName type="filename">Wheat.mdb</FileName>
-    <Experiment type="experiment">APS6</Experiment>
-    <Treatment type="treatment">N360 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-<ApsimFileReader name="N1pre" Left="400" Top="200">
-    <FileName type="filenames">Wheat_APS6_N000.out</FileName>
-  </ApsimFileReader>
-<ApsimFileReader name="N2pre" Left="600" Top="200">
-    <FileName type="filenames">Wheat_APS6_N040.out</FileName>
-  </ApsimFileReader>
-<ApsimFileReader name="N3pre" Left="0" Top="400">
-    <FileName type="filenames">Wheat_APS6_N080.out</FileName>
-  </ApsimFileReader>
-<ApsimFileReader name="N4pre" Left="200" Top="400">
-    <FileName type="filenames">Wheat_APS6_N120.out</FileName>
-  </ApsimFileReader>
-<ApsimFileReader name="N5pre" Left="400" Top="400">
-    <FileName type="filenames">Wheat_APS6_N160.out</FileName>
-  </ApsimFileReader>
-<ApsimFileReader name="N6pre" Left="600" Top="400">
-    <FileName type="filenames">Wheat_APS6_N360.out</FileName>
-  </ApsimFileReader>
-<REMS name="REMS1" Left="0" Top="600">
-    <FileName type="filename">Wheat.mdb</FileName>
-    <Experiment type="experiment">Lincoln9192</Experiment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-<ApsimFileReader name="Allpre" Left="200" Top="600">
-    <FileName type="filenames">Wheat_Lincoln9192_I11.out</FileName>
-    <FileName type="filenames">Wheat_Lincoln9192_I01.out</FileName>
-    <FileName type="filenames">Wheat_Lincoln9192_I03.out</FileName>
-    <FileName type="filenames">Wheat_Lincoln9192_I05.out</FileName>
-    <FileName type="filenames">Wheat_Lincoln9192_I06.out</FileName>
-    <FileName type="filenames">Wheat_Lincoln9192_I07.out</FileName>
-    <FileName type="filenames">Wheat_Lincoln9192_I08.out</FileName>
-    
-  </ApsimFileReader>
-<ApsimFileReader name="HarvestObs" Left="400" Top="600">
-    <FileName type="filenames">Observed\aps6.txt</FileName>
-  </ApsimFileReader>
-<ApsimFileReader name="TotSWObs" Left="600" Top="600">
-    <FileName type="filenames">Observed\LincolnTotSW.txt</FileName>
-  </ApsimFileReader>
-<Filter name="HarvestPre" Left="0" Top="800">
-      <FilterString>day=26</FilterString>
-    <source>Allpre</source></Filter>
+<REMS name="N1" Left="0" Top="0" Width="148" Height="234">
+  <FileName type="filename">Wheat.mdb</FileName>
+  <Experiment type="experiment">APS6</Experiment>
+  <Treatment type="treatment">N000</Treatment>
+  <DataSource type="datasource">Crop</DataSource>
+</REMS>
+<REMS name="N2" Left="200" Top="0" Width="148" Height="234">
+  <FileName type="filename">Wheat.mdb</FileName>
+  <Experiment type="experiment">APS6</Experiment>
+  <Treatment type="treatment">N040</Treatment>
+  <DataSource type="datasource">Crop</DataSource>
+</REMS>
+<REMS name="N3" Left="400" Top="0" Width="148" Height="234">
+  <FileName type="filename">Wheat.mdb</FileName>
+  <Experiment type="experiment">APS6</Experiment>
+  <Treatment type="treatment">N080</Treatment>
+  <DataSource type="datasource">Crop</DataSource>
+</REMS>
+<REMS name="N4" Left="600" Top="0" Width="148" Height="234">
+  <FileName type="filename">Wheat.mdb</FileName>
+  <Experiment type="experiment">APS6</Experiment>
+  <Treatment type="treatment">N120</Treatment>
+  <DataSource type="datasource">Crop</DataSource>
+</REMS>
+<REMS name="N5" Left="0" Top="200" Width="148" Height="234">
+  <FileName type="filename">Wheat.mdb</FileName>
+  <Experiment type="experiment">APS6</Experiment>
+  <Treatment type="treatment">N160</Treatment>
+  <DataSource type="datasource">Crop</DataSource>
+</REMS>
+<REMS name="N6" Left="200" Top="200" Width="148" Height="234">
+  <FileName type="filename">Wheat.mdb</FileName>
+  <Experiment type="experiment">APS6</Experiment>
+  <Treatment type="treatment">N360</Treatment>
+  <DataSource type="datasource">Crop</DataSource>
+</REMS>
+<ApsimFileReader name="N1pre" Left="400" Top="200" Width="162" Height="150">
+  <FileName type="filenames">Wheat_APS6_N000.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="N2pre" Left="600" Top="200" Width="162" Height="150">
+  <FileName type="filenames">Wheat_APS6_N040.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="N3pre" Left="0" Top="400" Width="162" Height="150">
+  <FileName type="filenames">Wheat_APS6_N080.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="N4pre" Left="200" Top="400" Width="162" Height="150">
+  <FileName type="filenames">Wheat_APS6_N120.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="N5pre" Left="400" Top="400" Width="162" Height="150">
+  <FileName type="filenames">Wheat_APS6_N160.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="N6pre" Left="600" Top="400" Width="162" Height="150">
+  <FileName type="filenames">Wheat_APS6_N360.out</FileName>
+</ApsimFileReader>
+<REMS name="REMS1" Left="0" Top="600" Width="148" Height="234">
+  <FileName type="filename">Wheat.mdb</FileName>
+  <Experiment type="experiment">Lincoln9192</Experiment>
+  <DataSource type="datasource">Crop</DataSource>
+</REMS>
+<ApsimFileReader name="Allpre" Left="200" Top="600" Width="162" Height="150">
+  <FileName type="filenames">Wheat_Lincoln9192_I11.out</FileName>
+  <FileName type="filenames">Wheat_Lincoln9192_I01.out</FileName>
+  <FileName type="filenames">Wheat_Lincoln9192_I03.out</FileName>
+  <FileName type="filenames">Wheat_Lincoln9192_I05.out</FileName>
+  <FileName type="filenames">Wheat_Lincoln9192_I06.out</FileName>
+  <FileName type="filenames">Wheat_Lincoln9192_I07.out</FileName>
+  <FileName type="filenames">Wheat_Lincoln9192_I08.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="HarvestObs" Left="400" Top="600" Width="162" Height="150">
+  <FileName type="filenames">Observed\aps6.txt</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="TotSWObs" Left="600" Top="600" Width="162" Height="150">
+  <FileName type="filenames">Observed\LincolnTotSW.txt</FileName>
+</ApsimFileReader>
+<Filter name="HarvestPre" Left="0" Top="800" Width="135" Height="92">
+  <FilterString>day=26</FilterString>
+  <source>Allpre</source>
+</Filter>
 </Data>
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 122
-  Top = 30
+  Left = 226
+  Top = 37
   Width = 556
   Height = 786
   Frame.Color = clBlack

@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock39
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -995,7 +995,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     20.2500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     71.6320782000000
+     Manager creating a new local real variable : nitrogen =     71.6320476000000
      Manager creating a new local real variable : availablewater =     61.1201480000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1175,7 +1175,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager sending message :- wheat harvest
      
       flowering day          =  274                           stover (kg/ha)         =     7210.4
-      maturity day           =  321                           grain yield (kg/ha)    =     2268.9
+      maturity day           =  321                           grain yield (kg/ha)    =     2269.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2593.1
       grain wt (g)           =    0.027                       grains/m^2             =     8358.6
       grains/plant           =   83.6                         maximum lai            =      2.008
@@ -1200,11 +1200,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                7210.4                     0.0
+                          DM (kg/ha) =                7210.3                     0.0
                           N  (kg/ha) =                  23.85                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2268.9                     0.0
+                          DM (kg/ha) =                2269.0                     0.0
                           N  (kg/ha) =                  33.97                    0.00
      
       stage 4.0 end_of_juvenile

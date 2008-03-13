@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock66
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -967,7 +967,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     26.2500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     66.1815338000000
+     Manager creating a new local real variable : nitrogen =     66.1814747000000
      Manager creating a new local real variable : availablewater =     87.2902220000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1119,25 +1119,25 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.96 (%)    extractable sw =   17.00 (mm)
 16 October 2006(Day of year=289), Wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         534.35 (g/m^2)   lai          =   0.579 (m^2/m^2)
+                     biomass =         534.36 (g/m^2)   lai          =   0.579 (m^2/m^2)
                      stover N conc =     0.82 (%)    extractable sw =   11.74 (mm)
 17 October 2006(Day of year=290), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     16.7500000000000
-     Manager creating a new local real variable : avg_swdef =    0.244204000000000
+     Manager creating a new local real variable : avg_swdef =    0.244202003000000
 21 November 2006(Day of year=325), Wheat: 
       stage 8.0 end_grain_fill
                      biomass =         570.15 (g/m^2)   lai          =   0.213 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =    2.97 (mm)
 23 November 2006(Day of year=327), Wheat: 
       stage 9.0 maturity
-                     biomass =         570.25 (g/m^2)   lai          =   0.206 (m^2/m^2)
+                     biomass =         570.26 (g/m^2)   lai          =   0.206 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =    2.70 (mm)
 24 November 2006(Day of year=328), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         570.25 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         570.26 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    2.58 (mm)
 24 November 2006(Day of year=328), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     143.577537536000
+     Manager creating a new local real variable : fullprice =     143.578353880000
 24 November 2006(Day of year=328), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1146,9 +1146,9 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1782.7
       grain wt (g)           =    0.022                       grains/m^2             =     7202.7
       grains/plant           =   72.0                         maximum lai            =      3.136
-      total above ground biomass (kg/ha)    =     5702.5
-      live above ground biomass (kg/ha)     =     5702.5
-      green above ground biomass (kg/ha)    =     4342.8
+      total above ground biomass (kg/ha)    =     5702.6
+      live above ground biomass (kg/ha)     =     5702.6
+      green above ground biomass (kg/ha)    =     4342.9
       senesced above ground biomass (kg/ha) =     1359.7
       number of leaves       =     44.6
       DM Root:Shoot ratio    =     0.18                       Harvest Index          =       0.27
@@ -1160,7 +1160,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.000        0.072        0.096
-         floral_initiation    to flowering               0.246        0.300        0.225        0.415
+         floral_initiation    to flowering               0.246        0.300        0.225        0.414
          flowering            to start_grain_fill        0.809        0.923        0.000        0.006
          start_grain_fill     to end_grain_fill          0.278        0.333        0.551        0.732
      

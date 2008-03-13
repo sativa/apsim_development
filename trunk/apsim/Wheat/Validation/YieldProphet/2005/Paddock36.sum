@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock36
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -971,7 +971,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     28.2500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     101.990594600000
+     Manager creating a new local real variable : nitrogen =     101.990552150000
      Manager creating a new local real variable : availablewater =     48.3142700000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1116,30 +1116,30 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                                               added at depth   20.00 (layer   1)
 21 September 2005(Day of year=264), barley: 
       stage 5.0 floral_initiation
-                     biomass =         360.23 (g/m^2)   lai          =   5.448 (m^2/m^2)
+                     biomass =         360.24 (g/m^2)   lai          =   5.448 (m^2/m^2)
                      stover N conc =     2.22 (%)    extractable sw =   60.14 (mm)
 8 October 2005(Day of year=281), barley: 
       stage 6.0 flowering
-                     biomass =         530.11 (g/m^2)   lai          =   3.641 (m^2/m^2)
+                     biomass =         530.12 (g/m^2)   lai          =   3.641 (m^2/m^2)
                      stover N conc =     1.64 (%)    extractable sw =   47.20 (mm)
 17 October 2005(Day of year=290), barley: 
       stage 7.0 start_grain_fill
-                     biomass =         609.38 (g/m^2)   lai          =   2.103 (m^2/m^2)
+                     biomass =         609.39 (g/m^2)   lai          =   2.103 (m^2/m^2)
                      stover N conc =     1.39 (%)    extractable sw =   28.61 (mm)
 18 October 2005(Day of year=291), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     17.5000000000000
-     Manager creating a new local real variable : avg_swdef =    0.269035012000000
+     Manager creating a new local real variable : avg_swdef =    0.269028991000000
 14 November 2005(Day of year=318), barley: 
       stage 8.0 end_grain_fill
-                     biomass =         852.97 (g/m^2)   lai          =   1.302 (m^2/m^2)
+                     biomass =         852.98 (g/m^2)   lai          =   1.302 (m^2/m^2)
                      stover N conc =     0.35 (%)    extractable sw =   50.79 (mm)
 16 November 2005(Day of year=320), barley: 
       stage 9.0 maturity
-                     biomass =         854.50 (g/m^2)   lai          =   1.302 (m^2/m^2)
+                     biomass =         854.51 (g/m^2)   lai          =   1.302 (m^2/m^2)
                      stover N conc =     0.34 (%)    extractable sw =   46.59 (mm)
 17 November 2005(Day of year=321), barley: 
       stage 10.0 harvest_ripe
-                     biomass =         854.50 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         854.51 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   45.12 (mm)
 17 November 2005(Day of year=321), GrossMargin: 
      Manager creating a new local real variable : fullprice =     140.000000000000
@@ -1149,11 +1149,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       flowering day          =  281                           stover (kg/ha)         =     4760.4
       maturity day           =  320                           grain yield (kg/ha)    =     3784.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4325.4
-      grain wt (g)           =    0.059                       grains/m^2             =     6367.1
+      grain wt (g)           =    0.059                       grains/m^2             =     6367.2
       grains/plant           =   63.7                         maximum lai            =      5.497
-      total above ground biomass (kg/ha)    =     8545.0
-      live above ground biomass (kg/ha)     =     8545.0
-      green above ground biomass (kg/ha)    =     6367.1
+      total above ground biomass (kg/ha)    =     8545.1
+      live above ground biomass (kg/ha)     =     8545.1
+      green above ground biomass (kg/ha)    =     6367.2
       senesced above ground biomass (kg/ha) =     2177.9
       number of leaves       =     56.7
       DM Root:Shoot ratio    =     0.17                       Harvest Index          =       0.44
@@ -1172,7 +1172,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4760.3                     0.0
+                          DM (kg/ha) =                4760.4                     0.0
                           N  (kg/ha) =                  18.85                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
