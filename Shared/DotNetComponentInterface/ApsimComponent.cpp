@@ -82,6 +82,7 @@ ApsimComponent::ApsimComponent(Object^ model)
 	// --------------------------------
 	// constructor
 	// --------------------------------
+	Init1 = true;
 	}
 void ApsimComponent::createInstance(const char* dllFileName,
 					unsigned compID,
@@ -110,7 +111,6 @@ void ApsimComponent::deleteInstance()
 // --------------------------------
 void ApsimComponent::messageToLogic (char* message)
 	{
-	static bool Init1 = true;
 	if (Init1)
 		{
 		Init1 = false;
