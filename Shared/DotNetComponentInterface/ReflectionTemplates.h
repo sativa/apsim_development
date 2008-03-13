@@ -92,6 +92,11 @@ class WrapReflected : public WrapManaged<T>
          WrapManaged<T>::unpack(message);
          SetValue<T>(Field, Model, (T) Data);
 		 }
+	  virtual unsigned memorySize()
+         {
+         Data = GetValue<T>(Field, Model);
+         return WrapManaged<T>::memorySize();
+		 }
 	};
 template <class T, class MI>
 class WrapReflectedWithConverter : public WrapManagedWithConverter<T>
@@ -103,7 +108,7 @@ class WrapReflectedWithConverter : public WrapManagedWithConverter<T>
 	public:
       WrapReflectedWithConverter(ApsimComponent^ Comp, Object^ model, MI^ field) 
          : WrapManagedWithConverter<T>(Comp, GetValue<T>(field, model)), Model(model), Field(field)
-         { 
+         {
          }
       WrapReflectedWithConverter(ApsimComponent^ Comp, Object^ model, MI^ field, ApsimType^ data) 
          : WrapManagedWithConverter<T>(Comp, data), Model(model), Field(field)
@@ -118,6 +123,11 @@ class WrapReflectedWithConverter : public WrapManagedWithConverter<T>
          {
          WrapManagedWithConverter<T>::unpack(message);
          SetValue<T>(Field, Model, (T) Data);
+		 }
+	  virtual unsigned memorySize()
+         {
+         Data = GetValue<T>(Field, Model);
+         return WrapManaged<T>::memorySize();
 		 }
 	};	
 template <class T> 

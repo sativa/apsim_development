@@ -41,7 +41,7 @@ Imports ModelFramework
     Private Root_Distance() As Single    ' Distance to each root system
     Private RootExtent As Single         ' Extent of root system (in multiples of height)
     Private SWSupply() As Single         ' Daily water supply from each layer (mm)
-    Private SWUptake() As Single         ' Daily uptake of SW from each layer (mm)
+    Private SWUptake() As Double         ' Daily uptake of SW from each layer (mm)
     Private MetData As New NewMetType    ' Daily Met Data
     Private UptakeSource As String       ' User choice for source of uptake information
     Private Zones() As String
@@ -63,7 +63,7 @@ Imports ModelFramework
     Private Sub ReadParameters()
 
         ' Get UptakeSource - if missing set to "calc"
-        If ScienceAPI.Read("update_source", "", True, UptakeSource) Then
+        If Not ScienceAPI.Read("uptake_source", "", True, UptakeSource) Then
             UptakeSource = "calc"
         End If
 
@@ -383,8 +383,8 @@ Imports ModelFramework
         Next
         Return SWSupply
     End Function
-    Private Function CalcSWUptake() As Single()
-        Dim SWUptake(SWSupply.Length - 1) As Single
+    Private Function CalcSWUptake() As Double()
+        Dim SWUptake(SWSupply.Length - 1) As Double
         Dim SWSupplyTot As Single = 0.0
         For layer As Integer = 0 To SWSupply.Length - 1
             SWSupplyTot = SWSupplyTot + SWSupply(layer)
