@@ -11,6 +11,7 @@ EXPORTS
     @ApsimComponentData@$bctr$qrx7XMLNode @3   ; ApsimComponentData::ApsimComponentData(const XMLNode&)
     @ApsimComponentData@$bctr$qv   @1   ; ApsimComponentData::ApsimComponentData()
     @ApsimComponentData@$bdtr$qv   @4   ; ApsimComponentData::~ApsimComponentData()
+    @ApsimComponentData@findSection$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @14  ; ApsimComponentData::findSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
     @ApsimComponentData@getComponentInterfaceFileName$xqv @9   ; ApsimComponentData::getComponentInterfaceFileName() const
     @ApsimComponentData@getDataType$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @23  ; ApsimComponentData::getDataType(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
     @ApsimComponentData@getExecutableFileName$xqv @8   ; ApsimComponentData::getExecutableFileName() const
@@ -24,7 +25,6 @@ EXPORTS
     @ApsimComponentData@getValuesFromTable$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%7XMLNode @15  ; ApsimComponentData::getValuesFromTable(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, XMLNode) const
     @ApsimComponentData@getVariables$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @17  ; ApsimComponentData::getVariables(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
     @ApsimComponentData@getXML$xqv @20  ; ApsimComponentData::getXML() const
-    @ApsimComponentData@matchProperty$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%rx163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18V1SQ @14  ; ApsimComponentData::matchProperty(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
     @ApsimComponentData@regBegin$xqv @21  ; ApsimComponentData::regBegin() const
     @ApsimComponentData@regEnd$xqv @22  ; ApsimComponentData::regEnd() const
     @ApsimComponentData@setExecutableFileName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @12  ; ApsimComponentData::setExecutableFileName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
