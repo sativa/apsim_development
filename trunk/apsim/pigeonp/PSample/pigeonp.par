@@ -8,10 +8,9 @@ variable = clock.year
 variable = pigeonp.lai
 variable = pigeonp.biomass
 variable = pigeonp.green_biomass
-
-variable = pigeonp.dm_green
-variable = pigeonp.p_green
-variable = pigeonp.p_senesced
+variable = pigeonp.GreenWt
+variable = pigeonp.GreenP
+variable = pigeonp.SenescedP
 variable = pigeonp.p_demand
 variable = pigeonp.pfact_photo
 variable = pigeonp.pfact_pheno
@@ -20,25 +19,24 @@ variable = pigeonp.pfact_grain
 variable = pigeonp.biomass_p
 variable = pigeonp.green_biomass_p
 variable = pigeonp.grain_p
-variable = pigeonp.leaf_p
-variable = pigeonp.stem_p
-variable = pigeonp.root_p
-variable = pigeonp.deadleaf_p
-variable = pigeonp.pod_p
+variable = pigeonp.LeafGreenP
+variable = pigeonp.StemGreenP
+variable = pigeonp.RootGreenP
+variable = pigeonp.PodGreenP
 variable = pigeonp.head_p
-variable = pigeonp.p_dead
 variable = pigeonp.dlt_p_green()
 variable = pigeonp.dlt_p_retrans()
 variable = pigeonp.dlt_p_detached()
 variable = pigeonp.dlt_p_sen()
 variable = pigeonp.p_conc_stover
-variable = pigeonp.p_conc_leaf
-variable = pigeonp.p_conc_stem
-variable = pigeonp.p_conc_grain
+variable = pigeonp.LeafGreenPConc
+variable = pigeonp.StemGreenPConc
+variable = pigeonp.GrainGreenPConc
 variable = pigeonp.p_uptake_stover
 variable = pigeonp.grain_p_demand
-
 variable = surfaceom.surfaceom_p
+
+
 
 
 

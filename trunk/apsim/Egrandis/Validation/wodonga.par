@@ -46,7 +46,7 @@ summaryfile = Camaldulensis.sum /overwrite
 
 !module_names=    forest     forest      forest      forest      forest     forest  forest forest           forest
 !variable_names=  foliage_n  an_green(1) an_green(2) an_green(3) no3_demand plants  omega  aerodynamic_cond canopy_cond
-!variable_alias=  -          stem_n      branch_n    bark_n      -          -       -      -                 -
+!variable_alias=  -          StemGreenN      branch_n    bark_n      -          -       -      -                 -
 !units =          -            -          -          -           -          -       -      -                 -
 
 
@@ -59,10 +59,10 @@ variable = tracker1.avg@Egrandis_Fn
 variable = tracker1.avg@Egrandis_Fw
 variable = tracker1.avg@Egrandis_Fvpd
 variable = tracker1.avg@Egrandis_ft
-variable = Egrandis.adm_green(1) as stem_wt
+variable = Egrandis.adm_green(1) as StemGreenWt
 variable = Egrandis.adm_green(2) as branch_wt
 variable = Egrandis.adm_green(3) as bark_wt
-variable = Egrandis.foliage_mass as leaf_wt
+variable = Egrandis.foliage_mass as LeafGreenWt
 variable = Egrandis.root_mass
 variable = Egrandis.height
 [all.clock.parameters]

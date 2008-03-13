@@ -8,10 +8,9 @@ variable = clock.year
 variable = mungbean.lai
 variable = mungbean.biomass
 variable = mungbean.green_biomass
-
-variable = mungbean.dm_green
-variable = mungbean.p_green
-variable = mungbean.p_senesced
+variable = mungbean.GreenWt
+variable = mungbean.GreenP
+variable = mungbean.SenescedP
 variable = mungbean.p_demand
 variable = mungbean.pfact_photo
 variable = mungbean.pfact_pheno
@@ -20,25 +19,24 @@ variable = mungbean.pfact_grain
 variable = mungbean.biomass_p
 variable = mungbean.green_biomass_p
 variable = mungbean.grain_p
-variable = mungbean.leaf_p
-variable = mungbean.stem_p
-variable = mungbean.root_p
-variable = mungbean.deadleaf_p
-variable = mungbean.pod_p
+variable = mungbean.LeafGreenP
+variable = mungbean.StemGreenP
+variable = mungbean.RootGreenP
+variable = mungbean.PodGreenP
 variable = mungbean.head_p
-variable = mungbean.p_dead
 variable = mungbean.dlt_p_green()
 variable = mungbean.dlt_p_retrans()
 variable = mungbean.dlt_p_detached()
 variable = mungbean.dlt_p_sen()
 variable = mungbean.p_conc_stover
-variable = mungbean.p_conc_leaf
-variable = mungbean.p_conc_stem
-variable = mungbean.p_conc_grain
+variable = mungbean.LeafGreenPConc
+variable = mungbean.StemGreenPConc
+variable = mungbean.GrainGreenPConc
 variable = mungbean.p_uptake_stover
 variable = mungbean.grain_p_demand
-
 variable = surfaceom.surfaceom_p
+
+
 
 
 

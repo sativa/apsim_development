@@ -22,34 +22,12 @@ http.cpp:
 dll.cpp:
 TLIB 4.5 Copyright (c) 1987, 1999 Inprise Corporation
  date_class.obj exec.obj general.obj IniFile.obj   io_functions.obj math_functions.obj path.obj stream_functions.obj   stream_processor.obj string_functions.obj StringTokenizer.obj stristr.obj Macro.obj   xml.obj http.obj dll.obj c:\PROGRA~1\Borland\CBUILD~1\Bin\..\components\boost\libs\filesystem\src\path_posix_windows.obj  c:\PROGRA~1\Borland\CBUILD~1\Bin\..\components\boost\libs\filesystem\src\convenience.obj  c:\PROGRA~1\Borland\CBUILD~1\Bin\..\components\boost\libs\filesystem\src\exception.obj  c:\PROGRA~1\Borland\CBUILD~1\Bin\..\components\boost\libs\filesystem\src\operations_posix_windows.obj
-Warning: 'date_class' not found in library
-Warning: 'exec' not found in library
-Warning: 'general' not found in library
-Warning: 'IniFile' not found in library
-Warning: 'io_functions' not found in library
-Warning: 'math_functions' not found in library
-Warning: 'path' not found in library
-Warning: 'stream_functions' not found in library
-Warning: 'stream_processor' not found in library
-Warning: 'string_functions' not found in library
-Warning: 'StringTokenizer' not found in library
-Warning: 'stristr' not found in library
-Warning: 'Macro' not found in library
-Warning: 'xml' not found in library
-Warning: 'http' not found in library
-Warning: 'dll' not found in library
-Warning: 'path_posix_windows' not found in library
-Warning: 'convenience' not found in library
-Warning: 'exception' not found in library
-Warning: 'operations_posix_windows' not found in library
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 vcl_functions.cpp:
 db_functions.cpp:
 Loaded cached pre-compiled headers.
 TLIB 4.5 Copyright (c) 1987, 1999 Inprise Corporation
  /P128 vcl_functions.obj db_functions.obj
-Warning: 'vcl_functions' not found in library
-Warning: 'db_functions' not found in library
 ------Compiling  C:\Development\Tools\def2imp 
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
@@ -102,13 +80,8 @@ Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 Microsoft (R) Visual Studio Version 8.0.50727.42.
 Copyright (C) Microsoft Corp 1984-2005. All rights reserved.
 ------ Build started: Project: ProcessDataTypesInterface, Configuration: Release Any CPU ------
-C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /nowarn:1701,1702 /errorreport:prompt /warn:4 /define:TRACE /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /debug:pdbonly /optimize+ /out:obj\Release\ProcessDataTypesInterface.exe /target:exe ProcessDataTypesInterface.cs Properties\AssemblyInfo.cs
-
-Compile complete -- 0 errors, 0 warnings
 ProcessDataTypesInterface -> C:\Development\Bin\ProcessDataTypesInterface.exe
 ------ Build started: Project: VBGeneral, Configuration: Release Any CPU ------
-C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\bin\LC.exe /target:VBGeneral.dll /complist:"My Project\licenses.licx" /outdir:obj\Release\ /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll 
-C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Vbc.exe /noconfig /imports:Microsoft.VisualBasic,System,System.Collections,System.Collections.Generic,System.Diagnostics /nowarn:42016,41999,42017,42018,42019,42032,42036,42020,42021,42022 /rootnamespace:VBGeneral /doc:obj\Release\VBGeneral.xml /define:"CONFIG=\"Release\",TRACE=-1,_MyType=\"Windows\",PLATFORM=\"AnyCPU\"" /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /debug:pdbonly /optimize+ /out:obj\Release\VBGeneral.dll /resource:obj\Release\VBGeneral.Resources.resources /resource:obj\Release\VBGeneral.dll.licenses /target:library APSIMSettings.vb "My Project\AssemblyInfo.vb" "My Project\Application.Designer.vb" "My Project\Resources.Designer.vb" "My Project\Settings.Designer.vb" Utility.vb
 VBGeneral -> C:\Development\Shared\VBGeneral\bin\Release\VBGeneral.dll
 ========== Build: 2 succeeded or up-to-date, 0 failed, 0 skipped ==========
 ------Compiling RunMacro 
@@ -118,9 +91,6 @@ Copyright (C) Microsoft Corp 1984-2005. All rights reserved.
 ------ Build started: Project: VBGeneral, Configuration: Release Any CPU ------
 VBGeneral -> C:\Development\Shared\VBGeneral\bin\Release\VBGeneral.dll
 ------ Build started: Project: CSGeneral, Configuration: Release Any CPU ------
-C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702 /nostdlib- /errorreport:prompt /warn:4 /baseaddress:285212672 /define:TRACE /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\Development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug- /filealign:4096 /optimize+ /out:obj\Release\CSGeneral.dll /target:library /warnaserror- APSIMInputFile.cs CallDll.cs ComponentDescription.cs DataTableUtility.cs Macro.cs MathUtility.cs Properties\AssemblyInfo.cs StringManip.cs Utility.cs XmlHelper.cs
-
-Compile complete -- 0 errors, 0 warnings
 CSGeneral -> C:\Development\Shared\CSGeneral\bin\Release\CSGeneral.dll
 ------ Build started: Project: RunMacro, Configuration: Release Any CPU ------
 C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /nowarn:1701,1702 /errorreport:prompt /warn:4 /define:TRACE /reference:C:\Development\Shared\CSGeneral\bin\Release\CSGeneral.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\Development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug:pdbonly /optimize+ /out:obj\Release\RunMacro.exe /target:exe RunMacro.cs Properties\AssemblyInfo.cs
@@ -188,6 +158,7 @@ Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 
 Borland Implib Version 3.0.22 Copyright (c) 1991, 2000 Inprise Corporation
 Warning duplicate symbol: @CMPScienceAPI@$bdtr$qv
+Warning duplicate symbol: @ScienceAPI@$bdtr$qv
 ------Compiling  C:\Development\apsim\ProtocolManager\Source 
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
@@ -231,6 +202,62 @@ Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const b
 Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_main
 Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_monitor
 Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_result
+------Compiling  C:\Development\Shared\ApsimShared\test\TestApsimShared 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+.\test.cpp:
+.\testSimCreator.cpp:
+.\testApsimControlFile.cpp:
+.\testControlFileConverter.cpp:
+.\testApsimDataFile.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|test_tools
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_main
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_monitor
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_result
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_main
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_monitor
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_result
+------Compiling  C:\Development\Shared\General\test\TestGeneral 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+.\Test.cpp:
+.\TestXml.cpp:
+.\TestIoFunctions.cpp:
+.\TestPathClass.cpp:
+Warning W8037 .\TestPathClass.cpp 18: Non-const function Path::Get_drive() called for const object in function prints(const Path &)
+Warning W8037 .\TestPathClass.cpp 19: Non-const function Path::Get_directory() called for const object in function prints(const Path &)
+Warning W8037 .\TestPathClass.cpp 20: Non-const function Path::Get_name() called for const object in function prints(const Path &)
+Warning W8037 .\TestPathClass.cpp 21: Non-const function Path::Get_name_without_ext() called for const object in function prints(const Path &)
+Warning W8037 .\TestPathClass.cpp 22: Non-const function Path::Get_path() called for const object in function prints(const Path &)
+.\TestMathFunctions.cpp:
+.\TestStringFunctions.cpp:
+Warning W8030 .\TestStringFunctions.cpp 203: Temporary used for parameter 'valueString' in call to 'splitOffBracketedValue(string &,char,char)' in function TestSplitOffBracketedValue()
+Warning W8030 .\TestStringFunctions.cpp 207: Temporary used for parameter 'valueString' in call to 'splitOffBracketedValue(string &,char,char)' in function TestSplitOffBracketedValue()
+Warning W8030 .\TestStringFunctions.cpp 211: Temporary used for parameter 'valueString' in call to 'splitOffBracketedValue(string &,char,char)' in function TestSplitOffBracketedValue()
+Warning W8030 .\TestStringFunctions.cpp 215: Temporary used for parameter 'valueString' in call to 'splitOffBracketedValue(string &,char,char)' in function TestSplitOffBracketedValue()
+.\TestDateClass.cpp:
+.\TestHttp.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|test_tools
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_main
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_monitor
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_result
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_main
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_monitor
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_result
+Warning: Public symbol '_chkException' defined in both module C:\DEVELOPMENT\SHARED\GENERAL\TEST\TESTMATHFUNCTIONS.OBJ and C:\DEVELOPMENT\SHARED\GENERAL\TEST\TESTSTRINGFUNCTIONS.OBJ
+------Compiling  C:\Development\Shared\ComponentInterface2\test\TestComponentInterface2 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+.\testComponentInterface.cpp:
+.\TestVariables.cpp:
+.\TestParameters.cpp:
+.\TestEvents.cpp:
+.\TestMisc.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 ------Compiling  C:\Development\apsim 
 ------Compiling C:\Development\apsim\infra\source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
@@ -790,9 +817,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit ManagerModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 3727:
-Compiling program unit Main at line 3752:
-Compiling program unit respondToEvent at line 3812:
+Compiling program unit alloc_dealloc_instance at line 3735:
+Compiling program unit Main at line 3760:
+Compiling program unit respondToEvent at line 3820:
 Encountered 0 errors, 0 warnings in file manager.for.
 Compiling file manager.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -832,9 +859,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit MicrometModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 2595:
-Compiling program unit Main at line 2626:
-Compiling program unit respondToEvent at line 2711:
+Compiling program unit alloc_dealloc_instance at line 2601:
+Compiling program unit Main at line 2632:
+Compiling program unit respondToEvent at line 2717:
 Encountered 0 errors, 0 warnings in file micromet.for.
 Compiling file micromet.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -992,6 +1019,7 @@ Utility\Date.cpp:
 Loaded cached pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantComms.cpp:
+Loaded pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantP.cpp:
 Loaded pre-compiled headers.
@@ -1010,30 +1038,46 @@ Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Utility\Observers.cpp:
 Loaded pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
-Leaf\LeafPart.cpp:
+Leaf\Leaf.cpp:
+Warning W8037 Leaf\Leaf.cpp 88: Non-const function Co2Modifier::te() called for const object in function Leaf::doSWDemand(float)
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
-StemPart.cpp:
+Stem.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Storage\StoragePart.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 ReproductivePart.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Reproductive\PodPart.cpp:
+Warning W8030 Reproductive\PodPart.cpp 154: Temporary used for parameter 'Environment' in call to 'Co2Modifier::doPlant_Co2Modifier(environment_t &)' in function fruitPodPart::prepare()
+Reproductive\PodPartFN.cpp:
 Reproductive\FloretPart.cpp:
+Warning W8037 Reproductive\FloretPart.cpp 289: Non-const function Co2Modifier::rue() called for const object in function FloretPart::doDmPotRUE()
+Warning W8037 Reproductive\FloretPart.cpp 304: Non-const function Co2Modifier::te() called for const object in function FloretPart::doSWDemand(float)
 Reproductive\MealPart.cpp:
 Reproductive\OilPart.cpp:
 Reproductive\GrainPart.cpp:
 Loaded pre-compiled headers.
+Warning W8070 Reproductive\GrainPart.cpp 446: Function should return a value in function fruitGrainPart::dltDmYieldPotential()
 Reproductive\GrainPartHI.cpp:
 Loaded cached pre-compiled headers.
 Reproductive\GrainPartGN.cpp:
 Loaded cached pre-compiled headers.
+Reproductive\GrainPartFN.cpp:
+Loaded cached pre-compiled headers.
+Warning W8037 Reproductive\GrainPartFN.cpp 219: Non-const function PlantPhenology::inPhase(const string &) called for const object in function fruitGrainPartFN::doDMDemandGrain()
+Warning W8004 Reproductive\GrainPartFN.cpp 243: 'tav' is assigned a value that is never used in function fruitGrainPartFN::doDMDemandGrain()
 Reproductive\FruitCohort.cpp:
 Loaded cached pre-compiled headers.
 Reproductive\FruitCohortFN.cpp:
 Loaded cached pre-compiled headers.
+Warning W8037 Reproductive\FruitCohortFN.cpp 236: Non-const function PlantPhenology::inPhase(const string &) called for const object in function FruitCohortFN::doDmDemand(float)
+Warning W8037 Reproductive\FruitCohortFN.cpp 240: Non-const function PlantPhenology::get_dlt_tt() called for const object in function FruitCohortFN::doDmDemand(float)
+Warning W8037 Reproductive\FruitCohortFN.cpp 249: Non-const function PlantPhenology::inPhase(const string &) called for const object in function FruitCohortFN::doDmDemand(float)
 Reproductive\PlantFruit.cpp:
 Loaded cached pre-compiled headers.
+Reproductive\PlantFruitCohorting.cpp:
+Warning W8037 Reproductive\PlantFruitCohorting.cpp 161: Non-const function PlantPhenology::TTTargetInPhase(const string &) called for const object in function PlantFruitCohorting::doSiteNumber()
+Warning W8037 Reproductive\PlantFruitCohorting.cpp 162: Non-const function PlantPhenology::ttInPhase(const string &) called for const object in function PlantFruitCohorting::doSiteNumber()
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 CompositePart.cpp:
 Loaded pre-compiled headers.
@@ -1056,12 +1100,14 @@ Root\RootGrowthOption2.cpp:
 Loaded cached pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Utility\Output.cpp:
+Loaded pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Utility\OutputVariable.cpp:
+Loaded pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
-Leaf\genericLeafPart.cpp:
+Leaf\GenericLeaf.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
-Leaf\cohortingLeafPart.cpp:
+Leaf\CohortingLeaf.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Arbitrators\arbitrator.cpp:
 Loaded pre-compiled headers.
@@ -1117,6 +1163,11 @@ Phenology\EmergentPhase.cpp:
 Loaded cached pre-compiled headers.
 Phenology\LeafAppPhase.cpp:
 Loaded cached pre-compiled headers.
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Photosynthesis\PhotosynthesisModel.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Photosynthesis\RUEModel.cpp:
+Warning W8037 Photosynthesis\RUEModel.cpp 18: Non-const function Co2Modifier::rue() called for const object in function RUEModel::Potential(float)
 Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 ------Compiling C:\Development\apsim\report\source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
@@ -1464,31 +1515,6 @@ Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
 ------Compiling C:\Development\apsim\tcllink\source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
-740 File(s) copied
-797 File(s) copied
-        1 file(s) copied.
-        1 file(s) copied.
-        1 file(s) copied.
-        1 file(s) copied.
-        1 file(s) copied.
-        1 file(s) copied.
-        1 file(s) copied.
-114 File(s) copied
-124 File(s) copied
-342 File(s) copied
-75 File(s) copied
-23 File(s) copied
-4 File(s) copied
-2 File(s) copied
-80 File(s) copied
-Installing activeX control
-dir=C:/Development/apsim/tcllink/lib
-Dll=C:/Development/apsim/tcllink/lib/tclcontrol84.dll
-Uninstalling C:\Development\apsim\tcllink\lib\tclcontrol84.dll
-Installed ok. clsid={E796A72F-F130-11D2-8003-0040055861F2}
-COFF to OMF Converter Version 1.0.0.74 Copyright (c) 1999, 2000 Inprise Corporation
-COFF to OMF Converter Version 1.0.0.74 Copyright (c) 1999, 2000 Inprise Corporation
-        1 file(s) copied.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 TclLink.cpp:
 TclComponent.cpp:

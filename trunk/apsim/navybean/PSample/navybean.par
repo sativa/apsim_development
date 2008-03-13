@@ -8,11 +8,10 @@ variable = clock.year
 variable = navybean.lai
 variable = navybean.biomass
 variable = navybean.green_biomass
-
-variable = navybean.dm_green()
-variable = navybean.dm_green
-variable = navybean.p_green()
-variable = navybean.p_green
+variable = navybean.GreenWt
+variable = navybean.GreenWt
+variable = navybean.GreenP
+variable = navybean.GreenP
 variable = navybean.p_sen()
 variable = navybean.p_sen
 variable = navybean.p_demand
@@ -23,26 +22,26 @@ variable = navybean.pfact_grain
 variable = navybean.biomass_p
 variable = navybean.green_biomass_p
 variable = navybean.grain_p
-variable = navybean.leaf_p
-variable = navybean.stem_p
-variable = navybean.root_p
-variable = navybean.deadleaf_p
-variable = navybean.pod_p
+variable = navybean.LeafGreenP
+variable = navybean.StemGreenP
+variable = navybean.RootGreenP
+variable = navybean.PodGreenP
 variable = navybean.head_p
-variable = navybean.p_senesced()
+variable = navybean.SenescedP
 variable = navybean.p_dead()
 variable = navybean.dlt_p_green()
 variable = navybean.dlt_p_retrans()
 variable = navybean.dlt_p_detached()
 variable = navybean.dlt_p_sen()
 variable = navybean.p_conc_stover
-variable = navybean.p_conc_leaf
-variable = navybean.p_conc_stem
-variable = navybean.p_conc_grain
+variable = navybean.LeafGreenPConc
+variable = navybean.StemGreenPConc
+variable = navybean.GrainGreenPConc
 variable = navybean.p_uptake_stover
 variable = navybean.grain_p_demand
-
 variable = surfaceom.surfaceom_p
+
+
 
 
 

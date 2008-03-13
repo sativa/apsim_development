@@ -12,18 +12,17 @@ variable = chickpea.stage
 variable = chickpea.lai
 variable = chickpea.biomass_wt
 variable = chickpea.grain_wt as grain_wt
-variable = chickpea.leaf_wt
-variable = chickpea.stem_wt
+variable = chickpea.LeafGreenWt
+variable = chickpea.StemGreenWt
 variable = chickpea.biomass_n
 variable = chickpea.grain_n
 variable = chickpea.root_depth
-variable = chickpea.stem_n
-variable = chickpea.cep
+variable = chickpea.StemGreenN
 variable = soilwat2.sw(1-10)
 variable = soiln2.no3ppm(1-6)
 variable = soiln2.nh4ppm(1-6)
-variable = chickpea.n_conc_leaf
-variable = chickpea.n_conc_stem
+variable = chickpea.LeafGreenNConc
+variable = chickpea.StemGreenNConc
 variable = chickpea.n_conc_grain
 
 !----------------------------------------------------------------------------------

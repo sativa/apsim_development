@@ -8,9 +8,9 @@ variable = Broccoli.stage
 variable = Broccoli.lai
 variable = Broccoli.biomass
 variable = Broccoli.ep
-variable = Broccoli.leaf_wt
-variable = Broccoli.stem_wt
-variable = Broccoli.floret_wt
+variable = Broccoli.LeafGreenWt
+variable = Broccoli.StemGreenWt
+variable = Broccoli.FloretGreenWt
 
 [sample.clock.parameters]
 start_date=1/04/1998     ! dd/mm/yyyy

@@ -23,8 +23,8 @@ variable = met.mint
 variable = met.radn
 variable = SweetCorn.tt_tot()
 variable = SweetCorn.dlt_tt
-variable = SweetCorn.leaf_wt
-variable = SweetCorn.stem_wt
+variable = SweetCorn.LeafGreenWt
+variable = SweetCorn.StemGreenWt
 
 [sample.clock.parameters]
 start_date=1/09/1998     ! dd/mm/yyyy

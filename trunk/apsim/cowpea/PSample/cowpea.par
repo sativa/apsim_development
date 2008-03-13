@@ -8,10 +8,9 @@ variable = clock.year
 variable = cowpea.lai
 variable = cowpea.biomass
 variable = cowpea.green_biomass
-
-variable = cowpea.dm_green
-variable = cowpea.p_green
-variable = cowpea.p_senesced
+variable = cowpea.GreenWt
+variable = cowpea.GreenP
+variable = cowpea.SenescedP
 variable = cowpea.p_demand
 variable = cowpea.pfact_photo
 variable = cowpea.pfact_pheno
@@ -20,25 +19,24 @@ variable = cowpea.pfact_grain
 variable = cowpea.biomass_p
 variable = cowpea.green_biomass_p
 variable = cowpea.grain_p
-variable = cowpea.leaf_p
-variable = cowpea.stem_p
-variable = cowpea.root_p
-variable = cowpea.deadleaf_p
-variable = cowpea.pod_p
+variable = cowpea.LeafGreenP
+variable = cowpea.StemGreenP
+variable = cowpea.RootGreenP
+variable = cowpea.PodGreenP
 variable = cowpea.head_p
-variable = cowpea.p_dead
 variable = cowpea.dlt_p_green()
 variable = cowpea.dlt_p_retrans()
 variable = cowpea.dlt_p_detached()
 variable = cowpea.dlt_p_sen()
 variable = cowpea.p_conc_stover
-variable = cowpea.p_conc_leaf
-variable = cowpea.p_conc_stem
-variable = cowpea.p_conc_grain
+variable = cowpea.LeafGreenPConc
+variable = cowpea.StemGreenPConc
+variable = cowpea.GrainGreenPConc
 variable = cowpea.p_uptake_stover
 variable = cowpea.grain_p_demand
-
 variable = surfaceom.surfaceom_p
+
+
 
 
 
