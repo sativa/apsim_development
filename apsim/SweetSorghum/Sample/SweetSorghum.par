@@ -22,8 +22,8 @@ variable = met.mint
 variable = met.radn
 variable = sweetsorghum.tt_tot()
 variable = sweetsorghum.dlt_tt
-variable = sweetsorghum.leaf_wt
-variable = sweetsorghum.stem_wt
+variable = sweetsorghum.LeafGreenWt
+variable = sweetsorghum.StemGreenWt
 
 [sample.clock.parameters]
 start_date=1/09/1998     ! dd/mm/yyyy

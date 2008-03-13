@@ -495,7 +495,23 @@
             <message4 to="sysbal" msgtype="Event" ack="false"/>
          </message3>
          <message3 to=".MasterPM" msgtype="PublishEvent" ack="false" regName="new_solute" type="type name='NewSolute'   field name='sender_name' kind='string'   field name='sender_numbytes' kind='integer4'   field name='sender_code' kind='integer4'   field name='sender_isarray' kind='boolean'   field name='sender_value' kind='string'   field name='sender_id_name' kind='string'   field name='sender_id_numbytes' kind='integer4'   field name='sender_id_code' kind='integer4'   field name='sender_id_isarray' kind='boolean'   field name='sender_id_value' kind='integer4'   field name='solute_names_name' kind='string'   field name='solute_names_numbytes' kind='integer4'   field name='solute_names_code' kind='integer4'   field name='solute_names_isarray' kind='boolean'   field name='solute_names_value' kind='string' array='T'   type">
-            <message4 to="soilwat2" msgtype="Event" ack="false"/>
+            <message4 to="soilwat2" msgtype="Event" ack="false">
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="flow_no3" type="type array='T' kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="leach_no3" type="type kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="no3_leach" type="type array='T' kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="no3_up" type="type array='T' kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="set" name="dlt_no3" type="type array='T' kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="flow_nh4" type="type array='T' kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="leach_nh4" type="type kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="nh4_leach" type="type array='T' kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="nh4_up" type="type array='T' kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="set" name="dlt_nh4" type="type array='T' kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="flow_urea" type="type array='T' kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="leach_urea" type="type kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="urea_leach" type="type array='T' kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="urea_up" type="type array='T' kind='single' unit='kgha'"/>
+               <message5 to=".MasterPM" msgtype="Register" ack="false" kind="set" name="dlt_urea" type="type array='T' kind='single' unit='kgha'"/>
+            </message4>
          </message3>
          <message3 to=".MasterPM" msgtype="Complete" ack="false"/>
       </message2>
@@ -967,17 +983,6 @@
                </message5>
                <message5 to=".MasterPM" msgtype="Register" ack="false" kind="get" name="leach_no3" type="type kind='single' array='T'"/>
                <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="leach_no3">
-                  <message6 to="Log" msgtype="ApsimGetQuery" ack="false" name="leach_no3"/>
-                  <message6 to="clock" msgtype="ApsimGetQuery" ack="false" name="leach_no3"/>
-                  <message6 to="report" msgtype="ApsimGetQuery" ack="false" name="leach_no3"/>
-                  <message6 to="met" msgtype="ApsimGetQuery" ack="false" name="leach_no3"/>
-                  <message6 to="manager" msgtype="ApsimGetQuery" ack="false" name="leach_no3"/>
-                  <message6 to="soilwat2" msgtype="ApsimGetQuery" ack="false" name="leach_no3">
-                     <message7 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="leach_no3" type="type kind='single' unit='kgha'"/>
-                  </message6>
-                  <message6 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="leach_no3"/>
-                  <message6 to="soiln2" msgtype="ApsimGetQuery" ack="false" name="leach_no3"/>
-                  <message6 to="sysbal" msgtype="ApsimGetQuery" ack="false" name="leach_no3"/>
                   <message6 to="soilwat2" msgtype="QueryValue" ack="false">
                      <message7 to=".MasterPM" msgtype="ReplyValue" ack="false">
                         <message8 to="sysbal" msgtype="ReturnValue" ack="false" compid = "6"/>
@@ -987,17 +992,6 @@
                </message5>
                <message5 to=".MasterPM" msgtype="Register" ack="false" kind="get" name="leach_nh4" type="type kind='single' array='T'"/>
                <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="leach_nh4">
-                  <message6 to="Log" msgtype="ApsimGetQuery" ack="false" name="leach_nh4"/>
-                  <message6 to="clock" msgtype="ApsimGetQuery" ack="false" name="leach_nh4"/>
-                  <message6 to="report" msgtype="ApsimGetQuery" ack="false" name="leach_nh4"/>
-                  <message6 to="met" msgtype="ApsimGetQuery" ack="false" name="leach_nh4"/>
-                  <message6 to="manager" msgtype="ApsimGetQuery" ack="false" name="leach_nh4"/>
-                  <message6 to="soilwat2" msgtype="ApsimGetQuery" ack="false" name="leach_nh4">
-                     <message7 to=".MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="leach_nh4" type="type kind='single' unit='kgha'"/>
-                  </message6>
-                  <message6 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="leach_nh4"/>
-                  <message6 to="soiln2" msgtype="ApsimGetQuery" ack="false" name="leach_nh4"/>
-                  <message6 to="sysbal" msgtype="ApsimGetQuery" ack="false" name="leach_nh4"/>
                   <message6 to="soilwat2" msgtype="QueryValue" ack="false">
                      <message7 to=".MasterPM" msgtype="ReplyValue" ack="false">
                         <message8 to="sysbal" msgtype="ReturnValue" ack="false" compid = "6"/>

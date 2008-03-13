@@ -8,10 +8,8 @@ outputfile =ungrazed-wheat.out
 outputfile =grazed-wheat.out
 
 [wheat.report.parameters]
-variable = wheat.dm_green_leaf
-variable = wheat.dm_green_stem
-variable = wheat.dm_dead_leaf
-variable = wheat.dm_dead_stem
+variable = wheat.LeafGreenWt
+variable = wheat.StemGreenWt
 
 [grasp.report.parameters]
 variable = grasp.green_pool
