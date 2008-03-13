@@ -18,8 +18,15 @@ using namespace System::Runtime::InteropServices;
 	[DllImport("ComponentInterface2.dll", EntryPoint = "CIPackDouble", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
 	void pack(char* messageData, Double Data);
 
+	//__declspec(dllimport) void __stdcall CIPackString(char* messageData, String^ Data);
+	
 	[DllImport("ComponentInterface2.dll", EntryPoint = "CIPackString", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
-	void pack(char* messageData, String^ Data);
+	void pack2(char* messageData, String^ Data);
+
+	inline void pack(char* messageData, String^ Data)
+		{
+		::pack2(messageData, Data);
+		}
 
 	[DllImport("ComponentInterface2.dll", EntryPoint = "CIUnPackBool", CharSet=CharSet::Ansi, CallingConvention=CallingConvention::StdCall)]
 	void unpack(char* messageData, Boolean% Data);
@@ -89,13 +96,13 @@ using namespace System::Runtime::InteropServices;
 
 	inline void unpack(char* messageData, String^% st)
 		{
-		System::Text::StringBuilder^ Contents = gcnew System::Text::StringBuilder(500);
+		System::Text::StringBuilder^ Contents = gcnew System::Text::StringBuilder(5000);
 		::unpack(messageData, Contents);
 		st = Contents->ToString();
 		}
 	inline void unpackWithConverter(char* messageData, String^% st)
 		{
-		System::Text::StringBuilder^ Contents = gcnew System::Text::StringBuilder(500);
+		System::Text::StringBuilder^ Contents = gcnew System::Text::StringBuilder(5000);
 		::unpackWithConverter(messageData, Contents);
 		st = Contents->ToString();
 		}
@@ -161,6 +168,7 @@ class WrapManaged : public UnmanagedData
 			}
 		void pack(char* message)
 			{
+			String^ ddml = ::DDML((T) Data);
 			::pack(message, (T) Data);
 			}
 		void unpack(char* message)

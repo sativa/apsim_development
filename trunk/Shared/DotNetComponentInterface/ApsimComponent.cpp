@@ -95,9 +95,6 @@ void ApsimComponent::createInstance(const char* dllFileName,
 	Contents = gcnew StringBuilder(10000);
 	
 	ComponentI = CICreate(callbackArg, callback, compID, parentID);
-	RegisterAllFields<FieldInfo>(this, Model, ComponentI);
-	RegisterAllFields<PropertyInfo>(this, Model, ComponentI);
-	RegisterAllEventHandlers();
 	}
 
 // --------------------------------
@@ -113,6 +110,14 @@ void ApsimComponent::deleteInstance()
 // --------------------------------
 void ApsimComponent::messageToLogic (char* message)
 	{
+	static bool Init1 = true;
+	if (Init1)
+		{
+		Init1 = false;
+		RegisterAllFields<FieldInfo>(this, Model, ComponentI);
+		RegisterAllFields<PropertyInfo>(this, Model, ComponentI);
+		RegisterAllEventHandlers();
+		}
 	CIMessageToLogic(ComponentI, message);
 	}
 
