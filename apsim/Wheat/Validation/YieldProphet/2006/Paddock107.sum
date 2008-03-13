@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock107
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -959,7 +959,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     27.0000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     92.9166918000000
+     Manager creating a new local real variable : nitrogen =     92.9166746000000
      Manager creating a new local real variable : availablewater =     3.02011099999999
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1113,10 +1113,10 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     1.54 (%)    extractable sw =    2.51 (mm)
 14 September 2006(Day of year=257), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     14.5000000000000
-     Manager creating a new local real variable : avg_swdef =    0.692479014000000
+     Manager creating a new local real variable : avg_swdef =    0.692480028000000
 15 October 2006(Day of year=288), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         348.96 (g/m^2)   lai          =   0.017 (m^2/m^2)
+                     biomass =         348.97 (g/m^2)   lai          =   0.017 (m^2/m^2)
                      stover N conc =     1.00 (%)    extractable sw =    0.59 (mm)
 17 October 2006(Day of year=290), Wheat: 
       stage 9.0 maturity
@@ -1127,7 +1127,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         348.99 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.00 (%)    extractable sw =    0.54 (mm)
 18 October 2006(Day of year=291), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     163.770690920000
+     Manager creating a new local real variable : fullprice =     163.770736680000
 18 October 2006(Day of year=291), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1171,7 +1171,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                   0.0                   719.8
-                          N  (kg/ha) =                   0.00                   17.52
+                          N  (kg/ha) =                   0.00                   17.53
      
 19 October 2006(Day of year=292), GrossMargin: 
      Manager creating a new local real variable : twotimescost =     0.00000000000000

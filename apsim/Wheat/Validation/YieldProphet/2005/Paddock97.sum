@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock97
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -975,7 +975,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     27.5000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     86.6641493100000
+     Manager creating a new local real variable : nitrogen =     86.6641511700000
      Manager creating a new local real variable : availablewater =    -9.97985799999998
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1162,7 +1162,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       grains/plant           =   86.8                         maximum lai            =      5.193
       total above ground biomass (kg/ha)    =    11057.9
       live above ground biomass (kg/ha)     =    11057.9
-      green above ground biomass (kg/ha)    =     8945.7
+      green above ground biomass (kg/ha)    =     8945.6
       senesced above ground biomass (kg/ha) =     2112.2
       number of leaves       =     67.6
       DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.47

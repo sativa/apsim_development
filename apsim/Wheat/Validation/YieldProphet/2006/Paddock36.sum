@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock36
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -959,7 +959,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     28.5000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     69.3545838000000
+     Manager creating a new local real variable : nitrogen =     69.3545857000000
      Manager creating a new local real variable : availablewater =     8.22015399999998
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1107,11 +1107,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     1.00 (%)    extractable sw =   42.09 (mm)
 20 September 2006(Day of year=263), barley: 
       stage 7.0 start_grain_fill
-                     biomass =         300.75 (g/m^2)   lai          =   1.154 (m^2/m^2)
+                     biomass =         300.76 (g/m^2)   lai          =   1.154 (m^2/m^2)
                      stover N conc =     0.71 (%)    extractable sw =   25.63 (mm)
 21 September 2006(Day of year=264), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     14.7500000000000
-     Manager creating a new local real variable : avg_swdef =    0.714308977000000
+     Manager creating a new local real variable : avg_swdef =    0.714307010000000
 19 October 2006(Day of year=292), barley: 
       stage 8.0 end_grain_fill
                      biomass =         368.89 (g/m^2)   lai          =   0.282 (m^2/m^2)

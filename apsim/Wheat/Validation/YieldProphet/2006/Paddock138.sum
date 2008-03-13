@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock138
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -959,7 +959,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     27.0000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     47.7542715000000
+     Manager creating a new local real variable : nitrogen =     47.7542829000000
      Manager creating a new local real variable : availablewater =     27.5008540000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1127,7 +1127,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         473.87 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.58 (%)    extractable sw =    1.27 (mm)
 18 October 2006(Day of year=291), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     164.079750080000
+     Manager creating a new local real variable : fullprice =     164.079757680000
 18 October 2006(Day of year=291), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1142,7 +1142,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       senesced above ground biomass (kg/ha) =      852.2
       number of leaves       =     34.8
       DM Root:Shoot ratio    =     0.17                       Harvest Index          =       0.30
-      Stover C:N ratio       =    71.32                       Root C:N ratio         =      16.68
+      Stover C:N ratio       =    71.31                       Root C:N ratio         =      16.68
       grain N percent        =     2.89                       total N content (kg/ha)=      59.33
       grain N uptake (kg/ha) =    40.63                       senesced N content (kg/ha)=    4.26
       green N content (kg/ha)=    14.44

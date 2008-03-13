@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock10
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -979,7 +979,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     26.2500000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     94.7342911200000
+     Manager creating a new local real variable : nitrogen =     94.7342880100000
      Manager creating a new local real variable : availablewater =     127.017151000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1142,7 +1142,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     1.36 (%)    extractable sw =   25.62 (mm)
 12 October 2005(Day of year=285), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     24.2500000000000
-     Manager creating a new local real variable : avg_swdef =    0.475044012000000
+     Manager creating a new local real variable : avg_swdef =    0.475044996000000
 5 November 2005(Day of year=309), Wheat: 
       stage 8.0 end_grain_fill
                      biomass =         488.63 (g/m^2)   lai          =   0.244 (m^2/m^2)
@@ -1156,7 +1156,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         488.63 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.13 (%)    extractable sw =   49.48 (mm)
 7 November 2005(Day of year=311), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     164.429870600000
+     Manager creating a new local real variable : fullprice =     164.429862960000
 7 November 2005(Day of year=311), Harvest: 
      Manager sending message :- wheat harvest
      

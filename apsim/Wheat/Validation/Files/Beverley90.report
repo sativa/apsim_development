@@ -1,46 +1,49 @@
 <report version="5">
 <Data>
-<REMS name="Early" Left="0" Top="0">
+<REMS name="Early" Left="-6" Top="0" Width="148" Height="234">
   <FileName type="filename">Wheat.mdb</FileName>
   <Experiment type="experiment">Beverly90</Experiment>
-  <Treatment type="treatment">N060 101 25/05/1990 </Treatment>
+  <Treatment type="treatment">N060 101 25/05/1990</Treatment>
   <DataSource type="datasource">Crop</DataSource>
 </REMS>
-<REMS name="Late" Left="200" Top="0">
+<REMS name="Late" Left="194" Top="0" Width="148" Height="234">
   <FileName type="filename">Wheat.mdb</FileName>
   <Experiment type="experiment">Beverly90</Experiment>
-  <Treatment type="treatment">N060 102 14/06/1990 </Treatment>
+  <Treatment type="treatment">N060 102 14/06/1990</Treatment>
   <DataSource type="datasource">Crop</DataSource>
 </REMS>
-<ApsimFileReader name="EarlyPre" Left="400" Top="0">
-  <FileName type="filenames">Wheat_Beverly90_Early.out</FileName>
+<ApsimFileReader name="EarlyPre" Left="394" Top="0" Width="162" Height="150">
+  <FileName type="filenames">Wheat_Beverley90_Early.out</FileName>
 </ApsimFileReader>
-<ApsimFileReader name="LatePre" Left="600" Top="0">
-  <FileName type="filenames">Wheat_Beverly90_Late.out</FileName>
+<ApsimFileReader name="LatePre" Left="594" Top="0" Width="162" Height="150">
+  <FileName type="filenames">Wheat_Beverley90_Late.out</FileName>
 </ApsimFileReader>
-<ApsimFileReader name="AllPre" Left="0" Top="200">
+<ApsimFileReader name="AllPre" Left="-6" Top="200" Width="162" Height="150">
   <FileName type="filenames">Wheat_Beverley90_Early.out</FileName>
   <FileName type="filenames">Wheat_Beverley90_Late.out</FileName>
   <FileName type="filenames">Wheat_Beverley90_n15.out</FileName>
   <FileName type="filenames">Wheat_Beverley90_n30.out</FileName>
   <FileName type="filenames">Wheat_Beverley90_n60.out</FileName>
 </ApsimFileReader>
-<ApsimFileReader name="ObservedAll" Left="200" Top="200">
+<ApsimFileReader name="ObservedAll" Left="194" Top="200" Width="162" Height="150">
   <FileName type="filenames">Observed\CombinedFinalHarvest.txt</FileName>
 </ApsimFileReader>
-<Filter name="AllPreHarvest" Left="400" Top="200">
+<Filter name="AllPreHarvest" Left="394" Top="200" Width="135" Height="92">
   <FilterString>zadok_stage=90</FilterString>
   <source>AllPre</source>
 </Filter>
-<Filter name="ObsBev90" Left="600" Top="200">
+<Filter name="ObsBev90" Left="594" Top="200" Width="135" Height="92">
   <FilterString>experiment='Beverley90'</FilterString>
   <source>ObservedAll</source>
 </Filter>
+<DataGrid Left="184" Top="391" Width="293" Height="112">
+  <source>EarlyPre</source>
+</DataGrid>
 </Data>
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 122
-  Top = 30
+  Left = 226
+  Top = 37
   Width = 556
   Height = 786
   Frame.Color = clBlack

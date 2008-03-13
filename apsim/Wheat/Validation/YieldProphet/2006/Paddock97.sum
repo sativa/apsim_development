@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock97
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -959,7 +959,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     27.5000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     71.2677975000000
+     Manager creating a new local real variable : nitrogen =     71.2677718000000
      Manager creating a new local real variable : availablewater =     37.5916440000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1097,7 +1097,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     5.83 (%)    extractable sw =   44.98 (mm)
 22 September 2006(Day of year=265), barley: 
       stage 5.0 floral_initiation
-                     biomass =         176.86 (g/m^2)   lai          =   2.760 (m^2/m^2)
+                     biomass =         176.87 (g/m^2)   lai          =   2.760 (m^2/m^2)
                      stover N conc =     2.03 (%)    extractable sw =   13.35 (mm)
 9 October 2006(Day of year=282), barley: 
       stage 6.0 flowering
@@ -1109,7 +1109,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     2.00 (%)    extractable sw =    2.94 (mm)
 17 October 2006(Day of year=290), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp =     17.2500000000000
-     Manager creating a new local real variable : avg_swdef =    0.801829994000000E-001
+     Manager creating a new local real variable : avg_swdef =    0.801820010000000E-001
 18 November 2006(Day of year=322), barley: 
       stage 8.0 end_grain_fill
                      biomass =         223.99 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -1123,7 +1123,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         223.99 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.69 (%)    extractable sw =    0.52 (mm)
 21 November 2006(Day of year=325), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     158.278785720000
+     Manager creating a new local real variable : fullprice =     158.278781880000
 21 November 2006(Day of year=325), Harvest: 
      Manager sending message :- barley harvest
      

@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock135
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -1039,7 +1039,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     29.0000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     42.8254902100000
+     Manager creating a new local real variable : nitrogen =     42.8254995200000
      Manager creating a new local real variable : availablewater =     46.4243160000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1232,7 +1232,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =        1376.43 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   76.48 (mm)
 3 November 2005(Day of year=307), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     148.107563000000
+     Manager creating a new local real variable : fullprice =     148.107608800000
 3 November 2005(Day of year=307), Harvest: 
      Manager sending message :- wheat harvest
      

@@ -1,43 +1,44 @@
+<?xml version="1.0"?>
 <report version="4">
 <Data>
-   <ApsimFileReader name="Warra600HighN">
+   <ApsimFileReader name="Warra600HighN" Left="0" Top="0">
       <FileName type="filenames">Warra600HighN.out</FileName>
-      <Probability name="Warra600HighNProb">
-         <FieldName type="fieldnames">yield</FieldName>
-      </Probability>
+      
    </ApsimFileReader>
-   <ApsimFileReader name="Warra1500HighN">
+   <ApsimFileReader name="Warra1500HighN" Left="200" Top="0">
       <FileName type="filenames">Warra1500HighN.out</FileName>
-      <Probability name="Warra1500HighNProb">
-         <FieldName type="fieldnames">yield</FieldName>
-      </Probability>
+      
    </ApsimFileReader>
-   <ApsimFileReader name="Warra600LowN">
+   <ApsimFileReader name="Warra600LowN" Left="400" Top="0">
       <FileName type="filenames">Warra600LowN.out</FileName>
-      <Probability name="Warra600LowNProb">
-         <FieldName type="fieldnames">yield</FieldName>
-      </Probability>
+      
    </ApsimFileReader>
-   <ApsimFileReader name="Warra1500LowN">
+   <ApsimFileReader name="Warra1500LowN" Left="600" Top="0">
       <FileName type="filenames">Warra1500LowN.out</FileName>
-      <Probability name="Warra1500LowNProb">
-         <FieldName type="fieldnames">yield</FieldName>
-      </Probability>
+      
    </ApsimFileReader>
-   <ApsimFileReader name="DalalData">
+   <ApsimFileReader name="DalalData" Left="0" Top="200">
       <FileName type="filenames">C:\development\apsim\Wheat\Sensibility\DalalProtein.txt</FileName>
       <ParseTitle type="yesno">yes</ParseTitle>
    </ApsimFileReader>
-   <ApsimFileReader name="Warra600MediumN">
+   <ApsimFileReader name="Warra600MediumN" Left="200" Top="200">
       <FileName type="filenames">C:\development\apsim\Wheat\Sensibility\Warra600MediumN.out</FileName>
       <ParseTitle type="yesno">yes</ParseTitle>
    </ApsimFileReader>
-   <ApsimFileReader name="Warra1500MediumN">
+   <ApsimFileReader name="Warra1500MediumN" Left="400" Top="200">
       <FileName type="filenames">C:\development\apsim\Wheat\Sensibility\Warra1500MediumN.out</FileName>
       <ParseTitle type="yesno">yes</ParseTitle>
    </ApsimFileReader>
 
-</Data>
+<Probability name="Warra600HighNProb" Left="600" Top="200">
+         <FieldName type="fieldnames">yield</FieldName>
+      <source>Warra600HighN</source></Probability><Probability name="Warra1500HighNProb" Left="0" Top="400">
+         <FieldName type="fieldnames">yield</FieldName>
+      <source>Warra1500HighN</source></Probability><Probability name="Warra600LowNProb" Left="200" Top="400">
+         <FieldName type="fieldnames">yield</FieldName>
+      <source>Warra600LowN</source></Probability><Probability name="Warra1500LowNProb" Left="400" Top="400">
+         <FieldName type="fieldnames">yield</FieldName>
+      <source>Warra1500LowN</source></Probability></Data>
 
    <page> <![CDATA[
 object Page1: TQuickRep

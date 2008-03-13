@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.4
+Version                = 6.0
 Title                  = Paddock34
 Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
@@ -959,7 +959,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp =     28.5000000000000
      Manager creating a new local real variable : amountwaterleft =     0.00000000000000
      Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     99.0418740000000
+     Manager creating a new local real variable : nitrogen =     99.0418758000000
      Manager creating a new local real variable : availablewater =     11.1201170000000
      Manager creating a new local real variable : nuptakekgha =     0.00000000000000
      Manager creating a new local real variable : n_green(1) =     0.00000000000000
@@ -1123,7 +1123,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         456.43 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =    4.43 (mm)
 8 November 2006(Day of year=312), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     155.006896960000
+     Manager creating a new local real variable : fullprice =     155.006954200000
 8 November 2006(Day of year=312), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1135,7 +1135,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       total above ground biomass (kg/ha)    =     4564.3
       live above ground biomass (kg/ha)     =     4564.3
       green above ground biomass (kg/ha)    =     3301.2
-      senesced above ground biomass (kg/ha) =     1263.1
+      senesced above ground biomass (kg/ha) =     1263.2
       number of leaves       =     49.6
       DM Root:Shoot ratio    =     0.20                       Harvest Index          =       0.25
       Stover C:N ratio       =   104.46                       Root C:N ratio         =      28.78
