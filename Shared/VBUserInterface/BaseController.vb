@@ -188,6 +188,8 @@ Public Class BaseController
     Public Sub RefreshToolStrips()
         For Each ToolStrip As ToolStrip In ToolStrips
             EnableActions(ToolStrip)
+            Dim ToolStripDescriptor As XmlNode = XmlHelper.Find(ActionFile, ToolStrip.Name)
+            RefreshRecentFileList(ToolStrip, ToolStripDescriptor)
         Next
     End Sub
     Public Sub ProvideToolStrip(ByVal Strip As ToolStrip, ByVal ToolStripName As String)
@@ -197,6 +199,7 @@ Public Class BaseController
         ' --------------------------------------------------------------
         Strip.Items.Clear()
         AddHandler Strip.ItemClicked, AddressOf ActionOnClick
+        Strip.Name = ToolStripName
         Dim ToolStripDescriptor As XmlNode = XmlHelper.Find(ActionFile, ToolStripName)
         If Not IsNothing(ToolStripDescriptor) Then
             Dim ImageAboveText As Boolean = False
@@ -271,6 +274,35 @@ Public Class BaseController
             End If
         Next
     End Sub
+    Private Sub RefreshRecentFileList(ByVal Strip As ToolStrip, ByVal ToolStripDescriptor As XmlNode)
+
+        Dim ItemIndex As Integer = 0
+        For Each ToolDescriptor As XmlNode In XmlHelper.ChildNodes(ToolStripDescriptor, "")
+            If XmlHelper.Type(ToolDescriptor) = "Item" Then
+                ItemIndex = ItemIndex + 1
+
+            ElseIf XmlHelper.Type(ToolDescriptor) = "RecentFileList" Then
+                ' strip off all old ones.
+                While Strip.Items.Count > 2
+                    Strip.Items.RemoveAt(Strip.Items.Count - 1)
+                End While
+
+                For Each FileName As String In Configuration.GetFrequentList()
+                    Dim Item As ToolStripItem = Strip.Items.Add(FileName)
+                    Item.ImageIndex = -1
+                    Item.Tag = ""
+                    Item.ToolTipText = "Open this file"
+                Next
+            ElseIf XmlHelper.Type(ToolDescriptor) = "DropDownItem" And _
+                   TypeOf Strip.Items(ItemIndex) Is ToolStripDropDownItem Then
+                Dim DropDownButton As ToolStripDropDownItem = Strip.Items(ItemIndex)
+                RefreshRecentFileList(DropDownButton.DropDown, ToolDescriptor)
+                ItemIndex = ItemIndex + 1
+            End If
+        Next
+
+    End Sub
+
     Private Function CreateToolStripItem(ByVal Strip As ToolStrip, ByVal ActionName As String) As ToolStripItem
         Dim Action As XmlNode = XmlHelper.Find(ActionFile, "/Folder/Actions/" + ActionName)
         If Not IsNothing(Action) Then

@@ -10,6 +10,7 @@ Public Class BaseActions
             dialog.DefaultExt = Controller.Configuration.Setting("DefaultExtension")
             If dialog.ShowDialog = DialogResult.OK Then
                 Controller.ApsimData.OpenFile(dialog.FileName)
+                Controller.RefreshToolStrips()
             End If
         End If
     End Sub
@@ -29,6 +30,7 @@ Public Class BaseActions
         If Dialog.ShowDialog = DialogResult.OK Then
             Controller.Explorer.SaveCurrentView()
             Controller.ApsimData.SaveAs(Dialog.FileName)
+            Controller.RefreshToolStrips()
         End If
     End Sub
     Public Shared Sub HelpAbout(ByVal Controller As BaseController)
