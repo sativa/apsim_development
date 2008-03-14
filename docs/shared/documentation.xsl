@@ -4,7 +4,7 @@
 <xsl:template match="/">
    <html>
    <link rel="stylesheet" href="shared/apsim-web-style.css" type="text/css"/>
-   <h2>APSIM DocCentral</h2>
+   <h2>APSIM Documentation</h2>
    <body>
    <table>
    <xsl:apply-templates/>
