@@ -442,6 +442,8 @@ namespace ApsimFile
                     ChildNodes.Remove(ComponentToMove);
                     ChildNodes.Insert(ReferencePosition - 1, ComponentToMove);
                     }
+                else
+                    return;
                 }
             MyFile.PublishComponentChanged(this);
             }
@@ -453,12 +455,14 @@ namespace ApsimFile
             for (int i = NamesToMoveDown.Count - 1; i >= 0; i--)
                 {
                 int ReferencePosition = ChildNameToIndex(NamesToMoveDown[i]);
-                if (ReferencePosition < ChildNodes.Count-1)
+                if (ReferencePosition < ChildNodes.Count - 1)
                     {
                     Component ComponentToMove = ChildNodes[ReferencePosition];
                     ChildNodes.Remove(ComponentToMove);
                     ChildNodes.Insert(ReferencePosition + 1, ComponentToMove);
                     }
+                else
+                    return;
                 }
             MyFile.PublishComponentChanged(this);
             }

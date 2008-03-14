@@ -99,7 +99,8 @@ Public Class BaseActions
         For Each SelectedPath As String In Controller.SelectedPaths
             PathsToMove.Add(SelectedPath.Substring(SelectedPath.LastIndexOf(XmlHelper.Delimiter) + 1))
         Next
-        Controller.Selection.Parent.MoveUp(PathsToMove)
+        Dim Parent As ApsimFile.Component = Controller.ApsimData.Find(Controller.SelectedPaths(0)).Parent
+        Parent.MoveUp(PathsToMove)
     End Sub
     Public Shared Sub MoveDown(ByVal Controller As BaseController)
         ' --------------------------------------------------------        
@@ -109,7 +110,8 @@ Public Class BaseActions
         For Each SelectedPath As String In Controller.SelectedPaths
             PathsToMove.Add(SelectedPath.Substring(SelectedPath.LastIndexOf(XmlHelper.Delimiter) + 1))
         Next
-        Controller.Selection.Parent.MoveDown(PathsToMove)
+        Dim Parent As ApsimFile.Component = Controller.ApsimData.Find(Controller.SelectedPaths(0)).Parent
+        Parent.MoveDown(PathsToMove)
     End Sub
 
     Public Shared Sub ExpandAll(ByVal Controller As BaseController)
