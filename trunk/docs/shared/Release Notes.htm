@@ -1,602 +1,361 @@
 <html>
-<head>
-<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
-<title>APSIM 5.2</title>
-<link href="./docstyle.css" rel="stylesheet" type="text/css">
-<style type="text/css">
-<!--
-.style1 {font-family: "Arial Narrow"}
--->
-</style>
-</head>
-<body>
-<p class="Title1">APSIM<sup><b>5.4</b></sup> release notes</p>
-<p class="Title1">&nbsp;</p>
-<p class="Normal">30th August 2007 -  <strong><u>BETA 3 </u></strong></p>
-<p class="Normal">&nbsp;</p>
-<p class="Normal"><span class="Title2">SoilN2</span></p>
-<ul>
-  <li>
-  <p class="Normal">Change for sandy soil mineralisation processes for Western Australia. 2 lines were added:   
-  <ul>
-    <li>wfmin_index = 0.0 0.5 1.0 2.0  ! index specifying water content for water factor for mineralization<br>
-      wfmin_values= 0.05 1.0 1.0 0.5  ! value of water factor function at given index values(mineralization)</li>
-    </ul>
-  </li>
-</ul>
-<p class="Normal"><span class="Title2">SoilWat2</span></p>
-<ul>
-  <li>
-  <p class="Normal">Added settable water table depth for water logging studies. Parameter is called 'water_table'   </li>
-</ul>
-<p class="Normal"><span class="Title2">Plant</span></p>
-<ul>
-  <li>
-  <p class="Normal">Continued refactoring of PLANT. All Tops and Stover calculations have now been modelled using the composite pattern.</li>
-  <li>
-  <p class="Normal"> dm_green, dm_dead, dm_senesced, n_green, n_senesced, n_dead, p_green, p_senesced, p_dead and dlt_dm_green are now scalars rather than an array of values for each part. To output dm_green for the leaf part use: dm_green_leaf.</li>
-  <li>
-    <p class="Normal">Added a set_stage event to Plant phenology. 
-  </li>
-</ul>
-<p><span class="Title2">Lupin</span></p>
-<ul>
-  <li>
-  <p class="Normal">Lupin validation added</li>
-</ul>
-<p class="Normal"><span class="Title2">Oats</span></p>
-<ul>
-  <li>
-    <p class="Normal">Added new variety: Wintaroo  </li>
-</ul>
-<p class="Normal"><span class="Title2">Weeds</span></p>
-<ul>
-  <li>
-    <p class="Normal">Corrected p_conc_init names in the weed.ini file.   </li>
-</ul>
-<p><span class="Title2">APSwim</span></p>
-<ul>
-  <li><p class="Normal">Added methods for parameterising SWIM using soilwat-type parameters</li>
-</ul>
-<p class="Normal"><span class="Title2">Manager</span></p>
-<ul>
-  <li>
-    <p class="Normal">Allow replacement of multiple values of a variable  
-    e.g. soilwat2 set sw = sw1 sw2 sw3 (mm)
-  </li>
-</ul>
-<p class="Title2">APSIM user interface</p>
-<ul>
-  <li>
-  <p class="Normal">Updated the OzCot variable list.</li>
-  <li>
-  <p class="Normal">Simplified the code to further externalise button presses and menu clicks. APSoil and ApsimUI are now the same executable as a result.</li>
-  <li>
-    <p class="Normal">Added a WaterSupply sample to the user interface. 
-  </li>
-</ul>
-<p class="Title2">APSIM infrastructure </p>
-<ul>
-  <li>
-    <p class="Normal">Change the component interface so that parameters (SDML) is passed into the FORTRAN / DELPHI components as a string. This was done for AgResearch. 
-  </li>
-</ul>
-<p class="Normal">&nbsp;</p>
-<p class="Normal">21st June 2007 - <strong><u>BETA 2 </u></strong> </p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">APSIM user interface</p>
-<ul>
-  <li>
-    <p class="Normal">Reworked the APSIM user interface by making all 'actions' (button bar + context menu) externalised to an actions.xml file. Users will notice a much improved menu when right clicking on a node in the simulation tree.   </li>
-  <li>
-  <p class="Normal">The run window now displays error messages in red.</li>
-</ul>
-<p class="Title2">APSFarm</p>
-<ul>
-  <li>
-    <p class="Normal">Added &quot;detailed cash flow&quot; analysis to economics module  
-  </li>
-</ul>
-<p class="Title2">Plant</p>
-<ul>
-  <li>
-  <p class="Normal">Correction to remove biomass phenology and N  </li>
-  <li><span class="Normal">Added new genericArbitratorXY class to plant to allow partitioning rules to be specified using interpolation functions.</span></li>
-  <li><span class="Normal">Bug fixes to cohorting leaf part and some refactoring of plant utilities.</span></li>
-</ul>
-<p class="Title1"><span class="Title2">Potato</span></p>
-<ul>
-  <li>
-    <p class="Normal">A revised version of Potato from Shaun Lisson.     </li>
-</ul>
-<p class="Title1"><span class="Title2">Canola</span></p>
-<ul>
-  <li>
-  <p class="Normal">Triazine tolerance  has been built into the cultivars in the canola.ini file. It is now no longer necessary to specify this at sowing time. 
-  </li>
-</ul>
-<p class="Title1"><span class="Title2">Manager</span></p>
-<ul>
-  <li>
-    <p class="Normal">The manager module can now handle 100 character values for  its local variables.
-  </li>
-</ul>
-<p class="Title1"><span class="Title2">Report</span></p>
-<ul>
-  <li>
-    <p class="Normal">Fixed defect where a date format on a variable line wouldn't work e.g. <em>today as Date format dd-mmm</em>  </li>
-</ul>
-<p>&nbsp;</p>
-<p class="Normal">15<sup>th</sup> June 2007 - <strong><u>BETA 1</u></strong> </p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">APSIM user interface</p>
-<ul>
-  <li>
-  <p class="Normal">Fixed bug in .apsim file changetool where variables were being stripped when converting from an old .apsim file to a new one - reported by Howard Cox.   </li>
-  <li>
-    <p class="Normal">Removed duplicate parameter Receive_crop_runoff from 'Dam' in the standard toolbox - reported by Perry Poulton   </li>
-</ul>
-<p class="Title2">PLANT</p>
-<ul>
-  <li>
-  <p class="Normal">The RootPart class has be refactored so that it is self contained. As part of this work a NoRoot class can be instantiated that meets the crops water and nitrogen demands i.e. a potential crop can be easily simulated.</li>
-  <li>
-    <p class="Normal">A new StoragePart has been added to PLANT to facilitate work on a Potato module for APSIM.    </li>
-  <li><span class="Normal">A new FloretPart has been added to PLANT and broccoli modified to use it. </span></li>
-  <li><span class="Normal">The arbitrator part in PLANT has been made more generic with a lot of its functionality being externalised to the .ini file. </span></li>
-</ul>
-<p><span class="Title2">SILOInput</span></p>
-<ul>
-  <li>
-  <p class="Normal">The SILOInput component now has better error handling in timeout situations when communicating with SILO.</li>
-</ul>
-<p><span class="Title2">CSIRO Plant Industry PASTURE </span></p>
-<ul>
-  <li>
-    <p class="Normal">SILO was modified so that it outputs solar radiation units as MJ/m^2 rather than MJ/m2. When APSIM met files have these revised units, PASTURE runs in APSIM properly.      </li>
-</ul>
-<p><span class="Title2">APSIMOutlook</span></p>
-<ul>
-  <li>
-  <p class="Normal">APSIM Outlook has been reworked to facilitate rebadging work done by CSIRO Plant Industry at Narrabri. </li>
-</ul>
-<p><span class="Title2">APSIMReport</span></p>
-<ul>
-  <li>
-    <p class="Normal">Minor modification to the pie chart colouring so that set colours are applied to each slice. Done for Yield Prophet.    
-  </li>
-</ul>
-<p><span class="Title2">Graz</span></p>
-<ul>
-  <li>
-  <p class="Normal">The Rickert and McKeon grazing model has been resurrected.</li>
-</ul>
-<p class="Title1"></p>
-<p class="Title1"></p>
-<p class="Title1">APSIM<sup><b>5.3</b></sup> release notes</p>
-<p class="Normal">&nbsp;</p>
-<p class="Normal">18<sup>th</sup> May 2007</p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">APSIM user interface</p>
-<ul><li><p class="Normal">New Tracker component that can sum and average variables</li>
-  <li>
-    <p class="Normal">New Canopy component that enables intercropping in the user interface</p>
-  </li>
-  <li class="Normal">New VENSIM linkage component to allow users to run a VENSIM model from the user interface </li>
-  <li>
-    <p class="Normal">Summer and winter cona and U values can be specified in the soil</p>
-  </li>
-  <li>
-    <p class="Normal">Layers can be added and deleted from a soil </p>
-</li>
-  <li><p class="Normal">Solute component now functions properly</p>
-</li><li>
-  <p class="Normal">Added Bambatsi, Oats and Centro to the crops</p>
-</li><li><p class="Normal">Added a progress bar to the user interface when APSIM is running</p>
-</li>
-<li class="Normal">Fixed phosphorus in the user interface and added C:P ration to SurfaceOM as an optional parameters.</li>
-<li class="Normal">Added KS (saturated conductivity) to the soil as an optional parameters</li>
-<li class="Normal">Added a new prototype of a graphics capability built directly into the user interface - see the Graph toolbox</li>
-<li class="Normal">Added a new method of managing crop rotations. A directed graph composed of  &quot;States&quot; represents crop &amp; fallow periods, and both &quot;Rules&quot; representing the feasibility of transitions between states, and &quot;Actions&quot; are taken when a transition between States is made. A single paddock example is in the New Simulations toolbox, a multiple paddock example with rug plots and paddock maps is in the tcllink sample directory.</li>
+   <head>
+      <title>APSIM 6</title>
+      <link href="ApsimWebStyle.css" rel="stylesheet" type="text/css">
+   </head>
+   <body>
+      <h1>APSIM 6.0 release notes</h1>
+      <p>20th March 2008</p>
 
-</ul>
-<p><span class="Title2">Plant</span></p>
-<ul>
-  <li class="Normal">Plant has KL and XF as variables that can be outputted</li>
-  <li class="Normal">Fixed some Common modelling protocol issues to do with units and the GetDescription entry point</li>
-</ul>
-<p><span class="Title2">Manager</span></p>
-<ul>
-  <li class="Normal">Some manager arithmetic has been fixed </li>
-  <li class="Normal">Cotton is seen as a crop and works properly in rotations</li>
-</ul>
-  
-<p class="Normal">&nbsp;</p>
-<p><span class="Title2">APSIM</span></p>
-<ul>
-  <li class="Normal">The summary file module has been removed. It is no longer needed. The user interface and APSRun will still create a summary file but there is no need to specifiy SummaryFile from the control file. APSIM now writes all summary information to standard output and errors are written to standard error. APSRun and the user interface both trap this output and create a summary file automatically. </li>
-</ul>
-<p><span class="Title2">LINUX</span></p>
-<p class="Normal">The Linux build is now operational. The APSIM model can run under LINUX as a command line program. The user interfaces do not run under LINUX. </p>
-<p>&nbsp; </p>
-<p class="Normal">&nbsp;</p>
+      <p>This release of APSIM is not 100% backwards compatible with previous versions, particularly
+         with respect to .con / .par files. The control file converter will automatically attempt to 
+         make all the necessary changes but sometimes it fails. All the changes are related to new PLANT
+         output variable names. The complete list of old and new names is as follows:
+      <p>   
+      <table>
+         <tr><td><b>Old variable name</b></td><td><b>New variable name</b></td></tr>
+         <tr><td>dm_green(1)</td><td>RootGreenWt</td></tr>
+         <tr><td>dm_green(2)</td><td>LeafGreenWt</td></tr>
+         <tr><td>dm_green(3)</td><td>StemGreenWt</td></tr>
+         <tr><td>dm_green(4)</td><td>PodGreenWt</td></tr>
+         <tr><td>dm_green(5)</td><td>MealGreenWt</td></tr>
+         <tr><td>dm_green(6)</td><td>OilGreenWt</td></tr>
+         <tr><td>dm_green_leaf</td><td>LeafGreenWt</td></tr>
+         <tr><td>dm_green_stem</td><td>StemGreenWt</td></tr>
+         <tr><td>dm_green_pod</td><td>PodGreenWt</td></tr>
+         <tr><td>dm_green_meal</td><td>MealGreenWt</td></tr>
+         <tr><td>dm_green_oil</td><td>OilGreenWt</td></tr>
+         <tr><td>dm_green_fruit</td><td>FruitGreenWt</td></tr>
+         <tr><td>dm_green_root</td><td>RootGreenWt</td></tr>
+         <tr><td>dm_green_floret</td><td>FloretGreenWt</td></tr>
+         <tr><td>dm_green()</td><td>GreenWt</td></tr>
+         <tr><td>dm_green</td><td>GreenWt</td></tr>
+         <tr><td>n_green_leaf</td><td>LeafGreenN</td></tr>
+         <tr><td>n_green_stem</td><td>StemGreenN</td></tr>
+         <tr><td>n_green_pod</td><td>PodGreenN</td></tr>
+         <tr><td>n_green_meal</td><td>MealGreenN</td></tr>
+         <tr><td>n_green_oil</td><td>OilGreenN</td></tr>
+         <tr><td>n_green_fruit</td><td>FruitGreenN</td></tr>
+         <tr><td>n_green_root</td><td>RootGreenN</td></tr>
+         <tr><td>n_green_floret</td><td>FloretGreenN</td></tr>
+         <tr><td>n_green(1)</td><td>RootGreenN</td></tr>
+         <tr><td>n_green(2)</td><td>LeafGreenN</td></tr>
+         <tr><td>n_green(3)</td><td>StemGreenN</td></tr>
+         <tr><td>n_green(4)</td><td>PodGreenN</td></tr>
+         <tr><td>n_green(5)</td><td>MealGreenN</td></tr>
+         <tr><td>n_green(6)</td><td>OilGreenN</td></tr>
+         <tr><td>n_green()</td><td>GreenN</td></tr>
+         <tr><td>n_green</td><td>GreenN</td></tr>
+         <tr><td>leaf_wt</td><td>LeafGreenWt</td></tr>
+         <tr><td>stem_wt</td><td>StemGreenWt</td></tr>
+         <tr><td>pod_wt</td><td>PodGreenWt</td></tr>
+         <tr><td>meal_wt</td><td>MealGreenWt</td></tr>
+         <tr><td>oil_wt</td><td>OilGreenWt</td></tr>
+         <tr><td>fruit_wt</td><td>FruitGreenWt</td></tr>
+         <tr><td>root_wt</td><td>RootGreenWt</td></tr>
+         <tr><td>floret_wt</td><td>FloretGreenWt</td></tr>
+         <tr><td>tuber_wt</td><td>TuberGreenWt</td></tr>
+         <tr><td>leaf_n</td><td>LeafGreenN</td></tr>
+         <tr><td>stem_n</td><td>StemGreenN</td></tr>
+         <tr><td>pod_n</td><td>PodGreenN</td></tr>
+         <tr><td>meal_n</td><td>MealGreenN</td></tr>
+         <tr><td>oil_n</td><td>OilGreenN</td></tr>
+         <tr><td>fruit_n</td><td>FruitGreenN</td></tr>
+         <tr><td>root_n</td><td>RootGreenN</td></tr>
+         <tr><td>floret_n</td><td>FloretGreenN</td></tr>
+         <tr><td>leaf_p</td><td>LeafGreenP</td></tr>
+         <tr><td>stem_p</td><td>StemGreenP</td></tr>
+         <tr><td>pod_p</td><td>PodGreenP</td></tr>
+         <tr><td>meal_p</td><td>MealGreenP</td></tr>
+         <tr><td>oil_p</td><td>OilGreenP</td></tr>
+         <tr><td>fruit_p</td><td>FruitGreenP</td></tr>
+         <tr><td>root_p</td><td>RootGreenP</td></tr>
+         <tr><td>floret_p</td><td>FloretGreenP</td></tr>
+         <tr><td>p_green()</td><td>GreenP</td></tr>
+         <tr><td>p_green</td><td>GreenP</td></tr>
+         <tr><td>p_senesced()</td><td>SenescedP</td></tr>
+         <tr><td>p_senesced</td><td>SenescedP</td></tr>
+         <tr><td>n_conc_leaf</td><td>LeafGreenNConc</td></tr>
+         <tr><td>n_conc_stem</td><td>StemGreenNConc</td></tr>
+         <tr><td>n_conc_pod</td><td>PodGreenNConc</td></tr>
+         <tr><td>n_conc_meal</td><td>MealGreenNConc</td></tr>
+         <tr><td>n_conc_oil</td><td>OilGreenNConc</td></tr>
+         <tr><td>n_conc_fruit</td><td>FruitGreenNConc</td></tr>
+         <tr><td>n_conc_root</td><td>RootGreenNConc</td></tr>
+         <tr><td>n_conc_floret</td><td>FloretGreenNConc</td></tr>
+         <tr><td>p_conc_leaf</td><td>LeafGreenPConc</td></tr>
+         <tr><td>p_conc_stem</td><td>StemGreenPConc</td></tr>
+         <tr><td>p_conc_pod</td><td>PodGreenPConc</td></tr>
+         <tr><td>p_conc_meal</td><td>MealGreenPConc</td></tr>
+         <tr><td>p_conc_oil</td><td>OilGreenPConc</td></tr>
+         <tr><td>p_conc_fruit</td><td>FruitGreenPConc</td></tr>
+         <tr><td>p_conc_root</td><td>RootGreenPConc</td></tr>
+         <tr><td>p_conc_grain</td><td>GrainGreenPConc</td></tr>
+         <tr><td>p_conc_floret</td><td>FloretGreenPConc</td></tr>
+         <tr><td>dm_senesced_leaf</td><td>LeafSenescedWt</td></tr>
+         <tr><td>dm_senesced_stem</td><td>StemSenescedWt</td></tr>
+         <tr><td>dm_senesced_pod</td><td>PodSenescedWt</td></tr>
+         <tr><td>dm_senesced_meal</td><td>MealSenescedWt</td></tr>
+         <tr><td>dm_senesced_oil</td><td>OilSenescedWt</td></tr>
+         <tr><td>dm_senesced_fruit</td><td>FruitSenescedWt</td></tr>
+         <tr><td>dm_senesced_root</td><td>RootSenescedWt</td></tr>
+         <tr><td>dm_senesced_floret</td><td>FloretSenescedWt</td></tr>
+         <tr><td>dm_senesced(1)</td><td>RootSenescedWt</td></tr>
+         <tr><td>dm_senesced(2)</td><td>LeafSenescedWt</td></tr>
+         <tr><td>dm_senesced(3)</td><td>StemSenescedWt</td></tr>
+         <tr><td>dm_senesced(4)</td><td>PodSenescedWt</td></tr>
+         <tr><td>dm_senesced(5)</td><td>MealSenescedWt</td></tr>
+         <tr><td>dm_senesced(6)</td><td>OilSenescedWt</td></tr>
+         <tr><td>dm_senesced()</td><td>SenescedWt</td></tr>
+         <tr><td>dm_senesced</td><td>SenescedWt</td></tr>
+         <tr><td>n_senesced_leaf</td><td>LeafSenescedN</td></tr>
+         <tr><td>n_senesced_stem</td><td>StemSenescedN</td></tr>
+         <tr><td>n_senesced_pod</td><td>PodSenescedN</td></tr>
+         <tr><td>n_senesced_meal</td><td>MealSenescedN</td></tr>
+         <tr><td>n_senesced_oil</td><td>OilSenescedN</td></tr>
+         <tr><td>n_senesced_fruit</td><td>FruitSenescedN</td></tr>
+         <tr><td>n_senesced_root</td><td>RootSenescedN</td></tr>
+         <tr><td>n_senesced_floret</td><td>FloretSenescedN</td></tr>
+         <tr><td>n_senesced(1)</td><td>RootSenescedN</td></tr>
+         <tr><td>n_senesced(2)</td><td>LeafSenescedN</td></tr>
+         <tr><td>n_senesced(3)</td><td>StemSenescedN</td></tr>
+         <tr><td>n_senesced(4)</td><td>PodSenescedN</td></tr>
+         <tr><td>n_senesced(5)</td><td>MealSenescedN</td></tr>
+         <tr><td>n_senesced(6)</td><td>OilSenescedN</td></tr>
+         <tr><td>n_senesced()</td><td>SenescedN</td></tr>
+         <tr><td>n_senesced</td><td>SenescedN</td></tr>
+      </table></p>
+      <p>The following variables no longer exist:         
+         dm_dead
+         dm_dead_leaf
+         dm_dead_stem
+         n_dead
+         p_dead
+         deadleaf_n
+         deadleaf_p
+         tlai_dead
+         cep</p>
+         
 
-<p class="Title1">&nbsp;</p>
-<p class="Title1">APSIM<sup><b>5.2</b></sup> release notes</p>
-<p class="Normal">&nbsp;</p>
-<p class="Normal">23<sup>rd</sup> October 2006</p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">APSIM user interface</p>
-<ul>
-  <li>
-    <p class="Normal">Extra field validation has been added to many areas including, clock, met file and soil. Also more drop down lists of valid options have been added instead of the user entering free text which would often causes errors when running the simulation due to spelling mistakes. </li>
-  <li>
-  <p class="Normal">Soil and met charts have been updated to give more useful information and  the units have been corrected.  </li>
-  <li class="style1">Users can now search the summary and output files.</li>
-  <li class="style1"> Developers toolbox has been added that gives extra functionality for power users.</li>
-  <li class="style1"> A number of bugs to do with renaming/moving/deleting/adding  nodes in the tree have been fix.</li>
-  <li class="style1"> A number of bugs to do with shared and shortcut functionality have been fixed.</li>
-  <li class="style1">Changes have been made to improve overall speed and reduce memory leakages.</li>
-  <li class="style1">The procedure for configuring output file events has been changed and hopefully improved.   </li>
-</ul>
-<table border="1" align="center" cellpadding="1" cellspacing="0">
-  <col width="50">
-  <col width="64">
-  <col width="68">
-  <col width="67">
-  <col width="64" span="2">
-  <tr height="50">
-    <td height="50" width="50">APSIM Version</td>
-    <td width="64" height="50">Idle memory usage</td>
-    <td width="68" height="50">Simulation loaded in UI</td>
-    <td width="67" height="50">Simulation run time</td>
-    <td width="64" height="50">Memory usage after run</td>
-    <td width="64" height="50">Memory usage after some activity</td>
-  </tr>
-  <tr height="17">
-    <td height="17" align="right"><blockquote>
-      <p>4.2</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>40 Mb</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>44 Mb</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>75 secs</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>51 Mb</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>70 Mb</p>
-    </blockquote></td>
-  </tr>
-  <tr height="17">
-    <td height="17" align="right"><blockquote>
-      <p>5.1</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>33 Mb</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>38 Mb</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>47 secs</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>48 Mb</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>128 Mb</p>
-    </blockquote></td>
-  </tr>
-  <tr height="17">
-    <td height="17" align="right"><blockquote>
-      <p>5.2</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>29 Mb</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>30 Mb</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>45 secs</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>36 Mb</p>
-    </blockquote></td>
-    <td><blockquote>
-      <p>55 Mb</p>
-    </blockquote></td>
-  </tr>
-</table>
-<p> This table show the relative speed and memory performance improvements of this version compared to last two APSIM releases. This data came from running the 50 year Continuous Wheat 
-Simulation template. </p>
-<p class="Title2">Infrastructure</p>
-<p class="Title2">&nbsp;</p>
-<p class="Normal">Even more APSIM infrastructure is  CMP (Common Modelling 
-  Protocol) compliant.</p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">APSIM wheat model</p>
-<ul>
-  <li>
-    <p class="Normal">refinement of the yield and grain protein algorithms has 
-    been undertaken.&nbsp;&nbsp; Results of this recent testing on a wide range 
-    of datasets are now available on the APSIM web site.</li>
-  <li>
-    <p class="Normal">Bug resulting in very high grain protein concentrations 
-    has been identified and fixed.</li>
-  <li>
-    <p class="Normal">Five new cultivars have been added.</li>
-  <li>
-    <p class="Normal">Many architectural changes to generic plant module.</li>
- 
-</ul>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">APSIM solute model</p>
-<ul>
-  <li>
-  <p class="Normal">Diffusion of solutes within the soil water filled pore space 
-  can now be incorporated into simulations.&nbsp; See the solute module 
-  documentation for examples.</li>
-</ul>
-<p class="Title2">APSIM / unix</p>
-  <p class="Normal">APSIM and the command line tools (conTosim, APSRun) now compile and 
-  run under linux (x86), thanks to the work of Pioneer.. Documentation will appear later. 
-  </p>
+      <h2>APSIM user interface</h2>
+      <ul>
+         <li>The 'shared' concept has now been extended to allow full inheritance. Simulations 
+             can now be inherited from other simulations with the bits that are differnet being
+            underlined in the tree</li>
+         <li>'Rules' and 'Logic' in the user interface are now the same thing - called 'manager'.
+             Users can right click on the properties tab in a manager component and select edit.
+            This will allow them to add/delete/rename properties</li>
+         <li>The graph toolbox has been redesigned to use the new APSIM Report functionality.
+             Graphs can now be dropped on an output file</li>
+         <li>Updated the OzCot variable list.</li>
+         <li>Simplified the code to further externalise button presses and menu clicks. 
+             APSoil and ApsimUI are now the same executable as a result.</li>
+         <li>Added a WaterSupply sample to the user interface.</li>
+         <li>Reworked the APSIM user interface by making all 'actions' (button bar + 
+             context menu) externalised to an actions.xml file. Users will notice a much 
+             improved menu when right clicking on a node in the simulation tree.</li>
+         <li>The run window now displays error messages in red.</li>
+         <li>Fixed bug in .apsim file changetool where variables were being stripped 
+             when converting from an old .apsim file to a new one - reported by Howard Cox.</li>
+         <li>Removed duplicate parameter Receive_crop_runoff from 'Dam' in the standard toolbox 
+             - reported by Perry Poulton</li>
+         <li>Harvesting rule in standard toolbox can now work with ozcot</li>
+         <li>Added GRASP to standard toolbox</li>
+         <li>Added some GCM / SOI index components to the standard toolbox</li>
+         <li>Fixed operations crash in user interface</li>
+         <li>Added INPUT</li>
+         <li>Added a 'constants' section to the top of the output variable window. These constants'
+             are written to the top of an output file, on multiple lines. NB: This may break any
+             third party tools that expect the headings to start on line 4 of an output file.</li>
+      </ul>
 
 
-<p class="Normal">&nbsp;</p>
-<p class="Normal"></p>
-<p class="Title1">APSIM<sup><b>5.1</b></sup> release notes</p>
-<p class="Normal">&nbsp;</p>
-<p class="Normal">21<sup>st</sup> June 2006</p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">APSoil</p>
+      <h2>APSIMOutlook</h2>
+      <ul>
+         <li>APSIM Outlook has been reworked to facilitate rebadging work done by 
+             CSIRO Plant Industry at Narrabri. </li>
+      </ul>
 
-<p class="Title2">&nbsp;</p>
+      
+      <h2>APSIMReport</h2>
+      <ul>
+         <li>Minor modification to the pie chart colouring so that set colours are applied to 
+             each slice. Done for Yield Prophet.</li>
+         <li>Major reworking of code to use more .NET forms and controls. The whole data 
+            form is now very different.</li>
+         <li>Multi page PDF's can now be generated from reports.</li>
+      </ul>
 
-<p class="Normal">APSoil and the soil form in the APSIM User interface has 
-undergone numerous changes:</p>
-<ul>
-  <li>
 
-<p class="Normal">Texture column added in the Soil Profile tab - will import and 
-export this to/from spreadsheet.</p>
-  </li>
-  <li>
+      <h2>APSIM infrastructure</h2>
+      <ul>
+         <li>Change the component interface so that parameters (SDML) is passed into the 
+             FORTRAN / DELPHI components as a string. This was done for AgResearch.</li>
+         <li>.NET component interface has been reworked to use the existing APSIM component interface. 
+             New metadata tags (e.g. <output> and <subscribe>) have been added.</li>
+             
+      </ul>
 
-<p class="Normal">The &quot;Check soils&quot; button will now check all soils under the 
-currently selected node in the tree rather than all soils.</p>
-  </li>
-  <li>
 
-<p class="Normal">If you modify DUL, then the PAWC columns are now auto updated.</p>
-  </li>
-  <li>
+      <h2>APSFarm</h2>
+      <ul>
+         <li>Added &quot;detailed cash flow&quot; analysis to economics module</li>
+      </ul>
 
-<p class="Normal">You can export part of a database to a spreadsheet with path 
-info. NB: Path info is now part of the &quot;Name&quot; column in the spreadsheet rather 
-than a separate column.</p>
-  </li>
-  <li>
 
-<p class="Normal">Export some soils to see what I mean.</p>
-  </li>
-  <li>
+      <h2>SoilN2</h2>
+      <ul>
+         <li>Change for sandy soil mineralisation processes for Western Australia. 2 lines were added:<br>
+             wfmin_index = 0.0 0.5 1.0 2.0  ! index specifying water content for water factor for mineralization<br>
+             wfmin_values= 0.05 1.0 1.0 0.5  ! value of water factor function at given index values(mineralization)
+         </li>
+      </ul>
+      
+      
+      <h2>SoilWat2</h2>
+      <ul>
+         <li>Added settable water table depth for water logging studies. Parameter is called 'water_table'</li>
+      </ul>
+      
+      
+      <h2>Plant</h2>
+      <ul>
+         <li>Continued refactoring of PLANT. All Tops and Stover calculations have now been 
+             modelled using the composite pattern.</li>
+         <li>dm_green, dm_dead, dm_senesced, n_green, n_senesced, n_dead, p_green, p_senesced, 
+             p_dead and dlt_dm_green are now scalars rather than an array of values for each part. To output dm_green for the leaf part use: dm_green_leaf.</li>
+         <li>Added a set_stage event to Plant phenology.</li>
+         <li>Correction to remove biomass phenology and N  </li>
+         <li>Added new genericArbitratorXY class to plant to allow partitioning rules to be specified using interpolation functions.</li>
+         <li>Bug fixes to cohorting leaf part and some refactoring of plant utilities.</li>
+         <li>The RootPart class has be refactored so that it is self contained. As part of this 
+             work a NoRoot class can be instantiated that meets the crops water and nitrogen demands i.e. a potential crop can be easily simulated.</li>
+         <li>A new StoragePart has been added to PLANT to facilitate work on a Potato module for APSIM.</li>
+         <li>A new FloretPart has been added to PLANT and broccoli modified to use it. </li>
+         <li>The arbitrator part in PLANT has been made more generic with a lot of its functionality being externalised to the .ini file. </li>
+         <li>Added stage x digestibility table for several crops (e.g. lablab, wheat, lucerne, sweet sorghum)</li>
+         <li>Removed all dead pools in PLANT</li>
+         <li>Many of PLANTS output variables have been renamed</li>
+         <li>A new pool and composite pool class has been added to PLANT</li>
+         <li>Many changes have been made to PLANT to allow grazing</li>
+         <li>Some corrections have been made to the P and SW stress</li>
+         <li>A start has been made on a new photosynthesis class</li>
+      </ul>
+      
+      
+      <h2>Lupin</h2>
+      <ul>
+         <li>Lupin validation added</li>
+      </ul>
 
-<p class="Normal">If you double click on a APSRU-????.soils file, APSoil will 
-now check the security and ask for a password if necessary. Didn't before.</p>
-  </li>
-  <li>
+      
+      <h2>Lettuce</h2>
+      <ul>
+         <li>A new lettuce model has been added</li>
+      </ul>
 
-<p class="Normal">Some bugs dealing with importing from some .par files have 
-been fixed. e.g. TAB characters are now tolerated.</p>
-  </li>
-  <li>
+      
+      <h2>Oats</h2>
+      <ul>
+         <li>Added new variety: Wintaroo  </li>
+      </ul>
+      
+      
+      <h2>Weeds</h2>
+      <ul>
+         <li>Corrected p_conc_init names in the weed.ini file.   </li>
+      </ul>
+      
+      
+      <h2>APSwim</h2>
+      <ul>
+         <li>Added methods for parameterising SWIM using soilwat-type parameters</li>
+      </ul>
+      
+      
+      <h2>Manager</h2>
+      <ul>
+         <li>Allow replacement of multiple values of a variable e.g. soilwat2 set sw = sw1 sw2 sw3 (mm)</li>
+         <li>The manager module can now handle 100 character values for  its local variables.</li>
+         <li>Some manager arithmetic has been fixed </li>
+         <li>Cotton is seen as a crop and works properly in rotations</li>
+      </ul>
 
-<p class="Normal">Can now add and delete soil layers directly in APSoil - this 
-fixes Anthony's problem.</p>
-  </li>
-  <li>
 
-<p class="Normal">InitWater and InitNitrogen sometimes crashed APSoil after 
-importing from a .par file and spreadsheet</p>
-  </li>
-  <li>
+      <h2>Potato</h2>
+      <ul>
+         <li>A revised version of Potato from Shaun Lisson.</li>
+      </ul>
 
-<p class="Normal">Two decimal places is now supported for SWCON</p>
-  </li>
-  <li>
 
-<p class="Normal">When importing values from EXCEL, the precision of those 
-numbers is truncated to what the user sees in the APSOIL grid. Previously, 
-APSoil was hiding unwanted precision which was causing APSIM problems.</p>
-  </li>
-</ul>
-<p class="Title2">Apsim user interface</p>
+      <h2>Canola</h2>
+      <ul>
+         <li>Triazine tolerance  has been built into the cultivars in the canola.ini 
+             file. It is now no longer necessary to specify this at sowing time.</li>
+         <li>Added canola validation</li>
+      </ul>
 
-<ul>
-  <li>
-  <p class="Normal">Look and feel has changed slightly to improve usability.</li>
-  <li>
-  <p class="Normal">The variables grid now handles a blank module name. e.g. you 
-  can specify that you want 'sw' as an output but don't need to provide a source 
-  module name for the variable.</li>
-  <li>
-  <p class="Normal">The &quot;Shared&quot; mechanism whereby you can share components 
-  between paddocks or simulations now works properly.</li>
-  <li>
-  <p class="Normal">The simulation tree no longer repeatedly expands itself when 
-  the user drags or modifies something.</li>
-  <li>
-  <p class="Normal">Updated sowing rules in the UI now allow users to select a 
-  crop growth stage.</li>
-  <li>
-  <p class="Normal">Climate change component now works properly.</li>
-  <li>
-  <p class="Normal">Font size in Logic and Rule boxes has been increased for 
-  readability.</li>
-  <li>
-  <p class="Normal">Added an Operations component.</li>
-  <li>
-  <p class="Normal">Added an Erosion component.</li>
-  <li>
-  <p class="Normal">New manager rules have been added: &quot;Lucerne ley fixed sow 
-  harvest at flowering&quot; and &quot;Lucerne ley variable sow harvest at flowering&quot;</li>
-  <li>
-  <p class="Normal">You can now have an if statement on the very first line of a 
-  logic component. Previously this would stop APSIM running.</li>
-</ul>
-<p class="Title2">APSIM Report</p>
+      
+      <h2>Report</h2>
+      <ul>
+         <li>Fixed defect where a date format on a variable line wouldn't work e.g. 
+             <em>today as Date format dd-mmm</em></li>
+         <li>The REPORT module now outputs less than 3 decimal places for some units.</li>
+         <li>Users can now specify units for output variables with unit conversion 
+            happening automatically. Supported units: g/m2, kg/ha, t/ha</li>
+      </ul>
 
-<p class="Title2">&nbsp;</p>
 
-<p class="Normal">New components: ChartLine, Depth, Frequency, RecFilter and 
-updated (more consistent) macros</p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">Plant</p>
+      <h2>SILOInput</h2>
+      <ul>
+         <li>The SILOInput component now has better error handling in timeout situations when 
+             communicating with SILO.</li>
+      </ul>
 
-<ul>
-  <li>
+               
+      <h2>CSIRO Plant Industry PASTURE and STOCK</h2>
+      <ul>
+         <li>SILO was modified so that it outputs solar radiation units as MJ/m^2 rather than 
+             MJ/m2. When APSIM met files have these revised units, PASTURE runs in APSIM properly.</li>
+         <li>Changed all references to Farmwi$e to now point to AusFarm</li>
+      </ul>
 
-<p class="Normal">A defect whereby PLANT would leak P has been fixed.</p>
-  </li>
-  <li>
+      
+      <h2>Graz</h2>
+      <ul>
+         <li>The Rickert and McKeon grazing model has been resurrected.</li>
+      </ul>
 
-<p class="Normal">The protein output has been fixed to be a percent.</p>
-  </li>
-  <li>
 
-<p class="Normal">Prevent phenology being wound back to stage 3 which 
-initialises plant parts\</p>
-  </li>
-</ul>
-<p class="Title2">Operatns</p>
+      <h2>Maize</h2>
+      <ul>
+         <li>Fixed kill_crop in maize</li>
+      </ul>
+      
+      
+      <h2>Sysbal</h2>
+      <ul>
+         <li>Sysbal has been modified to report less false positives, particularly from PLANT</li>
+      </ul>
 
-<p class="Title2">&nbsp;</p>
 
-<p class="Normal">Now handles dates in the form dd/mm/yyyy or dd-mmm as well as 
-the older year and day number.</p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">Butterfly pea</p>
+      <h2>Ozcot</h2>
+      <ul>
+         <li>New cultivars have been added from CSIRO Plant Industry at Narrabri</li>
+      </ul>
+      
 
-<p class="Title2">&nbsp;&nbsp;&nbsp; </p>
+      <h2>Lucerne</h2>
+      <ul>
+         <li>The .ini file has been modified to fix the 'sprayed' class</li>
+      </ul>
 
-<p class="Normal">This is a new module for APSIM. It is still under development 
-and not recommended for general use.</p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">Infrastructure</p>
 
-<p class="Title2">&nbsp;</p>
-
-<p class="Normal">The APSIM infrastructure is now more CMP (Common Modelling 
-Protocol) compliant meaning that APSIM modules now stand a much better chance of 
-running in CSIRO Plant Industry's FARMWI$E grazing framework and visa versa.</p>
-
-<p class="Normal">&nbsp;</p>
-
-<p class="Title2">&nbsp;</p>
-
-<p class="Title1">APSIM<sup><b>5.0</b></sup> release notes</p>
-<p class="Normal">&nbsp;</p>
-<p class="Normal">17<sup>th</sup> March 2006</p>
-<p class="Normal">&nbsp;</p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">APSFront</p>
-
-<p class="Title2">&nbsp;</p>
-
-<p class="Normal">APSFront has now been removed from the APSIM release and it's 
-development has discontinued. It is recommended that all users migrate to the 
-APSIM user interface. Introductory training workshops are held every six months 
-and show how to use the new user interface to create and run simulations. 
-Alternatively, the same exercises and material can be accessed at
-<a href="http://www.apsim.info/apsim/Training/Index.htm">
-http://www.apsim.info/apsim/Training/Index.htm</a>. These exercises are self 
-paced and assume no knowledge of the APSIM user interface.</p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">Sorghum</p>
-
-<p class="Title2">&nbsp;</p>
-
-<p class="Normal">A new Sorghum module makes it's debut in this release. No 
-changes are required to the control / parameter files to use this new module.</p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">Run-time speed.</p>
-
-<p class="Title2">&nbsp;</p>
-
-<p class="Normal">Some work has been done on APSIM to improve it's runtime 
-speed. While APSIM 5 is almost twice as quick as the previous version 4.2, the 
-chart below shows that there is still much to be done to improve APSIM's speed.</p>
-
-<p class="Normal">&nbsp;</p>
-
-<p class="Title2">&nbsp;</p>
-
-<p class="Title2">
-<img border="0" src="runtime%20speed%205.gif" width="753" height="621"></p>
-
-<p class="Normal">This chart shows the amount of time, in seconds, that it took 
-for APSIM to run a 50 year continuous wheat simulation on the same hardware i.e. 
-the changes to runtime speed are due to software and not improved hardware speed 
-over the years.</p>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">Apsim user interface</p>
-
-<ul>
-  <li>
-<p class="Normal">Support for complex rotations has been added, similar to the 
-way APSFront did rotations.</p>
-  </li>
-  <li>
-<p class="Normal">Grid cell handling has been improved so that 
-cut/copy/paste/delete works in the same way as Microsoft Excel.</p>
-  </li>
-  <li>
-<p class="Normal">A new memo/comment facility has been added so that users can 
-add comments to their simulation.</p>
-  </li>
-  <li>
-<p class="Normal">A new tracker capability has been added so that APSIM 
-variables can be summarised e.g. average weekly/monthly rainfall, runoff etc.</p>
-  </li>
-  <li>
-<p class="Normal">A new erosion capability has been added.</p>
-  </li>
-  <li>
-<p class="Normal">Increased stability and a new look.</p>
-  </li>
-</ul>
-<p class="Title2">Apsoil</p>
-
-<ul>
-  <li>
-  <p class="Normal">Improved soil importing and exporting to and from 
-  spreadsheet and .par files has been implemented.</li>
-  <li>
-  <p class="Normal">A new look keeping it in line with the Apsim user interface 
-  has been added.</li>
-</ul>
-<p class="Normal">&nbsp;</p>
-<p class="Title2">Screen</p>
-
-<p class="Title2">&nbsp;</p>
-
-<p class="Normal">The screen module no longer exists. All control files will be 
-automatically modified to remove the reference to screen. e.g. lines like the 
-following will be deleted.</p>
-<p class="Normal">&nbsp;</p>
-<p class="Normal">&nbsp;&nbsp;&nbsp; module = screen&nbsp;&nbsp; test.par 
-[screen]</p>
-<p class="Normal">&nbsp;</p>
-<p class="Normal">&nbsp;</p>
-  
-</body>
-
+      <h2>Oryza</h2>
+      <ul>
+         <li>Oryza is now released as part of APSIM</li>
+         <li>Some minor modifications from Don Gaydon have been added.</li>
+      </ul>
+      
+   </body>
 </html>
