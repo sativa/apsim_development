@@ -13,11 +13,10 @@ Public Class DataTree
     ' Tree control for visualising an ApsimFile
     ' ---------------------------------------------------
     Private DisablePainting = False
-    Private LastNode As TreeNode
-    Private FirstNode As TreeNode
     Private PopupMenu As New System.Windows.Forms.ContextMenuStrip
     Private Controller As BaseController
     Private FirstTimeRename As Boolean = False
+    Private EnableNodeSelection As Boolean = True
 
     Public Event DoubleClickEvent As EventHandler(Of EventArgs)
 
@@ -143,6 +142,11 @@ Public Class DataTree
             Throw
         End Try
 
+        If Controller.SelectedPaths.Count > 0 Then
+            EnableNodeSelection = False
+            SelectedNode = GetNodeFromPath(Controller.SelectedPaths(0))
+            EnableNodeSelection = True
+        End If
         DisablePainting = False
         EndUpdate()
         Windows.Forms.Cursor.Current = Cursors.Default
@@ -194,6 +198,7 @@ Public Class DataTree
         ' Selection has changed - update tree.
         ' -----------------------------------------------------------------
 
+        EnableNodeSelection = False
         For Each NodePath As String In OldSelections
             Dim Node As TreeNode = GetNodeFromPath(NodePath)
             If Not IsNothing(Node) Then
@@ -203,10 +208,18 @@ Public Class DataTree
         Next
         For Each NodePath As String In NewSelections
             Dim Node As TreeNode = GetNodeFromPath(NodePath)
+            SelectedNode = Node
             ColourNode(Node)
             Node.EnsureVisible()
         Next
+        EnableNodeSelection = True
     End Sub
+    Private Sub OnTreeSelectionChanged(ByVal Sender As Object, ByVal e As TreeViewEventArgs) Handles Me.AfterSelect
+        If EnableNodeSelection Then
+            Controller.SelectedPath = GetPathFromNode(e.Node)
+        End If
+    End Sub
+
 #End Region
     Private LinkFont As Font = New System.Drawing.Font(Me.Font.FontFamily, Me.Font.Size, FontStyle.Underline)
 
@@ -226,7 +239,6 @@ Public Class DataTree
         Else
             Node.ForeColor = SystemColors.HighlightText
             Node.BackColor = SystemColors.Highlight
-            SelectedNode = Node
         End If
     End Sub
 
@@ -344,6 +356,63 @@ Public Class DataTree
 
 #Region "Mouse events"
     Private Sub TreeView_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDown
+        ' ---------------------------------------------------------------
+        ' If the user right clicks on a node and that node isn't already
+        ' selected, then go select it.
+        ' ---------------------------------------------------------------
+        EnableNodeSelection = False
+
+        Dim ClickedNode As TreeNode = GetNodeAt(e.Location)
+        If IsNothing(ClickedNode) Then
+            Return
+        End If
+        If (e.X < ClickedNode.Bounds.Left - 20) Then    ' 20 pixels allowing for an image to the left of the text of a node
+            Return
+        End If
+
+        Dim Control As Boolean = (ModifierKeys = Keys.Control Or e.Button = Windows.Forms.MouseButtons.Right)
+        Dim Shift As Boolean = (ModifierKeys = Keys.Shift)
+
+        Dim SelectedPaths As StringCollection = Controller.SelectedPaths
+        If Control Then
+            If SelectedPaths.IndexOf(GetPathFromNode(ClickedNode)) = -1 Then
+                SelectedPaths.Add(GetPathFromNode(ClickedNode))
+                PreviousNode = ClickedNode
+            End If
+        ElseIf Shift Then
+            If Not IsNothing(PreviousNode) AndAlso PreviousNode.Parent.Equals(ClickedNode.Parent) Then
+                Dim FirstIndex As Integer = PreviousNode.Index
+                Dim LastIndex As Integer = ClickedNode.Index
+                If FirstIndex > LastIndex Then
+                    Dim TempIndex As Integer = LastIndex
+                    LastIndex = FirstIndex
+                    FirstIndex = TempIndex
+                End If
+                SelectedPaths.Clear()
+                For i As Integer = FirstIndex To LastIndex
+                    SelectedPaths.Add(GetPathFromNode(PreviousNode.Parent.Nodes(i)))
+                Next
+                PreviousNode = ClickedNode
+            End If
+        ElseIf Not IsNothing(ClickedNode) Then
+            If Not Controller.ApsimData.IsReadOnly _
+                    AndAlso SelectedPaths.Count = 1 _
+                    AndAlso SelectedPaths(0) = GetPathFromNode(ClickedNode) _
+                    AndAlso ClickedNode.Level > 0 Then
+                LabelEdit = True
+                FirstTimeRename = True
+                ClickedNode.BeginEdit()
+                Exit Sub
+            Else
+                SelectedPaths.Clear()
+                SelectedPaths.Add(GetPathFromNode(ClickedNode))
+                PreviousNode = ClickedNode
+            End If
+        End If
+
+        Controller.SelectedPaths = SelectedPaths
+
+        EnableNodeSelection = True
     End Sub
     Private Sub TreeView_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.DoubleClick
         ' -----------------------------------------------------
@@ -364,55 +433,4 @@ Public Class DataTree
 
     End Sub
 
-    Private Sub OnNodeClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles MyBase.NodeMouseClick
-        ' ---------------------------------------------------------------
-        ' If the user right clicks on a node and that node isn't already
-        ' selected, then go select it.
-        ' ---------------------------------------------------------------
-        If (e.X < e.Node.Bounds.Left - 20) Then    ' 20 pixels allowing for an image to the left of the text of a node
-            Return
-        End If
-
-        Dim Control As Boolean = (ModifierKeys = Keys.Control Or e.Button = Windows.Forms.MouseButtons.Right)
-        Dim Shift As Boolean = (ModifierKeys = Keys.Shift)
-
-        Dim SelectedPaths As StringCollection = Controller.SelectedPaths
-        If Control Then
-            If SelectedPaths.IndexOf(GetPathFromNode(e.Node)) = -1 Then
-                SelectedPaths.Add(GetPathFromNode(e.Node))
-                PreviousNode = e.Node
-            End If
-        ElseIf Shift Then
-            If Not IsNothing(PreviousNode) AndAlso PreviousNode.Parent.Equals(e.Node.Parent) Then
-                Dim FirstIndex As Integer = PreviousNode.Index
-                Dim LastIndex As Integer = e.Node.Index
-                If FirstIndex > LastIndex Then
-                    Dim TempIndex As Integer = LastIndex
-                    LastIndex = FirstIndex
-                    FirstIndex = TempIndex
-                End If
-                SelectedPaths.Clear()
-                For i As Integer = FirstIndex To LastIndex
-                    SelectedPaths.Add(GetPathFromNode(PreviousNode.Parent.Nodes(i)))
-                Next
-                PreviousNode = e.Node
-            End If
-        ElseIf Not IsNothing(e.Node) Then
-            If Not Controller.ApsimData.IsReadOnly _
-                    AndAlso SelectedPaths.Count = 1 _
-                    AndAlso SelectedPaths(0) = GetPathFromNode(e.Node) _
-                    AndAlso e.Node.Level > 0 Then
-                LabelEdit = True
-                FirstTimeRename = True
-                e.Node.BeginEdit()
-                Exit Sub
-            Else
-                SelectedPaths.Clear()
-                SelectedPaths.Add(GetPathFromNode(e.Node))
-                PreviousNode = e.Node
-            End If
-        End If
-
-        Controller.SelectedPaths = SelectedPaths
-    End Sub
 End Class

@@ -352,13 +352,17 @@ Public Class BaseController
         ' When the user clicks on an action, this method is called.
         ' Go perform whatever action is necessary.
         ' --------------------------------------------------------------
-        If Not IsNothing(E.ClickedItem.Tag) Then
-            If E.ClickedItem.Tag = "" AndAlso FileSaveAfterPrompt() Then
-                ApsimData.OpenFile(E.ClickedItem.Text)
-            Else
-                InvokeAction(Sender, E.ClickedItem.Tag)
+        Try
+            If Not IsNothing(E.ClickedItem.Tag) Then
+                If E.ClickedItem.Tag = "" AndAlso FileSaveAfterPrompt() Then
+                    ApsimData.OpenFile(E.ClickedItem.Text)
+                Else
+                    InvokeAction(Sender, E.ClickedItem.Tag)
+                End If
             End If
-        End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
     Private Sub InvokeAction(ByVal Sender As Object, ByVal ActionName As String)
         ' For some reason, if we don't explicitly close the menus they remain open,
