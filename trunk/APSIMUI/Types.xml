@@ -2962,9 +2962,21 @@
       <Documentation name="Science documentation">../apsim/growth/docs/growth_science.htm</Documentation>
    </growth>
    <input>
-      <UItype>VBUserInterface.GenericUI</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
+      <UItype>APSIMUI.FileUI</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/input/docs/input_science.htm</Documentation>
+      <LargeIcon>%apsuite\apsimui\Images\thermometer32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\thermometer16.png</SmallIcon>
+      <drops>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\input\lib\input.dll</dll>
+      </ApsimToSim>   
    </input>
    <ocean_data>
       <UItype>APSIMUI.FileUI</UItype>
