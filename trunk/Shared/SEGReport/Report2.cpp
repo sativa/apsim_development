@@ -929,10 +929,10 @@ void Report::checkPageContents(string& pageContents)
             TDataSet* data = dynamic_cast<TDataSet*> (reportForm->FindComponent(dataSource.c_str()));
             if (data != NULL && data->Active && data->FieldDefs->IndexOf(valueSource.c_str()) == -1)
                {
-               string msg = "Cannot find column: " + valueSource +
-                            " in data source: " + dataSource + ". " +
-                            "Removing all chart references to it.";
-               MessageBox(NULL, msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
+//               string msg = "Cannot find column: " + valueSource +
+//                            " in data source: " + dataSource + ". " +
+//                            "Removing all chart references to it.";
+//               MessageBox(NULL, msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
                unsigned posStartLine = pageContents.rfind("\n", posValueSource) + 1;
                pageContents.erase(posStartLine, posValueSourceEoln - posStartLine);
                }
