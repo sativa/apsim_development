@@ -222,7 +222,7 @@ Public Class DataTree
 
 #End Region
     Private LinkFont As Font = New System.Drawing.Font(Me.Font.FontFamily, Me.Font.Size, FontStyle.Underline)
-
+    Private UnLinkFont As Font = New System.Drawing.Font(Me.Font.FontFamily, Me.Font.Size, FontStyle.Regular)
     Private Sub ColourNode(ByVal Node As TreeNode)
 
         If Node.ToolTipText.IndexOf("Linked to") = 0 Then
@@ -236,6 +236,8 @@ Public Class DataTree
         ElseIf Controller.SelectedPaths.IndexOf(GetPathFromNode(Node)) = -1 Then
             Node.ForeColor = Color.Black 'ForeColor
             Node.BackColor = BackColor
+            Node.NodeFont = UnLinkFont
+
         Else
             Node.ForeColor = SystemColors.HighlightText
             Node.BackColor = SystemColors.Highlight
