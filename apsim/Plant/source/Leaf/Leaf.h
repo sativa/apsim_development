@@ -2,7 +2,7 @@
 #define LeafPartH
 #include "SimplePart.h"
 #include "Co2Modifier.h"
-#include "Photosynthesis\PhotosynthesisModel.h"
+#include "Photosynthesis/PhotosynthesisModel.h"
 
 // Abstract class for leaf objects
 class Leaf : public SimplePart {
