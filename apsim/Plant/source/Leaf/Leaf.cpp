@@ -7,7 +7,7 @@
 #include "Leaf.h"
 #include "GenericLeaf.h"
 #include "CohortingLeaf.h"
-#include "Photosynthesis\PhotosynthesisModel.h"
+#include "Photosynthesis/PhotosynthesisModel.h"
 
 using namespace std;
 

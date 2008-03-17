@@ -129,7 +129,7 @@ class plantQueue {
    public:
      plantQueue(unsigned int size=366) : qSize(size) {};
      virtual ~plantQueue() {};
-     void setSize(float size)
+     void setSize(unsigned int size)
      {
          qSize = size;
      };
