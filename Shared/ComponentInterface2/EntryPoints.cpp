@@ -135,7 +135,7 @@ extern "C" void EXPORT STDCALL  CIName
 extern "C" int EXPORT STDCALL  CICreateData
    (CMPComponentInterface* componentInterface, int DataIndex)
    {
-   return NULL;
+   return 0;
    }
 
 // -------------------------------------------------------------------
