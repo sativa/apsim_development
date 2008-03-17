@@ -1,9 +1,9 @@
 //------------------------------------------------------------------------------------------------
 
-#ifndef OOPhosphorusH
-#define OOPhosphorusH
+#ifndef PhosphorusH
+#define PhosphorusH
 
-#include "OOPlantComponents.h"
+#include "PlantComponents.h"
 #include "Utilities.h"
 
 //------------------------------------------------------------------------------------------------
@@ -31,10 +31,6 @@ class Phosphorus : public PlantProcess
 
    //  Variables  ---------------------------------------------------------
    float profileDepth;
-
-
-   unsigned int labileID;
-   unsigned int uptakeID;
 
    float phenoStress;
    float expansionStress;
@@ -72,60 +68,61 @@ class Phosphorus : public PlantProcess
 
 
 // Private Methods -------------------------------------------------------
-   void doRegistrations(void);
-   void initialize(void);
+   void  doRegistrations(void);
+   void  initialize(void);
 
-   void setOtherVariables (void);
+   void  setOtherVariables (void);
    float layerProportion(void);
 
-   void calcStress(void);
+   void  calcStress(void);
    float pStress(void);
 
 
-      ////////////////////////////////////////////////////////
-   void getOtherVariables (void);
-   void supply(void);                 // plant
-   void demand(void);                 // plant
-   void uptake(void);                 // plant
-   void partition(void);              // plant
-   void senescence(void);
-   void detachment(void);
-   void updateP(void);
-   void retranslocate(void);          // plant
-   ////////////////////////////////////////////////////////
+   // plant
+   void  getOtherVariables (void);
+   void  supply(void);
+   void  demand(void);
+   void  uptake(void);
+   void  partition(void);
+   void  senescence(void);
+   void  detachment(void);
+   void  updateP(void);
+   void  retranslocate(void);
 
 // public Methods -------------------------------------------------------
    public:
-   Phosphorus(ScienceAPI &, OOPlant *p);
+   Phosphorus(ScienceAPI &, Plant *p);
    ~Phosphorus();
 
-   void   readParams (string cultivar);          // plant
-   void   updateVars(void);           // plant
+    // plant
+   void  readParams (void);
+   void  updateVars(void);
 
 
-   void prepare(void);
-   void process(void);                // plant
-   void onNewProfile(NewProfileType &p);  // plantActions
+   void  prepare(void);
+   void  process(void);
+   void  onNewProfile(NewProfileType &p);
 
-
-   float getExpansionStress(void){return expansionStress;} // Leaf
+   // Leaf
+   float getExpansionStress(void){return expansionStress;}
    float getPhotoStress(void){return photoStress;}
 
-   float getPhenoStress(void){return phenoStress;}         // phenology
-   void detachment(vector<float> senDetachFrac, vector<float> deadDetachFrac);
+   // phenology
+   float getPhenoStress(void){return phenoStress;}
+   void  detachment(vector<float> senDetachFrac);
 
-   void getPGreen(float &);
-   void getDltPGreen(vector<float> &);
-   void getDltPRetrans(vector<float> &);
-   void getPSenesced(float &);
-   void getPDead(float &);
-   void getDltPDetached(vector<float> &);
-   void getDltPDead(vector<float> &);
-   void getDltPDeadDetached(vector<float> &);
-   void getPDemand(vector<float> &);
+   void  getPGreen(float &);
+   void  getDltPGreen(vector<float> &);
+   void  getDltPRetrans(vector<float> &);
+   void  getPSenesced(float &);
+   void  getPDead(float &);
+   void  getDltPDetached(vector<float> &);
+   void  getDltPDead(vector<float> &);
+   void  getDltPDeadDetached(vector<float> &);
+   void  getPDemand(vector<float> &);
 
-   bool Active(void){return active;}
-   void Summary(void);
+   bool  Active(void){return active;}
+   void  Summary(void);
    float getPStover(void){return pStover;}
 
    };  // Phosphorus

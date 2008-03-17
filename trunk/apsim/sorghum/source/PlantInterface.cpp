@@ -1,8 +1,7 @@
-#pragma hdrstop
 #include <ComponentInterface2/ScienceAPI.h>
 using namespace std;
 
-#include "OOPlantInterface.h"
+#include "PlantInterface.h"
 
 
 //-----------------------------------------------------------------------------
@@ -17,5 +16,4 @@ extern "C" void STDCALL EXPORT deleteComponent(PlantInterface* component)
    {
    delete component;
    }
-
 

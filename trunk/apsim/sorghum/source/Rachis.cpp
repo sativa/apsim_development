@@ -1,19 +1,15 @@
-#pragma hdrstop
-
-#include "OOPlant.h"
-#include "OOPlantComponents.h"
-#include "OORachis.h"
-//---------------------------------------------------------------------------
-
-#pragma package(smart_init)
+//------------------------------------------------------------------------------------------------
+#include "Rachis.h"
+#include "Plant.h"
 
 //------------------------------------------------------------------------------------------------
 //------ Rachis Constructor
 //------------------------------------------------------------------------------------------------
-Rachis::Rachis(ScienceAPI &api, OOPlant *p) : PlantPart(api)
+Rachis::Rachis(ScienceAPI &api, Plant *p) : PlantPart(api)
    {
    plant = p;
    name = "Rachis";
+   partNo = 3;
 
    doRegistrations();
    initialize();
@@ -29,28 +25,29 @@ Rachis::~Rachis()
 //--------------------------------------------------------------------------------------------------
 void Rachis::doRegistrations(void)
    {
-   scienceAPI.expose("flower_wt",     "g/m2", "Live flower dry weight", 0,      dmGreen);
-   scienceAPI.expose("flower_n",      "g/m2", "N in flower", 0,                 nGreen);
-   scienceAPI.expose("n_conc_flower", "",     "Flower N concentration", 0,      nConc);
-   scienceAPI.expose("flower_nd",     "g/m2", "Today's N demand from flower", 0,nDemand);
+   scienceAPI.expose("RachisGreenWt",    "g/m^2", "Live rachis dry weight", false, dmGreen);
+   scienceAPI.expose("RachisGreenN",     "g/m^2", "N in rachis",            false, nGreen);
+   scienceAPI.expose("RachisGreenNConc", "%",     "Flower N concentration", false, nConc);
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
 //------------------------------------------------------------------------------------------------
 void Rachis::initialize(void)
    {
-   partNo = 3;
    PlantPart::initialize();
    }
 //------------------------------------------------------------------------------------------------
 //------ read Rachis parameters
 //------------------------------------------------------------------------------------------------
-void Rachis::readParams (string cultivar)
+void Rachis::readParams (void)
    {
    // nitrogen
-   scienceAPI.read("initialRachisNConc","", 0, initialNConc      );
-   scienceAPI.read("targetRachisNConc" ,"", 0, targetNConc       );
+   scienceAPI.read("initialRachisNConc","", 0, initialNConc);
+   scienceAPI.read("targetRachisNConc" ,"", 0, targetNConc);
    scienceAPI.read("structRachisNConc" ,"", 0, structRachisNConc );
+   scienceAPI.read("rachisDilnNSlope","", 0, dilnNSlope);
+   scienceAPI.read("rachisDilnNInt","",   0, dilnNInt);
+
    // phosphorus
    pMaxTable.read(scienceAPI, "x_p_stage_code","y_p_conc_max_flower");
    pMinTable.read(scienceAPI, "x_p_stage_code","y_p_conc_min_flower");
@@ -64,9 +61,9 @@ void Rachis::readParams (string cultivar)
 void Rachis::updateVars(void)
    {
    dmGreen += dltDmGreen;
-   nGreen += (dltNGreen + dltNRetranslocate);
-   nConc = divide(nGreen,dmGreen,0);
-   stage = plant->phenology->currentStage();
+   nGreen  += (dltNGreen + dltNRetranslocate);
+   nConc    = divide(nGreen,dmGreen,0);
+   stage    = plant->phenology->currentStage();
    }
 //------------------------------------------------------------------------------------------------
 //------- react to a phenology event
@@ -118,8 +115,8 @@ float Rachis::provideN(float requiredN)
    
    float rachisNConcPct = divide((nGreen + dltNGreen),(dmGreen + dltDmGreen)) * 100;
    if(rachisNConcPct < structRachisNConc * 100)return 0;
-   float NConcPctAvailable = divide(17,plant->phenology->getDltTT())
-                                          * (0.076 * rachisNConcPct - 0.0199);
+   float NConcPctAvailable = (dilnNSlope * rachisNConcPct + dilnNInt)
+                           * plant->phenology->getDltTT();
    float availableN = NConcPctAvailable / 100 * (dmGreen + dltDmGreen);
    availableN = Max(availableN,0.0);
    

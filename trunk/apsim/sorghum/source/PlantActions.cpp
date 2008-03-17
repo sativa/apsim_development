@@ -1,55 +1,48 @@
 //------------------------------------------------------------------------------------------------
 
-#pragma hdrstop
-
-#include <stdio.h>
-#include <math.h>
-#include <map>
-#include <string>
-#include <stdexcept>
-#include <strstream>
-
-#include "OOPlant.h"
-#include "OOPlantComponents.h"
-#include "OOPlantActions.h"
-#include "OOPhosphorus.h"
+#include "Plant.h"
+#include "PlantComponents.h"
+#include "PlantActions.h"
 
 //------------------------------------------------------------------------------------------------
 // Register Methods, Events,
 //------------------------------------------------------------------------------------------------
-void OOPlant::doRegistrations(void)
+void Plant::doRegistrations(void)
    {
-   scienceAPI.subscribe("prepare",     nullFunction(&OOPlant::onPrepare));
-   scienceAPI.subscribe("process",     nullFunction(&OOPlant::onProcess));
-   scienceAPI.subscribe("tick",        TimeFunction(&OOPlant::onTick));
-   scienceAPI.subscribe("newmet",      NewMetFunction(&OOPlant::onNewMet));
-   scienceAPI.subscribe("new_profile", NewProfileFunction(&OOPlant::onNewProfile));
-   scienceAPI.subscribe("sow",         VariantFunction(&OOPlant::onSowCrop)); 
-   scienceAPI.subscribe("harvest",     nullFunction(&OOPlant::onHarvest));
-   scienceAPI.subscribe("end_crop",    nullFunction(&OOPlant::onEndCrop));
-   scienceAPI.subscribe("kill_crop",   nullFunction(&OOPlant::onKillCrop));
-   scienceAPI.subscribe("end_run",     nullFunction(&OOPlant::onEndRun));
+   scienceAPI.subscribe("prepare",     nullFunction(&Plant::onPrepare));
+   scienceAPI.subscribe("process",     nullFunction(&Plant::onProcess));
+   scienceAPI.subscribe("tick",        TimeFunction(&Plant::onTick));
+   scienceAPI.subscribe("newmet",      NewMetFunction(&Plant::onNewMet));
+   scienceAPI.subscribe("new_profile", NewProfileFunction(&Plant::onNewProfile));
+   scienceAPI.subscribe("sow",         VariantFunction(&Plant::onSowCrop)); 
+   scienceAPI.subscribe("harvest",     nullFunction(&Plant::onHarvest));
+   scienceAPI.subscribe("end_crop",    nullFunction(&Plant::onEndCrop));
+   scienceAPI.subscribe("kill_crop",   nullFunction(&Plant::onKillCrop));
+   scienceAPI.subscribe("end_run",     nullFunction(&Plant::onEndRun));
 
    // --------------------------------------------------------------------------------------------
    // Variables available to other modules on request (e.g. report)
-   scienceAPI.expose("crop_type",         "",             "Crop species",                     0, cropType         );
-   scienceAPI.expose("crop_class",        "",             "Crop class",                       0, cropClass        );
-   scienceAPI.expose("das",               "days",         "Days after sowing",                0, das              );
-   scienceAPI.expose("radn_int",          "",             "",                                 0, radnIntercepted  );
-   scienceAPI.expose("temp_stress",       "",             "",                                 0, tempStress       ); 
-   scienceAPI.expose("plants",            "plants/m2",    "Plant density",                    0, plantDensity     );
-   scienceAPI.expose("tiller_no",         "tillers/plant","No of tillers on main stem",       0, ftn              );
-   scienceAPI.expose("tiller_no_fertile", "tillers/plant","No of tillers that produce a head",0, ftn              );
-   scienceAPI.expose("vpd",               "",             "Vapour pressure deficit",          0, vpd              );
-   scienceAPI.expose("transp_eff",        "g/m2",         "Transpiration efficiency",         0, transpEff        );
+   scienceAPI.expose("crop_type",   "",          "Crop species",             false, cropType);
+   scienceAPI.expose("crop_class",  "",          "Crop class",               false, cropClass);
+   scienceAPI.expose("Das",         "days",      "Days after sowing",        false, das);
+   scienceAPI.expose("radn_int",    "",          "",                         false, radnIntercepted);
+   scienceAPI.expose("temp_stress", "",          "",                         false, tempStress);
+   scienceAPI.expose("vpd",         "",          "Vapour pressure deficit",  false, vpd);
+   scienceAPI.expose("transp_eff",  "g/m2",      "Transpiration efficiency", false, transpEff);
+   scienceAPI.expose("plants",      "plants/m2", "Plant density",            false, plantDensity);
+   scienceAPI.expose("tiller_no",         "tillers/plant", "No of tillers on main stem",       false, ftn);
+   scienceAPI.expose("tiller_no_fertile", "tillers/plant", "No of tillers that produce a head",false, ftn);
 
-   scienceAPI.exposeFunction("plant_status", "",   "Status of crop", StringFunction(&OOPlant::getPlantStatus));
-   scienceAPI.exposeFunction("height",       "mm", "Height of crop", FloatFunction(&OOPlant::get_height));
-   scienceAPI.exposeFunction("cover_green",  "",   "Green cover",    FloatFunction(&OOPlant::get_cover_green));
-   scienceAPI.exposeFunction("cover_tot",    "",   "Total cover",    FloatFunction(&OOPlant::get_cover_tot));
+   scienceAPI.exposeFunction("plant_status", "",   "Status of crop", StringFunction(&Plant::getPlantStatus));
+   scienceAPI.exposeFunction("height",       "mm", "Height of crop", FloatFunction(&Plant::get_height));
+   scienceAPI.exposeFunction("cover_green",  "",   "Green cover",    FloatFunction(&Plant::get_cover_green));
+   scienceAPI.exposeFunction("cover_tot",    "",   "Total cover",    FloatFunction(&Plant::get_cover_tot));
 
    }
-void OOPlant::onPrepare(void)
+//------------------------------------------------------------------------------------------------
+//-------- Field a Prepare message
+//------------------------------------------------------------------------------------------------
+void Plant::onPrepare(void)
    {
    if (plantStatus == out)
       {
@@ -62,26 +55,25 @@ void OOPlant::onPrepare(void)
       }
    else if (plantStatus == alive)
       {
-      getOtherVariables (); // sw etc..
+      getOtherVariables ();       // sw etc..
       prepare ();                 // do crop preparation
       }
    }
 //------------------------------------------------------------------------------------------------
 //-------- Field a Process message
 //------------------------------------------------------------------------------------------------
-void OOPlant::onProcess(void)
+void Plant::onProcess(void)
    {
    if (plantStatus == alive)
       {
       getOtherVariables (); // sw etc..
-/* TODO : Is this needed? called in prepare */
       process ();               // do crop processes
       }
    }
 //------------------------------------------------------------------------------------------------
 //-----------------   Field a Tick event
 //------------------------------------------------------------------------------------------------
-void OOPlant::onTick(TimeType &tick)
+void Plant::onTick(TimeType &tick)
    {
    JulianToCalendar((float)tick.startday,today.day,today.month,today.year);
    today.doy = (int) (tick.startday - CalendarToJulian(1,1,today.year) + 1);
@@ -89,7 +81,7 @@ void OOPlant::onTick(TimeType &tick)
 //------------------------------------------------------------------------------------------------
 //-----------------   Field a Kill event
 //------------------------------------------------------------------------------------------------
-void OOPlant::onKillCrop(void)
+void Plant::onKillCrop(void)
    {
    scienceAPI.write("Kill Crop\n");
 
@@ -98,14 +90,14 @@ void OOPlant::onKillCrop(void)
       setStatus(dead);
       char msg[120];
       sprintf(msg,"Crop kill. Standing above-ground dm = %7.1f kg/ha\n",
-              biomass->getAboveGroundBiomass());
+         biomass->getAboveGroundBiomass());
       scienceAPI.write(msg);
       }
    }
 //------------------------------------------------------------------------------------------------
 //-----------------   Field a NewMet event
 //------------------------------------------------------------------------------------------------
-void OOPlant::onNewMet(NewMetType &newmet)
+void Plant::onNewMet(NewMetType &newmet)
    {
    today.radn = newmet.radn;
    today.maxT = newmet.maxt;
@@ -117,7 +109,7 @@ void OOPlant::onNewMet(NewMetType &newmet)
 //------------------------------------------------------------------------------------------------
 //-----------------  Field a NewProfile event -------
 //------------------------------------------------------------------------------------------------
-void OOPlant::onNewProfile(NewProfileType &v)
+void Plant::onNewProfile(NewProfileType &v)
    {
    roots->onNewProfile(v);
    water->onNewProfile(v);
@@ -127,7 +119,7 @@ void OOPlant::onNewProfile(NewProfileType &v)
 //-----------------   respondToMethodCall
 //-----------------   Harvest
 //------------------------------------------------------------------------------------------------
-void OOPlant::onHarvest(void)     // Field a Harvest event
+void Plant::onHarvest(void)     // Field a Harvest event
    {
    scienceAPI.write("\n");
    scienceAPI.write("Harvest\n");
@@ -141,7 +133,7 @@ void OOPlant::onHarvest(void)     // Field a Harvest event
       phosphorus->Summary();
 
    scienceAPI.write("\n\n");
-   
+
    // stress - not done yet
    char msg[120];
    sprintf(msg,"Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc\n"); scienceAPI.write(msg);
@@ -168,24 +160,20 @@ void OOPlant::onHarvest(void)     // Field a Harvest event
 //------------------------------------------------------------------------------------------------
 //-----------------   end run
 //------------------------------------------------------------------------------------------------
-void OOPlant::onEndRun(void)  // Field a end run event
-  {
+void Plant::onEndRun(void)  // Field a end run event
+   {
   scienceAPI.write("End Run\n");
-  }
-
+   }
 //------------------------------------------------------------------------------------------------
 //--------------------------  getOtherVariables   from other modules
 //------------------------------------------------------------------------------------------------
-void OOPlant::getOtherVariables (void)
+void Plant::getOtherVariables (void)
    {
-   // Canopy
-//   plantInterface->getVariable(frIntcRadnID, frIntcRadn, 0.0, 1.0, true);
    }
-//------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------
 //-----------------   end crop
 //------------------------------------------------------------------------------------------------
-void OOPlant::onEndCrop(void)     // Field a End crop event
+void Plant::onEndCrop(void)     // Field a End crop event
    {
    if (plantStatus == out)
       {
@@ -200,7 +188,7 @@ void OOPlant::onEndCrop(void)     // Field a End crop event
 
    //Report the crop yield
    char msg[120];
-   float yield = grain->getDmGreen() + grain->getDmDead() * gm2kg /sm2ha;
+   float yield = grain->getDmGreen() * gm2kg /sm2ha;
 
    sprintf(msg, "Crop ended. Yield (dw) = %7.1f kg/ha\n",yield * 10);
    scienceAPI.write(msg);
@@ -208,15 +196,15 @@ void OOPlant::onEndCrop(void)     // Field a End crop event
    sprintf(msg, "Organic matter from crop:-      Tops to surface residue\t Roots to soil FOM\n");
    scienceAPI.write(msg);
    sprintf(msg, "                    DM (kg/ha) =              %8.2f\t\t%8.2f\n",
-           biomass->getAboveGroundBiomass() - grain->getDmGreen() * 10.0,roots->getDmGreen() * 10.0);
+      biomass->getAboveGroundBiomass() - grain->getDmGreen() * 10.0,roots->getDmGreen() * 10.0);
    scienceAPI.write(msg);
    sprintf(msg, "                    N  (kg/ha) =              %8.2f\t\t%8.2f\n",
-           (leaf->getNGreen() + stem->getNGreen()) * 10.0,roots->getNGreen() * 10);
+      (leaf->getNGreen() + stem->getNGreen()) * 10.0,roots->getNGreen() * 10);
    scienceAPI.write(msg);
    if(phosphorus->Active())
       {
       sprintf(msg, "                    P  (kg/ha) =              %8.2f\t\t%8.2f\n",
-              (leaf->getPGreen() + stem->getPGreen()) * 10.0,roots->getPGreen() * 10);
+      (leaf->getPGreen() + stem->getPGreen()) * 10.0,roots->getPGreen() * 10);
       scienceAPI.write(msg);
       }
    else
@@ -232,7 +220,7 @@ void OOPlant::onEndCrop(void)     // Field a End crop event
    biomass->Update();
    }
 //------------------------------------------------------------------------------------------------
-void OOPlant::getPlantStatus(string &result)
+void Plant::getPlantStatus(string &result)
    {
    result = statusString;
    }

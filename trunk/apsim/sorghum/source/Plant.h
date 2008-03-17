@@ -1,23 +1,23 @@
-#ifndef OOPLANT_H_
-#define OOPLANT_H_
+#ifndef Plant_H_
+#define Plant_H_
 
 #include <ComponentInterface2/ScienceAPI.h>
 #include <ComponentInterface2/DataTypes.h>
 
 #include "Utilities.h"
-#include "OOPlantComponents.h"
+#include "PlantComponents.h"
 
-#include "OORoots.h"
-#include "OOLeaf.h"
-#include "OOStem.h"
-#include "OORachis.h"
-#include "OOGrain.h"
-//
-#include "OONitrogen.h"
-#include "OOPhosphorus.h"
-#include "OOPhenology.h"
-#include "OOWater.h"
-#include "OOBiomass.h"
+#include "Roots.h"
+#include "Leaf.h"
+#include "Stem.h"
+#include "Rachis.h"
+#include "Grain.h"
+
+#include "Nitrogen.h"
+#include "Phosphorus.h"
+#include "Phenology.h"
+#include "Water.h"
+#include "Biomass.h"
 
 //------------------------------------------------------------------------------------------------
 
@@ -31,36 +31,34 @@ typedef enum {aFloat, aInt, aString} aType;
 //     simulates root, leaf, head, stem and grain development. Water and
 //     nitrogen uptake, photosynhesis, and leaf and root senescense.
 
-class OOPlant
+class Plant
    {
    private:
    ScienceAPI& scienceAPI;
    float stage;
 
    public:
-   OOPlant(ScienceAPI &api);
-   ~OOPlant();
+   Plant(ScienceAPI &api);
+   ~Plant();
 
    // Plant sub-classes
-   Roots *roots;
-   Leaf *leaf;
-   Stem *stem;
+   Roots  *roots;
+   Leaf   *leaf;
+   Stem   *stem;
    Rachis *rachis;
-   Grain *grain;
+   Grain  *grain;
 
-   Nitrogen *nitrogen;
+   Nitrogen   *nitrogen;
    Phosphorus *phosphorus;
-   Water *water;
-   Phenology *phenology;
-   Biomass *biomass;
+   Water      *water;
+   Phenology  *phenology;
+   Biomass    *biomass;
 
    vector<PlantComponent *> PlantComponents;
-   vector<PlantPart *> PlantParts;
-   vector<PlantProcess *> PlantProcesses;
-
+   vector<PlantPart *>      PlantParts;
+   vector<PlantProcess *>   PlantProcesses;
 
    Today  today;                      // holds day,year,rain,temp etc
-
    int das;
 
 
@@ -110,21 +108,10 @@ class OOPlant
    float dltDeadPlants;
    TableFn tempStressTable;
 
-//  Ids  -----------------------------------------------------
-//   unsigned int frIntcRadnID;
-//   unsigned int no3MinID;
-
-   // sets
-
-   // events.
-   unsigned int cropChoppedID;
-   unsigned int incorpFomID;
-   unsigned int CO2ID;
-
    float radnInt(void);
 
-   void initialize(void);
-   void endPlant (void);
+   void  initialize(void);
+   void  endPlant (void);
    float rue_co2_modifier(void);
    TableFn co2_te_modifier;
 
@@ -176,7 +163,7 @@ class OOPlant
    float getRowSpacing(void)const{return rowSpacing;}
    float getSkipRow(void)const{return skipRow;}
    float getFtn(void)const{return ftn;}
-   void killCrop(void);
+   void  killCrop(void);
 
    void getPlantStatus(string &);
    void get_crop_type(string &);
