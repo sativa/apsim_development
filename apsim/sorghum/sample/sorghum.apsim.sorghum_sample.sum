@@ -224,27 +224,26 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
 1 November 1989(Day of year=305), sorghum: 
      Sowing initiate
      
-                      Crop Sowing Data
+                 Row spacing converted from m to mm
+     
+                 Crop Sowing Data
          -------------------------------------------------------
          Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN
-         Day no    mm      m^2    m      code     name       no
+         Day no     mm     m^2    mm     code     name       no
          -------------------------------------------------------
-            305   30.0   10.0    1.0      1.0     early    0.00
+            305    30.0    10.0  1000    1.0     early    0.00
          -------------------------------------------------------
      
       - reading constants for plant(sorghum) - early
          -------------------------------------------------------
-         tpla_prod_coef           =    0.01
+         tpla_prod_coef           =    0.02
          tpla_inflection_ratio    =    0.66
-         spla_prod_coef           =    0.01
-         spla_intercept           =  -250.00
-         spla_slope               =   81.50
-         tt_emerg_to_endjuv       =   97.00
-         tt_flower_to_maturity    =  695.00
-         tt_flag_to_flower        =  100.00
-         tt_flower_to_start_grain =   30.00
+         tt_emerg_to_endjuv       =  114.00
+         tt_flower_to_maturity    =  761.00
+         tt_flag_to_flower        =  170.00
+         tt_flower_to_start_grain =   80.00
          tt_maturity_to_ripe      =    1.00
-         -------------------------------------------------------
+         ------------------------------------------------------
      
      
                             Root Profile
@@ -272,56 +271,55 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      		stover N conc =   0.00 		 extractable sw =  25.00
 15 November 1989(Day of year=319), sorghum: 
       stage 4.0 end_of_juvenile
-     		biomass =   4.98 		 lai =   0.08
-     		stover N conc =   0.15 		 extractable sw =  73.43
+     		biomass =   3.23 		 lai =   0.03
+     		stover N conc =   0.09 		 extractable sw =  73.60
 28 November 1989(Day of year=332), sorghum: 
       stage 5.0 floral_initiation
-     		biomass =  38.31 		 lai =   0.58
-     		stover N conc =   0.88 		 extractable sw = 141.94
+     		biomass =  23.45 		 lai =   0.40
+     		stover N conc =   0.60 		 extractable sw = 143.41
 20 December 1989(Day of year=354), sorghum: 
       stage 6.0 flag_leaf
-     		biomass = 331.13 		 lai =   2.60
-     		stover N conc =   5.45 		 extractable sw = 214.82
-28 December 1989(Day of year=362), sorghum: 
+     		biomass = 294.66 		 lai =   2.43
+     		stover N conc =   5.04 		 extractable sw = 219.97
+3 January 1990(Day of year=3), sorghum: 
       stage 7.0 flowering
-     		biomass = 489.34 		 lai =   2.54
-     		stover N conc =   6.95 		 extractable sw = 246.85
-30 December 1989(Day of year=364), sorghum: 
+     		biomass = 578.89 		 lai =   2.44
+     		stover N conc =   7.70 		 extractable sw = 236.07
+7 January 1990(Day of year=7), sorghum: 
       stage 8.0 start_grain_fill
-     		biomass = 531.80 		 lai =   2.50
-     		stover N conc =   7.25 		 extractable sw = 242.33
-30 January 1990(Day of year=30), sorghum: 
+     		biomass = 662.13 		 lai =   2.44
+     		stover N conc =   8.16 		 extractable sw = 224.36
+12 February 1990(Day of year=43), sorghum: 
       stage 9.0 end_grain_fill
-     		biomass = 1030.85 		 lai =   1.10
-     		stover N conc =   4.08 		 extractable sw = 152.30
-31 January 1990(Day of year=31), sorghum: 
+     		biomass = 1208.47 		 lai =   0.94
+     		stover N conc =   2.25 		 extractable sw = 217.41
+15 February 1990(Day of year=46), sorghum: 
       stage 10.0 maturity
-     		biomass = 1038.91 		 lai =   1.03
-     		stover N conc =   4.02 		 extractable sw = 151.13
-1 February 1990(Day of year=32), sorghum: 
+     		biomass = 1225.69 		 lai =   0.82
+     		stover N conc =   2.08 		 extractable sw = 222.83
+16 February 1990(Day of year=47), sorghum: 
       stage 11.0 harvest_ripe
-     		biomass = 1047.35 		 lai =   0.98
-     		stover N conc =   3.97 		 extractable sw = 149.16
-2 February 1990(Day of year=33), manager: 
+     		biomass = 1230.25 		 lai =   0.78
+     		stover N conc =   2.03 		 extractable sw = 223.05
+17 February 1990(Day of year=48), manager: 
      Manager sending message :- sorghum harvest
-2 February 1990(Day of year=33), sorghum: 
+17 February 1990(Day of year=48), sorghum: 
      
      Harvest
-     flowering (DAS)       = 57 	 maturity (DAS)          = 91
-     flowering day         = 362 	 maturity day            = 31
-     maximum lai           = 2.621 	 number of leaves        = 14.972
-     total above ground biomass    (kg/ha) = 10520.9
-     live above ground biomass     (kg/ha) = 10520.9
-     green above ground biomass    (kg/ha) = 9224.9
-     senesced above ground biomass (kg/ha) = 1296.0
-     dead above ground biomass     (kg/ha) = 0.0
-     stover (kg/ha)        = 5280.3 	 grain yield (kg/ha)     = 5240.6
-     grain % water content = 13.0 	 grain yield wet (kg/ha) = 6023.7
-     grain wt (g)          = 0.021 	 grains/m^2              = 24709.6
-     grains/head           = 2471.0
-     grain N percent            =     1.198 	 grain N uptake     (kg/ha) =   62.759
-     total N content    (kg/ha) =   102.512 	 senesced N content (kg/ha) =   15.834
-     green N content    (kg/ha) =    27.932 	 dead N content     (kg/ha) =    0.000
+     flowering (DAS)       = 63 	 maturity (DAS)          = 106
+     flowering day         = 3 	 maturity day            = 46
+     maximum lai           = 2.445 	 number of leaves        = 14.972
+     total above ground biomass    (kg/ha) = 12339.3
+     live above ground biomass     (kg/ha) = 12339.3
+     green above ground biomass    (kg/ha) = 12086.5
+     senesced above ground biomass (kg/ha) = 252.7
+     stover (kg/ha)        = 5438.2 	 grain yield (kg/ha)     = 6901.1
+     grain % water content = 13.0 	 grain yield wet (kg/ha) = 7932.3
+     grain wt (g)          = 28.066 	 1000grains/m^2          = 24589.1
+     grains/head           = 2458.9
+     grain N percent            =   137.452 	 grain N uptake     (kg/ha) =   94.857
+     total N content    (kg/ha) =   115.123 	 senesced N content (kg/ha) =    5.504
+     green N content    (kg/ha) =    19.168
      
 
      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -334,13 +332,13 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =               5240.59		    0.00
-                         N  (kg/ha) =                 62.76		    0.00
+                         DM (kg/ha) =               6901.08		    0.00
+                         N  (kg/ha) =                 94.86		    0.00
      Manager sending message :- sorghum end_crop
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               5280.33		 1809.86
-                         N  (kg/ha) =                 21.60		    3.62
+                         DM (kg/ha) =               5438.21		 1950.60
+                         N  (kg/ha) =                 11.50		    3.90
                          P  (kg/ha) =                  0.00		    0.00
 19 February 1990(Day of year=50), clock: 
      Simulation is terminating due to end criteria being met.
