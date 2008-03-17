@@ -1116,13 +1116,12 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .            Variable_value, Numvals)
 
             ! If not found anywhere in APSIM then it must be a local
-            ! variable not already defined.  Add variable to list.
+            ! variable not already defined. That's an error.  
 
             if (Numvals .eq. 0) then
-               Variable_value = Real_or_not('0')
-               valueIsReal = .true.
-               call manager_new_local_variable
-     .             (variable_name, Variable_value, .not.valueIsReal)
+               str = 'Read of undefined variable "' //
+     .         variable_name // '".' 
+               call fatal_error(ERR_user, str)
 
             else
                ! Found variable elsewhere in APSIM
