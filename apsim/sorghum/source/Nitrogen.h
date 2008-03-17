@@ -1,9 +1,9 @@
 //------------------------------------------------------------------------------------------------
 
-#ifndef OONitrogenH
-#define OONitrogenH
+#ifndef NitrogenH
+#define NitrogenH
 
-#include "OOPlantComponents.h"
+#include "PlantComponents.h"
 #include "Utilities.h"
 
 //------------------------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ class Nitrogen : public PlantProcess
 // Parameters ----------------------------------------------------------
 
    float diffnConstant;
-   int nLayers;
+   int   nLayers;
    vector<float> dLayer;
 
 //  Variables  ---------------------------------------------------------
@@ -31,6 +31,11 @@ class Nitrogen : public PlantProcess
    float nUptakeTotal;
    float nPlant;
 
+   // uptake
+   float maxUptakeRate;
+   float nUptakeCease;        // tt after flowering when uptake ceases
+   float nSupplyFrac;
+
    // supply
    vector<float> massFlowSupply;
    vector<float> diffusionSupply;
@@ -40,9 +45,7 @@ class Nitrogen : public PlantProcess
    vector<float> dltNGreen;
    vector<float> dltNRetrans;
    vector<float> nSenesced;
-   vector<float> nDead;
    vector<float> dltNDetached;
-   vector<float> dltNDetachedDead;
 
    float sumDiffSupply;            // debug
 
@@ -61,58 +64,55 @@ class Nitrogen : public PlantProcess
    vector<float> no3Min;
    vector<float> dltNo3;
 
-   int currentLayer;                   // number of the layer that the roots are in now (starts at 0)
+   int   currentLayer;                   // number of the layer that the roots are in now (starts at 0)
    float rootDepth;
 
 
 // Private Methods -------------------------------------------------------
-   void doRegistrations(void);
-   void initialize(void);
-   void calcMassFlow(void);
-   void calcDiffusion(void);
-   void calcFixation(void);
+   void  doRegistrations(void);
+   void  initialize(void);
+   void  calcMassFlow(void);
+   void  calcDiffusion(void);
+   void  calcFixation(void);
 
-   void setOtherVariables (void);
+   void  setOtherVariables (void);
    float layerProportion(void);
 
-      ////////////////////////////////////////////////////////
-   void getOtherVariables (void);
-   void supply(void);                 // plant
-   void demand(void);                 // plant
-   void uptake(void);                 // plant
-   void partition(void);              // plant
-   void retranslocate(void);          // plant
-   ////////////////////////////////////////////////////////
+   void  getOtherVariables (void);
+   // plant
+   void  supply(void);
+   void  demand(void);
+   void  uptake(void);
+   void  partition(void);
+   void  retranslocate(void);
 
 // public Methods -------------------------------------------------------
    public:
-   Nitrogen(ScienceAPI &, OOPlant *p);
+   Nitrogen(ScienceAPI &, Plant *p);
    ~Nitrogen();
 
-   void   readParams (string cultivar);          // plant
-   void   updateVars(void);           // plant
+   // plant
+   void  readParams (void);
+   void  updateVars(void);
+   void  process(void);
 
+   void  onNewProfile(NewProfileType &);
 
-   void process(void);                // plant
-   void onNewProfile(NewProfileType &);  // plantActions
-
-
-   float getExpansionStress(void){return expansionStress;} // Leaf
+   // Leaf
+   float getExpansionStress(void){return expansionStress;}
    float getPhotoStress(void){return photoStress;}
 
-   float getPhenoStress(void){return phenoStress;}         // phenology
-   void detachment(vector<float> senDetachFrac, vector<float> deadDetachFrac);
+   // phenology
+   float getPhenoStress(void){return phenoStress;}
+   void  detachment(vector<float> senDetachFrac);
 
-   void getNGreen(float &);
-   void getDltNGreen(vector<float> &);
-   void getDltNRetrans(vector<float> &);
-   void getNSenesced(float &);
-   void getNDead(float &);
-   void getDltNDetached(vector<float> &);
-   void getDltNDeadDetached(vector<float> &);
+   void  getNGreen(float &);
+   void  getDltNGreen(vector<float> &);
+   void  getDltNRetrans(vector<float> &);
+   void  getNSenesced(float &);
 
    float getNStover(void){return nStover;}
-   void Summary(void);
+   void  Summary(void);
 
    };  // Nitrogen
 

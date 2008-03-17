@@ -8,21 +8,21 @@ DESTDIR ?= /usr/local/apsim
 
 LIB=	../lib/sorghum.so
 
-SRC=	OOLeaf.cpp		\
-	OOPlantInterface.cpp	\
-	OOBiomass.cpp		\
-	OOPhosphorus.cpp	\
-	OOPlantActions.cpp	\
-	OOStem.cpp		\
+SRC=	Leaf.cpp		\
+	PlantInterface.cpp	\
+	Biomass.cpp		\
+	Phosphorus.cpp	\
+	PlantActions.cpp	\
+	Stem.cpp		\
 	Utilities.cpp		\
-	OONitrogen.cpp		\
-	OORachis.cpp		\
-	OOGrain.cpp		\
-	OOPlantComponents.cpp	\
-	OOWater.cpp		\
-	OOPhenology.cpp		\
-	OOPlant.cpp		\
-	OORoots.cpp		\
+	Nitrogen.cpp		\
+	Rachis.cpp		\
+	Grain.cpp		\
+	PlantComponents.cpp	\
+	Water.cpp		\
+	Phenology.cpp		\
+	Plant.cpp		\
+	Roots.cpp		\
 
 
 OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface2/CMPComponentEntryPoints.o

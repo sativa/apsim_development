@@ -1,20 +1,15 @@
-#pragma hdrstop
-
-#include "OOPlant.h"
-#include "OOPlantComponents.h"
-#include "OOGrain.h"
+//------------------------------------------------------------------------------------------------
+#include "Grain.h"
+#include "Plant.h"
 
 //---------------------------------------------------------------------------
-
-//#pragma package(smart_init)
-
-//------------------------------------------------------------------------------------------------
 //------ Grain Constructor
 //------------------------------------------------------------------------------------------------
-Grain::Grain(ScienceAPI &api, OOPlant *p) : PlantPart(api)
+Grain::Grain(ScienceAPI &api, Plant *p) : PlantPart(api)
    {
    plant = p;
    name = "Grain";
+   partNo = 4;
 
    doRegistrations();
    initialize();
@@ -31,16 +26,12 @@ Grain::~Grain()
 //--------------------------------------------------------------------------------------------------
 void Grain::doRegistrations(void)
    {
-   scienceAPI.expose("grain_wt",     "g/m2",     "Live grain dry weight",0,      dmGreen);
-   scienceAPI.expose("grain_no",     "grains/m2","Grain number",0,               grainNo);
-   scienceAPI.expose("grain_size",   "g/grain",  "Individual grain weight",0,    grainSize);
-   scienceAPI.expose("grain_n",      "g/m2",     "N in grain",0,                 nGreen);
-   scienceAPI.expose("n_conc_grain", "%",        "N concentration in grain",0,   nConc);
-   scienceAPI.expose("grain_nd",     "g/m2",     "Today's N demand from grain",0,nDemand);
-   scienceAPI.exposeFunction("n_grain_pcnt", "%", "% N in grain",
-                             FloatFunction(&Grain::get_n_grain_pcnt));
-
-//   setupGetVar("dlt_n_retrans", dltNRetranslocate, "g/m2", "Nitrogen retranslocated out from parts to grain");
+   scienceAPI.expose("GrainGreenWt",    "g/m^2",      "Live grain dry weight",    false, dmGreen);
+   scienceAPI.expose("GrainNo",         "grains/m^2", "Grain number",             false, grainNo);
+   scienceAPI.expose("GrainSize",       "g/1000grain","1000 grain weight",        false, grainSize);
+   scienceAPI.expose("GrainGreenN",     "g/m^2",      "N in grain",               false, nGreen);
+   scienceAPI.expose("GrainGreenNConc", "%",          "N concentration in grain", false, nConc);
+   scienceAPI.expose("Yield",           "kg/ha",      "Grain yield",              false, yield);
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
@@ -50,16 +41,15 @@ void Grain::initialize(void)
    grainNo = 0.0;
    finalGrainNo = 0.0;
    grainSize = 0.0;
-   addGrainWeight = -1;
    dltDMGrainDemand = 0.0;
+   yield = 0.0;
 
-   partNo = 4;
    PlantPart::initialize();
    }
 //------------------------------------------------------------------------------------------------
 //------ read Grain parameters
 //------------------------------------------------------------------------------------------------
-void Grain::readParams (string cultivar)
+void Grain::readParams (void)
    {
    scienceAPI.read("dm_per_seed", "", 0, dmPerSeed);
    scienceAPI.read("grn_water_cont", "", 0, waterContent);
@@ -87,19 +77,16 @@ void Grain::updateVars(void)
    dmGreen += dltDmGreen;
    dmGreen += dmRetranslocate;
    nGreen += dltNGreen  + dltNRetranslocate;
-   nConc = divide(nGreen,dmGreen,0);
+   nConc = divide(nGreen,dmGreen,0) * 100.0;
 
-   grainSize = divide (dmGreen + dmDead, grainNo, 0.0);
+   grainSize = divide (dmGreen, grainNo, 0.0) * 1000.0;
    stage = plant->phenology->currentStage();
 
    // Ramp grain number from 0 at StartGrainFill to finalGrainNo at SGF + 100dd
    float gfTTNow = plant->phenology->sumTTtotalFM(startGrainFill,maturity);
    grainNo = Min((gfTTNow/100.0 *  finalGrainNo),finalGrainNo);
 
-
- //  dltDmGreen = 0.0;
- //  dmRetranslocate = 0.0;
- //  dltDMGrainDemand = 0.0;
+   yield = dmGreen * 10.0;                   // yield in kg/ha for reporting
 
 
    }
@@ -116,11 +103,6 @@ void Grain::phenologyEvent(int iStage)
          totDMGreenFI = plant->biomass->getTotalBiomass();                  // for grain number
          break;
       case startGrainFill :
-         // Reset translocation limits
-         /* TODO : This seems sus - check with graeme */
-//         plant->stem->translocFrac = 0.5;
-//         plant->leaf->translocFrac = 0.3;
-
          finalGrainNo = calcGrainNumber();
          break;
       }
@@ -150,20 +132,23 @@ void Grain::calcBiomassDemand(void)
 float Grain::calcNDemand(void)
    {
    nDemand = 0.0;
+   // if not in grain fill, no demand
    if(stage < startGrainFill)return nDemand;
 
 
-   float gfFract = plant->phenology->sumTTtotal(startGrainFill, maturity)/
-                        plant->phenology->sumTTtarget(startGrainFill, maturity);
+   // for the first half of grainfilling, the demand is calculated on a grain
+   // filling rate per grain per oCd
+   // rest on target N concentration
 
-   float nRequired = 0.0;
+   float gfFract = divide(plant->phenology->sumTTtotal(startGrainFill, maturity),
+                        plant->phenology->sumTTtarget(startGrainFill, maturity));
+
    if(gfFract < 0.5)
-      nRequired = grainNo * plant->phenology->getDltTT() * grainFillRate / 1000.0;
+      nDemand = grainNo * plant->phenology->getDltTTFM() * grainFillRate / 1000.0;
    else
-//      nRequired = ((dmGreen + dltDmGreen) * targetNConc) - nGreen;
-      nRequired = dltDmGreen * targetNConc;
+      nDemand = dltDmGreen * targetNConc;
 
-   nDemand = Max(nRequired,0.0);
+   nDemand = Max(nDemand,0.0);
    return nDemand;
    }
 //------------------------------------------------------------------------------------------------
@@ -188,34 +173,11 @@ float Grain::yieldPartDemandStress(void)
 // calculate daily grain dm demand using source / sink approach
 float Grain::calcDMGrainSourceSink(void)
    {
-   // proportion of grain filling stage
-   float fracGF = stage - startGrainFill;
-   float ttFlowerMaturity = plant->phenology->sumTTtarget(flowering,maturity);
-   float lag = divide((140 - plant->phenology->getTTtarget(flowering)),
-                     (ttFlowerMaturity - plant->phenology->getTTtarget(flowering)));
 
-   if(fracGF <= lag)return plant->biomass->getDltDM() * 0.25;
-
-   // fraction 0.78 used because end_grain_fill is 95% of total flowering to maturity
-   // Ronnie started levelling off at 515 GDD which is 0.78 of 95% of 695
-   if(fracGF < 0.78)
-      {
-      float totDMCaryopsis = divide(plant->biomass->getDltDM() , grainNo);
-      totDMCaryopsis = divide(totDMCaryopsis, plant->phenology->getDltTTFM());
-      return (0.0000319 + 0.4026 * totDMCaryopsis) * plant->phenology->getDltTTFM() * grainNo;
-      }
-
-   // ony occurs first time fracGF >= 0.78
-   if(addGrainWeight <= 0.0)
-      {
-      float grainWt = divide((dmGreen + dmDead),grainNo);
-      float grainWtMax = divide(grainWt,(0.85 + 0.6* (fracGF-0.75)));
-      addGrainWeight = divide((grainWtMax - grainWt),
-                  (ttFlowerMaturity - (ttFlowerMaturity * fracGF)));
-      }
-   return addGrainWeight * plant->phenology->getDltTTFM() * grainNo;
+   float totDMCaryopsis = divide(plant->biomass->getDltDM() , grainNo);
+   totDMCaryopsis = divide(totDMCaryopsis, plant->phenology->getDltTTFM());
+   return (0.0000319 + 0.4026 * totDMCaryopsis) * plant->phenology->getDltTTFM() * grainNo;
    }
-
 //------------------------------------------------------------------------------------------------
 void Grain::RetranslocateN(float N)
    {
@@ -256,16 +218,11 @@ void Grain::Summary(void)
    sprintf(msg,"grain %% water content = %.1f \t grain yield wet (kg/ha) = %.1f\n",
                waterContent*100,dmGreen * 10.0 * 100 / (100 - waterContent*100));
    scienceAPI.write(msg);
-   sprintf(msg,"grain wt (g)          = %.3f \t grains/m^2              = %.1f\n",
+   sprintf(msg,"grain wt (g)          = %.3f \t 1000grains/m^2          = %.1f\n",
                grainSize,grainNo);
    scienceAPI.write(msg);
    sprintf(msg,"grains/head           = %.1f\n",grainNo / plant->getPlantDensity(),NULL);
    scienceAPI.write(msg);
   }
+//------------------------------------------------------------------------------------------------
 
-
-
-void Grain::get_n_grain_pcnt(float &result)
-   {
-   result = divide (nGreen, dmGreen, 0.0) * fract2pcnt;
-   }

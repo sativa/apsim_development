@@ -25,10 +25,10 @@ PROJECT=..\lib\sorghum.dll
 
 ####---------------OO sorghum:
 
-OBJFILES= OOPlantInterface.obj OOPlantComponents.obj OOPhosphorus.obj OOPlantActions.obj \
-OOLeaf.obj OOStem.obj OONitrogen.obj OORachis.obj OOGrain.obj \
-OOWater.obj OOPhenology.obj  OOPlant.obj  OORoots.obj \
-OOBiomass.obj Utilities.obj OODll.obj \
+OBJFILES= PlantInterface.obj PlantComponents.obj Phosphorus.obj PlantActions.obj \
+Leaf.obj Stem.obj Nitrogen.obj Rachis.obj Grain.obj \
+Water.obj Phenology.obj  Plant.obj  Roots.obj \
+Biomass.obj Utilities.obj Dll.obj \
 ..\..\..\Shared\ComponentInterface2\CMPComponentEntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface2\ComponentInterface2.lib \

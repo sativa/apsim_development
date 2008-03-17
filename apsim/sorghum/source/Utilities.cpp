@@ -1,10 +1,9 @@
 //------------------------------------------------------------------------------------------------
-#pragma hdrstop
 
 #include <ComponentInterface2/ScienceAPI.h>
 using namespace std;
 
-#include "OOPlantComponents.h"
+#include "PlantComponents.h"
 #include "Utilities.h"
 
 
@@ -55,6 +54,28 @@ float sumVector(vector<float> vec)
    return vecSum;
    }
 //------------------------------------------------------------------------------------------------
+float avgVector(vector<float> vec)
+   {
+   if(!vec.size())return 0.0;
+   return sumVector(vec)/vec.size();
+   }
+//------------------------------------------------------------------------------------------------
+float movingAvgVector(vector<float> &vec, int sz)
+   {
+   if(!vec.size())return 0.0;
+   for(int i=0;i < (int)vec.size() - sz; i++)
+      vec.erase(vec.begin());
+   return avgVector(vec);
+   }
+//------------------------------------------------------------------------------------------------//------------------------------------------------------------------------------------------------
+float maxVector(vector<float> vec)
+   {
+   float vecMax = 1e-23;
+   for(unsigned i=0;i < vec.size();i++)
+      if(vec[i] > vecMax)vecMax = vec[i];
+   return vecMax;
+   }
+//------------------------------------------------------------------------------------------------
 float sumVector(vector<float> vec, int index)
    {
    float vecSum = 0.0;
@@ -100,9 +121,9 @@ void checkRange(ScienceAPI &api, float value, float lower, float upper, const st
               "%s     %s = %f\n        less than lower limit of %f\n%s",
               m1, vName.c_str(), value, lower, m2);
       api.write(msg);
-      }
+         }
    }
-/* TODO : Needs looking at! */
+ /* TODO : Needs looking at! */
 //XX Needs to be replaced with try/catch of EOverflow/EUnderflow etc..    XXXXXXXXXXXXXXXXXXXXXXX
 //===========================================================================
 float divide (float dividend, float divisor, float default_value)
@@ -314,7 +335,7 @@ void accumulate (float value,             //  (INPUT) value to add to array
          {
          // now we need to divvy
          new_index = (int) (p_index + Min(1.0, dlt_index));
-         if (isEqual(fmod(p_index,1.0),0.0))
+         if (isEqual(fmod(p_index,1.0F),0.0))
             {
             fract_in_old = 1.0 - divide(index_devel - 1.0, dlt_index, 0.0);
             portion_in_old = fract_in_old * (value + array[current_index])-

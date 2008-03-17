@@ -1,62 +1,58 @@
 //------------------------------------------------------------------------------------------------
-
-#pragma hdrstop
-
-#include "OOPlant.h"
-#include "OOPlantComponents.h"
-#include "OOStem.h"
-
-//---------------------------------------------------------------------------
+#include "Plant.h"
+#include "Stem.h"
 
 //------------------------------------------------------------------------------------------------
 //------ Stem Constructor
 //------------------------------------------------------------------------------------------------
-Stem::Stem(ScienceAPI &api, OOPlant *p) : PlantPart(api) 
+Stem::Stem(ScienceAPI &api, Plant *p) : PlantPart(api) 
    {
    plant = p;
    name = "Stem";
+   partNo = 2;
 
-   doRegistrations();
    initialize();
+   doRegistrations();
    }
 //--------------------------------------------------------------------------------------------------
 // Register variables for other modules
 //--------------------------------------------------------------------------------------------------
 void Stem::doRegistrations(void)
    {
-   scienceAPI.expose("stem_wt",            "g/m2", "Stem dry weight"                           , 0, dmGreen);
-   scienceAPI.expose("stem_n",             "g/m2", "N in stem"                                 , 0, nGreen);
-   scienceAPI.expose("dlt_n_retrans_stem", "g/m2", "Nitrogen retranslocated from stem to grain", 0, dltNRetranslocate);
-   scienceAPI.expose("StemGreenNConc",     "%",    "Live stem N concentration",                  0, nConc);
-   scienceAPI.expose("stem_nd",            "g/m2", "Today's N demand from the stem"            , 0, nDemand);
-   scienceAPI.expose("dlt_n_green_stem",   "g/m2", "Today's N increase in stem"                , 0, dltNGreen);
-   scienceAPI.expose("n_conc_stem",        "%",    "Live stem N concentration"                 , 0, nConc);
+   scienceAPI.expose("StemGreenWt",    "g/m^2", "Stem dry weight",           false, dmGreen);
+   scienceAPI.expose("StemGreenN",     "g/m^2", "N in stem",                 false, nGreen);
+   scienceAPI.expose("StemGreenNConc", "%",     "Live stem N concentration", false, nConc);
+   scienceAPI.expose("DeltaStemGreenN","g/m^2", "Today's N increase in stem",false, dltNGreen);
+   scienceAPI.expose("StemGreenNConc", "%",     "Live stem N concentration", false, nConc);
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
 //------------------------------------------------------------------------------------------------
 void Stem::initialize(void)
    {
-   canopyHeight = 0.0;
+   canopyHeight    = 0.0;
+   dmGreenStem     = 0.0;
    dltCanopyHeight = 0.0;
-   dmGreenStem = 0.0;
 
-   partNo = 2;
    PlantPart::initialize();
    }
 //------------------------------------------------------------------------------------------------
 //------ read Stem parameters
 //------------------------------------------------------------------------------------------------
-void Stem::readParams (string cultivar)
+void Stem::readParams (void)
    {
-   heightFn.read(scienceAPI, "x_stem_wt","y_height");
-   scienceAPI.read("dm_stem_init", "", 0, initialDM);
+   heightFn.read(scienceAPI,"x_stem_wt","y_height");
+   scienceAPI.read("dm_stem_init",   "", 0, initialDM);
    scienceAPI.read("stem_trans_frac","", 0, translocFrac);
+   scienceAPI.read("retransRate",    "", 0, retransRate);
    // nitrogen
    scienceAPI.read("initialStemNConc", "", 0, initialNConc);
    targetNFn.read(scienceAPI,"x_stem_n","targetStemNConc");
-//   targetNConc  = readVar(plantInterface,sections,"targetStemNConc");
-   structNFn.read(scienceAPI, "x_stem_n","structStemNConc");
+   structNFn.read(scienceAPI,"x_stem_n","structStemNConc");
+
+   scienceAPI.read("stemDilnNSlope","", 0, dilnNSlope);
+   scienceAPI.read("stemDilnNInt",  "", 0, dilnNInt);
+
 
    // phosphorus
    pMaxTable.read(scienceAPI, "x_p_stage_code","y_p_conc_max_stem");
@@ -72,7 +68,6 @@ void Stem::process(void)
    {
    calcCanopyHeight();
    }
-
 //------------------------------------------------------------------------------------------------
 //------ update Stem variables
 //------------------------------------------------------------------------------------------------
@@ -120,12 +115,9 @@ void Stem::calcCanopyHeight(void)
 float Stem::calcNDemand(void)
    {
    nDemand = 0.0;
-//   if(stage <= startGrainFill)
-//      {
-      // STEM demand (g/m2) to keep stem [N] at levels from  targetStemNConc
-      float nRequired = (dmGreen + dltDmGreen) * targetNFn.value(stage);
-      nDemand = Max(nRequired - nGreen,0.0);
-//      }
+   // STEM demand (g/m2) to keep stem [N] at levels from  targetStemNConc
+   float nRequired = (dmGreen + dltDmGreen) * targetNFn.value(stage);
+   nDemand = Max(nRequired - nGreen,0.0);
    return nDemand;
    }
 //------------------------------------------------------------------------------------------------
@@ -138,31 +130,48 @@ float Stem::calcStructNDemand(void)
    // STEM demand to keep stem [N] at levels of structStemNConc
    float nRequired = (dmGreen + dltDmGreen) * structNFn.value(stage);
    structNDemand = Max(nRequired - nGreen,0.0);
-//   float stemNConcPct = divide((nGreen + dltNGreen+structNDemand),(dmGreen + dltDmGreen)) * 100;
    return structNDemand;
    }
 //------------------------------------------------------------------------------------------------
+
 float Stem::provideN(float requiredN)
    {
    // calculate the N available for translocation to other plant parts
    // N could be required for structural Stem/Rachis N, new leaf N or grain N
    // Stem N is availavle at a rate which is a function of stem [N]
-   // dltStemNconc per day (17dd) = 0.076*stemNconcPct - 0.0199
+   // dltStemNconc per dd  = 0.0062 * stemNconcPct - 0.001
    // cannot take below Structural stem [N]% 0.5
 
-   float stemNConcPct = divide((nGreen + dltNGreen),(dmGreen + dltDmGreen)) * 100;
-   if(stemNConcPct < structNFn.value(stage) * 100)return 0;
+   float nProvided;
+
+   if(dltNGreen > requiredN)
+      {
+      nProvided = requiredN;
+      dltNRetranslocate -= nProvided;
+      return nProvided;
+      }
+   else
+      {
+      nProvided = dltNGreen;
+      requiredN -= nProvided;
+      }
+
+
+   float stemNConcPct = divide((nGreen),(dmGreen + dltDmGreen)) * 100;
+   if(stemNConcPct < structNFn.value(stage) * 100)
+      return 0;
    
-   float dltStemNconc = divide(17,plant->phenology->getDltTT())
-                                          * (0.076 * (stemNConcPct) - 0.0199);
+   float dltStemNconc = (dilnNSlope * (stemNConcPct) + dilnNInt)
+                         * plant->phenology->getDltTT();
+
    float availableN = (dltStemNconc) / 100 * (dmGreen + dltDmGreen);
    // cannot take below structural N
    float structN =  (dmGreen + dltDmGreen) * structNFn.value(stage);
-   availableN = Min(availableN,(nGreen + dltNGreen) - structN);
+   availableN = Min(availableN,(nGreen) - structN);
   
    availableN = Max(availableN,0.0);
    
-   float nProvided = Min(availableN,requiredN);
+   nProvided += Min(availableN,requiredN);
    dltNRetranslocate -= nProvided;
    return nProvided;
    }
@@ -171,7 +180,7 @@ float Stem::dmRetransAvailable(void)
    {
    // calculate dry matter available for translocation to grain
    float stemWt = dmGreen + dltDmGreen;
-   float stemWtAvail = stemWt - dmPlantMin * density;
+   float stemWtAvail = (stemWt - (dmPlantMin * density)) * retransRate;
    return Max(stemWtAvail,0.0);
    }
 //------------------------------------------------------------------------------------------------

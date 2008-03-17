@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
 
-#ifndef OORachisH
-#define OORachisH
+#ifndef RachisH
+#define RachisH
 
-#include "OOPlantComponents.h"
+#include "PlantComponents.h"
 #include "Utilities.h"
 
 //------------------------------------------------------------------------------------------------
@@ -18,33 +18,37 @@ class Rachis : public PlantPart
    float initialNConc;
    float targetNConc;
    float structRachisNConc;
+   float dilnNSlope;
+   float dilnNInt;
 
-//  Variables  -----------------------------------------------------
+//  Variables  ----------------------------------------------------------
 
 
 // Private Methods -------------------------------------------------------
-   void doRegistrations(void);
-   void initialize(void);
+   void  doRegistrations(void);
+   void  initialize(void);
 
 // public Methods -------------------------------------------------------
    public:
-   Rachis(ScienceAPI &, OOPlant *p);
+   Rachis(ScienceAPI &, Plant *p);
    ~Rachis();
+   // plant
+   void  readParams (void);
+   void  updateVars(void);
 
-   void   readParams (string cultivar);                    // plant
-   void   updateVars(void);                     // plant
+   // biomass
+   float partitionDM(float dltDM);
 
-   float partitionDM(float dltDM);                        // biomass
-
-   float calcNDemand(void);                         // nitrogen
-   float calcStructNDemand(void);                   // nitrogen
+   // nitrogen
+   float calcNDemand(void);
+   float calcStructNDemand(void);
    float provideN(float requiredN);
 
    // phosphorus
    float calcPDemand(void);
 
    // phenology
-   void phenologyEvent(int);
+   void  phenologyEvent(int);
   };
 
 

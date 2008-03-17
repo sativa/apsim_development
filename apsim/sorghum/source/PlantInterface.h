@@ -1,10 +1,10 @@
 //---------------------------------------------------------------------------
-#ifndef OOPlantInterfaceH
-#define OOPlantInterfaceH
+#ifndef PlantInterfaceH
+#define PlantInterfaceH
 
 class ScienceAPI;
 
-#include "OOPlant.h"
+#include "Plant.h"
 
 // ------------------------------------------------------------------
 // This component acts as the interface between an instance of a
@@ -26,14 +26,14 @@ class PlantInterface
       };
 
    private:
-      OOPlant     *plant;    // The plant module
+      Plant     *plant;    // The plant module
       ScienceAPI  &scienceAPI;
 
    void onInit1(void)
-      {
-      plant = new OOPlant(scienceAPI);
+            {
+      plant = new Plant(scienceAPI);
       plant->plantInit1();
-      }
+            }
    void onInit2(void)
       {
       plant->plantInit2();

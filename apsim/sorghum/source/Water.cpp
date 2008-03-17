@@ -1,33 +1,16 @@
 //------------------------------------------------------------------------------------------------
-#pragma hdrstop
-
 #include <vector>
 
-#include "OOPlant.h"
-#include "OOPlantComponents.h"
-#include "OOWater.h"
-//------------------------------------------------------------------------------------------------
-
-#pragma package(smart_init)
-
+#include "Plant.h"
+#include "Water.h"
 //------------------------------------------------------------------------------------------------
 //------ Water Constructor
 //------------------------------------------------------------------------------------------------
-Water::Water(ScienceAPI &api, OOPlant *p) : PlantProcess(api)
+Water::Water(ScienceAPI &api, Plant *p) : PlantProcess(api)
    {
    plant = p;
-
-   //Init Accumulation Vars     
-    for(int i=0;i < nStages;i++)
-      {
-      phenoStressTotal.push_back(0.0);
-      photoStressTotal.push_back(0.0);
-       }
    doRegistrations();
    initialize();
-
-   profileDepth = 0.0;
-   nLayers = 0;
    }
 //------------------------------------------------------------------------------------------------
 //------ Water Destructor
@@ -40,18 +23,18 @@ Water::~Water()
 //--------------------------------------------------------------------------------------------------
 void Water::doRegistrations(void)
    {
-   scienceAPI.expose("sw_supply_demand_ratio", "",   "Water Supply/demand ratio",false,                       sdRatio);
-   scienceAPI.expose("sw_supply_sum",          "mm", "Accumulative soil water supply over the profile",false, AccTotalSupply);
-   scienceAPI.expose("sw_supply",              "mm", "Daily soil water supply over the profile",false,        totalSupply);
-   scienceAPI.expose("sw_demand",              "mm", "Total crop demand for water",false,                     swDemand);
-   scienceAPI.expose("transpiration",          "mm", "Daily water uptake from all rooted soil layers",false,  dltUptake);
-   scienceAPI.expose("transpiration_tot",      "mm", "Accumulative water uptake from the whole profile",false,totalUptake);
-   scienceAPI.expose("cep",                    "mm", "Accumulative water uptake from the whole profile",false,totalUptake);
-   scienceAPI.expose("swdef_photo",            "",   "Water stress factor for photosynthesis",false,          photoStress);
-   scienceAPI.expose("swdef_pheno",            "",   "Water stress factor for phenology",false,               phenoStress);
-   scienceAPI.expose("swdef_expan",            "",   "Water stress factor for leaf expansion growth",false,   expansionStress);
-   scienceAPI.expose("esw_profile",            "",   "Plant extractable water over the whole profile",false,  eswTot);
-   scienceAPI.expose("ep",                     "",   "Water uptake from the whole profile",false,             ep);
+   scienceAPI.expose("WaterSD",           "()", "Water Supply/Demand ratio",                       false, sdRatio);
+   scienceAPI.expose("sw_supply_sum",     "mm", "Accumulative soil water supply over the profile", false, AccTotalSupply);
+   scienceAPI.expose("sw_supply",         "mm", "Daily soil water supply over the profile",        false, totalSupply);
+   scienceAPI.expose("sw_demand",         "mm", "Total crop demand for water",                     false, swDemand);
+   scienceAPI.expose("transpiration",     "mm", "Daily water uptake from all rooted soil layers",  false, dltUptake);
+   scienceAPI.expose("transpiration_tot", "mm", "Accumulative water uptake from the whole profile",false, totalUptake);
+   scienceAPI.expose("cep",               "mm", "Accumulative water uptake from the whole profile",false, totalUptake);
+   scienceAPI.expose("swdef_photo",       "",   "Water stress factor for photosynthesis",          false, photoStress);
+   scienceAPI.expose("swdef_pheno",       "",   "Water stress factor for phenology",               false, phenoStress);
+   scienceAPI.expose("swdef_expan",       "",   "Water stress factor for leaf expansion growth",   false, expansionStress);
+   scienceAPI.expose("esw_profile",       "",   "Plant extractable water over the whole profile",  false, eswTot);
+   scienceAPI.expose("ep",                "",   "Water uptake from the whole profile",             false, ep);
 
    scienceAPI.exposeFunction("esw_layer", "mm", "Plant extractable soil water in each layer",
                     FloatArrayFunction(&Water::getEswLayers));
@@ -68,29 +51,33 @@ void Water::doRegistrations(void)
 //------------------------------------------------------------------------------------------------
 void Water::initialize(void)
    {
-   lastLayerPropn = 0.0;
-   totalAvail = 0.0;
-   totalAvailPot = 0.0;
-   totalSupply = 0.0;
-   AccTotalSupply = 0.0;
-   dltUptake = 0.0;
+   photoStress = 1;phenoStress = 1;expansionStress = 1;
+   currentLayer = 0;
+   lastLayerPropn = 0;
+   sdRatio = 1;
+   rootDepth = 0;
    totalUptake = 0.0;
-   eswTot = 0.0;
+   AccTotalSupply = 0.0;
    ep = 0.0;
    swDemand = 0.0;
-   sdRatio = 0.0;
-   photoStress = 1;phenoStress = 1;expansionStress = 1;
-   rootDepth = 0;
-   currentLayer = 0;
+
+   //Init Accumulation Vars
+   phenoStressTotal.assign(nStages,0.0);
+   photoStressTotal.assign(nStages,0.0);
    }
 //------------------------------------------------------------------------------------------------
 //------ read Water parameters
 //------------------------------------------------------------------------------------------------
-void Water::readLL(void) 
-{
+void Water::readParams (void)
+   {
+   swPhenoTable.read(    scienceAPI,"x_sw_avail_ratio", "y_swdef_pheno");
+   swExpansionTable.read(scienceAPI,"x_sw_demand_ratio","y_swdef_leaf");
+
+   scienceAPI.read("kl", "", 0, kl);
+   scienceAPI.read("xf", "", 0, xf);
    scienceAPI.read("ll","mm/mm", 0, ll);
 
-   if (ll.size() != (unsigned int)nLayers) 
+   if (ll.size() != (unsigned int)nLayers)
       {
       string msg = "Number of soil layers (";
       msg += itoa(nLayers) ;
@@ -99,6 +86,7 @@ void Water::readLL(void)
       msg += ").";
       throw std::runtime_error(msg);
       }
+
    llDep.clear();
    eswCap.clear();
    for(int layer = 0; layer < nLayers; layer++)
@@ -107,26 +95,16 @@ void Water::readLL(void)
       eswCap.push_back(dulDep[layer] - llDep[layer]);
       }
 
-}
-void Water::readParams (string cultivar)
-   {
-   swPhenoTable.read(scienceAPI,"x_sw_avail_ratio","y_swdef_pheno");
-   swExpansionTable.read(scienceAPI,"x_sw_demand_ratio","y_swdef_leaf");
-
-   readLL();
-   scienceAPI.read("kl", "", 0, kl);
-   scienceAPI.read("xf", "", 0, xf);
-
     // report
    char msg[100];
    sprintf(msg,"\n");   scienceAPI.write(msg);
    sprintf(msg,"\n");   scienceAPI.write(msg);
-   sprintf(msg,"                       Root Profile\n");   scienceAPI.write(msg);
-   sprintf(msg,"    ---------------------------------------------------\n");   scienceAPI.write(msg);
-   sprintf(msg,"         Layer       Kl           Lower    Exploration\n");   scienceAPI.write(msg);
-   sprintf(msg,"         Depth     Factor         Limit      Factor\n");   scienceAPI.write(msg);
-   sprintf(msg,"         (mm)         ()        (mm/mm)       (0-1)\n");   scienceAPI.write(msg);
-   sprintf(msg,"    ---------------------------------------------------\n");   scienceAPI.write(msg);
+   sprintf(msg,"                       Root Profile\n");                     scienceAPI.write(msg);
+   sprintf(msg,"    ---------------------------------------------------\n"); scienceAPI.write(msg);
+   sprintf(msg,"         Layer       Kl           Lower    Exploration\n");  scienceAPI.write(msg);
+   sprintf(msg,"         Depth     Factor         Limit      Factor\n");     scienceAPI.write(msg);
+   sprintf(msg,"         (mm)         ()        (mm/mm)       (0-1)\n");     scienceAPI.write(msg);
+   sprintf(msg,"    ---------------------------------------------------\n"); scienceAPI.write(msg);
 
    for (int layer = 0; layer < nLayers; layer++)
       {
@@ -143,11 +121,12 @@ void Water::readParams (string cultivar)
 //------------------------------------------------------------------------------------------------
 void Water::updateVars(void)
    {
-   sdRatio = Min(divide(totalSupply, swDemand),float(1.0));
+   if(swDemand < 0.001)sdRatio = 1.0;
+   else sdRatio = Min(divide(totalSupply, swDemand),1.0f);
    rootDepth = plant->roots->getRootDepth();
    currentLayer = findIndex(rootDepth, dLayer);
    setOtherVariables ();
-   //swDef.clear();
+
    ep = -sumVector(dltSwDep);
    for(int i = 0; i < nLayers; i++)
       {
@@ -163,13 +142,12 @@ void Water::updateVars(void)
 //------------------------------------------------------------------------------------------------
 void Water::getOtherVariables (void)
    {
-   // get sw from Soilwat2
+  // get sw from Soilwat2
    scienceAPI.get("sw_dep", "mm", false, swDep, 0.0, 1000.0);
 
-   //   esw.clear();
    for (int i = 0; i < nLayers; i++)
       {
-      esw[i] = swDep[i] - llDep[i];
+      esw[i] = Max(0.0,swDep[i] - llDep[i]);
       }      
    }
 //------------------------------------------------------------------------------------------------
@@ -298,7 +276,7 @@ void Water::calcAvailablePot(void)
 void Water::calcSupply(void)
    {
    /*       Return potential water uptake from each layer of the soil profile
-          by the crop (mm water). Row Spacing and configuration (skip) are used
+           by the crop (mm water). Row Spacing and configuration (skip) are used
            to calculate semicircular root front to give proportion of the
            layer occupied by the roots. This fraction is applied to the supply */
 
@@ -390,9 +368,7 @@ void Water::getSwUptakeLayers(vector<float> &result)
 //------------------------------------------------------------------------------------------------
 void Water::getllDep(vector<float> &result)
    {
-   if (llDep.size() == 0)
-      {
-      readLL();
-      }
    result = llDep;
    }
+//------------------------------------------------------------------------------------------------
+

@@ -1,5 +1,9 @@
-#ifndef OOPlantComponentsH
-#define OOPlantComponentsH
+//---------------------------------------------------------------------------
+
+#ifndef PlantComponentsH
+#define PlantComponentsH
+
+
 
 #include <vector>
 #include <string>
@@ -7,7 +11,7 @@
 
 class TableFn;
 class ScienceAPI;
-class OOPlant;
+class Plant;
 
 //---------------------------------------------------------------------------
 
@@ -19,11 +23,12 @@ class PlantComponent
    ScienceAPI  &scienceAPI;
    PlantComponent(ScienceAPI &api) : scienceAPI(api) {};
 
-   OOPlant *plant;
+   Plant *plant;
 
    virtual void initialize(void) = 0;
-   virtual void readParams (std::string cultivar) = 0;
+   virtual void readParams (void) = 0;
    virtual void updateVars(void) = 0;
+
    };
 //---------------------------------------------------------------------------
 class PlantPart : public PlantComponent
@@ -34,7 +39,7 @@ class PlantPart : public PlantComponent
 
    // variables
    float stage;
-   int partNo;
+   int   partNo;
    std::string name;
 
 
@@ -44,10 +49,7 @@ class PlantPart : public PlantComponent
 
    float dmSenesced;
    float dltDmSenesced;
-
-   float dmDead;
    float dltDetDmSenesced;
-   float dltDetDmDead;
 
    float dmPlantMin;
    float dmRetranslocate;
@@ -62,23 +64,18 @@ class PlantPart : public PlantComponent
 
    float nSenesced;
    float dltNSenesced;
-   float nDead;
    float dltDetNSenesced;
-   float dltDetNDead;
 
    float nConc;
 
    // Phosphorus
    float pGreen;
    float pSenesced;
-   float pDead;
    float dltPGreen;
    float dltPSenesced;
    float dltPDetached;
-
    float pDemand;
    float dltPRetranslocate;
-
    float pConc;
 
    // phosphorus  parameters
@@ -91,43 +88,38 @@ class PlantPart : public PlantComponent
    public:
    PlantPart(ScienceAPI &api) ;
    void initialize(void);
-   virtual void phenologyEvent(int) = 0;
+   virtual void  phenologyEvent(int) = 0;
    virtual float calcNDemand(void) = 0;
    virtual float calcPDemand(void) = 0;
 
    //Detatchmenet Routines
-   virtual void dmDetachment(std::vector<float>, std::vector<float>);
-   virtual void NDetachment(std::vector<float>, std::vector<float>);
+   virtual void dmDetachment(std::vector<float>);
+   virtual void NDetachment(std::vector<float>);
 
    //Getters
    virtual float getNGreen(void){return nGreen;};
    virtual float getNSenesced(void){return nSenesced;};
-   virtual float getNDead(void){return nDead;};
 
    virtual float getDmGreen(void){return dmGreen;};
    virtual float getDmSenesced(void){return dmSenesced;};
-   virtual float getDmDead(void){return dmDead;};
 
    virtual float getDltNGreen(void){return dltNGreen;};
    virtual float getDltDetNSenesced(void){return dltDetNSenesced;};
-   virtual float getDltDetNDead(void){return dltDetNDead;};
 
    virtual float getDltDmGreen(void){return dltDmGreen;};
    virtual float getDltDetDmSenesced(void){return dltDetDmSenesced;};
-   virtual float getDltDetDmDead(void){return dltDetDmDead;};
 
    virtual float getNDemand(void){return nDemand;};
    virtual float getDltDmRetranslocate(void){return dmRetranslocate;};
    virtual float getDltNRetranslocate(void){return dltNRetranslocate;};
 
-   virtual void resetDailyVars(void);
+   virtual void  resetDailyVars(void);
 
    virtual float pConcMax(void){return pMaxTable.value(stage);}
    virtual float pConcMin(void){return pMinTable.value(stage);}
    virtual float pConcSen(void){return pSenTable.value(stage);}
    virtual float getPGreen(void){return pGreen;};
    virtual float getPSenesced(void){return pSenesced;};
-   virtual float getPDead(void){return pDead;};
    virtual float getPDemand(void){return pDemand;};
    virtual float getDltPGreen(void){return dltPGreen;};
    virtual float getDltPRetrans(void){return dltPRetranslocate;};

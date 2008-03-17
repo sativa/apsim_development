@@ -1,22 +1,12 @@
 //------------------------------------------------------------------------------------------------
-#pragma hdrstop
 
-#include <vector>
-
-#include "OOPlant.h"
-#include "OOPlantComponents.h"
-#include "OOPhenology.h"
-
-using namespace std;
-
-//------------------------------------------------------------------------------------------------
-
-#pragma package(smart_init)
+#include "Plant.h"
+#include "Phenology.h"
 
 //------------------------------------------------------------------------------------------------
 //------ Phenology constructor
 //------------------------------------------------------------------------------------------------
-Phenology::Phenology(ScienceAPI &api, OOPlant *p) : PlantProcess(api)
+Phenology::Phenology(ScienceAPI &api, Plant *p) : PlantProcess(api)
    {
    plant = p;
 
@@ -38,50 +28,40 @@ void Phenology::initialize(void)
    {
    dltTT = 0.0;
    dltTTFM = 0.0;
-   dltPhase = 0.0;
-   dltStage = 0.0;
 
-   ttTotal.clear();
-   ttTotalFM.clear();
-   daysTotal.clear();
-   ttTarget.clear();
+   ttTotal.assign  (nStages,0.0);
+   ttTarget.assign (nStages,0.0);
+   ttTotalFM.assign(nStages,0.0);
+   daysTotal.assign(nStages,0.0);
 
-   for(int i=0;i < nStages;i++)
-      {
-      ttTotal.push_back(0.0);
-      ttTotalFM.push_back(0.0);
-      daysTotal.push_back(0.0);
-      ttTarget.push_back(0.0);
-      }
    setStage(0.0);
 
    floweringDAS = 0;
    floweringDOY = 0;
-   maturityDAS = 0;
-   maturityDOY = 0;
+   maturityDAS  = 0;
+   maturityDOY  = 0;
 
    }
 //------------------------------------------------------------------------------------------------
 //------ get the Phenology parameters
 //------------------------------------------------------------------------------------------------
-void Phenology::readParams (string cultivar)
+void Phenology::readParams (void)
    {
+   // thermal time targets
    float shootLag,shootRate;
    scienceAPI.read("shoot_lag", "", false, shootLag);
    scienceAPI.read("shoot_rate","", false, shootRate);
    ttTarget[germination] = shootLag + plant->getSowingDepth() * shootRate;
-
    scienceAPI.read("tt_emerg_to_endjuv", "", false, ttTarget[emergence]);
-   scienceAPI.read("tt_endjuv_to_init", "", false, ttEndJuvInit);
+   scienceAPI.read("tt_endjuv_to_init",  "", false, ttEndJuvInit);
    ttTarget[endJuv] = ttEndJuvInit;
-   ttTarget[fi] = 50;
-   scienceAPI.read("tt_flag_to_flower", "", false, ttTarget[flag] );
+   ttTarget[fi] = 50;   // place marker - value calculated daily
+   scienceAPI.read("tt_flag_to_flower",       "", false, ttTarget[flag] );
    scienceAPI.read("tt_flower_to_start_grain","", false, ttTarget[flowering]);
-   scienceAPI.read("tt_flower_to_maturity", "", false, ttFlowerMaturity);
-   ttTarget[endGrainFill] = 0.05 * ttFlowerMaturity;
-   ttTarget[startGrainFill] = ttFlowerMaturity - ttTarget[flowering]
-                                       - ttTarget[endGrainFill];
-   scienceAPI.read("tt_maturity_to_ripe", "", false, ttTarget[maturity]);
+   scienceAPI.read("tt_flower_to_maturity",   "", false, ttFlowerMaturity);
+   ttTarget[endGrainFill]   = 0.05 * ttFlowerMaturity;
+   ttTarget[startGrainFill] = ttFlowerMaturity - ttTarget[flowering] - ttTarget[endGrainFill];
+   scienceAPI.read("tt_maturity_to_ripe",     "", false, ttTarget[maturity]);
 
 
    // photoperiod function
@@ -101,26 +81,23 @@ void Phenology::readParams (string cultivar)
    photoParams.load(xVec,yVec);
 
    // thermal time
-   ttParams.read(scienceAPI, "x_temp","y_tt");
+   ttParams.read(  scienceAPI, "x_temp",   "y_tt");
    ttFmParams.read(scienceAPI, "x_temp_fm","y_tt_fm");
 
    // germination
    scienceAPI.read("pesw_germ", "", 0, peswGerm);
 
- 
-   scienceAPI.get("latitude", "", 0, latitude, -90.0f, 90.0f);
-   scienceAPI.read("twilight","", 0, twilight);
+   scienceAPI.get( "latitude",  "", 0, latitude, -90.0f, 90.0f);
+   scienceAPI.read("twilight",  "", 0, twilight);
 
    // report
    char msg[120];
-   sprintf(msg, "    tt_emerg_to_endjuv       =  %6.2f\n",ttEndJuvInit);   scienceAPI.write(msg);
-   sprintf(msg, "    tt_flower_to_maturity    =  %6.2f\n",ttFlowerMaturity);   scienceAPI.write(msg);
-   sprintf(msg, "    tt_flag_to_flower        =  %6.2f\n",ttTarget[flag]);   scienceAPI.write(msg);
-   sprintf(msg, "    tt_flower_to_start_grain =  %6.2f\n",ttTarget[flowering]);   scienceAPI.write(msg);
-   sprintf(msg, "    tt_maturity_to_ripe      =  %6.2f\n",ttTarget[maturity]);   scienceAPI.write(msg);
-   sprintf(msg, "    -------------------------------------------------------\n");   scienceAPI.write(msg);
-
-
+   sprintf(msg, "    tt_emerg_to_endjuv       =  %6.2f\n",ttEndJuvInit);        scienceAPI.write(msg);
+   sprintf(msg, "    tt_flower_to_maturity    =  %6.2f\n",ttFlowerMaturity);    scienceAPI.write(msg);
+   sprintf(msg, "    tt_flag_to_flower        =  %6.2f\n",ttTarget[flag]);      scienceAPI.write(msg);
+   sprintf(msg, "    tt_flower_to_start_grain =  %6.2f\n",ttTarget[flowering]); scienceAPI.write(msg);
+   sprintf(msg, "    tt_maturity_to_ripe      =  %6.2f\n",ttTarget[maturity]);  scienceAPI.write(msg);
+   sprintf(msg, "    ------------------------------------------------------\n");scienceAPI.write(msg);
 
    }
 //------------------------------------------------------------------------------------------------
@@ -137,27 +114,23 @@ void Phenology::setStage(float stageNow)
 void Phenology::doRegistrations(void)
    {
 
-   scienceAPI.expose("stage",          "",    "Phenological stage of development",false,                    stage);
-   scienceAPI.expose("dlt_tt",         "oCd", "Daily thermal time",false,                                   dltTT);
-   scienceAPI.expose("dlt_tt_fm",      "oCd", "Daily thermal time between flowering and maturity",false,    dltTTFM);
-   scienceAPI.expose("dlt_stage",      "",    "Change in stage number",false,                               dltStage);
-   scienceAPI.expose("tt_sum",         "oCd", "The sum of growing degree days for the current stage",false, ttCurrStage);
-   scienceAPI.expose("flowering_date", "doy", "Flowering day number",false,                                 floweringDOY);
-   scienceAPI.expose("maturity_date",  "doy", "Maturity day number",false,                                  maturityDOY);
-   scienceAPI.expose("flowering_das",  "das", "Days to flowering",false,                                    floweringDAS);
-   scienceAPI.expose("maturity_das",   "das", "Days to maturity",false,                                     maturityDAS);
-   scienceAPI.expose("stage_code",     "",    "Code of the developmental stages",false,                     stageCode);
+   scienceAPI.expose("Stage",        "()",    "Phenological stage number", false, stage);
+   scienceAPI.expose("StageName",    "()",    "Phenological stage ",       false, stageName);
+   scienceAPI.expose("stage_name",   "()",    "Phenological stage ",       false, stageName);
+   scienceAPI.expose("DeltaTT",      "oCd", "Daily thermal time",          false, dltTT);
+   scienceAPI.expose("DeltaStage",   "",    "Change in stage number",      false, dltStage);
+   scienceAPI.expose("FloweringDAS", "das", "Days to flowering",           false, floweringDAS);
+   scienceAPI.expose("MaturityDAS",  "das", "Days to maturity",            false, maturityDAS);
+   scienceAPI.expose("DeltaTTfm",    "oCd",
+                  "Daily thermal time between flowering and maturity",     false, dltTTFM);
+   scienceAPI.expose("StageTT",      "oCd",
+                  "The sum of growing degree days for the current stage",  false, ttCurrStage);
 
-   scienceAPI.exposeFunction("tt_tot",  "oCd", "The sum of growing degree days",
+   scienceAPI.exposeFunction("TotalTT",  "oCd", "Growing degree days from sowing by stage",
                     FloatArrayFunction(&Phenology::getTTTot));
-   scienceAPI.exposeFunction("phase_tt", "oCd", "Cumulative growing degree days required for each stage",
+   scienceAPI.exposeFunction("PhaseTT", "oCd", "Cumulative growing degree days required for each stage",
                     FloatArrayFunction(&Phenology::getPhaseTT));
-   scienceAPI.exposeFunction("stage_name", "", "Full names of stage for reporting",
-                    StringFunction(&Phenology::getStageName));
-
-
-
-  }
+   }
 //------------------------------------------------------------------------------------------------
 //--------  Do the daily phenology development  - called from plant->process
 //-----------   this is two stage thermal time development used in sorghum
@@ -199,6 +172,7 @@ void Phenology::development(void)
       scienceAPI.write(msg);
 
       // send message to plant parts
+
       for(unsigned i=0;i < plant->PlantParts.size();i++)
          {
          plant->PlantParts[i]->phenologyEvent(stage);
@@ -217,7 +191,6 @@ void Phenology::development(void)
          maturityDOY = plant->today.doy;
          }
       }
-
    }
 //------------------------------------------------------------------------------------------------
 void Phenology::updateVars(void)
@@ -245,11 +218,8 @@ float Phenology::sumDaysTotal(int from, int to)
    return sumVector(daysTotal,from,to);
    }
 //------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------
 void Phenology::checkTargets(void)
    {
- //   if(plant->today.doy >= 313 && plant->today.doy <= 323)
    if(stage >= emergence && stage <= endJuv)
       {
       float photoPeriod = plant->today.getPhotoPeriod(latitude,twilight);
@@ -286,16 +256,6 @@ float Phenology::calcDailyTT(Today *today)
    return (tot / 8.0);
    }
 //-----------------------------------------------------------------------------------------------
-/*    Growing degree day (thermal time) is calculated.
-      This function used between flowering and maturity
-      G_dlt_tt = 0                  { av_temp <= tt_base oC
-               = av_temp - tt_base  { tt_base < av_temp < tt_opt
-               = tt_opt             { av_temp >= tt_opt
-
-      default values for tt_base = 5.7 and tt_opt = 24.3                      */
-//-----------------------------------------------------------------------------------------------
-//
-//-----------------------------------------------------------------------------------------------
 float Phenology::calcDailyTTFM(Today *today)
    {
    // uses average temperature
@@ -327,7 +287,6 @@ float Phenology::calcStressesTT(void)
          }
       else
          {
-//         float f = Max(0.5, plant->nitrogen->getPhenoStress());
          Stress = Min(plant->water->phenologyStress(),Max(0.5, plant->nitrogen->getPhenoStress()));
          }
       //Update dltTT
@@ -354,7 +313,6 @@ void Phenology::calcPhaseDevelopment(void)
       dltPhase = phaseFraction(stage, ttTotal, dltTT, ttTarget);
       }
    }
-
 //-----------------------------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------------------------
@@ -369,7 +327,7 @@ float Phenology::germinationPhase (void)
       {
       return 0.999;
       }
-   return 1.0 + fmod (stage, 1.0);      /* TODO : what is this returning? */
+   return 1.0 + fmod (stage, 1.0F);      /* TODO : what is this returning? */
    }
 
 //-----------------------------------------------------------------------------------------------
@@ -405,11 +363,6 @@ void Phenology::getTTTot(vector<float> &result)
 void Phenology::getPhaseTT(vector<float> &result)
    {
    result = ttTarget;
-   }
-//------------------------------------------------------------------------------------------------
-void Phenology::getStageName(string &result)
-   {
-   result = stageName;
    }
 //------------------------------------------------------------------------------------------------
 void Phenology::Summary(void)

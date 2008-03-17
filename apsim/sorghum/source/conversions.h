@@ -43,4 +43,3 @@
 #define day2hr      24.0     // days to hours
 #define hr2s        3600     // hours to seconds
 #define s2hr        2.78e-4  // seconds to hours
-

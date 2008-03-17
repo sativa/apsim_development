@@ -1,15 +1,12 @@
-#pragma hdrstop
-#include <vector>
+//------------------------------------------------------------------------------------------------
 
-#include "OOPlant.h"
-#include "OOPlantComponents.h"
-#include "OOPhosphorus.h"
+#include "Plant.h"
+#include "Phosphorus.h"
 
-using namespace std;
 //------------------------------------------------------------------------------------------------
 //------ Phosphorus Constructor
 //------------------------------------------------------------------------------------------------
-Phosphorus::Phosphorus(ScienceAPI &api, OOPlant *p) : PlantProcess(api)
+Phosphorus::Phosphorus(ScienceAPI &api, Plant *p) : PlantProcess(api)
    {
    plant = p;
 
@@ -32,36 +29,24 @@ Phosphorus::~Phosphorus()
 //--------------------------------------------------------------------------------------------------
 void Phosphorus::doRegistrations(void)
    {
-   scienceAPI.expose("pfact_pheno", "", "Phosphorus stress factor for phenology", 0, phenoStress);
-   scienceAPI.expose("pfact_expansion", "", "Phosphorus stress factor for leaf expansion", 0, expansionStress);
-   scienceAPI.expose("pfact_photo", "", "Phosphorus stress factor for photosynthesis", 0, photoStress);
-   scienceAPI.expose("pfact_grain", "", "Phosphorus stress factor for grain", 0, grainStress);
-   scienceAPI.expose("p_total_uptake", "g/m2", "Today's P uptake", 0, pUptakeTotal);
+   scienceAPI.expose("pfact_pheno",     "",     "Phosphorus stress factor for phenology",      false, phenoStress);
+   scienceAPI.expose("pfact_expansion", "",     "Phosphorus stress factor for leaf expansion", false, expansionStress);
+   scienceAPI.expose("pfact_photo",     "",     "Phosphorus stress factor for photosynthesis", false, photoStress);
+   scienceAPI.expose("pfact_grain",     "",     "Phosphorus stress factor for grain",          false, grainStress);
+   scienceAPI.expose("p_total_uptake",  "g/m2", "Today's P uptake",                            false, pUptakeTotal);
 
    scienceAPI.exposeFunction("GreenP", "g/m2", "P content of live plant parts", 
                      FloatFunction(&Phosphorus::getPGreen));
    scienceAPI.exposeFunction("SenescedP","g/m2", "P content of senesced plant parts",
                      FloatFunction(&Phosphorus::getPSenesced));
-   scienceAPI.exposeFunction("p_sen",  "g/m2", "P content of senesced plant parts",
-                     FloatFunction(&Phosphorus::getPSenesced));
-   scienceAPI.exposeFunction("p_dead", "g/m2", "P content of dead plant parts",    
-                     FloatFunction(&Phosphorus::getPDead));
-
    scienceAPI.exposeFunction("p_demand", "kg/ha", "P demand of plant parts",
                      FloatArrayFunction(&Phosphorus::getPDemand));
-
    scienceAPI.exposeFunction("dlt_p_green", "g/m2", "Daily P increase in live plant parts",
                      FloatArrayFunction(&Phosphorus::getDltPGreen));
    scienceAPI.exposeFunction("dlt_p_retrans", "g/m2", "P retranslocated from plant parts to grain",
                      FloatArrayFunction(&Phosphorus::getDltPRetrans));
    scienceAPI.exposeFunction("dlt_p_detached", "g/m2", "Actual P loss with detached plant",
                      FloatArrayFunction(&Phosphorus::getDltPDetached));
-   scienceAPI.exposeFunction("dlt_p_dead", "g/m2", "Actual P loss with dead plant",
-                     FloatArrayFunction(&Phosphorus::getDltPDead));
-   scienceAPI.exposeFunction("dlt_n_dead_detached", "g/m2", "Actual N loss with detached dead plant",
-                     FloatArrayFunction(&Phosphorus::getDltPDeadDetached));
-
-
 
    }
 //------------------------------------------------------------------------------------------------
@@ -78,44 +63,30 @@ void Phosphorus::initialize(void)
 
    totalDemand = 0.0;
    
+   pPlant =   0.0;
+   pStover =  0.0;
    pBiomass = 0.0;
-   pStover = 0.0;
+   pUptakeTotal =  0.0;
    pGreenBiomass = 0.0;
-   pUptakeTotal = 0.0;
-   pPlant = 0.0;
 
-   currentLayer = 0.0;
+   currentLayer =  0.0;
+
    //Set up reporting vectors
-   pGreen.clear();
-   dltPGreen.clear();
-   dltPRetrans.clear();
-   pSenesced.clear();
-   pDead.clear();
-   dltPDetached.clear();
-   dltPDead.clear();
-   dltPDetachedDead.clear();
-   pDemand.clear();
-
-//   dltP.clear();
-
-   for(unsigned i = 0; i < plant->PlantParts.size(); i++)
-      {
-      pGreen.push_back(0.0);
-      dltPGreen.push_back(0.0);
-      dltPRetrans.push_back(0.0);
-      pSenesced.push_back(0.0);
-      pDead.push_back(0.0);
-      dltPDetached.push_back(0.0);
-      dltPDead.push_back(0.0);
-      dltPDetachedDead.push_back(0.0);
-      pDemand.push_back(0.0);
-      }
+   int nParts = plant->PlantParts.size();
+   pGreen.assign      (nParts,0.0);
+   dltPGreen.assign   (nParts,0.0);
+   pGreen.assign      (nParts,0.0);
+   dltPRetrans.assign (nParts,0.0);
+   pSenesced.assign   (nParts,0.0);
+   dltPRetrans.assign (nParts,0.0);
+   dltPDetached.assign(nParts,0.0);
+   pDemand.assign     (nParts,0.0);
 
    }
 //------------------------------------------------------------------------------------------------
 //----------- read Phosphorus parameters
 //------------------------------------------------------------------------------------------------
-void Phosphorus::readParams (string cultivar)
+void Phosphorus::readParams (void)
    {
    std::vector<float> values;
    if (scienceAPI.get("labile_p", "", 1, values, 0.0, 10000.0))
@@ -142,16 +113,6 @@ void Phosphorus::getOtherVariables (void)
 //------------------------------------------------------------------------------------------------
 void Phosphorus::setOtherVariables (void)
    {
-/*
-   std::vector<float> dltPValues;
-   for(int i=0;i < nLayers;i++)dltPValues.push_back(0.0);
-
-   for(unsigned i=0;i < dltP.size();i++)
-      {
-      dltNo3Values[i] = dltNo3[i] * gm2kg /sm2ha;
-      }
-   plantInterface->setVariable(dltNo3ID, dltNo3Values);
-        */
    }
 //------------------------------------------------------------------------------------------------
 //----------- perform daily phosphorus dynamics  ---------------------------------------------------
@@ -215,15 +176,11 @@ void Phosphorus::updateVars(void)
    if(!active)return;
    for(unsigned i=0;i < plant->PlantParts.size();i++)
       {
-      pGreen[i] = plant->PlantParts[i]->getPGreen();
-      pDemand[i] = plant->PlantParts[i]->getPDemand() * 10;
-      pSenesced[i] = plant->PlantParts[i]->getPSenesced();
-      dltPGreen[i] = plant->PlantParts[i]->getDltPGreen();
+      pGreen[i] =      plant->PlantParts[i]->getPGreen();
+      pDemand[i] =     plant->PlantParts[i]->getPDemand() * 10;
+      pSenesced[i] =   plant->PlantParts[i]->getPSenesced();
+      dltPGreen[i] =   plant->PlantParts[i]->getDltPGreen();
       dltPRetrans[i] = plant->PlantParts[i]->getDltPRetrans();
-      pDead[i] = plant->PlantParts[i]->getPDead();
-//      dltPDead[i] = plant->PlantParts[i]->getDltPDead();
-//      dltPDetached[i] = plant->PlantParts[i]->getDltPDetached();
-//      dltPDetachedDead[i] = plant->PlantParts[i]->getDltPDetachedDead();
 
       }
 
@@ -231,7 +188,7 @@ void Phosphorus::updateVars(void)
    pPlant = sumVector(pGreen) + sumVector(pSenesced);
    pGreenBiomass = sumVector(pGreen) - plant->roots->getPGreen();
    pBiomass = pGreenBiomass + sumVector(pSenesced) - plant->roots->getPSenesced();
-   pStover = pBiomass - plant->grain->getPGreen() - plant->grain->getPSenesced();
+   pStover =  pBiomass - plant->grain->getPGreen() - plant->grain->getPSenesced();
 
    }
 //------------------------------------------------------------------------------------------------
@@ -272,7 +229,7 @@ void Phosphorus::uptake(void)
 //------------------------------------------------------------------------------------------------
 //------- partition Phosphorus
 //------------------------------------------------------------------------------------------------
-//     allocate N to each plant part
+//     allocate P to each plant part
 void Phosphorus::partition(void)
    {
    for(unsigned i=0;i < plant->PlantParts.size();i++)
@@ -346,13 +303,13 @@ void Phosphorus::retranslocate(void)
    }
 
 //------------------------------------------------------------------------------------------------
-//------- Calculate plant Phosphorus detachment from senesced and dead pools
+//------- Calculate plant Phosphorus detachment from senesced pool
 //------------------------------------------------------------------------------------------------
-void Phosphorus::detachment(vector<float> senDetachFrac, vector<float> deadDetachFrac)
+void Phosphorus::detachment(vector<float> senDetachFrac)
    {
    for(unsigned i = 0; i < plant->PlantParts.size(); i++)
       {
-//      plant->PlantParts[i]->NDetachment(senDetachFrac, deadDetachFrac);
+//      plant->PlantParts[i]->NDetachment(senDetachFrac);
       }
    }
 //------------------------------------------------------------------------------------------------
@@ -419,8 +376,8 @@ void Phosphorus::Summary(void)
    sprintf(msg, "total P content    (kg/ha) =  %8.3f \t senesced P content (kg/ha) = %8.3f\n",
             pBiomass * 10.0,sumVector(pSenesced) * 10.0);
    scienceAPI.write(msg);
-   sprintf(msg, "green P content    (kg/ha) =  %8.3f \t dead P content     (kg/ha) = %8.3f\n",
-            sumVector(pGreen) * 10.0 - plant->grain->getPGreen() * 10.0, sumVector(pDead) * 10.0);
+   sprintf(msg, "green P content    (kg/ha) =  %8.3f \n",
+            sumVector(pGreen) * 10.0 - plant->grain->getPGreen() * 10.0);
    scienceAPI.write(msg);
    }
 //------------------------------------------------------------------------------------------------
@@ -428,21 +385,7 @@ void Phosphorus::Summary(void)
 //------------------------------------------------------------------------------------------------
 void Phosphorus::onNewProfile(NewProfileType &p /* message */)
    {
-   /*
-   protocol::ApsimVariant av(plantInterface);
-   av.aliasTo(v.getMessageData());
-
-   protocol::vector<float> temp;
-   av.get("dlayer",   protocol::DTsingle, true, temp);
-   convertVector(temp,dLayer);
-
-   // dlayer may be changed from its last setting due to erosion
-   profileDepth = sumVector(dLayer);      // depth of soil profile (mm)
-   nLayers = dLayer.size();
-*/
-   /* TODO : Insert new root profile and llDep code for change in profile due to erosion */
-   /* TODO : Check validity of ll,dul etc as in crop_check_sw */
-   /* TODO : why does this not include no3 */
+   /* TODO : Insert new root profile for change in profile due to erosion */
    }
 //------------------------------------------------------------------------------------------------
 

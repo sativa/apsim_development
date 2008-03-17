@@ -1,10 +1,10 @@
 //---------------------------------------------------------------------------
 
-#ifndef OOStemH
-#define OOStemH
+#ifndef StemH
+#define StemH
 
-#include "OOPlantComponents.h"
-#include "Utilities.h"
+#include "PlantComponents.h"
+#include "utilities.h"
 //------------------------------------------------------------------------------------------------
 
 class Stem : public PlantPart
@@ -17,35 +17,39 @@ class Stem : public PlantPart
    float translocFrac;
    // nitrogen
    float initialNConc;
-//   float targetNConc;
    TableFn targetNFn;
    TableFn structNFn;
-   float dltNConc;
-
-   float density;
+   float dilnNSlope;
+   float dilnNInt;
+   float retransRate;           // rate that stem biomass can be retranslocated to grain
 
 //  Variables  -----------------------------------------------------
 
+   float density;
    float canopyHeight;
    float dltCanopyHeight;
 
    // biomass
    float dmGreenStem;           // stem dry weight / plant
 
-
+   // nitrogen
+   float dltNConc;
 
 // Private Methods -------------------------------------------------------
-   void doRegistrations(void);
-   void initialize(void);
+   void  doRegistrations(void);
+   void  initialize(void);
+
 
 // public Methods -------------------------------------------------------
    public:
-   Stem(ScienceAPI &, OOPlant *p);
+   Stem(ScienceAPI &, Plant *p);
+
    // plant
-   void calcCanopyHeight(void);
-   void   readParams (string cultivar);
-   void   updateVars(void);
-   void   process(void);
+   void  calcCanopyHeight(void);
+   void  readParams (void);
+   void  updateVars(void);
+   void  process(void);
+   float getCanopyHeight(void)const{return canopyHeight;}
 
    // nitrogen
    float calcNDemand(void);
@@ -55,18 +59,14 @@ class Stem : public PlantPart
    // phosphorus
    float calcPDemand(void);
 
-
    // biomass
-   void   partitionDM(float dltDM){dltDmGreen = dltDM;}
-   float  dmRetransAvailable(void);
-   void   dmRetrans(float dltDm){dmRetranslocate = dltDm;}
+   void  partitionDM(float dltDM){dltDmGreen = dltDM;}
+   float dmRetransAvailable(void);
+   void  dmRetrans(float dltDm){dmRetranslocate = dltDm;}
 
    // phenology
-   void phenologyEvent(int);
-
-   float getCanopyHeight(void)const{return canopyHeight;}
+   void  phenologyEvent(int);
    };
-
 
 //---------------------------------------------------------------------------
 #endif
