@@ -31,8 +31,8 @@
 </Data>
    <page> <![CDATA[
 object QuickRepPage1: TQuickRep
-  Left = 43
-  Top = 0
+  Left = 147
+  Top = -154
   Width = 714
   Height = 1010
   Frame.Color = clBlack
@@ -129,14 +129,12 @@ object QuickRepPage1: TQuickRep
         Height = 1
         BackWall.Visible = False
         BottomAxis.Automatic = False
-        BottomAxis.AutomaticMaximum = False
         BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.ExactDateTime = False
         BottomAxis.Grid.Visible = False
         BottomAxis.Increment = 500
         BottomAxis.LabelsSeparation = 100
-        BottomAxis.Maximum = 8000
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         BottomAxis.Title.Caption = 'sorghum Grain Yield (kg/ha)'
@@ -172,7 +170,6 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
           DataSource = Dalby600Prob
-          Title = 'Dalby 600'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -187,7 +184,6 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
           DataSource = Dalby1500Prob
-          Title = 'Dalby1500'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -202,7 +198,6 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
           DataSource = Roma600Prob
-          Title = 'Roma600'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -217,7 +212,6 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
           DataSource = Roma1500Prob
-          Title = 'Roma1500'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
