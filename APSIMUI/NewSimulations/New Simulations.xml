@@ -1267,7 +1267,7 @@
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
                ChooseNextCrop = 'yes'   ! for rotations
-               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], tiller_no_fertile = [ftn] (), skip = [skiprow]
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], skip = [skiprow]
             endif
             if today = date('[date2]') then
                ChooseNextCrop = 'yes'
@@ -1288,8 +1288,7 @@
             <density type="text" description="Enter sowing density  (plants/m2) : ">7</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">early</cultivar>
-            <row_spacing type="text" description="Enter row spacing (m) : ">1</row_spacing>
-            <ftn type="text" description="Enter Fertile Tiller No. : ">1</ftn>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">1000</row_spacing>
             <skiprow type="list" listvalues="solid, single, double" description="Skip row : ">solid</skiprow>
           </category>
         </rule>
