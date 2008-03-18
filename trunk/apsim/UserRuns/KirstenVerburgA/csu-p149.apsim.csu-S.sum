@@ -468,6 +468,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      zero_flag    = 0
      crop_in      = 0
      cult         = 0
+     cum_e        = 0
+     cum_t        = 0
      
      SECTION:- start_of_day
      if (year = 1993 and (day = 91 or day = 145 or day = 330)) then
@@ -664,6 +666,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager creating a new local real variable : zero_flag =     0.00000000000000
      Manager creating a new local real variable : crop_in =     0.00000000000000
      Manager creating a new local real variable : cult =     0.00000000000000
+     Manager creating a new local real variable : cum_e =     0.00000000000000
+     Manager creating a new local real variable : cum_t =     0.00000000000000
 
 ------- apswim Initialisation -------------------------------------------------
      Initialising
@@ -946,8 +950,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         sum of apswim.uptake_brD_wheat() on end_of_day from report6.reported to now as sum@apswim_uptake_brD_wheat[]
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- soiln2 add_roots  dlt_fom_wt = 500 2500 1500 1000 500 300 200 150 50 10 0 0 0 0 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50
-     Manager creating a new local real variable : cum_e =     0.00000000000000
-     Manager creating a new local real variable : cum_t =     0.00000000000000
 26 December 1992(Day of year=361), manager: 
      Manager sending message :- weed sow  plants = 40, sowing_depth = 40, crop_class = winter_grass, cultivar = early
 26 December 1992(Day of year=361), weed: 
