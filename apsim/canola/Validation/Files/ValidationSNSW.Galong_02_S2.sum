@@ -162,6 +162,13 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      rain_samp_finish_sw = 0
      sim_start_sw = 0
      sim_finish_sw = 0
+     cum_days = 0
+     pre_sow_rain = 0
+     flower_flag = 0
+     grain_fill_rain = 0
+     sum_rain = 0
+     in_crop_rain = 0
+     num_rain_events = 0
      
      SECTION:- start_of_day
         if (das = 1) then
@@ -292,6 +299,13 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Manager creating a new local real variable : rain_samp_finish_sw =     0.00000000000000
      Manager creating a new local real variable : sim_start_sw =     0.00000000000000
      Manager creating a new local real variable : sim_finish_sw =     0.00000000000000
+     Manager creating a new local real variable : cum_days =     0.00000000000000
+     Manager creating a new local real variable : pre_sow_rain =     0.00000000000000
+     Manager creating a new local real variable : flower_flag =     0.00000000000000
+     Manager creating a new local real variable : grain_fill_rain =     0.00000000000000
+     Manager creating a new local real variable : sum_rain =     0.00000000000000
+     Manager creating a new local real variable : in_crop_rain =     0.00000000000000
+     Manager creating a new local real variable : num_rain_events =     0.00000000000000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -491,12 +505,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : cum_days =     0.00000000000000
      Manager creating a new local real variable : oil_conc =     0.00000000000000
-     Manager creating a new local real variable : pre_sow_rain =     0.00000000000000
-     Manager creating a new local real variable : flower_flag =     0.00000000000000
-     Manager creating a new local real variable : grain_fill_rain =     0.00000000000000
-     Manager creating a new local real variable : sum_rain =     0.00000000000000
 31 January 2002(Day of year=31), manager: 
      Manager creating a new local real variable : jan_rain =     6.50000000000000
 28 February 2002(Day of year=59), manager: 
@@ -583,8 +592,6 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
 14 May 2002(Day of year=134), manager: 
      Manager creating a new local real variable : start_esw =     121.498589000000
      Manager creating a new local real variable : sow_day =     134.000000000000
-     Manager creating a new local real variable : in_crop_rain =     0.00000000000000
-     Manager creating a new local real variable : num_rain_events =     0.00000000000000
 15 May 2002(Day of year=135), manager: 
      Manager creating a new local real variable : cum_temp =     0.00000000000000
      Manager creating a new local real variable : cum_swdef =     0.00000000000000

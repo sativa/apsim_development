@@ -108,6 +108,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      endif
      
      SECTION:- init
+     in_crop_rain = 0
+     eff_in_crop_rain = 0
+     
+     SECTION:- init
      cultivar = 'yitpi'
      
      SECTION:- init
@@ -117,6 +121,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      split_nrate = 0
      END of rules
      
+     Manager creating a new local real variable : in_crop_rain =     0.00000000000000
+     Manager creating a new local real variable : eff_in_crop_rain =     0.00000000000000
      Manager creating a new local string variable : cultivar = yitpi
      Manager creating a new local real variable : nrate =     40.0000000000000
      Manager creating a new local real variable : split_nrate =     0.00000000000000
@@ -264,8 +270,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Tracker variables:
         sum of Wheat.ep on process from reported to now as sum_ep
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : in_crop_rain =     0.00000000000000
-     Manager creating a new local real variable : eff_in_crop_rain =     0.00000000000000
 1 March 1957(Day of year=60), soilwat2: 
      
          - Reading constants

@@ -99,6 +99,9 @@ Component   "Egrandis" = c:\development\apsim\Growth\lib\Growth.dll
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
      
+     SECTION:- init
+     cum_litterfall = 0
+     
      SECTION:- start_of_day
      if year = 1991 and day = 182 then
         egrandis establish plants = 1333, init_section = seedling
@@ -111,6 +114,7 @@ Component   "Egrandis" = c:\development\apsim\Growth\lib\Growth.dll
      endif
      END of rules
      
+     Manager creating a new local real variable : cum_litterfall =     0.00000000000000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -263,6 +267,5 @@ Component   "Egrandis" = c:\development\apsim\Growth\lib\Growth.dll
      Manager sending message :- egrandis establish  plants = 1333, init_section = seedling
 1 July 1991(Day of year=182), Egrandis: 
      Establishing
-     Manager creating a new local real variable : cum_litterfall =     0.00000000000000
 30 June 1996(Day of year=182), clock: 
      Simulation is terminating due to end criteria being met.
