@@ -12,7 +12,9 @@ Public Class TclUI
         AxTclControl1.SetVar("GlobalXMLDoc", Me.Controller.ApsimData.RootComponent.Contents, 1)
         AxTclControl1.SetVar("myName", BaseActions.CalcFileName(Controller.ApsimData.Find(NodePath)), 1)
         AxTclControl1.SetVar("XMLDoc", Me.Data.OuterXml(), 1)
-        AxTclControl1.SetVar("apsuite", ApsimDirectory(), 1)
+        Dim apsuite As String
+        apsuite = Replace(ApsimDirectory(), "\", "/")
+        AxTclControl1.SetVar("apsuite", apsuite, 1)
 
         Dim UIScript As String = XmlHelper.Value(Data, "uiscript")
 
