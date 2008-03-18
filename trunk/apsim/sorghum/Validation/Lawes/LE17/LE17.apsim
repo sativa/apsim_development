@@ -3,7 +3,7 @@
     <manager name="Calculator">
       <script>
         <event>init</event>
-        <text> head_wt = 0
+        <text> 
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -19,7 +19,7 @@ nConcGrainPC  = 0</text>
       <script>
         <event>end_of_day</event>
         <text><![CDATA[ 
-head_wt = dw_green(4)
+
 root_n = n_green(1)
 head_n = n_green(4)
 leaf_n = n_green(2)
@@ -51,7 +51,7 @@ nConcGrainPC = n_conc_grain * 100]]></text>
       <variable name="RachisGreenWt" variablename="biomass_wt" module="Sorghum" arrayspec=" " description="Biomass weight" ModuleType="sorghum" />
       <variable name="GrainGreenWt" variablename="root_wt" module="Sorghum" arrayspec=" " description="Weight of roots" ModuleType="sorghum" />
       <variable name="GreenN" variablename="stem_wt" module="Sorghum" arrayspec=" " description="Weight of stems" ModuleType="sorghum" />
-      <variable name="RootGreenN" variablename="head_wt" module="Calculator" arrayspec=" " description="Weight of heads" ModuleType="logic" />
+      <variable name="RootGreenN" variablename="leaf_wt" module="Sorghum" arrayspec=" " description="Weight of leaf" ModuleType="sorghum" />
       <variable name="LeafGreenN" variablename="leaf_wt" module="Sorghum" arrayspec=" " description="Weight of leaf" ModuleType="sorghum" />
       <variable name="StemGreenN" variablename="grain_wt" module="Sorghum" arrayspec=" " description="Weight of grain" ModuleType="sorghum" />
       <variable name="RachisGreenN" variablename="biomass_n" module="Sorghum" arrayspec=" " description="N in total biomass" ModuleType="sorghum" />

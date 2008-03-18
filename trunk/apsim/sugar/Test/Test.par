@@ -64,6 +64,7 @@ plant_lag = 1           ! lag from sowing to fertiliser application (days)
 plant_fert = 160        ! N to add per crop (kg/ha)
 ratoon_lag = 1          ! lag from sowing to fertiliser application (days)
 ratoon_fert = 160       ! N to add per crop (kg/ha)
+losses = 0.0
 
 ! -----------------------------------------------------------------
 ! Book keeping to round days to integer values

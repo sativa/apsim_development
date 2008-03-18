@@ -1119,8 +1119,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
             ! variable not already defined. That's an error.  
 
             if (Numvals .eq. 0) then
-               str = 'Read of undefined variable "' //
-     .         variable_name // '".' 
+               str = 'Uninitialised variable "' //
+     .         trim(variable_name) // '".'  // new_line //
+     .         'Variables must have a value before they are ' //
+     .         'used in an expression.'
                call fatal_error(ERR_user, str)
 
             else

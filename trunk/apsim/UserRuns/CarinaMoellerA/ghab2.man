@@ -70,7 +70,7 @@ endif
 [all.manager.end_of_day]
 
 
-if (chickpea.stage >= 3 and chickpea <11) then
+if (chickpea.stage >= 3 and chickpea.stage <11) then
    tt_since_emerg = tt_since_emerg + chickpea.dlt_tt
 else
    tt_since_emerg = 0

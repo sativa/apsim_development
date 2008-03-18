@@ -719,7 +719,7 @@
     </Sorghum>
     <manager name="Calculator">
       <script name="init">
-        <text> head_wt = 0
+        <text> 
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -734,7 +734,7 @@ sd = 0
       </script>
       <script name="end_of_day">
         <text><![CDATA[ 
-head_wt = dw_green(4)
+
 root_n = n_green(1)
 head_n = n_green(4)
 leaf_n = n_green(2)
