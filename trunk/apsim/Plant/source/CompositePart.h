@@ -35,6 +35,7 @@ public:                                             // member functions
    virtual void  Detachment(void);
    virtual float dltDm(void);
    virtual float dltDmGreen(void)  ;
+   virtual float dltDmUptake(void)  ;
    virtual float dltDmGreenRemoved(void);
    virtual float dltDmPotRue(void);
    virtual float dltDmRemoved(void);

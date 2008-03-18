@@ -84,7 +84,7 @@ void genericArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts, st
 
          Part->giveDmGreen(uptake);
          dm_remaining = dm_remaining - uptake;
-         dlt_dm_green_tot = dlt_dm_green_tot + Part->dltDmGreen();
+         dlt_dm_green_tot = dlt_dm_green_tot + Part->dltDmUptake();
          }
       }
 

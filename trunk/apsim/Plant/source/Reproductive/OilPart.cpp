@@ -115,6 +115,12 @@ float fruitOilPart::removeEnergy (float DM)
 float fruitOilPart::dltDmGreen(void)
 //=======================================================================================
    {
+   return Growth.DM() ;
+   }
+
+float fruitOilPart::dltDmUptake(void)
+//=======================================================================================
+   {
    return (Growth.DM() + gDlt_dm_oil_conv);
    }
 
@@ -133,8 +139,8 @@ void fruitOilPart::doDMDemand (float dlt_dm_grain_demand)                       
 void fruitOilPart::doDMDemandGrain (float dlt_dm_grain_demand)
 //=======================================================================================
    {
-   float dltDmOil = removeEnergy (dlt_dm_grain_demand) * cGrain_oil_conc;                    
-   float dltDmOilConversion =  removeEnergy (dlt_dm_grain_demand) * (gGrain_energy - 1.0);   
+   float dltDmOil = removeEnergy (dlt_dm_grain_demand) * cGrain_oil_conc;
+   float dltDmOilConversion =  removeEnergy (dlt_dm_grain_demand) * (gGrain_energy - 1.0);
    DMGreenDemand = dltDmOil + dltDmOilConversion;
    }
 
@@ -159,7 +165,7 @@ void fruitOilPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTo
 float fruitOilPart::dmDemandDifferential(void)
 //=======================================================================================
    {
-   return dmGreenDemand() - dltDmGreen();
+   return dmGreenDemand() - dltDmUptake();
    }
 
 void fruitOilPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)

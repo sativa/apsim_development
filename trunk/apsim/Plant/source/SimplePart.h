@@ -137,6 +137,7 @@ public:
    virtual float dltLeafAreaPot(void) {throw std::runtime_error("SimplePart::dltLeafAreaPot() called");};
    virtual float giveDmGreen(float) ;           // Arbitrator gives this part dm; return amount used
    virtual float dltDmGreen(void) ;
+   virtual float dltDmUptake(void) ;
 
 protected:
    virtual void zeroDltNSenescedTrans(void);

@@ -699,6 +699,15 @@ float CompositePart::dltDmGreen(void)
    return dltDmGreen;
 }
 
+float CompositePart::dltDmUptake(void)
+   //===========================================================================
+{
+   float dltDmUptake= 0.0;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      dltDmUptake+=(*part)->dltDmUptake();
+   return dltDmUptake;
+}
+
 
 float CompositePart::dltDmRetranslocateSupply(float /* demand_differential*/)
    //===========================================================================
