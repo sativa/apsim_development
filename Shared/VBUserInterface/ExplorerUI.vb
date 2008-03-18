@@ -37,24 +37,14 @@ Public Class ExplorerUI
     Friend WithEvents UIPanel As System.Windows.Forms.Panel
     Friend WithEvents DataTree As DataTree
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.DataTree = New VBUserInterface.DataTree
         Me.Splitter = New System.Windows.Forms.Splitter
         Me.UIPanel = New System.Windows.Forms.Panel
+        Me.DataTree = New VBUserInterface.DataTree
         Me.SuspendLayout()
-        '
-        'DataTree
-        '
-        Me.DataTree.AllowDrop = True
-        Me.DataTree.BackColor = System.Drawing.SystemColors.Window
-        Me.DataTree.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.DataTree.Dock = System.Windows.Forms.DockStyle.Left
-        Me.DataTree.Location = New System.Drawing.Point(0, 0)
-        Me.DataTree.Name = "DataTree"
-        Me.DataTree.Size = New System.Drawing.Size(256, 828)
-        Me.DataTree.TabIndex = 3
         '
         'Splitter
         '
+        Me.Splitter.BackColor = System.Drawing.SystemColors.Control
         Me.Splitter.Location = New System.Drawing.Point(256, 0)
         Me.Splitter.Name = "Splitter"
         Me.Splitter.Size = New System.Drawing.Size(5, 828)
@@ -68,6 +58,17 @@ Public Class ExplorerUI
         Me.UIPanel.Name = "UIPanel"
         Me.UIPanel.Size = New System.Drawing.Size(759, 828)
         Me.UIPanel.TabIndex = 5
+        '
+        'DataTree
+        '
+        Me.DataTree.AllowDrop = True
+        Me.DataTree.BackColor = System.Drawing.SystemColors.Window
+        Me.DataTree.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.DataTree.Dock = System.Windows.Forms.DockStyle.Left
+        Me.DataTree.Location = New System.Drawing.Point(0, 0)
+        Me.DataTree.Name = "DataTree"
+        Me.DataTree.Size = New System.Drawing.Size(256, 828)
+        Me.DataTree.TabIndex = 3
         '
         'ExplorerUI
         '
