@@ -101,6 +101,7 @@ public:
    virtual void  calcDlt_pod_area (void) = 0;   //FIXME
 
    virtual float dltDmGreen(void)  = 0;
+   virtual float dltDmUptake(void)  = 0;
    virtual float dltDmGreenRemoved(void) = 0;
    virtual float dltDmRemoved(void) = 0;
    virtual float dltNGreen(void)  = 0;

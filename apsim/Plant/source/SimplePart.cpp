@@ -995,6 +995,12 @@ float SimplePart::dltDmGreen(void)
    return (Growth.DM());
    }
 
+float SimplePart::dltDmUptake(void)
+//=======================================================================================
+   {
+   return (Growth.DM());
+   }
+
 float SimplePart::transpirationEfficiency(void)
 //=======================================================================================
    {

@@ -30,6 +30,7 @@ class fruitOilPart : public SimplePart {
    float giveDmGreen(float delta);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    float dltDmGreen(void) ;
+   float dltDmUptake(void) ;
    float dltDmGreenRetransUptake(void);
    float dmDemandDifferential(void) ;
 

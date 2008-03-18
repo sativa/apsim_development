@@ -139,7 +139,7 @@ void allometricArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts,
    float dlt_dm_green_tot = /*rootPart->dltDmGreen() +*/
                               leafPart->dltDmGreen() +
                               stemPart->dltDmGreen() +
-                              fruitPart->dltDmGreen();
+                              fruitPart->dltDmUptake();
 
    if (!reals_are_equal(dlt_dm_green_tot, dlt_dm, 1.0E-4))
       {
