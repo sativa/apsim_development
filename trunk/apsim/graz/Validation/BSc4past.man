@@ -29,9 +29,6 @@ if (today = date('1-sep') then                                 ! p081
 endif
 
 [BSc4past.manager.end_of_day]
-sw1 = sw_dep(1) - ll_dep(1)
-sw2 = sw_dep(2) - ll_dep(2)
-sw3 = sw_dep(3) - ll_dep(3)
 grass_sw = sw_dep(1) + sw_dep(2) + sw_dep(3)
 
 if (year >= 1900) then

@@ -115,9 +115,6 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      endif
      
      SECTION:- end_of_day
-     sw1 = sw_dep(1) - ll_dep(1)
-     sw2 = sw_dep(2) - ll_dep(2)
-     sw3 = sw_dep(3) - ll_dep(3)
      grass_sw = sw_dep(1) + sw_dep(2) + sw_dep(3)
      if (year >= 1900) then
        daily do_output
@@ -307,12 +304,6 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
        Using vpd approximated from maxt, mint.
        Using Pan evap from met module.
      Manager creating a new local real variable : annual_lwg =     0.00000000000000
-     Manager creating a new local real variable : ll_dep(1) =     0.00000000000000
-     Manager creating a new local real variable : sw1 =     25.0561886000000
-     Manager creating a new local real variable : ll_dep(2) =     0.00000000000000
-     Manager creating a new local real variable : sw2 =     119.200005000000
-     Manager creating a new local real variable : ll_dep(3) =     0.00000000000000
-     Manager creating a new local real variable : sw3 =     438.000000000000
      Manager creating a new local real variable : grass_sw =     582.256193600000
 1 September 1900(Day of year=244), manager: 
      Manager creating a new local real variable : avgdailyintake =     4.20568388834486

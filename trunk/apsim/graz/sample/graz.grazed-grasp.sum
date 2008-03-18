@@ -55,6 +55,7 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      SECTION:- init
      paddockstate = 'empty'
      ready_to_graze = 0
+     annual_lwg = 0.0
      
      SECTION:- end_of_day
      annual_lwg = annual_lwg + graz.lwg
@@ -94,6 +95,7 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      
      Manager creating a new local string variable : paddockstate = empty
      Manager creating a new local real variable : ready_to_graze =     0.00000000000000
+     Manager creating a new local real variable : annual_lwg =     0.00000000000000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -277,6 +279,5 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
        Root depth :   750.0 mm
        Using vpd approximated from maxt, mint.
        NB. Pan evap approximated by soilwat2.eo
-     Manager creating a new local real variable : annual_lwg =     0.00000000000000
 1 February 1989(Day of year=32), clock: 
      Simulation is terminating due to end criteria being met.
