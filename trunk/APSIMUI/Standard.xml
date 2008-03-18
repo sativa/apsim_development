@@ -253,7 +253,7 @@
            <thickness>300</thickness>
          </layer>
        </profile>
-     </InitNitrogen>    
+     </InitNitrogen>
     <surfaceom name="Surface Organic Matter">
       <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
       <type type="list" description="Organic Matter type" listvalues="bambatsi,barley,base_type,broccoli,camaldulensis,canola,centro,chickpea,chikenmanure_base,cm,cmA,cmB,constants,cotton,cowpea,danthonia,fababean,fieldpea,fym,gbean,globulus,goatmanure,grandis,grass,horsegram,inert,lablab,lentil,lucerne,lupin,maize,manB,manure,medic,millet,mucuna,nativepasture,navybean,oats,orobanche,peanut,pigeonpea,potato,rice,sorghum,soybean,stylo,sugar,sunflower,sweetcorn,sweetsorghum,tillage,tithonia,vetch,weed,wheat">wheat</type>
@@ -434,7 +434,7 @@
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
                ChooseNextCrop = 'yes'   ! for rotations
-               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], tiller_no_fertile = [ftn] (), skip = [skiprow]
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], skip = [skiprow]
             endif
             if today = date('[date2]') then
                ChooseNextCrop = 'yes'
@@ -457,8 +457,7 @@
           <density type="text" description="Enter sowing density  (plants/m2) : ">7</density>
           <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
           <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">early</cultivar>
-          <row_spacing type="text" description="Enter row spacing (m) : ">1</row_spacing>
-          <ftn type="text" description="Enter Fertile Tiller No. : ">1</ftn>
+          <row_spacing type="text" description="Enter row spacing (mm) : ">1000</row_spacing>
           <skiprow type="list" listvalues="solid, single, double" description="Skip row : ">solid</skiprow>
         </ui>
       </manager>
@@ -623,7 +622,7 @@
            if ('[crop]' = 'cotton') then
               if ([crop].ozcot_status > 0) then
                   [crop] harvest
-              endif 
+              endif
            elseif ([crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead') then
               [crop]  harvest
               [crop]  end_crop
@@ -1280,7 +1279,6 @@
             <depth description="Enter sowing depth  (mm)">100</depth>
             <row_spacing description="Enter row spacing  (mm) (m for maize and sorghum)" type="text">0.9</row_spacing>
             <category name="Sorghum specs" />
-            <ftn type="text" description="Enter Fertile Tiller No. : ">1</ftn>
             <skiprow type="list" listvalues="solid, single, double" description="Skip row : ">solid</skiprow>
             <category name="Starter fertiliser application" />
             <fert_amount_sow description="Amount of starter fertiliser at sowing (kg/ha)" type="text">0</fert_amount_sow>
@@ -2061,7 +2059,7 @@ if {$steps == 0} {tkwait variable steps}
     <manager name="CanolaOilConc">
       <script>
         <event>script</event>
-        <text><![CDATA[start_of_day   
+        <text><![CDATA[start_of_day
          if (das = 1) then
             cum_temp = 0
             cum_swdef = 0
@@ -2074,7 +2072,7 @@ if {$steps == 0} {tkwait variable steps}
             cum_swdef = cum_swdef + swdef_photo
             cum_days = cum_days + 1
          endif
-      
+
          ! calculate canola oil content
          if (cum_days > 0) then
             avg_temp = cum_temp / cum_days
