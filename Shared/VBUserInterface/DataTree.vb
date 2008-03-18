@@ -232,13 +232,13 @@ Public Class DataTree
         ElseIf Node.ToolTipText.IndexOf("Disabled") = 0 Then
             Node.ForeColor = SystemColors.InactiveCaptionText
             Node.BackColor = SystemColors.InactiveCaption
-
-        ElseIf Controller.SelectedPaths.IndexOf(GetPathFromNode(Node)) = -1 Then
+        Else
             Node.ForeColor = Color.Black 'ForeColor
             Node.BackColor = BackColor
             Node.NodeFont = UnLinkFont
 
-        Else
+        End If
+        If Controller.SelectedPaths.IndexOf(GetPathFromNode(Node)) <> -1 Then
             Node.ForeColor = SystemColors.HighlightText
             Node.BackColor = SystemColors.Highlight
         End If
@@ -431,6 +431,7 @@ Public Class DataTree
         'DataTree
         '
         Me.ForeColor = System.Drawing.Color.Goldenrod
+        Me.HideSelection = False
         Me.ResumeLayout(False)
 
     End Sub
