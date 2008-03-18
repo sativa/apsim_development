@@ -106,6 +106,26 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
      
+     SECTION:- init
+          dateset = 0
+          emer_date = 0
+          endjuv_date = 0
+          anth_date = 0
+          mat_date = 0
+          event = 0
+          apoc_rain = 0
+     hi = 0
+     hi_green = 0
+     sla_tot=0
+     eta=0
+     eta_cum = 0
+     etp_cum=0
+     dlt_lai = 0
+     lai_yesterday = 0
+     lai_today = 0
+     sla = 0
+     day_cnt = 0
+     
      SECTION:- end_of_day
              report do_output
      if day>90 and day<305 then
@@ -138,6 +158,24 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      endif
      END of rules
      
+     Manager creating a new local real variable : dateset =     0.00000000000000
+     Manager creating a new local real variable : emer_date =     0.00000000000000
+     Manager creating a new local real variable : endjuv_date =     0.00000000000000
+     Manager creating a new local real variable : anth_date =     0.00000000000000
+     Manager creating a new local real variable : mat_date =     0.00000000000000
+     Manager creating a new local real variable : event =     0.00000000000000
+     Manager creating a new local real variable : apoc_rain =     0.00000000000000
+     Manager creating a new local real variable : hi =     0.00000000000000
+     Manager creating a new local real variable : hi_green =     0.00000000000000
+     Manager creating a new local real variable : sla_tot =     0.00000000000000
+     Manager creating a new local real variable : eta =     0.00000000000000
+     Manager creating a new local real variable : eta_cum =     0.00000000000000
+     Manager creating a new local real variable : etp_cum =     0.00000000000000
+     Manager creating a new local real variable : dlt_lai =     0.00000000000000
+     Manager creating a new local real variable : lai_yesterday =     0.00000000000000
+     Manager creating a new local real variable : lai_today =     0.00000000000000
+     Manager creating a new local real variable : sla =     0.00000000000000
+     Manager creating a new local real variable : day_cnt =     0.00000000000000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -354,12 +392,6 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      Manager creating a new local real variable : sw_110 =     82.6234770900000
      Manager creating a new local real variable : sw_150 =     113.811301290000
      Manager creating a new local real variable : avgt =     26.5000000000000
-     Manager creating a new local real variable : eta =    0.829330012000000E-001
-     Manager creating a new local real variable : eta_cum =     0.00000000000000
-     Manager creating a new local real variable : etp_cum =     0.00000000000000
-     Manager creating a new local real variable : hi =     0.00000000000000
-     Manager creating a new local real variable : hi_green =     0.00000000000000
-     Manager creating a new local real variable : sla_tot =     0.00000000000000
      Manager creating a new local real variable : yield_in_t =     0.00000000000000
 2 January 1995(Day of year=2): 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1385,8 +1417,6 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-1 April 1995(Day of year=91), manager: 
-     Manager creating a new local real variable : apoc_rain =     0.00000000000000
 12 April 1995(Day of year=102), operatns: 
       Sending set message to soiln2
       Sending set message to soiln2
@@ -1525,6 +1555,5 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
                           DM (kg/ha) =                   0.0                  2190.2
                           N  (kg/ha) =                   0.00                   45.74
      
-     Manager creating a new local real variable : dateset =     0.00000000000000
 31 December 1995(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.
