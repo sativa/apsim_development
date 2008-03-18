@@ -53,6 +53,10 @@ Public Class MetUI
         Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
         Me.ImageList.Images.SetKeyName(0, "")
         '
+        'OpenFileDialog
+        '
+        Me.OpenFileDialog.Filter = "met file (*.met)|*.met|All files(*.*)|*.*"
+        '
         'btnBrowse
         '
         Me.btnBrowse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -75,9 +79,9 @@ Public Class MetUI
         Me.MetGraphControl1.BackColor = System.Drawing.SystemColors.Control
         Me.MetGraphControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.MetGraphControl1.HelpText = ""
-        Me.MetGraphControl1.Location = New System.Drawing.Point(0, 40)
+        Me.MetGraphControl1.Location = New System.Drawing.Point(0, 18)
         Me.MetGraphControl1.Name = "MetGraphControl1"
-        Me.MetGraphControl1.Size = New System.Drawing.Size(1015, 679)
+        Me.MetGraphControl1.Size = New System.Drawing.Size(1015, 701)
         Me.MetGraphControl1.TabIndex = 14
         '
         'MetUI
