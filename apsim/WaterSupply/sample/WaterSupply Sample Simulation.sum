@@ -96,15 +96,12 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
      Manager rules:
      
      SECTION:- start_of_day
-           if (paddock_is_fallow() = 1 and fallowin <> 'yes' and (nextcrop = 0 or nextcrop = 'wheat')) then
+           if (paddock_is_fallow() = 1 ) then
               if (date_within('15-may, 10-jul') = 1) then
      if (rain[3] >= 30 and esw >= 200) or
          ('no' = 'yes' and today = date('10-jul'))) then
         choosenextcrop = 'yes'
         wheat sow plants =100, sowing_depth = 30, cultivar = hartog, row_spacing = 250, crop_class = plant
-     endif
-     if today = date('10-jul') then
-        choosenextcrop = 'yes'
      endif
               endif
            endif
@@ -410,8 +407,6 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
       System Solute number  2  is nh4 and the initial concentration in this storage is  0.00000000E+00  ppm
       System Solute number  3  is urea and the initial concentration in this storage is  0.00000000E+00  ppm
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : fallowin =     0.00000000000000
-     Manager creating a new local real variable : nextcrop =     0.00000000000000
      Manager creating a new local real variable : max_avail_soil_water =     400.499992400000
      Manager creating a new local real variable : avail_soil_water =     119.099998500000
      Manager creating a new local real variable : avail_sw_proportion =    0.297378272159800
@@ -1833,13 +1828,12 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
       WARNING : No more water available from specified sources - deficit still equals 10.0000000  ML of water
       Annual Allocation granted to channel                       .  Available water now equals  1000.00000
       Annual Allocation granted to bore                          .  Available water now equals  100.000000
-10 July 1940(Day of year=192), Sowing rule: 
-     Manager creating a new local string variable : choosenextcrop = yes
 29 June 1941(Day of year=180), channel: 
       Annual Allocation granted to channel                       .  Available water now equals  1000.00000
 29 June 1941(Day of year=180), bore: 
       Annual Allocation granted to bore                          .  Available water now equals  100.000000
 28 May 1942(Day of year=148), Sowing rule: 
+     Manager creating a new local string variable : choosenextcrop = yes
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 30, cultivar = hartog, row_spacing = 250, crop_class = plant
 28 May 1942(Day of year=148), wheat: 
      Crop Sow
