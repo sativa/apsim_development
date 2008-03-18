@@ -890,7 +890,7 @@
       <manager name="Calculator">
         <script>
           <event>init</event>
-          <text> head_wt = 0
+          <text> 
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -904,7 +904,7 @@ sd = 0</text>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[ 
-head_wt = dw_green(4)
+
 root_n = n_green(1)
 head_n = n_green(4)
 leaf_n = n_green(2)
@@ -1057,7 +1057,7 @@ endif
       <manager name="Calculator">
         <script>
           <event>init</event>
-          <text> head_wt = 0
+          <text> 
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -1070,7 +1070,7 @@ sd = 0</text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text><![CDATA[ [cr]head_wt = dw_green(4)[cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
+          <text><![CDATA[ [cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </manager>
       <irrigation name="Irrigation">
@@ -1209,7 +1209,7 @@ sd = 0</text>
       <manager name="Calculator">
         <script>
           <event>init</event>
-          <text> head_wt = 0
+          <text> 
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -1222,7 +1222,7 @@ sd = 0</text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text><![CDATA[ [cr]head_wt = dw_green(4)[cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
+          <text><![CDATA[ [cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </manager>
       <irrigation name="Irrigation">
@@ -1361,7 +1361,7 @@ sd = 0</text>
       <manager name="Calculator">
         <script>
           <event>init</event>
-          <text> head_wt = 0
+          <text>
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -1374,7 +1374,7 @@ sd = 0</text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text><![CDATA[ [cr]head_wt = dw_green(4)[cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
+          <text><![CDATA[ [cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </manager>
       <irrigation name="Irrigation">
@@ -1513,7 +1513,7 @@ sd = 0</text>
       <manager name="Calculator">
         <script>
           <event>init</event>
-          <text> head_wt = 0
+          <text> 
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -1526,7 +1526,7 @@ sd = 0</text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text><![CDATA[ [cr]head_wt = dw_green(4)[cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
+          <text><![CDATA[ [cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </manager>
       <irrigation name="Irrigation">
@@ -1637,7 +1637,7 @@ sd = 0</text>
       <manager name="Calculator">
         <script>
           <event>init</event>
-          <text> head_wt = 0
+          <text> 
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -1650,7 +1650,7 @@ sd = 0</text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text><![CDATA[ [cr]head_wt = dw_green(4)[cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
+          <text><![CDATA[ [cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </manager>
       <irrigation name="Irrigation">
@@ -1761,7 +1761,7 @@ sd = 0</text>
       <manager name="Calculator">
         <script>
           <event>init</event>
-          <text> head_wt = 0
+          <text> 
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -1774,7 +1774,7 @@ sd = 0</text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text><![CDATA[ [cr]head_wt = dw_green(4)[cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
+          <text><![CDATA[ [cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </manager>
       <irrigation name="Irrigation">
@@ -1885,7 +1885,7 @@ sd = 0</text>
       <manager name="Calculator">
         <script>
           <event>init</event>
-          <text> head_wt = 0
+          <text> 
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -1898,7 +1898,7 @@ sd = 0</text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text><![CDATA[ [cr]head_wt = dw_green(4)[cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
+          <text><![CDATA[ [cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </manager>
       <irrigation name="Irrigation">
@@ -2009,7 +2009,7 @@ sd = 0</text>
       <manager name="Calculator">
         <script>
           <event>init</event>
-          <text> head_wt = 0
+          <text> 
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -2022,7 +2022,7 @@ sd = 0</text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text><![CDATA[ [cr]head_wt = dw_green(4)[cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
+          <text><![CDATA[ [cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </manager>
       <irrigation name="Irrigation">
@@ -2125,7 +2125,7 @@ sd = 0</text>
       <manager name="Calculator">
         <script>
           <event>init</event>
-          <text> head_wt = 0
+          <text>
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -2138,7 +2138,7 @@ sd = 0</text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text><![CDATA[ [cr]head_wt = dw_green(4)[cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
+          <text><![CDATA[ [cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </manager>
       <irrigation name="Irrigation">
@@ -2241,7 +2241,7 @@ sd = 0</text>
       <manager name="Calculator">
         <script>
           <event>init</event>
-          <text> head_wt = 0
+          <text>
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -2254,7 +2254,7 @@ sd = 0</text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text><![CDATA[ [cr]head_wt = dw_green(4)[cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
+          <text><![CDATA[ [cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </manager>
       <irrigation name="Irrigation">
@@ -2357,7 +2357,7 @@ sd = 0</text>
       <manager name="Calculator">
         <script>
           <event>init</event>
-          <text> head_wt = 0
+          <text> 
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -2370,7 +2370,7 @@ sd = 0</text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text><![CDATA[ [cr]head_wt = dw_green(4)[cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
+          <text><![CDATA[ [cr]root_n = n_green(1)[cr]head_n = n_green(4)[cr]leaf_n = n_green(2)[cr][cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </manager>
       <irrigation name="Irrigation">

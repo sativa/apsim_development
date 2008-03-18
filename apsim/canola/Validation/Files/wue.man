@@ -4,7 +4,13 @@ rain_samp_start_sw = 0
 rain_samp_finish_sw = 0
 sim_start_sw = 0
 sim_finish_sw = 0    
-
+cum_days = 0
+pre_sow_rain = 0
+flower_flag = 0
+grain_fill_rain = 0
+sum_rain = 0
+in_crop_rain = 0
+num_rain_events = 0
 
 [all.manager.start_of_day]
 

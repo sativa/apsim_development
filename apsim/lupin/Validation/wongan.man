@@ -40,6 +40,7 @@ dlt_lai = 0
 lai_yesterday = 0
 lai_today = 0
 sla = 0
+day_cnt = 0
 
 [standard.manager.start_of_day]    
 
@@ -93,7 +94,7 @@ else
 endif
 
 ! tlai used as there is no detachment for canola, otherwise lai would be used
-If clock.simulation_start_day = day_cnt then
+If clock.today = clock.simulation_start_day then
    lai_yesterday = tlai
 !   report do_output
 else 

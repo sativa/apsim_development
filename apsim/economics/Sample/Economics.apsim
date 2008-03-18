@@ -42,12 +42,11 @@
 ! Ask the system (economics/machinery module) whether the tractor/implement combination is available:
 if (available('tractor=t1,implement=p1')) THEN
 
-      if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
+      if (paddock_is_fallow() = 1 ) then
          if (date_within('[date1], [date2]') = 1) then
             if (rain[[rainnumdays]] >= [raincrit] AND 
                 esw >= [esw_amount] ) <> 0) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
-               ChooseNextCrop = 'yes'   ! for rotations
 
                ! When machinery 'operates', it stops them being 'available', and incurs operating costs.
                economics operate tractor=t1, implement = p1, area = 200, costtype = incrop_cost
@@ -57,9 +56,6 @@ if (available('tractor=t1,implement=p1')) THEN
 
                [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
 
-            endif
-            if today = date('[date2]') then
-               ChooseNextCrop = 'yes'
             endif
          endif
       endif

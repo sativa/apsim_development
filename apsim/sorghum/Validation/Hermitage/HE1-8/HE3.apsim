@@ -4,7 +4,7 @@
     <manager name="Calculator">
       <script>
         <event>init</event>
-        <text> head_wt = 0
+        <text> 
 root_n = 0
 head_n = 0
 leaf_n = 0
@@ -19,7 +19,7 @@ NCGrain  = 0</text>
       <script>
         <event>end_of_day</event>
         <text><![CDATA[ 
-head_wt = dw_green(4)
+
 root_n = n_green(1)
 head_n = n_green(4)
 leaf_n = n_green(2)

@@ -24,6 +24,9 @@ end_date=1/5/2000
 start_date=1/10/1997
 end_date=1/5/2000
 
+[Highworth.manager.init]
+crop_in = 0
+
 [Highworth.manager.end_of_day]
 
 report do_output
@@ -43,6 +46,9 @@ if (day > 270 or day < 30) and (esw > 50) and (rain[5] > 30) and (crop_in = 0) t
   crop_in = 1
 endif
 
+
+[Endurance.manager.init]
+crop_in = 0
 
 [Endurance.manager.end_of_day]
 

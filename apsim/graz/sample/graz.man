@@ -34,6 +34,8 @@ ready_to_graze = 0
 
 [wheat.manager.init]
 growth = 0.0
+[all.manager.init]
+annual_lwg = 0.0
 
 [wheat.manager.start_of_day]
 ! This is accumulated within graz

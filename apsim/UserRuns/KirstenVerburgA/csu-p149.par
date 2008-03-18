@@ -90,6 +90,8 @@ zero_flag    = 0
 crop_in      = 0
 cult         = 0
 
+cum_E        = 0
+   
 [all.manager.start_of_day]
 !resetting of cumulative water balance terms and stages
 if (year = 1993 and (day = 91 or day = 145 or day = 330)) then

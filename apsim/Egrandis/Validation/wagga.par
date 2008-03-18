@@ -28,6 +28,10 @@ variable = manager.cum_litterfall
 start_date=1/7/1991
 end_date=30/6/1996
 
+[all.manager.init]
+
+cum_litterfall = 0
+
 [all.manager.start_of_day]
 
 if year = 1991 and day = 182 then
