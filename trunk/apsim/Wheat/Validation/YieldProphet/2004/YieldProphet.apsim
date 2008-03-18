@@ -27,6 +27,12 @@
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
           </ui>
+          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+              <event>init</event>
+        </script>  
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -401,7 +407,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -549,7 +555,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                  cum_days = 0
+                  Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -986,7 +1015,12 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+<text> ResetBank = 0 
+                  Bank = 0
+</text>              <event>init</event>
+        </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -1361,7 +1395,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -1509,7 +1543,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -1976,7 +2033,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+              <event>init</event>
+        </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -2351,7 +2414,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -2499,7 +2562,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -2967,7 +3053,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+              <event>init</event>
+        </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -3342,7 +3434,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -3490,7 +3582,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -3927,7 +4042,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -4302,7 +4423,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -4450,7 +4571,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -4903,7 +5047,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+              <event>init</event>
+        </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -5278,7 +5428,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -5426,7 +5576,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -5863,7 +6036,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+              <event>init</event>
+        </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -6238,7 +6417,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -6386,7 +6565,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -6839,7 +7041,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -7214,7 +7422,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -7362,7 +7570,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -7815,7 +8046,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -8190,7 +8427,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -8338,7 +8575,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -8791,7 +9051,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+              <event>init</event>
+        </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -9166,7 +9432,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -9314,7 +9580,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -9748,7 +10037,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -10123,7 +10418,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -10271,7 +10566,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -10728,7 +11046,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -11103,7 +11427,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -11251,7 +11575,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -11728,7 +12075,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+              <event>init</event>
+        </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -12103,7 +12456,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -12251,7 +12604,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -12708,7 +13084,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+              <event>init</event>
+        </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -13083,7 +13465,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -13231,7 +13613,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -13657,7 +14062,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -14032,7 +14443,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -14180,7 +14591,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -14600,7 +15034,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -14975,7 +15415,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -15123,7 +15563,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -15571,7 +16034,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -15946,7 +16415,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -16094,7 +16563,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -16547,7 +17039,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+            <event>init</event>
+          </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -16922,7 +17420,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -17070,7 +17568,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -17527,7 +18048,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -17902,7 +18429,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -18050,7 +18577,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -18514,7 +19064,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -18889,7 +19445,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -19037,7 +19593,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -19479,7 +20058,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -19854,7 +20439,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -20002,7 +20587,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -20431,7 +21039,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -20806,7 +21420,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -20954,7 +21568,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -21429,7 +22066,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -21804,7 +22447,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -21952,7 +22595,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -22389,7 +23055,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+             <event>init</event>
+           <text> ResetBank = 0 
+                  Bank = 0
+</text>
+          </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -22764,7 +23436,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -22912,7 +23584,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -23349,7 +24044,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+            <event>init</event>
+          </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -23724,7 +24425,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -23872,7 +24573,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -24333,7 +25057,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -24708,7 +25438,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -24856,7 +25586,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -25289,7 +26042,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -25664,7 +26423,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -25812,7 +26571,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -26250,7 +27032,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -26625,7 +27413,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -26773,7 +27561,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -27267,7 +28078,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -27642,7 +28459,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -27790,7 +28607,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -28247,7 +29087,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -28622,7 +29468,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -28770,7 +29616,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -29203,7 +30072,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+              <event>init</event>
+        </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -29578,7 +30453,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -29726,7 +30601,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -30163,7 +31061,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -30538,7 +31442,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -30686,7 +31590,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -31119,7 +32046,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -31494,7 +32427,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -31642,7 +32575,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -32095,7 +33051,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+              <event>init</event>
+        </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -32470,7 +33432,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -32618,7 +33580,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -33091,7 +34076,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -33466,7 +34457,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -33614,7 +34605,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -34051,7 +35065,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -34426,7 +35446,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -34574,7 +35594,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -35011,7 +36054,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -35386,7 +36435,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -35534,7 +36583,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -35991,7 +37063,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -36366,7 +37444,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -36514,7 +37592,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -36947,7 +38048,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+              <event>init</event>
+        </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -37322,7 +38429,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -37470,7 +38577,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -37943,7 +39073,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -38318,7 +39454,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -38466,7 +39602,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -38943,7 +40102,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -39318,7 +40483,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -39466,7 +40631,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -39908,7 +41096,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+             <event>init</event>
+         </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -40283,7 +41477,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -40431,7 +41625,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -40884,7 +42101,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+            <event>init</event>
+          </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -41259,7 +42482,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -41407,7 +42630,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
@@ -41860,7 +43106,13 @@ SowDateFull=date('')
             <Price type="text" description="Price ($/t) : ">140</Price>
             <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
             <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-          </ui>
+          </ui>          <script name="init">
+            <text> ResetBank = 0 
+                  Bank = 0
+</text>
+            <event>init</event>
+          </script>  
+
           <script name="post">
             <text><![CDATA[   ! Reset the bank to zero the day after harvest.
    if (ResetBank = 1 or today = met_start_date) then
@@ -42235,7 +43487,7 @@ SowDateFull=date('')
    Nitrogen = no3() + nh4()
    AvailableWater = sw_dep() - ll_dep()
    NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
-   NInPlant = (biomass_n * 10) + (n_green(1) * 10)    ! unit conversion g/m2 to kg/ha
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
 
    ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
    BiomassTonnesPerHa= 0.8 * (biomass / (1 - 13/100) / 1000)    
@@ -42383,7 +43635,30 @@ SowDateFull=date('')
             <event>start_of_day</event>
           </script>
           <script name="init">
-            <text> CurrentFallow = 0</text>
+            <text> CurrentFallow = 0
+                                    cum_days = 0
+                                    Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+StartDailyDate = 0
+CurrentCropFound =0
+DecileDate = 0
+DoDecileOutput = 0
+threemonthstimedate = 0
+</text>
             <event>init</event>
           </script>
         </manager>
