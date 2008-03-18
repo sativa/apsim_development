@@ -113,6 +113,8 @@ Component      "sugar" = c:\development\apsim\sugar\lib\sugar.dll
      dah = 0
      sample = 0
      num_irr = 0
+     losses = 0.0
+     bal_n_old = 0
      
      SECTION:- end_of_day
       soil_n = (soiln2.nit_tot())/10
@@ -216,6 +218,8 @@ Component      "sugar" = c:\development\apsim\sugar\lib\sugar.dll
      Manager creating a new local real variable : dah =     0.00000000000000
      Manager creating a new local real variable : sample =     0.00000000000000
      Manager creating a new local real variable : num_irr =     0.00000000000000
+     Manager creating a new local real variable : losses =     0.00000000000000
+     Manager creating a new local real variable : bal_n_old =     0.00000000000000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -368,9 +372,7 @@ Component      "sugar" = c:\development\apsim\sugar\lib\sugar.dll
      Manager creating a new local real variable : leach_n =     0.00000000000000
      Manager creating a new local real variable : dnit_n =     0.00000000000000
      Manager creating a new local real variable : total_n =     1057.22993246000
-     Manager creating a new local real variable : losses =     0.00000000000000
      Manager creating a new local real variable : bal_n =     1057.22998000000
-     Manager creating a new local real variable : bal_n_old =     0.00000000000000
      Manager creating a new local real variable : error =     1057.22998000000
 1 May 1980(Day of year=122), manager: 
      Manager sending message :- sugar sow  plants = 10, cultivar = q117, sowing_depth = 150
