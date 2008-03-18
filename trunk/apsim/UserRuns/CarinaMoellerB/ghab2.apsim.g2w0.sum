@@ -73,6 +73,7 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
      SECTION:- init
       tt_since_emerg = 0
       cum_n_supply_soil = 0
+       ddas = 0
      
      SECTION:- end_of_day
      if (chickpea.stage >= 3 and chickpea.stage <11) then
@@ -98,6 +99,7 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
      
      Manager creating a new local real variable : tt_since_emerg =     0.00000000000000
      Manager creating a new local real variable : cum_n_supply_soil =     0.00000000000000
+     Manager creating a new local real variable : ddas =     0.00000000000000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -255,7 +257,6 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
 ------- Start of simulation  --------------------------------------------------
      Manager creating a new local real variable : n_from_soil =     0.00000000000000
      Manager creating a new local real variable : green_biom =     0.00000000000000
-     Manager creating a new local real variable : ddas =     0.00000000000000
      Manager creating a new local real variable : wat_mm_1_4 =     74.8823900000000
 21 December 1999(Day of year=355), manager: 
      Manager sending message :- surfaceom tillage  type = planter, f_incorp = 1.0 (0-1), tillage_depth = 150 (mm)

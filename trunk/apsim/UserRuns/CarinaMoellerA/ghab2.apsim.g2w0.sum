@@ -74,7 +74,7 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
       tt_since_emerg = 0
      
      SECTION:- end_of_day
-     if (chickpea.stage >= 3 and chickpea <11) then
+     if (chickpea.stage >= 3 and chickpea.stage <11) then
         tt_since_emerg = tt_since_emerg + chickpea.dlt_tt
      else
         tt_since_emerg = 0
@@ -244,7 +244,6 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
 ------- chickpea Initialisation -----------------------------------------------
      phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : chickpea =     0.00000000000000
      Manager creating a new local real variable : n_from_soil =     0.00000000000000
      Manager creating a new local real variable : wat_mm_1_4 =     75.0144787000000
 21 December 1999(Day of year=355), manager: 

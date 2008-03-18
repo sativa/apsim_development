@@ -103,6 +103,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
           emer_date = 0
           anth_date = 0
           mat_date = 0
+     harvd = 0
      
      SECTION:- start_of_day
         if (day=300) and
@@ -156,6 +157,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Manager creating a new local real variable : emer_date =     0.00000000000000
      Manager creating a new local real variable : anth_date =     0.00000000000000
      Manager creating a new local real variable : mat_date =     0.00000000000000
+     Manager creating a new local real variable : harvd =     0.00000000000000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -379,7 +381,6 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         average of maize.pfact_photo on end_of_day from report.reported to now as avg@maize_pfact_photo
         sum of soilwat2.no3_leach(5) on end_of_day from report.reported to now as sum@soilwat2_no3_leach[5]
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : harvd =     0.00000000000000
 31 October 1975(Day of year=304), manager: 
      Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.9, tillage_depth = 100
 31 October 1975(Day of year=304), SurfaceOM: 

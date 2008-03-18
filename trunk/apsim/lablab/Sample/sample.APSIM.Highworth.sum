@@ -102,6 +102,9 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
      
+     SECTION:- init
+     crop_in = 0
+     
      SECTION:- end_of_day
      report do_output
      if ((lablab.stage > 5 and lablab.biomass > 1000) or (lablab.plant_status = 'dead')) then
@@ -118,6 +121,7 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
      endif
      END of rules
      
+     Manager creating a new local real variable : crop_in =     0.00000000000000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -262,7 +266,6 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
 ------- lablab Initialisation -------------------------------------------------
      phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : crop_in =     0.00000000000000
 21 October 1997(Day of year=294), manager: 
      Manager sending message :- lablab sow  cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
 21 October 1997(Day of year=294), lablab: 

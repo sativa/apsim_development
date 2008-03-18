@@ -76,7 +76,7 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- start_of_day
-           if (paddock_is_fallow() = 1 and fallowin <> 'yes' and (nextcrop = 0 or nextcrop = 'potato')) then
+           if (paddock_is_fallow() = 1 ) then
               if (date_within('15-may, 10-jul') = 1) then
      if (rain[7] >= 10 and esw >= 10) or
          ('yes' = 'yes' and today = date('10-jul'))) then
@@ -97,9 +97,6 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
         endif
         density = 5
         potato sow plants = density, sowing_depth = 30, cultivar = russet, row_spacing = 250, crop_class = plant
-     endif
-     if today = date('10-jul') then
-        choosenextcrop = 'yes'
      endif
               endif
            endif
@@ -266,8 +263,6 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
 ------- potato Initialisation -------------------------------------------------
      phenology model: Generic
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : fallowin =     0.00000000000000
-     Manager creating a new local real variable : nextcrop =     0.00000000000000
 15 May 1999(Day of year=135), Sowing rule: 
      Manager creating a new local string variable : choosenextcrop = yes
      Manager creating a new local real variable : stf =     2.18013592000000
