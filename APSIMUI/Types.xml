@@ -905,8 +905,9 @@
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/tcllink/docs/tclink_science.htm</Documentation>
-      <LargeIcon>%apsuite\apsimui\Images\manager32.png</LargeIcon>
-      <SmallIcon>%apsuite\apsimui\Images\manager16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\folder_gear32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\folder_gear16.png</SmallIcon>
+
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -936,8 +937,9 @@
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/tcllink/docs/farmmanager_science.htm</Documentation>
-      <LargeIcon>%apsuite\apsimui\Images\manager32.png</LargeIcon>
-      <SmallIcon>%apsuite\apsimui\Images\manager16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\folder_gear32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\folder_gear16.png</SmallIcon>
+
       <drops>
          <drop name="toolbox"/>
          <drop name="simulation"/>
@@ -969,8 +971,8 @@
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/tcllink/docs/farmmanager_science.htm</Documentation>
-      <LargeIcon>%apsuite\apsimui\Images\manager32.png</LargeIcon>
-      <SmallIcon>%apsuite\apsimui\Images\manager16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\folder_gear32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\folder_gear16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1002,8 +1004,8 @@
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/tcllink/docs/farmmanager_science.htm</Documentation>
-      <LargeIcon>%apsuite\apsimui\Images\manager32.png</LargeIcon>
-      <SmallIcon>%apsuite\apsimui\Images\manager16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\folder_gear32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\folder_gear16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1026,6 +1028,8 @@
       <UItype>APSIMUI.TclUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>%apsuite\apsimui\Images\tclmanager32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\tclmanager16.png</SmallIcon>
       <drops>
          <drop name="manager"/>
          <drop name="tclmanager"/>
@@ -2976,7 +2980,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\input\lib\input.dll</dll>
-      </ApsimToSim>   
+      </ApsimToSim>
    </input>
    <ocean_data>
       <UItype>APSIMUI.FileUI</UItype>
@@ -4325,7 +4329,7 @@
         </sim>
      </ApsimToSim>
    </SorghumGenotype>
-   
-   
+
+
 </Types>
 
