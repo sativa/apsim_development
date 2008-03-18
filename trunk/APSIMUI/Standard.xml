@@ -2043,6 +2043,269 @@ if {$steps == 0} {tkwait variable steps}
           </condition>
         </rule>
       </paddockmanager>
+  <tclui name="R Graphics">
+    <uiscript>
+# Displays R graphics
+trace remove variable XMLDoc read setXML
+package require Tk
+
+# Get the value of one of our parameters
+proc getValue {id thing} {
+   foreach node [$id childNodes] {
+      if {[string equal -nocase [$node nodeName] $thing]} {
+         return [$node text]
+      }
+   }
+   return ""
+}
+
+# Set the value of our 'thing'
+proc setValue {w thing what} {
+   upvar #0 $w data
+   foreach node [$data(docroot) childNodes] {
+      if {[string equal -nocase [$node nodeName] $thing]} {
+         $data(docroot) removeChild $node
+      }
+   }
+   set node [$data(doc) createElement $thing]
+   $node appendChild [$data(doc) createTextNode $what]
+   $data(docroot) appendChild $node
+}
+
+proc appletInit {w} {
+   upvar #0 $w data
+   global XMLDoc GlobalXMLDoc
+   package require tdom
+ 
+   set data(doc) [dom parse $XMLDoc]
+   set data(docroot) [$data(doc) documentElement]
+   set data(rscript) [getValue $data(docroot) rscript]
+   set data(gdocroot) [[dom parse $GlobalXMLDoc] documentElement]
+}   
+
+# find input &amp; output files
+proc findFiles {w} {
+   global myName
+   upvar #0 $w data
+   set data(inputs) {}
+
+   # Dodgy voodoo from ReporComponent.cpp - blame holzworth..
+   foreach node [$data(gdocroot) selectNodes "//outputfile" ] {
+       set simroot $node
+       while {"$simroot" != "" &amp;&amp; 
+              [$simroot nodeName] != "simulation"} {
+          set parent [$simroot getAttribute name]
+          set simroot [$simroot parent]
+       }
+       set title [$simroot getAttribute name]
+       set filename $title
+       if {$parent != "paddock"} {
+           set filename "$filename $parent"
+       }
+
+       if {[$node getAttribute "name"] != "outputfile"} {
+           set filename "$filename [$node getAttribute name]"
+       }
+       set filename "$filename.out"
+       lappend data(inputs) $filename
+   }
+   set data(output) [file join [string trim $myName].png]
+   set data(outputScript) [file join [string trim $myName].R]
+}
+
+# See if we need to re-run the R script
+proc checkAndLoad {w} {
+   upvar #0 $w data
+
+   set runAgain 0
+   # Does it exist?
+   if {[file exists $data(output)]} {
+      set t [file mtime $data(output)]
+   } else {
+      set runAgain 1
+      set t 0
+   }
+   # Are the inputs newer?
+   foreach f $data(inputs) {
+      if {[file mtime $f] &gt; $t} {
+         set runAgain 1
+      }
+   }
+
+   # See if a resize is needed
+   package require Img
+   if {!$runAgain &amp;&amp; [file exists $data(output)]} {
+      set data(image) [image create photo -file $data(output)]
+      if {[winfo width .] != [image width $data(image)] ||
+          ([winfo height .]-30) != [image height $data(image)]} {
+         set runAgain 1
+      }
+   }
+   if { $runAgain } {
+      regenerate $w
+   } else {
+      $w.l config -image $data(image)
+      set data(message) "No update of \"$data(output)\" needed"; update
+   }
+}
+
+# Run the R script
+proc regenerate {w} {
+   upvar #0 $w data
+   package require registry
+   set data(message) "Running R"; update
+
+   set width [winfo width .]
+   if {$width &lt; 500} {set width 500}
+   set height [expr [winfo height .]-30]
+   if {$height &lt; 500} {set height 500}
+   
+   set fp [open $data(outputScript) w]
+   puts $fp "outputWidth &lt;- $width"
+   puts $fp "outputHeight &lt;- $height"
+   puts $fp "inputs &lt;- c(\"[join $data(inputs) \",\"]\")"
+   puts $fp "output &lt;- \"$data(output)\""
+   puts $fp "$data(rscript)"
+   close $fp
+
+   set path [registry get HKEY_LOCAL_MACHINE\\software\\R-core\\R InstallPath]
+   set rterm [file norm $path]/bin/rterm.exe
+   
+   catch {
+     exec $rterm --slave --vanilla &lt; $data(outputScript)  
+   } msg
+   
+   if {[file exists $data(output)]} {
+      set data(image) [image create photo -file $data(output)]
+      $w.l config -image $data(image)
+      set data(message) "Finished R"; update
+   } else {
+      set data(message) "R failed to write \"$data(output)\" - $msg"; update
+   }
+}
+
+proc setupUI {w} {
+   upvar #0 $w data
+   
+   label $w.l
+   message $w.m -textvariable $w\(message\) -aspect 1000
+   grid $w.l -row 0 -column 0 -sticky nsew
+   grid $w.m -row 1 -column 0 -sticky ew
+   set data(message) "Loading"
+   update
+   bind $w.l &lt;3&gt; "rightClick $w"
+}
+
+# pop open an edit window
+proc rightClick {w} {
+   upvar #0 $w data
+
+   package require BWidget
+
+   if {[winfo exists $w.edit]} {destroy $w.edit}
+   set f [frame $w.edit]
+   ScrolledWindow $f.sw
+   text $f.sw.t -height 30 -wrap none -font courier
+   $f.sw setwidget $f.sw.t
+
+   set width [winfo width .]
+   if {$width &lt; 500} {set width 500}
+   set height [expr [winfo height .]-30]
+   if {$height &lt; 500} {set height 500}
+
+   $f.sw.t insert end "#vvvvvv DO NOT EDIT THIS BIT vvvv\n" auto
+   $f.sw.t insert end "outputWidth &lt;- $width\n"   auto
+   $f.sw.t insert end "outputHeight &lt;- $height\n" auto
+   $f.sw.t insert end "inputs &lt;- c(\"[join $data(inputs) \",\"]\")\n" auto
+   $f.sw.t insert end "output &lt;- \"$data(output)\"\n" auto
+   $f.sw.t insert end "#^^^^^^ DO NOT EDIT THIS BIT ^^^^\n\n" auto
+   $f.sw.t insert end $data(rscript)
+
+   Button $f.ok  -text "Ok"     -command "finishEditRule $w $f.sw.t"
+   Button $f.can -text "Cancel" -command "destroy $w.edit"
+   pack $f.sw -fill both -expand 1
+   pack $f.ok $f.can -side left -padx 10
+   grid $w.edit -row 0 -column 0 -sticky nsew
+   focus $f.sw.t
+
+   $f.sw.t tag configure auto      -foreground red -background gray
+}
+
+proc finishEditRule {w t} {
+   upvar #0 $w data
+   foreach {a b} [$t tag range auto] {$t delete $a $b}
+   set data(rscript) [$t get 0.0 end]
+   setValue $w rscript $data(rscript)
+   regenerate $w
+   destroy $w.edit
+}
+
+
+##############################
+########Main program starts here
+##############################
+foreach name [image names] {image delete $name}
+catch {destroy .w}
+frame .w   
+grid forget .
+grid .w -row 1 -column 1 -sticky nsew
+grid columnconf . 1 -weight 1
+grid rowconf    . 1 -weight 1
+
+setupUI     .w
+appletInit  .w
+findFiles   .w
+checkAndLoad .w
+
+proc setXML {name1 name2 op} {
+   upvar #0 .w data
+   if {[catch {set newXML [$data(doc) asXML]}]} {
+      global errorInfo; tk_messageBox -title "Error - not updating" -message "$errorInfo" -type ok
+   } else {
+      global XMLDoc
+      set XMLDoc $newXML
+   }
+}
+trace add variable XMLDoc read setXML
+</uiscript>
+    <rscript>
+
+files&lt;-c("maize20% output.out",
+         "maize40% output.out", 
+         "maize50% output.out", 
+         "maize60% output.out", 
+      "maize70% output.out")
+
+read.apsim &lt;- function (fname) {
+   apsim &lt;- read.table(fname, skip=4, header=F, na.strings="?")
+   names(apsim) &lt;- names(read.table(fname, skip=2,header=T,nrows=1))
+   return(apsim)
+}
+
+cdf&lt;-function(arg) {
+  x &lt;- rev(as.vector(quantile(arg, probs=seq(0.0, 1.0, 0.01),na.rm=TRUE )))
+  y &lt;- seq(0.0, 1.0, 0.01)
+  return(xy.coords(x, y))
+}
+
+d&lt;- NULL
+for (f in files) {
+   if (file.access(f, 0) == 0) {
+      d&lt;- rbind(d, cbind(file=f, as.data.frame(read.apsim(f))))
+   }   
+}
+
+png(output,width=outputWidth,height=outputHeight)
+
+
+boxplot(yield ~ file, d)
+
+dev.off()
+
+
+
+</rscript>
+</tclui>
     </folder>
     <operations />
     <accum>
