@@ -256,6 +256,9 @@ if Wheat.stage_name = 'harvest_ripe' or Wheat.plant_status = 'dead' then
    Wheat end_crop
 endif
 
+[variable.manager.init]
+in_crop_rain = 0
+eff_in_crop_rain = 0
 
 [Dalby600.SummaryFile.parameters]
 summaryfile=Dalby600.sum
