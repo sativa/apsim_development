@@ -46,7 +46,6 @@ void PlantPart::initialize(void)
    dltPDetached = 0.0;
    dltPRetranslocate = 0.0;
    }
-
 //---------------------------------------------------------------------------
 void PlantPart::dmDetachment(vector<float> senDetachFrac)
    {

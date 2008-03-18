@@ -52,6 +52,9 @@ void Plant::readParams(void)
    if(!scienceAPI.read("sen_detach_frac", "", true, senDetachFrac))
       senDetachFrac.assign(5,0.0);
 
+   // CO2 stuff
+   co2_te_modifier.read(scienceAPI, "x_co2_te_modifier", "y_co2_te_modifier");
+
    }
 
 //------------------------------------------------------------------------------------------------
@@ -109,8 +112,6 @@ void Plant::plantInit1(void)
    setStatus(out);
 
 
-   // CO2 stuff
-   co2_te_modifier.read(scienceAPI, "x_co2_te_modifier", "y_co2_te_modifier");
   }
 //------------------------------------------------------------------------------------------------
 void Plant::plantInit2(void)
@@ -166,11 +167,6 @@ void Plant::onSowCrop(Variant &sowLine)
       }
    checkRange(scienceAPI, rowSpacing, 100.0, 10000.0, "row_spacing");
 
-   if (get(sowLine, "tiller_no_fertile", ftn) == false)
-      throw std::runtime_error("Fertile tiller number not specified");
-
-   checkRange(scienceAPI,ftn, 0.0, 10.0, "tiller_no_fertile");
-
    skipRow = 1.0;
    if (get(sowLine, "skip", temp) )
       {
@@ -182,6 +178,21 @@ void Plant::onSowCrop(Variant &sowLine)
       }             
 
    checkRange(scienceAPI,skipRow, 0.0, 2.0, "skiprow");
+
+   if (get(sowLine, "tiller_no_fertile", ftn) == false)
+      {
+      scienceAPI.get( "latitude",  "", 0, latitude, -90.0f, 90.0f);
+      // if no tiller number is entered, estimate it
+      if(!estimateTillers(ftn))
+         throw std::runtime_error("Cannot estimate Fertile tiller number at this location");
+      }
+
+
+//   latitude = -29.0
+
+
+   checkRange(scienceAPI,ftn, 0.0, 10.0, "tiller_no_fertile");
+
 
    phenology->setStage(sowing);
    setStatus(alive);
@@ -466,6 +477,138 @@ float Plant::rue_co2_modifier(void)                 //!CO2 level (ppm)
    //  Purpose : Calculation of the CO2 modification on rue
    const float scale = 1.0 / 350.0 * 0.05;
    return (scale * this->co2 + 0.95); //Mark Howden, personal communication
+   }
+//------------------------------------------------------------------------------------------------
+//------------------- Estimate tillers
+//------------------------------------------------------------------------------------------------
+bool Plant::estimateTillers(float &ftn)
+   {
+   // estimate tillering given latitude, density, time of planting and row configuration
+   // this will be replaced with dynamic calculations in the near future
+   // above latitude -25 is CQ, -25 to -29 is SQ, below is NNSW
+
+   double intercept = 0.0, slope = 0.0;
+
+   if(latitude > -12.5 || latitude < -38.0)
+      return false;                                // unknown region
+
+   if(latitude > -25.0)                            // CQ
+      {
+      if(today.doy < 319)                          //  < 15-Nov
+         {
+         if(skipRow > 1.9)                         // double  (2.0)
+            {
+            intercept = 0.5786; slope = -0.0521;
+            }
+         else if(skipRow > 1.4)                    // single  (1.5)
+            {
+            intercept = 0.8786; slope = -0.0696;
+            }
+         else                                      // solid   (1.0)
+            {
+            intercept = 1.1786; slope = -0.0871;
+            }
+         }
+      else                                         //  > 15-Nov
+         {
+         if(skipRow > 1.9)                         // double  (2.0)
+            {
+            intercept = 0.4786; slope = -0.0421;
+            }
+         else if(skipRow > 1.4)                    // single  (1.5)
+            {
+            intercept = 0.6393; slope = -0.0486;
+            }
+         else                                      // solid   (1.0)
+            {
+            intercept = 0.8000; slope = -0.0550;
+            }
+         }
+      }
+   else if(latitude > -29.0)                       // SQ
+      {
+      if(today.doy < 319)                          //  < 15-Nov
+         {
+         if(skipRow > 1.9)                         // double  (2.0)
+            {
+            intercept = 1.1571; slope = -0.1043;
+            }
+         else if(skipRow > 1.4)                    // single  (1.5)
+            {
+            intercept = 1.7571; slope = -0.1393;
+            }
+         else                                      // solid   (1.0)
+            {
+            intercept = 2.3571; slope = -0.1743;
+            }
+         }
+      else                                         //  > 15-Nov
+         {
+         if(skipRow > 1.9)                         // double  (2.0)
+            {
+            intercept = 0.6786; slope = -0.0621;
+            }
+         else if(skipRow > 1.4)                    // single  (1.5)
+            {
+            intercept = 1.1679; slope = -0.0957;
+            }
+         else                                      // solid   (1.0)
+            {
+            intercept = 1.6571; slope = -0.1293;
+            }
+         }
+      }
+   else                                            // NNSW
+      {
+      if(today.doy < 319)                          // < 15-Nov
+         {
+         if(skipRow > 1.9)                         // double  (2.0)
+            {
+            intercept = 1.3571; slope = -0.1243;
+            }
+         else if(skipRow > 1.4)                    // single  (1.5)
+            {
+            intercept = 2.2357; slope = -0.1814;
+            }
+         else                                      // solid   (1.0)
+            {
+            intercept = 3.1143; slope = -0.2386;
+            }
+         }
+      else if (today.doy > 349)                    // > 15-Dec
+         {
+         if(skipRow > 1.9)                         // double  (2.0)
+            {
+            intercept = 0.4000; slope = -0.0400;
+            }
+         else if(skipRow > 1.4)                    // single  (1.5)
+            {
+            intercept = 1.0571; slope = -0.0943;
+            }
+         else                                      // solid   (1.0)
+            {
+            intercept = 1.7143; slope = -0.1486;
+            }
+         }
+      else                                         // > 15-Nov < 15 -Dec
+         {
+         if(skipRow > 1.9)                         // double  (2.0)
+            {
+            intercept = 0.8786; slope = -0.0821;
+            }
+         else if(skipRow > 1.4)                    // single  (1.5)
+            {
+            intercept = 1.6464; slope = -0.1379;
+            }
+         else                                      // solid   (1.0)
+            {
+            intercept = 2.4143; slope = -0.1936;
+            }
+         }
+      }
+
+   ftn = Max(slope * plantDensity + intercept,0.0);
+   return true;
    }
 //------------------------------------------------------------------------------------------------
 

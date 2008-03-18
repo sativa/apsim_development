@@ -30,6 +30,7 @@ void Roots::doRegistrations(void)
    scienceAPI.expose("RootLength"    ,"mm/mm2","Root length",                 false, rootLength);
    scienceAPI.expose("RLV"           ,"mm/mm3","Root length volume in layers",false, rlvFactor);
    scienceAPI.expose("RootDepth"     ,"mm"    ,"Depth of roots",              false, rootDepth);
+   scienceAPI.expose("root_depth"    ,"mm"    ,"Depth of roots",              false, rootDepth);
    scienceAPI.expose("RootFront"     ,"mm"    ,"Depth of root front",         false, rootFront);
    scienceAPI.expose("RootGreenWt"   ,"g/m^2" ,"Green root dry weight",       false, dmGreen);
    scienceAPI.expose("RootSenescedWt","g/m^2" ,"Senesced root dry weight",    false, dmSenesced);

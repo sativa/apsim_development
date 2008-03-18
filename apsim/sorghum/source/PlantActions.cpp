@@ -30,8 +30,8 @@ void Plant::doRegistrations(void)
    scienceAPI.expose("vpd",         "",          "Vapour pressure deficit",  false, vpd);
    scienceAPI.expose("transp_eff",  "g/m2",      "Transpiration efficiency", false, transpEff);
    scienceAPI.expose("plants",      "plants/m2", "Plant density",            false, plantDensity);
-   scienceAPI.expose("tiller_no",         "tillers/plant", "No of tillers on main stem",       false, ftn);
-   scienceAPI.expose("tiller_no_fertile", "tillers/plant", "No of tillers that produce a head",false, ftn);
+   scienceAPI.expose("TillerNo",       "tillers/plant", "No of tillers on main stem",       false, ftn);
+   scienceAPI.expose("TillerNoFertile","tillers/plant", "No of tillers that produce a head",false, ftn);
 
    scienceAPI.exposeFunction("plant_status", "",   "Status of crop", StringFunction(&Plant::getPlantStatus));
    scienceAPI.exposeFunction("height",       "mm", "Height of crop", FloatFunction(&Plant::get_height));
