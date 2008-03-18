@@ -3,6 +3,9 @@
     <filename>
     </filename>
   </ini>
+    <broccoli />
+    <lettuce />
+    <potato />
   <tclui name="Rotation Management">
     <uiscript><![CDATA[
 package req struct
@@ -41,7 +44,7 @@ proc getTag {c x y} {
          }
       }
    }
-   return {}  
+   return {}
 }
 
 # Select an object near (x,y)
@@ -77,7 +80,7 @@ proc select {w x y} {
    }
 }
 
-# Move an already selected object 
+# Move an already selected object
 proc move {w x y} {
    upvar #0 $w cfg
    if {$cfg(selected) != {}} {
@@ -100,11 +103,11 @@ proc move {w x y} {
          $cfg(g) arc set $name x $newx
          $cfg(g) arc set $name y $newy
          fixupArrow $w $cfg(selected) "node:[$cfg(g) arc source $name]" "node:[$cfg(g) arc target $name]"
-      }  
+      }
    }
 }
 
- 
+
 #Return a point on the edge of the node on a line to (x,y)
 # NB. canvas origin at upper left corner
 # Used to find arrow positions between nodes
@@ -124,14 +127,14 @@ proc findEdge {w x y node} {
    # Cheat - assume its always a circle and just take mid point of box
    set r [expr abs(([lindex $nc 2] - [lindex $nc 0])/2.0)]
    set dx [expr $x-$xn]
-   set dy [expr ($maxy-$y)-$yn]                
+   set dy [expr ($maxy-$y)-$yn]
    if {$dx < 0} {
      set xe [expr $xn - $r * cos($a)]
-     set ye [expr $yn - $r * sin($a)] 
-   } else { 
+     set ye [expr $yn - $r * sin($a)]
+   } else {
      set xe [expr $xn + $r * cos($a)]
-     set ye [expr $yn + $r * sin($a)] 
-   }  
+     set ye [expr $yn + $r * sin($a)]
+   }
    return [list $xe [expr $maxy - $ye]]
 }
 
@@ -139,12 +142,12 @@ proc findEdge {w x y node} {
 proc fixupArrow {w arc srcNode destNode} {
    upvar #0 $w cfg
    set arc [lindex [split $arc ":"] 1]
-   set xm [$cfg(g) arc get $arc x] 
+   set xm [$cfg(g) arc get $arc x]
    set ym [$cfg(g) arc get $arc y]
 
    set p0 [findEdge $w $xm $ym $srcNode]
    set p1 [findEdge $w $xm $ym $destNode]
-   
+
    $cfg(c) coords arc:$arc [concat $p0 $xm $ym $p1]
    #set cfg(message) "$arc = '[$cfg(c) coords arc:$arc]'"
    #set cfg(message) "$arc = [concat $p0 $xm $ym $p1]"
@@ -157,9 +160,9 @@ proc action {w x y} {
    if {$cfg(selected) == {}} {
       postNewNodeMenu $w $x $y
    } elseif {$cfg(selected) != {} && "$tag" == $cfg(selected)} {
-      postChangeMenu $w $tag $x $y 
+      postChangeMenu $w $tag $x $y
    } elseif {$cfg(selected) != {} && "$tag" != {} && "$tag" != $cfg(selected)} {
-      postAddArcMenu $w $cfg(selected) $tag $x $y 
+      postAddArcMenu $w $cfg(selected) $tag $x $y
    }
 }
 
@@ -168,7 +171,7 @@ proc postNewNodeMenu {w x y} {
    if {[winfo exists $cfg(c).newNodeMenu]} {destroy $cfg(c).newNodeMenu}
    menu $cfg(c).newNodeMenu -tearoff 0
    $cfg(c).newNodeMenu add command -label "Add New State" -command "addNewNode $w $x $y"
-   tk_popup $cfg(c).newNodeMenu [expr [winfo rootx $cfg(c)]+$x] [expr [winfo rooty $cfg(c)]+$y] 
+   tk_popup $cfg(c).newNodeMenu [expr [winfo rootx $cfg(c)]+$x] [expr [winfo rooty $cfg(c)]+$y]
 }
 
 proc addNewNode {w x y} {
@@ -193,7 +196,7 @@ proc addNewNode {w x y} {
 
 proc deleteNode {w tag} {
    upvar #0 $w cfg
-   set node [lindex [split $tag :] 1] 
+   set node [lindex [split $tag :] 1]
    foreach arcTag [$cfg(g) arcs -adj $node] {
       $cfg(c) delete arc:$arcTag
    }
@@ -208,13 +211,13 @@ proc postAddArcMenu {w srcTag destTag x y} {
    catch {destroy $cfg(c).addArcMenu}
    menu $cfg(c).addArcMenu -tearoff 0
    set srcName [lindex [split $srcTag :] 1]; set destName [lindex [split $destTag :] 1]
-   
+
    if {![catch {set src [$cfg(g) node get $srcName name]; set dest [$cfg(g) node get $destName name]}]} {
       $cfg(c).addArcMenu add command \
           -label "Add arc from $src to $dest" \
           -command "addNewArc $w $srcTag $destTag"
-      tk_popup $cfg(c).addArcMenu [expr [winfo rootx $cfg(c)]+$x] [expr [winfo rooty $cfg(c)]+$y] 
-   }  
+      tk_popup $cfg(c).addArcMenu [expr [winfo rootx $cfg(c)]+$x] [expr [winfo rooty $cfg(c)]+$y]
+   }
 }
 
 proc addNewArc {w srcTag destTag} {
@@ -229,7 +232,7 @@ proc addNewArc {w srcTag destTag} {
    set y2 [expr ([lindex $c2 1] + [lindex $c2 3])/2]
    set mx [expr ($x1 + $x2) / 2.0]; set my [expr ($y1 + $y2) / 2.0]
    $cfg(c) create line $x1 $y1 $mx $my $x2 $y2 -smooth bezier -tags arc:$arc -arrow last -arrowshape {15 25 10}
-   
+
    $cfg(g) arc insert [lindex [split $srcTag :] 1] [lindex [split $destTag :] 1] $arc
    $cfg(g) arc lappend $arc rules   {}
    $cfg(g) arc lappend $arc actions {}
@@ -253,14 +256,14 @@ proc postChangeMenu {w tag x y} {
    } else {
       $cfg(c).postChangeMenu add command -label "Delete" -command "deleteArc $w $tag"
    }
-   tk_popup $cfg(c).postChangeMenu  [expr [winfo rootx $cfg(c)]+$x] [expr [winfo rooty $cfg(c)]+$y] 
+   tk_popup $cfg(c).postChangeMenu  [expr [winfo rootx $cfg(c)]+$x] [expr [winfo rooty $cfg(c)]+$y]
 }
 
-# Create the UI for the current object and fill it out 
+# Create the UI for the current object and fill it out
 proc showSelection {w type name} {
    upvar #0 $w cfg
    if {"$cfg(s)" != "$w.$type"} { setup_$type $w $name}
-   show_$type $w 
+   show_$type $w
 }
 
 proc setup_help {w junk} {
@@ -286,14 +289,14 @@ proc setup_node {w name} {
    upvar #0 $w cfg
    catch {destroy $cfg(s)}
    set f [set cfg(s) [frame $w.node]]
-   label $f.l1 -text "Name" 
+   label $f.l1 -text "Name"
    entry $f.e1 -textvariable $w\(name\) -width 12 -validate key -vcmd {string is wordchar %P}
-   label $f.l2 -text "Alias" 
+   label $f.l2 -text "Alias"
    entry $f.e2 -textvariable $w\(alias\) -width 12 -validate key -vcmd {string is wordchar %P}
-   label $f.l3 -text "Description" 
-   entry $f.e3 -textvariable $w\(desc\) -width 40 
-   label $f.l4 -text "Colour" 
-   entry $f.e4 -textvariable $w\(fill\) -width 12 
+   label $f.l3 -text "Description"
+   entry $f.e3 -textvariable $w\(desc\) -width 40
+   label $f.l4 -text "Colour"
+   entry $f.e4 -textvariable $w\(fill\) -width 12
 
    frame $f.b
    button $f.b.apply -text Apply -command "set_node $w" -state disabled
@@ -302,8 +305,8 @@ proc setup_node {w name} {
    foreach e [list $f.e1 $f.e2 $f.e3 $f.e4] {
       bind $e  <Any-KeyRelease> "+armButtons $w"
       bind $e  <Key-Return> "+set_node $w"
-   }  
-   
+   }
+
    grid $f.l1 -row 1 -column 1 -sticky w
    grid $f.e1 -row 1 -column 2 -sticky w
    grid $f.l2 -row 2 -column 1 -sticky w
@@ -312,8 +315,8 @@ proc setup_node {w name} {
    grid $f.e3 -row 3 -column 2 -sticky ew
    grid $f.l4 -row 4 -column 1 -sticky w
    grid $f.e4 -row 4 -column 2 -sticky w
-   grid $f.b.apply -row 1 -column 1 -sticky w -padx 20 
-   grid $f.b.revert -row 1 -column 2 -sticky w -padx 20 
+   grid $f.b.apply -row 1 -column 1 -sticky w -padx 20
+   grid $f.b.revert -row 1 -column 2 -sticky w -padx 20
    grid $f.b -row 5 -column 1 -sticky ew
    grid $f -row 3 -column 1 -sticky ew
 }
@@ -339,7 +342,7 @@ proc set_node {w} {
    while {$found} {
       set found 0
       foreach otherNode [$cfg(g) nodes] {
-         if {"$node" != "$otherNode" && 
+         if {"$node" != "$otherNode" &&
              [string equal [$cfg(g) node get $otherNode name] $candidate]} {
             set found 1
          }
@@ -362,7 +365,7 @@ proc set_node {w} {
    foreach id [$cfg(c) find withtag node:$node] {
      if {[$cfg(c) type $id] == "text"}  {$cfg(c) itemconf $id -text $cfg(name)}
      if {[$cfg(c) type $id] == "oval"}  {$cfg(c) itemconf $id -fill $cfg(fill)}
-   }  
+   }
    disarmButtons $w
 }
 
@@ -370,10 +373,10 @@ proc setup_arc {w name} {
    upvar #0 $w cfg
    catch {destroy $cfg(s)}
    set f [set cfg(s) [frame $w.arc]]
-   label $f.l1 -text "Rules" 
+   label $f.l1 -text "Rules"
    set cfg(rulesW) [text $f.rules -height 4 -wrap none  -yscrollcommand "$f.rsbar set"]
    scrollbar $f.rsbar -orient vertical -command "$f.rules yview"
-   label $f.l2 -text "Actions" 
+   label $f.l2 -text "Actions"
    set cfg(actionsW) [text $f.actions -height 3 -wrap none  -yscrollcommand "$f.asbar set"]
    scrollbar $f.asbar -orient vertical -command "$f.actions yview"
 
@@ -384,15 +387,15 @@ proc setup_arc {w name} {
 
    foreach t [list $cfg(actionsW) $cfg(rulesW)] {
       bind $t  <Any-KeyRelease>  "+armButtons $w "
-   }  
+   }
    grid $f.l1 -row 1 -column 1 -sticky w
    grid $f.rules -row 2 -column 1 -sticky ew
    grid $f.rsbar -row 2 -column 2 -sticky w
    grid $f.l2 -row 3 -column 1 -sticky w
    grid $f.actions -row 4 -column 1 -sticky ew
    grid $f.asbar -row 3 -column 2 -sticky w -rowspan 2
-   grid $f.b.apply -row 1 -column 1 -sticky w -padx 20 
-   grid $f.b.revert -row 1 -column 2 -sticky w -padx 20 
+   grid $f.b.apply -row 1 -column 1 -sticky w -padx 20
+   grid $f.b.revert -row 1 -column 2 -sticky w -padx 20
    grid $f.b -row 5 -column 1 -sticky ew
 
    grid $f -row 3 -column 1 -sticky ew
@@ -451,7 +454,7 @@ proc saveGraph {w} {
    set rule "<rule name=\"Init rule\" invisible=\"yes\" condition=\"init\">\n"
    append rule "<!\[CDATA\[package require struct\n"
    append rule "::struct::graph stateGraph\n"
-   
+
    foreach node [$cfg(g) nodes] {
       append x "<node>\n"
       foreach key [$cfg(g) node keys $node] {
@@ -477,8 +480,8 @@ proc saveGraph {w} {
          } else {
             foreach thing [$cfg(g) arc get $arc $key] {
                append rule "stateGraph arc lappend \"$arc\" $key \{$thing\}\n"
-               set thing [string map {\< "&lt;"  \> "&gt;" 
-                                      \& "&amp;" \" "&quot;" 
+               set thing [string map {\< "&lt;"  \> "&gt;"
+                                      \& "&amp;" \" "&quot;"
                                       \[ "&#91;" \] "&#93;"} $thing]
                append x " <$key>$thing</$key>\n"
             }
@@ -501,7 +504,7 @@ proc openGraph {w} {
 
    set errorsFound 0
 
-   global XMLDoc 
+   global XMLDoc
    set cfg(doc) [dom parse $XMLDoc]
    set cfg(docroot) [$cfg(doc) documentElement]
 
@@ -523,7 +526,7 @@ proc openGraph {w} {
       set sourceNode [getValue $arc source]
       set targetNode [getValue $arc target]
       if {[$cfg(g) node exists $sourceNode] && [$cfg(g) node exists $targetNode]} {
-         $cfg(g) arc insert $sourceNode $targetNode $arcName 
+         $cfg(g) arc insert $sourceNode $targetNode $arcName
          foreach {what default} {x 300 y 300} {
             if {[set value [getValue $arc $what]] == ""} {
                 $cfg(g) arc set $arcName $what $default
@@ -533,20 +536,20 @@ proc openGraph {w} {
          }
          foreach {what} {rules actions} {
             foreach value [getValues $arc $what] {
-               set value [string map {"&lt;"  \<  "&gt;" \> 
+               set value [string map {"&lt;"  \<  "&gt;" \>
                                       "&amp;" \&  "&quot;"  \"
                                       "&#91;" \[  "&#93;" \] } $value]
-         
+
                $cfg(g) arc lappend $arcName $what $value
             }
          }
       } else {
          tk_messageBox -title "Whoops!!" -message "source ($sourceNode) and/or target ($targetNode) is missing??" -type ok
          set errorsFound 1
-      }   
+      }
    }
    set cfg(setupOk) [expr ! $errorsFound]
-}    
+}
 
 # Create a graph on a canvas
 proc createGraph {w} {
@@ -585,7 +588,7 @@ set .w(setupOk) 0
 if {[catch {openGraph .w}]} {tk_messageBox -title "openGraph" -message "$errorInfo" -type ok}
 
 frame .w
-canvas .w.c 
+canvas .w.c
 label .w.m -width 40 -textvariable .w(message) -anchor w
 
 if {[catch {createGraph .w}]} {tk_messageBox -title "createGraph" -message "$errorInfo" -type ok}
@@ -609,7 +612,7 @@ proc setXML {name1 name2 op} {
       global XMLDoc
       set XMLDoc $newXML
    }
-}   
+}
 ]]></uiscript>
     <rule name="Init rule" invisible="yes" condition="init"><![CDATA[package require struct
 ::struct::graph stateGraph
@@ -651,12 +654,12 @@ proc appletInit {w} {
    set data(doc) [dom parse $XMLDoc]
    set data(docroot) [$data(doc) documentElement]
    set data(filename) [getValue $data(docroot) filename]
-}   
+}
 
 # Read in the logfile
 proc readIn {w} {
    upvar #0 $w data
-   
+
    if {![file exists $data(filename)]} { set data(message) "$data(filename) does not exist."; return 0}
 
    set data(message) "Reading."; update
@@ -708,7 +711,7 @@ proc setupUI {w} {
    upvar #0 $w data
 
    panedwindow $w.p
-   
+
    # Filename selector
    frame $w.f
    label $w.f.l -text "Filename"
@@ -748,7 +751,7 @@ proc setupUI {w} {
    bind $w.p.c &lt;Key-Right&gt;  "+catch \"canvasRight $w\""
 
    bind $w.p.c &lt;Configure&gt;  "+catch \"draw $w\""
-   
+
    grid columnconf $w 1 -weight 1
    grid rowconf    $w 2 -weight 1
    focus $w.p.c
@@ -857,16 +860,16 @@ proc showText {w} {
    upvar #0 $w data
    set stime [split $data(currTime) ","]
    set year [lindex $stime 1]; set day [max [expr [lindex $stime 0]-1] 0]
-  
+
    set dstr [clock format [clock scan "1/1/$year + $day days"] -format "%d-%b-%Y"]
    $data(text) delete 0.0 end
    $data(text) insert end "$dstr ($data(currTime))\n"
    if {[info exists data(text,$data(currTime))]} {
       $data(text) insert end $data(text,$data(currTime))
-   } 
-   
+   }
+
    set paddock [lsearch $data(paddocks) $data(currPaddock)]
-   $data(canvas) coords currPos [wtocx $w 0] [wtocy $w $data(currTime)] [wtocx $w [llength $data(paddocks)]] [wtocy $w $data(currTime)] 
+   $data(canvas) coords currPos [wtocx $w 0] [wtocy $w $data(currTime)] [wtocx $w [llength $data(paddocks)]] [wtocy $w $data(currTime)]
 }
 
 # Draw the paddock history
@@ -874,11 +877,11 @@ proc draw {w} {
    upvar #0 $w data
 
    $data(canvas) delete all
-   
+
    set data(height) [winfo height $data(canvas)]
    set data(width)  [winfo width $data(canvas)]
    set data(xMargin) 60
-   
+
    set t0 [date2num $data(earliest)]
    set t1 [date2num $data(latest)]
    set data(scaleFactY) [expr ($data(height)-20)/($t1 - $t0)]
@@ -894,7 +897,7 @@ proc draw {w} {
          if {[info exists data(colours,$what)]} {set colour $data(colours,$what)} else {set colour white}
          $data(canvas) create rect [wtocx $w $column] [wtocy $w $t0] [wtocx $w [expr $column+1]] [wtocy $w $t1] -fill $colour -outline {}
       }
-      incr column 
+      incr column
    }
    # text
    set column 0
@@ -905,7 +908,7 @@ proc draw {w} {
          set what [lindex [lindex $data($paddock,timeline) [expr $i-1]] 1]
          $data(canvas) create text [expr 5 + [wtocx $w $column]] [wtocy $w $t0] -text $what -anchor nw
       }
-      incr column 
+      incr column
    }
    # column boundaries
    for {set col 0} {$col &lt; [llength $data(paddocks)]} {incr col} {
