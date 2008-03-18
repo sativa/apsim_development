@@ -50,6 +50,7 @@ class EXPORT CMPComponentInterface
       void messageToLogic(const Message& message);
 
       void error(const std::string& errorMessage, bool isFatal);
+      std::string getDescription(const std::string& dllName);
 
    private:
       ScienceAPI* scienceAPI;
@@ -67,19 +68,22 @@ class EXPORT CMPComponentInterface
       IPackableData* init1;
       IPackableData* init2;
 
+      enum RegistrationKind {getReg=1,         respondToGetReg=2,
+                             setReg=9,         respondToSetReg=3,
+                             eventReg=5,       respondToEventReg=6,
+                                               respondToGetSetReg=4};
+
       typedef std::map<std::string, IPackableData*> NameToRegMap;
 		typedef std::vector<Message*> Messages;
+      typedef std::map<std::string, RegistrationKind> NameToRegKindMap;
+
       NameToRegMap regNames;
+      NameToRegKindMap regKinds;
       Messages messages;
 
       TimeType tick;
       int tickID;
       bool haveWrittenToStdOutToday;
-
-      enum RegistrationKind {getReg=1,         respondToGetReg=2,
-                             setReg=9,         respondToSetReg=3,
-                             eventReg=5,       respondToEventReg=6,
-                                               respondToGetSetReg=4};
 
       void clearMessages();
       int RegisterWithPM(const std::string& Name, const std::string& Units,
@@ -102,6 +106,9 @@ class EXPORT CMPComponentInterface
                            const std::string& parName, 
                            IPackableData* value);
       void terminate();
+      std::string getPropertyDescription(NameToRegMap::iterator reg, const string& access);
+      std::string getEventDescription(NameToRegMap::iterator reg, const string& published);
+      std::string getRegName(NameToRegMap::iterator reg);
    };
 
 #endif

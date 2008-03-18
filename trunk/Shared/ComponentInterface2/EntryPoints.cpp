@@ -57,7 +57,7 @@ extern "C" void EXPORT STDCALL createInstance
 
    // The instance number we return to the PM is a pointer to the component
    // object we just created.
-   *instanceNumber = (unsigned) bit;
+   *instanceNumber = (unsigned) bit;        
    }
 // ------------------------------------------------------------------
 // The PM is instructing us to delete an instance of our data.
@@ -85,9 +85,9 @@ extern "C" void EXPORT STDCALL messageToLogic (unsigned* instanceNumber,
 extern "C" void EXPORT STDCALL getDescriptionInternal(char* initScript,
                                                          char* description)
    {
-/*   ApsimComponentData componentData(initScript);
-   std::string dllFileName = componentData.getExecutableFileName();
-   std::string instanceName = componentData.getName();
+   XMLDocument* Doc = new XMLDocument(initScript, XMLDocument::xmlContents);
+   std::string dllFileName = Doc->documentElement().getAttribute("executable");
+   std::string instanceName = Doc->documentElement().getAttribute("name");
    //MessageBox(NULL, instanceName.c_str(), "", MB_OK);
 
    // create an instance of the module.
@@ -95,17 +95,24 @@ extern "C" void EXPORT STDCALL getDescriptionInternal(char* initScript,
    unsigned instanceNumber = 0;
    createInstance(dllFileName.c_str(), &dummy, &dummy, &instanceNumber, &dummy, NULL);
 
-   // call init1.
-   Message* init1Message = newInit1Message(0, 0, initScript, instanceName.c_str(), true);
-   bool processed;
-   messageToLogic(&instanceNumber, init1Message, &processed);
+   Init1Type init1;
+   init1.sdml = initScript;
+   init1.fqn = instanceName;
+   init1.inStartup = true;
 
-   std::string compDescription = ((protocol::Component*) instanceNumber)->getDescription();
+   // call init1.
+   Message& init1Message = newMessage(Message::Init1, 0, 0, false, init1);
+   bool processed;
+   messageToLogic(&instanceNumber, &init1Message, &processed);
+
+   Bit* bit = (Bit*) instanceNumber;
+
+   std::string compDescription =  bit->componentInterface->getDescription(dllFileName);
    strcpy(description, compDescription.c_str());
 
    // delete the instance.
    deleteInstance(&instanceNumber);
-*/   }
+   }
 
 
 extern "C" CMPComponentInterface* EXPORT STDCALL  CICreate

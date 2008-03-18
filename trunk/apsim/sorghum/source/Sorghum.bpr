@@ -14,7 +14,7 @@
     <LIBFILES value="..\..\..\Shared\ApsimShared\ApsimShared.lib 
       ..\..\..\Shared\general\general.lib 
       ..\..\..\Shared\ComponentInterface2\ComponentInterface2.lib"/>
-    <LIBRARIES value="rtl.lib vcl.lib"/>
+    <LIBRARIES value=""/>
     <SPARELIBS value="vcl.lib rtl.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi 
       bdertl.bpi bcbsmp.bpi vcldbx.bpi dclocx.bpi qrpt.bpi"/>
@@ -26,10 +26,10 @@
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
-    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL"/>
+    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="Sorghum.bpf"/>
     <INCLUDEPATH value="..\..\..\Shared\ComponentInterface2;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;..\..\..\Shared"/>
-    <LIBPATH value="..\..\..\Shared\ComponentInterface2;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\Shared"/>
+    <LIBPATH value="..\..\..\Shared\ComponentInterface2;$(BCB)\lib\release;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\Shared"/>
     <WARNINGS value="-wprc -wstv -wsig -w-par -wnod -w-8027 -w-8026 -wdef -wamb"/>
     <WARNOPTSTR value=""/>
     <OTHERFILES value=""/>
@@ -43,7 +43,7 @@
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="c0d32.obj Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLOBJ value="c0d32.obj $(PACKAGES) $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
     <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
@@ -104,69 +104,69 @@ Comments=
 
 [HistoryLists\hlIncludePath]
 Count=30
-Item0=..\..\..\Shared\ComponentInterface2;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared)
-Item1=..\..\..\Shared\ComponentInterface2;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared);$(Shared)\ComponentInterface2
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared);$(Shared)\ComponentInterface2
-Item3=..\..\..\Shared\ComponentInterface2;..\..\sorghum54\source;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared)
-Item4=..\..\sorghum54\source;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared)
-Item5=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared)
-Item6=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared)
-Item7=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost
-Item8=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost
-Item9=..\..\..\Shared\ComponentInterface;c:\development\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;$(BCB)\components\boost
-Item10=c:\development\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;..\..\..\Shared\ComponentInterface;$(BCB)\components\boost
-Item11=C:\Program Files\Borland\CBuilder6\Projects;c:\development\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
-Item12=c:\development\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
-Item13=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
-Item14=c:\development\Shared\ComponentInterface;C:\Plant\source;$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory;$(Components)\libxml\include
-Item15=$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory;$(Components)\libxml\include
-Item16=$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory;$(Components)
-Item17=$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory;c:\components\libxml2;c:\components
-Item18=$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory;c:\components\libxml2
-Item19=$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory;c:\components\libxml2\
-Item20=$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory
-Item21=$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\TMS\Instrumentation Workshop
-Item22=C:\Documents and Settings\doherta\Desktop\tiff\tiff-v3.6.0\libtiff;c:\People\IanBroad\TiffTool;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item23=c:\People\IanBroad\TiffTool;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item24=C:\Program Files\Borland\CBuilder6\Projects;c:\People\IanBroad\TiffTool;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item25=C:\Program Files\GnuWin32\include;C:\Program Files\Borland\CBuilder6\Projects;c:\People\IanBroad\TiffTool;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item26=$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item27=$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source
-Item28=$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter
-Item29=$(BCB)\include;$(BCB)\include\vcl
+Item0=..\..\..\Shared\ComponentInterface2;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;..\..\..\Shared
+Item1=..\..\..\Shared\ComponentInterface2;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared)
+Item2=..\..\..\Shared\ComponentInterface2;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared);$(Shared)\ComponentInterface2
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared);$(Shared)\ComponentInterface2
+Item4=..\..\..\Shared\ComponentInterface2;..\..\sorghum54\source;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared)
+Item5=..\..\sorghum54\source;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared)
+Item6=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared)
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(Shared)
+Item8=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost
+Item9=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost
+Item10=..\..\..\Shared\ComponentInterface;c:\development\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;$(BCB)\components\boost
+Item11=c:\development\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;..\..\..\Shared\ComponentInterface;$(BCB)\components\boost
+Item12=C:\Program Files\Borland\CBuilder6\Projects;c:\development\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item13=c:\development\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item14=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item15=c:\development\Shared\ComponentInterface;C:\Plant\source;$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory;$(Components)\libxml\include
+Item16=$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory;$(Components)\libxml\include
+Item17=$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory;$(Components)
+Item18=$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory;c:\components\libxml2;c:\components
+Item19=$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory;c:\components\libxml2
+Item20=$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory;c:\components\libxml2\
+Item21=$(TEEINCPATH);$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\Instrumentation Workshop;$(BCB)\components\TMS\Async32;$(BCB)\components\TMS\CETools;$(BCB)\components\TMS\skin factory
+Item22=$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\Components\tinyxml;$(BCB)\components\TMS\TMS\Instrumentation Workshop
+Item23=C:\Documents and Settings\doherta\Desktop\tiff\tiff-v3.6.0\libtiff;c:\People\IanBroad\TiffTool;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
+Item24=c:\People\IanBroad\TiffTool;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
+Item25=C:\Program Files\Borland\CBuilder6\Projects;c:\People\IanBroad\TiffTool;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
+Item26=C:\Program Files\GnuWin32\include;C:\Program Files\Borland\CBuilder6\Projects;c:\People\IanBroad\TiffTool;$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
+Item27=$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
+Item28=$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source
+Item29=$(BCB)\include;$(BCB)\include\vcl;$(TMSDIR);$(TMSDIR)\xlsadapter
 
 [HistoryLists\hlLibraryPath]
 Count=30
-Item0=..\..\..\Shared\ComponentInterface2;$(BCB)\lib\obj;$(BCB)\lib;$(Shared)
-Item1=..\..\..\Shared\ComponentInterface2;$(BCB)\lib\obj;$(BCB)\lib;$(Shared);$(Shared)\ComponentInterface2
-Item2=$(BCB)\lib\obj;$(BCB)\lib;$(Shared);$(Shared)\ComponentInterface2
-Item3=..\..\..\Shared\ComponentInterface2;..\..\sorghum54\source;..\..\..\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib;$(Shared)
-Item4=..\..\sorghum54\source;..\..\..\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib;$(Shared)
-Item5=..\..\..\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib;$(Shared)
-Item6=$(BCB)\lib\obj;$(BCB)\lib;$(Shared)
-Item7=..\..\..\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
-Item8=$(BCB)\lib\obj;$(BCB)\lib
-Item9=..\..\..\Shared\ComponentInterface;c:\development\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
-Item10=c:\development\Shared\ComponentInterface;..\..\..\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
-Item11=C:\Program Files\Borland\CBuilder6\Projects;c:\development\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
-Item12=c:\development\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
-Item13=C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;c:\development\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
-Item14=c:\development\Shared\ComponentInterface;C:\Plant\source;c:\projects\lib;$(TEELIBPATH);$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tinyxml
-Item15=c:\projects\lib;$(TEELIBPATH);$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tinyxml
-Item16=$(TEELIBPATH);$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tinyxml
-Item17=$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\components\tinyxml
-Item18=c:\People\IanBroad\TiffTool;C:\Documents and Settings\doherta\Desktop\tiff\tiff-v3.6.0\libtiff;C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item19=./;c:\People\IanBroad\TiffTool;C:\Documents and Settings\doherta\Desktop\tiff\tiff-v3.6.0\libtiff;C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item20=C:\Documents and Settings\doherta\Desktop\tiff\tiff-v3.6.0\libtiff;c:\People\IanBroad\TiffTool;C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item21=c:\People\IanBroad\TiffTool;C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item22=./;C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;c:\People\IanBroad\TiffTool;..\..\..\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\Graphic;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item23=C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;c:\People\IanBroad\TiffTool;..\..\..\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\Graphic;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item24=C:\Program Files\Borland\CBuilder6\Projects;c:\People\IanBroad\TiffTool;..\..\..\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\Graphic;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item25=$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\Graphic;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
-Item26=$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\Graphic;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source
-Item27=$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\Graphic
-Item28=$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter
-Item29=$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR); $(TMSDIR)\xlsadapter
+Item0=..\..\..\Shared\ComponentInterface2;$(BCB)\lib\release;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\Shared
+Item1=..\..\..\Shared\ComponentInterface2;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\Shared
+Item2=..\..\..\Shared\ComponentInterface2;$(BCB)\bin;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\Shared
+Item3=..\..\..\Shared\ComponentInterface2;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\Shared
+Item4=..\..\..\Shared\ComponentInterface2;$(BCB)\lib\obj;$(BCB)\lib;$(Shared)
+Item5=..\..\..\Shared\ComponentInterface2;$(BCB)\lib\obj;$(BCB)\lib;$(Shared);$(Shared)\ComponentInterface2
+Item6=$(BCB)\lib\obj;$(BCB)\lib;$(Shared);$(Shared)\ComponentInterface2
+Item7=..\..\..\Shared\ComponentInterface2;..\..\sorghum54\source;..\..\..\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib;$(Shared)
+Item8=..\..\sorghum54\source;..\..\..\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib;$(Shared)
+Item9=..\..\..\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib;$(Shared)
+Item10=$(BCB)\lib\obj;$(BCB)\lib;$(Shared)
+Item11=..\..\..\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
+Item12=$(BCB)\lib\obj;$(BCB)\lib
+Item13=..\..\..\Shared\ComponentInterface;c:\development\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
+Item14=c:\development\Shared\ComponentInterface;..\..\..\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
+Item15=C:\Program Files\Borland\CBuilder6\Projects;c:\development\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
+Item16=c:\development\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
+Item17=C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;c:\development\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib
+Item18=c:\development\Shared\ComponentInterface;C:\Plant\source;c:\projects\lib;$(TEELIBPATH);$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tinyxml
+Item19=c:\projects\lib;$(TEELIBPATH);$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tinyxml
+Item20=$(TEELIBPATH);$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tinyxml
+Item21=$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;$(BCB)\components\tinyxml
+Item22=c:\People\IanBroad\TiffTool;C:\Documents and Settings\doherta\Desktop\tiff\tiff-v3.6.0\libtiff;C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\tinyxml
+Item23=./;c:\People\IanBroad\TiffTool;C:\Documents and Settings\doherta\Desktop\tiff\tiff-v3.6.0\libtiff;C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\tinyxml
+Item24=C:\Documents and Settings\doherta\Desktop\tiff\tiff-v3.6.0\libtiff;c:\People\IanBroad\TiffTool;C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\tinyxml
+Item25=c:\People\IanBroad\TiffTool;C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\tinyxml
+Item26=./;C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;c:\People\IanBroad\TiffTool;..\..\..\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\Graphic;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
+Item27=C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;c:\People\IanBroad\TiffTool;..\..\..\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\Graphic;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
+Item28=C:\Program Files\Borland\CBuilder6\Projects;c:\People\IanBroad\TiffTool;..\..\..\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\Graphic;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
+Item29=$(BCB)\lib\obj;$(BCB)\lib;$(TMSDIR);$(TMSDIR)\xlsadapter;C:\Program Files\Borland\CBuilder6\Components\Graphic;C:\Program Files\Borland\CBuilder6\Components\TTablet\Source;C:\Program Files\Borland\CBuilder6\Components\tinyxml
 
 [HistoryLists\hlDebugSourcePath]
 Count=4
@@ -213,11 +213,6 @@ RemoteDebug=0
 ShowInfoMsgs=0
 LinkDebugVcl=1
 LinkCGLIB=0
-
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
 
 [Linker]
 LibPrefix=

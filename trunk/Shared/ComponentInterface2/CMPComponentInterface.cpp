@@ -3,6 +3,7 @@
 #include <general/date_class.h>
 #include <general/stl_functions.h>
 #include <general/string_functions.h>
+#include <general/path.h>
 #include "DataTypes.h"
 #include "CMPData.h"
 #include "CMPScienceAPI.h"
@@ -494,6 +495,7 @@ int CMPComponentInterface::RegisterWithPM(const string& name, const string& unit
    string fullRegName = name + itoa(regKind);
    int ID = (int) data;
    regNames.insert(make_pair(fullRegName, data));
+   regKinds.insert(make_pair(fullRegName, regKind));
 
    // send register message to PM.
    RegisterType registerData;
@@ -651,4 +653,77 @@ void CMPComponentInterface::terminate(void)
 std::string CMPComponentInterface::getName() {return name;}
 std::string CMPComponentInterface::getFQName() {return (pathName + "." + name);}
 
+
+std::string CMPComponentInterface::getPropertyDescription(NameToRegMap::iterator reg, const string& access)
+   {
+   string returnString = "   <property name=\"";
+   returnString += getRegName(reg);
+   returnString += "\" access=\"" + access + "\" init=\"F\">\n";
+   returnString += reg->second->ddml;
+   returnString += "\n</property>\n";
+   return returnString;
+   }
+
+std::string CMPComponentInterface::getRegName(NameToRegMap::iterator reg)
+   {
+   string name = reg->first;
+   name.erase(name.length() - 1);
+   return name;
+   }
+std::string CMPComponentInterface::getEventDescription(NameToRegMap::iterator reg, const string& published)
+   {
+   string returnString = "   <event name=\"";
+   returnString += getRegName(reg);
+   returnString += "\" kind=\"" + published + "\">\n";
+   XMLDocument* doc = new XMLDocument(reg->second->ddml, XMLDocument::xmlContents);
+   returnString += doc->documentElement().innerXML();
+   delete doc;
+   returnString += "\n</event>\n";
+   return returnString;
+   }
+                             
+std::string CMPComponentInterface::getDescription(const std::string& dllName)
+   {
+   std::string returnString;
+   try
+      {
+      returnString = "<describecomp name=\"" + name + "\">\n";
+
+      returnString += string("<executable>") + dllName + "</executable>\n";
+      returnString += string("<class>") + Path(dllName).Get_name_without_ext() + "</class>\n";
+      returnString += "<version>1.0</version>\n";
+      returnString += "<author>APSRU</author>\n";
+
+      for (NameToRegMap::iterator reg = regNames.begin();
+                                  reg != regNames.end();
+                                  reg++)
+         {
+         RegistrationKind Kind = regKinds.find(reg->first)->second;
+         if (Kind == respondToGetReg)
+            returnString += getPropertyDescription(reg, "read");
+         else if (Kind == respondToSetReg)
+            returnString += getPropertyDescription(reg, "write");
+         else if (Kind == respondToGetSetReg)
+            returnString += getPropertyDescription(reg, "both");
+         else if (Kind == respondToEventReg)
+            returnString += getEventDescription(reg, "subscribed");
+         else if (Kind == eventReg)
+            returnString += getEventDescription(reg, "published");
+         else if (Kind == getReg)
+            {
+            returnString += "   <driver name=\"";
+            returnString += getRegName(reg);
+            returnString += "\">\n";
+            returnString += reg->second->ddml;
+            returnString += "\n</driver>\n";
+            }
+         }
+      }
+   catch (const exception& err)
+      {
+      returnString += string("<ERROR>") + err.what() + "</ERROR>\n";
+      }
+   returnString += "</describecomp>\n";
+   return returnString;
+   }
 

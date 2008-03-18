@@ -132,11 +132,11 @@ Item0=.
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=C:\hol353\Development\apsim\slurp\sample\slurp.apsim.sample_slurp.sim
+RunParams=c:\hol353\Development\apsim\sorghum\lib\sorghum.dll sorghum
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=C:\hol353\Development\Bin\Apsim.exe
+HostApplication=C:\hol353\Development\Bin\GetComponentDescription.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
