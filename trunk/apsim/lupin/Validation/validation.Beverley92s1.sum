@@ -123,6 +123,7 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      lai_yesterday = 0
      lai_today = 0
      sla = 0
+     day_cnt = 0
      
      SECTION:- start_of_day
      if day>90 and day<305 then
@@ -153,7 +154,7 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
         sla_tot = 0
         yield_in_t = 0
      endif
-     if clock.simulation_start_day = day_cnt then
+     if today = clock.simulation_start_day then
         lai_yesterday = tlai
      else
         lai_today = tlai
@@ -195,6 +196,7 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      Manager creating a new local real variable : lai_yesterday =     0.00000000000000
      Manager creating a new local real variable : lai_today =     0.00000000000000
      Manager creating a new local real variable : sla =     0.00000000000000
+     Manager creating a new local real variable : day_cnt =     0.00000000000000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -394,7 +396,6 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      Manager creating a new local real variable : swc_40 =    0.528403745000000E-001
      Manager creating a new local real variable : avgt =     23.3999996000000
      Manager creating a new local real variable : yield_in_t =     0.00000000000000
-     Manager creating a new local real variable : day_cnt =     0.00000000000000
 23 April 1992(Day of year=114), operatns: 
       Sending tillage message to surfaceom
 23 April 1992(Day of year=114), SurfaceOM: 
