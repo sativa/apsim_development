@@ -55,6 +55,7 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      SECTION:- init
      paddockstate = 'empty'
      ready_to_graze = 0
+     annual_lwg = 0.0
      
      SECTION:- end_of_day
      annual_lwg = annual_lwg + graz.lwg
@@ -81,6 +82,7 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      
      Manager creating a new local string variable : paddockstate = empty
      Manager creating a new local real variable : ready_to_graze =     0.00000000000000
+     Manager creating a new local real variable : annual_lwg =     0.00000000000000
      Manager creating a new local real variable : growth =     0.00000000000000
 
 ------- soilwat2 Initialisation -----------------------------------------------
@@ -231,7 +233,6 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
   Initial Live Weight: 0
 
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : annual_lwg =     0.00000000000000
 17 June 1988(Day of year=169), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1988(Day of year=169), wheat: 
