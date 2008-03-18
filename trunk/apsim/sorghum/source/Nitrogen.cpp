@@ -27,10 +27,10 @@ Nitrogen::~Nitrogen()
 void Nitrogen::doRegistrations(void)
    {
 
-   scienceAPI.expose("nfact_pheno",          "",      "Nitrogen stress factor for phenology",            false, phenoStress);
-   scienceAPI.expose("nfact_expan",          "",      "Nitrogen stress factor for leaf expansion",       false, expansionStress);
-   scienceAPI.expose("nfact_photo",          "",      "Nitrogen stress factor for photosynthesis",       false, photoStress);
-   scienceAPI.expose("n_sd_ratio",           "",      "Nitrogen supply/demand ratio",                    false, supplyDemandRatio);
+   scienceAPI.expose("nfact_pheno",          "()",    "Nitrogen stress factor for phenology",            false, phenoStress);
+   scienceAPI.expose("nfact_expan",          "()",    "Nitrogen stress factor for leaf expansion",       false, expansionStress);
+   scienceAPI.expose("nfact_photo",          "()",    "Nitrogen stress factor for photosynthesis",       false, photoStress);
+   scienceAPI.expose("n_sd_ratio",           "()",    "Nitrogen supply/demand ratio",                    false, supplyDemandRatio);
    scienceAPI.expose("n_supply_soil",        "g/m^2", "Today's total N supply from soil profile",        false, nSupply);
    scienceAPI.expose("n_massflow_uptake",    "g/m^2", "Today's N uptake by massflow from soil profile",  false, actualMassFlow);
    scienceAPI.expose("n_diffusion_uptake",   "g/m^2", "Today's N uptake by diffusion from soil profile", false, actualDiffusion);

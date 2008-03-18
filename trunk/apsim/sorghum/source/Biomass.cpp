@@ -26,7 +26,7 @@ void Biomass::doRegistrations(void)
    {
    scienceAPI.expose("DeltaGreenWt", "g/m^2", "Daily biomass production",  false, dltDM);
    scienceAPI.expose("Biomass",      "kg/ha", "Total above-ground biomass",false, aboveGroundBiomass);
-   scienceAPI.expose("HI",           "()",      "Harvest index",           false, hi);
+   scienceAPI.expose("HI",           "()",    "Harvest index",             false, hi);
    scienceAPI.expose("GreenWt",      "g/m^2", "Live plant dry weight",     false, greenBiomass);
 
 

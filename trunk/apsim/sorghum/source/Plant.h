@@ -94,6 +94,8 @@ class Plant
    vector<float> senDetachFrac;
    vector<float> deadDetachFrac;
 
+   float latitude;
+
 
 //  Variables  -----------------------------------------------------
    Status plantStatus;               // plant status - out, dead, alive
@@ -114,6 +116,9 @@ class Plant
    void  endPlant (void);
    float rue_co2_modifier(void);
    TableFn co2_te_modifier;
+
+
+   bool estimateTillers(float &ftn);
 
    public:
    // ------------------------------------------------------
