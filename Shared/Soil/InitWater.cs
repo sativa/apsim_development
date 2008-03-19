@@ -38,7 +38,13 @@ namespace Soils
 
 		public int Percent
 			{
-			get {return Convert.ToInt32(Convert.ToDouble(XmlHelper.Value(Data, "PercentMethod/Percent")) * 100);}
+			get {
+                string PercentString = XmlHelper.Value(Data, "PercentMethod/Percent");
+                if (PercentString == "")
+                    return 0;
+                else
+                    return Convert.ToInt32(Convert.ToDouble(PercentString) * 100);
+                }
 			}
 		public bool FilledFromTop
 			{
