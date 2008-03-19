@@ -294,6 +294,23 @@ namespace ApsimFile
                 {
                 Doc = new XmlDocument();
                 Doc.LoadXml("<dummy>" + Xml + "</dummy>");
+                if (Doc.DocumentElement.ChildNodes.Count == 1 &&
+                    Doc.DocumentElement.ChildNodes[0].Name.ToLower() == "soil")
+                    {
+                    // A special test for when the user drops a soil on a component node or when
+                    // the user pastes a soil node. We want to make sure there are <initwater> and
+                    // <initnitrogen> nodes.
+                    XmlNode SoilNode = Doc.DocumentElement.ChildNodes[0];
+                    XmlNode InitWaterNode = XmlHelper.Find(SoilNode, "InitWater");
+                    XmlNode InitNitrogenNode = XmlHelper.Find(SoilNode, "InitNitrogen");
+                    XmlNode SoilSampleNode = XmlHelper.Find(SoilNode, "SoilSample");
+                    if (InitWaterNode == null && InitNitrogenNode == null && SoilSampleNode == null)
+                        {
+                        SoilNode.AppendChild(SoilNode.OwnerDocument.CreateElement("InitWater"));
+                        SoilNode.AppendChild(SoilNode.OwnerDocument.CreateElement("InitNitrogen"));
+                        }
+                    }
+
                 }
             catch (Exception)
                 {
