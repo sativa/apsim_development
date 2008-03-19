@@ -479,9 +479,13 @@ namespace ApsimFile
                         }
                     else
                         {
-                        XmlNode Condition = XmlHelper.FindByType(Rule, "condition");
-                        XmlHelper.SetValue(ManagerNode, "script/text", Condition.InnerText);
-                        XmlHelper.SetValue(ManagerNode, "script/event", XmlHelper.Name(Condition));
+                        foreach (XmlNode Condition in XmlHelper.ChildNodes(Rule, "condition"))
+                            {
+                            XmlNode ScriptNode = XmlHelper.CreateNode(Rule.OwnerDocument, "script", "");
+                            ManagerNode.AppendChild(ScriptNode);
+                            XmlHelper.SetValue(ScriptNode, "text", Condition.InnerText);
+                            XmlHelper.SetValue(ScriptNode, "event", XmlHelper.Name(Condition));
+                            }
                         XmlNode UI = ManagerNode.AppendChild(ManagerNode.OwnerDocument.CreateElement("ui"));
                         foreach (XmlNode Category in XmlHelper.ChildNodes(Rule, "category"))
                             {
