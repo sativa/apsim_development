@@ -36,29 +36,29 @@ Public Class OptionsForm
     Friend WithEvents OpenFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents OptionCancelButton As System.Windows.Forms.Button
     Friend WithEvents SaveFileDialog As System.Windows.Forms.SaveFileDialog
-    Friend WithEvents NewButton As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents RemoveButton As System.Windows.Forms.Button
-    Friend WithEvents AddButton As System.Windows.Forms.Button
+    Friend WithEvents CreateLink As System.Windows.Forms.LinkLabel
+    Friend WithEvents AddLink As System.Windows.Forms.LinkLabel
+    Friend WithEvents RemoveLink As System.Windows.Forms.LinkLabel
     Friend WithEvents ToolBoxListBox As System.Windows.Forms.ListBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.OKButton = New System.Windows.Forms.Button
         Me.OptionCancelButton = New System.Windows.Forms.Button
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog
-        Me.NewButton = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
-        Me.RemoveButton = New System.Windows.Forms.Button
-        Me.AddButton = New System.Windows.Forms.Button
         Me.ToolBoxListBox = New System.Windows.Forms.ListBox
+        Me.CreateLink = New System.Windows.Forms.LinkLabel
+        Me.AddLink = New System.Windows.Forms.LinkLabel
+        Me.RemoveLink = New System.Windows.Forms.LinkLabel
         Me.SuspendLayout()
         '
         'OKButton
         '
         Me.OKButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OKButton.Location = New System.Drawing.Point(384, 24)
+        Me.OKButton.Location = New System.Drawing.Point(338, 24)
         Me.OKButton.Name = "OKButton"
-        Me.OKButton.Size = New System.Drawing.Size(104, 30)
+        Me.OKButton.Size = New System.Drawing.Size(80, 29)
         Me.OKButton.TabIndex = 1
         Me.OKButton.Text = "OK"
         '
@@ -66,9 +66,9 @@ Public Class OptionsForm
         '
         Me.OptionCancelButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OptionCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.OptionCancelButton.Location = New System.Drawing.Point(384, 64)
+        Me.OptionCancelButton.Location = New System.Drawing.Point(338, 64)
         Me.OptionCancelButton.Name = "OptionCancelButton"
-        Me.OptionCancelButton.Size = New System.Drawing.Size(104, 30)
+        Me.OptionCancelButton.Size = New System.Drawing.Size(80, 29)
         Me.OptionCancelButton.TabIndex = 2
         Me.OptionCancelButton.Text = "Cancel"
         '
@@ -81,71 +81,77 @@ Public Class OptionsForm
         '
         Me.SaveFileDialog.DefaultExt = "xml"
         Me.SaveFileDialog.Filter = "toolbox files (*.xml)|*.xml|All Files (*.*)|*.*"
-        '
-        'NewButton
-        '
-        Me.NewButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NewButton.Location = New System.Drawing.Point(384, 128)
-        Me.NewButton.Name = "NewButton"
-        Me.NewButton.Size = New System.Drawing.Size(104, 32)
-        Me.NewButton.TabIndex = 9
-        Me.NewButton.Text = "New ..."
+        Me.SaveFileDialog.Title = "Select a filename for your new toolbox"
         '
         'Label1
         '
-        Me.Label1.Location = New System.Drawing.Point(24, 8)
+        Me.Label1.Location = New System.Drawing.Point(16, 5)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(336, 48)
+        Me.Label1.Size = New System.Drawing.Size(316, 35)
         Me.Label1.TabIndex = 8
         Me.Label1.Text = "The following toolbox files are used to provide user-defined data types within AP" & _
-        "SIM at simulation design."
-        '
-        'RemoveButton
-        '
-        Me.RemoveButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RemoveButton.Location = New System.Drawing.Point(384, 208)
-        Me.RemoveButton.Name = "RemoveButton"
-        Me.RemoveButton.Size = New System.Drawing.Size(104, 32)
-        Me.RemoveButton.TabIndex = 7
-        Me.RemoveButton.Text = "Remove"
-        '
-        'AddButton
-        '
-        Me.AddButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.AddButton.Location = New System.Drawing.Point(384, 168)
-        Me.AddButton.Name = "AddButton"
-        Me.AddButton.Size = New System.Drawing.Size(104, 32)
-        Me.AddButton.TabIndex = 6
-        Me.AddButton.Text = "Add existing ..."
+            "SIM at simulation design."
         '
         'ToolBoxListBox
         '
         Me.ToolBoxListBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ToolBoxListBox.Location = New System.Drawing.Point(16, 64)
+        Me.ToolBoxListBox.HorizontalScrollbar = True
+        Me.ToolBoxListBox.Location = New System.Drawing.Point(19, 43)
         Me.ToolBoxListBox.Name = "ToolBoxListBox"
-        Me.ToolBoxListBox.Size = New System.Drawing.Size(352, 212)
+        Me.ToolBoxListBox.Size = New System.Drawing.Size(305, 160)
         Me.ToolBoxListBox.TabIndex = 5
+        '
+        'CreateLink
+        '
+        Me.CreateLink.AutoSize = True
+        Me.CreateLink.Location = New System.Drawing.Point(16, 206)
+        Me.CreateLink.Name = "CreateLink"
+        Me.CreateLink.Size = New System.Drawing.Size(138, 13)
+        Me.CreateLink.TabIndex = 10
+        Me.CreateLink.TabStop = True
+        Me.CreateLink.Text = "Create a new empty toolbox"
+        '
+        'AddLink
+        '
+        Me.AddLink.AutoSize = True
+        Me.AddLink.Location = New System.Drawing.Point(16, 222)
+        Me.AddLink.Name = "AddLink"
+        Me.AddLink.Size = New System.Drawing.Size(170, 13)
+        Me.AddLink.TabIndex = 11
+        Me.AddLink.TabStop = True
+        Me.AddLink.Text = "Add an existing toolbox to ApsimUI"
+        '
+        'RemoveLink
+        '
+        Me.RemoveLink.AutoSize = True
+        Me.RemoveLink.Location = New System.Drawing.Point(16, 239)
+        Me.RemoveLink.Name = "RemoveLink"
+        Me.RemoveLink.Size = New System.Drawing.Size(192, 13)
+        Me.RemoveLink.TabIndex = 12
+        Me.RemoveLink.TabStop = True
+        Me.RemoveLink.Text = "Remove selected toolbox from ApsimUI"
         '
         'OptionsForm
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.CancelButton = Me.OptionCancelButton
-        Me.ClientSize = New System.Drawing.Size(493, 288)
-        Me.Controls.Add(Me.NewButton)
+        Me.ClientSize = New System.Drawing.Size(423, 259)
+        Me.Controls.Add(Me.RemoveLink)
+        Me.Controls.Add(Me.AddLink)
+        Me.Controls.Add(Me.CreateLink)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.RemoveButton)
-        Me.Controls.Add(Me.AddButton)
         Me.Controls.Add(Me.ToolBoxListBox)
         Me.Controls.Add(Me.OptionCancelButton)
         Me.Controls.Add(Me.OKButton)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "OptionsForm"
-        Me.Text = "APSIM Options"
+        Me.Text = "APSIM Toolbox Management"
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -176,11 +182,10 @@ Public Class OptionsForm
         Me.Close()
     End Sub
 
-
-    ' ------------------------------------------------
-    ' User is wanting to create a new toolbox.
-    ' ------------------------------------------------
-    Private Sub NewButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewButton.Click
+    Private Sub OnCreateLink(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles CreateLink.LinkClicked
+        ' ------------------------------------------------
+        ' User is wanting to create a new toolbox.
+        ' ------------------------------------------------
         If SaveFileDialog.ShowDialog() = Windows.Forms.DialogResult.OK Then
             Dim toolboxes As New Toolboxes
             toolboxes.CreateNew(SaveFileDialog.FileName)
@@ -188,11 +193,10 @@ Public Class OptionsForm
         End If
     End Sub
 
-
-    ' --------------------------------------
-    ' user has clicked add existing button
-    ' --------------------------------------
-    Private Sub AddButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddButton.Click
+    Private Sub OnAddLink(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles AddLink.LinkClicked
+        ' --------------------------------------
+        ' user has clicked add existing button
+        ' --------------------------------------
         Try
             If OpenFileDialog.ShowDialog() = Windows.Forms.DialogResult.OK Then
                 ToolBoxListBox.Items.Add(OpenFileDialog.FileName)
@@ -202,14 +206,12 @@ Public Class OptionsForm
         Catch ex As System.Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error Selecting new Toolbox file")
         End Try
-
     End Sub
 
-
-    ' -----------------------------------
-    ' User has clicked remove button
-    ' -----------------------------------
-    Private Sub RemoveButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveButton.Click
+    Private Sub OnRemoveLink(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles RemoveLink.LinkClicked
+        ' -----------------------------------
+        ' User has clicked remove button
+        ' -----------------------------------
         Try
             If ToolBoxListBox.SelectedIndex >= 0 Then
                 ToolBoxListBox.Items.Remove(ToolBoxListBox.SelectedItem)
