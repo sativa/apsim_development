@@ -3116,9 +3116,22 @@
       <Documentation name="Science documentation">../apsim/surface/docs/surface_science.htm</Documentation>
    </surface>
    <sysbal>
-      <UItype>VBUserInterface.GenericUI</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
+      <UItype>APSIMUI.EmptyUI</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/sysbal/docs/sysbal science.txt</Documentation>
+      <LargeIcon>%apsuite\apsimui\Images\debug32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\debug16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\sysbal\lib\sysbal.dll</dll>
+      </ApsimToSim>
    </sysbal>
    <tcllink>
       <UItype>VBUserInterface.GenericUI</UItype>
