@@ -919,16 +919,6 @@
          <dll>%apsuite\apsim\tcllink\lib\tcllink.dll</dll>
          <sim>
             <master>yes</master>
-            [foreach tclmanager.rule as rule]
-            [foreach rule.condition as condition]
-            <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
-               [condition.innerxml]
-               [foreach rule.category as category]
-               [category.xml]
-               [endfor]
-            </rule>
-            [endfor]
-            [endfor]
          </sim>
      </ApsimToSim>
    </tclmanager>
@@ -950,19 +940,6 @@
          <dll>%apsuite\apsim\tcllink\lib\tcllink.dll</dll>
          <sim>
             <master>yes</master>
-               [foreach farmmanager.rule as rule]
-               [foreach rule.condition as condition]
-               <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
-               [condition.innerxml]
-               [foreach rule.category as category]
-               [category.xml]
-               [endfor]
-               </rule>
-               [endfor]
-               [endfor]
-               [foreach farmmanager.tclui as tclui]
-                [tclui.innerxml]
-               [endfor]
          </sim>
       </ApsimToSim>
    </farmmanager>
@@ -983,47 +960,9 @@
          <dll>%apsuite\apsim\tcllink\lib\tcllink.dll</dll>
          <sim>
             <master>no</master>
-               [foreach paddockmanager.rule as rule]
-               [foreach rule.condition as condition]
-               <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
-               [condition.innerxml]
-               [foreach rule.category as category]
-               [category.xml]
-               [endfor]
-               </rule>
-               [endfor]
-               [endfor]
-               [foreach paddockmanager.tclui as tclui]
-                [tclui.innerxml]
-               [endfor]
          </sim>
       </ApsimToSim>
    </paddockmanager>
-   <tclgroup>
-      <UItype>APSIMUI.areaui</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <Documentation name="Science documentation">../apsim/tcllink/docs/farmmanager_science.htm</Documentation>
-      <LargeIcon>%apsuite\apsimui\Images\folder_gear32.png</LargeIcon>
-      <SmallIcon>%apsuite\apsimui\Images\folder_gear16.png</SmallIcon>
-      <drops>
-         <drop name="toolbox"/>
-         <drop name="area"/>
-         <drop name="simulation"/>
-         <drop name="folder"/>
-      </drops>
-      <ApsimToSim>
-         <type>component</type>
-         <dll>%apsuite\apsim\tcllink\lib\tcllink.dll</dll>
-         <sim>
-            <master>no</master>
-            <rule condition="init">[tclgroup.initscript]</rule>
-            [foreach tclgroup.tclui as tclui]
-            [tclui.innerxml]
-            [endfor]
-         </sim>
-      </ApsimToSim>
-   </tclgroup>
    <tclui>
       <UItype>APSIMUI.TclUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -1040,8 +979,28 @@
          <drop name="tclgroup"/>
      </drops>
      <ApsimToSim>
+     [tclui.innerxml]
      </ApsimToSim>
    </tclui>
+   <rule>
+      <UItype>APSIMUI.ruleui</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>%apsuite\apsimui\Images\tclmanager32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\tclmanager16.png</SmallIcon>
+      <drops>
+         <drop name="tclmanager"/>
+         <drop name="farmmanager"/>
+         <drop name="paddockmanager"/>
+         <drop name="tclgroup"/>
+      </drops>
+      <ApsimToSim>
+         <calldll>
+            <class>CSUserInterface.SoilActions</class>
+            <method>WriteManagerSim</method>
+         </calldll>
+      </ApsimToSim>
+   </rule>
    <surfaceom>
       <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -1158,7 +1117,7 @@
       </ApsimToSim>
    </erosion>
    <grasp>
-      <UItype>APSIMUI.EmptyUI</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
@@ -1168,7 +1127,7 @@
          <drop name="folder"/>
          <drop name="toolbox"/>
          <drop name="area"/>
-     </drops>
+      </drops>
       <variables>
          <variable name="height" description="height: Sward height"/>
          <variable name="cover_tot" description="cover_tot: Total cover"/>
@@ -1218,7 +1177,66 @@
          <type>component</type>
          <dll>%apsuite\apsim\grasp\lib\grasp.dll</dll>
          <ini>%apsuite\apsim\grasp\grasp.ini</ini>
-         <sim/>
+         <sim>
+          <establishment>
+           <root_depth_init>[grasp.root_depth_init]</root_depth_init>
+           <dm_dead_leaf_init>[grasp.dm_dead_leaf_init]</dm_dead_leaf_init>
+           <dm_dead_stem_init>[grasp.dm_dead_stem_init]</dm_dead_stem_init>
+           <dm_dead_root_init>[grasp.dm_dead_root_init]</dm_dead_root_init>
+           <dm_green_leaf_init>[grasp.dm_green_leaf_init]</dm_green_leaf_init>
+           <dm_green_stem_init>[grasp.dm_green_stem_init]</dm_green_stem_init>
+           <dm_green_root_init>[grasp.dm_green_root_init]</dm_green_root_init>
+           <basal_area_init>[grasp.basal_area_init]</basal_area_init>
+           <acc_trans_for_n_init>[grasp.acc_trans_for_n_init]</acc_trans_for_n_init>
+           <acc_growth_for_n_init>[grasp.acc_growth_for_n_init]</acc_growth_for_n_init>
+          </establishment>
+          <crop_type>[grasp.crop_type]</crop_type>
+          <uptake_source>[grasp.uptake_source]</uptake_source>
+          <max_n_avail>[grasp.max_n_avail]</max_n_avail>
+          <max_n_avail_dist>[grasp.max_n_avail_dist]</max_n_avail_dist>
+          <ll>[grasp.ll]</ll>
+          <kl>[grasp.kl]</kl>
+          <kl2rlv>[grasp.kl2rlv]</kl2rlv>
+          <height_max>[grasp.height_max]</height_max>
+          <hgt_vpd_screen>[grasp.hgt_vpd_screen]</hgt_vpd_screen>
+          <height_1000kg>[grasp.height_1000kg]</height_1000kg>
+          <et_use_efficiency>[grasp.et_use_efficiency]</et_use_efficiency>
+          <frac_leaf2total>[grasp.frac_leaf2total]</frac_leaf2total>
+          <yld_cover_slope>[grasp.yld_cover_slope]</yld_cover_slope>
+          <yld_fpc50>[grasp.yld_fpc50]</yld_fpc50>
+          <yld_cov50>[grasp.yld_cov50]</yld_cov50>
+          <yld_tcov50>[grasp.yld_tcov50]</yld_tcov50>
+          <swi_fullgreen>[grasp.swi_fullgreen]</swi_fullgreen>
+          <swi_nogrow>[grasp.swi_nogrow]</swi_nogrow>
+          <pot_regrow>[grasp.pot_regrow]</pot_regrow>
+          <te_std>[grasp.te_std]</te_std>
+          <rad_factor>[grasp.rad_factor]</rad_factor>
+          <residual_plant_N>[grasp.residual_plant_N]</residual_plant_N>
+          <litter_n>[grasp.litter_n]</litter_n>
+          <n_uptk_per100>[grasp.n_uptk_per100]</n_uptk_per100>
+          <frost_start>[grasp.frost_start]</frost_start>
+          <frost_kill>[grasp.frost_kill]</frost_kill>
+          <death_slope>[grasp.death_slope]</death_slope>
+          <death_intercept>[grasp.death_intercept]</death_intercept>
+          <leaf_death_ratio>[grasp.leaf_death_ratio]</leaf_death_ratio>
+          <stem_death_ratio>[grasp.stem_death_ratio]</stem_death_ratio>
+          <n_conc_dm_crit>[grasp.n_conc_dm_crit]</n_conc_dm_crit>
+          <n_conc_dm_min>[grasp.n_conc_dm_min]</n_conc_dm_min>
+          <n_conc_dm_max>[grasp.n_conc_dm_max]</n_conc_dm_max>
+          <stem_thresh>[grasp.stem_thresh]</stem_thresh>
+          <detach_dryseason>[grasp.detach_dryseason]</detach_dryseason>
+          <detach_wetseason>[grasp.detach_wetseason]</detach_wetseason>
+          <day_start_summer>[grasp.day_start_summer]</day_start_summer>
+          <day_end_summer>[grasp.day_end_summer]</day_end_summer>
+          <acc_et_reset>[grasp.acc_et_reset]</acc_et_reset>
+          <acc_growth_reset>[grasp.acc_growth_reset]</acc_growth_reset>
+          <trans_for_n_reset>[grasp.trans_for_n_reset]</trans_for_n_reset>
+          <growth_for_n_reset>[grasp.growth_for_n_reset]</growth_for_n_reset>
+          <day_start_wet>[grasp.day_start_wet]</day_start_wet>
+          <day_start_dry>[grasp.day_start_dry]</day_start_dry>
+          <enr_a_coeff>[grasp.enr_a_coeff]</enr_a_coeff>
+          <enr_b_coeff>[grasp.enr_b_coeff]</enr_b_coeff>
+         </sim>
      </ApsimToSim>
    </grasp>
    <broccoli>
@@ -2046,7 +2064,7 @@
          <ini>%apsuite\apsim\oryza\oryza.ini</ini>
          <sim>
             <direct-seed>
-               <estab>transplant</estab>
+               <estab>direct-seed</estab>
                <sbdur>[rice.sbdur]</sbdur>
                <nplh>[rice.nplh]</nplh>
                <nh>[rice.nh]</nh>
@@ -4345,7 +4363,51 @@
         </sim>
      </ApsimToSim>
    </SorghumGenotype>
-
-
+   <graz>
+      <UItype>VBUserInterface.GenericUI</UItype>
+      <IsCrop>No</IsCrop>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Description>Rickert &amp; McKeon (1981) grazing module</Description>
+      <Documentation name="Grazing science documentation"></Documentation>
+      <LargeIcon>%apsuite\apsimui\Images\stock32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\stock16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <variables>
+         <variable name="stocking_rate"  units="beasts/ha" description="Stocking rate"/>
+         <variable name="alw"            units="kg"        description="Weight of beast"/>
+         <variable name="pasture_source" units=""          description="Crop or pasture module to eat"/>
+         <variable name="lwg"            units="kg"        description="Live weight gain"/>
+         <variable name="acc_eaten"      units="kg/ha"     description="Cumulative grass eaten by animals"/>
+         <variable name="acc_growth"     units="kg/ha"     description="Cumulative grass growth"/>
+         <variable name="intake_restr"   units=""          description="Intake of feed"/>
+     </variables>
+      <events>
+      </events>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\graz\lib\graz.dll</dll>
+         <sim>
+          <intake_util_intercept>[graz.intake_util_intercept]</intake_util_intercept>
+          <intake_util_slope>[graz.intake_util_slope]</intake_util_slope>
+          <yld_eat_restr>[graz.yld_eat_restr]</yld_eat_restr>
+          <summer_lwg>[graz.summer_lwg]</summer_lwg>
+          <autumn_lwg>[graz.autumn_lwg]</autumn_lwg>
+          <winter_lwg>[graz.winter_lwg]</winter_lwg>
+          <spring_lwg>[graz.spring_lwg]</spring_lwg>
+          <leaf_diet>[graz.leaf_diet]</leaf_diet>
+          <std_alw>[graz.std_alw]</std_alw>
+          <metabol_expon>[graz.metabol_expon]</metabol_expon>
+          <acc_eaten_reset>[graz.acc_eaten_reset]</acc_eaten_reset>
+          <prop_can_eat>[graz.prop_can_eat]</prop_can_eat>
+          <allow_supplements>[graz.allow_supplements]</allow_supplements>
+         </sim>
+      </ApsimToSim>
+   </graz>
 </Types>
 

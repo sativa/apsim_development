@@ -356,6 +356,7 @@ Public Class OutputFileDescUI
         ' Refresh the variable grid
         ' ----------------------------------
 
+
         If XmlHelper.Type(Data).ToLower = "variables" Then
             GridLabel.Text = "Output file columns:"
             DictionaryLabel.Text = "Variables to drag onto above grid:"
@@ -391,12 +392,14 @@ Public Class OutputFileDescUI
             Grid.Columns(1).Visible = False
             Grid.Columns(2).Visible = False
             TopPanel.Visible = False
+            HelpButton.Location = New Point(Grid.Columns(0).Width, 3 + Grid.Rows(0).Height)
 
         Else
             VariableListView.Columns(1).Width = 45
             Grid.Columns(1).Visible = True
             Grid.Columns(2).Visible = True
             TopPanel.Visible = True
+            HelpButton.Location = New Point(Grid.Columns(0).Width + Grid.Columns(1).Width + Grid.Columns(2).Width, 3 + TopPanel.Height + Grid.Rows(0).Height)
             PopulateConstants()
         End If
 
