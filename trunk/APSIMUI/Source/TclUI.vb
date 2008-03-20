@@ -107,4 +107,8 @@ Public Class TclUI
         End If
     End Sub
 
+    Protected Overrides Function IsInputKey(ByVal keyData As System.Windows.Forms.Keys) As Boolean
+        Return True
+        'Return MyBase.IsInputKey(keyData)
+    End Function
 End Class

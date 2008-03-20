@@ -139,7 +139,74 @@
       </AusfarmPastureSeeds>
     </AusfarmPasture>
     <fieldpea />
-    <grasp />
+    <grasp name="Grasp">
+<category name="Initial values at establishment" />
+<root_depth_init description="Initial depth of roots (mm)">750</root_depth_init>
+
+<dm_dead_leaf_init description="Initial Dead Leaf weight (kg/ha)">0</dm_dead_leaf_init>
+<dm_dead_stem_init description="Initial Dead Stem weight (kg/ha)">0</dm_dead_stem_init>
+<dm_dead_root_init description="Initial Dead Root weight (kg/ha)">0</dm_dead_root_init>
+<dm_green_leaf_init description="Initial Green Leaf weight (kg/ha)">0</dm_green_leaf_init>
+<dm_green_stem_init description="Initial Green Stem weight (kg/ha)">0</dm_green_stem_init>
+<dm_green_root_init description="Initial Green Root weight (kg/ha)">0</dm_green_root_init>
+<basal_area_init description="Initial Basal area of tussocks (%)">0.5</basal_area_init>
+<acc_trans_for_n_init description="Initial accumulated transpiration, used for N uptake (mm)">0</acc_trans_for_n_init>
+<acc_growth_for_n_init description="Initial accumulated growth, used for N uptake (kg/ha)">0</acc_growth_for_n_init>
+
+<category name="Soil Properties" />
+<max_n_avail description="Limit to total N (kg/year)">15</max_n_avail>
+<max_n_avail_dist description="Distribution of N in profile">0.8 0.1 0.05  0.05  0.0 0.0  0.0</max_n_avail_dist>
+<ll description="Lower limit (ll) of water extraction (mm/mm)">.230     .240    .240    .250 .260 .270 .280</ll>
+<kl description="Rate of water extraction (kl)">0.5      0.5      0.5    0.5  0.0  0.0  0.0</kl>
+<kl2rlv>1.0</kl2rlv>
+
+<category name="Parameter values" />
+<crop_type>grass</crop_type>
+<uptake_source>calc</uptake_source>
+
+<height_max description="Maximum canopy height (mm)">1200</height_max>
+<hgt_vpd_screen description="Height at which surface effects on vpd are 0 (mm)">200</hgt_vpd_screen>
+<height_1000kg description="Sward Height per tonne (p096*10, mm)">100</height_1000kg>
+<et_use_efficiency description="Evapotranspiration use efficiency used in BA calc (kg/ha/mm) (p288)">0</et_use_efficiency>
+<frac_leaf2total description="Fraction of total dm produced that goes into leaf pool (0-1) (p123)">0.5</frac_leaf2total>
+<yld_cover_slope description="Shape of exponential curve relating yield and cover">0.693147</yld_cover_slope>
+<yld_fpc50 description="yld_fpc50 (p046)">1000</yld_fpc50>
+<yld_cov50 description="Yield transpiring at 50% of pan evap (p045)">1000</yld_cov50>
+<yld_tcov50 description="Tsdm yield at which cover for runoff is 50% (p271)">1000</yld_tcov50>
+<swi_fullgreen description="Min soil water for 100% green (p009)">0.1</swi_fullgreen>
+<swi_nogrow description="SWI when growth stops">0.4</swi_nogrow>
+<pot_regrow description="Max rate regrowth from tussocks (kg/ha/unit grass ba) (p006)">3.0</pot_regrow>
+<te_std description="Transpiration efficiency at vpd=20mb (p007)">10.0</te_std>
+<rad_factor>8.97</rad_factor>
+<residual_plant_N description="Always this much n in plant (p097, kg/ha)">5</residual_plant_N>
+<litter_n description="N conc of detached stems and roots ((p110-p111)/2)">0.3</litter_n>
+<n_uptk_per100 description="Nitrogen uptake per 100mm water (p098, kg/ha)">5</n_uptk_per100>
+<frost_start description="Minimum screen temp at which green cover=100% (oC,p125)">2</frost_start>
+<frost_kill description="Minimum screen temp at which frost kills all green (oC,p011)">0</frost_kill>
+<death_slope description="Rate of green death per soil water(p051)">0.013</death_slope>
+<death_intercept description="Background death rate (p010)">0.002</death_intercept>
+<leaf_death_ratio description="Proportion of leaf death to total death (p133)">1</leaf_death_ratio>
+<stem_death_ratio description="Proportion of stem death to total death (p134)">1</stem_death_ratio>
+<n_conc_dm_crit description="Level of plant N at which no N stress occurs (p102)">2.5</n_conc_dm_crit>
+<n_conc_dm_min description="Level of soil N at which no N stress occurs (p101)">0.4</n_conc_dm_min>
+<n_conc_dm_max description="Level of soil N at which soil N to high for growth (p100)">0.5</n_conc_dm_max>
+<stem_thresh description="stem_thresh (p124)">0</stem_thresh>
+
+<detach_dryseason description="detach_dryseason: root, leaf, stem">0.0   0.002     0.002</detach_dryseason>
+<detach_wetseason description="detach_wetseason: root, leaf, stem">0.0   0.002     0.002</detach_wetseason>
+
+<category name="Date resets" />
+<day_start_summer>335</day_start_summer>
+<day_end_summer>59</day_end_summer>
+<acc_et_reset>273</acc_et_reset>
+<acc_growth_reset>273</acc_growth_reset>
+<trans_for_n_reset>273</trans_for_n_reset>
+<growth_for_n_reset>273</growth_for_n_reset>
+<day_start_wet>274</day_start_wet>
+<day_start_dry>91</day_start_dry>
+<enr_a_coeff>7.4</enr_a_coeff>
+<enr_b_coeff>0.2</enr_b_coeff>
+    </grasp>
     <horsegram />
     <lablab />
     <lucerne />
@@ -2988,19 +3055,26 @@
     <folder name="Tcl">
       <tclmanager name="TCL Manager (standalone)">
         <rule name="Logic">
-          <condition name="init">
-          </condition>
-          <condition name="prepare">
-          </condition>
-          <condition name="process">
-          </condition>
-          <condition name="post">
-          </condition>
-          <condition name="exit">
-          </condition>
+         <script name="init">
+           <text>
+           </text>
+           <event>init</event>
+         </script>
+         <script name="prepare">
+           <text>
+           </text>
+           <event>prepare</event>
+         </script>
+         <script name="exit">
+           <text>
+           </text>
+           <event>exit</event>
+         </script>
         </rule>
         <rule name="Debugger">
-          <condition name="init"><![CDATA[package require Tk
+          <script name="init">
+          <event>init</event>
+          <text><![CDATA[package require Tk
 wm withdraw .
 
 package require tkcon
@@ -3030,9 +3104,10 @@ proc link {apsimName tclName} {
 proc getLinked {a n1 n2 op} {uplevel #0 set $n1 [apsimGet $a]}
 proc setLinked {a n1 n2 op} {apsimSet $a $n1}
 
-]]></condition>
-          <condition name="prepare" />
-          <condition name="process">update
+]]></text></script>
+\          <script name="process">
+           <event>process</event>
+<text>update
 foreach cond $Conds {
   if {[expr $cond]} {
     set steps 1
@@ -3041,37 +3116,45 @@ foreach cond $Conds {
 
 incr steps -1
 if {$steps == 0} {tkwait variable steps}
-        </condition>
-          <condition name="post" />
-          <condition name="exit" />
+        </text></script>
         </rule>
       </tclmanager>
       <farmmanager name="Farm Manager">
         <rule name="Farm logic">
-          <condition name="init">
-          </condition>
-          <condition name="prepare">
-          </condition>
-          <condition name="process">
-          </condition>
-          <condition name="post">
-          </condition>
-          <condition name="exit">
-          </condition>
+         <script name="init">
+           <text>
+           </text>
+           <event>init</event>
+         </script>
+         <script name="prepare">
+           <text>
+           </text>
+           <event>prepare</event>
+         </script>
+         <script name="exit">
+           <text>
+           </text>
+           <event>exit</event>
+         </script>
         </rule>
       </farmmanager>
       <paddockmanager name="Paddock Manager">
         <rule name="Farm logic">
-          <condition name="init">
-          </condition>
-          <condition name="prepare">
-          </condition>
-          <condition name="process">
-          </condition>
-          <condition name="post">
-          </condition>
-          <condition name="exit">
-          </condition>
+         <script name="init">
+           <text>
+           </text>
+           <event>init</event>
+         </script>
+         <script name="prepare">
+           <text>
+           </text>
+           <event>prepare</event>
+         </script>
+         <script name="exit">
+           <text>
+           </text>
+           <event>exit</event>
+         </script>
         </rule>
       </paddockmanager>
   <tclui name="R Graphics">
@@ -3301,11 +3384,8 @@ trace add variable XMLDoc read setXML
 </uiscript>
     <rscript>
 
-files&lt;-c("maize20% output.out",
-         "maize40% output.out", 
-         "maize50% output.out", 
-         "maize60% output.out", 
-      "maize70% output.out")
+files&lt;-c("C:/Program Files/Apsim6/apsim/Wheat/Sample/co2.out",
+            "C:/Program Files/Apsim6/apsim/Wheat/Sample/std.out")
 
 read.apsim &lt;- function (fname) {
    apsim &lt;- read.table(fname, skip=4, header=F, na.strings="?")
@@ -3319,21 +3399,18 @@ cdf&lt;-function(arg) {
   return(xy.coords(x, y))
 }
 
+########
+
 d&lt;- NULL
 for (f in files) {
    if (file.access(f, 0) == 0) {
       d&lt;- rbind(d, cbind(file=f, as.data.frame(read.apsim(f))))
    }   
 }
-
 png(output,width=outputWidth,height=outputHeight)
-
-
 boxplot(yield ~ file, d)
-
 dev.off()
-
-
+########
 
 </rscript>
 </tclui>
@@ -3554,5 +3631,20 @@ dev.off()
       <supplement_module type="modulename">supplement</supplement_module>
     </SupplementScienceConverter>
     <FarmwiseSequencerConverter name="FarmwiseSequencer" />
+    <graz name="Simple grazing model">
+          <intake_util_intercept description="Intercept in eqn reln between intake and utilization">1</intake_util_intercept>
+          <intake_util_slope description="Slope in eqn reln between intake and utilization">-0.3</intake_util_slope>
+          <yld_eat_restr description="Yield at which intake restriction no longer applies">300</yld_eat_restr>
+          <summer_lwg description="Expected summer lwg @ low SR">70</summer_lwg>
+          <autumn_lwg description="Expected autumn lwg @ low SR">35</autumn_lwg>
+          <winter_lwg description="Expected winter lwg @ low SR">10</winter_lwg>
+          <spring_lwg description="Expected spring lwg @ low SR">35</spring_lwg>
+          <leaf_diet description="Proportion of leaf in diet">0.85</leaf_diet>
+          <std_alw>200</std_alw>
+          <metabol_expon>0.75</metabol_expon>
+          <acc_eaten_reset description="Day to reset eaten accumulator">335</acc_eaten_reset>
+          <prop_can_eat>1.0</prop_can_eat>
+          <allow_supplements>1</allow_supplements>
+    </graz>    
   </folder>
 </folder>
