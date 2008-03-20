@@ -1511,7 +1511,7 @@ string Data::getSpecialURL(TWebSession* webSession,
                            const std::string& paddockName,
                            const std::string& baseFileName)
    {
-   return "http://www.apsim.info/apsim/afloman/files/" +
+   return "http://www.apsim.info/afloman/files/" +
           userName + "/" + paddockName + "-" + baseFileName + ".jpg";
    }
 
