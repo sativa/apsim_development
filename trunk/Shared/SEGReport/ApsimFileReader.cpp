@@ -184,7 +184,7 @@ void processApsimFileReader(DataContainer& parent,
             // Copy all rows to result dataset.
             do
                {
-               appendDBRecord(&result, fieldNames, fieldValues);
+               appendDBRecordNoErrors(&result, fieldNames, fieldValues);
                }
             while (readNextRecord(in, csv, numConstants, fieldValues));
             }

@@ -352,7 +352,9 @@ Public Class DataTree
                 End If
             Next
         End If
-        PathsBeingDragged.Clear()
+        If Not IsNothing(PathsBeingDragged) Then
+            PathsBeingDragged.Clear()
+        End If
     End Sub
 #End Region
 

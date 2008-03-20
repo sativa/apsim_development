@@ -77,6 +77,11 @@ namespace Graph
             {
             Mode = PageMode.Normal;
 
+            // some paths (e.g. in ApsimFileReaders) are relative to the 
+            // directory where the .apsim is stored. Make sure the 
+            // current directory is set appropriately.
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(Controller.ApsimData.FileName));
+
             //Special case where this dataui is dropped on an outputfile.
             //We want to give the filename to the child outputfile automatically.
             ApsimFile.Component OutputFileParent = Controller.ApsimData.Find(NodePath+"/..");
@@ -236,6 +241,8 @@ namespace Graph
                 ArrowMenuItem.Click += OnArrowClick;
                 ToolStripMenuItem EditMenuItem = (ToolStripMenuItem)PopupMenu.Items.Add("Edit");
                 EditMenuItem.Click += OnEditClick;
+                ToolStripMenuItem ViewErrorsMenuItem = (ToolStripMenuItem)PopupMenu.Items.Add("View all error messages");
+                ViewErrorsMenuItem.Click += OnViewErrorsClick;
                 }
             else if (Mode == PageMode.Arrow)
                 {
@@ -304,6 +311,7 @@ namespace Graph
                 OnSave();
                 PublishViewChanged();
                 Invalidate();
+                OnEditClick(null, null);
                 }
             }
         private void OnRenameMenuItem(object sender, EventArgs e)
@@ -331,6 +339,7 @@ namespace Graph
                     PublishViewChanged();
                     ComponentToRename.OnLoad(Controller, ComponentToRename.NodePath, RenamedChild.OuterXml);
                     ComponentToRename.OnRefresh();
+                    OnEditClick(null, null);
                     }
                 }
             }
@@ -415,7 +424,17 @@ namespace Graph
             Invalidate();
             OnRefresh();
             PublishViewChanged();
+            OnArrowClick(null, null);
             }
+        private void OnViewErrorsClick(object sender, EventArgs e)
+            {
+            string Errors = Processor.ErrorMessage();
+            if (Errors != "")
+                MessageBox.Show(Errors, "Errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+                MessageBox.Show("No errors found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
         #endregion
 
         #region Arrow stuff

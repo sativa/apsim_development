@@ -58,6 +58,7 @@ namespace Graph
                 TypeCombo.Text = XmlHelper.Value(Data, "SeriesType");
                 PointCombo.Text = XmlHelper.Value(Data, "PointType");
                 }
+            PointCombo.Enabled = (TypeCombo.Text != "Bar");
             InRefresh = false;
             }
 

@@ -200,6 +200,41 @@ void appendDBRecord(TDataSet* dataset,
    dataset->Post();
    }
 //---------------------------------------------------------------------------
+// Append a new record to the specified dataset.
+// Then add the specified values to the new record and post the changes.
+//---------------------------------------------------------------------------
+void appendDBRecordNoErrors(TDataSet* dataset,
+                            vector<string>& fieldNames,
+                            vector<string>& fieldValues)
+   {
+   // make sure we have the same number of values as we do field names.
+   if (fieldValues.size() != fieldNames.size())
+      throw runtime_error("The number of field names does not equal the number "
+                          "of field values.");
+
+   unsigned fieldI;
+
+   dataset->Append();
+   for (fieldI = 0; fieldI < fieldNames.size(); fieldI++)
+      {
+      AnsiString fieldName = fieldNames[fieldI].c_str();
+      if (fieldValues[fieldI] != "" && dataset->FieldDefs->IndexOf(fieldName) != -1)
+         {
+         try
+            {
+            dataset->FieldValues[fieldName] = fieldValues[fieldI].c_str();
+            }
+         catch (const Exception& err)
+            {
+            }
+         catch (...)
+            {
+            }
+         }
+      }
+   dataset->Post();
+   }
+//---------------------------------------------------------------------------
 // Return a DB value to caller - as a string. Missing values will be a
 // blank string.
 //---------------------------------------------------------------------------

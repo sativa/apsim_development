@@ -122,6 +122,27 @@
       </Page>
     </SplitReport>
   </folder>
-  <TabbedReport name="2 Tab Report" />
+  <TabbedReport name="1 Page Report">
+    <Page name="Page1"/>
+    <Page name="Data"/> 
+  </TabbedReport>   
+  <TabbedReport name="2 Page Report">
+    <Page name="Page1"/>
+    <Page name="Page2"/>
+    <Page name="Data"/> 
+  </TabbedReport>   
+  <TabbedReport name="3 Page Report">
+    <Page name="Page1"/>
+    <Page name="Page2"/>
+    <Page name="Page3"/>
+    <Page name="Data"/> 
+  </TabbedReport>   
+  <TabbedReport name="4 Page Report">
+    <Page name="Page1"/>
+    <Page name="Page2"/>
+    <Page name="Page3"/>
+    <Page name="Page4"/>
+    <Page name="Data"/> 
+  </TabbedReport>   
   <SplitReport />
 </folder>

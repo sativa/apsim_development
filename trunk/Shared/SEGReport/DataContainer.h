@@ -23,7 +23,7 @@ class DataContainer
 
       // Return an error message for the object as specified
       // by the name
-      std::string errorMessage(const std::string& name);
+      std::string errorMessage();
 
       // Refresh all data
       void refresh();
