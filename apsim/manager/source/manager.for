@@ -1116,14 +1116,20 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .            Variable_value, Numvals)
 
             ! If not found anywhere in APSIM then it must be a local
-            ! variable not already defined. That's an error.  
+            ! variable not already defined. That's an error. 
+            ! Deal with this later..
 
             if (Numvals .eq. 0) then
                str = 'Uninitialised variable "' //
      .         trim(variable_name) // '".'  // new_line //
-     .         'Variables must have a value before they are ' //
+     .         'Variables should have a value before they are ' //
      .         'used in an expression.'
-               call fatal_error(ERR_user, str)
+               call warning_error(ERR_user, str)
+
+               Variable_value = Real_or_not('0')
+               valueIsReal = .true.
+               call manager_new_local_variable
+     .             (variable_name, Variable_value, .not.valueIsReal)
 
             else
                ! Found variable elsewhere in APSIM
