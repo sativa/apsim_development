@@ -346,7 +346,13 @@ void grazComponent::update (void)
            (dead_stem_eaten - dead_stem_tramp) * kg2gm / ha2sm);
       dmEaten.dm.push_back(deadEaten);
 
-      scienceAPI.publish("remove_crop_biomass", dmEaten);  
+      string s;
+      if (pasture_source == "") 
+         s = "remove_crop_biomass";
+      else
+         s = pasture_source + ".remove_crop_biomass";
+
+      scienceAPI.publish(s, dmEaten);  
       }
 
    if (dead_leaf_tramp + dead_stem_tramp > 0.0 ) 
@@ -360,8 +366,14 @@ void grazComponent::update (void)
       deadTrampled.part.push_back("stem");
       deadTrampled.dlt.push_back(dead_stem_tramp * kg2gm / ha2sm);
       dmTrampled.dm.push_back(deadTrampled);
+      
+      string s;
+      if (pasture_source == "") 
+         s = "detach_crop_biomass_rate";
+      else
+         s = pasture_source + ".detach_crop_biomass_rate";
          
-      scienceAPI.publish("detach_crop_biomass_rate", dmTrampled);
+      scienceAPI.publish(s, dmTrampled);
       }
    }
 
