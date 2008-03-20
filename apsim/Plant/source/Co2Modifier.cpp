@@ -92,7 +92,7 @@ float Co2Modifier::n_conc (void)
       return co2_modifier_n_conc;
    }
 
-void Co2Modifier::doPlant_Co2Modifier (environment_t& Environment)
+void Co2Modifier::doPlant_Co2Modifier (const environment_t& Environment)
 //     ===========================================================
 //         Get current temperature stress factors (0-1)
    {

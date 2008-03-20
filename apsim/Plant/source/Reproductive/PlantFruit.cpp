@@ -9,8 +9,6 @@
 
 using namespace std;
 
-void push_routine (const char *) {};
-void pop_routine (const char *) {};
 
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 //  initialise data members.
