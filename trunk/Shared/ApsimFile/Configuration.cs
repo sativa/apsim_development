@@ -188,7 +188,9 @@ namespace ApsimFile
                 XmlNode Crop = XmlHelper.Find(TypesFile, CropName);
                 if (Crop != null)
                     {
-                    StringCollection Cultivars = Settings("cultivar");
+                    List<string> Cultivars = new List<string>();
+                    foreach (XmlNode Cultivar in XmlHelper.ChildNodes(Crop, "cultivar"))
+                        Cultivars.Add(XmlHelper.Name(Cultivar));
                     string[] ReturnCultivars = new string[Cultivars.Count];
                     Cultivars.CopyTo(ReturnCultivars, 0);
                     return ReturnCultivars;

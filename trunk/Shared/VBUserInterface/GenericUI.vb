@@ -354,15 +354,25 @@ Public Class GenericUI
 
         ElseIf Type = "modulename" Then
             Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+            Grid.Cells(Row, 4).CellType = Combo
             Dim Paddock As ApsimFile.Component = Controller.ApsimData.Find(NodePath).FindContainingPaddock()
+            While Not IsNothing(Paddock) AndAlso Paddock.Type.ToLower = "folder"
+                Paddock = Paddock.Parent
+            End While
+
             If Not IsNothing(Paddock) Then
                 Combo.Items = Paddock.ChildNames
             End If
 
         ElseIf Type = "crop" Then
+
             Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
             Combo.Editable = True
+            Grid.Cells(Row, 4).CellType = Combo
             Dim Paddock As ApsimFile.Component = Controller.ApsimData.Find(NodePath).FindContainingPaddock()
+            While Not IsNothing(Paddock) AndAlso Paddock.Type.ToLower = "folder"
+                Paddock = Paddock.Parent
+            End While
             If Not IsNothing(Paddock) Then
                 Dim Crops As New List(Of String)
                 For Each ModuleName As String In Paddock.ChildNames
@@ -376,8 +386,10 @@ Public Class GenericUI
             End If
 
         ElseIf Type = "cultivars" Then
+
             Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
             Combo.Editable = True
+            Grid.Cells(Row, 4).CellType = Combo
 
             ' Try and locate a row with crop as the name.
             Dim CropRow As Integer
