@@ -90,7 +90,7 @@ namespace ApsimFile
                 MyEnabled = false;
             foreach (XmlNode Child in Node.ChildNodes)
                 {
-                if (MyFile.IsComponentVisible(Child.Name))
+                if (MyFile.IsComponentVisible(Child.Name) && XmlHelper.Attribute(Child, "invisible") != "yes")
                     {
                     Component ChildComponent = new Component(MyFile, this);
                     ChildNodes.Add(ChildComponent);
