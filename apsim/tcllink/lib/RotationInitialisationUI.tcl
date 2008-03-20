@@ -82,7 +82,7 @@ proc setXML {name1 name2 op} {
       $root setAttribute name [$config(docroot) getAttribute name]
 
       set new [$newDoc createElement rule]
-      set text "source \"[file norm $apsuite/apsim/tcllink/lib/RotationInitialisation.tcl]\"\nset state \"$config(initialState)\"\n"
+      set text "source \$apsuite/apsim/tcllink/lib/RotationInitialisation.tcl\nset state \"$config(initialState)\"\n"
       if {$config(simpleLogging)} {
          append text "proc log {msg} {puts \$msg}\n"
       }
