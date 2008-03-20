@@ -1,0 +1,549 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+Version                = 6.0
+Title                  = Wheat Lucerne Rotation
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Paddock:
+Component "Outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Black Vertosol-Bongeen (Tipton No116) Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Black Vertosol-Bongeen (Tipton No116) Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
+Component    "lucerne" = c:\development\apsim\plant\lib\plant.dll
+Component       "graz" = c:\development\apsim\graz\lib\graz.dll
+Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/01/1940
+     Simulation end date   =  1/01/2005
+     Time step =           = 1440 (mins)
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: C:\Documents and Settings\devoilp\My Documents\Projects\ApsFarm\Workshop Files\Generic Runs\oakey.met
+
+------- Outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        harvesting
+     Output variables:
+        dd/mm/yyyy as Date
+        wheat.yield as whtYield
+        lucerne.biomass as lucerneBiomass
+        alw
+        stocking_rate
+
+     Output file = Wheat Lucerne Rotation.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Black Vertosol-Bongeen (Tipton No116) Water Initialisation ------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.140  0.270  0.550  0.600  0.270  0.970  0.762  0.300
+          150.-  300.  0.220  0.270  0.540  0.590  0.270  1.000  0.190  0.300
+          300.-  600.  0.270  0.270  0.540  0.590  0.290  1.020  0.048  0.300
+          600.-  900.  0.270  0.270  0.520  0.570  0.310  1.070  0.000  0.300
+          900.- 1200.  0.270  0.270  0.500  0.550  0.340  1.110  0.000  0.300
+         1200.- 1500.  0.270  0.270  0.500  0.550  0.370  1.110  0.000  0.300
+         1500.- 1800.  0.270  0.270  0.500  0.550  0.420  1.110  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      40.50       0.00      42.00       7.50
+          150.-  300.      40.50       0.00      40.50       7.50
+          300.-  600.      81.00       6.00      81.00      15.00
+          600.-  900.      81.00      12.00      75.00      15.00
+          900.- 1200.      81.00      21.00      69.00      15.00
+         1200.- 1500.      81.00      30.00      69.00      15.00
+         1500.- 1800.      81.00      45.00      69.00      15.00
+          ---------------------------------------------------------
+               Totals     486.00     114.00     445.50      90.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.12       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+            Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat_stubwheat         1000.0   400.0     5.0     0.0   0.393     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.4
+     
+
+------- Black Vertosol-Bongeen (Tipton No116) Nitrogen Initialisation ---------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Black Vertosol
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.40  1.90    8.73    1.45    0.00
+             2     8.60  1.21    7.50    1.50    0.00
+             3     8.90  0.45    9.18    2.75    0.00
+             4     8.90  0.30    6.42    2.25    0.00
+             5     8.80  0.20    3.33    0.67    0.00
+             6     8.60  0.16    3.33    0.33    0.00
+             7     8.80  0.17    3.33    0.03    0.00
+          ------------------------------------------------
+           Totals               41.82    8.99    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      27007.0  2250.6   638.0    79.7   138.9     3.5
+             2      18007.6  1500.6   142.4    17.8   108.1     2.7
+             3      13716.0  1143.0    54.0     6.8    65.6     1.6
+             4       9630.0   802.5     0.0     0.0    39.8     1.0
+             5       6660.0   555.0     0.0     0.0    24.1     0.6
+             6       5328.0   444.0     0.0     0.0    14.6     0.4
+             7       5661.0   471.8     0.0     0.0     8.9     0.2
+          ---------------------------------------------------------
+           Totals   86009.7  7167.5   834.3   104.3   400.0    10.0
+          ---------------------------------------------------------
+
+------- wheat Initialisation --------------------------------------------------
+     phenology model: Wheat
+
+------- lucerne Initialisation ------------------------------------------------
+     phenology model: TTT
+
+------- graz Initialisation ---------------------------------------------------
+  Initial Stocking rate: 0
+  Initial Live Weight: 0
+
+
+------- Manager Initialisation ------------------------------------------------
+     Copyright (C) 1991-1994 The Regents of the University of California.
+     Copyright (C) 1996-1997 Sun Microsystems, Inc.
+     Copyright (C) 2001      ActiveState.
+     Interpreter name: 'Manager'
+     --->Section: init
+     source $apsuite/apsim/tcllink/lib/RotationInitialisation.tcl
+     set state "lucernePrepn"
+     
+     --->Section: process
+     checkSetup
+     doProcess
+     
+     --->Section: exit
+     exit
+     
+     --->Section: init
+     package require struct
+     ::struct::graph stateGraph
+     stateGraph node insert "Wheat"
+     set colour(Wheat) "green"
+     stateGraph node insert "Reestablish"
+     set colour(Reestablish) "purple"
+     stateGraph node insert "Lucerne"
+     set colour(Lucerne) "white"
+     stateGraph node insert "wheatPrepn"
+     set colour(wheatPrepn) "gray"
+     stateGraph node insert "lucernePrepn"
+     set colour(lucernePrepn) "gray"
+     stateGraph arc insert "Lucerne" "Reestablish" "arc2"
+     stateGraph arc lappend "arc2" actions {apsimSendMessage lucerne end_crop}
+     stateGraph arc lappend "arc2" actions {set waiting 0}
+     stateGraph arc lappend "arc2" rules {[string match [apsimGet lucerne.plant_status]  dead] }
+     stateGraph arc lappend "arc2" actions {}
+     stateGraph arc insert "wheatPrepn" "Wheat" "arc11"
+     stateGraph arc lappend "arc11" actions {sow_wheat}
+     stateGraph arc lappend "arc11" rules {[canPlant_wheat]}
+     stateGraph arc lappend "arc11" actions {}
+     stateGraph arc insert "Reestablish" "Lucerne" "arc3"
+     stateGraph arc lappend "arc3" actions {sow_lucerne}
+     stateGraph arc lappend "arc3" rules {[incr waiting] == 2}
+     stateGraph arc lappend "arc3" actions {}
+     stateGraph arc insert "Lucerne" "wheatPrepn" "arc12"
+     stateGraph arc lappend "arc12" actions {apsimSendMessage lucerne end_crop}
+     stateGraph arc lappend "arc12" actions {set nLucerneDays 0}
+     stateGraph arc lappend "arc12" rules {[incr nLucerneDays] > 700}
+     stateGraph arc lappend "arc12" actions {}
+     stateGraph arc insert "lucernePrepn" "Lucerne" "arc8"
+     stateGraph arc lappend "arc8" actions {sow_lucerne}
+     stateGraph arc lappend "arc8" actions {set nLucerneDays 0}
+     stateGraph arc lappend "arc8" rules {[canPlant_lucerne]}
+     stateGraph arc lappend "arc8" actions {}
+     stateGraph arc insert "Wheat" "lucernePrepn" "arc0"
+     stateGraph arc lappend "arc0" actions {apsimSendMessage wheat harvest}
+     stateGraph arc lappend "arc0" actions {apsimSendMessage wheat end_crop}
+     stateGraph arc lappend "arc0" rules {[canHarvest_wheat]}
+     stateGraph arc lappend "arc0" actions {}
+     
+     --->Section: init
+     
+     # Support procedures
+     # Can we plant a crop today?
+     proc canPlant_wheat {} {
+       if {"variable" == "variable"} {
+          set year [apsimGet year]; set day [apsimGet day]
+          set d1 [clock format [clock scan "15-may-$year"] -format %j]
+          set d2 [clock format [clock scan "10-jul-$year"] -format %j]
+     
+          if {"yes" == "yes" && $day == $d2} {return 1}
+     
+          if {$d1 > $d2} {
+             set dateOK [expr $day >= $d1 || $day <= $d2]
+          } else {
+             set dateOK [expr $day >= $d1 && $day <= $d2]
+          }
+          set rainOK [expr [apsimGet rain\[3\]] >= 25]
+          set eswOK [expr [apsimGet esw] >= 50]
+          return [expr $dateOK && $rainOK && $eswOK]
+       } elseif {"variable" == "fixed"} {
+          set year [apsimGet year]; set day [apsimGet day]
+          set d1 [clock format [clock scan "15-may-$year"] -format %j]
+          return [expr $day == $d1]
+       } else {
+          error "Unknown sowing criteria \"variable\"."
+       }
+       return "notreached"
+     }
+     
+     # Plant a crop now
+     proc sow_wheat {} {
+       if {"plant" == "plant"} {
+          apsimSendMessage wheat sow {plants 100} {sowing_depth 30} \
+                  {cultivar hartog} {row_spacing 250} \
+                  {skipplant 0} {skiprow 0} {crop_class plant}
+       } elseif {"plant" == "cropmod"} {
+          apsimSendMessage wheat sow {plants [density]} {sowing_depth [depth]} \
+                  {cultivar hartog} {row_spacing 250} {skiprow 0}
+       } elseif {"plant" == "growth"} {
+          apsimSendMessage wheat ???
+       } elseif {"plant" == "ozcot"} {
+          apsimSendMessage wheat sow {plants_pm [plants_pm]} {sowing_depth 30} \
+                  {row_spacing 250} {skiprow 0} {cultivar hartog}
+       } elseif {"plant" == "oryza"} {
+          apsimSendMessage wheat sow {cultivar hartog}
+       } elseif {"plant" == "sorghum"} {
+          apsimSendMessage wheat sow {plants 100} {sowing_depth 30} \
+                  {cultivar hartog} {row_spacing 250} {skiprow 0} \
+                  {tiller_no_fertile [tiller_no_fertile]}
+       } elseif {"plant" == "sugar"} {
+          apsimSendMessage wheat sow {plants 100} {cultivar hartog} {sowing_depth 30}
+       } else {
+         error "Unknown crop module \"plant\"."
+       }
+     }
+     
+     
+     proc canHarvest_wheat {} {
+        return [expr [string match [apsimGet wheat.stage_name] "harvest_ripe"] &&\
+                     [string match [apsimGet wheat.plant_status] "dead"]]
+     }
+     
+     
+     
+     
+     
+     
+     
+     --->Section: init
+     
+     # Support procedures
+     # Can we plant a crop today?
+     proc canPlant_lucerne {} {
+       if {"variable" == "variable"} {
+          set year [apsimGet year]; set day [apsimGet day]
+          set d1 [clock format [clock scan "15-oct-$year"] -format %j]
+          set d2 [clock format [clock scan "10-jul-$year"] -format %j]
+     
+          if {"no" == "yes" && $day == $d2} {return 1}
+     
+          if {$d1 > $d2} {
+             set dateOK [expr $day >= $d1 || $day <= $d2]
+          } else {
+             set dateOK [expr $day >= $d1 && $day <= $d2]
+          }
+          set rainOK [expr [apsimGet rain\[3\]] >= 25]
+          set eswOK [expr [apsimGet esw] >= 50]
+          return [expr $dateOK && $rainOK && $eswOK]
+       } elseif {"variable" == "fixed"} {
+          set year [apsimGet year]; set day [apsimGet day]
+          set d1 [clock format [clock scan "15-oct-$year"] -format %j]
+          return [expr $day == $d1]
+       } else {
+          error "Unknown sowing criteria \"variable\"."
+       }
+       return "notreached"
+     }
+     
+     # Plant a crop now
+     proc sow_lucerne {} {
+       if {"plant" == "plant"} {
+          apsimSendMessage lucerne sow {plants 200} {sowing_depth 10} \
+                  {cultivar hunter_river} {row_spacing 250} \
+                  {skipplant 0} {skiprow 0} {crop_class plant}
+       } elseif {"plant" == "cropmod"} {
+          apsimSendMessage lucerne sow {plants [density]} {sowing_depth [depth]} \
+                  {cultivar hunter_river} {row_spacing 250} {skiprow 0}
+       } elseif {"plant" == "growth"} {
+          apsimSendMessage lucerne ???
+       } elseif {"plant" == "ozcot"} {
+          apsimSendMessage lucerne sow {plants_pm [plants_pm]} {sowing_depth 10} \
+                  {row_spacing 250} {skiprow 0} {cultivar hunter_river}
+       } elseif {"plant" == "oryza"} {
+          apsimSendMessage lucerne sow {cultivar hunter_river}
+       } elseif {"plant" == "sorghum"} {
+          apsimSendMessage lucerne sow {plants 200} {sowing_depth 10} \
+                  {cultivar hunter_river} {row_spacing 250} {skiprow 0} \
+                  {tiller_no_fertile [tiller_no_fertile]}
+       } elseif {"plant" == "sugar"} {
+          apsimSendMessage lucerne sow {plants 200} {cultivar hunter_river} {sowing_depth 10}
+       } else {
+         error "Unknown crop module \"plant\"."
+       }
+     }
+     
+     --->Section: init
+     # Initialisation
+     set nLucerneDays 0
+     set annual_lwg  0.0
+     set paddockState "empty"
+     set ready_to_graze 0
+     set growth 0.0
+     
+     # Tell the grazing module we only graze lucerne
+     apsimSet graz.pasture_source "lucerne"
+     --->Section: prepare
+     
+     # Start grazing 90 days after sowing
+     if {$paddockState == "empty"  && $nLucerneDays > 90} {
+        apsimSet graz.stocking_rate 0.4
+        apsimSet graz.alw  200.0
+        set annual_lwg 0.0
+        set paddockState stocked
+     }
+     
+     # Stop grazing when the crop comes off
+     if { $paddockState != "empty"  && $nLucerneDays == 0} {
+        apsimSet graz.stocking_rate 0.0
+        apsimSet graz.alw  0.0
+        set annual_lwg 0.0
+        set paddockState empty
+     }
+     
+     # This is needed by graz
+     if { $paddockState != "empty" } {
+       set growth [apsimGet lucerne.dlt_dm]
+     }
+     
+     # 'GRAZEON' stocking rate resets (%Use of TSDM for next year)
+     if {$paddockState != "empty" && [apsimGet day] == 152} {
+        apsimSet graz.alw 200.0
+     
+        set avgDailyIntake  [expr ($annual_lwg/365.25 + 1.058) / 0.304]
+        set targetUtil  [expr 30.0 / 100.0]
+        set annualIntake [expr $avgDailyIntake * 365.5]
+        set stock_equiv_ratio [expr $targetUtil * [apsimGet lucerne.biomass_wt]*100 / $annualIntake]
+     
+        set weight_ratio [expr [apsimGet graz.alw]/ 200.0]
+        set factor  [expr pow($weight_ratio, 0.75)]
+        set beasts_ha [expr $stock_equiv_ratio / $factor]
+        apsimSet graz.stocking_rate $beasts_ha
+     
+        set annual_lwg 0.0
+     }
+     
+     --->Section: post
+     if  {[apsimGet day_of_month] == 1} {
+       apsimSendMessage outputfile do_output
+     }
+     
+     #puts "day = [apsimGet day_of_month],end= [apsimGet end_month]"
+     
+     --->End
+------- Start of simulation  --------------------------------------------------
+22 January 1940(Day of year=22), lucerne: 
+     Crop Sow
+         ------------------------------------------------
+        cultivar                   = hunter_river
+        est_days_emerg_to_init     = 30 (days)
+        cum_vernal_days            =       0     100 (vd)
+        tt_emerg_to_endjuv         =     700     700 (dd)
+        x_pp_endjuv_to_init        =    10.7      17 (h)
+        y_tt_endjuv_to_init        =     300     300 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =     200     200 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =     100     100 (dd)
+        x_pp_start_to_end_grain    =       1      24 (h)
+        y_tt_start_to_end_grain    =    9400    9400 (dd)
+        tt_end_grain_to_maturity   =        500 (dd)
+        tt_maturity_to_ripe        =          5 (dd)
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0001     0.0001
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.50       0.50
+         ------------------------------------------------
+     
+     
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.070          0.270       1.000
+         150.0     0.070          0.270       1.000
+         300.0     0.070          0.290       1.000
+         300.0     0.050          0.310       1.000
+         300.0     0.050          0.340       1.000
+         300.0     0.040          0.370       1.000
+         300.0     0.030          0.420       1.000
+         -----------------------------------------------
+         Extractable SW:   332mm in  1800mm total depth ( 18%).
+         Crop factor for bounding water use is set to 100.0 times eo.
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+             22   10.0  200.0  250.0   0.0   0.0 hunter_river
+         ------------------------------------------------
+     
+24 January 1940(Day of year=24), lucerne: 
+      stage 2.0 germination
+26 January 1940(Day of year=26), lucerne: 
+      stage 3.0 emergence
+                     biomass =           1.00 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.00 (%)    extractable sw =   15.30 (mm)
+7 March 1940(Day of year=67), lucerne: 
+      stage 4.0 end_of_juvenile
+                     biomass =          51.76 (g/m^2)   lai          =   1.023 (m^2/m^2)
+                     stover N conc =     4.90 (%)    extractable sw =  113.60 (mm)
+25 March 1940(Day of year=85), lucerne: 
+      stage 5.0 floral_initiation
+                     biomass =         195.88 (g/m^2)   lai          =   2.373 (m^2/m^2)
+                     stover N conc =     4.43 (%)    extractable sw =   79.15 (mm)
+7 April 1940(Day of year=98), lucerne: 
+      stage 6.0 flowering
+                     biomass =         292.64 (g/m^2)   lai          =   3.197 (m^2/m^2)
+                     stover N conc =     3.18 (%)    extractable sw =   34.64 (mm)
+14 April 1940(Day of year=105), lucerne: 
+      stage 7.0 start_grain_fill
+                     biomass =         310.69 (g/m^2)   lai          =   3.181 (m^2/m^2)
+                     stover N conc =     3.02 (%)    extractable sw =   23.19 (mm)
+23 April 1940(Day of year=114), lucerne: 
+      stage 4.0 end_of_juvenile
+                     biomass =         280.16 (g/m^2)   lai          =   2.752 (m^2/m^2)
+                     stover N conc =     3.00 (%)    extractable sw =   12.88 (mm)
+(Day of year=152): 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     bad alloc exception thrown
+     Component name: graz
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+31 May 1940
