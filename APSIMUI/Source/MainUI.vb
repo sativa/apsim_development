@@ -288,7 +288,7 @@ Public Class MainUI
         Me.ToolBoxesToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolboxesButton, Me.ToolStripSeparator2})
         Me.ToolBoxesToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.ToolBoxesToolStrip.Name = "ToolBoxesToolStrip"
-        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(109, 31)
+        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(91, 31)
         Me.ToolBoxesToolStrip.TabIndex = 2
         '
         'ManageToolboxesButton
@@ -297,7 +297,7 @@ Public Class MainUI
         Me.ManageToolboxesButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ManageToolboxesButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ManageToolboxesButton.Name = "ManageToolboxesButton"
-        Me.ManageToolboxesButton.Size = New System.Drawing.Size(91, 28)
+        Me.ManageToolboxesButton.Size = New System.Drawing.Size(73, 28)
         Me.ManageToolboxesButton.Text = "&Manage"
         '
         'ToolStripSeparator2
@@ -467,12 +467,12 @@ Public Class MainUI
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(240, 28)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(182, 26)
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(239, 24)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(181, 22)
         Me.ToolStripMenuItem1.Text = "ToolStripMenuItem1"
         '
         'MainUI
@@ -483,8 +483,8 @@ Public Class MainUI
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.Name = "MainUI"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "APSIM"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.ToolBoxPanel.ResumeLayout(False)
         Me.ToolBoxToolBarPanel.ResumeLayout(False)
         Me.ToolBoxToolBarPanel.PerformLayout()
@@ -510,6 +510,7 @@ Public Class MainUI
 #End Region
 
     Private Sub OnMainFormLoad(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         ' Show the Simulation Explorer.
         SimulationExplorer.OnLoad(Controller)
 
