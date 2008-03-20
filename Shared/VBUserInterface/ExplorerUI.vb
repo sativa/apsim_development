@@ -184,11 +184,14 @@ Public Class ExplorerUI
         ' User has selected a node - update user interface
         ' -----------------------------------------------------
         Visible = True
+        Dim SavedCursor As Cursor = Windows.Forms.Cursor.Current
+        Windows.Forms.Cursor.Current = Cursors.WaitCursor
         If Controller.SelectedPaths.Count = 1 Then
             ShowUI()
         Else
             CloseUI()
         End If
+        Windows.Forms.Cursor.Current = SavedCursor
     End Sub
 
 End Class

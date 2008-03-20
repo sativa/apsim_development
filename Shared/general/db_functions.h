@@ -71,6 +71,9 @@ void appendDBRecord(TDataSet* dataset,
                     std::vector<std::string>& fieldNames,
                     std::vector<std::string>& fieldValues) throw(std::runtime_error);
 
+void appendDBRecordNoErrors(TDataSet* dataset,
+                            std::vector<std::string>& fieldNames,
+                            std::vector<std::string>& fieldValues);
 //---------------------------------------------------------------------------
 // Return a DB value to caller - as a string. Missing values will be a
 // blank string.

@@ -200,15 +200,17 @@ TDataSet* DataContainer::data(const std::string& name)
 //---------------------------------------------------------------------------
 // Return an error message for the object as specified by a name
 //---------------------------------------------------------------------------
-string DataContainer::errorMessage(const std::string& name)
+string DataContainer::errorMessage()
    {
-   vector<ProcessorData>::iterator i = find_if(children.begin(),
-                                               children.end(),
-                                               MatchName<ProcessorData>(name));
-   if (i != children.end())
-      return i->errorMessage;
-   else
-      return "";
+   string msg;
+   for (vector<ProcessorData>::iterator i = children.begin();
+                                        i != children.end();
+                                        i++)
+      {
+      if (i->errorMessage != "")
+         msg += i->name + ": " + i->errorMessage + "\n";
+      }
+   return msg;
    }
 
 //---------------------------------------------------------------------------
@@ -405,13 +407,12 @@ extern "C" void _export __stdcall SetWithNoRefresh(DataContainer* container,
    ENDSAFE;
    }
 extern "C" void _export __stdcall ErrorMessage(DataContainer* container,
-                                               const char* name,
                                                char* errorMessage)
    {
    BEGINSAFE;
    strcpy(errorMessage, "");
    if (container != NULL)
-      strcpy(errorMessage, container->errorMessage(name).c_str());
+      strcpy(errorMessage, container->errorMessage().c_str());
    ENDSAFE;
    }
 

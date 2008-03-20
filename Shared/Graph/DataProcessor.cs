@@ -57,7 +57,7 @@ namespace Graph
         private static extern void Rename(UInt32 DataContainer, string OldName, string NewName);
 
         [DllImport("segreport.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        private static extern void ErrorMessage(UInt32 DataContainer, string Name, StringBuilder ErrorMessage);
+        private static extern void ErrorMessage(UInt32 DataContainer, StringBuilder ErrorMessage);
 
         [DllImport("segreport.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         private static extern void FieldNames(UInt32 DataContainer, string Name, StringBuilder FieldNames);
@@ -130,13 +130,13 @@ namespace Graph
             {
             get { return !WeCreatedDataContainer; }
             }
-        public string ErrorMessage(string Name)
+        public string ErrorMessage()
             {
             // -----------------------------------------------------
             // Return any error message for the data component as
             // specified by full path.
             // -----------------------------------------------------
-            ErrorMessage(DataContainer, Name, contents);
+            ErrorMessage(DataContainer, contents);
             return contents.ToString();
             }
         public void Set(string XML)

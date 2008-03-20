@@ -40,9 +40,9 @@ namespace Graph
             DataProcessor = new DataProcessor();
 
             TabControl.TabPages.Clear();
-            foreach (XmlNode Page in XmlHelper.Find(Data, "page"))
+            foreach (XmlNode Page in XmlHelper.ChildNodes(Data, "page"))
                 {
-                TabPage NewTabPage = new TabPage(Page.Name);
+                TabPage NewTabPage = new TabPage(XmlHelper.Name(Page));
                 ChartPageUI NewCanvas = new ChartPageUI();
                 NewCanvas.Parent = NewTabPage;
                 NewCanvas.Dock = DockStyle.Fill;

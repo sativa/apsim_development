@@ -52,12 +52,18 @@ namespace Graph
                 XmlNode Series = XmlHelper.Find(ReportDoc.DocumentElement, "Data/" + XYSSeriesName);
                 if (Series != null)
                     {
-                    DrawSeries(Series, XmlHelper.Value(Series, "Source"));
+                    bool AddDataSourceToSeriesName = (XmlHelper.Values(Data, "source").Count > 1 ||
+                                                      XmlHelper.Values(Series, "source").Count > 1);  
+                    foreach (string Source in XmlHelper.Values(Series, "source"))
+                        DrawSeries(Series, Source, AddDataSourceToSeriesName);
                     }
                 }
 
             foreach (XmlNode XY in XmlHelper.ChildNodes(Data, "xy"))
-                DrawSeries(XY, XmlHelper.Value(XY.ParentNode, "Source"));
+                {
+                bool AddDataSourceToSeriesName = XmlHelper.ChildNodes(Data, "xy").Count > 1;
+                DrawSeries(XY, XmlHelper.Value(XY.ParentNode, "Source"), AddDataSourceToSeriesName);
+                }
 
             // setup the legend.
             Chart.Legend.Visible = (Chart.Series.Count > 1);
@@ -72,14 +78,14 @@ namespace Graph
                 {
                 double Minimum = 0.0, Maximum = 0.0;
                 Chart.Axes.Bottom.CalcMinMax(ref Minimum, ref Maximum);
-                if (Maximum - Minimum > 365 * 2)
+                if ((Maximum - Minimum) > (365 * 2))
                     Chart.Axes.Bottom.Labels.DateTimeFormat = "yyyy";
                 else
                     Chart.Axes.Bottom.Labels.DateTimeFormat = "MMM";
                 }
             }
 
-        private void DrawSeries(XmlNode Series, string DataSource)
+        private void DrawSeries(XmlNode Series, string DataSource, bool AddDataSourceToSeriesName)
             {
             if (DataSource != "")
                 {
@@ -107,7 +113,7 @@ namespace Graph
                         foreach (string FieldName in FieldNames)
                             if (FieldName.ToLower() != YFieldName.ToLower())
                                 DrawSeries(DataSource, FieldName, YFieldName, SeriesType, PointType, XTop, false, ColourString,
-                                           FieldName);
+                                           FieldName, AddDataSourceToSeriesName);
                         }
                     else
                         {
@@ -119,17 +125,17 @@ namespace Graph
                             foreach (string FieldName in FieldNames)
                                 if (FieldName.ToLower() != XFieldNames[0].ToLower())
                                     DrawSeries(DataSource, XFieldNames[0], FieldName, SeriesType, PointType, XTop, false, ColourString,
-                                               FieldName);
+                                               FieldName, AddDataSourceToSeriesName);
                             }
                         else
                             {
                             // First plot up the normal Y values.
                             foreach (string YFieldName in YFieldNames)
-                                DrawSeries(DataSource, XFieldNames[0], YFieldName, SeriesType, PointType, XTop, false, ColourString, YFieldName);
+                                DrawSeries(DataSource, XFieldNames[0], YFieldName, SeriesType, PointType, XTop, false, ColourString, YFieldName, AddDataSourceToSeriesName);
 
                             // Now plot up the right Y values.
                             foreach (string YFieldName in XmlHelper.Values(Series, "YRight"))
-                                DrawSeries(DataSource, XFieldNames[0], YFieldName, SeriesType, PointType, XTop, true, ColourString, YFieldName);
+                                DrawSeries(DataSource, XFieldNames[0], YFieldName, SeriesType, PointType, XTop, true, ColourString, YFieldName, AddDataSourceToSeriesName);
                             }
                         }
                     }
@@ -148,7 +154,7 @@ namespace Graph
 
         private void DrawSeries(string DataSource, string XFieldName, string YFieldName,
                                 string SeriesType, string PointType, bool X2, bool Y2,
-                                string ColourString, string SeriesName)
+                                string ColourString, string SeriesName, bool AddDataSourceToSeriesName)
             {
             Steema.TeeChart.Styles.Series NewSeries = null;
                     
@@ -162,7 +168,7 @@ namespace Graph
                         {
                         Steema.TeeChart.Styles.Bar Bar = new Steema.TeeChart.Styles.Bar();
                         int NumSeries = XmlHelper.ChildNodes(this.Data, "xy").Count;
-                        Bar.MultiBar = Steema.TeeChart.Styles.MultiBars.None;
+                        Bar.MultiBar = Steema.TeeChart.Styles.MultiBars.Side;
                         Bar.BarWidthPercent = 45; //50 / NumSeries) - 5;
                         NewSeries = Bar;
                         NewSeries.Marks.Visible = false;
@@ -248,7 +254,10 @@ namespace Graph
                         }
                     Chart.Axes.Left.Inverted = (NewSeries.HorizAxis == Steema.TeeChart.Styles.HorizontalAxis.Top);
 
-                    NewSeries.Title = SeriesName;
+                    if (AddDataSourceToSeriesName)
+                        NewSeries.Title = DataSource + ": " + SeriesName;
+                    else
+                        NewSeries.Title = SeriesName;
                     }
                 }
             }
