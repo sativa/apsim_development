@@ -36,7 +36,7 @@ public:
    ~Co2Modifier(void);
    void init(void);
    void zero_co2_variables (void);
-   void doPlant_Co2Modifier (environment_t& Environment);
+   void doPlant_Co2Modifier (const environment_t& Environment);
    void read_co2_constants (void);
    float rue (void);
    float te (void);
