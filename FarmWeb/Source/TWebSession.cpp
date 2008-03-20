@@ -115,7 +115,7 @@ bool TWebSession::loginOk(const std::string& userN,
 std::string TWebSession::getBaseURL(void)
    {
    if (webApplication->AppURLBase != "")
-      return "http://apsrunet2.apsim.info/afloman";
+      return "http://www.apsim.info/afloman/data";
    else
       return "http://127.0.0.1:8888";
    }

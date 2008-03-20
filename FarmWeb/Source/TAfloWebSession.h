@@ -28,7 +28,7 @@ class TAfloWebSession : public TWebSession
       //---------------------------------------------------------------------------
       // Get the application url
       //---------------------------------------------------------------------------
-      virtual std::string getApplicationUrl(void) {return "www.apsim.info/apsim/afloman/default.htm";}
+      virtual std::string getApplicationUrl(void) {return "www.apsim.info/afloman/default.htm";}
 
       //---------------------------------------------------------------------------
       // Show the paddock form.
