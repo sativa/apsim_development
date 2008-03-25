@@ -146,15 +146,15 @@
 <dm_dead_leaf_init description="Initial Dead Leaf weight (kg/ha)">0</dm_dead_leaf_init>
 <dm_dead_stem_init description="Initial Dead Stem weight (kg/ha)">0</dm_dead_stem_init>
 <dm_dead_root_init description="Initial Dead Root weight (kg/ha)">0</dm_dead_root_init>
-<dm_green_leaf_init description="Initial Green Leaf weight (kg/ha)">0</dm_green_leaf_init>
-<dm_green_stem_init description="Initial Green Stem weight (kg/ha)">0</dm_green_stem_init>
+<dm_green_leaf_init description="Initial Green Leaf weight (p135, kg/ha)">0</dm_green_leaf_init>
+<dm_green_stem_init description="Initial Green Stem weight (p136, kg/ha)">0</dm_green_stem_init>
 <dm_green_root_init description="Initial Green Root weight (kg/ha)">0</dm_green_root_init>
-<basal_area_init description="Initial Basal area of tussocks (%)">0.5</basal_area_init>
+<basal_area_init description="Initial Basal area of tussocks (p005, %)">0.5</basal_area_init>
 <acc_trans_for_n_init description="Initial accumulated transpiration, used for N uptake (mm)">0</acc_trans_for_n_init>
 <acc_growth_for_n_init description="Initial accumulated growth, used for N uptake (kg/ha)">0</acc_growth_for_n_init>
 
 <category name="Soil Properties" />
-<max_n_avail description="Limit to total N (kg/year)">15</max_n_avail>
+<max_n_avail description="Limit to total N (p099, kg/year)">15</max_n_avail>
 <max_n_avail_dist description="Distribution of N in profile">0.8 0.1 0.05  0.05  0.0 0.0  0.0</max_n_avail_dist>
 <ll description="Lower limit (ll) of water extraction (mm/mm)">.230     .240    .240    .250 .260 .270 .280</ll>
 <kl description="Rate of water extraction (kl)">0.5      0.5      0.5    0.5  0.0  0.0  0.0</kl>
@@ -165,25 +165,25 @@
 <uptake_source>calc</uptake_source>
 
 <height_max description="Maximum canopy height (mm)">1200</height_max>
-<hgt_vpd_screen description="Height at which surface effects on vpd are 0 (mm)">200</hgt_vpd_screen>
+<hgt_vpd_screen description="Height at which surface effects on vpd are 0 (p095*10, mm)">200</hgt_vpd_screen>
 <height_1000kg description="Sward Height per tonne (p096*10, mm)">100</height_1000kg>
-<et_use_efficiency description="Evapotranspiration use efficiency used in BA calc (kg/ha/mm) (p288)">0</et_use_efficiency>
-<frac_leaf2total description="Fraction of total dm produced that goes into leaf pool (0-1) (p123)">0.5</frac_leaf2total>
+<et_use_efficiency description="Evapotranspiration use efficiency used in BA calc (p288, kg/ha/mm) (p288)">0</et_use_efficiency>
+<frac_leaf2total description="Fraction of total dm produced that goes into leaf pool (p123,0-1)">0.5</frac_leaf2total>
 <yld_cover_slope description="Shape of exponential curve relating yield and cover">0.693147</yld_cover_slope>
 <yld_fpc50 description="yld_fpc50 (p046)">1000</yld_fpc50>
 <yld_cov50 description="Yield transpiring at 50% of pan evap (p045)">1000</yld_cov50>
 <yld_tcov50 description="Tsdm yield at which cover for runoff is 50% (p271)">1000</yld_tcov50>
 <swi_fullgreen description="Min soil water for 100% green (p009)">0.1</swi_fullgreen>
-<swi_nogrow description="SWI when growth stops">0.4</swi_nogrow>
-<pot_regrow description="Max rate regrowth from tussocks (kg/ha/unit grass ba) (p006)">3.0</pot_regrow>
+<swi_nogrow description="SWI when growth stops (swi_nogrow)">0.4</swi_nogrow>
+<pot_regrow description="Max rate regrowth from tussocks (p006, kg/ha/unit grass ba)">3.0</pot_regrow>
 <te_std description="Transpiration efficiency at vpd=20mb (p007)">10.0</te_std>
 <rad_factor>8.97</rad_factor>
 <residual_plant_N description="Always this much n in plant (p097, kg/ha)">5</residual_plant_N>
 <litter_n description="N conc of detached stems and roots ((p110-p111)/2)">0.3</litter_n>
 <n_uptk_per100 description="Nitrogen uptake per 100mm water (p098, kg/ha)">5</n_uptk_per100>
-<frost_start description="Minimum screen temp at which green cover=100% (oC,p125)">2</frost_start>
-<frost_kill description="Minimum screen temp at which frost kills all green (oC,p011)">0</frost_kill>
-<death_slope description="Rate of green death per soil water(p051)">0.013</death_slope>
+<frost_start description="Minimum screen temp at which green cover=100% (p125, oC)">2</frost_start>
+<frost_kill description="Minimum screen temp at which frost kills all green (p011, oC)">0</frost_kill>
+<death_slope description="Rate of green death per soil water (p051)">0.013</death_slope>
 <death_intercept description="Background death rate (p010)">0.002</death_intercept>
 <leaf_death_ratio description="Proportion of leaf death to total death (p133)">1</leaf_death_ratio>
 <stem_death_ratio description="Proportion of stem death to total death (p134)">1</stem_death_ratio>
@@ -3632,14 +3632,14 @@ dev.off()
     </SupplementScienceConverter>
     <FarmwiseSequencerConverter name="FarmwiseSequencer" />
     <graz name="Simple grazing model">
-          <intake_util_intercept description="Intercept in eqn reln between intake and utilization">1</intake_util_intercept>
-          <intake_util_slope description="Slope in eqn reln between intake and utilization">-0.3</intake_util_slope>
-          <yld_eat_restr description="Yield at which intake restriction no longer applies">300</yld_eat_restr>
-          <summer_lwg description="Expected summer lwg @ low SR">70</summer_lwg>
-          <autumn_lwg description="Expected autumn lwg @ low SR">35</autumn_lwg>
-          <winter_lwg description="Expected winter lwg @ low SR">10</winter_lwg>
-          <spring_lwg description="Expected spring lwg @ low SR">35</spring_lwg>
-          <leaf_diet description="Proportion of leaf in diet">0.85</leaf_diet>
+          <intake_util_intercept description="Intercept in intake and utilization eqn (p142)">1</intake_util_intercept>
+          <intake_util_slope description="Slope in intake and utilization eqn (p143)">-0.3</intake_util_slope>
+          <yld_eat_restr description="Yield at which intake restriction no longer applies (p144)">300</yld_eat_restr>
+          <summer_lwg description="Expected summer lwg @ low SR (p145)">70</summer_lwg>
+          <autumn_lwg description="Expected autumn lwg @ low SR (p146)">35</autumn_lwg>
+          <winter_lwg description="Expected winter lwg @ low SR (p147)">10</winter_lwg>
+          <spring_lwg description="Expected spring lwg @ low SR (p148)">35</spring_lwg>
+          <leaf_diet description="Proportion of leaf in diet (p132/100)">0.85</leaf_diet>
           <std_alw>200</std_alw>
           <metabol_expon>0.75</metabol_expon>
           <acc_eaten_reset description="Day to reset eaten accumulator">335</acc_eaten_reset>
