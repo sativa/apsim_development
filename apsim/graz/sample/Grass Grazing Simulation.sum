@@ -21,7 +21,6 @@ Component "Grazing management" = c:\development\apsim\manager\lib\manager.dll
 Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
-Component "TCL Manager (standalone)" = c:\development\apsim\tcllink\lib\tcllink.dll
 Component       "graz" = c:\development\apsim\graz\lib\graz.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -282,56 +281,6 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
               11      87.000       0.000        0.00
          --------------------------------------------
      
-
-------- TCL Manager (standalone) Initialisation -------------------------------
-     Copyright (C) 1991-1994 The Regents of the University of California.
-     Copyright (C) 1996-1997 Sun Microsystems, Inc.
-     Copyright (C) 2001      ActiveState.
-     Top Level Interpreter
-     --->Section: init
-     package require Tk
-     wm withdraw .
-     
-     package require tkcon
-     tkcon show
-     tkcon title "Apsim Debugging Console"
-     puts "Commands:"
-     puts " 'c'       - Continue"
-     puts " 's <n>'   - Step n days (default 1)"
-     puts " 'p <what>'- Print apsim variable"
-     puts " 'b <cond>'- Set break condition"
-     set steps 1
-     update
-     
-     # A 4 command debugger:
-     proc c {}      {uplevel #0 set steps -1}  ;# Continue
-     proc s {{n 1}} {uplevel #0 set steps $n}  ;# Step n days
-     proc p {var}   {apsimGet $var}            ;# print apsim variable
-     proc b {cond}  {global Conds; lappend Conds $cond} ;# set break condition
-     set Conds {}
-     
-     # Link an apsim variable
-     proc link {apsimName tclName} {
-        global $tclName; set $tclName {}
-        trace variable $tclName r "getLinked $apsimName"
-        trace variable $tclName w "setLinked $apsimName"
-     }
-     proc getLinked {a n1 n2 op} {uplevel #0 set $n1 [apsimGet $a]}
-     proc setLinked {a n1 n2 op} {apsimSet $a $n1}
-     
-     
-     --->Section: process
-     update
-     foreach cond $Conds {
-       if {[expr $cond]} {
-         set steps 1
-       }
-     }
-     
-     incr steps -1
-     if {$steps == 0} {tkwait variable steps}
-     
-     --->End
 
 ------- graz Initialisation ---------------------------------------------------
   Initial Stocking rate: 0

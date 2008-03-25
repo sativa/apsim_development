@@ -2113,57 +2113,6 @@ annual_lwg = annual_lwg + graz.lwg</text>
         <enr_a_coeff type="text" description="enr_a_coeff">7.4</enr_a_coeff>
         <enr_b_coeff type="text" description="enr_b_coeff">0.2</enr_b_coeff>
       </grasp>
-      <tclmanager name="TCL Manager (standalone)">
-        <rule name="Debugger">
-          <script name="init">
-            <text><![CDATA[package require Tk
-wm withdraw .
-
-package require tkcon
-tkcon show
-tkcon title "Apsim Debugging Console"
-puts "Commands:"
-puts " 'c'       - Continue"
-puts " 's <n>'   - Step n days (default 1)"
-puts " 'p <what>'- Print apsim variable"
-puts " 'b <cond>'- Set break condition"
-set steps 1
-update
-
-# A 4 command debugger:
-proc c {}      {uplevel #0 set steps -1}  ;# Continue
-proc s {{n 1}} {uplevel #0 set steps $n}  ;# Step n days
-proc p {var}   {apsimGet $var}            ;# print apsim variable
-proc b {cond}  {global Conds; lappend Conds $cond} ;# set break condition
-set Conds {}
-
-# Link an apsim variable
-proc link {apsimName tclName} {
-   global $tclName; set $tclName {}
-   trace variable $tclName r "getLinked $apsimName"
-   trace variable $tclName w "setLinked $apsimName"
-}
-proc getLinked {a n1 n2 op} {uplevel #0 set $n1 [apsimGet $a]}
-proc setLinked {a n1 n2 op} {apsimSet $a $n1}
-
-]]></text>
-            <event>init</event>
-          </script>
-          <script name="process">
-            <text>update
-foreach cond $Conds {
-  if {[expr $cond]} {
-    set steps 1
-  }
-}
-
-incr steps -1
-if {$steps == 0} {tkwait variable steps}
-        </text>
-            <event>process</event>
-          </script>
-        </rule>
-      </tclmanager>
     </area>
   </simulation>
   <simulation name="Wheat Lucerne Rotation">
@@ -2232,13 +2181,13 @@ doProcess
             <y2>274.0</y2>
           </node>
           <node>
-            <x1>506.0</x1>
-            <name>wheatPrepn</name>
-            <y1>312.0</y1>
-            <x2>606.0</x2>
-            <desc>wheat seedbed preparation</desc>
-            <fill>gray</fill>
-            <y2>412.0</y2>
+            <x1>481.0</x1>
+            <name>Reestablish</name>
+            <y1>161.0</y1>
+            <x2>581.0</x2>
+            <desc>Lucerne has died - wait 5 days and re-plant</desc>
+            <fill>purple</fill>
+            <y2>261.0</y2>
           </node>
           <node>
             <x1>315.0</x1>
@@ -2250,13 +2199,13 @@ doProcess
             <y2>258.0</y2>
           </node>
           <node>
-            <x1>481.0</x1>
-            <name>Reestablish</name>
-            <y1>161.0</y1>
-            <x2>581.0</x2>
-            <desc>Lucerne has died - wait 5 days and re-plant</desc>
-            <fill>purple</fill>
-            <y2>261.0</y2>
+            <x1>506.0</x1>
+            <name>wheatPrepn</name>
+            <y1>312.0</y1>
+            <x2>606.0</x2>
+            <desc>wheat seedbed preparation</desc>
+            <fill>gray</fill>
+            <y2>412.0</y2>
           </node>
           <node>
             <x1>497.0</x1>
@@ -2267,6 +2216,18 @@ doProcess
             <fill>gray</fill>
             <y2>125.0</y2>
           </node>
+          <arc>
+            <name>arc2</name>
+            <source>Lucerne</source>
+            <target>Reestablish</target>
+            <x>447.5</x>
+            <actions>apsimSendMessage lucerne end_crop</actions>
+            <actions>set waiting 0</actions>
+            <y>256.0</y>
+            <rules>[string match [apsimGet lucerne.plant_status]  dead] </rules>
+            <rules />
+            <actions />
+          </arc>
           <arc>
             <name>arc11</name>
             <source>wheatPrepn</source>
@@ -2279,14 +2240,13 @@ doProcess
             <actions />
           </arc>
           <arc>
-            <name>arc2</name>
-            <source>Lucerne</source>
-            <target>Reestablish</target>
-            <x>447.5</x>
-            <actions>apsimSendMessage lucerne end_crop</actions>
-            <actions>set waiting 0</actions>
-            <y>256.0</y>
-            <rules>[string match [apsimGet lucerne.plant_status]  dead] </rules>
+            <name>arc3</name>
+            <source>Reestablish</source>
+            <target>Lucerne</target>
+            <x>451.5</x>
+            <actions>sow_lucerne</actions>
+            <y>149.0</y>
+            <rules>[incr waiting] == 2</rules>
             <rules />
             <actions />
           </arc>
@@ -2303,13 +2263,14 @@ doProcess
             <actions />
           </arc>
           <arc>
-            <name>arc3</name>
-            <source>Reestablish</source>
+            <name>arc8</name>
+            <source>lucernePrepn</source>
             <target>Lucerne</target>
-            <x>451.5</x>
+            <x>386.5</x>
             <actions>sow_lucerne</actions>
-            <y>149.0</y>
-            <rules>[incr waiting] == 2</rules>
+            <actions>set nLucerneDays 0</actions>
+            <y>59.0</y>
+            <rules>[canPlant_lucerne]</rules>
             <rules />
             <actions />
           </arc>
@@ -2325,58 +2286,46 @@ doProcess
             <rules />
             <actions />
           </arc>
-          <arc>
-            <name>arc8</name>
-            <source>lucernePrepn</source>
-            <target>Lucerne</target>
-            <x>386.5</x>
-            <actions>sow_lucerne</actions>
-            <actions>set nLucerneDays 0</actions>
-            <y>59.0</y>
-            <rules>[canPlant_lucerne]</rules>
-            <rules />
-            <actions />
-          </arc>
           <rule name="Init rule" invisible="yes" condition="init"><![CDATA[package require struct
 ::struct::graph stateGraph
 stateGraph node insert "Wheat"
 set colour(Wheat) "green"
-stateGraph node insert "wheatPrepn"
-set colour(wheatPrepn) "gray"
-stateGraph node insert "Lucerne"
-set colour(Lucerne) "white"
 stateGraph node insert "Reestablish"
 set colour(Reestablish) "purple"
+stateGraph node insert "Lucerne"
+set colour(Lucerne) "white"
+stateGraph node insert "wheatPrepn"
+set colour(wheatPrepn) "gray"
 stateGraph node insert "lucernePrepn"
 set colour(lucernePrepn) "gray"
-stateGraph arc insert "wheatPrepn" "Wheat" "arc11"
-stateGraph arc lappend "arc11" actions {sow_wheat}
-stateGraph arc lappend "arc11" rules {[canPlant_wheat]}
-stateGraph arc lappend "arc11" actions {}
 stateGraph arc insert "Lucerne" "Reestablish" "arc2"
 stateGraph arc lappend "arc2" actions {apsimSendMessage lucerne end_crop}
 stateGraph arc lappend "arc2" actions {set waiting 0}
 stateGraph arc lappend "arc2" rules {[string match [apsimGet lucerne.plant_status]  dead] }
 stateGraph arc lappend "arc2" actions {}
+stateGraph arc insert "wheatPrepn" "Wheat" "arc11"
+stateGraph arc lappend "arc11" actions {sow_wheat}
+stateGraph arc lappend "arc11" rules {[canPlant_wheat]}
+stateGraph arc lappend "arc11" actions {}
+stateGraph arc insert "Reestablish" "Lucerne" "arc3"
+stateGraph arc lappend "arc3" actions {sow_lucerne}
+stateGraph arc lappend "arc3" rules {[incr waiting] == 2}
+stateGraph arc lappend "arc3" actions {}
 stateGraph arc insert "Lucerne" "wheatPrepn" "arc12"
 stateGraph arc lappend "arc12" actions {apsimSendMessage lucerne end_crop}
 stateGraph arc lappend "arc12" actions {set nLucerneDays 0}
 stateGraph arc lappend "arc12" rules {[incr nLucerneDays] > 700}
 stateGraph arc lappend "arc12" actions {}
-stateGraph arc insert "Reestablish" "Lucerne" "arc3"
-stateGraph arc lappend "arc3" actions {sow_lucerne}
-stateGraph arc lappend "arc3" rules {[incr waiting] == 2}
-stateGraph arc lappend "arc3" actions {}
-stateGraph arc insert "Wheat" "lucernePrepn" "arc0"
-stateGraph arc lappend "arc0" actions {apsimSendMessage wheat harvest}
-stateGraph arc lappend "arc0" actions {apsimSendMessage wheat end_crop}
-stateGraph arc lappend "arc0" rules {[canHarvest_wheat]}
-stateGraph arc lappend "arc0" actions {}
 stateGraph arc insert "lucernePrepn" "Lucerne" "arc8"
 stateGraph arc lappend "arc8" actions {sow_lucerne}
 stateGraph arc lappend "arc8" actions {set nLucerneDays 0}
 stateGraph arc lappend "arc8" rules {[canPlant_lucerne]}
 stateGraph arc lappend "arc8" actions {}
+stateGraph arc insert "Wheat" "lucernePrepn" "arc0"
+stateGraph arc lappend "arc0" actions {apsimSendMessage wheat harvest}
+stateGraph arc lappend "arc0" actions {apsimSendMessage wheat end_crop}
+stateGraph arc lappend "arc0" rules {[canHarvest_wheat]}
+stateGraph arc lappend "arc0" actions {}
 ]]></rule>
         </tclui>
         <tclui name="Wheat Sowing Rule">
@@ -2702,22 +2651,6 @@ if { $paddockState != "empty" } {
   set growth [apsimGet lucerne.dlt_dm]
 }
 
-# 'GRAZEON' stocking rate resets (%Use of TSDM for next year)
-if {$paddockState != "empty" && [apsimGet day] == 152} {
-   apsimSet graz.alw 200.0
-
-   set avgDailyIntake  [expr ($annual_lwg/365.25 + 1.058) / 0.304]
-   set targetUtil  [expr 30.0 / 100.0]
-   set annualIntake [expr $avgDailyIntake * 365.5]
-   set stock_equiv_ratio [expr $targetUtil * [apsimGet lucerne.biomass_wt]*100 / $annualIntake]
-
-   set weight_ratio [expr [apsimGet graz.alw]/ 200.0]
-   set factor  [expr pow($weight_ratio, 0.75)]
-   set beasts_ha [expr $stock_equiv_ratio / $factor]
-   apsimSet graz.stocking_rate $beasts_ha
-
-   set annual_lwg 0.0
-}
 ]]></text>
             <event>prepare</event>
           </script>
