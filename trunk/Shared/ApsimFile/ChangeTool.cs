@@ -103,6 +103,7 @@ namespace ApsimFile
                    || Child.Name.ToLower() == "outputfile"
                    || Child.Name.ToLower() == "graph"
                    || Child.Name.ToLower() == "data"
+                   || Child.Name.ToLower() == "tclmanager"
                    || Child.Name.ToLower() == "paddockmanager")
                     Upgrade(Child, Upgrader, Config);  // recurse
 				}
@@ -571,12 +572,31 @@ namespace ApsimFile
                             }
 
                         }
+                }
+		    } else if (XmlHelper.Type(Variables) == "tclgroup")
+                { 
+                // Clone this node with a new "type"
+                XmlNode NewNode = Variables.ParentNode.AppendChild(Variables.OwnerDocument.CreateElement("tclmanager"));
+                XmlHelper.SetName(NewNode, XmlHelper.Name(Variables));
+                foreach (XmlNode Child in XmlHelper.ChildNodes(Variables, ""))
+                    { 
+                    if (XmlHelper.Type(Child) == "initscript") 
+                       {
+                       // make this an explicit "logic" component
+                       XmlNode InitScriptNode = XmlHelper.CreateNode(Variables.OwnerDocument, "rule", "Initialisation logic");
+                       XmlNode LogicScriptNode = XmlHelper.CreateNode(Variables.OwnerDocument, "script", "init");
+                       XmlHelper.SetValue(LogicScriptNode, "text", Child.InnerText);
+                       XmlHelper.SetValue(LogicScriptNode, "event", "init");
+                       InitScriptNode.AppendChild(LogicScriptNode);
+                       NewNode.AppendChild(InitScriptNode);
+                       } 
+                    else 
+                       {
+                       NewNode.AppendChild(NewNode.OwnerDocument.ImportNode(Child, true));
+                       }
                     }
-
+                Variables.ParentNode.ReplaceChild(NewNode, Variables);
                 }
             }
-
-
-
-		}
+        }
 	}
