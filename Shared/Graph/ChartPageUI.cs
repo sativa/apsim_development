@@ -80,7 +80,8 @@ namespace Graph
             // some paths (e.g. in ApsimFileReaders) are relative to the 
             // directory where the .apsim is stored. Make sure the 
             // current directory is set appropriately.
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(Controller.ApsimData.FileName));
+            if (Controller.ApsimData.FileName.IndexOf('\\') != -1)
+                Directory.SetCurrentDirectory(Path.GetDirectoryName(Controller.ApsimData.FileName));
 
             //Special case where this dataui is dropped on an outputfile.
             //We want to give the filename to the child outputfile automatically.

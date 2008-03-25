@@ -3,7 +3,7 @@
     <SplitReport name="XY Chart">
       <Page name="Data" Left="0" Top="0" Width="715" Height="268">
         <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="0" Width="318" Height="75">
-          <FileName type="filenames">C:\Users\hol353\Desktop\Continuous Wheat Simulation.out</FileName>
+          <FileName type="filenames"></FileName>
         </ApsimFileReader>
         <XY Left="12" Top="6" Width="357" Height="250">
           <Source>OutputFile</Source>
@@ -23,7 +23,7 @@
     <SplitReport name="Double XY Chart">
       <Page name="Data" Left="0" Top="0" Width="715" Height="268">
         <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="22" Width="318" Height="75">
-          <FileName type="filenames">C:\Users\hol353\Desktop\TestGraph\Continuous Wheat Simulation.out</FileName>
+          <FileName type="filenames"></FileName>
         </ApsimFileReader>
         <XY Left="12" Top="6" Width="326" Height="250" name="XY1">
           <Source>OutputFile</Source>
@@ -53,7 +53,7 @@
     <SplitReport name="Probability Exceedence Chart">
       <Page name="Data" Left="0" Top="0" Width="715" Height="269">
         <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="0" Width="318" Height="75">
-          <FileName type="filenames">C:\Users\hol353\Desktop\Continuous Wheat Simulation.out</FileName>
+          <FileName type="filenames"></FileName>
         </ApsimFileReader>
         <Probability>
           <source>OutputFile</source>
@@ -76,7 +76,7 @@
     <SplitReport name="CDF Chart">
       <Page name="Data" Left="0" Top="0" Width="715" Height="269">
         <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="0" Width="318" Height="75">
-          <FileName type="filenames">C:\Users\hol353\Desktop\Continuous Wheat Simulation.out</FileName>
+          <FileName type="filenames"></FileName>
         </ApsimFileReader>
         <Probability>
           <source>OutputFile</source>
@@ -99,7 +99,7 @@
     <SplitReport name="Depth">
       <Page name="Data" Left="0" Top="0" Width="715" Height="268">
         <ApsimFileReader name="OutputFile" Visible="no" Left="3" Top="3" Width="318" Height="75">
-          <FileName type="filenames">C:\Users\hol353\Desktop\TestGraph\Continuous Wheat Simulation.out</FileName>
+          <FileName type="filenames"></FileName>
         </ApsimFileReader>
         <Depth Left="3" Top="116" Width="114" Height="36">
           <source>Filter</source>
