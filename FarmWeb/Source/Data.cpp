@@ -1511,7 +1511,14 @@ string Data::getSpecialURL(TWebSession* webSession,
                            const std::string& paddockName,
                            const std::string& baseFileName)
    {
-   return "http://www.apsim.info/afloman/files/" +
+   string FileUrl = "http://www.apsim.info/afloman/files/" +
           userName + "/" + paddockName + "-" + baseFileName + ".jpg";
+
+   string FileName = webSession->getFilesDir() + "\\..\\..\\Files\\" +
+                     userName + "\\" + paddockName + "-" + baseFileName + ".jpg";
+   if (FileExists(FileName.c_str()))
+      return FileUrl;
+   else
+      return "";
    }
 
