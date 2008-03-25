@@ -4,15 +4,14 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\lib\TclLink.dll"/>
-    <OBJFILES value="TclLink.obj TclXtras.obj TclComponent.obj 
+    <OBJFILES value="tcllink.obj TclXtras.obj TclComponent.obj 
       ..\..\..\Shared\ComponentInterface\EntryPoints.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="tcl8.4.11\Release\tcl84.lib tk8.4.11\Release\tk84.lib 
-      ..\..\..\Shared\general\general.lib 
+    <LIBFILES value="..\..\..\Shared\general\general.lib 
       ..\..\..\Shared\ApsimShared\ApsimShared.lib 
-      ..\..\..\Shared\ComponentInterface\ComponentInterface.lib"/>
+      ..\..\..\Shared\ComponentInterface\ComponentInterface.lib tcl84.lib tk84.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value=""/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi visualclx.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
@@ -31,14 +30,14 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="tcllink.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;..\..\..\Shared;.\tcl8.4.11\generic;.\tk8.4.11\generic;.\tk8.4.11\xlib"/>
-    <LIBPATH value="$(BCB)\Lib;$(BCB)\lib\obj;$(BCB)\lib.\tk8.4.11\Release"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;..\..\..\Shared;.\tcl8.4.13\generic;.\tk8.4.13\generic;.\tk8.4.13\xlib"/>
+    <LIBPATH value="$(BCB)\Lib;$(BCB)\lib\obj;$(BCB)\lib.\tk8.4.13\Release"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
-      -tWD -tWM -c"/>
+    <CFLAG1 value="-WD -vGc -vGt -vGd -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- 
+      -k -y -v -vi- -tWD -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zd"/>
@@ -48,19 +47,19 @@
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
-      <FILE FILENAME="TclLink.cpp" FORMNAME="" UNITNAME="TclLink" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="tcllink.cpp" FORMNAME="" UNITNAME="TclLink" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TclXtras.cpp" FORMNAME="" UNITNAME="TclXtras.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TclComponent.cpp" FORMNAME="" UNITNAME="TclComponent.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="tcl8.4.11\Release\tcl84.lib" FORMNAME="" UNITNAME="tcl84.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="tk8.4.11\Release\tk84.lib" FORMNAME="" UNITNAME="tk84.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ComponentInterface\ComponentInterface.lib" FORMNAME="" UNITNAME="ComponentInterface.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ComponentInterface\EntryPoints.obj" FORMNAME="" UNITNAME="EntryPoints.obj" CONTAINERID="OBJTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="tcl84.lib" FORMNAME="" UNITNAME="tcl84.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="tk84.lib" FORMNAME="" UNITNAME="tk84.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -95,25 +94,25 @@ Comments=
 
 [Excluded Packages]
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
-C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Bin\DclTeePro7C6.bpl=TeeChart Pro 7 Components
-C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Bin\DclTQR7C6.bpl=TeeChart 7 for QuickReport
 
 [HistoryLists\hlIncludePath]
-Count=8
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;..\..\..\Shared;.\tcl8.4.11\generic;.\tk8.4.11\generic;.\tk8.4.11\xlib
-Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;.\tcl8.4.11\generic;.\tk8.4.11\generic;.\tk8.4.11\xlib
-Item2=$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;.\tcl8.4.11\generic;.\tk8.4.11\generic;.\tk8.4.11\compat
-Item3=$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;.\tcl8.4.11\generic;.\tk8.4.11\generic
-Item4=$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;.\tcl8.4.11\include
-Item5=$(BCB)\include;$(BCB)\include\vcl;..\..\Shared;.\tcl8.4.11\include
-Item6=$(BCB)\include;$(BCB)\include\vcl;.\tcl8.4.11\include
-Item7=$(BCB)\include;$(BCB)\include\vcl
+Count=9
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;..\..\..\Shared;.\tcl8.4.13\generic;.\tk8.4.13\generic;.\tk8.4.13\xlib
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;..\..\..\Shared;.\tcl8.4.11\generic;.\tk8.4.11\generic;.\tk8.4.11\xlib
+Item2=$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;.\tcl8.4.11\generic;.\tk8.4.11\generic;.\tk8.4.11\xlib
+Item3=$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;.\tcl8.4.11\generic;.\tk8.4.11\generic;.\tk8.4.11\compat
+Item4=$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;.\tcl8.4.11\generic;.\tk8.4.11\generic
+Item5=$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;.\tcl8.4.11\include
+Item6=$(BCB)\include;$(BCB)\include\vcl;..\..\Shared;.\tcl8.4.11\include
+Item7=$(BCB)\include;$(BCB)\include\vcl;.\tcl8.4.11\include
+Item8=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=3
-Item0=$(BCB)\Lib;$(BCB)\lib\obj;$(BCB)\lib.\tk8.4.11\Release
-Item1=$(BCB)\lib\obj;$(BCB)\lib.\tk8.4.11\Release
-Item2=$(BCB)\lib\obj;$(BCB)\lib
+Count=4
+Item0=$(BCB)\Lib;$(BCB)\lib\obj;$(BCB)\lib.\tk8.4.13\Release
+Item1=$(BCB)\Lib;$(BCB)\lib\obj;$(BCB)\lib.\tk8.4.11\Release
+Item2=$(BCB)\lib\obj;$(BCB)\lib.\tk8.4.11\Release
+Item3=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -132,11 +131,11 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=&quot;D:\Documents and Settings\devoilp\My Documents\work\Paddocks\Moonggoo-devel.sim&quot;
+RunParams=&quot;C:\development\apsim\graz\sample\Wheat Lucerne Rotation.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=d:\development\bin\apsim.exe
+HostApplication=C:\development\Bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
@@ -146,7 +145,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-LinkCGLIB=0
+LinkCGLIB=1
 
 [Linker]
 LibPrefix=

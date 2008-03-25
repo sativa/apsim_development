@@ -449,7 +449,7 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
    {
    string ModuleName, VariableName;
 
-   unsigned posPeriod = varname.find('.');
+   unsigned posPeriod = varname.rfind('.');
    if (posPeriod != string::npos)
       {
       ModuleName = varname.substr(0, posPeriod);
@@ -462,121 +462,40 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
       }
 
    Tcl_ObjType *listType = Tcl_GetObjType("list");
-   Tcl_ObjType *intType = Tcl_GetObjType("int");
-   Tcl_ObjType *dblType = Tcl_GetObjType("double");
-   Tcl_ObjType *stringType = Tcl_GetObjType("string");
 
-   Tcl_ObjType *outGoingType = value->typePtr;
-   if (outGoingType == NULL) { outGoingType = stringType; } // Default type is strings
-
-   //MessageBox(NULL, "Type 1", outGoingType->name, MB_ICONSTOP);
-   // Is it an array?
-   // NB. we can't really tell if it's a string that should be turned into a list  FIXME  XX
+   // Find what we have. Is it an array?
    bool isArray = false;
-   if (outGoingType==listType)
+   if (value->typePtr==listType)
       {
       isArray = true;
-      Tcl_Obj *firstListElement;
-      if (Tcl_ListObjIndex(interp, value, 0, &firstListElement) != TCL_OK)
-          {
-          Tcl_SetStringObj(Tcl_GetObjResult(interp), "Can't extract value from list ", -1);
-          return false;
-          }
-      if (firstListElement==NULL)
-          {
-          Tcl_SetStringObj(Tcl_GetObjResult(interp), "FLE is NULL??? ", -1);
-          return false;
-          }
-      outGoingType = firstListElement->typePtr;
-      if (outGoingType == NULL) { outGoingType = stringType; }
       }
 
-   //MessageBox(NULL, "Type 2", outGoingType->name, MB_ICONSTOP);
-   if (outGoingType==intType)
-      {
-      unsigned variableID = protocol::Component::addRegistration(RegistrationType::set,
-                          VariableName.c_str(), isArray?intStringArray:intString, "", ModuleName.c_str());
-      if (isArray)
-          {
-          std::vector<int> outValue;
-          Tcl_Obj *listElement;
-          int      listLength;
-          Tcl_ListObjLength(interp, value, &listLength);
-          for (int idx = 0; idx < listLength; idx++)
-              {
-              int scratch;
-              Tcl_ListObjIndex(interp, value, idx, &listElement);
-              Tcl_GetIntFromObj(interp, listElement, &scratch);
-              outValue.push_back(scratch);
-              }
-          return (setVariable(variableID, outValue));
-          }
-      else
-          {
-          int outValue;
-          Tcl_GetIntFromObj(interp, value, &outValue);
-          return (setVariable(variableID, outValue));
-          }
-      /* notreached*/
-      }
-   else if (outGoingType==dblType)
-      {
-      unsigned variableID = protocol::Component::addRegistration(RegistrationType::set,
-                          VariableName.c_str(), isArray?fltStringArray:fltString, "", ModuleName.c_str());
-      if (isArray)
-          {
-          std::vector<float> outValue;
-          Tcl_Obj *listElement;
-          int      listLength;
-          Tcl_ListObjLength(interp, value, &listLength);
-          for (int idx = 0; idx < listLength; idx++)
-              {
-              double scratch;
-              Tcl_ListObjIndex(interp, value, idx, &listElement);
-              Tcl_GetDoubleFromObj(interp, listElement, &scratch);
-              outValue.push_back((float)scratch);
-              }
-          return (setVariable(variableID, outValue));
-          }
-      else
-          {
-          double outValue;
-          Tcl_GetDoubleFromObj(interp, value, &outValue);
-          return (setVariable(variableID, (float)outValue));
-          }
-      /* notreached*/
-      }
-   else if (outGoingType==stringType)
-      {
-      unsigned variableID = protocol::Component::addRegistration(RegistrationType::set,
-                          VariableName.c_str(), isArray?strStringArray:strString, "", ModuleName.c_str());
-      if (isArray)
-          {
-          std::vector<string> outValue;
-          Tcl_Obj *listElement;
-          int      listLength;
-          Tcl_ListObjLength(interp, value, &listLength);
-          for (int idx = 0; idx < listLength; idx++)
-              {
-              Tcl_ListObjIndex(interp, value, idx, &listElement);
-              string scratch = string(Tcl_GetStringFromObj(listElement, NULL));
-              outValue.push_back(scratch);
-              }
-          return (setVariable(variableID, outValue));
-          }
-      else
-          {
-          string outValue = string(Tcl_GetStringFromObj(value, NULL));
-          return (setVariable(variableID, outValue));
-          }
-      /* notreached*/
-      }
-
-   // Failure
-   Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), "Unknown SET type '",
-                          outGoingType->name, "' (to ", varname.c_str(), ")",
-                          -1);
-   return false;
+   unsigned variableID = protocol::Component::addRegistration(
+                               RegistrationType::set,
+                               VariableName.c_str(), 
+                               isArray?strStringArray:strString, 
+                               "", 
+                               ModuleName.c_str());
+   if (isArray)
+       {
+       std::vector<string> outValue;
+       Tcl_Obj *listElement;
+       int      listLength;
+       Tcl_ListObjLength(interp, value, &listLength);
+       for (int idx = 0; idx < listLength; idx++)
+           {
+           Tcl_ListObjIndex(interp, value, idx, &listElement);
+           string scratch = string(Tcl_GetStringFromObj(listElement, NULL));
+           outValue.push_back(scratch);
+           }
+       return (setVariable(variableID, outValue));
+       }
+   else
+       {
+       string outValue = string(Tcl_GetStringFromObj(value, NULL));
+       return (setVariable(variableID, outValue));
+       }
+   /* notreached*/
    }
 
 void TclComponent::addRegistration(const string &name)
@@ -748,10 +667,10 @@ void TclComponent::unRegisterEvent(unsigned int id)
 void TclComponent::catchMessages(string &command)
    {
    messageCallbackCommand = command;
-   if (command == "")
-      setMessageHook(NULL);
-   else
-      setMessageHook(this);
+ //  if (command == "")
+ //     setMessageHook(NULL);
+ //  else
+ //     setMessageHook(this);
    }
 
 void TclComponent::callback(const std::string& toName, const protocol::Message* message)
