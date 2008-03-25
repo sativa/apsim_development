@@ -3,7 +3,7 @@
 using namespace std;
 
 #include "PlantComponents.h"
-#include "utilities.h"
+#include "Utilities.h"
 
 //---------------------------------------------------------------------------
 PlantPart::PlantPart(ScienceAPI &api) : PlantComponent (api)

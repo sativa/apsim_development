@@ -1,5 +1,5 @@
 
-#include <math.h >
+#include <math.h>
 
 #include <vector>
 #include <general/date_class.h>
