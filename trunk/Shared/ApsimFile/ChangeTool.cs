@@ -104,6 +104,7 @@ namespace ApsimFile
                    || Child.Name.ToLower() == "graph"
                    || Child.Name.ToLower() == "data"
                    || Child.Name.ToLower() == "tclmanager"
+                   || Child.Name.ToLower() == "farmmanager"
                    || Child.Name.ToLower() == "paddockmanager")
                     Upgrade(Child, Upgrader, Config);  // recurse
 				}
@@ -454,53 +455,54 @@ namespace ApsimFile
                 }
             }
         private static void UpdateToVersion12(XmlNode Data, Configuration Config)
+        {
+            string nodeName = Data.Name.ToLower();
+            if (nodeName == "manager")
             {
-            if (Data.Name.ToLower() == "manager")
-                {
                 XmlNode NewManagerNode = Data.ParentNode.AppendChild(Data.OwnerDocument.CreateElement("folder"));
                 if (XmlHelper.Attribute(Data, "shortcut") != "")
-                    {
+                {
                     string ShortCutPath = XmlHelper.Attribute(Data, "shortcut");
                     XmlHelper.SetAttribute(NewManagerNode, "shortcut", ShortCutPath);
                     XmlNode RealNode = XmlHelper.Find(Data, ShortCutPath);
                     XmlHelper.SetName(NewManagerNode, XmlHelper.Name(RealNode));
-                    }
+                }
                 else if (XmlHelper.Name(Data).ToLower() == "manager")
                     XmlHelper.SetName(NewManagerNode, "Manager folder");
                 else
                     XmlHelper.SetName(NewManagerNode, XmlHelper.Name(Data));
                 foreach (XmlNode Rule in XmlHelper.ChildNodes(Data, "rule"))
-                    {
+                {
                     XmlNode ManagerNode = NewManagerNode.AppendChild(NewManagerNode.OwnerDocument.CreateElement("manager"));
                     XmlHelper.SetName(ManagerNode, XmlHelper.Name(Rule));
                     if (XmlHelper.Attribute(Rule, "shortcut") != "")
-                        {
+                    {
                         string ShortCutPath = XmlHelper.Attribute(Rule, "shortcut");
                         XmlHelper.SetAttribute(ManagerNode, "shortcut", ShortCutPath);
-                        }
+                    }
                     else
-                        {
+                    {
                         foreach (XmlNode Condition in XmlHelper.ChildNodes(Rule, "condition"))
-                            {
+                        {
                             XmlNode ScriptNode = XmlHelper.CreateNode(Rule.OwnerDocument, "script", "");
                             ManagerNode.AppendChild(ScriptNode);
                             XmlHelper.SetValue(ScriptNode, "text", Condition.InnerText);
                             XmlHelper.SetValue(ScriptNode, "event", XmlHelper.Name(Condition));
-                            }
+                        }
                         XmlNode UI = ManagerNode.AppendChild(ManagerNode.OwnerDocument.CreateElement("ui"));
                         foreach (XmlNode Category in XmlHelper.ChildNodes(Rule, "category"))
-                            {
+                        {
                             XmlNode CategoryNode = UI.AppendChild(UI.OwnerDocument.CreateElement("category"));
                             XmlHelper.SetName(CategoryNode, XmlHelper.Name(Category));
                             foreach (XmlNode Prop in XmlHelper.ChildNodes(Category, ""))
                                 UI.AppendChild(UI.OwnerDocument.ImportNode(Prop, true));
-                            }
                         }
                     }
-                Data.ParentNode.ReplaceChild(NewManagerNode, Data);
                 }
-            else if (Data.Name.ToLower() == "logic")
-                {
+                Data.ParentNode.ReplaceChild(NewManagerNode, Data);
+            }
+            else if (nodeName == "logic")
+            {
                 XmlNode NewManagerNode = Data.ParentNode.AppendChild(Data.OwnerDocument.CreateElement("manager"));
                 XmlHelper.SetName(NewManagerNode, XmlHelper.Name(Data));
                 if (XmlHelper.Attribute(Data, "shortcut") != "")
@@ -508,8 +510,30 @@ namespace ApsimFile
                 foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
                     NewManagerNode.AppendChild(NewManagerNode.OwnerDocument.ImportNode(Child, true));
                 Data.ParentNode.ReplaceChild(NewManagerNode, Data);
+            }
+            else if (nodeName == "tclmanager" || nodeName == "farmmanager" || nodeName == "paddockmanager")
+            {
+                foreach (XmlNode Rule in XmlHelper.ChildNodes(Data, "rule"))
+                {
+                    if (XmlHelper.Attribute(Rule, "shortcut") != "")
+                    {
+                        string ShortCutPath = XmlHelper.Attribute(Rule, "shortcut");
+                        XmlHelper.SetAttribute(Rule, "shortcut", ShortCutPath);
+                    }
+                    else
+                    {
+                        foreach (XmlNode Condition in XmlHelper.ChildNodes(Rule, "condition"))
+                        {
+                            XmlNode ScriptNode = XmlHelper.CreateNode(Rule.OwnerDocument, "script", "");
+                            Rule.AppendChild(ScriptNode);
+                            XmlHelper.SetValue(ScriptNode, "text", Condition.InnerText);
+                            XmlHelper.SetValue(ScriptNode, "event", XmlHelper.Name(Condition));
+                        }
+                    }
+                    Data.AppendChild(Rule);
                 }
             }
+        }
         private static void UpdateToVersion13(XmlNode Variables, Configuration Config)
             {
             if (Variables.Name.ToLower() == "variables")
