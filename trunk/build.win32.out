@@ -817,9 +817,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit ManagerModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 3735:
-Compiling program unit Main at line 3760:
-Compiling program unit respondToEvent at line 3820:
+Compiling program unit alloc_dealloc_instance at line 3742:
+Compiling program unit Main at line 3767:
+Compiling program unit respondToEvent at line 3827:
 Encountered 0 errors, 0 warnings in file manager.for.
 Compiling file manager.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -923,9 +923,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit oryzaModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 5421:
-Compiling program unit Main at line 5448:
-Compiling program unit respondToEvent at line 5520:
+Compiling program unit alloc_dealloc_instance at line 5442:
+Compiling program unit Main at line 5469:
+Compiling program unit respondToEvent at line 5541:
 Encountered 0 errors, 0 warnings in file oryza.for.
 Compiling file oryza.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -1048,7 +1048,6 @@ Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 ReproductivePart.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Reproductive\PodPart.cpp:
-Warning W8030 Reproductive\PodPart.cpp 154: Temporary used for parameter 'Environment' in call to 'Co2Modifier::doPlant_Co2Modifier(environment_t &)' in function fruitPodPart::prepare()
 Reproductive\PodPartFN.cpp:
 Reproductive\FloretPart.cpp:
 Warning W8037 Reproductive\FloretPart.cpp 289: Non-const function Co2Modifier::rue() called for const object in function FloretPart::doDmPotRUE()
@@ -1358,26 +1357,22 @@ Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 ------Compiling C:\Development\apsim\sorghum\source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
-OOPlantInterface.cpp:
-OOPlantComponents.cpp:
-OOPhosphorus.cpp:
-OOPlantActions.cpp:
-OOLeaf.cpp:
-OOStem.cpp:
-OONitrogen.cpp:
-Warning W8004 OONitrogen.cpp 463: 'nRequired' is assigned a value that is never used in function Nitrogen::partition()
-OORachis.cpp:
-OOGrain.cpp:
-Warning W8004 OOGrain.cpp 159: 'nRequired' is assigned a value that is never used in function Grain::calcNDemand()
-OOWater.cpp:
-OOPhenology.cpp:
-OOPlant.cpp:
-OORoots.cpp:
-Warning W8004 OORoots.cpp 384: 'topArea' is assigned a value that is never used in function Roots::getRootArea(float,float,float,float)
-OOBiomass.cpp:
-Warning W8004 OOBiomass.cpp 287: 'grainDifferential' is assigned a value that is never used in function Biomass::calcBiomassRetranslocation()
+PlantInterface.cpp:
+PlantComponents.cpp:
+Phosphorus.cpp:
+PlantActions.cpp:
+Leaf.cpp:
+Stem.cpp:
+Nitrogen.cpp:
+Rachis.cpp:
+Grain.cpp:
+Water.cpp:
+Phenology.cpp:
+Plant.cpp:
+Roots.cpp:
+Biomass.cpp:
 Utilities.cpp:
-OODll.cpp:
+Dll.cpp:
 Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 ------Compiling C:\Development\apsim\Stock\source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland

@@ -172,8 +172,7 @@ Component   "Paddock3" = c:\development\apsim\tcllink\lib\tcllink.dll
      
      
      --->Section: start_simulation
-     
-                    # NB. some funny business here. Delay opening report file until the 1st day of
+     # NB. some funny business here. Delay opening report file until the 1st day of
      # simulation as it's hard to know how many paddocks are present at init2 time.
      
      setupLogging "Rotation Sample 2.log"
@@ -185,21 +184,18 @@ Component   "Paddock3" = c:\development\apsim\tcllink\lib\tcllink.dll
      }
      
      
-     
      --->Section: prepare
+     
      
      --->Section: process
      
-     
      doProcess
-     
      
      --->Section: post
      
+     
      --->Section: exit
-     
-                    closeLogging
-     
+     closeLogging
      --->End
 
 ------- accum Initialisation --------------------------------------------------
@@ -374,112 +370,6 @@ Component   "Paddock3" = c:\development\apsim\tcllink\lib\tcllink.dll
 
 ------- Paddock1 Initialisation -----------------------------------------------
      Interpreter name: 'Paddock1'
-     --->Section: init
-     ############### INITIAL CONDITIONS
-     set state "F1"
-     set area  250.0
-     
-     ############### Support procedures
-     # Return the current state of the system
-     proc currentState {} {
-        global state
-        return $state
-     }
-     
-     ############### The decision routine.
-     # Return the score for planting "what"
-     proc checkRules {} {
-       log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
-     
-       set bestScore -1.0; set bestTarget {}
-       foreach arc [stateGraph arcs -out [currentState]] {
-          set expr {}
-          set target [stateGraph arc target $arc]
-          foreach rule [stateGraph arc get $arc rules] {
-             set value [uplevel #0 expr $rule]
-             log "target=$target,rule=$rule, value=$value"
-             lappend expr $value
-          }
-          set score [expr [join $expr "*"]]
-          if {$score > $bestScore} {
-             set bestScore $score
-             set bestTarget $target
-          }
-       }
-       return [list $bestTarget $bestScore]
-     }
-     
-     # Change state to another
-     proc changeState {newState} {
-        global state
-        set arcs {}
-        foreach arc [stateGraph arcs -out [currentState]] {
-           if {[stateGraph arc target $arc] == "$newState" } {
-              lappend arcs $arc
-           }
-       }
-     
-        if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
-        if {[llength $arcs] > 1} {
-           # More than 1 path - evaluate best option
-           set bestScore -1.0; set bestArc {}
-           foreach arc $arcs {
-              set expr {}
-              foreach rule [stateGraph arc get $arc rules] {
-                 set value [uplevel #0 expr $rule]
-                 lappend expr $value
-              }
-              set score [expr [join $expr "*"]]
-              if {$score > $bestScore} {
-                 set bestScore $score
-                 set bestArc $arc
-              }
-           }
-           if {$bestScore > 0.0} {
-              set arc $bestArc
-           } else {
-              error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
-           }
-        } else {
-           # Only 1 path - take it.
-           set arc $arcs
-        }
-        foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
-        set state $newState
-        logState $newState
-     }
-     
-     proc setup {} {
-         #Nothing yet..
-     }
-     
-     # Apsimish utilities
-     proc pawc {} {
-       set sw [apsimGet sw_dep]
-       set ll [apsimGet ll15_dep]
-       set pawc 0.0
-       for {set i 0} {$i < [llength $sw]} {incr i} {
-           set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
-       }
-       return $pawc
-     }
-     
-     proc fesw {layer} {
-       set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
-       set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
-       set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
-       set fesw [expr ($sw - $ll)/($dul - $ll)]
-       return $fesw
-     }
-     
-     --->Section: process
-     
-     --->Section: exit
-     
-     
-     exit
-     
-     
      --->Section: init
      package require struct
      ::struct::graph stateGraph
@@ -720,6 +610,111 @@ Component   "Paddock3" = c:\development\apsim\tcllink\lib\tcllink.dll
      
      
      
+     
+     --->Section: init
+     ############### INITIAL CONDITIONS
+     set state "F1"
+     set area  250.0
+     
+     ############### Support procedures
+     # Return the current state of the system
+     proc currentState {} {
+        global state
+        return $state
+     }
+     
+     ############### The decision routine.
+     # Return the score for planting "what"
+     proc checkRules {} {
+       log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
+     
+       set bestScore -1.0; set bestTarget {}
+       foreach arc [stateGraph arcs -out [currentState]] {
+          set expr {}
+          set target [stateGraph arc target $arc]
+          foreach rule [stateGraph arc get $arc rules] {
+             set value [uplevel #0 expr $rule]
+             log "target=$target,rule=$rule, value=$value"
+             lappend expr $value
+          }
+          set score [expr [join $expr "*"]]
+          if {$score > $bestScore} {
+             set bestScore $score
+             set bestTarget $target
+          }
+       }
+       return [list $bestTarget $bestScore]
+     }
+     
+     # Change state to another
+     proc changeState {newState} {
+        global state
+        set arcs {}
+        foreach arc [stateGraph arcs -out [currentState]] {
+           if {[stateGraph arc target $arc] == "$newState" } {
+              lappend arcs $arc
+           }
+       }
+     
+        if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
+        if {[llength $arcs] > 1} {
+           # More than 1 path - evaluate best option
+           set bestScore -1.0; set bestArc {}
+           foreach arc $arcs {
+              set expr {}
+              foreach rule [stateGraph arc get $arc rules] {
+                 set value [uplevel #0 expr $rule]
+                 lappend expr $value
+              }
+              set score [expr [join $expr "*"]]
+              if {$score > $bestScore} {
+                 set bestScore $score
+                 set bestArc $arc
+              }
+           }
+           if {$bestScore > 0.0} {
+              set arc $bestArc
+           } else {
+              error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
+           }
+        } else {
+           # Only 1 path - take it.
+           set arc $arcs
+        }
+        foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
+        set state $newState
+        logState $newState
+     }
+     
+     proc setup {} {
+         #Nothing yet..
+     }
+     
+     # Apsimish utilities
+     proc pawc {} {
+       set sw [apsimGet sw_dep]
+       set ll [apsimGet ll15_dep]
+       set pawc 0.0
+       for {set i 0} {$i < [llength $sw]} {incr i} {
+           set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
+       }
+       return $pawc
+     }
+     
+     proc fesw {layer} {
+       set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
+       set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
+       set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
+       set fesw [expr ($sw - $ll)/($dul - $ll)]
+       return $fesw
+     }
+     
+     --->Section: process
+     
+     
+     --->Section: exit
+     
+     exit
      
      --->End
 
@@ -896,112 +891,6 @@ Component   "Paddock3" = c:\development\apsim\tcllink\lib\tcllink.dll
 ------- Paddock2 Initialisation -----------------------------------------------
      Interpreter name: 'Paddock2'
      --->Section: init
-     ############### INITIAL CONDITIONS
-     set state "WinterFallow"
-     set area  250.0
-     
-     ############### Support procedures
-     # Return the current state of the system
-     proc currentState {} {
-        global state
-        return $state
-     }
-     
-     ############### The decision routine.
-     # Return the score for planting "what"
-     proc checkRules {} {
-       log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
-     
-       set bestScore -1.0; set bestTarget {}
-       foreach arc [stateGraph arcs -out [currentState]] {
-          set expr {}
-          set target [stateGraph arc target $arc]
-          foreach rule [stateGraph arc get $arc rules] {
-             set value [uplevel #0 expr $rule]
-             log "target=$target,rule=$rule, value=$value"
-             lappend expr $value
-          }
-          set score [expr [join $expr "*"]]
-          if {$score > $bestScore} {
-             set bestScore $score
-             set bestTarget $target
-          }
-       }
-       return [list $bestTarget $bestScore]
-     }
-     
-     # Change state to another
-     proc changeState {newState} {
-        global state
-        set arcs {}
-        foreach arc [stateGraph arcs -out [currentState]] {
-           if {[stateGraph arc target $arc] == "$newState" } {
-              lappend arcs $arc
-           }
-       }
-     
-        if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
-        if {[llength $arcs] > 1} {
-           # More than 1 path - evaluate best option
-           set bestScore -1.0; set bestArc {}
-           foreach arc $arcs {
-              set expr {}
-              foreach rule [stateGraph arc get $arc rules] {
-                 set value [uplevel #0 expr $rule]
-                 lappend expr $value
-              }
-              set score [expr [join $expr "*"]]
-              if {$score > $bestScore} {
-                 set bestScore $score
-                 set bestArc $arc
-              }
-           }
-           if {$bestScore > 0.0} {
-              set arc $bestArc
-           } else {
-              error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
-           }
-        } else {
-           # Only 1 path - take it.
-           set arc $arcs
-        }
-        foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
-        set state $newState
-        logState $newState
-     }
-     
-     proc setup {} {
-         #Nothing yet..
-     }
-     
-     # Apsimish utilities
-     proc pawc {} {
-       set sw [apsimGet sw_dep]
-       set ll [apsimGet ll15_dep]
-       set pawc 0.0
-       for {set i 0} {$i < [llength $sw]} {incr i} {
-           set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
-       }
-       return $pawc
-     }
-     
-     proc fesw {layer} {
-       set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
-       set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
-       set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
-       set fesw [expr ($sw - $ll)/($dul - $ll)]
-       return $fesw
-     }
-     
-     --->Section: process
-     
-     --->Section: exit
-     
-     
-     exit
-     
-     
-     --->Section: init
      package require struct
      ::struct::graph stateGraph
      stateGraph node insert "Chickpea"
@@ -1241,6 +1130,111 @@ Component   "Paddock3" = c:\development\apsim\tcllink\lib\tcllink.dll
      
      
      
+     
+     --->Section: init
+     ############### INITIAL CONDITIONS
+     set state "WinterFallow"
+     set area  250.0
+     
+     ############### Support procedures
+     # Return the current state of the system
+     proc currentState {} {
+        global state
+        return $state
+     }
+     
+     ############### The decision routine.
+     # Return the score for planting "what"
+     proc checkRules {} {
+       log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
+     
+       set bestScore -1.0; set bestTarget {}
+       foreach arc [stateGraph arcs -out [currentState]] {
+          set expr {}
+          set target [stateGraph arc target $arc]
+          foreach rule [stateGraph arc get $arc rules] {
+             set value [uplevel #0 expr $rule]
+             log "target=$target,rule=$rule, value=$value"
+             lappend expr $value
+          }
+          set score [expr [join $expr "*"]]
+          if {$score > $bestScore} {
+             set bestScore $score
+             set bestTarget $target
+          }
+       }
+       return [list $bestTarget $bestScore]
+     }
+     
+     # Change state to another
+     proc changeState {newState} {
+        global state
+        set arcs {}
+        foreach arc [stateGraph arcs -out [currentState]] {
+           if {[stateGraph arc target $arc] == "$newState" } {
+              lappend arcs $arc
+           }
+       }
+     
+        if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
+        if {[llength $arcs] > 1} {
+           # More than 1 path - evaluate best option
+           set bestScore -1.0; set bestArc {}
+           foreach arc $arcs {
+              set expr {}
+              foreach rule [stateGraph arc get $arc rules] {
+                 set value [uplevel #0 expr $rule]
+                 lappend expr $value
+              }
+              set score [expr [join $expr "*"]]
+              if {$score > $bestScore} {
+                 set bestScore $score
+                 set bestArc $arc
+              }
+           }
+           if {$bestScore > 0.0} {
+              set arc $bestArc
+           } else {
+              error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
+           }
+        } else {
+           # Only 1 path - take it.
+           set arc $arcs
+        }
+        foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
+        set state $newState
+        logState $newState
+     }
+     
+     proc setup {} {
+         #Nothing yet..
+     }
+     
+     # Apsimish utilities
+     proc pawc {} {
+       set sw [apsimGet sw_dep]
+       set ll [apsimGet ll15_dep]
+       set pawc 0.0
+       for {set i 0} {$i < [llength $sw]} {incr i} {
+           set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
+       }
+       return $pawc
+     }
+     
+     proc fesw {layer} {
+       set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
+       set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
+       set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
+       set fesw [expr ($sw - $ll)/($dul - $ll)]
+       return $fesw
+     }
+     
+     --->Section: process
+     
+     
+     --->Section: exit
+     
+     exit
      
      --->End
 
@@ -1417,112 +1411,6 @@ Component   "Paddock3" = c:\development\apsim\tcllink\lib\tcllink.dll
 ------- Paddock3 Initialisation -----------------------------------------------
      Interpreter name: 'Paddock3'
      --->Section: init
-     ############### INITIAL CONDITIONS
-     set state "WinterFallow"
-     set area  250.0
-     
-     ############### Support procedures
-     # Return the current state of the system
-     proc currentState {} {
-        global state
-        return $state
-     }
-     
-     ############### The decision routine.
-     # Return the score for planting "what"
-     proc checkRules {} {
-       log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
-     
-       set bestScore -1.0; set bestTarget {}
-       foreach arc [stateGraph arcs -out [currentState]] {
-          set expr {}
-          set target [stateGraph arc target $arc]
-          foreach rule [stateGraph arc get $arc rules] {
-             set value [uplevel #0 expr $rule]
-             log "target=$target,rule=$rule, value=$value"
-             lappend expr $value
-          }
-          set score [expr [join $expr "*"]]
-          if {$score > $bestScore} {
-             set bestScore $score
-             set bestTarget $target
-          }
-       }
-       return [list $bestTarget $bestScore]
-     }
-     
-     # Change state to another
-     proc changeState {newState} {
-        global state
-        set arcs {}
-        foreach arc [stateGraph arcs -out [currentState]] {
-           if {[stateGraph arc target $arc] == "$newState" } {
-              lappend arcs $arc
-           }
-       }
-     
-        if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
-        if {[llength $arcs] > 1} {
-           # More than 1 path - evaluate best option
-           set bestScore -1.0; set bestArc {}
-           foreach arc $arcs {
-              set expr {}
-              foreach rule [stateGraph arc get $arc rules] {
-                 set value [uplevel #0 expr $rule]
-                 lappend expr $value
-              }
-              set score [expr [join $expr "*"]]
-              if {$score > $bestScore} {
-                 set bestScore $score
-                 set bestArc $arc
-              }
-           }
-           if {$bestScore > 0.0} {
-              set arc $bestArc
-           } else {
-              error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
-           }
-        } else {
-           # Only 1 path - take it.
-           set arc $arcs
-        }
-        foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
-        set state $newState
-        logState $newState
-     }
-     
-     proc setup {} {
-         #Nothing yet..
-     }
-     
-     # Apsimish utilities
-     proc pawc {} {
-       set sw [apsimGet sw_dep]
-       set ll [apsimGet ll15_dep]
-       set pawc 0.0
-       for {set i 0} {$i < [llength $sw]} {incr i} {
-           set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
-       }
-       return $pawc
-     }
-     
-     proc fesw {layer} {
-       set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
-       set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
-       set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
-       set fesw [expr ($sw - $ll)/($dul - $ll)]
-       return $fesw
-     }
-     
-     --->Section: process
-     
-     --->Section: exit
-     
-     
-     exit
-     
-     
-     --->Section: init
      package require struct
      ::struct::graph stateGraph
      stateGraph node insert "Chickpea"
@@ -1762,6 +1650,111 @@ Component   "Paddock3" = c:\development\apsim\tcllink\lib\tcllink.dll
      
      
      
+     
+     --->Section: init
+     ############### INITIAL CONDITIONS
+     set state "WinterFallow"
+     set area  250.0
+     
+     ############### Support procedures
+     # Return the current state of the system
+     proc currentState {} {
+        global state
+        return $state
+     }
+     
+     ############### The decision routine.
+     # Return the score for planting "what"
+     proc checkRules {} {
+       log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
+     
+       set bestScore -1.0; set bestTarget {}
+       foreach arc [stateGraph arcs -out [currentState]] {
+          set expr {}
+          set target [stateGraph arc target $arc]
+          foreach rule [stateGraph arc get $arc rules] {
+             set value [uplevel #0 expr $rule]
+             log "target=$target,rule=$rule, value=$value"
+             lappend expr $value
+          }
+          set score [expr [join $expr "*"]]
+          if {$score > $bestScore} {
+             set bestScore $score
+             set bestTarget $target
+          }
+       }
+       return [list $bestTarget $bestScore]
+     }
+     
+     # Change state to another
+     proc changeState {newState} {
+        global state
+        set arcs {}
+        foreach arc [stateGraph arcs -out [currentState]] {
+           if {[stateGraph arc target $arc] == "$newState" } {
+              lappend arcs $arc
+           }
+       }
+     
+        if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
+        if {[llength $arcs] > 1} {
+           # More than 1 path - evaluate best option
+           set bestScore -1.0; set bestArc {}
+           foreach arc $arcs {
+              set expr {}
+              foreach rule [stateGraph arc get $arc rules] {
+                 set value [uplevel #0 expr $rule]
+                 lappend expr $value
+              }
+              set score [expr [join $expr "*"]]
+              if {$score > $bestScore} {
+                 set bestScore $score
+                 set bestArc $arc
+              }
+           }
+           if {$bestScore > 0.0} {
+              set arc $bestArc
+           } else {
+              error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
+           }
+        } else {
+           # Only 1 path - take it.
+           set arc $arcs
+        }
+        foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
+        set state $newState
+        logState $newState
+     }
+     
+     proc setup {} {
+         #Nothing yet..
+     }
+     
+     # Apsimish utilities
+     proc pawc {} {
+       set sw [apsimGet sw_dep]
+       set ll [apsimGet ll15_dep]
+       set pawc 0.0
+       for {set i 0} {$i < [llength $sw]} {incr i} {
+           set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
+       }
+       return $pawc
+     }
+     
+     proc fesw {layer} {
+       set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
+       set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
+       set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
+       set fesw [expr ($sw - $ll)/($dul - $ll)]
+       return $fesw
+     }
+     
+     --->Section: process
+     
+     
+     --->Section: exit
+     
+     exit
      
      --->End
 ------- Start of simulation  --------------------------------------------------
