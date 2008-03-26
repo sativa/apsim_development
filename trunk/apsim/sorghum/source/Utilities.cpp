@@ -449,4 +449,26 @@ void calcPartFractionDelta (int partNo, vector<float> fraction, float part,
    {
    dltPart = part * fraction[partNo];
    }
-
+//------------------------------------------------------------------------------------------------
+//------- convert string names from start_grain_fill to StartGrainFill
+string convertName(string name)
+   {
+   // go through and capilise the first letter and any letter following an underscore
+   // removing underscores
+   string newName;
+   bool upper = false;
+   for(unsigned i=0;i < name.size();i++)
+      {
+      if(i==0 || upper)
+         {
+         newName.push_back((char)toupper(name[i]));
+         upper = false;
+         }
+      else if(name[i] == '_')
+         upper = true;
+      else
+         newName.push_back(name[i]);
+      }
+   return newName;
+   }
+//------------------------------------------------------------------------------------------------

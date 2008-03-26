@@ -300,15 +300,17 @@ void Plant::process (void)                 // do crop preparation
    // actual dltLai C limited
    leaf->areaActual();
 
+
    // scenescence
    leaf->senesceArea();
-   biomass->dmScenescence();
    if(stage > germination)
       {
       roots->calcSenLength();
       }
+
    // nitrogen
    nitrogen->process();
+   biomass->dmScenescence();         // moved because nitrogen now causes senescence
 
    if(phosphorus->Active())
        phosphorus->process();
@@ -335,6 +337,21 @@ void Plant::updateVars(void)
    das++;
 
    stage = phenology->currentStage();
+   // this is here for sysbal - needs to move!
+   if(stage == emergence)
+      {
+      ExternalMassFlowType EMF;
+      EMF.PoolClass = "crop";
+      EMF.FlowType = "gain";
+      EMF.DM = biomass->getTotalBiomass() * gm2kg/sm2ha;
+      EMF.N  = 0.0;
+      EMF.P  = 0.0;
+      EMF.C = 0.0; // ?????
+      EMF.SW = 0.0;
+
+      scienceAPI.publish("ExternalMassFlow", EMF);
+      }
+
    }
 //------------------------------------------------------------------------------------------------
 void Plant::death(void)
@@ -444,17 +461,17 @@ void Plant::phenologyEvent(int iStage)
    //  report
 
    char msg[120];   
-   sprintf(msg,"\t\tbiomass = %6.2f \t\t lai = %6.2f\n",
+   sprintf(msg,"\t\tBiomass       = %6.2f \t\t LAI            = %6.2f\n",
       biomass->getAboveGroundBiomass() / 10.0, leaf->getLAI());
    scienceAPI.write(msg);
-   sprintf(msg,"\t\tstover N conc = %6.2f \t\t extractable sw = %6.2f\n",
+   sprintf(msg,"\t\tStover N Conc = %6.2f \t\t Extractable SW = %6.2f\n",
       nitrogen->getNStover(),water->getESWAvail());
    scienceAPI.write(msg);
 
    // output the current stage
-   // Don't send an end crop to the system - otherwise all the other crops will stop too!
    string stage = phenology->returnStageName();
    scienceAPI.publish(stage);
+
    }
 //------------------------------------------------------------------------------------------------
 void Plant::get_cover_green(float &result)
@@ -487,7 +504,7 @@ bool Plant::estimateTillers(float &ftn)
    // this will be replaced with dynamic calculations in the near future
    // above latitude -25 is CQ, -25 to -29 is SQ, below is NNSW
 
-   double intercept = 0.0, slope = 0.0;
+   double intercept, slope;
 
    if(latitude > -12.5 || latitude < -38.0)
       return false;                                // unknown region

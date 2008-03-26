@@ -125,6 +125,9 @@ class Phosphorus : public PlantProcess
    void  Summary(void);
    float getPStover(void){return pStover;}
 
+   // phenology
+   void  phenologyEvent(int){};
+   void Update(void){updateVars();};
    };  // Phosphorus
 
 //------------------------------------------------------------------------------------------------

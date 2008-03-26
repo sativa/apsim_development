@@ -53,6 +53,8 @@ void  calcPartFractionDelta (int partNo, std::vector<float> fraction, float part
 void  JulianToCalendar(float jDay,int &day,int &month,int &year);
 int   CalendarToJulian(int day,int month,int year);
 
+string convertName(string name);
+
 
 //------------------------------------------------------------------------------------------------
 class Today

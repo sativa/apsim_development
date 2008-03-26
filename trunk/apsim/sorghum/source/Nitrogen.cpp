@@ -3,6 +3,7 @@
 #include "Plant.h"
 #include "Nitrogen.h"
 
+
 //------------------------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------------------------
@@ -83,6 +84,7 @@ void Nitrogen::initialize(void)
    dltNRetrans.assign  (nParts,0.0);
    nSenesced.assign    (nParts,0.0);
    dltNDetached.assign (nParts,0.0);
+   photoStressTotal.assign(nStages,0.0);
 
 
    massFlowSupply.clear();
@@ -172,7 +174,6 @@ void Nitrogen::process(void)
    demand();
    uptake();
    partition();
-   retranslocate();
    }
 //------------------------------------------------------------------------------------------------
 //----------- update nitrogen state variables at the end of the day
@@ -187,6 +188,7 @@ void Nitrogen::updateVars(void)
 
    photoStress = (2.0/(1.0 + exp(-6.05*(SLN-0.41)))-1.0);
    photoStress = Max(photoStress,0.0);
+   accumulate(photoStress, photoStressTotal, plant->phenology->currentStage(), plant->phenology->getDltStage());
 
    //Hammer, G.L. and Muchow, R.C. (1994).  Assessing climatic risk to sorghum production
    // in water-limited subtropical environments. I. Development and testing of a simulation model.
@@ -217,6 +219,21 @@ void Nitrogen::updateVars(void)
    nStover = nBiomass - plant->grain->getNGreen() - plant->grain->getNSenesced();
    nUptakeTotal += actualTotal;
 
+   }
+//------------------------------------------------------------------------------------------------
+//------- react to a phenology event
+//------------------------------------------------------------------------------------------------
+void Nitrogen::phenologyEvent(int iStage)
+   {
+   switch (iStage)
+      {
+      case emergence :
+         break;
+      case fi :
+         break;
+      case startGrainFill :
+         break;
+      }
    }
 //------------------------------------------------------------------------------------------------
 //------- calculate nitrogen supply potential from mass flow diffusion and fixation
@@ -457,13 +474,6 @@ void Nitrogen::partition(void)
       }
    }
 //------------------------------------------------------------------------------------------------
-//------- partition Nitrogen
-//------------------------------------------------------------------------------------------------
-void Nitrogen::retranslocate(void)
-   {
-   // now in partitioning
-   }
-//------------------------------------------------------------------------------------------------
 //------- Calculate plant Nitrogen detachment from senesced and dead pools
 //------------------------------------------------------------------------------------------------
 void Nitrogen::detachment(vector<float> senDetachFrac)
@@ -506,15 +516,17 @@ void Nitrogen::getNSenesced(float &result)
 void Nitrogen::Summary(void)
    {
    char msg[120];
-   sprintf(msg,"grain N percent            =  %8.3f \t grain N uptake     (kg/ha) = %8.3f\n",
-            plant->grain->getNConc() * 100,plant->grain->getNGreen() * 10.0);
-   scienceAPI.write(msg);
-   sprintf(msg,"total N content    (kg/ha) =  %8.3f \t senesced N content (kg/ha) = %8.3f\n",
-            nBiomass * 10.0,sumVector(nSenesced) * 10.0);
-   scienceAPI.write(msg);
-   sprintf(msg,"green N content    (kg/ha) =  %8.3f\n",
-            sumVector(nGreen) * 10.0 - plant->grain->getNGreen() * 10.0);
-   scienceAPI.write(msg);
+   sprintf(msg,"Grain N percent    (%%)     =  %8.2f \t Grain N            (kg/ha) = %8.2f\n",
+            plant->grain->getNConc(),plant->grain->getNGreen() * 10.0); scienceAPI.write(msg);
+   sprintf(msg,"Total N content    (kg/ha) =  %8.2f \t Senesced N content (kg/ha) = %8.2f\n",
+            nBiomass * 10.0,sumVector(nSenesced) * 10.0); scienceAPI.write(msg);
+   sprintf(msg,"Green N content    (kg/ha) =  %8.2f\n",
+            sumVector(nGreen) * 10.0 - plant->grain->getNGreen() * 10.0); scienceAPI.write(msg);
+   }
+//------------------------------------------------------------------------------------------------
+float Nitrogen::sumPhotoStressTotal(int from, int to)
+   {
+   return sumVector(photoStressTotal,from,to);
    }
 //------------------------------------------------------------------------------------------------
 

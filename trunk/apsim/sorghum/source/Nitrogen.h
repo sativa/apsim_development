@@ -21,9 +21,11 @@ class Nitrogen : public PlantProcess
 //  Variables  ---------------------------------------------------------
    float profileDepth;
 
+   // stress
    float phenoStress;
    float expansionStress;
    float photoStress;
+   vector<float> photoStressTotal;
 
    float nBiomass;
    float nStover;
@@ -84,7 +86,6 @@ class Nitrogen : public PlantProcess
    void  demand(void);
    void  uptake(void);
    void  partition(void);
-   void  retranslocate(void);
 
 // public Methods -------------------------------------------------------
    public:
@@ -102,6 +103,8 @@ class Nitrogen : public PlantProcess
    float getExpansionStress(void){return expansionStress;}
    float getPhotoStress(void){return photoStress;}
 
+   float sumPhotoStressTotal(int from, int to);
+
    // phenology
    float getPhenoStress(void){return phenoStress;}
    void  detachment(vector<float> senDetachFrac);
@@ -113,6 +116,10 @@ class Nitrogen : public PlantProcess
 
    float getNStover(void){return nStover;}
    void  Summary(void);
+
+   // phenology
+   void  phenologyEvent(int);
+   void Update(void){updateVars();};
 
    };  // Nitrogen
 

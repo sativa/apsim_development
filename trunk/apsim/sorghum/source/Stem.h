@@ -4,7 +4,7 @@
 #define StemH
 
 #include "PlantComponents.h"
-#include "Utilities.h"
+#include "utilities.h"
 //------------------------------------------------------------------------------------------------
 
 class Stem : public PlantPart

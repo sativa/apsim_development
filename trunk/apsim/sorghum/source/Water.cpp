@@ -64,6 +64,8 @@ void Water::initialize(void)
    //Init Accumulation Vars
    phenoStressTotal.assign(nStages,0.0);
    photoStressTotal.assign(nStages,0.0);
+   expanStressTotal.assign(nStages,0.0);
+
    }
 //------------------------------------------------------------------------------------------------
 //------ read Water parameters
@@ -241,6 +243,7 @@ void Water::calcStresses(void)
    expansionStress = calcSwDefExpansion();
    accumulate(photoStress, photoStressTotal, plant->phenology->currentStage(), plant->phenology->getDltStage());
    accumulate(phenoStress, phenoStressTotal, plant->phenology->currentStage(), plant->phenology->getDltStage());
+   accumulate(expansionStress, expanStressTotal, plant->phenology->currentStage(), plant->phenology->getDltStage());
 
    }
 //------------------------------------------------------------------------------------------------
@@ -369,6 +372,16 @@ void Water::getSwUptakeLayers(vector<float> &result)
 void Water::getllDep(vector<float> &result)
    {
    result = llDep;
+   }
+//------------------------------------------------------------------------------------------------
+float Water::sumPhotoStressTotal(int from, int to)
+   {
+   return sumVector(photoStressTotal,from,to);
+   }
+//------------------------------------------------------------------------------------------------
+float Water::sumExpanStressTotal(int from, int to)
+   {
+   return sumVector(expanStressTotal,from,to);
    }
 //------------------------------------------------------------------------------------------------
 

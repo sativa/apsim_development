@@ -24,6 +24,7 @@ void Stem::doRegistrations(void)
    scienceAPI.expose("StemGreenNConc", "%",     "Live stem N concentration", false, nConc);
    scienceAPI.expose("DeltaStemGreenN","g/m^2", "Today's N increase in stem",false, dltNGreen);
    scienceAPI.expose("StemGreenNConc", "%",     "Live stem N concentration", false, nConc);
+   scienceAPI.expose("StemGreenP",     "g/m^2" ,"P in live Stem",            false, pGreen);
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
@@ -47,8 +48,8 @@ void Stem::readParams (void)
    scienceAPI.read("retransRate",    "", 0, retransRate);
    // nitrogen
    scienceAPI.read("initialStemNConc", "", 0, initialNConc);
-   targetNFn.read(scienceAPI,"x_stem_n","targetStemNConc");
-   structNFn.read(scienceAPI,"x_stem_n","structStemNConc");
+   targetNFn.read (scienceAPI,"x_stem_n","targetStemNConc");
+   structNFn.read (scienceAPI,"x_stem_n","structStemNConc");
 
    scienceAPI.read("stemDilnNSlope","", 0, dilnNSlope);
    scienceAPI.read("stemDilnNInt",  "", 0, dilnNInt);
@@ -91,12 +92,21 @@ void Stem::updateVars(void)
 //------------------------------------------------------------------------------------------------
 void Stem::phenologyEvent(int iStage)
    {
+   ExternalMassFlowType EMF;
    switch (iStage)
       {
       case emergence :
          dmGreen = initialDM * density;
          nGreen = initialNConc * dmGreen;
          pGreen = initialPConc * dmGreen;
+         EMF.PoolClass = "crop";
+         EMF.FlowType = "gain";
+         EMF.DM = 0.0;
+         EMF.N  = nGreen * gm2kg/sm2ha;
+         EMF.P  = pGreen * gm2kg/sm2ha;
+         EMF.C = 0.0; // ?????
+         EMF.SW = 0.0;
+         scienceAPI.publish("ExternalMassFlow", EMF);
          break;
       case flowering :
          //set the minimum weight of stem; used for translocation to grain and stem

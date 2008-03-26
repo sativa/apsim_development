@@ -129,20 +129,44 @@ void Plant::onHarvest(void)     // Field a Harvest event
    biomass->Summary();
    grain->Summary();
    nitrogen->Summary();
-   if(phosphorus->Active())
-      phosphorus->Summary();
+   if(phosphorus->Active())phosphorus->Summary();
 
-   scienceAPI.write("\n\n");
+   scienceAPI.write("\n");
 
-   // stress - not done yet
+   // stress
    char msg[120];
-   sprintf(msg,"Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc\n"); scienceAPI.write(msg);
-   sprintf(msg,"   emergence           to end_of_juvenile           N/A          N/A        N/A          N/A        \n"); scienceAPI.write(msg);
-   sprintf(msg,"   end_of_juvenile     to floral_initiation         N/A          N/A        N/A          N/A        \n"); scienceAPI.write(msg);
-   sprintf(msg,"   floral_initiation   to flag_leaf                 N/A          N/A        N/A          N/A        \n"); scienceAPI.write(msg);
-   sprintf(msg,"   flag_leaf           to flowering                 N/A          N/A        N/A          N/A        \n"); scienceAPI.write(msg);
-   sprintf(msg,"   flowering           to start_grain_fill          N/A          N/A        N/A          N/A        \n"); scienceAPI.write(msg);
-   sprintf(msg,"   start_grain_fill    to end_grain_fill            N/A          N/A        N/A          N/A        \n"); scienceAPI.write(msg);
+
+   sprintf(msg,"Average Stress Indices:                          Water Photo  Water Expan  N Photo\n"); scienceAPI.write(msg);
+   sprintf(msg,"   Emergence           to End of juvenile           %3.1f          %3.1f        %3.1f\n",
+         Min(1.0,divide(water->sumPhotoStressTotal(emergence,endJuv),phenology->sumDaysTotal(emergence,endJuv))),
+         Min(1.0,divide(water->sumExpanStressTotal(emergence,endJuv),phenology->sumDaysTotal(emergence,endJuv))),
+         Min(1.0,divide(nitrogen->sumPhotoStressTotal(emergence,endJuv),phenology->sumDaysTotal(emergence,endJuv))));
+   scienceAPI.write(msg);
+   sprintf(msg,"   End of juvenile     to Floral initiation         %3.1f          %3.1f        %3.1f\n",
+         Min(1.0,divide(water->sumPhotoStressTotal(endJuv,fi),phenology->sumDaysTotal(endJuv,fi))),
+         Min(1.0,divide(water->sumExpanStressTotal(endJuv,fi),phenology->sumDaysTotal(endJuv,fi))),
+         Min(1.0,divide(nitrogen->sumPhotoStressTotal(endJuv,fi),phenology->sumDaysTotal(endJuv,fi))));
+   scienceAPI.write(msg);
+   sprintf(msg,"   Floral initiation   to Flag leaf                 %3.1f          %3.1f        %3.1f\n",
+         Min(1.0,divide(water->sumPhotoStressTotal(fi,flag),phenology->sumDaysTotal(fi,flag))),
+         Min(1.0,divide(water->sumExpanStressTotal(fi,flag),phenology->sumDaysTotal(fi,flag))),
+         Min(1.0,divide(nitrogen->sumPhotoStressTotal(fi,flag),phenology->sumDaysTotal(fi,flag))));
+   scienceAPI.write(msg);
+   sprintf(msg,"   Flag leaf           to Flowering                 %3.1f          %3.1f        %3.1f\n",
+         Min(1.0,divide(water->sumPhotoStressTotal(flag,flowering),phenology->sumDaysTotal(flag,flowering))),
+         Min(1.0,divide(water->sumExpanStressTotal(flag,flowering),phenology->sumDaysTotal(flag,flowering))),
+         Min(1.0,divide(nitrogen->sumPhotoStressTotal(flag,flowering),phenology->sumDaysTotal(flag,flowering))));
+   scienceAPI.write(msg);
+   sprintf(msg,"   Flowering           to Start grain fill          %3.1f          %3.1f        %3.1f\n",
+         Min(1.0,divide(water->sumPhotoStressTotal(flowering,startGrainFill),phenology->sumDaysTotal(flowering,startGrainFill))),
+         Min(1.0,divide(water->sumExpanStressTotal(flowering,startGrainFill),phenology->sumDaysTotal(flowering,startGrainFill))),
+         Min(1.0,divide(nitrogen->sumPhotoStressTotal(flowering,startGrainFill),phenology->sumDaysTotal(flowering,startGrainFill))));
+   scienceAPI.write(msg);
+   sprintf(msg,"   Start grain fill    to End grain fill            %3.1f          %3.1f        %3.1f\n",
+         Min(1.0,divide(water->sumPhotoStressTotal(startGrainFill,endGrainFill),phenology->sumDaysTotal(startGrainFill,endGrainFill))),
+         Min(1.0,divide(water->sumExpanStressTotal(startGrainFill,endGrainFill),phenology->sumDaysTotal(startGrainFill,endGrainFill))),
+         Min(1.0,divide(nitrogen->sumPhotoStressTotal(startGrainFill,endGrainFill),phenology->sumDaysTotal(startGrainFill,endGrainFill))));
+   scienceAPI.write(msg);
 
    sprintf(msg,"\n"); scienceAPI.write(msg);
    sprintf(msg,"Crop harvested.\n"); scienceAPI.write(msg);
@@ -156,6 +180,8 @@ void Plant::onHarvest(void)     // Field a Harvest event
 
    grain->Harvest();
    biomass->Update();
+   nitrogen->Update();
+   phosphorus->Update();
    }
 //------------------------------------------------------------------------------------------------
 //-----------------   end run
@@ -186,25 +212,20 @@ void Plant::onEndCrop(void)     // Field a End crop event
    setStatus(out);
    phenology->setStage(endCrop);
 
-   //Report the crop yield
+   scienceAPI.write("Crop ended.\n");
    char msg[120];
-   float yield = grain->getDmGreen() * gm2kg /sm2ha;
 
-   sprintf(msg, "Crop ended. Yield (dw) = %7.1f kg/ha\n",yield * 10);
-   scienceAPI.write(msg);
-
-   sprintf(msg, "Organic matter from crop:-      Tops to surface residue\t Roots to soil FOM\n");
-   scienceAPI.write(msg);
+   scienceAPI.write("Organic matter from crop:-      Tops to surface residue\t Roots to soil FOM\n");
    sprintf(msg, "                    DM (kg/ha) =              %8.2f\t\t%8.2f\n",
-      biomass->getAboveGroundBiomass() - grain->getDmGreen() * 10.0,roots->getDmGreen() * 10.0);
+      biomass->getAboveGroundBiomass() - grain->getDmGreen() * 10.0,(roots->getDmGreen() + roots->getDmSenesced()) * 10.0);
    scienceAPI.write(msg);
    sprintf(msg, "                    N  (kg/ha) =              %8.2f\t\t%8.2f\n",
-      (leaf->getNGreen() + stem->getNGreen()) * 10.0,roots->getNGreen() * 10);
+      nitrogen->getNStover() * 10.0, (roots->getNGreen() + roots->getNSenesced()) * 10);
    scienceAPI.write(msg);
    if(phosphorus->Active())
       {
       sprintf(msg, "                    P  (kg/ha) =              %8.2f\t\t%8.2f\n",
-      (leaf->getPGreen() + stem->getPGreen()) * 10.0,roots->getPGreen() * 10);
+         phosphorus->getPStover() * 10.0,      (roots->getPGreen() + roots->getPSenesced()) * 10);
       scienceAPI.write(msg);
       }
    else
@@ -218,6 +239,9 @@ void Plant::onEndCrop(void)     // Field a End crop event
    for(unsigned i=0;i < PlantParts.size();i++) PlantParts[i]->initialize ();
    biomass->Harvest();
    biomass->Update();
+   nitrogen->Update();
+   phosphorus->Update();
+
    }
 //------------------------------------------------------------------------------------------------
 void Plant::getPlantStatus(string &result)
@@ -225,4 +249,10 @@ void Plant::getPlantStatus(string &result)
    result = statusString;
    }
 //------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 

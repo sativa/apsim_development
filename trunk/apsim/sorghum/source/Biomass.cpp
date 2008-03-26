@@ -114,7 +114,8 @@ void Biomass::updateVars(void)
    totalBiomass = greenBiomass + sumVector(senescedDM);
 
    aboveGroundGreenBiomass = greenBiomass - plant->roots->getDmGreen();
-   aboveGroundBiomass = (aboveGroundGreenBiomass + sumVector(senescedDM)) * 10.0;  // in kg/ha
+   float aboveGroundSenescedBiomass = sumVector(senescedDM) - plant->roots->getDmSenesced();
+   aboveGroundBiomass = (aboveGroundGreenBiomass + aboveGroundSenescedBiomass) * 10.0;  // in kg/ha
 
    //Calculate harvest index
 
@@ -281,17 +282,15 @@ void Biomass::getBiomass(float &result)
 void Biomass::Summary(void)
    {
    char msg[80];
-   sprintf(msg,"total above ground biomass    (kg/ha) = %.1f\n",aboveGroundBiomass); scienceAPI.write(msg);
-   sprintf(msg,"live above ground biomass     (kg/ha) = %.1f\n",aboveGroundBiomass); scienceAPI.write(msg);
-   sprintf(msg,"green above ground biomass    (kg/ha) = %.1f\n",aboveGroundGreenBiomass*10); scienceAPI.write(msg);
-   sprintf(msg,"senesced above ground biomass (kg/ha) = %.1f\n",aboveGroundBiomass - aboveGroundGreenBiomass*10); scienceAPI.write(msg);
+   sprintf(msg,"Total above ground biomass    (kg/ha) = %.1f\n",aboveGroundBiomass); scienceAPI.write(msg);
+   sprintf(msg,"Green above ground biomass    (kg/ha) = %.1f\n",aboveGroundGreenBiomass * 10); scienceAPI.write(msg);
+   sprintf(msg,"Senesced above ground biomass (kg/ha) = %.1f\n",aboveGroundBiomass - aboveGroundGreenBiomass*10); scienceAPI.write(msg);
    }
 //------------------------------------------------------------------------------------------------
 void Biomass::incorporateResidue(void)
    {
    //Stover + remaining grain into surface residue     called from plantActions doEndCrop
-   float carbon = totalBiomass - plant->roots->getDmGreen() -  plant->roots->getDmSenesced();
-   if(carbon > 0.0)
+   if(aboveGroundBiomass > 0.0)
       {
       // Build surface residues by part
       vector<string> part_name;
@@ -300,7 +299,7 @@ void Biomass::incorporateResidue(void)
       vector<float> dlt_dm_n;                      // N content of changed dry matter (kg/ha)
       vector<float> dlt_dm_p;                      // P content of changed dry matter (kg/ha)
 
-      float fracts[] = {0.0, 1.0, 1.0, 1.0, 1.0};  // No root or grain to residue.
+      float fracts[] = {0.0, 1.0, 1.0, 1.0, 0.0};  // No root or grain to residue.
 
       for (unsigned part = 0; part < plant->PlantParts.size(); part++)
          {
@@ -314,6 +313,12 @@ void Biomass::incorporateResidue(void)
 
          fraction_to_residue.push_back(fracts[part]);
          }
+      dlt_dm_crop[0] = 0.0;
+      dlt_dm_n[0] = 0.0;
+      dlt_dm_p[0] = 0.0;
+      dlt_dm_crop[4] = 0.0;
+      dlt_dm_n[4] = 0.0;
+      dlt_dm_p[4] = 0.0;
 
       Variant chopped;
       pack(chopped, "crop_type",   plant->getCropType());
