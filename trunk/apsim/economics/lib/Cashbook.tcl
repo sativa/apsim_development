@@ -413,9 +413,26 @@ package require tdom
 set doc [dom parse [apsimGetComponentXML]]
 set docroot [$doc documentElement]
 
-set balance [[$docroot selectNodes //balance] text]
-set cashbook:outputfilename [[$docroot selectNodes //outputfilename] text]
-set cashbook:summaryfilename [[$docroot selectNodes //summaryfilename] text]
+set node [lindex [$docroot selectNodes //balance] 0]
+if {$node != {}} {
+   set balance [$node text]
+} else {
+   set balance 0.0
+}
+
+set node [lindex [$docroot selectNodes //outputfilename] 0]
+if {$node != {}} {
+  set cashbook:outputfilename [$node text]
+} else {
+  set cashbook:outputfilename ""
+}
+ 
+set node [lindex [$docroot selectNodes //summaryfilename] 0]
+if {$node != {}} {
+  set cashbook:summaryfilename [$node text]
+} else {
+  set cashbook:summaryfilename ""
+}  
 
 if {${cashbook:outputfilename} != {}} {
    set fp [open ${cashbook:outputfilename} w]
@@ -430,3 +447,5 @@ interim_rainfall,interim_runoff,interim_drainage,\
 interim_soil_loss,NO3_state,fallow_cost,incrop_cost,crop_income,interest_paid,expenditure,income,comment"
    close $fp
 }
+
+puts "     Cashbook initialised. Balance = $balance"
