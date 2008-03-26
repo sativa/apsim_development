@@ -283,27 +283,26 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
 dd/mm/yyyy(Day of year=0), sorghum: 
      Sowing initiate
      
-                      Crop Sowing Data
+                 Row spacing converted from m to mm
+     
+                 Crop Sowing Data
          -------------------------------------------------------
          Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN
-         Day no    mm      m^2    m      code     name       no
+         Day no     mm     m^2    mm     code     name       no
          -------------------------------------------------------
-              1   30.0   10.0    1.0      1.0     early    0.00
+              1    30.0    10.0  1000    1.0     early    0.00
          -------------------------------------------------------
      
       - reading constants for plant(sorghum) - early
          -------------------------------------------------------
-         tpla_prod_coef           =    0.01
+         tpla_prod_coef           =    0.02
          tpla_inflection_ratio    =    0.66
-         spla_prod_coef           =    0.01
-         spla_intercept           =  -250.00
-         spla_slope               =   81.50
-         tt_emerg_to_endjuv       =   97.00
-         tt_flower_to_maturity    =  695.00
-         tt_flag_to_flower        =  100.00
-         tt_flower_to_start_grain =   30.00
+         tt_emerg_to_endjuv       =  114.00
+         tt_flower_to_maturity    =  761.00
+         tt_flag_to_flower        =  170.00
+         tt_flower_to_start_grain =   80.00
          tt_maturity_to_ripe      =    1.00
-         -------------------------------------------------------
+         ------------------------------------------------------
      
      
                             Root Profile
@@ -328,9 +327,9 @@ dd/mm/yyyy(Day of year=0), sorghum:
          ---------------------------------------------------
      
 2 January 1995(Day of year=2), sorghum: 
-      stage 2.0 germination
-     		biomass =   0.00 		 lai =   0.00
-     		stover N conc =   0.00 		 extractable sw =   0.00
+     Stage 2 Germination  DAS = 1
+     		Biomass       =   0.00 		 LAI            =   0.00
+     		Stover N Conc =   0.00 		 Extractable SW =   0.00
 2 January 1995(Day of year=2): 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM  Fatal  Error

@@ -297,13 +297,14 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
      Copyright (C) 1991-1994 The Regents of the University of California.
      Copyright (C) 1996-1997 Sun Microsystems, Inc.
      Copyright (C) 2001      ActiveState.
-     Interpreter name: 'Economics'
+     Top Level Interpreter
      --->Section: init
      
      source $apsuite/apsim/Economics/lib/Cashbook.tcl
      source $apsuite/apsim/Economics/lib/Machinery.tcl
      
      --->End
+     Cashbook initialised. Balance = 42000
      Machinery:
      Tractors=t1
      Implements=p1 p2
