@@ -35,8 +35,10 @@ void Phosphorus::doRegistrations(void)
    scienceAPI.expose("pfact_photo",     "",     "Phosphorus stress factor for photosynthesis", false, photoStress);
    scienceAPI.expose("pfact_grain",     "",     "Phosphorus stress factor for grain",          false, grainStress);
    scienceAPI.expose("p_total_uptake",  "g/m2", "Today's P uptake",                            false, pUptakeTotal);
-   scienceAPI.expose("p_dead",  "g/m2", "p_dead",                            false, p_dead);
+   scienceAPI.expose("p_dead",          "g/m2", "p_dead",                                      false, p_dead);
 
+
+   scienceAPI.expose("BiomassP",        "g/m2", "BiomassP",                                    false, pBiomass);
 
    scienceAPI.exposeFunction("GreenP", "g/m2", "P content of live plant parts", 
                      FloatFunction(&Phosphorus::getPGreen));
@@ -373,15 +375,12 @@ void Phosphorus::getPDead(float &result)
 void Phosphorus::Summary(void)
    {
    char msg[120];
-   sprintf(msg, "grain P percent            =  %8.3f \t grain P uptake     (kg/ha) = %8.3f\n",
-            plant->grain->getPConc() * 100,plant->grain->getPGreen() * 10.0);
-   scienceAPI.write(msg);
-   sprintf(msg, "total P content    (kg/ha) =  %8.3f \t senesced P content (kg/ha) = %8.3f\n",
-            pBiomass * 10.0,sumVector(pSenesced) * 10.0);
-   scienceAPI.write(msg);
-   sprintf(msg, "green P content    (kg/ha) =  %8.3f \n",
-            sumVector(pGreen) * 10.0 - plant->grain->getPGreen() * 10.0);
-   scienceAPI.write(msg);
+   sprintf(msg, "Grain P percent    (%%)     =  %8.2f \t Grain P uptake     (kg/ha) = %8.2f\n",
+            plant->grain->getPConc() * 100,plant->grain->getPGreen() * 10.0); scienceAPI.write(msg);
+   sprintf(msg, "Total P content    (kg/ha) =  %8.2f \t Senesced P content (kg/ha) = %8.2f\n",
+            pBiomass * 10.0,sumVector(pSenesced) * 10.0); scienceAPI.write(msg);
+   sprintf(msg, "Green P content    (kg/ha) =  %8.2f \n",
+            sumVector(pGreen) * 10.0 - plant->grain->getPGreen() * 10.0); scienceAPI.write(msg);
    }
 //------------------------------------------------------------------------------------------------
 //------- React to a newProfile message

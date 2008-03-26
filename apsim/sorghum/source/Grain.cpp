@@ -32,6 +32,7 @@ void Grain::doRegistrations(void)
    scienceAPI.expose("GrainGreenN",     "g/m^2",      "N in grain",               false, nGreen);
    scienceAPI.expose("GrainGreenNConc", "%",          "N concentration in grain", false, nConc);
    scienceAPI.expose("Yield",           "kg/ha",      "Grain yield",              false, yield);
+   scienceAPI.expose("GrainGreenP",     "g/m^2",      "P in live Grain",          false, pGreen);
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
@@ -61,7 +62,7 @@ void Grain::readParams (void)
    pMaxTable.read(scienceAPI, "x_p_stage_code","y_p_conc_max_grain");
    pMinTable.read(scienceAPI, "x_p_stage_code","y_p_conc_min_grain");
    pSenTable.read(scienceAPI, "x_p_stage_code","y_p_conc_sen_grain");
-   scienceAPI.read("p_conc_init_grain", "", 0, initialPConc);
+   scienceAPI.read("p_conc_init_grain", "", 0, initialPConc);   /* TODO : Remove this */
    }
 
 //------------------------------------------------------------------------------------------------
@@ -70,8 +71,8 @@ void Grain::readParams (void)
 void Grain::updateVars(void)
    {
    // initialise P - must be better way
-   if(dmGreen < 1e-5 && dltDmGreen > 0)
-      pGreen = initialPConc * dltDmGreen;
+//   if(dmGreen < 1e-5 && dltDmGreen > 0)
+//      pGreen = initialPConc * dltDmGreen;
 
 
    dmGreen += dltDmGreen;
@@ -212,17 +213,65 @@ float Grain::calcPRetransDemand(void)
 void Grain::Summary(void)
    {
    char msg[120];
-   sprintf(msg,"stover (kg/ha)        = %.1f \t grain yield (kg/ha)     = %.1f\n",
+   sprintf(msg,"Stover (kg/ha)        = %.1f \t Grain yield (kg/ha)     = %.1f\n",
                plant->biomass->getAboveGroundBiomass() - dmGreen * 10.0, dmGreen * 10.0);
    scienceAPI.write(msg);
-   sprintf(msg,"grain %% water content = %.1f \t grain yield wet (kg/ha) = %.1f\n",
+   sprintf(msg,"Grain %% water content = %.1f \t\t Grain yield wet (kg/ha) = %.1f\n",
                waterContent*100,dmGreen * 10.0 * 100 / (100 - waterContent*100));
    scienceAPI.write(msg);
-   sprintf(msg,"grain wt (g)          = %.3f \t 1000grains/m^2          = %.1f\n",
-               grainSize,grainNo);
-   scienceAPI.write(msg);
-   sprintf(msg,"grains/head           = %.1f\n",grainNo / plant->getPlantDensity(),NULL);
+   sprintf(msg,"Weight 1000 grains(g) = %.1f \t\t Grains/m^2              = %.1f\n",
+         grainSize, grainNo);scienceAPI.write(msg);
+   sprintf(msg,"Grains/head           = %.1f\n",grainNo / plant->getPlantDensity());
    scienceAPI.write(msg);
   }
 //------------------------------------------------------------------------------------------------
+void  Grain::Harvest(void)
+   {
+   // send crop_chopped
+   if(dmGreen > 0)
+      {
+      // Build surface residues by part
+      vector<string> part_name;
+      vector<float> fraction_to_residue;           // fraction sent to residue (0-1)
+      vector<float> dlt_dm_crop;                   // change in dry matter of crop (kg/ha)
+      vector<float> dlt_dm_n;                      // N content of changed dry matter (kg/ha)
+      vector<float> dlt_dm_p;                      // P content of changed dry matter (kg/ha)
+
+      float fracts[] = {0.0, 0.0, 0.0, 0.0, 0.0};  // No root or grain to residue.
+
+      for (unsigned part = 0; part < plant->PlantParts.size(); part++)
+         {
+         part_name.push_back(plant->PlantParts[part]->getName());
+         if(part < 4)
+            {
+            dlt_dm_crop.push_back(0.0);
+            dlt_dm_n.push_back(0.0);
+            dlt_dm_p.push_back(0.0);
+            }
+         else
+            {
+            dlt_dm_crop.push_back((plant->PlantParts[part]->getDmGreen() +
+                  plant->PlantParts[part]->getDmSenesced()) * gm2kg/sm2ha);
+            dlt_dm_n.push_back((plant->PlantParts[part]->getNGreen() +
+                  plant->PlantParts[part]->getNSenesced()) * gm2kg/sm2ha);
+            dlt_dm_p.push_back((plant->PlantParts[part]->getPGreen() +
+                  plant->PlantParts[part]->getPSenesced()) * gm2kg/sm2ha);
+            }
+
+         fraction_to_residue.push_back(fracts[part]);
+         }
+
+      Variant chopped;
+      pack(chopped, "crop_type",   plant->getCropType());
+      pack(chopped, "dm_type",     part_name);
+      pack(chopped, "dlt_crop_dm", dlt_dm_crop);
+      pack(chopped, "dlt_dm_n",    dlt_dm_n);
+      pack(chopped, "dlt_dm_p",    dlt_dm_p);
+      pack(chopped, "fraction_to_residue", fraction_to_residue);
+
+
+      scienceAPI.publish ("crop_chopped", chopped); 
+      }
+   initialize();
+   }
 

@@ -28,6 +28,7 @@ void Rachis::doRegistrations(void)
    scienceAPI.expose("RachisGreenWt",    "g/m^2", "Live rachis dry weight", false, dmGreen);
    scienceAPI.expose("RachisGreenN",     "g/m^2", "N in rachis",            false, nGreen);
    scienceAPI.expose("RachisGreenNConc", "%",     "Flower N concentration", false, nConc);
+   scienceAPI.expose("RachisGreenP",     "g/m^2" ,"P in live rachis",       false, pGreen);
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables

@@ -98,6 +98,9 @@ class Phenology : public PlantProcess
 
    void Summary(void);
    string returnStageName(void)const{ return stageName;}
+
+   // phenology
+   void  phenologyEvent(int){};
    };
 
 #endif

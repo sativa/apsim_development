@@ -40,6 +40,7 @@ void Roots::doRegistrations(void)
    scienceAPI.expose("RootNDemand"   ,"g/m^2" ,"Today's N demand from roots", false, nDemand);
    scienceAPI.exposeFunction("RootProportion", "0-1", "Root proportion in layers",
                     FloatArrayFunction(&Roots::getRP));
+   scienceAPI.expose("RootGreenP"    ,"g/m^2" ,"P in live root",              false, pGreen);
    }
 //------------------------------------------------------------------------------------------------
 //------- React to a newProfile message
@@ -128,6 +129,15 @@ void Roots::phenologyEvent(int stage)
          dmGreen = initialDM * plant->getPlantDensity();
          nGreen = initialNConc * dmGreen;
          pGreen = initialPConc * dmGreen;
+         ExternalMassFlowType EMF;
+         EMF.PoolClass = "crop";
+         EMF.FlowType = "gain";
+         EMF.DM = 0.0;
+         EMF.N  = nGreen * gm2kg/sm2ha;
+         EMF.P  = pGreen * gm2kg/sm2ha;
+         EMF.C = 0.0; // ?????
+         EMF.SW = 0.0;
+         scienceAPI.publish("ExternalMassFlow", EMF);
          break;
       }
    }

@@ -58,7 +58,7 @@ class Grain : public PlantPart
    float partitionDM(float dltDM);
    float grainDMDifferential(void);
    void  dmRetrans(float dltDm){dmRetranslocate = dltDm;}
-   void  Harvest(void) {initialize();}
+   void  Harvest(void);
 
    // nitrogen
    float getNConc(void)const{return nConc;}

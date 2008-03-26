@@ -146,7 +146,6 @@ void Phenology::development(void)
    // calculate daily thermal times
    calcThermalTimes(&plant->today);
 
-
    // allow stresses to affect flowering
    calcStressesTT();
 
@@ -162,13 +161,12 @@ void Phenology::development(void)
    accumulate (1.0, daysTotal, previousStage, dltStage);
    stageName = stageNames[(int)stage];
 
-
    ttCurrStage = ttTotal[(int)stage];
 
    if(!isEqual((int)previousStage,(int)stage))        // new stage
       {
       char msg[120];
-      sprintf(msg, " stage %.1lf %s\n",stage,stageName.c_str());
+      sprintf(msg, "Stage %.0lf %s  DAS = %d\n",stage,convertName(stageName).c_str(),plant->das);
       scienceAPI.write(msg);
 
       // send message to plant parts
@@ -177,6 +175,11 @@ void Phenology::development(void)
          {
          plant->PlantParts[i]->phenologyEvent(stage);
          }
+      for(unsigned i=0;i < plant->PlantProcesses.size();i++)
+         {
+         plant->PlantProcesses[i]->phenologyEvent(stage);
+         }
+
       plant->phenologyEvent(stage);
 
       //update report vars
@@ -368,10 +371,10 @@ void Phenology::getPhaseTT(vector<float> &result)
 void Phenology::Summary(void)
    {
    char msg[120];
-   sprintf(msg,"flowering (DAS)       = %.0d \t maturity (DAS)          = %.0d\n",
+   sprintf(msg,"Flowering (DAS)       = %.0d \t\t Maturity (DAS)          = %.0d\n",
                                floweringDAS, maturityDAS);
    scienceAPI.write(msg);
-   sprintf(msg,"flowering day         = %.0d \t maturity day            = %.0d\n",
+   sprintf(msg,"Flowering day         = %.0d \t\t Maturity day            = %.0d\n",
                               floweringDOY, maturityDOY);
    scienceAPI.write(msg);
    }

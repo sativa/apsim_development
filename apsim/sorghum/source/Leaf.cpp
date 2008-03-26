@@ -44,6 +44,7 @@ void Leaf::doRegistrations(void)
    scienceAPI.expose("DeltaLeafGreenN","g/m^2", "Daily N increase in leaves",      false, dltNGreen);
    scienceAPI.expose("DeltaLeafNo",    "lvs/d", "Fraction of oldest leaf expanded",false, dltLeafNo);
    scienceAPI.expose("ExtinctionCoef", "()",    "Light Extinction coefficient",    false, extinctionCoef);
+   scienceAPI.expose("LeafGreenP",     "g/m^2" ,"P in live leaf",                  false, pGreen);
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
@@ -175,7 +176,6 @@ void Leaf::updateVars(void)
    nGreen += (dltNGreen +  dltNRetranslocate - dltNSenesced);
    dltNSenesced = 0.0;
 
-
    // leaf area
    if(lai < 0.001)lai = 0.0;
    lai += dltLAI;
@@ -186,24 +186,15 @@ void Leaf::updateVars(void)
    spla = sLai / density * 10000;
    tpla = gpla + spla;
 
-   dltSlaiN = 0.0;
-   dltSlai = 0.0;
-
    SLN = divide(nGreen,lai,0);
    nConc = divide(nGreen,dmGreen,0);
-   // leaf dm senesced returns N to rest of leaf
-   //   nGreen += dltNGreen + dltNSenesced;// + dltNRetranslocate;
 
    // phenology
    stage = plant->phenology->currentStage();
 
    dmTotal = dmGreen + dmSenesced;
-
    maxLai = Max(lai,maxLai);
-
    calcCover();
-
-
    }
 //------------------------------------------------------------------------------------------------
 void Leaf::process(void)
@@ -216,6 +207,7 @@ void Leaf::process(void)
 //------------------------------------------------------------------------------------------------
 void Leaf::phenologyEvent(int iStage)
    {
+   ExternalMassFlowType EMF;
    switch (iStage)
       {
       case emergence :
@@ -226,6 +218,14 @@ void Leaf::phenologyEvent(int iStage)
          SLN = initialSLN;
          nGreen = SLN * lai;
          pGreen = initialPConc * dmGreen;
+         EMF.PoolClass = "crop";
+         EMF.FlowType = "gain";
+         EMF.DM = 0.0;
+         EMF.N  = nGreen * gm2kg/sm2ha;
+         EMF.P  = pGreen * gm2kg/sm2ha;
+         EMF.C = 0.0; // ?????
+         EMF.SW = 0.0;
+         scienceAPI.publish("ExternalMassFlow", EMF);
          break;
       case flag :                   // limit target sln to sln at flag
          targetSLN = SLN;
@@ -279,14 +279,15 @@ void Leaf::areaActual(void)
    if(stage >= endJuv && stage < maturity)
       dltLAI = Min(dltStressedLAI,dltDmGreen * slaMax * smm2sm);
    else dltLAI = dltStressedLAI;
-   if (dltLAI < 0.001)dltLAI = 0.0;
    }
-
 //------------------------------------------------------------------------------------------------
 //------- calc senesced leaf area
 //------------------------------------------------------------------------------------------------
 void Leaf::senesceArea(void)
    {
+   dltSlaiN = 0.0;
+   dltSlai = 0.0;
+
    // NOTE: age senescence removed when new nitrogen routines added GMcL 1/08
    maxLaiPossible = lai + sLai;
    if(stage >= fi && stage < flag)
@@ -549,7 +550,7 @@ void Leaf::calcTplaMax(void)
 //------------------------------------------------------------------------------------------------
 float Leaf::calcDltPotentialTPLA(void)
    {
-   // need to ramp the dltPotTPLA for the first 60Cd because the function evaluates to approx 2000
+   // need to ramp the dltPotTPLA for the first 80Cd because the function evaluates to approx 2000
    // when ttElapsed = 0
    float ttTPLAPhase = plant->phenology->sumTTtarget(emergence,flag);
    float ttElapsed   = plant->phenology->sumTTtotal (emergence,flag);
@@ -695,7 +696,7 @@ float Leaf::calcPDemand(void)
 void Leaf::Summary(void)
    {
    char msg[120];
-   sprintf(msg,"maximum lai           = %.3f \t number of leaves        = %.3f\n",
+   sprintf(msg,"Maximum LAI           = %.1f \t\t Number of leaves        = %.1f\n",
             maxLai,nLeaves);
    scienceAPI.write(msg);
    }

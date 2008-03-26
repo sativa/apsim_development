@@ -63,6 +63,11 @@ class Water : public PlantProcess
 
    float rootDepth;
 
+   vector<float> photoStressTotal;
+   vector<float> phenoStressTotal;
+   vector<float> expanStressTotal;
+
+   
 // Private Methods -------------------------------------------------------
    void  doRegistrations(void);
    void  initialize(void);
@@ -81,9 +86,6 @@ class Water : public PlantProcess
    // plant
    Water(ScienceAPI &, Plant *p);
    ~Water();
-
-   vector<float> photoStressTotal;
-   vector<float> phenoStressTotal;
 
    // plant
    void  calcDailySupply(void);
@@ -123,6 +125,11 @@ class Water : public PlantProcess
 
    float getESW(void){return sumVector(esw);}
    float getESWAvail(void)const{return totalAvail;}
+   float sumPhotoStressTotal(int from, int to);
+   float sumExpanStressTotal(int from, int to);
+
+   // phenology
+   void  phenologyEvent(int){};
    };
 
 

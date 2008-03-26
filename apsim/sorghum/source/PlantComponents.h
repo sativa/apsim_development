@@ -142,7 +142,8 @@ class PlantProcess : public PlantComponent
    private:
 
    public:
-    PlantProcess(ScienceAPI &api) : PlantComponent(api) {};
+   PlantProcess(ScienceAPI &api) : PlantComponent(api) {};
+   virtual void  phenologyEvent(int) = 0;
 
    // variables
    };

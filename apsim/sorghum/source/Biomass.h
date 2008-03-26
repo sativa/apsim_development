@@ -83,6 +83,9 @@ class Biomass : public PlantProcess
    void  Harvest(void) {initialize();}
 
    void  Summary(void);
+   
+   // phenology
+   void  phenologyEvent(int){};
 };
 
 #endif
