@@ -1,0 +1,8 @@
+# (Borlandish) Makefile for apsim correl module
+MAKE=$(MAKEDIR)\make
+
+all: source 
+
+source:
+	cd source
+	$(APSMAKE)  source

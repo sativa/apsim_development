@@ -1,0 +1,1331 @@
+<types>
+
+
+   !!!!! CROP types !!!!!
+
+   <type name="crop_type" kind="string" unit="" description="Name of the crop "/>
+   <type name="stage_names" kind="string" array="T" unit="" description="Name of the developmental stages"/>
+   <type name="stage_code" kind="single" array="T" unit="" description="Code of the developmental stages"/>
+   <type name="zadok_stage" kind="single" array="T" unit="" description="zadok decimal code - optional"/>
+   <type name="co2level" kind="single" unit="ppm" description="CO2 concentration in ambient air -optional"/>
+   <type name="co2_level_te" kind="single" array="T" unit="ppm" description="CO2 concentration - optional"/>
+   <type name="te_co2_modifier" kind="single" array="T" unit="-" description="modifier of CO2 on transpiration efficiency - optional"/>
+   <type name="co2_level_nconc" kind="single" array="T" unit="READ" description="CO2 concentration  - optional                                (ppm)"/>
+   <type name="nconc_co2_modifier" kind="single" array="T" unit="-" description="modifier of CO2 on leaf critical N concentration - optional"/>
+   <type name="pesw_germ" kind="single" unit="mm/mm" description="Plant extractable soil water in seedling layer inadequate for germination"/>
+   <type name="shoot_lag" kind="single" unit="Cd" description="Minimum growing degree days for germination"/>
+   <type name="shoot_rate" kind="single" unit="Cd/mm" description="Growing deg day increase with depth for germination"/>
+   <type name="fasw_emerg" kind="single" array="T" unit="" description="Fraction available soil water in seed layer during emergence - optional"/>
+   <type name="rel_emerg_rate" kind="single" array="T" unit="" description="Stress factor for TT calculation between germinatn and emergence-optional"/>
+   <type name="twilight" kind="single" unit="deg" description="Twilight in angular distance between sunset and end of twilight"/>
+   <type name="x_temp" kind="single" array="T" unit="C" description="Air temperature"/>
+   <type name="y_tt" kind="single" array="T" unit="Cd" description="Effective thermal time at given temperature"/>
+   <type name="leaf_no_seed" kind="single" unit="leaves" description="Number of leaf primordia present in seed at emergence"/>
+   <type name="leaf_no_at_emerg" kind="single" unit="" description="(Expanded) leaf number at emergence"/>
+   <type name="leaf_no_min" kind="single" unit="leaves" description="Minimum leaf number of the main stem"/>
+   <type name="leaf_no_max" kind="single" unit="leaves" description="Maximum leaf number of the main stem"/>
+   <type name="leaf_app_rate1" kind="single" unit="Cd" description="Growing deg day required to develop the most leaf ligules"/>
+   <type name="leaf_app_rate2" kind="single" unit="Cd" description="Growing deg day required to develop last leaf ligules"/>
+   <type name="leaf_no_rate_change" kind="single" unit="" description="Leaf no below flag above which leaf_app_rate changes from rate1 to rate2"/>
+   <type name="rue" kind="single" array="T" unit="g/MJ" description="Radiation use efficiency in different stages"/>
+   <type name="x_ave_temp" kind="single" array="T" unit="C" description="Cardinal temperature for RUE"/>
+   <type name="y_stress_photo" kind="single" array="T" unit="" description="Relative effect of temperature on RUE"/>
+   <type name="dm_leaf_init" kind="single" unit="g/plant" description="leaf weight at emergence"/>
+   <type name="dm_root_init" kind="single" unit="g/plant" description="root weight at emergence"/>
+   <type name="dm_stem_init" kind="single" unit="g/plant" description="stem weight at emergence"/>
+   <type name="start_grainno_dm_stage" kind="integer4" unit="" description="stage starting dm accumulation for grain number determination - optional"/>
+   <type name="end_grainno_dm_stage" kind="integer4" unit="" description="stage ending dm accumulation for grain number determination - optional"/>
+   <type name="start_retrans_dm_stage" kind="integer4" unit="" description="stage starting accumulation of biomass available for retranslocation -optional"/>
+   <type name="end_retrans_dm_stage" kind="integer4" unit="" description="stage ending accumulation of biomass available for retranslocation - optional"/>
+   <type name="stem_trans_frac" kind="single" unit="" description="fraction of stem used in translocation to grain"/>
+   <type name="leaf_trans_frac" kind="single" unit="" description="fraction of leaf used in translocation to grain"/>
+   <type name="ratio_root_shoot" kind="single" array="T" unit="" description="Biomass root/shoot ratio in different stages"/>
+   <type name="grn_water_cont" kind="single" unit="g/g" description="water content of grain"/>
+   <type name="x_shoot_nc_trans" kind="single" array="T" unit="g/g" description="nitrogen concentration of the stover - optional"/>
+   <type name="y_stem_trans_frac" kind="single" array="T" unit="" description="fraction of stem biomass for retranlsocation to grain - optional"/>
+   <type name="sla_min" kind="single" unit="mm^2/g" description="minimum specific leaf area for new leaf area"/>
+   <type name="sla_max" kind="single" unit="mm^2/g" description="maximum specific leaf area"/>
+   <type name="initial_tpla" kind="single" unit="mm^2/plant" description="initial total plant leaf area"/>
+   <type name="root_depth_rate" kind="single" array="T" unit="mm/day" description="root front velocity"/>
+   <type name="x_temp_root" kind="single" array="T" unit="C" description="daily average air temperature - optional"/>
+   <type name="y_temp_root_fac" kind="single" array="T" unit="" description="temperature effect on root depth rate as a multiplier - optional"/>
+   <type name="x_ws_root" kind="single" array="T" unit="" description="water supply/demand ratio - optional"/>
+   <type name="y_ws_root_fac" kind="single" array="T" unit="" description="effect of supply/demand ratio on root depth rate - optional"/>
+   <type name="x_sw_ratio" kind="single" array="T" unit="" description="water availability for effects on root depth growth"/>
+   <type name="y_sw_fac_root" kind="single" array="T" unit="" description="water stress factor for root depth growth"/>
+   <type name="specific_root_length" kind="single" unit="mm/g" description="specific length of roots"/>
+   <type name="x_plant_rld" kind="single" array="T" unit="mm/mm3/plant" description="root branching factor"/>
+   <type name="y_rel_root_rate" kind="single" array="T" unit="" description="effect of root branching on root depth rate"/>
+   <type name="transp_eff_cf" kind="single" array="T" unit="kpa/g/m^2/ mm water" description="Coefficient for calculating transpiration efficiency"/>
+   <type name="svp_fract" kind="single" unit="" description="Fraction factor for calculating daily VPD"/>
+   <type name="x_sw_demand_ratio" kind="single" array="T" unit="" description="soil water supply/demand ratio"/>
+   <type name="y_swdef_leaf" kind="single" array="T" unit="" description="water stress indices for photosynthesis"/>
+   <type name="x_sw_avail_ratio" kind="single" array="T" unit="" description="soil water water availability"/>
+   <type name="y_swdef_pheno" kind="single" array="T" unit="" description="water stress indices for phenology"/>
+   <type name="x_sw_avail_ratio_tiller" kind="single" array="T" unit="" description="soil water water availability - optional"/>
+   <type name="y_swdef_tiller" kind="single" array="T" unit="" description="water stress indices for tillering - optional"/>
+   <type name="n_supply_preference" kind="string" unit="" description="nitrogen supply preference"/>
+   <type name="no3_diffn_const" kind="single" unit="days" description="Time constant for N uptake by diffusion"/>
+   <type name="x_fract_avail_sw" kind="single" array="T" unit="" description="fraction available soil water - optional"/>
+   <type name="y_fact_diffn_const" kind="single" array="T" unit="" description="multiplier on diffusion constant as an effect of soil water availability - optional"/>
+   <type name="n_fix_rate" kind="single" array="T" unit="" description="N fixation rate in different stages"/>
+   <type name="N_fact_photo" kind="single" unit="" description="multiplier for N deficit effect on photosynthesis"/>
+   <type name="N_fact_expansion" kind="single" unit="" description="multiplier for N deficit effect on leaf expansion"/>
+   <type name="N_fact_pheno" kind="single" unit="" description="multiplier for N deficit effect on phenology"/>
+   <type name="x_stage_code" kind="single" array="T" unit="" description="stage code for n concentration limits"/>
+   <type name="y_n_conc_min_leaf" kind="single" array="T" unit="g/g" description="minimum leaf N concentations"/>
+   <type name="y_n_conc_crit_leaf" kind="single" array="T" unit="g/g" description="critical leaf N concentrations"/>
+   <type name="y_n_conc_max_leaf" kind="single" array="T" unit="g/g" description="maximum leaf N concentrations"/>
+   <type name="y_n_conc_min_stem" kind="single" array="T" unit="g/g" description="minimum stem N concentations"/>
+   <type name="y_n_conc_crit_stem" kind="single" array="T" unit="g/g" description="critical stem N concentrations"/>
+   <type name="y_n_conc_max_stem" kind="single" array="T" unit="g/g" description="maximum stem N concentrations"/>
+   <type name="y_n_conc_min_flower" kind="single" array="T" unit="g/g" description="minimum flower N concentations"/>
+   <type name="y_n_conc_crit_flower" kind="single" array="T" unit="g/g" description="critical flower N concentrations"/>
+   <type name="y_n_conc_max_flower" kind="single" array="T" unit="g/g" description="maximum flower N concentrations"/>
+   <type name="y_n_conc_min_root" kind="single" array="T" unit="g/g" description="minimum root N concentations"/>
+   <type name="y_n_conc_crit_root" kind="single" array="T" unit="g/g" description="critical root N concentrations"/>
+   <type name="y_n_conc_max_root" kind="single" array="T" unit="g/g" description="maximum root N concentrations"/>
+   <type name="n_conc_min_grain" kind="single" unit="g/g" description="minimum grain N concentation"/>
+   <type name="n_conc_crit_grain" kind="single" unit="g/g" description="critical grain N concentration"/>
+   <type name="n_conc_max_grain" kind="single" unit="g/g" description="maximum grain N concentration"/>
+   <type name="n_init_conc" kind="single" array="T" unit="g/g" description="initial n concentration for root leaf stem and flower and grain"/>
+   <type name="n_sen_conc" kind="single" array="T" unit="g/g" description="n concentration in senesced plant organs for root leaf stem and flower and grain"/>
+   <type name="dm_root_sen_frac" kind="single" unit="" description="fraction of root dry matter senesced each day"/>
+   <type name="dm_leaf_sen_frac" kind="single" unit="0-1" description="fraction of senescing leaf dry matter remaining in leaf"/>
+   <type name="dm_leaf_detach_frac" kind="single" unit="" description="fraction of senesced leaf detached each day from live plants"/>
+   <type name="dead_detach_frac" kind="single" array="T" unit="" description="fraction detached from each part of a dead plant per day for root leaf stem flower and grain"/>
+   <type name="leaf_no_crit" kind="single" unit="" description="critical number of leaves below which portion of the crop may die due to water stress"/>
+   <type name="tt_emerg_limit" kind="single" unit="leaves" description="maximum degree days allowed for emergence to take place"/>
+   <type name="swdf_photo_limit" kind="single" unit="" description="critical cumulative photosynthesis water stress above which the crop partly fails"/>
+   <type name="swdf_photo_rate" kind="single" unit="" description="rate of plant reduction with photosynthesis water stress"/>
+   <type name="x_weighted_temp" kind="single" array="T" unit="C" description="temperature for plant death"/>
+   <type name="y_plant_death" kind="single" array="T" unit="" description="relative death rate caused by high temperature"/>
+   <type name="uptake_source" kind="string" unit="" description="switch for source of water and N uptake"/>
+   <type name="ll" kind="single" array="T" unit="%" lower_bound="0.0" upper_bound="1000.0" description="lower limit of plant-extractable soil water"/>
+   <type name="kl" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="0.1" description="root length density factor for water"/>
+   <type name="xf" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="root exploration factor (0-1)"/>
+   <type name="canopy_height_max" kind="single" unit="mm" description="upper limit for canopy height"/>
+   <type name="ll_ub" kind="single" unit="" description="upper limit of lower limit"/>
+   <type name="kl_ub" kind="single" unit="" description="upper limit of water uptake factor"/>
+   <type name="minsw" kind="single" unit="" description="lowest acceptable value for ll"/>
+   <type name="year_ub" kind="single" unit="" description="year upper limit"/>
+   <type name="year_lb" kind="single" unit="" description="year lower limit"/>
+   <type name="latitude_ub" kind="single" unit="oL" description="latitude upper limit"/>
+   <type name="latitude_lb" kind="single" unit="oL" description="latitude lower limit"/>
+   <type name="maxt_ub" kind="single" unit="oC" description="max. temperature upper limit"/>
+   <type name="maxt_lb" kind="single" unit="oC" description="max. temperature lower limit"/>
+   <type name="mint_ub" kind="single" unit="oC" description="min. temperature upper limit"/>
+   <type name="mint_lb" kind="single" unit="oC" description="min. temperature lower limit"/>
+   <type name="radn_ub" kind="single" unit="MJ/m^2" description="radiation upper limit"/>
+   <type name="radn_lb" kind="single" unit="MJ/m^2" description="radiation lower limit"/>
+   <type name="dlayer_ub" kind="single" unit="mm" description="layer depth upper limit"/>
+   <type name="dlayer_lb" kind="single" unit="mm" description="layer depth lower limit"/>
+   <type name="sat_dep_ub" kind="single" unit="mm" description="saturated water content upper limit"/>
+   <type name="sat_dep_lb" kind="single" unit="mm" description="saturated water content upper limit"/>
+   <type name="dul_dep_ub" kind="single" unit="mm" description="drained upper limit upper limit"/>
+   <type name="dul_dep_lb" kind="single" unit="mm" description="drained upper limit lower limit"/>
+   <type name="sw_dep_ub" kind="single" unit="mm" description="soil water upper limit"/>
+   <type name="sw_dep_lb" kind="single" unit="mm" description="soil water lower limit"/>
+   <type name="no3_ub" kind="single" unit="kg/ha" description="soil nitrate upper limit"/>
+   <type name="no3_lb" kind="single" unit="kg/ha" description="soil nitrate lower limit"/>
+   <type name="no3_min_ub" kind="single" unit="kg/ha" description="min. soil nitrate upper limit"/>
+   <type name="no3_min_lb" kind="single" unit="kg/ha" description="min. soil nitrate lower limit"/>
+   <type name="nh4_ub" kind="single" unit="kg/ha" description="soil nitrate upper limit"/>
+   <type name="nh4_lb" kind="single" unit="kg/ha" description="soil nitrate lower limit"/>
+   <type name="nh4_min_ub" kind="single" unit="kg/ha" description="min. soil nitrate upper limit"/>
+   <type name="nh4_min_lb" kind="single" unit="kg/ha" description="min. soil nitrate lower limit"/>
+   <type name="x_stem_wt" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="plant weights"/>
+   <type name="Y_height" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="5000.0" description="plant heights for above weights"/>
+   <type name="extinct_coeff" kind="single" unit="" description="extinction coefficient"/>
+   <type name="radn_int" kind="single" unit="MJ/m^2/d" description="radiation"/>
+   <type name="rue_day" kind="single" unit="g/MJ" description="radiation use efficiency"/>
+   <type name="das_int" kind="integer4" unit="days" description="days after sowing"/>
+   <type name="dc_stage" kind="integer4" unit="" description="current stage"/>
+   <type name="dlt_tt_fm" kind="single" unit="oCd" description=""/>
+   <type name="tt_tot_fm" kind="single" array="T" unit="oC" description=""/>
+   <type name="leaf_area" kind="single" array="T" unit="" description="leaf area"/>
+   <type name="dlt_lai_pot" kind="single" unit="m^2/m^2" description=""/>
+   <type name="dlt_lai_stressed" kind="single" unit="m^2/m^2" description=""/>
+   <type name="tiller_tt_tot" kind="single" unit="Cd" description=""/>
+   <type name="dlt_slai_age" kind="single" unit="m^2/m^2" description=""/>
+   <type name="dlt_slai_light" kind="single" unit="m^2/m^2" description=""/>
+   <type name="dlt_slai_water" kind="single" unit="m^2/m^2" description=""/>
+   <type name="dlt_slai_nitrogen" kind="single" unit="m^2/m^2" description=""/>
+   <type name="leaf_part" kind="single" unit="" description=""/>
+   <type name="stem_part" kind="single" unit="" description=""/>
+   <type name="grain_part" kind="single" unit="" description=""/>
+   <type name="root_part" kind="single" unit="" description=""/>
+   <type name="dlt_dm_senesced" kind="single" array="T" unit="g/m^2" description=""/>
+   <type name="no3_massflow_uptake" kind="single" unit="g/m^2" description=""/>
+   <type name="nh4_massflow_uptake" kind="single" unit="g/m^2" description=""/>
+   <type name="no3_diffusion_uptake" kind="single" unit="g/m^2" description=""/>
+   <type name="nh4_diffusion_uptake" kind="single" unit="g/m^2" description=""/>
+   <type name="no3_total_uptake" kind="single" unit="g/m^2" description=""/>
+   <type name="nh4_total_uptake" kind="single" unit="g/m^2" description=""/>
+   <type name="no3_uptake" kind="single" array="T" unit="kg/ha" description=""/>
+   <type name="nh4_uptake" kind="single" array="T" unit="kg/ha" description=""/>
+   <type name="hi_n" kind="single" unit="" description=""/>
+   <type name="n_conc_flower_crit" kind="single" unit="%" description=""/>
+   <type name="n_conc_flower_max" kind="single" unit="%" description=""/>
+   <type name="n_conc_flower_min" kind="single" unit="%" description=""/>
+   <type name="grain_protein" kind="single" unit="%" description=""/>
+   <type name="pfact_photo" kind="single" unit="" description=""/>
+   <type name="pfact_pheno" kind="single" unit="" description=""/>
+   <type name="pfact_expan" kind="single" unit="" description=""/>
+   <type name="p_demand" kind="single" unit="g/m^2" description=""/>
+   <type name="plant_p" kind="single" unit="g/m^2" description=""/>
+   <type name="biomass_p" kind="single" unit="g/m^2" description=""/>
+   <type name="plant_p_max" kind="single" unit="g/m^2" description=""/>
+   <type name="pconc_max" kind="single" unit="g/m^2" description=""/>
+   <type name="pconc" kind="single" unit="%" description=""/>
+   <type name="stage_name" kind="string" unit="" description="full names of stages for reporting"/>
+   <type name="today_stage_code" kind="single" unit="" description="todays stage code"/>
+   <type name="today_zadok_stage" kind="integer4" unit="" description="todays zadok decimal code"/>
+   <type name="plant_status" kind="string" unit="" description="status of crop"/>
+   <type name="das" kind="integer4" unit="days" description="Days after sowing"/>
+   <type name="dlt_stage" kind="single" unit="" description="change in stage number"/>
+   <type name="stage" kind="single" unit="" description="current phenological stage"/>
+   <type name="dlt_tt" kind="single" unit="oCd" description="daily thermal time"/>
+   <type name="tt_tot" kind="single" array="T" unit="oCd" description="The sum of growing degree days for a phenological stage"/>
+   <type name="tt_sum" kind="single" unit="oCd" description="The sum of growing degree days for the current stage"/>
+   <type name="Days_tot" kind="single" array="T" unit="" description="duration of each phase (days)"/>
+   <type name="phase_tt" kind="single" array="T" unit="oCd" description="Cumulative growing degree days required for each stage"/>
+   <type name="Flowering_date" kind="integer4" unit="doy" description="flowering day number"/>
+   <type name="maturity_date" kind="integer4" unit="doy" description="maturity day number"/>
+   <type name="Flowering_das" kind="integer4" unit="days" description="Days to flowering"/>
+   <type name="maturity_das" kind="integer4" unit="days" description="Days to maturity"/>
+   <type name="leaf_primodia" kind="single" unit="primodia" description="Number of leaf promodia initiated"/>
+   <type name="leaf_no_final" kind="single" unit="leaves" description="Final main stem leaf no"/>
+   <type name="leaf_no" kind="single" unit="leaves" description="Number of fully expanded leaves within a stage"/>
+   <type name="dlt_leaf_no" kind="single" unit="lvs/d" description="Fraction of oldest leaf expanded"/>
+   <type name="leaf_no_dead" kind="single" array="T" unit="leaves" description="no of dead leaves"/>
+   <type name="cover_green" kind="single" unit="0-1" description="Fraction of radiation intercepted by the green leaves"/>
+   <type name="cover_tot" kind="single" unit="0-1" description="Total crop cover fraction"/>
+   <type name="lai" kind="single" unit="m^2/m^2" description="Live plant green lai"/>
+   <type name="lai_sum" kind="single" unit="m^2/m^2" description="Leaf area index of all leaf material live + senesced + dead"/>
+   <type name="lai_max" kind="single" unit="m^2/m^2" description="Maximum LAI reached during the growing season"/>
+   <type name="tlai" kind="single" unit="m^2/m^2" description="Live plus senesced LAI"/>
+   <type name="slai" kind="single" unit="m^2/m^2" description="Area of senesced leaf"/>
+   <type name="tlai_dead" kind="single" unit="m^2/m^2" description="Total lai of dead plants"/>
+   <type name="sla" kind="single" unit="mm2/g" description="Specific leaf area"/>
+   <type name="dlt_lai" kind="single" unit="m^2/m^2" description="Leaf area growth rate"/>
+   <type name="dlt_slai" kind="single" unit="m^2/m^2" description="Leaf area senescence rate"/>
+   <type name="plants" kind="single" unit="plants/m^2" description="Plant density"/>
+   <type name="height" kind="single" unit="mm" description="Canopy height"/>
+   <type name="tiller_no" kind="single" unit="tillers/plant" description="no of tillers on mainstem"/>
+   <type name="tiller_no_fertile" kind="single" unit="tillers/plant" description="no of tillers that produce a head"/>
+   <type name="grain_no" kind="single" unit="grains/m2" description="Grain number"/>
+   <type name="grain_size" kind="single" unit="g/grain" description="Individual grain wt"/>
+   <type name="root_depth" kind="single" unit="mm" description="Depth of roots"/>
+   <type name="root_length" kind="single" array="T" unit="mm" description="root length in rooted soil layers"/>
+   <type name="rlv" kind="single" array="T" unit="mm/mm3" description="Root length density in layers"/>
+   <type name="leaf_wt" kind="single" unit="g/m^2" description="live leaf dry weight"/>
+   <type name="stem_wt" kind="single" unit="g/m^2" description="live stem dry weight"/>
+   <type name="flower_wt" kind="single" unit="g/m^2" description="live flower dry weight"/>
+   <type name="grain_wt" kind="single" unit="g/m^2" description="live grain dry weight"/>
+   <type name="root_wt" kind="single" unit="g/m^2" description="Live root dry weight"/>
+   <type name="stem_flower_wt" kind="single" unit="g/m^2" description="Weight of stem and flower"/>
+   <type name="biomass_wt" kind="single" unit="g/m^2" description="total above-ground biomass"/>
+   <type name="green_biomass_wt" kind="single" unit="g/m^2" description="total above-ground live biomass"/>
+   <type name="stover_wt" kind="single" unit="g/m^2" description="Stover biomass weight"/>
+   <type name="dleaf_wt" kind="single" unit="g/m^2" description="dead leaf dry weight"/>
+   <type name="tleaf_wt" kind="single" unit="g/m^2" description="total leaf dry weight"/>
+   <type name="droot_wt" kind="single" unit="g/m^2" description="dead root dry weight"/>
+   <type name="troot_wt" kind="single" unit="g/m^2" description="total root dry weight"/>
+   <type name="dm_green" kind="single" array="T" unit="g/m^2" description="live plant dry weight"/>
+   <type name="dm_senesced" kind="single" array="T" unit="g/m^2" description="senesced plant dry weight"/>
+   <type name="dm_dead" kind="single" array="T" unit="g/m^2" description="dry weight of dead plants"/>
+   <type name="yield" kind="single" unit="kg/ha" description="grain yield"/>
+   <type name="biomass" kind="single" unit="kg/ha" description="total above-ground biomass"/>
+   <type name="stover" kind="single" unit="kg/ha" description="Stover biomass"/>
+   <type name="green_biomass" kind="single" unit="kg/ha" description="total above-ground live biomass"/>
+   <type name="hi" kind="single" unit="" description="Harvest index"/>
+   <type name="dlt_dm" kind="single" unit="g/m^2" description="daily biomass production"/>
+   <type name="dlt_dm_light" kind="single" unit="g/m^2" description="daily biomass production determined by light"/>
+   <type name="dlt_dm_water" kind="single" unit="g/m^2" description="daily biomass production determined by water"/>
+   <type name="dlt_dm_green" kind="single" array="T" unit="g/m^2" description="plant biomass growth on each part"/>
+   <type name="dlt_dm_green_retrans" kind="single" array="T" unit="g/m^2" description="plant biomass retranslocated from each part"/>
+   <type name="dlt_dm_detached" kind="single" array="T" unit="g/m^2" description="plant biomass detached from each part"/>
+   <type name="dlt_dm_dead_detached" kind="single" array="T" unit="g/m^2" description="plant biomass detached from dead plant parts"/>
+   <type name="sw_uptake" kind="single" array="T" unit="mm" description="Daily water uptake in different rooted layers"/>
+   <type name="ep" kind="single" array="T" unit="mm" description="Daily water uptake in different rooted layers"/>
+   <type name="transpiration" kind="single" unit="mm" description="Daily water uptake from all rooted soil layers"/>
+   <type name="transpiration_tot" kind="single" unit="mm" description="Accumulative water uptake from whole profile"/>
+   <type name="cep" kind="single" unit="mm" description="Accumulative water uptake from whole profile"/>
+   <type name="sw_supply" kind="single" unit="mm" description="Daily total supply over profile"/>
+   <type name="sw_supply_sum" kind="single" unit="mm" description="accumulative soil water supply over profile"/>
+   <type name="esw_layer" kind="single" array="T" unit="mm" description="plant extractable soil water each layer"/>
+   <type name="esw_profile" kind="single" unit="mm" description="plant extractable soil water whole profile"/>
+   <type name="sw_deficit" kind="single" array="T" unit="mm" description="soil water deficit below dul (dul-sw)"/>
+   <type name="vpd" kind="single" unit="kpa" description="daytime average vapour pressure deficit"/>
+   <type name="transp_eff" kind="single" unit="g/m^2" description="transpiration efficiency"/>
+   <type name="sw_demand" kind="single" unit="mm" description="total crop demand for water"/>
+   <type name="sw_supply_demand_ratio" kind="single" unit="" description="water supply/demand ratio"/>
+   <type name="swdef_pheno" kind="single" unit="" description="Water stress factor for phenological development"/>
+   <type name="swdef_photo" kind="single" unit="" description="Water stress factor for photosynthesis"/>
+   <type name="swdef_expan" kind="single" unit="" description="Water stress factor for leaf expansion growth"/>
+   <type name="swdef_tiller" kind="single" unit="" description="Water stress factor for tillering"/>
+   <type name="leaf_nd" kind="single" unit="g/m^2" description="today's N demand of leaves"/>
+   <type name="stem_nd" kind="single" unit="g/m^2" description="today's N demand of stems"/>
+   <type name="flower_nd" kind="single" unit="g/m^2" description="today's N demand of flowers"/>
+   <type name="grain_nd" kind="single" unit="g/m^2" description="today's N demand of grains"/>
+   <type name="root_nd" kind="single" unit="g/m^2" description="today's N demand of roots"/>
+   <type name="n_demand" kind="single" unit="g/m^2" description="today's total crop N demand"/>
+   <type name="no3_demand" kind="single" unit="g/m^2" description="today's NO3 demand for whole plant"/>
+   <type name="n_supply_soil" kind="single" unit="g/m^2" description="today's total N supply from soil profile"/>
+   <type name="n_diffusion_uptake" kind="single" unit="g/m^2" description="today's N uptake by diffusion from soil profile"/>
+   <type name="n_massflow_uptake" kind="single" unit="g/m^2" description="today's N uptake by massflow from soil profile"/>
+   <type name="n_total_uptake" kind="single" unit="g/m^2" description="today's N uptake by massflow and diffusion"/>
+   <type name="no3_tot" kind="single" unit="g/m^2" description="today's NO3 uptake from soil profile"/>
+   <type name="nh4_tot" kind="single" unit="g/m^2" description="today's NH4 uptake from soil profile"/>
+   <type name="n_cum_uptake" kind="single" unit="g/m^2" description="accumulative N uptake including root N"/>
+   <type name="biomass_n" kind="single" unit="g/m^2" description="N in above ground biomass including grain N"/>
+   <type name="green_biomass_n" kind="single" unit="g/m^2" description="N in live above ground biomass includ grain N"/>
+   <type name="stover_n" kind="single" unit="g/m^2" description="N in stover (above ground DM excluding grain)"/>
+   <type name="grain_n" kind="single" unit="g/m^2" description="N in grain"/>
+   <type name="gleaf_n" kind="single" unit="g/m^2" description="N in green leaf"/>
+   <type name="dleaf_n" kind="single" unit="g/m^2" description="N in senesced and dead leaf"/>
+   <type name="tleaf_n" kind="single" unit="g/m^2" description="N in green and senesced and dead leaf"/>
+   <type name="stem_n" kind="single" unit="g/m^2" description="N in stem"/>
+   <type name="flower_n" kind="single" unit="g/m^2" description="N in flower"/>
+   <type name="groot_n" kind="single" unit="g/m^2" description="N in live root"/>
+   <type name="droot_n" kind="single" unit="g/m^2" description="N in senesced and dead root"/>
+   <type name="troot_n" kind="single" unit="g/m^2" description="N in live and senesced and dead root"/>
+   <type name="n_green" kind="single" array="T" unit="g N/m^2" description="N contents of live plant parts"/>
+   <type name="n_senesced" kind="single" array="T" unit="g N/m^2" description="N content of senesced plant parts"/>
+   <type name="n_dead" kind="single" array="T" unit="g N/m^2" description="N content of dead plant parts"/>
+   <type name="dlt_n_green" kind="single" array="T" unit="g/m^2" description="daily N increase in live plant parts"/>
+   <type name="dlt_n_retrans" kind="single" array="T" unit="g/m^2" description="nitrogen retranslocated out from parts to grain"/>
+   <type name="dlt_n_detached" kind="single" array="T" unit="g/m^2" description="actual N loss with detached plant"/>
+   <type name="dlt_n_dead_detached" kind="single" array="T" unit="g/m^2" description="actual N loss with detached dead plant"/>
+   <type name="sln" kind="single" unit="gN/cm^2leaf" description="Specific leaf nitrogen"/>
+   <type name="n_conc_stover" kind="single" unit="%" description="Stover N concentration"/>
+   <type name="n_conc_leaf" kind="single" unit="%" description="Live leaf n concentration"/>
+   <type name="n_conc_stem" kind="single" unit="%" description="Stem n concentration"/>
+   <type name="n_conc_root" kind="single" unit="%" description="Live root n concentration"/>
+   <type name="n_conc_grain" kind="single" unit="%" description="Grain n concentration"/>
+   <type name="n_conc_stover_crit" kind="single" unit="%" description="Stover critic N concentration"/>
+   <type name="n_conc_leaf_crit" kind="single" unit="%" description="Leaf critic n concentration"/>
+   <type name="n_conc_stem_crit" kind="single" unit="%" description="Stem critic n concentration"/>
+   <type name="n_conc_root_crit" kind="single" unit="%" description="Root critic n concentration"/>
+   <type name="n_conc_stover_max" kind="single" unit="%" description="Stover maximum N concentration"/>
+   <type name="n_conc_leaf_max" kind="single" unit="%" description="Leaf maximum n concentration"/>
+   <type name="n_conc_stem_max" kind="single" unit="%" description="Stem maximum n concentration"/>
+   <type name="n_conc_root_max" kind="single" unit="%" description="Root maximum n concentration"/>
+   <type name="n_conc_stover_min" kind="single" unit="%" description="Stover minimum N concentration"/>
+   <type name="n_conc_leaf_min" kind="single" unit="%" description="Leaf minimum n concentration"/>
+   <type name="n_conc_stem_min" kind="single" unit="%" description="Stem minimum n concentration"/>
+   <type name="n_conc_root_min" kind="single" unit="%" description="Root minimum n concentration"/>
+   <type name="n_grain_pcnt" kind="single" unit="%" description="Grain protein content"/>
+   <type name="nfact_pheno" kind="single" unit="" description="Nitrogen stress factor for phenology"/>
+   <type name="nfact_photo" kind="single" unit="" description="Nitrogen stress factor for photosynthesis"/>
+   <type name="nfact_expan" kind="single" unit="" description="Nitrogen stress factor for leaf expansion growth"/>
+   <type name="nfact_tiller" kind="single" unit="" description="Nitrogen stress factor for tillering"/>
+   <type name="nfact_grain" kind="single" unit="" description="Nitrogen stress factor for grain growth"/>
+   <type name="nfact_grain_tot" kind="single" array="T" unit="" description="cumulative nitrogen stress type 2"/>
+   <type name="ll_dep" kind="single" array="T" unit="" description="lower limit of plant-extractable soil water for soil layer l (mm)"/>
+   <type name="Sow" kind="string" description="Sow a crop"/>
+
+
+!! MAIZE types!!
+      <type name="plant_status" kind="string" unit="" description="Status of the crop"/>
+      <type name="dlt_stage" kind="single" unit="" description="Change in stage number"/>
+      <type name="stage" kind="single" unit="" description="Current phenological stage"/>
+      <type name="stage_code" kind="single" unit="" description="List of stage numbers"/>
+      <type name="stage_name" kind="string" unit="" description="List of phenological stage names"/>
+      <type name="crop_type" kind="string" unit="" description="Crop_"/>
+      <type name="dlt_tt" kind="single" unit="oCd" description="Daily thermal time (growing deg day)"/>
+      <type name="phase_tt" kind="single" array="T" unit="oCd" description="Cumulative growing degree days required for each stage"/>
+      <type name="tt_tot" kind="single" array="T" unit="oCd" description="The sum of growing degree days for a phenological stage"/>
+      <type name="days_tot" kind="single" array="T" unit="days" description="duration of each phase"/>
+      <type name="flowering_date" kind="integer4" unit="doy" description="flowering day number"/>
+      <type name="maturity_date" kind="integer4" unit="doy" description="maturity day number"/>
+      <type name="flowering_das" kind="integer4" unit="days" description="days to flowering"/>
+      <type name="maturity_das" kind="integer4" unit="days" description="days to maturity"/>
+      <type name="leaf_no" kind="single" array="T" unit="" description="number of fully expanded leaves"/>
+      <type name="dlt_leaf_no" kind="single" unit="" description="fraction of oldest leaf expanded"/>
+      <type name="leaf_no_dead" kind="single" array="T" unit="" description="no of dead leaves"/>
+      <type name="leaf_area" kind="single" array="T" unit="mm2" description="leaf area of each leaf"/>
+      <type name="height" kind="single" unit="mm" description="Crop height"/>
+      <type name="root_depth" kind="single" unit="mm" description="Crop root depth"/>
+      <type name="plants" kind="single" unit="plants/m2" description="Plant density"/>
+      <type name="grain_no" kind="single" unit="grains/plant" description="grain number"/>
+      <type name="grain_size" kind="single" unit="g" description="individual grain weight"/>
+      <type name="cover_green" kind="single" unit="0-1" description="fraction of radiation reaching the canopy that is intercepted by the green leaves of the canopy"/>
+      <type name="cover_tot" kind="single" unit="0-1" description="total crop cover fraction"/>
+      <type name="lai_sum" kind="single" unit="" description="leaf area index of all leaf material live + dead"/>
+      <type name="tlai" kind="single" unit="" description="total leaf area index"/>
+      <type name="slai" kind="single" unit="" description="area of senesced leaf"/>
+      <type name="lai" kind="single" unit="m2/m2" description="live plant green lai"/>
+      <type name="tlai_dead" kind="single" unit="m2/m2" description="total lai of dead plants"/>
+      <type name="tiller_no_fertile" kind="single" unit="" description="no of tillers that produce a head"/>
+      <type name="sla" kind="single" unit="mm2/g" description="Specific leaf area"/>
+      <type name="root_wt" kind="single" unit="g/m2" description="Live plant root dry weight"/>
+      <type name="leaf_wt" kind="single" unit="g/m2" description="Live plant leaf dry weight"/>
+      <type name="stem_wt" kind="single" unit="g/m2" description="Live plant stem dry weight"/>
+      <type name="flower_wt" kind="single" unit="g/m2" description="Live plant flower dry weight"/>
+      <type name="stem+flower_wt" kind="single" unit="g/m2" description="Live plant stem and flower dry weight"/>
+      <type name="grain_wt" kind="single" unit="g/m2" description="Live plant grain dry weight"/>
+      <type name="dm_green" kind="single" array="T" unit="g/m2" description="Live plant dry weight"/>
+      <type name="dm_senesced" kind="single" array="T" unit="g/m2" description="Senesced plant dry wt"/>
+      <type name="dm_dead" kind="single" array="T" unit="g/m2" description="Dry wt of dead plants"/>
+      <type name="yield" kind="single" unit="kg/ha" description="Crop grain yield"/>
+      <type name="biomass" kind="single" unit="kg/ha" description="Total above-ground biomass"/>
+      <type name="hi" kind="single" unit="" description="Harvest index"/>
+      <type name="stover" kind="single" unit="kg/ha" description="Total above-ground biomass minus grain"/>
+      <type name="green_biomass" kind="single" unit="kg/ha" description="Total above-ground green biomass"/>
+      <type name="biomass_wt" kind="single" unit="g/m2" description="Total above-ground biomass weight"/>
+      <type name="green_biomass_wt" kind="single" unit="g/m2" description="Total above-ground green biomass weight"/>
+      <type name="stover_wt" kind="single" unit="g/m2" description="Stover weight"/>
+      <type name="dlt_dm" kind="single" unit="g/m2" description="The daily biomass production"/>
+      <type name="dlt_dm_green" kind="single" array="T" unit="g/m2" description="Plant biomass growth"/>
+      <type name="dlt_dm_green_retrans" kind="single" array="T" unit="g/m2" description="Plant biomass retranslocated"/>
+      <type name="dlt_dm_detached" kind="single" array="T" unit="g/m2" description="Plant biomass detached from plant"/>
+      <type name="dlt_dm_dead_detached" kind="single" array="T" unit="g/m2" description="Plant biomass detached from dead plant"/>
+      <type name="biomass_n" kind="single" unit="g/m2" description="Total above-ground biomass N"/>
+      <type name="green_biomass_n" kind="single" unit="g/m2" description="Total above-ground green biomass N"/>
+      <type name="n_green" kind="single" array="T" unit="g/m2" description="Plant nitrogen content"/>
+      <type name="n_senesced" kind="single" array="T" unit="g/m2" description="Plant N content of senesced plant"/>
+      <type name="n_dead" kind="single" array="T" unit="g/m2" description="Plant N content of dead plants"/>
+      <type name="dlt_n_green" kind="single" array="T" unit="g/m2" description="Actual N uptake into plant"/>
+      <type name="dlt_n_retrans" kind="single" array="T" unit="g/m2" description="Nitrogen retranslocated out from parts to grain"/>
+      <type name="dlt_n_detached" kind="single" array="T" unit="g/m2" description="Actual N loss with detached plant"/>
+      <type name="dlt_n_dead_detached" kind="single" array="T" unit="g/m2" description="Actual N loss with detached dead plant"/>
+      <type name="swdef_photo" kind="single" unit="0-1" description="Soil Water stress photosynthesis"/>
+      <type name="swdef_expan" kind="single" unit="" description="Soil Water stress cell expansion"/>
+      <type name="ep" kind="single" array="T" unit="mm" description="Crop water uptake"/>
+      <type name="cep" kind="single" array="T" unit="mm" description="Cumulative crop water uptake"/>
+      <type name="sw_supply" kind="single" unit="mm" description="Total water supply over soil profile"/>
+      <type name="esw_layr" kind="single" array="T" unit="mm" description="Plant extractable soil water"/>
+      <type name="das" kind="integer4" unit="days" description="Days after sowing"/>
+      <type name="n_conc_stover" kind="single" unit="%" description="Stover N concentration"/>
+      <type name="n_conc_leaf" kind="single" unit="%" description="Leaf N concentration"/>
+      <type name="n_conc_stem" kind="single" unit="%" description="Stem N concentration"/>
+      <type name="n_conc_grain" kind="single" unit="%" description="Grain N concentration"/>
+      <type name="n_conc_crit" kind="single" unit="%" description="Critical N concentration"/>
+      <type name="n_conc_min" kind="single" unit="%" description="Minimum N concentration"/>
+      <type name="grain_n_uptake" kind="single" unit="g/m2" description="Plant nitrogen content"/>
+      <type name="stover_n_uptake" kind="single" unit="g/m2" description="N uptake by stover"/>
+      <type name="no3_tot" kind="single" unit="g/m2" description="Total NO3 in the root profile"/>
+      <type name="n_demand" kind="single" unit="g/m2" description="Sum N demand for plant parts"/>
+      <type name="n_supply_soil" kind="single" unit="g/m2" description="N supply from soil"/>
+      <type name="nfact_photo" kind="single" unit="0-1" description="Plant N stress factor affecting photosynthesis"/>
+      <type name="nfact_expan" kind="single" unit="0-1" description="Plant N stress factor affecting cell expansion"/>
+      <type name="nfact_grain" kind="single" unit="0-1" description="Plant N stress factor affecting grain filling"/>
+      <type name="nfact_grain_tot" kind="single" array="T" unit="0-1" description="Cumulative nitrogen stress type 2"/>
+      <type name="rlv" kind="single" array="T" unit="mm/mm3" description="Root length per unit soil volume"/>
+      <type name="no3_demand" kind="single" unit="kg/ha" description="Sum N demand for plant parts"/>
+      <type name="sw_demand" kind="single" unit="mm" description="Total crop demand for water"/>
+      <type name="root_length" kind="single" array="T" unit="mm/mm2" description="Root length density"/>
+      <type name="pfact_photo" kind="single" unit="0-1" description="Plant P stress factor affecting photosynthesis"/>
+      <type name="pfact_pheno" kind="single" unit="0-1" description="Plant P stress factor affecting phenology"/>
+      <type name="pfact_expan" kind="single" unit="" description="Plant P stress factor affecting cell expansion"/>
+      <type name="p%demand" kind="single" unit="kg/ha" description="Sum P demand for plant parts"/>
+      <type name="plant_p" kind="single" unit="g/m2" description="Total plant P including roots"/>
+      <type name="biomass_p" kind="single" unit="g/m2" description="Total above-ground biomass P"/>
+      <type name="plant_p_max" kind="single" unit="g/m2" description="Total plant P at maximum P concentration"/>
+      <type name="pconc_max" kind="single" unit="" description="Maximum P concentration"/>
+      <type name="pconc" kind="single" unit="%" description="Plant P concentration"/>
+      <type name="head_grain_no_max" kind="single" unit="grains/plant" description="Maximum kernel number (was G2)"/>
+      <type name="grain_gth_rate" kind="single" unit="mg/grain/day" description="Potential grain growth rate (G3)"/>
+      <type name="tt_emerg_to_endjuv" kind="single" unit="oC-days" description="Growing degree days to complete emerg_to_endjuv stage (emergence to end of emerg_to_endjuv)"/>
+      <type name="est_days_endjuv_to_init" kind="integer4" unit="days" lower_bound="0" upper_bound="100" description="Estimated days from end juv"/>
+      <type name="tt_endjuv_init" kind="single" unit="oC-days" lower_bound="0.0" upper_bound="1000.0" description="Growing degree days to complete endjuv_to_init stage"/>
+      <type name="photoperiod_crit1" kind="single" unit="hrs" lower_bound="0.0" upper_bound="24.0" description="Critical photoperiod for endjuv to init (non-responsive at shorter photoperiods)"/>
+      <type name="photoperiod_crit2" kind="single" unit="hrs" lower_bound="0.0" upper_bound="24.0" description="Critical photoperiod for endjuv to init (non-responsive at longer photoperiods)"/>
+      <type name="photoperiod_slope" kind="single" unit="oC/hr" lower_bound="0.0" upper_bound="200.0" description="Slope of photoperiod response for endjuv to init (between photoperiods of crit1 and crit2)"/>
+      <type name="tt_flower_to_maturity" kind="single" unit="oC-days" description="Growing degree days to complete grainfill (silking to maturity)"/>
+      <type name="tt_flag_to_flower" kind="single" unit="oC-days" description="Growing deg days for head emergence phase"/>
+      <type name="tt_flower_to_start_grain" kind="single" unit="oC-days" description="Growing degree-days for flower_to_start_grain"/>
+      <type name="tt_maturity_to_ripe" kind="single" unit="oC-days" description="Growing deg day required to for grain dry down"/>
+      <type name="x_stem_wt" kind="single" array="T" unit="g" lower_bound="0.0" upper_bound="1000.0" description="Plant weights"/>
+      <type name="y_height" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="5000.0" description="Plant heights for above weights"/>
+      <type name="uptake_source" kind="string" unit="" description="Switch for source of water and no3 uptake"/>
+      <type name="ll" kind="single" array="T" unit="mm water/mm soil" description="Lower limit of plant-extractable soil water for soil layer l"/>
+      <type name="kl" kind="single" array="T" unit="" description="Root length density factor for water"/>
+      <type name="xf" kind="single" array="T" unit="0-1" description="Root exploration factor"/>
+      <type name="stage_names" kind="string" array="T" unit="" description="Full names of stages for reporting"/>
+      <type name="stage_code" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="List of stage numbers"/>
+      <type name="rue" kind="single" array="T" unit="gdm/mj" lower_bound="0.0" upper_bound="1000.0" description="Radiation use efficiency"/>
+      <type name="root_depth_rate" kind="single" array="T" unit="mm/day" lower_bound="0.0" upper_bound="1000.0" description="Root growth rate potential"/>
+      <type name="ratio_root_shoot" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="Root to shoot ratio of new dm"/>
+      <type name="x_row_spacing" kind="single" array="T" unit="m" lower_bound="0.0" upper_bound="10.0" description="Crop row spacing in radiation extinction coefficient look-up table"/>
+      <type name="y_extinct_coef" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="10.0" description="Radiation extinction coefficient as a function of row-spacing"/>
+      <type name="y_extinct_coef_dead" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="Radiation extinction coefficient of dead leaves as a function of row-spacing"/>
+      <type name="leaf_no_crit" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Critical number of leaves below which portion of the crop may die due to water stress"/>
+      <type name="tt_emerg_limit" kind="single" unit="oC-days" lower_bound="0.0" upper_bound="365.0" description="Maximum degree days allowed for emergence to take place"/>
+      <type name="days_germ_limit" kind="single" unit="days" lower_bound="0.0" upper_bound="365.0" description="Maximum days allowed after sowing for germination to take place"/>
+      <type name="swdf_pheno_limit" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Critical cumulative phenology water stress above which the crop fails"/>
+      <type name="swdf_photo_limit" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Critical cumulative photosynthesis water stress above which the crop partly fails"/>
+      <type name="swdf_photo_rate" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Rate of plant reduction with photosynthesis water stress"/>
+      <type name="initial_root_depth" kind="single" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="Initial depth of roots"/>
+      <type name="specific_root_length" kind="single" unit="mm/g" lower_bound="0.0" upper_bound="1.e6" description="Specific root length"/>
+      <type name="x_plant_rld" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="0.1" description="Root length density to affect root proliferation"/>
+      <type name="y_rel_root_rate" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Relative rate of root proliferation as a funtion of root length density"/>
+      <type name="initial_tpla" kind="single" unit="mm2" lower_bound="0.0" upper_bound="100000.0" description="Initial plant leaf area"/>
+      <type name="x_lai" kind="single" array="T" unit="mm2/g" lower_bound="0.0" upper_bound="100.0" description="Leaf area index to affect specific leaf area for new leaf growth"/>
+      <type name="y_lai_sla_max" kind="single" array="T" unit="mm2/g" lower_bound="0.0" upper_bound="100000.0" description="Maximum specifc leaf area for new leaf growth as a function of lai"/>
+      <type name="lai_sla_min" kind="single" array="T" unit="mm2/g" lower_bound="0.0" upper_bound="100000.0" description="Minimum specifc leaf area for new leaf growth as a function of lai"/>
+      <type name="tpla_min" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Minimum total plant leaf area"/>
+      <type name="head_grain_no_max_ub" kind="single" unit="" lower_bound="0.0" upper_bound="10000.0" description="Grain number upper limit"/>
+      <type name="grain_gth_rate_ub" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Grain growth rate upper limit"/>
+      <type name="tt_emerg_to_endjuv_ub" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Upper bound for thermal time"/>
+      <type name="pp_endjuv_to_init_ub" kind="single" unit="dtt/hr" lower_bound="0.0" upper_bound="1000.0" description="Upper bound for photoperiod sensitivity coefficient"/>
+      <type name="tt_flower_to_maturity_ub" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Upper bound for thermal time"/>
+      <type name="tt_maturity_to_ripe_ub" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Upper bound for thermal time"/>
+      <type name="tt_flower_to_start_grain_ub" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Upper bound for thermal time"/>
+      <type name="tt_flag_to_flower_ub" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Upper bound for thermal time"/>
+      <type name="svp_fract" kind="single" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Fraction of distance between svp at min temp and svp at max temp where average svp during transpiration lies"/>
+      <type name="transp_eff_cf" kind="single" array="T" unit="kpa" lower_bound="0.0" upper_bound="1.0" description="Transpiration efficiency coefficient to convert vpd to transpiration efficiency (kpa) although this is expressed as a pressure it is really in the form kpa*g carbo per m^2 / g water per m^2 and this can be converted to kpa*g carbon"/>
+      <type name="n_fix_rate" kind="single" array="T" unit="g/g" lower_bound="0.0" upper_bound="1.0" description="Rate of N fixation per unit standing biomass"/>
+      <type name="head_grain_no_crit" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Grains per plant minimum which all heads are barren"/>
+      <type name="barren_crit" kind="single" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Fraction of maximum grains per plant below which barrenness occurs"/>
+      <type name="pesw_germ" kind="single" unit="mm/mm" lower_bound="0.0" upper_bound="1.0" description="Plant extractable soil water in seedling layer inadequate for germination"/>
+      <type name="fasw_emerg" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of available soil water in the seedling layer affecting rate of emergence"/>
+      <type name="rel_emerg_rate" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Relative rate of seedling emergence affected by available soil water"/>
+      <type name="grain_n_conc_min" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Minimum nitrogen concentration of grain"/>
+      <type name="seed_wt_min" kind="single" unit="g/seed" lower_bound="0.0" upper_bound="100.0" description="Minimum grain weight"/>
+      <type name="grno_grate" kind="single" array="T" unit="g/day" lower_bound="0.0" upper_bound="10.0" description="Growth rate per plant affecting grain set"/>
+      <type name="grno_fract" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Reduction factor on grain set affectd by plant growth rate"/>
+      <type name="leaf_no_at_emerg" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Leaf number at emergence"/>
+      <type name="no3_diffn_const" kind="single" unit="days" lower_bound="0.0" upper_bound="100.0" description="Time constant for uptake by diffusion (days). H van Keulen & NG Seligman. Purdoe 1987. This is the time it would take to take up by diffusion the current amount of N if it wasn't depleted between time steps"/>
+      <type name="n_supply_preference" kind="string" unit="" description="Preference for N uptake"/>
+      <type name="shoot_lag" kind="single" unit="oC-days" lower_bound="0.0" upper_bound="100.0" description="Minimum growing degree days for germination (deg days)"/>
+      <type name="shoot_rate" kind="single" unit="oC-days/mm" lower_bound="0.0" upper_bound="100.0" description="Growing deg day increase with depth for germination"/>
+      <type name="leaf_app_rate" kind="single" unit="oC-days" lower_bound="0.0" upper_bound="100.0" description="Thermal time required to develop a leaf ligule for all leaves"/>
+      <type name="leaf_app_rate1" kind="single" unit="oC-days" lower_bound="0.0" upper_bound="100.0" description="Thermal time required to develop a leaf ligule for first leaves"/>
+      <type name="leaf_app_rate2" kind="single" unit="oC-days" lower_bound="0.0" upper_bound="100.0" description="Thermal time required to develop a leaf ligule for later leaves"/>
+      <type name="leaf_no_rate_change" kind="single" unit="" lower_bound="0.0" upper_bound="30.0" description="Leaf no at which change from rate1 to rate2 for leaf appearance"/>
+      <type name="dm_leaf_init" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="Leaf growth before emergence"/>
+      <type name="dm_root_init" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="Root growth before emergence"/>
+      <type name="dm_stem_init" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="Stem growth before emergence"/>
+      <type name="ll_ub" kind="single" unit="mm/mm" lower_bound="0.0" upper_bound="1000.0" description="Upper limit of lower limit"/>
+      <type name="kl_ub" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Upper limit of water uptake factor"/>
+      <type name="leaf_init_rate" kind="single" unit="oC-days" lower_bound="0.0" upper_bound="100.0" description="Growing degree days to initiate each le primordium until fl_initling"/>
+      <type name="leaf_no_seed" kind="single" unit="leaves" lower_bound="0.0" upper_bound="100.0" description="Number of leaf primordia present in seed"/>
+      <type name="leaf_no_min" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Lower limit of leaf number"/>
+      <type name="leaf_no_max" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Upper limit of leaf number"/>
+      <type name="stem_trans_frac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of stem used in translocation to grain"/>
+      <type name="leaf_trans_frac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of leaf used in translocat to grain"/>
+      <type name="minsw" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Lowest acceptable value for ll"/>
+      <type name="swdf_grain_min" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Minimum of water stress factor"/>
+      <type name="sw_fac_max" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Soil water stress factor maximum"/>
+      <type name="temp_fac_min" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Temperature stress factor minimum optimum temp"/>
+      <type name="sfac_slope" kind="single" unit="" lower_bound="-10.0" upper_bound="0.0" description="Soil water stress factor slope"/>
+      <type name="tfac_slope" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Temperature stress factor slope"/>
+      <type name="leaf_no_dead_const" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Constant in leaf death rate equation"/>
+      <type name="leaf_no_dead_slope" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Dead leaf no slope"/>
+      <type name="latitude_ub" kind="single" unit="oL" lower_bound="-90.0" upper_bound="90.0" description="Upper limit of latitude for model"/>
+      <type name="latitude_lb" kind="single" unit="oL" lower_bound="-90.0" upper_bound="90.0" description="Lower limit of latitude for model"/>
+      <type name="maxt_ub" kind="single" unit="oC" lower_bound="0.0" upper_bound="60.0" description="Upper limit of maximum temperature"/>
+      <type name="maxt_lb" kind="single" unit="oC" lower_bound="0.0" upper_bound="60.0" description="Lower limit of maximum temperature"/>
+      <type name="mint_ub" kind="single" unit="oC" lower_bound="0.0" upper_bound="40.0" description="Upper limit of minimum temperature"/>
+      <type name="mint_lb" kind="single" unit="oC" lower_bound="-100.0" upper_bound="100.0" description="Lower limit of minimum temperature"/>
+      <type name="radn_ub" kind="single" unit="MJ/m2" lower_bound="0.0" upper_bound="100.0" description="Upper limit of solar radiation"/>
+      <type name="radn_lb" kind="single" unit="MJ/m2" lower_bound="0.0" upper_bound="100.0" description="Lower limit of solar radiation"/>
+      <type name="dlayer_ub" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Upper limit of layer depth"/>
+      <type name="dlayer_lb" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Lower limit of layer depth"/>
+      <type name="dul_dep_ub" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Upper limit of dul"/>
+      <type name="dul_dep_lb" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Lower limit of dul"/>
+      <type name="sw_dep_ub" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Upper limit of soil water"/>
+      <type name="sw_dep_lb" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Lower limit of soil water"/>
+      <type name="no3_ub" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="Upper limit of soil NO3"/>
+      <type name="no3_lb" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="Lower limit of soil NO3"/>
+      <type name="no3_min_ub" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="Upper limit of minimum soil NO3"/>
+      <type name="no3_min_lb" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="Lower limit of minimum soil NO3"/>
+      <type name="grn_water_con" kind="single" unit="g/g" lower_bound="0.0" upper_bound="1.0" description="Water content of grain"/>
+      <type name="partition_rate_leaf" kind="single" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Rate coefficient of sigmoidal function between leaf partition fraction and internode no**2"/>
+      <type name="frac_stem2flower" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of dm allocated_z to stem that goes to developing head"/>
+      <type name="htstress_coeff" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Coeff for conversion of heat stress during flowering to heat stress factor on grain number development"/>
+      <type name="dm_root_sen_frac" kind="single" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Fraction of root dry matter senescing each day"/>
+      <type name="dm_leaf_sen_frac" kind="single" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Fraction of senescing leaf dry matter remaining in leaf"/>
+      <type name="dead_detach_frac" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Fraction of dead plant parts detaching each day"/>
+      <type name="sen_detach_frac" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Fraction of senesced plant parts dry matter detaching from live plant each day"/>
+      <type name="dm_leaf_detach_frac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of leaf dry matter detached each day"/>
+      <type name="leaf_no_correction" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Correction factor for area of expanding leaves"/>
+      <type name="x0_const" kind="single" unit="" lower_bound="-10.0" upper_bound="100.0" description="Largest leaf no intercept"/>
+      <type name="x0_slope" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Largest leaf no slope"/>
+      <type name="y0_const" kind="single" unit="" lower_bound="-10000.0" upper_bound="100000.0" description="Largest leaf area intercept"/>
+      <type name="y0_slope" kind="single" unit="" lower_bound="0.0" upper_bound="10000.0" description="Largest leaf area slope"/>
+      <type name="a_const" kind="single" unit="" lower_bound="-100.0" upper_bound="0.0" description="Leaf area breadth intercept"/>
+      <type name="a_slope1" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Leaf area breadth slope1"/>
+      <type name="a_slope2" kind="single" unit="" lower_bound="-100.0" upper_bound="1.0" description="Leaf area breadth slope2"/>
+      <type name="b_const" kind="single" unit="" lower_bound="-10.0" upper_bound="100.0" description="Leaf area skewness intercept"/>
+      <type name="b_slope1" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Leaf area skewness slope1"/>
+      <type name="b_slope2" kind="single" unit="" lower_bound="-100.0" upper_bound="0.0" description="Leaf area skewness slope2"/>
+      <type name="lai_sen_light" kind="single" unit="m2/m2" lower_bound="3.0" upper_bound="20.0" description="Critical lai above which light"/>
+      <type name="sen_light_slope" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Slope of linear relationship between lai and light competition factor for determining leaf senesence rate"/>
+      <type name="x_temp_senescence" kind="single" array="T" unit="oC" lower_bound="-20.0" upper_bound="20.0" description="Temperature senescence table"/>
+      <type name="y_senescence_fac" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Temperature factor senescence table"/>
+      <type name="sen_rate_water" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Slope in linear eqn relating soil water stress during photosynthesis to leaf senesense rate"/>
+      <type name="twilight" kind="single" unit="o" lower_bound="-90.0" upper_bound="90.0" description="Twilight in angular distance between sunset and end of twilight - altitude of sun"/>
+      <type name="temp_grain_crit_stress" kind="single" unit="oC" lower_bound="20.0" upper_bound="50.0" description="Temperature above which heat stress occurs"/>
+      <type name="x_stage_code" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Stage table for N concentrations"/>
+      <type name="y_n_conc_crit_leaf" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Critical N concentration of leaf"/>
+      <type name="y_n_conc_max_leaf" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Maximum N concentration of leaf"/>
+      <type name="y_n_conc_min_leaf" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Minimum N concentration of leaf"/>
+      <type name="y_n_conc_crit_stem" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Critical N concentration of stem"/>
+      <type name="y_n_conc_max_stem" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Maximum N concentration of stem"/>
+      <type name="y_n_conc_min_stem" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Minimum N concentration of stem"/>
+      <type name="y_n_conc_crit_flower" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Critical N concentration of flower"/>
+      <type name="y_n_conc_max_flower" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Maximum N concentration of flower"/>
+      <type name="y_n_conc_min_flower" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Minimum N concentration of flower"/>
+      <type name="n_conc_crit_grain" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Critical N concentration of grain"/>
+      <type name="n_conc_max_grain" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Maximum N concentration of grain"/>
+      <type name="n_conc_min_grain" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Minimum N concentration of grain"/>
+      <type name="n_conc_crit_root" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Critical N concentration of root"/>
+      <type name="n_conc_max_root" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Maximum N concentration of root"/>
+      <type name="n_conc_min_root" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="Minimum N concentration of root"/>
+      <type name="n_init_conc" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Initial N concentration of plant parts"/>
+      <type name="n_sen_conc" kind="single" array="T" unit="gN/gdm" lower_bound="0.0" upper_bound="1.0" description="N concentration of senesced plant parts"/>
+      <type name="N_fact_photo" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Multipler for N deficit effect on photosynthesis"/>
+      <type name="N_fact_pheno" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Multipler for N deficit effect on phenology"/>
+      <type name="N_fact_expansion" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Multipler for N deficit effect on expansion"/>
+      <type name="p_stage_code" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Numeric code for phenological stage for critical p concentrations"/>
+      <type name="p_conc_max" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Maximum p concentration as a function of phenological stage"/>
+      <type name="p_conc_min" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Minimum p concentration as a function of phenological stage"/>
+      <type name="k_pfact_photo" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Multiplier for p-stress effect on photosynthesis"/>
+      <type name="k_pfact_pheno" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Multiplier for p-stress effect on phenology"/>
+      <type name="k_pfact_expansion" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Multiplier for p-stress effect on leaf expansion"/>
+      <type name="k_pfact_grain" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Multiplier for p-stress effect on grain growth"/>
+      <type name="p_uptake_factor" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="Multiplier to limit p uptake as a function of p demand"/>
+      <type name="x_ave_temp" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="Critical temperatures for photosynthesis"/>
+      <type name="y_stress_photo" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Factors for critical temperatures"/>
+      <type name="x_temp_grain" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="Critical temperatures controlling grain fill rates"/>
+      <type name="y_grain_rate" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Relative grain fill rates for critical temperatures"/>
+      <type name="x_temp" kind="single" array="T" unit="oC" lower_bound="-10.0" upper_bound="100.0" description="Temperature table for photosynthesis degree days"/>
+      <type name="y_tt" kind="single" array="T" unit="oC" lower_bound="-10.0" upper_bound="100.0" description="Degree days"/>
+      <type name="x_weighted_temp" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="Temperature table for poor establishment"/>
+      <type name="y_plant_death" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="Index of plant death"/>
+      <type name="x_temp_other" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="Temperature for thermal time used for other processes"/>
+      <type name="y_tt_other" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="Thermal time as a function of temperature"/>
+      <type name="x_sw_demand_ratio" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Soil water supply to demand ratio"/>
+      <type name="y_swdef_leaf" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Supply to demand ratio effect on leaf expansion"/>
+      <type name="x_sw_avail_ratio" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Soil water availability ratio"/>
+      <type name="y_swdef_pheno" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Soil water availability ratio effect on phenology"/>
+      <type name="x_sw_ratio" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Soil water ratio"/>
+      <type name="y_sw_fac_root" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Soil water ratio effect on root elongation"/>
+      <type name="maxt_soil_surface" kind="single" unit="oC" lower_bound="0.0" upper_bound="80.0" description="Maximum Soil surface temperature"/>
+      <type name="eo" kind="single" unit="mm/d" lower_bound="0.0" upper_bound="20.0" description="Potential evapotranspiration (Priestley-Taylor)"/>
+      <type name="fr_intc_radn_nnnn" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of intercepted radiation from module nnnn"/>
+      <type name="no3_min" kind="single" array="T" unit="kg/ha" description="Soil NO3 minimum"/>
+      <type name="uptake_p_maize" kind="single" array="T" unit="g/m2" lower_bound="0.0" upper_bound="100.0" description="Soil P uptake"/>
+
+
+!!MILLET Types!!
+      <type name="hi_max_pot" kind="single" unit="g grain/ g biomass" lower_bound="0.0" upper_bound="1.0" description="maximum harvest index"/>
+      <type name="head_grain_no_max" kind="single" unit="grains/plant" description="maximum kernel number"/>
+      <type name="grain_gth_rate" kind="single" unit="mg/grain/day" description="potential grain growth rate"/>
+      <type name="tt_emerg_to_endjuv" kind="single" unit="deg day" description="Growing degree days to complete emerg_to_endjuv stage (emergence to end of emerg_to_endjuv)"/>
+      <type name="est_days_emerg_to_init" kind="integer4" unit="day" lower_bound="0" upper_bound="100" description="estimated days from emergence to floral initiation"/>
+      <type name="pp_endjuv_to_init" kind="single" unit="dtt/hr" description="Photoperiod sensitivity coefficient"/>
+      <type name="tt_flower_to_maturity" kind="single" unit="deg day" description="Growing degree days to complete grainfill (silking to maturity)"/>
+      <type name="tt_flag_to_flower" kind="single" unit="deg day" description="growing deg days for head emergence phase"/>
+      <type name="tt_flower_to_start_grain" kind="single" unit="deg day" description="growing degree-days for flower_to_start_grain"/>
+      <type name="tt_maturity_to_ripe" kind="single" unit="deg day" description="growing deg day required to for grain dry down"/>
+      <type name="y0_const" kind="single" unit="" lower_bound="-40000.0" upper_bound="100000.0" description="largest leaf area intercept"/>
+      <type name="y0_slope" kind="single" unit="" lower_bound="0.0" upper_bound="10000.0" description="largest leaf area slope"/>
+      <type name="ll" kind="single" array="T" unit="mm" description="lower limit of plant-extractable soil water for soil layer L"/>
+      <type name="kl" kind="single" array="T" unit="" description="root length density factor for water"/>
+      <type name="stage_names" kind="string" array="T" unit="" description="full names of stages for reporting"/>
+      <type name="stage_code" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="list of stage numbers"/>
+      <type name="rue" kind="single" array="T" unit="g dm/mj" lower_bound="0.0" upper_bound="1000.0" description="radiation use efficiency"/>
+      <type name="root_depth_rate" kind="single" array="T" unit="mm/day" lower_bound="0.0" upper_bound="1000.0" description="root growth rate potential"/>
+      <type name="ratio_root_shoot" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="root:shoot ratio of new dm"/>
+      <type name="row_spacing_default" kind="single" unit="m" lower_bound="0.0" upper_bound="2.0" description="default row spacing for calculating k"/>
+      <type name="x_row_spacing" kind="single" array="T" unit="m" lower_bound="0.0" upper_bound="2.0" description="row spacing for interpolating k"/>
+      <type name="y_extinct_coef" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="interpolated k for live canopy"/>
+      <type name="y_extinct_coef_dead" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="interpolated k for dead canopy"/>
+      <type name="root_extinction" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="extinction coef to distribute roots down profile"/>
+      <type name="days_germ_limit" kind="single" unit="day" lower_bound="0.0" upper_bound="365.0" description="maximum days allowed after sowing for germination to take place"/>
+      <type name="swdf_pheno_limit" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="critical cumulative phenology water stress above which the crop fails"/>
+      <type name="swdf_photo_limit" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="critical cumulative photosynthesis water stress above which the crop partly fails"/>
+      <type name="swdf_photo_rate" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="rate of plant reduction with photosynthesis water stress"/>
+      <type name="initial_root_depth" kind="single" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="initial depth of roots"/>
+      <type name="initial_tpla" kind="single" unit="mm^2" lower_bound="0.0" upper_bound="100000.0" description="initial plant leaf area"/>
+      <type name="x_lai" kind="single" array="T" unit="mm2/mm2" lower_bound="0.0" upper_bound="15.0" description="LAI for interpolating SLA_max"/>
+      <type name="y_sla_max" kind="single" array="T" unit="mm2/g" lower_bound="0.0" upper_bound="1000000.0" description="interpolated SLA_max"/>
+      <type name="x_lai_ratio" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="ratio table for critical leaf size below which leaf number is reduced"/>
+      <type name="y_leaf_no_frac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="reduction in leaf appearance"/>
+      <type name="height_max" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="maximum canopy height"/>
+      <type name="height_stem_slope" kind="single" unit="mm/g stem" lower_bound="0.0" upper_bound="1000.0" description="rate of height growth"/>
+      <type name="head_grain_no_max_ub" kind="single" unit="grains/plant" lower_bound="0.0" upper_bound="10000.0" description="upper limit"/>
+      <type name="grain_gth_rate_ub" kind="single" unit="mg/grain/day" lower_bound="0.0" upper_bound="1000.0" description="upper limit"/>
+      <type name="tt_emerg_to_endjuv_ub" kind="single" unit="deg day" lower_bound="0.0" upper_bound="1000.0" description="upper limit"/>
+      <type name="pp_endjuv_to_init_ub" kind="single" unit="dtt/hr" lower_bound="0.0" upper_bound="1000.0" description="upper limit"/>
+      <type name="tt_flower_to_maturity_ub" kind="single" unit="deg day" lower_bound="0.0" upper_bound="2000.0" description="upper limit"/>
+      <type name="tt_maturity_to_ripe_ub" kind="single" unit="deg day" lower_bound="0.0" upper_bound="1000.0" description="upper limit"/>
+      <type name="tt_flower_to_start_grain_ub" kind="single" unit="deg day" lower_bound="0.0" upper_bound="1000.0" description="upper limit"/>
+      <type name="tt_flag_to_flower_ub" kind="single" unit="deg day" lower_bound="0.0" upper_bound="1000.0" description="upper limit"/>
+      <type name="svp_fract" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of distance between svp at min temp and svp at max temp where average svp during transpiration lies"/>
+      <type name="transp_eff_cf" kind="single" unit="kpa" upper_bound="0.0" description="transpiration efficiency coefficient to convert vpd to transpiration efficiency (kpa) although this is expressed as a pressure it is really in the form kpa*g carbo per m^2 / g water per m^2 and this can be converted to kpa*g carbo per m^2 / mm water because 1g water = 1 cm^3 water"/>
+      <type name="head_grain_no_crit" kind="single" unit="grains/plant" lower_bound="0.0" upper_bound="1000.0" description="grains per plant minimum which all heads are barren"/>
+      <type name="barren_crit" kind="single" unit="grains/plant" lower_bound="0.0" upper_bound="1.0" description="fraction of maximum grains per plant below which barrenness occurs"/>
+      <type name="pesw_germ" kind="single" unit="mm/mm" lower_bound="0.0" upper_bound="1.0" description="plant extractable soil water in seedling layer inadequate for germination"/>
+      <type name="grain_n_conc_min" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="minimum nitrogen concentration of grain"/>
+      <type name="seed_wt_min" kind="single" unit="g/seed" lower_bound="0.0" upper_bound="100.0" description="minimum grain weight"/>
+      <type name="growth_rate_min" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="minimum rate of photosynthesis below which there is no grain produced"/>
+      <type name="growth_rate_crit" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="threshold  rate of photosynthesis below which heat stress has no effect (g/plant).  This is also the rate at which the grains/plant is half of the maximum grains"/>
+      <type name="leaf_no_at_emerg" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="leaf number at emergence"/>
+      <type name="no3_diffn_const" kind="single" unit="day" lower_bound="0.0" upper_bound="100.0" description="time constant for uptake by diffusion (days). H van Keulen & NG Seligman. Purdoe 1987. This is the time it would take to take up by diffusion the current amount of N if it wasn't depleted between time steps"/>
+      <type name="N_fix_rate" kind="single" unit="g N/g plant" lower_bound="0.0" upper_bound="1.0" description="potential rate of N fixation (g N fixed per g above ground biomass)"/>
+      <type name="shoot_lag" kind="single" unit="deg days" lower_bound="0.0" upper_bound="100.0" description="minimum growing degree days for germination"/>
+      <type name="shoot_rate" kind="single" unit="oC/mm" lower_bound="0.0" upper_bound="100.0" description="growing deg day increase with depth for germination"/>
+      <type name="photoperiod_base" kind="single" unit="hr" lower_bound="0.0" upper_bound="24.0" description="lower threshold of hours of light"/>
+      <type name="photoperiod_crit" kind="single" unit="hr" lower_bound="0.0" upper_bound="24.0" description="critical daylength (h) to amend c%y_tiller_tt"/>
+      <type name="photo_tiller_crit" kind="single" unit="hr" lower_bound="0.0" upper_bound="24.0" description="critical daylength (h) to amend c%y_tiller_tt"/>
+      <type name="leaf_app_rate1" kind="single" unit="deg day" lower_bound="0.0" upper_bound="100.0" description="thermal time required to develop a leaf ligule for first leaves"/>
+      <type name="leaf_app_rate2" kind="single" unit="deg day" lower_bound="0.0" upper_bound="100.0" description="thermal time required to develop a leaf ligule for later leaves"/>
+      <type name="leaf_no_rate_change" kind="single" unit="" lower_bound="0.0" upper_bound="30.0" description="leaf no at which change from rate1 to rate2 for leaf appearance"/>
+      <type name="dm_leaf_init" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="leaf growth before emergence"/>
+      <type name="dm_root_init" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="root growth before emergence"/>
+      <type name="dm_stem_init" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="stem growth before emergence"/>
+      <type name="ll_ub" kind="single" unit="mm/mm" lower_bound="0.0" upper_bound="1000.0" description="upper limit of lower limit"/>
+      <type name="kl_ub" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="upper limit of water uptake factor"/>
+      <type name="leaf_init_rate" kind="single" unit="deg day" lower_bound="0.0" upper_bound="100.0" description="growing degree days to initiate each le primordium until fl_initling"/>
+      <type name="leaf_no_seed" kind="single" unit="leaves" lower_bound="0.0" upper_bound="100.0" description="number of leaf primordia present in seed"/>
+      <type name="leaf_no_min" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="lower limit of leaf number"/>
+      <type name="leaf_no_max" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="upper limit of leaf number"/>
+      <type name="leaf_no_diff" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="GD"/>
+      <type name="stem_trans_frac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of stem used in translocat to grain"/>
+      <type name="leaf_trans_frac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of leaf used in translocat to grain"/>
+      <type name="minsw" kind="single" unit="mm/mm" lower_bound="0.0" upper_bound="1000.0" description="lowest acceptable value for ll"/>
+      <type name="swdf_grain_min" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="minimum of water stress factor"/>
+      <type name="sw_fac_max" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="soil water stress factor maximum"/>
+      <type name="temp_fac_min" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="temperature stress factor minimum optimum temp"/>
+      <type name="sfac_slope" kind="single" unit="" lower_bound="-10.0" upper_bound="10.0" description="soil water stress factor slope"/>
+      <type name="tfac_slope" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="temperature stress factor slope"/>
+      <type name="leaf_no_dead_const" kind="single" unit="" lower_bound="-9.0" upper_bound="100.0" description="dead leaf no intercept"/>
+      <type name="leaf_no_dead_slope" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="dead leaf no slope"/>
+      <type name="leaf_no_dead_slope1" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="dead leaf no slope"/>
+      <type name="leaf_no_dead_slope2" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="dead leaf no slope"/>
+      <type name="latitude_ub" kind="single" unit="oL" lower_bound="-90.0" upper_bound="90.0" description="upper limit of latitude for model"/>
+      <type name="latitude_lb" kind="single" unit="oL" lower_bound="-90.0" upper_bound="90.0" description="lower limit of latitude for model"/>
+      <type name="maxt_ub" kind="single" unit="oC" lower_bound="0.0" upper_bound="60.0" description="upper limit of maximum temperature"/>
+      <type name="maxt_lb" kind="single" unit="oC" lower_bound="0.0" upper_bound="60.0" description="lower limit of maximum temperature"/>
+      <type name="mint_ub" kind="single" unit="oC" lower_bound="0.0" upper_bound="40.0" description="upper limit of minimum temperature"/>
+      <type name="mint_lb" kind="single" unit="oC" lower_bound="-100.0" upper_bound="100.0" description="lower limit of minimum temperature"/>
+      <type name="radn_ub" kind="single" unit="MJ/m^2" lower_bound="0.0" upper_bound="100.0" description="upper limit of solar radiation"/>
+      <type name="radn_lb" kind="single" unit="MJ/m^2" lower_bound="0.0" upper_bound="100.0" description="lower limit of solar radiation"/>
+      <type name="dlayer_ub" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="upper limit of layer depth"/>
+      <type name="dlayer_lb" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="lower limit of layer depth"/>
+      <type name="dul_dep_ub" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="upper limit of dul"/>
+      <type name="dul_dep_lb" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="lower limit of dul"/>
+      <type name="sw_dep_ub" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="upper limit of soilwater depth"/>
+      <type name="sw_dep_lb" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="lower limit of soilwater depth"/>
+      <type name="no3_ub" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="upper limit of soil NO3"/>
+      <type name="no3_lb" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="lower limit of soil NO3"/>
+      <type name="no3_min_ub" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="upper limit of minimum soil NO3"/>
+      <type name="no3_min_lb" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="lower limit of minimum soil NO3"/>
+      <type name="grn_water_cont" kind="single" unit="g/g" lower_bound="0.0" upper_bound="1.0" description="water content of grain"/>
+      <type name="sla_min" kind="single" unit="mm^2/g" lower_bound="0.0" upper_bound="100000.0" description="minimum specific leaf area for new leaf area"/>
+      <type name="partition_rate_leaf" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="rate coefficient of sigmoidal function between leaf partition fraction and internode no**2 (0-1)"/>
+      <type name="frac_leaf_pre_flower" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of dm allocated to leaves prior to flowering"/>
+      <type name="frac_leaf_post_flower" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of dm allocated to leaves after flowering"/>
+      <type name="frac_stem2flower" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of dm allocated_z to stem that goes to developing head"/>
+      <type name="frac_flower2grain" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of dm allocated to flower relative to grain"/>
+      <type name="htstress_coeff" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="coeff for conversion of heat stress during flowering to heat stress factor on grain number development"/>
+      <type name="dm_root_sen_frac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of root dry matter senescing each day"/>
+      <type name="dm_leaf_sen_frac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of senescing leaf dry matter remaining in leaf"/>
+      <type name="dead_detach_frac" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of dead plant parts detaching each day"/>
+      <type name="dm_leaf_detach_frac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of senesced leaf dry matter detaching from live plant each day"/>
+      <type name="leaf_size_average" kind="single" unit="mm2" lower_bound="0.0" upper_bound="10000.0" description="average leaf size"/>
+      <type name="leaf_size_endjuv" kind="single" unit="mm2" lower_bound="0.0" upper_bound="10000.0" description="early leaf size"/>
+      <type name="x0_const" kind="single" unit="" lower_bound="-10.0" upper_bound="100.0" description="largest leaf no intercept"/>
+      <type name="x0_slope" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="largest leaf no slope"/>
+      <type name="a_const" kind="single" unit="" lower_bound="-1000.0" upper_bound="1000.0" description="leaf area breadth intercept"/>
+      <type name="a_slope1" kind="single" unit="" lower_bound="-1000.0" upper_bound="1000.0" description="leaf area breadth slope1"/>
+      <type name="a_slope2" kind="single" unit="" lower_bound="-1000.0" upper_bound="1000.0" description="leaf area breadth slope2"/>
+      <type name="b_const" kind="single" unit="" lower_bound="-1000.0" upper_bound="1000.0" description="leaf area skewness intercept"/>
+      <type name="b_slope1" kind="single" unit="" lower_bound="-1000.0" upper_bound="1000.0" description="leaf area skewness slope1"/>
+      <type name="b_slope2" kind="single" unit="" lower_bound="-1000.0" upper_bound="1000.0" description="leaf area skewness slope2"/>
+      <type name="tiller_no_pot" kind="single" unit="mm" lower_bound="0" upper_bound="5" description="potential number of tillers"/>
+      <type name="tiller_appearance" kind="string" unit="" description="method of tiller appearance"/>
+      <type name="x_tiller_no_next" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="6.0" description="tiller table for determining tt for tiller appearance rate"/>
+      <type name="y_tiller_tt" kind="single" array="T" unit="oCd" lower_bound="0.0" upper_bound="2000.0" description="thermal time for theoretical  tiller appearance rate (oCd) at plant density = 0"/>
+      <type name="tiller_appearance_slope" kind="single" unit="" lower_bound="0.0" upper_bound="5.0" description="relationship between tiller appearance and plant density"/>
+      <type name="dm_tiller_crit" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="100.0" description="critical dry matter required for a new tiller to become independent"/>
+      <type name="lai_sen_light" kind="single" unit="m^2/m^2" lower_bound="3.0" upper_bound="20.0" description="critical lai above which light"/>
+      <type name="sen_light_slope" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="slope of linear relationship between lai and light competition factor for determining leaf senesence rate"/>
+      <type name="x_temp_senescence" kind="single" array="T" unit="oC" lower_bound="-20.0" upper_bound="20.0" description="temperature senescence table"/>
+      <type name="y_senescence_fac" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="temperature factor senescence table"/>
+      <type name="sen_rate_water" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="slope in linear eqn relating soil water stress during photosynthesis to leaf senesense rate"/>
+      <type name="twilight" kind="single" unit="deg" lower_bound="-90.0" upper_bound="90.0" description="twilight in angular distance between sunset and end of twilight - altitude of sun"/>
+      <type name="temp_grain_crit_stress" kind="single" unit="oC" lower_bound="20.0" upper_bound="50.0" description="temperature above which heat stress occurs"/>
+      <type name="x_stage_code" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="stage table for N concentrations"/>
+      <type name="y_n_conc_crit_leaf" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="critical N concentration of leaf"/>
+      <type name="y_n_conc_max_leaf" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="maximum N concentration of leaf"/>
+      <type name="y_n_conc_min_leaf" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="minimum N concentration of leaf"/>
+      <type name="y_n_conc_crit_stem" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="critical N concentration of stem"/>
+      <type name="y_n_conc_max_stem" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="maximum N concentration of stem"/>
+      <type name="y_n_conc_min_stem" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="minimum N concentration of stem"/>
+      <type name="y_n_conc_crit_flower" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="critical N concentration of flower"/>
+      <type name="y_n_conc_max_flower" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="maximum N concentration of flower"/>
+      <type name="y_n_conc_min_flower" kind="single" array="T" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="minimum N concentration of flower"/>
+      <type name="n_conc_crit_grain" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="critical N concentration of grain"/>
+      <type name="n_conc_max_grain" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="maximum N concentration of grain"/>
+      <type name="n_conc_min_grain" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="minimum N concentration of grain"/>
+      <type name="n_conc_crit_root" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="critical N concentration of root"/>
+      <type name="n_conc_max_root" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="maximum N concentration of root"/>
+      <type name="n_conc_min_root" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="minimum N concentration of root"/>
+      <type name="n_leaf_init_conc" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="initial leaf N concentration"/>
+      <type name="n_root_init_conc" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="initial root N concentration"/>
+      <type name="n_stem_init_conc" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="initial stem N concentration"/>
+      <type name="n_leaf_sen_conc" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="N concentration of senesced leaf"/>
+      <type name="n_root_sen_conc" kind="single" unit="g N/g biomass" lower_bound="0.0" upper_bound="100.0" description="N concentration of senesced root"/>
+      <type name="N_fact_photo" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="multipler for N deficit effect on photosynthesis"/>
+      <type name="N_fact_pheno" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="multipler for N deficit effect on phenology"/>
+      <type name="x_ave_temp" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="critical temperatures for photosynthesis"/>
+      <type name="y_stress_photo" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Factors for critical temperatures"/>
+      <type name="x_temp_grain" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="critical temperatures controlling grain fill rates"/>
+      <type name="y_grain_rate" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Relative grain fill rates for critical temperatures"/>
+      <type name="x_temp" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="temperature table for photosynthesis degree days"/>
+      <type name="y_tt" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="degree days"/>
+      <type name="x_weighted_temp" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="temperature table for poor establishment"/>
+      <type name="y_plant_death" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="index of plant death"/>
+      <type name="x_sw_demand_ratio" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Soilwater supply:demand ratio controlling leaf expansion"/>
+      <type name="y_swdef_leaf" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Leaf expansion water availability factor"/>
+      <type name="x_sw_avail_ratio" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Soilwater actual:potential availability ratio controlling phenology"/>
+      <type name="y_swdef_pheno" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Phenology water availability factor"/>
+      <type name="x_sw_ratio" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Soilwater actual:potential availability ratio controlling extension"/>
+      <type name="y_sw_fac_root" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Root extension water availability factor"/>
+      <type name="x_sw_avail_fix" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Soilwater actual:potential availability ratio controlling N fixation"/>
+      <type name="y_swdef_fix" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="N fixation water availibility factor"/>
+      <type name="plant_status" kind="string" unit="" description="status of crop(alive dead out)"/>
+      <type name="stage" kind="single" unit="" description="current phenological stage(1-12)"/>
+      <type name="stage_code" kind="single" unit="" description="stage number from constants section"/>
+      <type name="stage_name" kind="string" unit="" description="full names of stages for reporting"/>
+      <type name="crop_type" kind="string" unit="" description="crop "/>
+      <type name="dlt_tt" kind="single" unit="oCd" description="daily thermal time (growing deg day)"/>
+      <type name="phase_tt" kind="single" array="T" unit="oCd" description="Cumulative growing degree days required for each stage (deg days)"/>
+      <type name="tt_tot" kind="single" array="T" unit="oC" description="the sum of growing degree days for a phenological stage (oC d)"/>
+      <type name="dlt_tt_curv" kind="single" unit="oC" description="daily thermal time (growing deg day)"/>
+      <type name="phase_tt_curv" kind="single" array="T" unit="oC" description="Cumulative growing degree days required for each stage (deg days)"/>
+      <type name="tt_curv_tot" kind="single" array="T" unit="oC" description="the sum of growing degree days for a phenological stage (oC d)"/>
+      <type name="dlt_tt_other" kind="single" unit="oC" description="daily thermal time (growing deg day)"/>
+      <type name="dlt_tiller_no" kind="single" unit="" description="fraction of new tiller"/>
+      <type name="phase_tt_other" kind="single" array="T" unit="oC" description="Cumulative growing degree days required for each stage (deg days)"/>
+      <type name="tt_other_tot" kind="single" array="T" unit="oC" description="the sum of growing degree days for a phenological stage (oC d)"/>
+      <type name="days_tot" kind="single" array="T" unit="day" description="duration of each phase"/>
+      <type name="tiller_no" kind="single" array="T" unit="" description="number of tillers"/>
+      <type name="leaf_no" kind="single" array="T" unit="" description="number of fully expanded leaves"/>
+      <type name="leaf_no_final" kind="single" unit="" lower_bound="0.0" upper_bound="40.0" description="total number of leaves the plant produces"/>
+      <type name="leaf_no_total" kind="single" unit="" description="total no of leaves the main shoot produces"/>
+      <type name="leaf_no_effective" kind="single" unit="" description="number of leaves the plant produced # fully expanded leaves plus corr. factor"/>
+      <type name="leaf_no_dead_const2" kind="single" unit="" description="intercept for second slope of seneced leaf number (after flag leaf stage)"/>
+      <type name="lf_no_dead_at_flaglf" kind="single" unit="" description="senesced leaf number at flag leaf"/>
+      <type name="leaf_no_dead" kind="single" array="T" unit="" description="no of dead leaves"/>
+      <type name="leaf_no_ref" kind="single" unit="" description="total no of leaves the main shoot produces"/>
+      <type name="leaf_area" kind="single" array="T" unit="mm^2" description="leaf area of each leaf"/>
+      <type name="y_tiller_tt_adj" kind="single" array="T" unit="" description="thermal time for tiller appearance rate"/>
+      <type name="height" kind="single" unit="mm" description="canopy height"/>
+      <type name="root_depth" kind="single" unit="mm" description="depth of roots"/>
+      <type name="plants" kind="single" unit="plants/m^2" description="Plant density"/>
+      <type name="grain_no" kind="single" unit="grains/plant" description="grain number"/>
+      <type name="grain_size" kind="single" unit="g/grain" description="individual grain wt"/>
+      <type name="cover_green" kind="single" unit="" description="fraction of radiation reaching the canopy that is intercepted by the green leaves of the canopy (0-1)"/>
+      <type name="lai_sum" kind="single" unit="m^2/m^2" description="leaf area index of all leaf material live + dead"/>
+      <type name="tlai" kind="single" unit="m^2/m^2" description="total lai (green + senesced)"/>
+      <type name="slai" kind="single" unit="m^2/m^2" description="area of leaf that senesces from plant"/>
+      <type name="lai" kind="single" unit="m^2/m^2" description="live plant green lai"/>
+      <type name="tlai_dead" kind="single" unit="m^2/m^2" description="total lai of dead plants"/>
+      <type name="root_wt" kind="single" unit="g/m^2" description="live plant root dry weight"/>
+      <type name="leaf_wt" kind="single" unit="g/m^2" description="live plant leaf  weight"/>
+      <type name="stem_wt" kind="single" unit="g/m^2" description="live plant stem dry weight"/>
+      <type name="flower_wt" kind="single" unit="g/m^2" description="live plant flower dry weight"/>
+      <type name="grain_wt" kind="single" unit="g/m^2" description="live plant grain dry weight"/>
+      <type name="dm_green" kind="single" array="T" unit="g/m^2" description="live plant dry weight"/>
+      <type name="dm_senesced" kind="single" array="T" unit="g/m^2" description="senesced plant dry wt"/>
+      <type name="dm_dead" kind="single" array="T" unit="g/m^2" description="dry wt of dead plants"/>
+      <type name="yield" kind="single" unit="kg/ha" description="grain yield"/>
+      <type name="biomass" kind="single" unit="kg/ha" description="total above-ground biomass"/>
+      <type name="dlt_dm" kind="single" unit="g/m^2" description="the daily biomass production"/>
+      <type name="dlt_dm_green" kind="single" array="T" unit="g/m^2" description="plant biomass growth"/>
+      <type name="dlt_dm_green_retrans" kind="single" array="T" unit="g/m^2" description="plant biomass retranslocated"/>
+      <type name="dlt_dm_detached" kind="single" array="T" unit="g/m^2" description="plant biomass detached"/>
+      <type name="dlt_dm_dead_detached" kind="single" array="T" unit="g/m^2" description="plant biomass detached from dead plant"/>
+      <type name="n_green" kind="single" array="T" unit="g/m^2" description="plant nitrogen content"/>
+      <type name="n_senesced" kind="single" array="T" unit="g/m^2" description="plant N content of senesced plant"/>
+      <type name="n_dead" kind="single" array="T" unit="g/m^2" description="plant N content of dead plants"/>
+      <type name="dlt_n_green" kind="single" array="T" unit="g/m^2" description="actual N uptake into plant"/>
+      <type name="dlt_n_retrans" kind="single" array="T" unit="g/m^2" description="nitrogen retranslocated out from parts to grain"/>
+      <type name="dlt_n_detached" kind="single" array="T" unit="g/m^2" description="actual N loss with detached plant"/>
+      <type name="dlt_n_dead_detached" kind="single" array="T" unit="g/m^2" description="actual N loss with detached dead plant"/>
+      <type name="swdef_pheno" kind="single" unit="" description="soil water deficit factor used for phenology thermal time"/>
+      <type name="swdef_photo" kind="single" unit="" description="soil water deficit factor ussed for leaf area senescence + rue reduction + grain filling + leaf death"/>
+      <type name="swdef_expan" kind="single" unit="" description="soil water deficit factor used for leaf expansion"/>
+      <type name="ep" kind="single" array="T" unit="mm" description="water uptake in each layer"/>
+      <type name="cep" kind="single" unit="mm" description="cumulative transpiration"/>
+      <type name="sw_demand" kind="single" unit="mm" description="total crop demand for water"/>
+      <type name="sw_supply" kind="single" unit="mm" description="potential water to take up (supply) from current soil water"/>
+      <type name="esw_layr" kind="single" array="T" unit="mm" description="plant extractable soil water"/>
+      <type name="das" kind="single" unit="day" description="Days after sowing"/>
+      <type name="n_conc_stover" kind="single" unit="%" description="sum of tops actual N concentration"/>
+      <type name="n_conc_crit" kind="single" unit="%" description="sum of tops critical N concentration"/>
+      <type name="n_grain_pcnt" kind="single" unit="%" description="Grain N percent"/>
+      <type name="n_uptake_grain" kind="single" unit="kg/ha" description="N uptake by grain"/>
+      <type name="n_uptake" kind="single" unit="kg/ha" description="cumulative total N uptake by plant"/>
+      <type name="n_uptake_stover" kind="single" unit="kg/ha" description="N uptake by stover"/>
+      <type name="no3_tot" kind="single" unit="g/m^2" description="total NO3 in the root profile"/>
+      <type name="n_demand" kind="single" unit="g/m^2" description="sum N demand for plant parts"/>
+      <type name="n_supply" kind="single" unit="g/m^2" description="N supply for grain"/>
+      <type name="n_supply_soil" kind="single" unit="g/m^2" description="N supply from soil"/>
+      <type name="n_fix_pot" kind="single" unit="g/m^2" description="the potential quantity of atmospheric nitrogen fixed per unit carbohydrate per day"/>
+      <type name="nfact_photo" kind="single" unit="" description="N availability factor to reduce rue and phenology thermal time"/>
+      <type name="nfact_grain" kind="single" unit="" description="N availability factor to reduce grain N concentration below critical"/>
+      <type name="photoperiod" kind="single" unit="hour" description="daylength of photoperiod response"/>
+      <type name="dlt_leaf_no_pot" kind="single" unit="" description="Irrigation"/>
+      <type name="day" kind="integer4" unit="" lower_bound="1" upper_bound="366" description="Day of year"/>
+      <type name="year" kind="integer4" unit="" lower_bound="1700" upper_bound="2100" description="Year"/>
+      <type name="fr_intc_radn_[module_name]" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Maximum"/>
+      <type name="leaf_no_ref" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Maximum"/>
+      <type name="latitude" kind="single" unit="oL" description="Maximum"/>
+      <type name="maxt" kind="single" unit="oC" description="Maximum ambient temperature"/>
+      <type name="mint" kind="single" unit="oC" description="Minimum ambient temperature"/>
+      <type name="radn" kind="single" unit="Mj/m^2" description="Incident radiation"/>
+      <type name="maxt_soil_surface" kind="single" unit="oC" lower_bound="0.0" upper_bound="80.0" description="Maximum soil surface temperature"/>
+      <type name="dlayer" kind="single" array="T" unit="mm" description="Thickness of each layer of soil profile"/>
+      <type name="cover_green_sum" kind="single" array="T" unit="g/cm^3" lower_bound="0.0" upper_bound="1.0" description="moist"/>
+      <type name="dul_dep" kind="single" array="T" unit="mm" description="drained upper limit soil water content for each soil layer"/>
+      <type name="sw_dep" kind="single" array="T" unit="mm" description="Soil water content of each layer"/>
+      <type name="no3_min" kind="single" array="T" unit="kg/ha" description="Minimum allowable NO3 in soil in each layer"/>
+      <type name="no3" kind="single" array="T" unit="kg/ha" description="Nitrate nitrogen in each layer"/>
+      <type name="dlt_sw_dep" kind="single" array="T" unit="mm" description="Soil water content of each layer"/>
+      <type name="dlt_no3" kind="single" array="T" unit="kg/ha" description="Nitrate nitrogen in each layer"/>
+
+!!OZCOT types!!!!!!
+      <type name="das" kind="integer4" unit="day" description="Days after sowing"/>
+      <type name="sumdd" kind="single" unit="oCd" description="Sum of thermal time after sowing"/>
+      <type name="sites" kind="single" unit="" description="Number of fruting sites"/>
+      <type name="squarz" kind="single" unit="" description="Number of squares"/>
+      <type name="bollz" kind="single" unit="" description="Number of bolls"/>
+      <type name="openz" kind="single" unit="" description="Number of open bolls"/>
+      <type name="alint" kind="single" unit="kg/ha" description="Lint weight"/>
+      <type name="dm" kind="single" unit="kg/ha" description="Total dry matter (leaf+stem+boll+root)"/>
+      <type name="totnup" kind="single" unit="kg/ha" description="Total N uptake"/>
+      <type name="yield" kind="single" unit="bales/ha" description="Lint yield"/>
+      <type name="lai" kind="single" unit="m^2/m^2" description="Green leaf area index"/>
+      <type name="cover_green" kind="single" unit="" description="Projected cover of green component of canopy"/>
+      <type name="cover_tot" kind="single" unit="" description="Projected cover of total canopy"/>
+      <type name="height" kind="single" unit="mm" description="Canopy height of crop"/>
+      <type name="availn" kind="single" unit="kg/ha" description="N available for uptake"/>
+      <type name="tsno3" kind="single" unit="kg/ha" description="Total mobile nitrate in soil profile"/>
+      <type name="ysno3" kind="single" unit="kg/ha" description="Total mobile nitrate in soil profile less plant uptake"/>
+      <type name="d_nup" kind="single" unit="kg/ha" description="Daily N uptake"/>
+      <type name="rtdep" kind="single" unit="cm" description="Depth of roots in soil profile"/>
+      <type name="tmean3" kind="single" unit="oC" description="Mean temperature for last 3 days"/>
+      <type name="s_bed_sat" kind="single" unit="" description="Maximum seed-bed moisture index (layer 1)"/>
+      <type name="s_bed_mi" kind="single" unit="" description="Seed-bed moisture index"/>
+      <type name="smi" kind="single" unit="" description="Soil moisture index (water stress factor)"/>
+      <type name="evap_plant" kind="single" unit="cm" description="Plant transpiration"/>
+      <type name="evap_soil" kind="single" unit="cm" description="Soil evaporation"/>
+      <type name="evap_pot" kind="single" unit="cm" description="Potential evapotranspiration"/>
+      <type name="evap_tot" kind="single" unit="cm" description="Total evapotranspiration"/>
+      <type name="ozcot_crop_in" kind="boolean" unit="" description="Flag indicating if crop is in the ground"/>
+      <type name="ozcot_status" kind="integer4" unit="" description="Crop status (0 - not in: 1 - sown and in: 2 - ready for harvest)"/>
+      <type name="percent_l" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="percent lint"/>
+      <type name="scboll" kind="single" unit="g/boll" lower_bound="0.0" upper_bound="10.0" description="g seed cotton/boll"/>
+      <type name="respcon" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="respiration const"/>
+      <type name="sqcon" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="governs pot rate of squaring in thermal time"/>
+      <type name="fcutout" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="relates timing of cutut to boll load"/>
+      <type name="flai" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="modifying ratio of leaf area per site for this cultivar"/>
+      <type name="ddisq" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="dd to first square"/>
+      <type name="stage_code" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="list of stage numbers"/>
+      <type name="crop_type" kind="string" unit="" description="Type of Crop"/>
+      <type name="frudd" kind="single" array="T" unit="dd" lower_bound="0.0" upper_bound="2000.0" description="fruit dd to change of category"/>
+      <type name="bltme" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="boll time (fraction of period from flowering to boll opening)"/>
+      <type name="wt" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="weighting of number of bolls by carbon demand"/>
+      <type name="row_spacing_default" kind="single" unit="m" lower_bound="0.0" upper_bound="2000.0" description="Default rowing spacing"/>
+      <type name="popcon" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="population constant"/>
+      <type name="fburr" kind="single" unit="" lower_bound="0.0" upper_bound="5.0" description="factor sc/boll to sc+burr/boll"/>
+      <type name="acotyl" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="initial leaf area per plant"/>
+      <type name="rlai" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="lai growth rate"/>
+      <type name="leaf_res_n_conc" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="N content of senesced leaf"/>
+      <type name="a" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="rate of leaf area expansion constants for LAI calibration eqn"/>
+      <type name="b1" kind="single" unit="" lower_bound="-1.0" upper_bound="1.0" description="rate of leaf area expansion constants for LAI calibration eqn"/>
+      <type name="b2" kind="single" unit="" lower_bound="-1.0" upper_bound="1.0" description="rate of leaf area expansion constants for LAI calibration eqn"/>
+      <type name="b3" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="rate of leaf area expansion constants for LAI calibration eqn"/>
+      <type name="hucut" kind="single" unit="oC" lower_bound="0.0" upper_bound="100.0" description="cutoff temperature"/>
+      <type name="baset" kind="single" unit="oC" lower_bound="0.0" upper_bound="30.0" description="base temperature"/>
+      <type name="ul1" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="limit for stage 1 es  daRosa 1983"/>
+      <type name="cona" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="es rate in stage 2  daRosa 1983"/>
+      <type name="open_def" kind="single" unit="%" lower_bound="0.0" upper_bound="100.0" description="percent of open bolls at which to defoliate crop"/>
+      <type name="a_root_leaf" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="allometric constant root:leaf. Huxley's data 1964"/>
+      <type name="a_stem_leaf" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="allometric constant stem:leaf. Huxley's data 1964"/>
+      <type name="e_par" kind="single" unit="g/mj" lower_bound="0.0" upper_bound="10.0" description="Charles-edwards et al 1986"/>
+      <type name="specific_lw" kind="single" unit="" description="GAC 71/72"/>
+      <type name="t_opt" kind="single" unit="oC" lower_bound="0.0" upper_bound="50.0" description="Constable 1981"/>
+      <type name="t_base" kind="single" unit="oC" lower_bound="0.0" upper_bound="20.0" description="Constable 1981"/>
+      <type name="wt_area_max" kind="single" unit="" lower_bound="0.0" upper_bound="400.0" description="Hesketh and Low 1968 - Hoffman & Rawlins = 80"/>
+      <type name="embryo" kind="single" unit="g" lower_bound="0.0" upper_bound="1.0" description="dry weight of seedling at emergence"/>
+      <type name="f_leaf" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="proportion of leaf dry weight at emergence"/>
+      <type name="f_stem" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="proportion of stem dry weight at emergence"/>
+      <type name="f_root" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="proportion of root dry weight at emergence  -  data by extrapolation from Huxlry"/>
+      <type name="elevation_default" kind="single" unit="m" lower_bound="-100.0" upper_bound="1000.0" description="default elevation for calculating advection in eo calculation"/>
+      <type name="stress_wlog" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="sw/ul ratio for waterlogging"/>
+      <type name="wlog_assimilate_red" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="assimilate reduction with waterlogging"/>
+      <type name="wlog_carcap_red" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="carrying capacity reduction with waterlogging"/>
+      <type name="wlog_carcap_red_stress" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="carrying capacity reduction with waterlogging after stress"/>
+      <type name="smi_affect_wlog" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="level of water stress below which could affect waterlogging"/>
+      <type name="days_relief_wlog" kind="integer4" unit="days" lower_bound="0" upper_bound="20" description="number of days of stress relief after which has no effect on waterlogging"/>
+      <type name="frost_kill_immediate" kind="single" unit="oC" lower_bound="-5.0" upper_bound="5.0" description="min temperature below which immediate kill"/>
+      <type name="frost_kill_immediate_das" kind="integer4" unit="days" lower_bound="0" upper_bound="200" description="days after sowing after which  immediate kill can occur"/>
+      <type name="frost_kill_delayed" kind="single" unit="oC" lower_bound="0.0" upper_bound="10.0" description="min temperature below which delayed kill"/>
+      <type name="frost_kill_delayed_das" kind="integer4" unit="days" lower_bound="0" upper_bound="200" description="days after sowing after which  delayed kill can occur"/>
+      <type name="frost_kill_delayed_days" kind="integer4" unit="days" lower_bound="0" upper_bound="10" description="number of days delay before delayed frost kill"/>
+      <type name="rtdep_max" kind="single" unit="cm" lower_bound="0.0" upper_bound="500.0" description="maximum root depth"/>
+      <type name="harvest_n_frac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of uptake N for potential N harvested"/>
+      <type name="cutout_smi_crit" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="crit smi for coutout due to water stress or full boll load"/>
+      <type name="cutout_smi_days" kind="integer4" unit="" lower_bound="0" upper_bound="10" description="days of crit smi for coutout due to water stress or full boll load"/>
+      <type name="cutout_smi_site_red" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="site reduction for coutout due to water stress or full boll load"/>
+      <type name="smi_delay_crit" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="delays to squaring"/>
+      <type name="cold_shock_delay_crit" kind="single" unit="" lower_bound="0.0" upper_bound="20.0" description="delays to squaring"/>
+      <type name="cold_shock_delay" kind="single" unit="" lower_bound="0.0" upper_bound="20.0" description="delays to squaring"/>
+      <type name="epcoef1" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="ep coef for smi ge crit"/>
+      <type name="epcoef2" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="ep coef for smi lt crit"/>
+      <type name="epcoef_smi_crit" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="crit smi for ep coef"/>
+      <type name="fbwstr_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit water stress on bolls"/>
+      <type name="fbwstr_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit water stress on bolls"/>
+      <type name="fbwstr_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power water stress on bolls"/>
+      <type name="fbnstr_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit N stress"/>
+      <type name="fbnstr_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit N stress"/>
+      <type name="fbnstr_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power N stress"/>
+      <type name="relp_smi_crit" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="water stress on photosynthesis - critical level of smi below which it affects pp"/>
+      <type name="relp_intercept" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="water stress on photosynthesis - intercept  of f(smi)"/>
+      <type name="relp_slope" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="water stress on photosynthesis - slope  of f(smi)"/>
+      <type name="relp_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit severity of effect of water stress on photosynthesis"/>
+      <type name="relp_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit severity of effect of water stress on photosynthesis"/>
+      <type name="relp_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power severity of effect of water stress on photosynthesis"/>
+      <type name="vsnstr_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit N stress on fruiting site number"/>
+      <type name="vsnstr_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit N stress on fruiting site number"/>
+      <type name="vsnstr_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power N stress on fruiting site number"/>
+      <type name="flfsmi_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit water stress on pre-squaring lai"/>
+      <type name="flfsmi_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit water stress on pre-squaring lai"/>
+      <type name="flfsmi_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power water stress on pre-squaring lai"/>
+      <type name="vlnstr_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit N stress on lai"/>
+      <type name="vlnstr_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit N stress on lai"/>
+      <type name="vlnstr_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power N stress on lai"/>
+      <type name="fw_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit effect of water stress on leaf senescence"/>
+      <type name="fw_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit effect of water stress on leaf senescence"/>
+      <type name="fw_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power effect of water stress on leaf senescence"/>
+      <type name="adjust_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit plant N adjustment for supply/demand ratio"/>
+      <type name="adjust_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit plant N adjustment for supply/demand ratio"/>
+      <type name="adjust_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power plant N adjustment for supply/demand ratio"/>
+      <type name="fwstrs_low" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="lower limit water stress for boll growth"/>
+      <type name="fwstrs_high" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="upper limit water stress for boll growth"/>
+      <type name="fwstrs_a" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="power water stress for boll growth"/>
+
+!! SLURP types
+      <type name="crop_type" kind="string" unit="" description="Type of crop"/>
+      <type name="sw_demand" kind="single" unit="mm" description="Demand for soil water"/>
+      <type name="eo_fraction" kind="single" unit="mm" lower_bound="0.0" upper_bound="1.0" description="Transpiration as a fraction of daily evaporative demand"/>
+      <type name="ep" kind="single" array="T" unit="mm" description="Plant water uptake for each layer"/>
+      <type name="cum_ep" kind="single" unit="mm" description="Plant cumulative water uptake"/>
+      <type name="cover_tot" kind="single" unit="0-1" description="Fraction of radiation reaching the canopy intercepted by the total canopy"/>
+      <type name="cover_green" kind="single" unit="0-1" description="Fraction of radiation reaching the canopy intercepted by the green leaves of the canopy"/>
+      <type name="height" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000" description="Plant height"/>
+      <type name="rlv" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="1.0" description="Plant root length density for each layer"/>
+      <type name="nnnn_demand" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100" description="Plant demand for solute nnnn"/>
+      <type name="cum_uptake_nnnn" kind="single" unit="" description="Cumulative uptake of solute nnnn"/>
+      <type name="uptake_source" kind="string" unit="" description="uptake_source"/>
+      <type name="nnnn_min" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="Solute minimum temp?"/>
+      <type name="solute_names" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="Solute names"/>
+      <type name="dlt_sw_dep" kind="single" array="T" unit="mm" description="Change to the layered soil water"/>
+      <type name="dlt_nnnn" kind="single" array="T" unit="kg/ha" description="Change to solute"/>
+
+!! SUGAR types!!
+      <type name="crop_status" kind="string" unit="" description="Status of the crop (dead"/>
+      <type name="stage" kind="single" unit="" description="Current phenological stage"/>
+      <type name="stage_code" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="List of crop stage numbers"/>
+      <type name="stage_name" kind="string" unit="" description="Full names of stages for reporting"/>
+      <type name="crop_type" kind="string" unit="" description="Crop "/>
+      <type name="plants" kind="single" unit="/m2" description="Plant density"/>
+      <type name="ratoon_no" kind="integer4" unit="" description="Current number of the ratoon"/>
+      <type name="phase_tt" kind="single" array="T" unit="oC" description="Cummulative growing degree days required for each phenological stage"/>
+      <type name="tt_tot" kind="single" array="T" unit="oC" description="Sum of growing degree days for a phenological stage"/>
+      <type name="leaf_no" kind="single" array="T" unit="" description="Number of fully expanded leaves"/>
+      <type name="node_no_dead" kind="single" array="T" unit="" description="Number of dead leaves"/>
+      <type name="leaf_area" kind="single" array="T" unit="" description="Leaf area of each leaf"/>
+      <type name="leaf_dm" kind="single" array="T" unit="" description="Dry matter of each leaf"/>
+      <type name="height" kind="single" unit="mm" description="Canopy height"/>
+      <type name="root_depth" kind="single" unit="mm" description="Depth of roots"/>
+      <type name="cover_green" kind="single" unit="0-1" description="Green crop cover fraction"/>
+      <type name="radn_int" kind="single" unit="MJ/m2" description="Daily radiation interception"/>
+      <type name="cover_tot" kind="single" unit="0-1" description="Total crop cover fraction"/>
+      <type name="lai_sum" kind="single" unit="" description="Leaf area index of all leaf material live and dead"/>
+      <type name="tlai" kind="single" unit="" description="Total leaf area index (green and senesced)"/>
+      <type name="tla" kind="single" unit="" description="Total leaf area"/>
+      <type name="slai" kind="single" unit="" description="Senesced leaf area index"/>
+      <type name="lai" kind="single" unit="" description="Live plant green leaf area index"/>
+      <type name="root_wt" kind="single" unit="g/m2" description="Live plant root weight"/>
+      <type name="leaf_wt" kind="single" unit="g/m2" description="Live plant leaf weight"/>
+      <type name="sstem_wt" kind="single" unit="g/m2" description="Live plant structural stem weight"/>
+      <type name="canefw" kind="single" unit="g/m2" description="Weight of fresh can at 30% dry matter"/>
+      <type name="ccs" kind="single" unit="%" description="Commercial cane sugar"/>
+      <type name="scmstf" kind="single" unit="g/g" description="Sucrose concentration in fresh millable stalk"/>
+      <type name="scmst" kind="single" unit="g/g" description="Sucrose concentration in dry millable stalk"/>
+      <type name="sucrose_wt" kind="single" unit="g/m2" description="Sucrose weight"/>
+      <type name="cabbage_wt" kind="single" unit="" description="Live plant dry weight (biomass)"/>
+      <type name="cane_wt" kind="single" unit="g/m2" description="Cane weight (structural stem + sucrose)"/>
+      <type name="biomass" kind="single" unit="g/m2" description="Above ground biomass (alive + dead)"/>
+      <type name="green_biomass" kind="single" unit="g/m2" description="Above ground green biomass (alive + dead)"/>
+      <type name="dm_green" kind="single" unit="g/m2" description="Live plant dry weight"/>
+      <type name="dm_senesced" kind="single" unit="g/m2" description="Senesced plant dry weight"/>
+      <type name="dm_dead" kind="single" unit="g/m2" description="Dead plant dry weight"/>
+      <type name="dlt_dm" kind="single" unit="g/m2" description="Daily biomass production"/>
+      <type name="partition_xs" kind="single" unit="g/m2" description="Biomass used in partitioning that was excess to plant demands"/>
+      <type name="dlt_dm_green" kind="single" array="T" unit="g/m2" description="Plant biomass growth"/>
+      <type name="dlt_dm_detached" kind="single" array="T" unit="g/m2" description="Plant biomass detached"/>
+      <type name="n_critical" kind="single" array="T" unit="g/g" description="Critical N concentration"/>
+      <type name="n_minimum" kind="single" array="T" unit="g/g" description="Minimum N concentration"/>
+      <type name="n_conc_leaf" kind="single" unit="g/m2" description="Current N concentration in leaves"/>
+      <type name="n_conc_cab" kind="single" unit="g/m2" description="Current N concentration in cabbage"/>
+      <type name="n_conc_cane" kind="single" unit="g/m2" description="Current N concentration in cane"/>
+      <type name="n_leaf_crit" kind="single" unit="g/m2" description="Weight of N in leaves at critical concentration"/>
+      <type name="n_leaf_min" kind="single" unit="g/m2" description="Weight of N in leaves at the minimum concentration"/>
+      <type name="biomass_n" kind="single" unit="g/m2" description="N in above ground biomass (alive + dead)"/>
+      <type name="green_biomass_n" kind="single" unit="g/m2" description="Weight of N in green tops"/>
+      <type name="n_green" kind="single" array="T" unit="g/m2" description="Plant nitrogen content"/>
+      <type name="n_senesced" kind="single" array="T" unit="g/m2" description="Plant N content of senesced plant"/>
+      <type name="dlt_n_green" kind="single" array="T" unit="g/m2" description="Actual N uptake into plant"/>
+      <type name="swdef_pheno" kind="single" unit="0-1" description="Water stress factor on phenology"/>
+      <type name="swdef_photo" kind="single" unit="0-1" description="Water stress factor on photosynthesis"/>
+      <type name="swdef_expan" kind="single" unit="0-1" description="Water stress factor on cell expansion"/>
+      <type name="swdef_stalk" kind="single" unit="0-1" description="Water stress factor on stalk"/>
+      <type name="nfact_photo" kind="single" unit="0-1" description="Nitrogen stress factor on photosynthesis"/>
+      <type name="nfact_expan" kind="single" unit="0-1" description="Nitrogen stress factor on cell expansion"/>
+      <type name="ep" kind="single" array="T" unit="mm" description="Water uptake by the roots"/>
+      <type name="cep" kind="single" unit="mm" description="Cumulative crop water uptake"/>
+      <type name="sw_demand" kind="single" unit="mm" description="Crop demand for water (potential uptake)"/>
+      <type name="fasw" kind="single" unit="0-1" description="Fraction of available soil water"/>
+      <type name="cane_dmf" kind="single" unit="0-1" description="cane_dmf"/>
+      <type name="oxdef_photo" kind="single" unit="0-1" description="Root oxygen stress factor on photosynthesis"/>
+      <type name="das" kind="integer4" unit="days" description="Days after sowing"/>
+      <type name="n_uptake" kind="single" unit="kg/ha" description="Cummulative total N uptake by plant"/>
+      <type name="no3_tot" kind="single" unit="g/m2" description="Total No3 in the root profile"/>
+      <type name="n_demand" kind="single" unit="g/m2" description="Sum N demand for plant parts"/>
+      <type name="no3_demand" kind="single" unit="kg/ha" description="Sum N demand for plant parts"/>
+      <type name="n_supply" kind="single" unit="g/m2" description="N supply for grain"/>
+      <type name="rlv" kind="single" array="T" unit="mm/mm3" description="Root length density for each layer"/>
+      <type name="ll_dep" kind="single" array="T" unit="mm" description="Crop lower limit - layered"/>
+      <type name="dm_graze" kind="single" unit="g/m2" description="Biomass removed by grazing"/>
+      <type name="n_graze" kind="single" unit="g/m2" description="N removed by grazing"/>
+      <type name="lai2" kind="single" array="T" unit="" description="Leaf area index"/>
+      <type name="leaf_wt2" kind="single" array="T" unit="g/m2" description="Leaf weight"/>
+      <type name="leaf_size" kind="single" array="T" unit="" lower_bound="1000.0" upper_bound="100000.0" description="Leaf size"/>
+      <type name="leaf_size_no" kind="single" array="T" unit="" description="Leaf size number"/>
+      <type name="cane_fraction" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Cane fraction"/>
+      <type name="sucrose_fraction_stalk" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Sucrose fraction stalk"/>
+      <type name="stress_factor_stalk" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Stress factor stalk"/>
+      <type name="sucrose_delay" kind="single" unit="" lower_bound="0.0" upper_bound="2000.0" description="Sucrose delay"/>
+      <type name="min_sstem_sucrose" kind="single" unit="g/m2" lower_bound="0.0" upper_bound="5000.0" description="Minimum structural stem sucrose"/>
+      <type name="min_sstem_sucrose_redn" kind="single" unit="g/m2" lower_bound="0.0" upper_bound="5000.0" description="Minimum structural stem sucrose reduction"/>
+      <type name="tt_emerg_to_begcane" kind="single" unit="" description="Thermal time emergence to beginning cane"/>
+      <type name="tt_begcane_to_flowering" kind="single" unit="" description="Thermal time beginning cane to flowering"/>
+      <type name="tt_flowering_to_crop_end" kind="single" unit="" description="Thermal time flowering to end of the crop"/>
+      <type name="green_leaf_no" kind="single" unit="" description="Green leaf number"/>
+      <type name="tillerf_leaf_size" kind="single" unit="" description="Tillerf leaf size"/>
+      <type name="tillerf_leaf_size_no" kind="single" unit="" description="Tillerf leaf size number"/>
+      <type name="uptake_source" kind="string" unit="" description="Uptake source"/>
+      <type name="xf" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Root expansion factor"/>
+      <type name="ll" kind="single" array="T" unit="" description="Lower limit"/>
+      <type name="kl" kind="single" array="T" unit="" description="Water extraction parameter"/>
+      <type name="rlv" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="20.0" description="Root length density at emergence"/>
+      <type name="tt_emerg_to_begcane_ub" kind="single" unit="" lower_bound="10000.0" description="Thermal time emergence to beginning cane upper bound"/>
+      <type name="tt_begcaneto_flowering_ub" kind="single" unit="" lower_bound="10000.0" description="Thermal time beginning cane to flowering upper bound"/>
+      <type name="tt_flowering_to_crop_end_ub" kind="single" unit="" lower_bound="10000.0" description="Thermal time flowering to crop end upper bound"/>
+      <type name="no3_diffn_const" kind="single" unit="days" lower_bound="0.0" upper_bound="100.0" description="NO3 diffn const"/>
+      <type name="n_supply_preference" kind="string" unit="" description="N supply preference"/>
+      <type name="ll_ub" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Lower limit upper bound"/>
+      <type name="kl_ub" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Water extraction upper bound"/>
+      <type name="minsw" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Lowest acceptable value for ll"/>
+      <type name="latitude_ub" kind="single" unit="oL" lower_bound="-90.0" upper_bound="90.0" description="Upper limit of latitude for model"/>
+      <type name="latitude_lb" kind="single" unit="oL" lower_bound="-90.0" upper_bound="90.0" description="Lower limit of latitude for model"/>
+      <type name="maxt_ub" kind="single" unit="oC" lower_bound="0.0" upper_bound="60.0" description="Upper limit of maximum temperature"/>
+      <type name="maxt_lb" kind="single" unit="oC" lower_bound="0.0" upper_bound="60.0" description="Lower limit of maximum temperature"/>
+      <type name="mint_ub" kind="single" unit="oC" lower_bound="0.0" upper_bound="40.0" description="Upper limit of minimum temperature"/>
+      <type name="mint_lb" kind="single" unit="oC" lower_bound="-100.0" upper_bound="100.0" description="Lower limit of minimum temperature"/>
+      <type name="radn_ub" kind="single" unit="MJ/m2" lower_bound="0.0" upper_bound="100.0" description="Upper limit of solar radiation"/>
+      <type name="radn_lb" kind="single" unit="MJ/m2" lower_bound="0.0" upper_bound="100.0" description="Lower limit of solar radiation"/>
+      <type name="dlayer_ub" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Upper limit of layer depth"/>
+      <type name="dlayer_lb" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Lower limit of layer depth"/>
+      <type name="dul_dep_ub" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Upper limit of DUL"/>
+      <type name="dul_dep_lb" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Lower limit of DUL"/>
+      <type name="sw_dep_ub" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Upper limit of soil water depth"/>
+      <type name="sw_dep_lb" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Lower limit of soil water depth"/>
+      <type name="no3_ub" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="Upper limit of soil NO3"/>
+      <type name="no3_lb" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="Lower limit of soil NO3"/>
+      <type name="no3_min_ub" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="Upper limit of minimum soil NO3"/>
+      <type name="no3_min_lb" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="Lower limit of minimum soil NO3"/>
+      <type name="stage_names" kind="string" array="T" unit="" description="Names of phenological stages"/>
+      <type name="rue" kind="single" array="T" unit="g dm/mj" lower_bound="0.0" upper_bound="1000.0" description="Radiation use efficiency"/>
+      <type name="root_depth_rate" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="Root growth rate potential"/>
+      <type name="ratio_root_shoot" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="Root shoot ratio of new dm"/>
+      <type name="transp_eff_cf" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Transpiration efficiency coefficient to convert vpd to transpiration efficiency"/>
+      <type name="n_fix_rate" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="N fixation rate"/>
+      <type name="extinction_coef" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="Radiation extinction coefficient"/>
+      <type name="extinction_coef_dead" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="Radiation extinction coefficient of dead leaves"/>
+      <type name="leaf_no_crit" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Critical number of leaves below which portion of the crop may die due to water stress"/>
+      <type name="tt_emerg_limit" kind="single" unit="oC" lower_bound="0.0" upper_bound="1000.0" description="Maximum degree days allowed for emergence to take place"/>
+      <type name="days_germ_limit" kind="single" unit="days" lower_bound="0.0" upper_bound="365.0" description="Maximum days allowed after sowing for germination to take place"/>
+      <type name="swdf_pheno_limit" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Critical cumulative phenology water stress above which the crop fails"/>
+      <type name="swdf_photo_limit" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="Critical cumulative photosynthesis water stress above which the crop partly fails"/>
+      <type name="swdf_photo_rate" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Rate of plant reduction with photosynthesis water stress"/>
+      <type name="initial_root_depth" kind="single" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="Initial depth of roots"/>
+      <type name="specific_root_length" kind="single" unit="mm/g" lower_bound="0.0" upper_bound="50000.0" description="Length of root per unit weight"/>
+      <type name="x_plant_rld" kind="single" array="T" unit="mm/mm3/plant" lower_bound="0.0" upper_bound="0.1" description="x_plant_rld"/>
+      <type name="y_rel_root_rate" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Y_rel_root_rate"/>
+      <type name="root_die_back_fr" kind="single" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Fraction of roots that dies back at harvest"/>
+      <type name="initial_tpla" kind="single" unit="mm2" lower_bound="0.0" upper_bound="100000.0" description="Initial plant leaf area"/>
+      <type name="sla_lfno" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Area on each additional tiller area on main culm"/>
+      <type name="sla_max" kind="single" array="T" unit="mm2/g" lower_bound="0.0" upper_bound="50000.0" description="Maximum specific leaf area for new leaf area"/>
+      <type name="sla_min" kind="single" array="T" unit="mm2/g" lower_bound="0.0" upper_bound="50000.0" description="Minimum specific leaf area for new leaf area"/>
+      <type name="x_stem_wt" kind="single" array="T" unit="g/plant" lower_bound="0.0" upper_bound="10000.0" description="x_stem_wt"/>
+      <type name="y_height" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="y_height"/>
+      <type name="svp_fract" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of distance between svp at min temp and svp at max temp where average svp during transpiration lies"/>
+      <type name="pesw_germ" kind="single" unit="mm/mm" lower_bound="0.0" upper_bound="1.0" description="Plant extractable soil water in seedling layer inadequate for germination"/>
+      <type name="fasw_emerg" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Fraction of available soil water at emergence"/>
+      <type name="rel_emerg_rate" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Grain below which there is no grain produced below which heat stress has no effect"/>
+      <type name="leaf_no_at_emerg" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Leaf number at emergence"/>
+      <type name="shoot_lag" kind="single" unit="oC" lower_bound="0.0" upper_bound="1000.0" description="Minimum growing degree days for germination"/>
+      <type name="shoot_rate" kind="single" unit="oC/mm" lower_bound="0.0" upper_bound="100.0" description="Growing degree day increase with depth for germination"/>
+      <type name="x_node_no_app" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="1000.0" description="x_node_no_app"/>
+      <type name="y_node_app_rate" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="1000.0" description="y_node_app_rate"/>
+      <type name="x_node_no_leaf" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="1000.0" description="x_node_no_leaf"/>
+      <type name="y_leaves_per_node" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="1000.0" description="y_leaves_per_node"/>
+      <type name="dm_leaf_init" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="Leaf growth before emergence"/>
+      <type name="dm_root_init" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="Root growth before emergence"/>
+      <type name="dm_sstem_init" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="Structural stem growth before emergence"/>
+      <type name="dm_cabbage_init" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="Cabbage growth before emergence"/>
+      <type name="dm_sucrose_init" kind="single" unit="g/plant" lower_bound="0.0" upper_bound="1000.0" description="Sucrose growth before emergence"/>
+      <type name="leaf_cabbage_ratio" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="Ratio of leaf weight to cabbage weight"/>
+      <type name="cabbage_sheath_fr" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of cabbage that is leaf sheath primordium until floral"/>
+      <type name="dm_root_sen_frac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of root dry matter senescing each day"/>
+      <type name="dead_detach_frac" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of dead plant parts detaching each day"/>
+      <type name="sen_detach_frac" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of senesced dry matter detaching from live plant each day"/>
+      <type name="leaf_no_correction" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Corrects for other growing leaves"/>
+      <type name="lai_sen_light" kind="single" unit="m2/m2" lower_bound="0.0" upper_bound="100.0" description="Critical LAI above which light optimum temp"/>
+      <type name="sen_light_slope" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Slope of linear relationship between LAI and light competition factor for determining leaf senescence rate"/>
+      <type name="frost_temp" kind="single" array="T" unit="oC" lower_bound="-20.0" upper_bound="100.0" description="Array of temperatures upon which frosting induces leaf senescece"/>
+      <type name="frost_fraction" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Array of leaf loss fractions according to temperature"/>
+      <type name="sen_rate_water" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Slope relating soil water stress during photosynthesis to leaf senescence rate"/>
+      <type name="twilight" kind="single" unit="o" lower_bound="-90.0" upper_bound="90.0" description="Twilight in angular distance between sunset and end of twilight - altitude of sun"/>
+      <type name="x_stage_code" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Stage table for N concentrations"/>
+      <type name="y_n_conc_crit_leaf" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Critical N concentration of leaf"/>
+      <type name="y_n_conc_min_leaf" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Minimum N concentration of leaf"/>
+      <type name="y_n_conc_crit_cane" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Critical N concentration of stem"/>
+      <type name="y_n_conc_min_cane" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Minimum N concentration of stem"/>
+      <type name="y_n_conc_crit_cabbage" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Critical N concentration of flower"/>
+      <type name="y_n_conc_min_cabbage" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Minimum N concentration of flower"/>
+      <type name="n_conc_crit_root" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Critical N concentration of root"/>
+      <type name="n_conc_min_root" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Minimum N concentration of root"/>
+      <type name="n_leaf_init_conc" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Initial leaf N concentration"/>
+      <type name="n_root_init_conc" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Initial root N concentration"/>
+      <type name="n_sstem_init_conc" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Initial structural stem N concentration"/>
+      <type name="n_cabbage_init_conc" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Initial cabbage N concentration"/>
+      <type name="n_leaf_sen_conc" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="N concentration of senesced leaf"/>
+      <type name="n_root_sen_conc" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="N concentration of senesced root"/>
+      <type name="n_cabbage_sen_conc" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="N concentration of senesced cabbage"/>
+      <type name="x_ave_temp" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="Critical temperatures for photosynthesis"/>
+      <type name="y_stress_photo" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Factors for critical temperatures"/>
+      <type name="x_ave_temp_stalk" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="x_ave_temp_stalk"/>
+      <type name="y_stress_stalk" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Factors for critical temperatures"/>
+      <type name="x_temp" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Temperature table for photosynthesis degree days"/>
+      <type name="y_tt" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="Degree days"/>
+      <type name="x_sw_demand_ratio" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="x_sw_demand_ratio"/>
+      <type name="y_swdef_leaf" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="y_swdef_leaf"/>
+      <type name="x_demand_ratio_stalk" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="x_demand_ratio_stalk"/>
+      <type name="y_swdef_stalk" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="y_swdef_stalk"/>
+      <type name="x_sw_avail_ratio" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="x_sw_avail_ratio"/>
+      <type name="y_swdef_pheno" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="y_swdef_pheno"/>
+      <type name="x_sw_ratio" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="x_sw_ratio"/>
+      <type name="y_sw_fac_root" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="y_sw_fac_root"/>
+      <type name="k_nfact_photo" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="k_nfact_photo"/>
+      <type name="k_nfact_expansion" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="k_nfact_expansion"/>
+      <type name="k_nfact_stalk" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="k_nfact_stalk"/>
+      <type name="k_nfact_pheno" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="k_nfact_pheno"/>
+      <type name="oxdef_photo_rtfr" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="oxdef_photo_rtfr"/>
+      <type name="oxdef_photo" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="oxdef_photo"/>
+      <type name="cane_dmf_max" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="cane_dmf_max"/>
+      <type name="cane_dmf_min" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="cane_dmf_min"/>
+      <type name="cane_dmf_tt" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="10000.0" description="cane_dmf_tt"/>
+      <type name="cane_dmf_rate" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="cane_dmf_rate"/>
+      <type name="stress_lodge" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="stress_lodge"/>
+      <type name="death_fr_lodge" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="death_fr_lodge"/>
+      <type name="plants" kind="single" unit="plants/m2" lower_bound="0.0" upper_bound="1000.0" description="Plant density"/>
+      <type name="fr_intc_radn_nnnn" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of radiation intercepted by canopy (nnnn = module name)"/>
+
+!!SUNFLOWER types
+      <type name="rel_leaf_init_rateType" kind="single" unit="" description="multiplier on leaf initiation rate"/>
+      <type name="photoperiod_crit1Type" kind="single" unit="h" description="lower threshold of photoperiod"/>
+      <type name="photoperiod_crit2Type" kind="single" unit="h" description="upper threshold of photoperiod"/>
+      <type name="photoperiod_slopeType" kind="single" unit="Cd/h" description="slope of photoperiod response"/>
+      <type name="tt_emerg_to_endjuvType" kind="single" unit="Cd" description="thermal time from emergence to end juvenile stage"/>
+      <type name="tt_endjuv_to_initType" kind="single" unit="Cd" description="maximum/minimum thermal time from endjuv to bud visible"/>
+      <type name="tt_fi_to_flagType" kind="single" unit="Cd" description="thermal time from bud visible to flag leaf"/>
+      <type name="tt_flag_to_flowerType" kind="single" unit="Cd" description="thermal time from flag leaf to flowering"/>
+      <type name="tt_flower_to_start_grainType" kind="single" unit="Cd" description="thermal time from flowering to start grain filling"/>
+      <type name="tt_flower_to_maturityType" kind="single" unit="Cd" description="thermal time from flowering to maturity"/>
+      <type name="tt_maturity_to_ripeType" kind="single" unit="Cd" description="thermal time from maturity to ripe"/>
+      <type name="hi_incrType" kind="single" unit="1/d" description="harvest index increase"/>
+      <type name="x_hi_max_pot_stressType" kind="single" array="T" unit="" description="stress on harvest index"/>
+      <type name="y_hi_max_potType" kind="single" array="T" unit="" description="potential harvest index"/>
+      <type name="tpla_prod_coefType" kind="single" unit="" description="total plant leaf area production coefficient"/>
+      <type name="tpla_inflectionType" kind="single" unit="Cd" description="inflection point for total plant leaf area growth"/>
+      <type name="spla_prod_coefType" kind="single" unit="" description="senescence leaf area production coefficient"/>
+      <type name="spla_interceptType" kind="single" unit="Cd" description="intercept for senescence leaf area production"/>
+      <type name="x_stem_wtType" kind="single" array="T" unit="g/sem" description="stem weight"/>
+      <type name="y_heightType" kind="single" array="T" unit="mm" description="plant height"/>
+
+!!TREE Types!!
+      <type name="height" kind="single" unit="mm" description="canopy height"/>
+      <type name="cover_tot" kind="single" unit="" description="cover for runoff (soilwat) calculations"/>
+      <type name="green_cover" kind="single" unit="" description="cover for runoff (soilwat) calculations"/>
+      <type name="cover_green" kind="single" unit="" description="cover for runoff (soilwat) calculations"/>
+      <type name="basal_area" kind="single" unit="m^2/ha" description="Basal area"/>
+      <type name="total_swi" kind="single" unit="" description="total swi"/>
+      <type name="total_rawswi" kind="single" unit="" description="total swi"/>
+      <type name="swi" kind="single" array="T" unit="" description="soil water index for each layer"/>
+      <type name="sw_demand" kind="single" unit="mm" description="pan * rawswi for grasp"/>
+      <type name="pan" kind="single" unit="mm" lower_bound="0.0" upper_bound="100.0" description="pan evaporation"/>
+
+!!WHEAT Types!!
+      <type name="x_extinct_coeff_lai" kind="single" array="T" unit="" description="Green leaf area index"/>
+      <type name="y_extinct_coeff_lai" kind="single" array="T" unit="" description="Extinction coefficient for green leaf before flowering"/>
+      <type name="extinct_coeff_post_anthesis" kind="single" unit="" description="Extinction coefficient after flowering"/>
+      <type name="dm_seed_reserve" kind="single" unit="g/seed" description="single seed weight - optional"/>
+      <type name="dm_grain_embryo" kind="single" unit="g/grain" description="grain embryo weight at start of grain filling"/>
+      <type name="max_kernel_weight" kind="single" unit="mg/kernel" description="maximum kernel weight"/>
+      <type name="max_tiller_area" kind="single" unit="cm^2" description="maximum tiller area at a plant density of 100 plants/m^2"/>
+      <type name="tiller_area_tt_steepness" kind="single" unit="" description="steepness of  LAI-TT curve on main shoot"/>
+      <type name="tiller_area_tt_inflection" kind="single" unit="Cd" description="inflection point of  LAI-TT curve on main shoot"/>
+      <type name="min_grain_nc_ratio" kind="single" unit="" description="minimum grain nc ratio to restrict grain dm filling"/>
+      <type name="max_grain_nc_ratio" kind="single" unit="" description="maximum grain nc ratio to restrict grain N  filling"/>
+      <type name="grain_embryo_nconc" kind="single" unit="%" description="nitrogen concentration in grain embryo at start of grain filling"/>
+      <type name="Vern_sens" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="Sensitivity to vernalisation (p1v)"/>
+      <type name="Photop_sens" kind="single" unit="" lower_bound="0.0" upper_bound="10.0" description="Sensitivity to photoperiod (p1d)"/>
+      <type name="tt_startgf_to_mat" kind="single" unit="oCd" lower_bound="0.0" upper_bound="1000.0" description="Thermal time required from start grain filling to maturity (p5)"/>
+      <type name="grain_num_coeff" kind="single" unit="grais/g stem" lower_bound="0.0" upper_bound="30.0" description="Number of grains produced by unit weight of stem (grnmx)"/>
+      <type name="max_grain_fill_rate" kind="single" unit="g/d" lower_bound="0.0" upper_bound="5.0" description="Maximum grain filling rate of individual grains  (grnrat)"/>
+      <type name="Dm_tiller_max" kind="single" unit="g/tiller" lower_bound="0.0" upper_bound="5.0" description="Single tiller weight when elongation ceases (stmmx)"/>
+      <type name="leaf_app_rate" kind="single" unit="Cd" description="Phyllochron in thermal time -replace rate1 and rate2"/>
+      <type name="co2_switch" kind="integer4" unit="" description="set the co2 switch on (1) and off (0)"/>
+      <type name="co2_level" kind="single" unit="ppm" description="CO2 concentration in ambient air"/>
+      <type name="tt_germ_to_emerg" kind="single" unit="Cd" description="thermal time from germination to emergence"/>
+      <type name="tt_emerg_to_endjuv" kind="single" unit="Cd" description="thermal time from emergence to endjuvenile stage"/>
+      <type name="tt_endjuv_to_init" kind="single" unit="Cd" description="thermal time from endjuv to floral initiation"/>
+      <type name="tt_init_to_flag" kind="single" unit="Cd" description="thermal time from floral initiation to flag leaf"/>
+      <type name="tt_flag_to_flower" kind="single" unit="Cd" description="thermal time from flag leaf to flowering"/>
+      <type name="tt_flower_to_start_grain" kind="single" unit="Cd" description="thermal time from flowering to start garin filling"/>
+      <type name="tt_start_to_end_grain" kind="single" unit="Cd" description="thermal time from start to end of grain filling"/>
+      <type name="tt_end_grain_to_maturity" kind="single" unit="Cd" description="thermal time from end grainfill to maturity"/>
+      <type name="tt_maturity_to_ripe" kind="single" unit="Cd" description="thermal time from maturity to ripe"/>
+      <type name="tt_ripe_to_harvest" kind="single" unit="Cd" description="thermal time from ripe to harvest"/>
+      <type name="tt_startgf_to_mat" kind="single" unit="Cd" description="thermal time from start grainfill to maturity"/>
+      <type name="leaf_app_rate" kind="single" unit="Cd" description="thermal time for emerging one leaf (phyllochron)"/>
+
+
+</types>
+
+
+    

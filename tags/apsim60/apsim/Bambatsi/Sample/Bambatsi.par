@@ -1,0 +1,46 @@
+[sample.report.parameters]
+outputfile  =Bambatsi.out
+
+variable = clock.dd/mm/yyyy as date
+variable = clock.day
+variable = clock.year
+variable = bambatsi.lai
+variable = bambatsi.foliage_mass
+variable = bambatsi.root_mass
+variable = bambatsi.biomass
+variable = bambatsi.ep
+variable = bambatsi.cover
+variable = bambatsi.fw
+variable = bambatsi.fn
+variable = bambatsi.ft
+variable = bambatsi.fvpd
+variable = bambatsi.ff
+
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988
+end_date=31/12/1989
+
+[sample.manager.start_of_day]
+
+if day = 1 and year  = 1988 then
+   fertiliz apply amount = 100 (kg/ha), depth = 50 (mm), type = no3_n
+   bambatsi establish plants = 1000000 (/ha), init_section = seedling
+endif
+
+
+[sample.manager.end_of_day]
+report do_output
+
+
+[sample.bambatsi.parameters]
+uptake_source =  calc
+n_uptake_source = calc
+
+   ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
+   xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+   kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+  rlv   = 0.01 0.00 0.00 0.00 0.00 0.00 0.00  ! initial root length density (mm/mm3)
+
+[sample.SummaryFile.parameters]
+summaryfile=bambatsi.sum

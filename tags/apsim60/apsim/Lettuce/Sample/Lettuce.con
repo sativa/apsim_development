@@ -1,0 +1,14 @@
+version = 6
+
+[apsim.Lettuce Sample]
+title= Lettuce Sample Simulation
+module = clock           Lettuce.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report          Lettuce.par [sample]
+module = Input(Met)      %apsuite\apsim\met\sample\Gatton.met [weather]
+module = fertiliz        %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = manager         Lettuce.par [sample]
+module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = plant(Lettuce)  Lettuce.par [sample] %apsuite\apsim\Lettuce\Lettuce.ini [standard]
+
+ 

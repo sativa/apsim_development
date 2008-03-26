@@ -1,0 +1,52 @@
+        <initsection>
+          <init name="spoilage_time" kind="double" unit="d">
+            <val>0.0</val>
+          </init>
+          <init name="stores" array="T">
+            <element>
+              <field name="name" kind="string">
+                <val>wheat</val>
+              </field>
+              <field name="stored" kind="double" unit="kg">
+                <val>10000000</val>
+              </field>
+              <field name="roughage" kind="boolean">
+                <val>false</val>
+              </field>
+              <field name="dm_content" kind="double" unit="kg/kg">
+                <val>0.89</val>
+              </field>
+              <field name="dmd" kind="double">
+                <val>0.9</val>
+              </field>
+              <field name="me_content" kind="double" unit="MJ/kg">
+                <val>13.8</val>
+              </field>
+              <field name="cp_conc" kind="double" unit="kg/kg">
+                <val>0.14</val>
+              </field>
+              <field name="prot_dg" kind="double" unit="kg/kg">
+                <val>0.92</val>
+              </field>
+              <field name="p_conc" kind="double" unit="kg/kg">
+                <val>0.0038</val>
+              </field>
+              <field name="s_conc" kind="double" unit="kg/kg">
+                <val>0.0014</val>
+              </field>
+              <field name="ee_conc" kind="double" unit="kg/kg">
+                <val>0.02</val>
+              </field>
+              <field name="adip2cp" kind="double" unit="kg/kg">
+                <val>0.02</val>
+              </field>
+              <field name="ash_alk" kind="double" unit="mol/kg">
+                <val>0.18</val>
+              </field>
+              <field name="max_passage" kind="double" unit="kg/kg">
+                <val>0.0</val>
+              </field>
+            </element>
+          </init>
+        </initsection>
+

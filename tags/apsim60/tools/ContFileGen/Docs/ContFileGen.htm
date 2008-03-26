@@ -1,0 +1,102 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<title>
+The APSIM Accum Module (ACCUM)</title>
+<link href="../../../docs/shared/docstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div>
+
+<p class="Title1">The Control File Generator User Guide</p>
+
+<p class="title2"><b><i>&nbsp;</i></b></p>
+
+<p class="title2">Introduction</p>
+
+<p class="Normal"><b><i>&nbsp;</i></b></p>
+
+<p class="Normal">Sometimes APSIM needs to be run many times in batch mode. To 
+do this, an APSIM control file is created that contains sometimes thousands of 
+simulations covering many permutations of variables. For example, the Whopper 
+Cropper team create control files that cover all permutations of 3 soils, by 3 
+starting soil waters, by 10 sowing days, by 3 densities, by 3 cultivars etc. 
+Doing this by hand is error prone and inefficient.<br>
+<br>
+The control file generator is a tool for generating these types of APSIM control 
+files from a user-specified template. It uses a macro substitution system where 
+user macros in a control file template are replaced with values at generation 
+time.<br>
+&nbsp;</p>
+<p class="Title2"><br>
+Using the generator</p>
+<p class="Normal"><br>
+After running ContFileGen.exe, the user is presented with a single form 
+containing 3 different sections. The first section contains the name of the 
+control file template to use as input, and the name of the generated output file 
+to produce.<br>
+<br>
+The second section deals with the numbering of the generated control file 
+simulations, namely the starting number and whether the generated simulations 
+should be in a single file or multiple files. If multiple files is desired, then 
+the range of simulation numbers to go in each file is specified and the tool 
+will generate multiple output files.<br>
+<br>
+The third section shows a grid control where the first column specifies the 
+macros to search for in the input control file template. The second column 
+specifies the values that each macro should take. The resulting control file 
+will contain ALL permutations of ALL macro values ie. a factorial.<br>
+<br>
+<br>
+Example<br>
+Suppose main screen looked like this:<br>
+<img border="0" src="ContFileGen_files/ContFileGen1.gif" width="451" height="591"><br>
+Also suppose the control file template looks like this:<br>
+<br>
+!!!!!!!!!!!!!!!!!!!!!!!! site$ !!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>
+<br>
+[Title_sim_number$.report.parameters]<br>
+Title = site=site$; soil=soil$; start water=water$; sow date=sow$; 
+hybrid=hybrid$<br>
+Outputfile = output2\Wheatsim_number$.out /overwrite<br>
+Summaryfile = output2\Wheatsim_number$.sum /overwrite<br>
+<br>
+[APSIM.sim_number$]<br>
+module = report [Title_sim_number$] Wht98.par [General]<br>
+module = input met\site$.met [weather]<br>
+module = manager Wht98.man [General] Wht98.man [sow$] Wht98.man [150N] Wht98.man 
+[site$_hybrid$]<br>
+module = soilwat2 Wht98.sol [soil$mm_water$] inifiles\soilwat2.ini [standard]<br>
+module = soiln2 Wht98.sol [General] inifiles\soiln2.ini [standard]<br>
+module = residue2 Wht98.sol [General] inifiles\residue2.ini [standard]<br>
+module = i_wheat Wht98.par [i_wheat] inifiles\i_wheat.ini [standard]<br>
+module = fertiliz inifiles\fertiliz.ini [standard]<br>
+<br>
+When the Ok button is clicked, the control file generator will take this control 
+file template and duplicate it for each macro value specified. In our example, 
+the first simulation will have the following replacements:<br>
+<br>
+Simulation 0:<br>
+site$ replaced with goondi<br>
+soil$ replaced with 120<br>
+water$ replaced with full<br>
+sow$ replaced with 15jul<br>
+hybrid$ replaced with quick<br>
+<br>
+The second simulation will have the following replacements:<br>
+Simulation1:<br>
+site$ replaced with stgeor<br>
+soil$ replaced with 120<br>
+water$ replaced with full<br>
+sow$ replaced with 15jul<br>
+hybrid$ replaced with quick<br>
+And so on. The resultant control file will contain 7 x 3 x 3 x 1 x 1 = 63 
+simulations<br>
+&nbsp;</div>
+
+</body>
+
+</html>

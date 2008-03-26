@@ -1,0 +1,687 @@
+version = 6
+
+! *********************************************
+! ********  1991/2 season  ********************
+! *********************************************
+
+[Condo_91_S1_75N]
+title = Condo_91_S1_75N
+module = clock             wue.man [Condo_Dirn_91] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/condo.met [weather]
+module = manager           wue.man  [all]  wue.man [Condo_91_S1_75N]
+module = soilwat2          site_pot_yld.par [condo] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            site_pot_yld.par [condo] wue.man [normans_93] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [normans_93] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     site_pot_yld.par [condo] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [Condo_91_S1_75N]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)           report.par[canola]
+
+[Condo_92_S1_75N]
+title = Condo_92_S1_75N
+module = clock             wue.man [Condo_Dirn_92] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/condo.met [weather]
+module = manager           wue.man  [all]  wue.man [Condo_92_S1_75N]
+module = soilwat2          site_pot_yld.par [condo] wue.man [Condo_92_S1_75N] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            site_pot_yld.par [condo] wue.man [normans_93] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [normans_93] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     site_pot_yld.par [condo] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [Condo_92_S1_75N]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)           report.par[canola]
+
+[Dirn_91_S1_150N]
+title = Dirn_91_S1_150N
+module = clock             wue.man [Condo_Dirn_91] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/dirnaseer.met [weather]
+module = manager           wue.man  [all]  wue.man [Dirn_91_S1_150N]
+module = soilwat2          site_pot_yld.par [junee] wue.man [Dirn_92_S1_150N] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            site_pot_yld.par [junee] wue.man [normans_93] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [normans_93] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     site_pot_yld.par [junee] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [Dirn_91_S1_150N]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)           report.par[canola]
+
+[Dirn_92_S1_150N]
+title = Dirn_92_S1_150N
+module = clock             wue.man [Condo_Dirn_92] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/dirnaseer.met [weather]
+module = manager           wue.man  [all]   wue.man [Dirn_92_S1_150N]
+module = soilwat2          site_pot_yld.par [junee] wue.man [Dirn_92_S1_150N] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            site_pot_yld.par [junee] wue.man [normans_93] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [normans_93] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     site_pot_yld.par [junee] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [Dirn_92_S1_150N]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)           report.par[canola]
+
+! *********************************************
+! ********  1993 season  **********************
+! *********************************************
+
+[Normans_93]
+Title = Normans_93
+module = clock             wue.man [normans_93] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Normans_9396.met [weather]
+module = manager           wue.man  [all]   wue.man  [Normans_93]
+module = soilwat2          site_pot_yld.par [normans] wue.man [normans_93] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            site_pot_yld.par [normans] wue.man [normans_93] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [normans_93] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     site_pot_yld.par [normans] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [normans_93]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)           report.par[canola]
+
+[Harden_93]
+Title = Harden_93
+module = clock             wue.man [Harden_93] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Harden_9399.met [weather]
+module = manager           wue.man  [all]  wue.man [Harden_93]
+module = soilwat2          soil_01.par [Harden] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_01.par [Harden] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [normans_93] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_01.par [Harden] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [Harden_93]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)           report.par[canola]
+
+! *********************************************
+! ********  1994 season  **********************
+! *********************************************
+
+[Normans_94]
+Title = Normans_94
+module = clock             wue.man [normans_94] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Normans_9396.met [weather]
+module = manager           wue.man  [all]   wue.man  [Normans_94]
+module = soilwat2          site_pot_yld.par [normans] wue.man [normans_94] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            site_pot_yld.par [normans] wue.man [normans_94] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     site_pot_yld.par [normans] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [normans_94]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)           report.par[canola]
+
+! *********************************************
+! ********  1995 season  **********************
+! *********************************************
+
+[Normans_95]
+Title = Normans_95
+module = clock             wue.man [normans_95] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Normans_9396.met [weather]
+module = manager           wue.man  [all]   wue.man  [Normans_95]
+module = soilwat2          site_pot_yld.par [normans] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            site_pot_yld.par [normans] wue.man [normans_94] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     site_pot_yld.par [normans] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [normans_95]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)           report.par[canola]
+
+! *********************************************
+! ********  1996 season  **********************
+! *********************************************
+
+[Ginnindera_96]
+Title = Ginnindera_96
+module = clock             wue.man [Gin_96] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/ginnind_9697.met [weather]
+module = manager           wue.man  [all]    wue.man [Gin_96]
+module = soilwat2          site_pot_yld.par [normans] wue.man [Gin_96] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            site_pot_yld.par [normans] wue.man [Gin_96] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     site_pot_yld.par [normans] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [Gin_96]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)           report.par[canola]
+
+! *********************************************
+! ********  1997 season  **********************
+! *********************************************
+
+[Ginnindera_97]
+Title = Ginnindera_97
+module = clock             wue.man [Gin_97] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/ginnind_9697.met [weather]
+module = manager           wue.man  [all]    wue.man [Gin_97]
+module = soilwat2          site_pot_yld.par [normans] wue.man [Gin_97] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            site_pot_yld.par [normans] wue.man [Gin_97] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     site_pot_yld.par [normans] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [Gin_97]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)           report.par[canola]
+
+! *********************************************
+! ********  1999 season  **********************
+! *********************************************
+
+[Harden_99]
+Title = Harden_99
+module = clock             wue.man [Harden_99] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Harden_9399.met [weather]
+module = manager           wue.man  [all]       wue.man  [harden_99]
+module = soilwat2          soil_01.par [harden] wue.man  [harden_99] soilwat2.ini [standard]
+module = soiln2            soil_01.par [harden] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_01.par [harden] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [harden_99]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)           report.par[canola]
+
+! *********************************************
+! ********  2001 season  **********************
+! *********************************************
+
+[Harden_01]
+Title = Harden_01
+module = clock             wue.man [Harden_2001] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Harden_01.met [weather]
+module = manager           wue.man  [all]       wue.man  [Harden_01]
+module = soilwat2          soil_01.par [harden] wue.man  [Harden_01] soilwat2.ini [standard]
+module = soiln2            soil_01.par [harden] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_01.par [harden] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [has2_01]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)           report.par[canola]
+
+! ************** Wallendbeen ********************
+
+[Wallendbeen_01_S1]
+Title = Wallendbeen_01_S1
+module = clock             wue.man [Wall_2001] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Wallendbeen_01.met [weather]
+module = manager           wue.man  [all]   wue.man  [Wallendbeen_01]
+module = soilwat2          soil_01.par [Wallendbeen] wue.man  [Wallendbeen_01] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_01.par [Wallendbeen] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_01.par [Wallendbeen] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [was1_01]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Wallendbeen_01_S2]
+Title = Wallendbeen_01_S2
+module = clock             wue.man [Wall_2001] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Wallendbeen_01.met [weather]
+module = manager           wue.man  [all]        wue.man  [Wallendbeen_01]
+module = soilwat2          soil_01.par [Wallendbeen] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_01.par [Wallendbeen] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_01.par [Wallendbeen] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [was2_01]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Wallendbeen_01_S3]
+Title = Wallendbeen_01_S3
+module = clock             wue.man [Wall_2001] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Wallendbeen_01.met [weather]
+module = manager           wue.man  [all]       wue.man  [Wallendbeen_01]
+module = soilwat2          soil_01.par [Wallendbeen] wue.man  [Wallendbeen_01] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_01.par [Wallendbeen] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_01.par [Wallendbeen] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [was3_01]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+! ************** Galong ********************
+
+[Galong_01_S1]
+Title = Galong_01_S1
+module = clock             wue.man [2001] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/galong_01.met [weather]
+module = manager           wue.man  [all]       wue.man  [Galong_01]
+module = soilwat2          soil_01.par [galong] wue.man  [Galong_01] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_01.par [galong] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_01.par [galong] %apsuite\apsim\canola\canola.ini [standard]
+module = irrigate
+module = operatns          wue.man [gas1_01]
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Galong_01_S2]
+Title = Galong_01_S2
+module = clock             wue.man [2001] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/galong_01.met [weather]
+module = manager           wue.man  [all]       wue.man  [Galong_01]
+module = soilwat2          soil_01.par [galong] wue.man  [Galong_01] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_01.par [galong] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_01.par [galong] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [gas2_01]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Galong_01_S3]
+Title = Galong_01_S3
+module = clock             wue.man [2001] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/galong_01.met [weather]
+module = manager           wue.man  [all]       wue.man  [Galong_01]
+module = soilwat2          soil_01.par [galong] wue.man  [Galong_01] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_01.par [galong] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_01.par [galong] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [gas3_01]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+
+! *********************************************
+! ********  2002 season  **********************
+! *********************************************
+
+!********** Galong ***************
+! note using Wallendbeen met file
+
+[Galong_02_S1]
+module = clock       wue.man [2002] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)  met/wallendbeen_02.met [weather]
+module = manager     wue.man  [all]       wue.man  [Galong_02]
+module = soilwat2    soil_02.par[galong] wue.man  [Galong_02] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2      soil_02.par[galong] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola) soil_02.par[galong] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns    wue.man [gas1_02]   wue.man [galong_02]
+module = irrigate
+module = fertiliz                              %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Galong_02_S2]
+module = clock       wue.man [2002] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)  met/wallendbeen_02.met [weather]
+module = manager     wue.man  [all]  wue.man  [Galong_02]
+module = soilwat2    soil_02.par[galong] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2      soil_02.par[galong] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola) soil_02.par[galong] %apsuite\apsim\canola\canola.ini [standard]
+module = irrigate
+module = operatns    wue.man [gaS2_02]   wue.man [galong_02]
+module = fertiliz                              %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Galong_02_S3]
+module = clock       wue.man [2002] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)  met/wallendbeen_02.met [weather]
+module = manager     wue.man  [all]  wue.man  [Galong_02]
+module = soilwat2    soil_02.par[galong] wue.man  [Galong_02] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2      soil_02.par[galong] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola) soil_02.par[galong] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns    wue.man [gaS3_02]   wue.man [galong_02]
+module = irrigate
+module = fertiliz                              %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+!********** Wallendbeen ********************
+
+[Wallendbeen_02_S1]
+module = clock       wue.man [2002] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)  met/wallendbeen_02.met [weather]
+module = manager     wue.man  [all]  wue.man  [Wallendbeen_02]
+module = soilwat2    soil_02.par[wallendbeen] wue.man  [Wallendbeen_02] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2      soil_02.par[wallendbeen] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola) soil_02.par[wallendbeen] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns    wue.man [waS1_02]   wue.man [wallendbean_02]
+module = irrigate
+module = fertiliz                              %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Wallendbeen_02_S2]
+module = clock       wue.man [2002] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)  met/wallendbeen_02.met [weather]
+module = manager     wue.man  [all] wue.man  [Wallendbeen_02]
+module = soilwat2    soil_02.par[wallendbeen] wue.man  [Wallendbeen_02] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2      soil_02.par[wallendbeen] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola) soil_02.par[wallendbeen] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns    wue.man [waS2_02]   wue.man [wallendbean_02]
+module = irrigate
+module = fertiliz                              %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Wallendbeen_02_S3]
+module = clock       wue.man [2002] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)  met/wallendbeen_02.met [weather]
+module = manager     wue.man  [all] wue.man  [Wallendbeen_02]
+module = soilwat2    soil_02.par[wallendbeen] wue.man  [Wallendbeen_02] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2      soil_02.par[wallendbeen] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola) soil_02.par[wallendbeen] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns    wue.man [waS3_02]   wue.man [wallendbean_02]
+module = irrigate
+module = fertiliz                              %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+! *********************************************
+! ********  2003 season  **********************
+! *********************************************
+
+! ************** Ardlethan ********************
+
+[Ardlethan_03_S1]
+Title = Ardlethan_03_S1
+module = clock             wue.man [Ardlethan] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Ardlethan_03.met [weather]
+module = manager           wue.man  [all] wue.man  [ardlethan_03]
+module = soilwat2          soil_03.par[Ardlethan] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Ardlethan] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Ardlethan] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [ars1_03]        wue.man [Ardlethan_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Ardlethan_03_S2]
+Title = Ardlethan_03_S2
+module = clock             wue.man [Ardlethan] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Ardlethan_03.met [weather]
+module = manager           wue.man  [all] wue.man  [ardlethan_03]
+module = soilwat2          soil_03.par[Ardlethan] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Ardlethan] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Ardlethan] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [ars2_03]        wue.man [Ardlethan_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Ardlethan_03_S3]
+Title = Ardlethan_03_S3
+module = clock             wue.man [Ardlethan] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Ardlethan_03.met [weather]
+module = manager           wue.man  [all]    wue.man  [ardlethan_03]
+module = soilwat2          soil_03.par[Ardlethan] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Ardlethan] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Ardlethan] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [ars3_03]        wue.man [Ardlethan_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+! ************** Dirnaseer ********************
+
+[Dirnaseer_03_S1]
+Title = Dirnaseer_03_S1
+module = clock             wue.man [Dirnaseer] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Dirnaseer_03.met [weather]
+module = manager           wue.man  [all]  wue.man  [dirnaseer_03]
+module = soilwat2          soil_03.par[Dirnaseer] wue.man  [dirnaseer_03] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Dirnaseer] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Dirnaseer] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [dis1_03]        wue.man [Dirnaseer_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Dirnaseer_03_S2]
+Title = Dirnaseer_03_S2
+module = clock             wue.man [Dirnaseer] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Dirnaseer_03.met [weather]
+module = manager           wue.man  [all]  wue.man  [dirnaseer_03]
+module = soilwat2          soil_03.par[Dirnaseer] wue.man  [dirnaseer_03] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Dirnaseer] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Dirnaseer] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [dis2_03]        wue.man [dirnaseer_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Dirnaseer_03_S3]
+Title = Dirnaseer_03_S3
+module = clock             wue.man [Dirnaseer] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Dirnaseer_03.met [weather]
+module = manager           wue.man  [all]     wue.man  [dirnaseer_03]
+module = soilwat2          soil_03.par[Dirnaseer] wue.man  [dirnaseer_03] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Dirnaseer] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Dirnaseer] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [dis3_03]        wue.man [dirnaseer_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+! ************** Galong ********************
+
+[Galong_03_S1]
+Title = Galong_03_S1
+module = clock             wue.man [galong] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/galong_03.met [weather]
+module = manager           wue.man  [all]       wue.man  [Galong_03]
+module = soilwat2          soil_03.par[galong] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[galong] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[galong] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [gas1_03]        wue.man [galong_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Galong_03_S2]
+Title = Galong_03_S2
+module = clock             wue.man [galong] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/galong_03.met [weather]
+module = manager           wue.man  [all]       wue.man  [Galong_03]
+module = soilwat2          soil_03.par[galong] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[galong] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[galong] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [gas2_03]        wue.man [galong_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Galong_03_S3]
+Title = Galong_03_S3
+module = clock             wue.man [galong] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/galong_03.met [weather]
+module = manager           wue.man  [all]       wue.man  [Galong_03]
+module = soilwat2          soil_03.par[galong] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[galong] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[galong] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [gas3_03]        wue.man [galong_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+! ************** Grenfell ********************
+
+[Grenfell_03_S1]
+Title = Grenfell_03_S1
+module = clock             wue.man [Grenfell] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Grenfell_03.met [weather]
+module = manager           wue.man  [all] wue.man  [grenfell_03]
+module = soilwat2          soil_03.par[Grenfell] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Grenfell] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Grenfell] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [grs1_03]        wue.man [Grenfell_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Grenfell_03_S2]
+Title = Grenfell_03_S2
+module = clock             wue.man [Grenfell] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Grenfell_03.met [weather]
+module = manager           wue.man  [all]       wue.man  [grenfell_03]
+module = soilwat2          soil_03.par[Grenfell] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Grenfell] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Grenfell] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [grs2_03]        wue.man [Grenfell_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Grenfell_03_S3]
+Title = Grenfell_03_S3
+module = clock             wue.man [Grenfell] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Grenfell_03.met [weather]
+module = manager           wue.man  [all]       wue.man  [grenfell_03]
+module = soilwat2          soil_03.par[Grenfell] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Grenfell] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Grenfell] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [grs3_03]        wue.man [Grenfell_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+! ************** Lockhart ********************
+
+[Lockhart_03_S1]
+Title = Lockhart_03_S1
+module = clock             wue.man [Lockhart] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Lockhart_03.met [weather]
+module = manager           wue.man  [all]       wue.man  [lockhart_03]
+module = soilwat2          soil_03.par[Lockhart] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Lockhart] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Lockhart] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [los1_03]        wue.man [Lockhart_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Lockhart_03_S2]
+Title = Lockhart_03_S2
+module = clock             wue.man [Lockhart] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Lockhart_03.met [weather]
+module = manager           wue.man  [all]     wue.man  [lockhart_03]
+module = soilwat2          soil_03.par[Lockhart] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Lockhart] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Lockhart] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [los2_03]        wue.man [lockhart_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Lockhart_03_S3]
+Title = Lockhart_03_S3
+module = clock             wue.man [Lockhart] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Lockhart_03.met [weather]
+module = manager           wue.man  [all]       wue.man  [lockhart_03]
+module = soilwat2          soil_03.par[Lockhart] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Lockhart] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Lockhart] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [los3_03]        wue.man [lockhart_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+! ************** Wallendbeen ********************
+
+[Wallendbeen_03_S1]
+Title = Wallendbeen_03_S1
+module = clock             wue.man [Wallendbeen] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Wallendbeen_03.met [weather]
+module = manager           wue.man  [all]  wue.man  [Wallendbeen_03]
+module = soilwat2          soil_03.par[Wallendbeen] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Wallendbeen] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Wallendbeen] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [was1_03]        wue.man [Wallendbeen_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Wallendbeen_03_S2]
+Title = Wallendbeen_03_S2
+module = clock             wue.man [Wallendbeen] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Wallendbeen_03.met [weather]
+module = manager           wue.man  [all]       wue.man  [Wallendbeen_03]
+module = soilwat2          soil_03.par[Wallendbeen] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Wallendbeen] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Wallendbeen] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [was2_03]        wue.man [Wallendbeen_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]
+
+[Wallendbeen_03_S3]
+Title = Wallendbeen_03_S3
+module = clock             wue.man [Wallendbeen] %apsuite\apsim\clock\clock.ini [standard]
+module = report    report.par [canola]
+module = input(met)        met/Wallendbeen_03.met [weather]
+module = manager           wue.man  [all]       wue.man  [Wallendbeen_03]
+module = soilwat2          soil_03.par[Wallendbeen] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2            soil_03.par[Wallendbeen] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   wue.man [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard] wue.man [default]
+module = plant(canola)     soil_03.par[Wallendbeen] %apsuite\apsim\canola\canola.ini [standard]
+module = operatns          wue.man [was3_03]        wue.man [Wallendbeen_03]
+module = irrigate
+module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = tracker(tracker1)     wue.man [all]

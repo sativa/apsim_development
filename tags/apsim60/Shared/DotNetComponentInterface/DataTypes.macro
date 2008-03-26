@@ -1,0 +1,238 @@
+##################################################
+[file DataTypes.h]
+#pragma once
+#include "Interfaces.h"
+using namespace System::Collections;
+using namespace System::Runtime::InteropServices;
+
+   //------ ApsimType ------
+   public ref class ApsimType abstract
+      {
+      internal:
+         virtual void pack(char* MessageData) = 0; 
+         virtual void unpack(char* MessageData) = 0;
+         virtual unsigned memorySize() = 0;
+         virtual String^ DDML() = 0;
+      };
+   inline void pack(char* messageData, ApsimType^ Data)   {return Data->pack(messageData);}
+   inline void unpack(char* messageData, ApsimType^ Data) {return Data->unpack(messageData);}
+   inline unsigned memorySize(ApsimType^ Data)            {return Data->memorySize();}
+   inline String^ DDML(ApsimType^ Data)                   {return Data->DDML();}
+
+   //------ NullType ------
+   public ref class NullType : public ApsimType
+      {
+      internal:
+         virtual void pack(char* MessageData)   override { }
+         virtual void unpack(char* MessageData) override { }
+         virtual unsigned memorySize()          override {return 0;}
+         virtual String^ DDML()                 override {return "<type/>";}
+      };
+[foreach types.type]
+
+   //------ [type.name] ------
+   public ref class [type.name]Type : public ApsimType
+      {
+      public: 
+      [foreach type.field]
+      [field.dotnettype] [field.name];
+      [endfor]
+      internal:
+         virtual void pack(char* MessageData)   override;
+         virtual void unpack(char* MessageData) override;
+         virtual unsigned memorySize() override;
+         virtual String^ DDML() override;
+      };
+[endfor]
+[endfile]
+##################################################
+[file DataTypes.cpp]
+#include "DataTypes.h"
+#include "MessageData.h"
+
+[foreach types.type]
+   // ------ [type.name] ------
+   void [type.name]Type::pack(char* messageData)
+      {
+      [foreach type.field]
+      ::pack(messageData, [field.name]);
+      [endfor]
+      }
+   void [type.name]Type::unpack(char* messageData)
+      {
+      [foreach type.field]
+      [if [field.arrayofstructures] = T]
+      ::unpackArrayOfStructures(messageData, [field.name]);
+      [else]
+      ::unpack(messageData, [field.name]);
+      [endif]
+      [endfor]
+      }
+   unsigned [type.name]Type::memorySize()
+      {
+      return 0
+       [foreach type.field]              + ::memorySize([field.name])
+       [endfor]              ;
+      }
+   String^ [type.name]Type::DDML()
+      {return [type.dotnetddml];}
+
+[endfor]
+[endfile]
+
+##################################################
+[file ScienceAPI.h]
+#pragma once
+
+#include "datatypes.h"
+
+#using <System.dll>
+using namespace System;
+using namespace System::Text;
+
+namespace ModelFramework {
+ref class ApsimComponent;
+
+public ref class ScienceAPI
+   {
+   private:
+      ApsimComponent^ Component;
+   public:
+      String^ Name();
+      void Write(String^ Line);
+      void Warning(String^ Line);
+
+      bool Read(String^ name, String^ units, bool optional, String^% data);
+      bool Read(String^ Name, String^ units, bool Optional, array<Single>^% Data);
+      bool Read(String^ Name, String^ units, bool Optional, array<String^>^% Data);      
+      
+      [foreach types.builtin as type]
+      void ScienceAPI::Get(String^ Name, String^ Units, [type.dotnettypenohat]^% Data);
+      bool Set(String^ Name, String^ Units, [type.dotnettypenohat]^ Data);
+      void Publish(String^ Name, [type.dotnettypenohat]^ data);
+      [endfor]
+      [foreach types.type]
+      [if [type.array] = T]
+      void ScienceAPI::Get(String^ Name, String^ Units, [type.dotnettypenohat]^ Data);
+      [else]
+      void ScienceAPI::Get(String^ Name, String^ Units, [type.dotnettypenohat]^% Data);
+      [endif]
+      bool Set(String^ Name, String^ Units, [type.dotnettypenohat]^ Data);
+      void Publish(String^ Name, [type.dotnettypenohat]^ data);
+      [endfor]
+
+   internal: 
+      void SetComponentInstance(ApsimComponent^ componentInstance) {Component = componentInstance;}
+   };
+};
+[endfile]
+##################################################
+[file ScienceAPI.cpp]
+#include "stdafx.h"
+#include "ScienceAPI.h"
+
+#include "datatypes.h"
+#include "messagedata.h"
+#include "ApsimComponent.h"
+using namespace System::Runtime::InteropServices;
+using namespace ModelFramework;
+String^ ScienceAPI::Name()
+   {
+   return Component->Name();
+   }
+void ScienceAPI::Write(String^ Line)
+   {
+   Component->Write(Line);   
+   }
+void ScienceAPI::Warning(String^ Line)
+   {
+   Component->Warning(Line);   
+   }
+bool ScienceAPI::Read(String^ Name, String^ units, bool Optional, String^% Data)
+   {
+   Data = Component->Read(Name, Optional);
+   return (Data != "");
+   }
+bool ScienceAPI::Read(String^ Name, String^ units, bool Optional, array<Single>^% Data)
+   {
+   array<String^>^ Values;
+   Read(Name, units, Optional, Values);
+   Data = gcnew array<Single>(Values->Length);
+   for (int i = 0; i != Values->Length; i++)
+      Data[i] = Convert::ToSingle(Values[i]);
+   return (Values->Length > 0);
+   }
+bool ScienceAPI::Read(String^ Name, String^ units, bool Optional, array<String^>^% Data)
+   {
+   String^ St = Component->Read(Name, Optional);
+   if (St == "")
+	  return false;
+   String^ Separators = " ";
+   Data = St->Split(Separators->ToCharArray(), StringSplitOptions::RemoveEmptyEntries);
+   return true;
+   }
+[foreach types.builtin as type]
+void ScienceAPI::Get(String^ Name, String^ Units, [type.dotnettypenohat]^% Data)
+   {
+   [if [type.dotnettype] = String^]
+   WrapManagedWithConverter<[type.dotnettype] > Value(Component, Data);
+   Component->Get(Name, Units, false, Value);
+   Data = Value.Data;
+   [elseif [type.array] = T]   
+   WrapManaged<[type.dotnettype] > Value(Component, Data);
+   Component->Get(Name, Units, false, Value);
+   Data = Value.Data;
+   [else]
+   WrapManagedRefWithConverter<[type.dotnettype] > Value(Component, Data);
+   Component->Get(Name, Units, false, Value);
+   *Data = Value.Data;
+   [endif]
+   }
+bool ScienceAPI::Set(String^ Name, String^ Units, [type.dotnettypenohat]^ Data)
+   {
+   [if [type.dotnettype] = String^]
+   WrapManagedWithConverter<[type.dotnettype] > Value(Component, Data);
+   [elseif [type.array] = T]   
+   WrapManaged<[type.dotnettype] > Value(Component, Data);
+   [else]
+   WrapManagedRefWithConverter<[type.dotnettype] > Value(Component, Data);
+   [endif]
+   Component->Set(Name, Units, Value); 
+   return true;
+   }
+void ScienceAPI::Publish(String^ Name, [type.dotnettypenohat]^ Data)
+   {
+   [if [type.dotnettype] = String^]
+   WrapManagedWithConverter<[type.dotnettype] > Value(Component, Data);
+   [elseif [type.array] = T]   
+   WrapManaged<[type.dotnettype] > Value(Component, Data);
+   [else]
+   WrapManagedRefWithConverter<[type.dotnettype] > Value(Component, Data);
+   [endif]
+   Component->Publish(Name, Value);
+   }
+[endfor]
+[foreach types.type]
+[if [type.array] = T]
+void ScienceAPI::Get(String^ Name, String^ Units, [type.dotnettypenohat]^ Data)
+[else]
+void ScienceAPI::Get(String^ Name, String^ Units, [type.dotnettypenohat]^% Data)
+[endif]
+   {
+   WrapManaged<[type.dotnettypenohat]^ > Value(Component, Data);
+   Component->Get(Name, Units, false, Value); 
+   Data = Value.Data;
+   }
+bool ScienceAPI::Set(String^ Name, String^ Units, [type.dotnettypenohat]^ Data)
+   {
+   WrapManaged<[type.dotnettypenohat]^ > Value(Component, Data);
+   Component->Set(Name, Units, Value); 
+   return true;
+   }
+void ScienceAPI::Publish(String^ Name, [type.dotnettypenohat]^ Data)
+   {
+   WrapManaged<[type.dotnettypenohat]^ > Value(Component, Data);
+   Component->Publish(Name, Value);
+   }
+[endfor]
+[endfile]

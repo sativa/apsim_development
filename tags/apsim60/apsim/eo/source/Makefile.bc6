@@ -1,0 +1,32 @@
+# (Borlandish) Makefile for apsim eo module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\eo.dll
+..\lib\eo.dll: Registrations.obj eo.obj $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90LIBS) >> linker.tmp
+	$(LF95) eo.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\eo.dll @linker.tmp
+	$(RM) linker.tmp
+   
+eo.obj: eo.for
+Registrations.obj: Registrations.f90
+Registrations.f90: ..\eo.interface 
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\eo.interface
+clean:
+	$(RM) ..\lib\eo.dll Registrations.obj Registrations.f90 eo.obj eo.imp
+

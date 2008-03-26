@@ -1,0 +1,15 @@
+version = 6
+
+[apsim.water limited]
+title = oryza Sample Simulation - water limited
+module = clock   oryza.par [sample] %apsuite\apsim\clock\clock.ini [standard]
+module = report     oryza.par [sample] oryza.par [wl]
+module = input(met) DarlingtonPoint.met [weather]
+module = irrigate
+module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = micromet   oryza.par [sample] oryza.par [standard]                     %apsuite\apsim\micromet\micromet.ini[standard]
+module = manager    oryza.par [sample]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]   %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = eo         %apsuite\apsim\eo\sample\eo.par [sample]                    %apsuite\apsim\eo\eo.ini [standard]
+module = oryza      oryza.par [sample] %apsuite\apsim\oryza\oryza.ini[standard]
+

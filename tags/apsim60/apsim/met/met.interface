@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="met">
+   <registrations>
+      <read name="metfile" type="metfile" readable="T"/>
+      <read name="latitude" type="latitude" readable="T"/>
+      <read name="tav" type="tav" readable="T"/>
+      <read name="amp" type="amp" readable="T"/>
+      <respondToGetReg name="day_length" type="day_length"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <eventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+   </registrations>
+</component>

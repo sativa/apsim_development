@@ -1,0 +1,1882 @@
+<simulations name="untitled" version="9">
+  <simulation name="Sample Economics Simulation">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">31/12/1940</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">31/12/1942</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Sample Economics Simulation.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <manager name="Manager">
+        <rule name="pre sow Tillage">
+          <condition name="start_of_day">
+         if (today = date('[tillage_date]') then
+            if ('[tillage_type]' = 'user_defined') then
+                '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
+            else
+                '[surfaceommodule]' tillage type = [tillage_type]
+            endif
+
+              ! When machinery 'operates', it stops them being 'available', and incurs operating costs.
+               economics operate tractor=t1, implement = p2, area = 200, costtype = fallow_cost
+
+         endif
+      </condition>
+          <category name="When should tillage be done">
+            <tillage_date type="ddmmmdate" description="Enter tillage date (dd-mmm) : ">1-may</tillage_date>
+          </category>
+          <category name="Tillage application details">
+            <surfaceommodule type="modulename" description="Module used to apply the tillage : ">surface organic matter</surfaceommodule>
+            <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
+            <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">150</tillage_depth>
+            <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">80</tillage_f_incorp>
+          </category>
+        </rule>
+        <rule name="Sowing rule">
+          <condition name="start_of_day"><![CDATA[
+! Ask the system (economics/machinery module) whether the tractor/implement combination is available:
+if (available('tractor=t1,implement=p1')) THEN
+
+      if (paddock_is_fallow() = 1 ) then
+         if (date_within('[date1], [date2]') = 1) then
+            if (rain[[rainnumdays]] >= [raincrit] AND 
+                esw >= [esw_amount] ) <> 0) OR
+                ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
+
+               ! When machinery 'operates', it stops them being 'available', and incurs operating costs.
+               economics operate tractor=t1, implement = p1, area = 200, costtype = incrop_cost
+
+               ! incur seed costs (should be others too, eg fungicide etc)
+               economics expenditure category = seedcost, name = [crop], rate = 120 (kg/ha), area = 200 (ha),  incrop_cost = ?
+
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
+
+            endif
+         endif
+      endif
+
+ENDIF
+]]></condition>
+          <category name="Sowing criteria">
+            <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
+            <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
+            <must_sow type="yesno" description="Must sow? : ">no</must_sow>
+            <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
+            <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+            <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
+          </category>
+          <category name="Sowing parameters">
+            <crop type="crop" description="Enter name of crop to sow : ">wheat</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">hartog</cultivar>
+            <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+
+              ! harvesting costs
+              economics expenditure category = contract, name = broadacre_harvesting, rate = 1, area = 200 (ha),  incrop_cost = ?
+
+              ! income
+              cropyieldTONNES = [crop].yield / 1000.0
+              if ('[crop]' = 'wheat') THEN
+                  protein = [crop].grain_protein           !?may need adjustment?
+                  economics income category= cropprice, name = [crop], yield = cropyieldTONNES, protein = protein, area = 200 (ha)
+              else
+                  economics income category= cropprice, name = [crop], yield = cropyieldTONNES, area = 200 (ha)
+              endif
+
+              [crop]  harvest
+              [crop]  end_crop
+endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
+          </category>
+        </rule>
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        ! Fertiliser costs
+        economics expenditure category = fertilisercost, name = [fert_type_sow], rate = [fert_amount_sow], area = 200 (ha), incrop_cost = ?
+
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+
+            </condition>
+          <category name="When should fertiliser be applied">
+            <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+          </category>
+          <category name="Fertiliser application details">
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : "> urea</fert_type_sow>
+          </category>
+        </rule>
+      </manager>
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ratio of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <wheat />
+      <outputfile name="outputfile">
+        <filename name="filename">Sample Economics Simulation.out</filename>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="" />
+          <variable name="wheat.biomass" description="Biomass" array="" units="kg/ha" />
+          <variable name="wheat.yield" description="Yield" array="" units="kg/ha" />
+          <variable name="wheat.grain_protein" description="grain protein content" array="" units="%" />
+          <variable name="wheat.grain_size" description="Size of each grain" array="" units="g" />
+          <variable name="esw" array="" description="Extractable Soil Water (mm)" VariableType="Water" />
+          <variable name="balance" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="wheat.harvesting" description="" />
+        </events>
+      </outputfile>
+      <soil name="Jimbour,Waco (#016)">
+        <Site>Jimbour</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Waco</LocalName>
+        <SoilType>Black Vertosol</SoilType>
+        <NearestTown>Jimbour, Q 4352</NearestTown>
+        <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <profile>
+            <layer>
+              <no3>6.503</no3>
+              <nh4>0.599</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.101</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.101</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
+        </InitNitrogen>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.020</bd>
+            <ll15>0.290</ll15>
+            <airdry>0.150</airdry>
+            <dul>0.540</dul>
+            <sat>0.590</sat>
+            <sw>9999.990</sw>
+            <swcon>0.300</swcon>
+            <oc>1.040</oc>
+            <ph>8.400</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.400</finert>
+            <no3>6.500</no3>
+            <nh4>0.600</nh4>
+            <ec>0.200</ec>
+            <ll name="Barley">0.290</ll>
+            <kl name="Barley">0.100</kl>
+            <xf name="Barley">1</xf>
+            <ll name="Chickpea">0.290</ll>
+            <kl name="Chickpea">0.100</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Lucerne">0.290</ll>
+            <kl name="Lucerne">0.100</kl>
+            <xf name="Lucerne">1</xf>
+            <ll name="Maize">0.290</ll>
+            <kl name="Maize">0.100</kl>
+            <xf name="Maize">1</xf>
+            <ll name="Perennial Grass">0.290</ll>
+            <kl name="Perennial Grass">0.100</kl>
+            <xf name="Perennial Grass">1</xf>
+            <ll name="Sorghum">0.290</ll>
+            <kl name="Sorghum">0.100</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.290</ll>
+            <kl name="Wheat">0.100</kl>
+            <xf name="Wheat">1</xf>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.030</bd>
+            <ll15>0.290</ll15>
+            <airdry>0.260</airdry>
+            <dul>0.530</dul>
+            <sat>0.580</sat>
+            <sw>9999.990</sw>
+            <swcon>0.300</swcon>
+            <oc>0.890</oc>
+            <ph>8.800</ph>
+            <fbiom>0.020</fbiom>
+            <finert>0.600</finert>
+            <no3>2.100</no3>
+            <nh4>0.100</nh4>
+            <ec>0.250</ec>
+            <ll name="Barley">0.290</ll>
+            <kl name="Barley">0.100</kl>
+            <xf name="Barley">1</xf>
+            <ll name="Chickpea">0.290</ll>
+            <kl name="Chickpea">0.100</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Lucerne">0.290</ll>
+            <kl name="Lucerne">0.100</kl>
+            <xf name="Lucerne">1</xf>
+            <ll name="Maize">0.290</ll>
+            <kl name="Maize">0.100</kl>
+            <xf name="Maize">1</xf>
+            <ll name="Perennial Grass">0.290</ll>
+            <kl name="Perennial Grass">0.100</kl>
+            <xf name="Perennial Grass">1</xf>
+            <ll name="Sorghum">0.290</ll>
+            <kl name="Sorghum">0.100</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.290</ll>
+            <kl name="Wheat">0.100</kl>
+            <xf name="Wheat">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.020</bd>
+            <ll15>0.290</ll15>
+            <airdry>0.290</airdry>
+            <dul>0.540</dul>
+            <sat>0.590</sat>
+            <sw>9999.990</sw>
+            <swcon>0.300</swcon>
+            <oc>0.890</oc>
+            <ph>9</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.800</finert>
+            <no3>2.100</no3>
+            <nh4>0.100</nh4>
+            <ec>0.310</ec>
+            <ll name="Barley">0.320</ll>
+            <kl name="Barley">0.080</kl>
+            <xf name="Barley">1</xf>
+            <ll name="Chickpea">0.360</ll>
+            <kl name="Chickpea">0.080</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Lucerne">0.290</ll>
+            <kl name="Lucerne">0.100</kl>
+            <xf name="Lucerne">1</xf>
+            <ll name="Maize">0.340</ll>
+            <kl name="Maize">0.100</kl>
+            <xf name="Maize">1</xf>
+            <ll name="Perennial Grass">0.390</ll>
+            <kl name="Perennial Grass">0.100</kl>
+            <xf name="Perennial Grass">1</xf>
+            <ll name="Sorghum">0.350</ll>
+            <kl name="Sorghum">0.100</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.320</ll>
+            <kl name="Wheat">0.080</kl>
+            <xf name="Wheat">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.020</bd>
+            <ll15>0.290</ll15>
+            <airdry>0.290</airdry>
+            <dul>0.540</dul>
+            <sat>0.580</sat>
+            <sw>9999.990</sw>
+            <swcon>0.300</swcon>
+            <oc>0.890</oc>
+            <ph>9.200</ph>
+            <fbiom>0.010</fbiom>
+            <finert>0.900</finert>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <ec>0.400</ec>
+            <ll name="Barley">0.380</ll>
+            <kl name="Barley">0.060</kl>
+            <xf name="Barley">1</xf>
+            <ll name="Chickpea">0.430</ll>
+            <kl name="Chickpea">0.060</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Lucerne">0.290</ll>
+            <kl name="Lucerne">0.100</kl>
+            <xf name="Lucerne">1</xf>
+            <ll name="Maize">0.340</ll>
+            <kl name="Maize">0.080</kl>
+            <xf name="Maize">1</xf>
+            <ll name="Perennial Grass">0.410</ll>
+            <kl name="Perennial Grass">0.100</kl>
+            <xf name="Perennial Grass">1</xf>
+            <ll name="Sorghum">0.380</ll>
+            <kl name="Sorghum">0.080</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.320</ll>
+            <kl name="Wheat">0.060</kl>
+            <xf name="Wheat">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.060</bd>
+            <ll15>0.300</ll15>
+            <airdry>0.300</airdry>
+            <dul>0.520</dul>
+            <sat>0.570</sat>
+            <sw>9999.990</sw>
+            <swcon>0.300</swcon>
+            <oc>0.770</oc>
+            <ph>9.200</ph>
+            <fbiom>0.010</fbiom>
+            <finert>0.950</finert>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <ec>0.590</ec>
+            <ll name="Barley">0.390</ll>
+            <kl name="Barley">0.040</kl>
+            <xf name="Barley">1</xf>
+            <ll name="Chickpea">0.510</ll>
+            <kl name="Chickpea">0.040</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Lucerne">0.300</ll>
+            <kl name="Lucerne">0.090</kl>
+            <xf name="Lucerne">1</xf>
+            <ll name="Maize">0.370</ll>
+            <kl name="Maize">0.060</kl>
+            <xf name="Maize">1</xf>
+            <ll name="Perennial Grass">0.400</ll>
+            <kl name="Perennial Grass">0.090</kl>
+            <xf name="Perennial Grass">1</xf>
+            <ll name="Sorghum">0.400</ll>
+            <kl name="Sorghum">0.060</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.350</ll>
+            <kl name="Wheat">0.040</kl>
+            <xf name="Wheat">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.110</bd>
+            <ll15>0.310</ll15>
+            <airdry>0.310</airdry>
+            <dul>0.500</dul>
+            <sat>0.550</sat>
+            <sw>9999.990</sw>
+            <swcon>0.300</swcon>
+            <oc>0.450</oc>
+            <ph>9.100</ph>
+            <fbiom>0.010</fbiom>
+            <finert>0.950</finert>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <ec>0.840</ec>
+            <ll name="Barley">0.390</ll>
+            <kl name="Barley">0.020</kl>
+            <xf name="Barley">1</xf>
+            <ll name="Chickpea">0.500</ll>
+            <kl name="Chickpea">0.020</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Lucerne">0.310</ll>
+            <kl name="Lucerne">0.090</kl>
+            <xf name="Lucerne">1</xf>
+            <ll name="Maize">0.400</ll>
+            <kl name="Maize">0.040</kl>
+            <xf name="Maize">1</xf>
+            <ll name="Perennial Grass">0.400</ll>
+            <kl name="Perennial Grass">0.070</kl>
+            <xf name="Perennial Grass">1</xf>
+            <ll name="Sorghum">0.400</ll>
+            <kl name="Sorghum">0.040</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.380</ll>
+            <kl name="Wheat">0.020</kl>
+            <xf name="Wheat">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.120</bd>
+            <ll15>0.320</ll15>
+            <airdry>0.320</airdry>
+            <dul>0.500</dul>
+            <sat>0.550</sat>
+            <sw>9999.990</sw>
+            <swcon>0.300</swcon>
+            <oc>0.270</oc>
+            <ph>9</ph>
+            <fbiom>0.010</fbiom>
+            <finert>0.950</finert>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <ec>0.930</ec>
+            <ll name="Barley">0.410</ll>
+            <kl name="Barley">0.010</kl>
+            <xf name="Barley">1</xf>
+            <ll name="Chickpea">0.500</ll>
+            <kl name="Chickpea">0.010</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Lucerne">0.320</ll>
+            <kl name="Lucerne">0.090</kl>
+            <xf name="Lucerne">1</xf>
+            <ll name="Maize">0.420</ll>
+            <kl name="Maize">0.020</kl>
+            <xf name="Maize">1</xf>
+            <ll name="Perennial Grass">0.410</ll>
+            <kl name="Perennial Grass">0.050</kl>
+            <xf name="Perennial Grass">1</xf>
+            <ll name="Sorghum">0.400</ll>
+            <kl name="Sorghum">0.020</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.410</ll>
+            <kl name="Wheat">0.010</kl>
+            <xf name="Wheat">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.150</bd>
+            <ll15>0.330</ll15>
+            <airdry>0.330</airdry>
+            <dul>0.480</dul>
+            <sat>0.530</sat>
+            <sw>9999.990</sw>
+            <swcon>0.300</swcon>
+            <oc>0.220</oc>
+            <ph>9</ph>
+            <fbiom>0.010</fbiom>
+            <finert>0.950</finert>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <ec>1.010</ec>
+            <ll name="Barley">0.480</ll>
+            <kl name="Barley">0</kl>
+            <xf name="Barley">0</xf>
+            <ll name="Chickpea">0.480</ll>
+            <kl name="Chickpea">0</kl>
+            <xf name="Chickpea">0</xf>
+            <ll name="Lucerne">0.330</ll>
+            <kl name="Lucerne">0.090</kl>
+            <xf name="Lucerne">1</xf>
+            <ll name="Maize">0.480</ll>
+            <kl name="Maize">0</kl>
+            <xf name="Maize">0</xf>
+            <ll name="Perennial Grass">0.410</ll>
+            <kl name="Perennial Grass">0</kl>
+            <xf name="Perennial Grass">0</xf>
+            <ll name="Sorghum">0.480</ll>
+            <kl name="Sorghum">0</kl>
+            <xf name="Sorghum">0</xf>
+            <ll name="Wheat">0.480</ll>
+            <kl name="Wheat">0</kl>
+            <xf name="Wheat">0</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.180</bd>
+            <ll15>0.340</ll15>
+            <airdry>0.340</airdry>
+            <dul>0.470</dul>
+            <sat>0.520</sat>
+            <sw>9999.990</sw>
+            <swcon>0.300</swcon>
+            <oc>0.160</oc>
+            <ph>8.900</ph>
+            <fbiom>0.010</fbiom>
+            <finert>0.950</finert>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <ec>1.060</ec>
+            <ll name="Barley">0.470</ll>
+            <kl name="Barley">0</kl>
+            <xf name="Barley">0</xf>
+            <ll name="Chickpea">0.470</ll>
+            <kl name="Chickpea">0</kl>
+            <xf name="Chickpea">0</xf>
+            <ll name="Lucerne">0.340</ll>
+            <kl name="Lucerne">0.090</kl>
+            <xf name="Lucerne">1</xf>
+            <ll name="Maize">0.470</ll>
+            <kl name="Maize">0</kl>
+            <xf name="Maize">0</xf>
+            <ll name="Perennial Grass">0.400</ll>
+            <kl name="Perennial Grass">0</kl>
+            <xf name="Perennial Grass">0</xf>
+            <ll name="Sorghum">0.470</ll>
+            <kl name="Sorghum">0</kl>
+            <xf name="Sorghum">0</xf>
+            <ll name="Wheat">0.470</ll>
+            <kl name="Wheat">0</kl>
+            <xf name="Wheat">0</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.200</bd>
+            <ll15>0.350</ll15>
+            <airdry>0.350</airdry>
+            <dul>0.460</dul>
+            <sat>0.510</sat>
+            <sw>9999.990</sw>
+            <swcon>0.300</swcon>
+            <oc>0.130</oc>
+            <ph>8.900</ph>
+            <fbiom>0.010</fbiom>
+            <finert>0.950</finert>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <ec>1.050</ec>
+            <ll name="Barley">0.460</ll>
+            <kl name="Barley">0</kl>
+            <xf name="Barley">0</xf>
+            <ll name="Chickpea">0.460</ll>
+            <kl name="Chickpea">0</kl>
+            <xf name="Chickpea">0</xf>
+            <ll name="Lucerne">0.350</ll>
+            <kl name="Lucerne">0.090</kl>
+            <xf name="Lucerne">1</xf>
+            <ll name="Maize">0.460</ll>
+            <kl name="Maize">0</kl>
+            <xf name="Maize">0</xf>
+            <ll name="Perennial Grass">0.400</ll>
+            <kl name="Perennial Grass">0</kl>
+            <xf name="Perennial Grass">0</xf>
+            <ll name="Sorghum">0.460</ll>
+            <kl name="Sorghum">0</kl>
+            <xf name="Sorghum">0</xf>
+            <ll name="Wheat">0.460</ll>
+            <kl name="Wheat">0</kl>
+            <xf name="Wheat">0</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.250</bd>
+            <ll15>0.360</ll15>
+            <airdry>0.360</airdry>
+            <dul>0.440</dul>
+            <sat>0.490</sat>
+            <sw>9999.990</sw>
+            <swcon>0.300</swcon>
+            <oc>0.120</oc>
+            <ph>8.900</ph>
+            <fbiom>0.010</fbiom>
+            <finert>0.950</finert>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <ec>1.010</ec>
+            <ll name="Barley">0.440</ll>
+            <kl name="Barley">0</kl>
+            <xf name="Barley">0</xf>
+            <ll name="Chickpea">0.440</ll>
+            <kl name="Chickpea">0</kl>
+            <xf name="Chickpea">0</xf>
+            <ll name="Lucerne">0.360</ll>
+            <kl name="Lucerne">0.090</kl>
+            <xf name="Lucerne">1</xf>
+            <ll name="Maize">0.440</ll>
+            <kl name="Maize">0</kl>
+            <xf name="Maize">0</xf>
+            <ll name="Perennial Grass">0.420</ll>
+            <kl name="Perennial Grass">0</kl>
+            <xf name="Perennial Grass">0</xf>
+            <ll name="Sorghum">0.440</ll>
+            <kl name="Sorghum">0</kl>
+            <xf name="Sorghum">0</xf>
+            <ll name="Wheat">0.440</ll>
+            <kl name="Wheat">0</kl>
+            <xf name="Wheat">0</xf>
+          </layer>
+        </profile>
+        <Cona>3.5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>6</U>
+        <Salb>0.13</Salb>
+        <Cn2Bare>73</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+      </soil>
+      <tclgroup name="Economics">
+        <initscript>
+source $apsuite/apsim/Economics/lib/Cashbook.tcl
+source $apsuite/apsim/Economics/lib/Machinery.tcl
+    </initscript>
+        <tclui name="Initial Capital Assets">
+          <uiscript>source $apsuite/apsim/Economics/lib/CapitalUI.tcl</uiscript>
+    <category>icapital</category>
+    <icapital>
+        <ivalue>400000.0</ivalue>
+        <loanRate>6.0</loanRate>
+        <loanDuration>5</loanDuration>
+    </icapital>
+</tclui>
+        <tclui name="Cash Journal">
+          <uiscript>source $apsuite/apsim/Economics/lib/CashbookUI.tcl</uiscript>
+    <balance>42000</balance>
+    <outputfilename>Sample.Cashbook.csv</outputfilename>
+    <summaryfilename>Sample.Detailed.Cashflow.csv</summaryfilename>
+</tclui>
+        <tclui name="Machinery - 200kwFWA">
+          <uiscript>source $apsuite/apsim/Economics/lib/MachineryUI.tcl</uiscript>
+          <category>tractor</category>
+          <tractor>
+            <fuelrate implement="SprayRig" units="lts/hour">25.0</fuelrate>
+            <fuelrate implement="DeepPlanter" units="lts/hour">60.0</fuelrate>
+            <workrate implement="DeepPlanter" units="ha/hour">100.0</workrate>
+            <workrate implement="SprayRig" units="ha/hour">500.0</workrate>
+            <workrate implement="Planter">100.0</workrate>
+            <fuelrate implement="Planter">40.0</fuelrate>
+            <workrate implement="PrecisionPlanter">20</workrate>
+            <fuelrate implement="PrecisionPlanter">15</fuelrate>
+            <hoursperday implement="PrecisionPlanter">8</hoursperday>
+            <image>%apsuite/apsim/Economics/lib/choofer.gif</image>
+            <name>t1</name>
+            <newPrice>100000</newPrice>
+            <tradeInValue>10</tradeInValue>
+            <lifeOfEquipment>3000</lifeOfEquipment>
+            <insuranceRate>6.2</insuranceRate>
+            <repairs>30</repairs>
+            <oil>10</oil>
+            <loanInterestRate>4.5</loanInterestRate>
+            <loanDuration>5</loanDuration>
+            <age>2</age>
+            <workrate implement="p1">10.0</workrate>
+            <fuelrate implement="p1">10.0</fuelrate>
+            <hoursperday implement="p1">8.0</hoursperday>
+            <workrate implement="p2">20.0</workrate>
+            <fuelrate implement="p2">5.0</fuelrate>
+            <hoursperday implement="p2">8.0</hoursperday>
+          </tractor>
+        </tclui>
+        <tclui name="Machinery - Precision Planter">
+          <uiscript>source $apsuite/apsim/Economics/lib/MachineryUI.tcl</uiscript>
+          <category>implement</category>
+          <implement>
+            <image>%apsuite/apsim/Economics/lib/precisionPlanter.gif</image>
+            <name>p1</name>
+            <newPrice>20000</newPrice>
+            <tradeInValue>20</tradeInValue>
+            <lifeOfEquipment>1500</lifeOfEquipment>
+            <insuranceRate>2.3</insuranceRate>
+            <repairs>30</repairs>
+            <oil>0</oil>
+            <loanInterestRate>4.5</loanInterestRate>
+            <loanDuration>4</loanDuration>
+            <age>200</age>
+          </implement>
+        </tclui>
+        <tclui name="Machinery - Spray Rig">
+          <uiscript>source $apsuite/apsim/Economics/lib/MachineryUI.tcl</uiscript>
+    <category>implement</category>
+    <implement>
+        <image></image>
+        <name>p2</name>
+        <newPrice>20000</newPrice>
+        <tradeInValue>20</tradeInValue>
+        <lifeOfEquipment>1500</lifeOfEquipment>
+        <insuranceRate>2.3</insuranceRate>
+        <repairs>30</repairs>
+        <oil>0</oil>
+        <loanInterestRate>4.5</loanInterestRate>
+        <loanDuration>4</loanDuration>
+        <age>200</age>
+    </implement>
+</tclui>
+        <tclui name="Prices">
+          <uiscript>source $apsuite/apsim/Economics/lib/PricesUI.tcl</uiscript>
+          <category>cropprice</category>
+          <cropprice>
+            <desc>Wheat</desc>
+            <name>wheat</name>
+            <price>145.0 160.0 170.0 180.0 185.0</price>
+            <protein>9.5 10.0 12.0 13.0 14.0</protein>
+            <units>$/tonne</units>
+            <updated>27/10/2006</updated>
+            <grain_moisture>14.0</grain_moisture>
+          </cropprice>
+          <cropprice>
+            <desc>Sorghum</desc>
+            <name>sorghum</name>
+            <price>120.0</price>
+            <protein>
+            </protein>
+            <units>$/tonne</units>
+            <updated>27/10/2006</updated>
+            <grain_moisture>14.0</grain_moisture>
+          </cropprice>
+        </tclui>
+        <tclui name="Costs - Farm Overheads">
+          <uiscript>source $apsuite/apsim/Economics/lib/OverheadsUI.tcl</uiscript>
+          <category name="Overhead Expenses">overhead</category>
+          <overhead>
+            <description>Accountant/Consultancy fees</description>
+            <name>accountancy</name>
+            <value>5000</value>
+          </overhead>
+          <overhead>
+            <description>Administration</description>
+            <name>administration</name>
+            <value>500</value>
+          </overhead>
+          <overhead>
+            <description>Bank Charges other than interest</description>
+            <name>bankcharges</name>
+            <value>500</value>
+          </overhead>
+          <overhead>
+            <description>Electricity - Farm</description>
+            <name>electricity</name>
+            <value>2000</value>
+          </overhead>
+          <overhead>
+            <description>Freight &amp; Cartage (sundry)</description>
+            <name>freight</name>
+            <value>0</value>
+          </overhead>
+          <overhead>
+            <description>Fuel &amp; Oil (other than farming)</description>
+            <name>fuels</name>
+            <value>10000</value>
+          </overhead>
+          <overhead>
+            <description>Insurance - Farm</description>
+            <name>insurance</name>
+            <value>6000</value>
+          </overhead>
+          <overhead>
+            <description>Motor Vehicle Expenses - Farm</description>
+            <name>vehicleexpenses</name>
+            <value>5000</value>
+          </overhead>
+          <overhead>
+            <description>Rates and Rents - Farm</description>
+            <name>rates</name>
+            <value>3500</value>
+          </overhead>
+          <overhead>
+            <description>Repairs &amp; Maintenance (extra)</description>
+            <name>repairs</name>
+            <value>20000</value>
+          </overhead>
+          <overhead>
+            <description>Subscriptions</description>
+            <name>subs</name>
+            <value>1000</value>
+          </overhead>
+          <overhead>
+            <description>Telephone - Farm</description>
+            <name>telephone</name>
+            <value>2500</value>
+          </overhead>
+          <overhead>
+            <description>Wages (other than casual included in activity budgets)</description>
+            <name>wages</name>
+            <value>30000</value>
+          </overhead>
+          <overhead>
+            <description>Other Overhead Expenses</description>
+            <name>other</name>
+            <value>0</value>
+          </overhead>
+          <overhead>
+            <description>Operators labour and management</description>
+            <name>operator</name>
+            <value>50000</value>
+          </overhead>
+        </tclui>
+        <tclui name="Costs - Fuel">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>fuelcosts</category>
+          <fuelcosts>
+            <desc>Cost of fuel (net)</desc>
+            <name>fuelcosts</name>
+            <price>1.205</price>
+            <units>$/litre</units>
+            <updated>20/12/2005</updated>
+          </fuelcosts>
+        </tclui>
+        <tclui name="Costs - Fertilisers">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>fertilisercost</category>
+          <fertilisercost>
+            <desc>Big n (82n)</desc>
+            <name>big_n</name>
+            <price>0.61</price>
+            <units>$/kg</units>
+            <updated>
+            </updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>CK700 (32.3n;5.1p;18.9s)</desc>
+            <name>ck700</name>
+            <price>0.52</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>CK1 (14.6p;14.5k;1s;10.6ca)</desc>
+            <name>ck1</name>
+            <price>0.52</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>CK600s (17.9n;5.1p;18.9s)</desc>
+            <name>ck600s</name>
+            <price>0.52</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>DAP (18n;20p)</desc>
+            <name>dap</name>
+            <price>0.48</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>granam (20.2n;24s)</desc>
+            <name>granam</name>
+            <price>0.48</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>granulock (starter z - 10.5n;19.5p;2.2s)</desc>
+            <name>granulock</name>
+            <price>0.62</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Gypsum (14.5s;18.5ca)</desc>
+            <name>gypsum</name>
+            <price>0.07</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Lime (Ca)</desc>
+            <name>lime</name>
+            <price>0.05</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>MAP (starterphos - 10n;21.9p;1.5s)</desc>
+            <name>map</name>
+            <price>0.52</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Muriate of Potash (mop - 50k)</desc>
+            <name>mop</name>
+            <price>0.51</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>nitram (34N)</desc>
+            <name>nitram</name>
+            <price>0.71</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Nitram and Sulphur</desc>
+            <name>nitram_and_sulphur</name>
+            <price>0.13</price>
+            <units>$/kg</units>
+            <updated>
+            </updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Phosul</desc>
+            <name>phosul</name>
+            <price>0.57</price>
+            <units>$/kg</units>
+            <updated>
+            </updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>potassium nitrate (13n;38.3k)</desc>
+            <name>potassium_nitrate</name>
+            <price>0.95</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>solubor (20.5b)</desc>
+            <name>solubor</name>
+            <price>3.83</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>starter z</desc>
+            <name>starter_z</name>
+            <price>0.62</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>starterphos (10n;21.9p;1.5s)</desc>
+            <name>starterphos</name>
+            <price>0.48</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>sulphate of potash (41K;18S)</desc>
+            <name>sulphate_of_potash</name>
+            <price>0.69</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Supazinc (7.5Zn)</desc>
+            <name>supazinc</name>
+            <price>4.82</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Superphosphate (8.8P;11S;20Ca)</desc>
+            <name>superphosphate</name>
+            <price>0.34</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>tech feed </desc>
+            <name>tech_feed</name>
+            <price>0.58</price>
+            <units>
+            </units>
+            <updated>needs to be specific</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Urea (46N)</desc>
+            <name>urea</name>
+            <price>0.5</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>zinc sulphate heptahydrate</desc>
+            <name>zinc_sulphate_heptahydrate</name>
+            <price>0.72</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>zinc sulphate monohydrate (35Zn;17.2S)</desc>
+            <name>zinc sulphate monohydrate</name>
+            <price>1.12</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Ammonium Sulphate</desc>
+            <name>ammonium_sulphate</name>
+            <price>0.5</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </fertilisercost>
+        </tclui>
+        <tclui name="Costs - Herbicides">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>herbicide</category>
+          <herbicide>
+            <desc>Achieve</desc>
+            <name>achieve</name>
+            <price>87.82</price>
+            <units>
+            </units>
+            <updated>29/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Ally (metsulfuron)</desc>
+            <name>ally</name>
+            <price>0.2</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Amicide 625</desc>
+            <name>amicide625</name>
+            <price>500</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </herbicide>
+          <herbicide>
+            <desc>Avadex Xtra (tri-allate)</desc>
+            <name>avadex_xtra</name>
+            <price>14.29</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </herbicide>
+          <herbicide>
+            <desc>Basagran (bentazone)</desc>
+            <name>basagran</name>
+            <price>34.27</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Blazer 2L (acifluorfen)</desc>
+            <name>blazer_2l</name>
+            <price>43.45</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Broadstrike (flumetsulam)</desc>
+            <name>broadstrike</name>
+            <price>0.65</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Bromicide MA (bromicide + MCPA)</desc>
+            <name>bromicide_ma</name>
+            <price>13.95</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </herbicide>
+          <herbicide>
+            <desc>Buticide</desc>
+            <name>buticide</name>
+            <price>500</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </herbicide>
+          <herbicide>
+            <desc>Cotogard (flurometuron + prometryn)</desc>
+            <name>cotogard</name>
+            <price>12.32</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Cotoran (flurometuron)</desc>
+            <name>cotoran</name>
+            <price>12.3</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </herbicide>
+          <herbicide>
+            <desc>Diuron</desc>
+            <name>diuron</name>
+            <price>8.5</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </herbicide>
+          <herbicide>
+            <desc>Dual Gold (metolachlor)</desc>
+            <name>dual_gold</name>
+            <price>32.23</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Eclipse (metosulam)</desc>
+            <name>eclipse</name>
+            <price>1.19</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </herbicide>
+          <herbicide>
+            <desc>Fusilade (fluazifop-p)</desc>
+            <name>fusilade</name>
+            <price>69.27</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Garlon 600 (triclopyr)</desc>
+            <name>garlon_600</name>
+            <price>50.91</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Gesaprim (atrazine)</desc>
+            <name>gesaprim</name>
+            <price>6.23</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Glean (chlorsulfuron)</desc>
+            <name>glean</name>
+            <price>0.18</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </herbicide>
+          <herbicide>
+            <desc>Glyphosate 450 CT (glyphosate IPA salt)</desc>
+            <name>glyphosate450</name>
+            <price>4.64</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Gramoxone 250 (paraquat)</desc>
+            <name>gramoxone_250</name>
+            <price>9.68</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Kamba 500 (Dicamba)</desc>
+            <name>kamba_500</name>
+            <price>39</price>
+            <units>
+            </units>
+            <updated>3/06/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>MCPA LVE (MCPA ester)</desc>
+            <name>MCPA_LVE</name>
+            <price>10.4</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Primextra Gold (metolachlor + atrazine)</desc>
+            <name>primextra_gold</name>
+            <price>14.64</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Reglone (diquat)</desc>
+            <name>reglone</name>
+            <price>18.72</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Roundup POWERMAX (glyphosate MEA salt)</desc>
+            <name>roundup</name>
+            <price>7.64</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Tordon 75D</desc>
+            <name>tordon</name>
+            <price>300</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </herbicide>
+          <herbicide>
+            <desc>Trifluralin 480 (trifluralin)</desc>
+            <name>trifluralin</name>
+            <price>7.82</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </herbicide>
+        </tclui>
+        <tclui name="Costs - Fungicides">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>fungicide</category>
+          <fungicide>
+            <desc>Alto 100SL (cyproconazole)</desc>
+            <name>Alto 100SL</name>
+            <price>116.9</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Dithane (mancozeb)</desc>
+            <name>Dithane </name>
+            <price>7.25</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Elect 720 (chlorothalonil)</desc>
+            <name>Elect 720</name>
+            <price>18.83</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Folicur 430 SC</desc>
+            <name>Folicur 430 SC</name>
+            <price>94</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Fortress 500 (procymidone)</desc>
+            <name>Fortress 500</name>
+            <price>67</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Rover</desc>
+            <name>Rover</name>
+            <price>14.75</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Rovral Aquaflo (iprodione)</desc>
+            <name>Rovral Aquaflo</name>
+            <price>55.82</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Wettable Sulphur</desc>
+            <name>Wettable Sulphur</name>
+            <price>2.16</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </fungicide>
+        </tclui>
+        <tclui name="Costs - Insecticides">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>insecticide</category>
+          <insecticide>
+            <desc>Amino-feed</desc>
+            <name>Amino-feed</name>
+            <price>3.91</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Amitraz EC (amitraz)</desc>
+            <name>Amitraz EC</name>
+            <price>14.27</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Cosmos (fipronil)</desc>
+            <name>Cosmos</name>
+            <price>687.27</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Curacron Pro (profenofos)</desc>
+            <name>Curacron Pro</name>
+            <price>27</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Dimethoate</desc>
+            <name>Dimethoate</name>
+            <price>7.36</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Dipel (Strain HD-1)</desc>
+            <name>Dipel</name>
+            <price>66</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Dipel (Strain HD-1)</desc>
+            <name>Dipel</name>
+            <price>66</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Dominex 100 EC (alpha cypermethrin)</desc>
+            <name>Dominex 100 EC</name>
+            <price>19.5</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Dominex Duo (alpha cypermethrin)</desc>
+            <name>Dominex Duo</name>
+            <price>22</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Elect 760</desc>
+            <name>Elect 760</name>
+            <price>24</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Emamectin</desc>
+            <name>Emamectin</name>
+            <price>102.92</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Endosulfan EC</desc>
+            <name>Endosulfan EC</name>
+            <price>10.23</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Ethion + Zeta-cypermethrin</desc>
+            <name>Ethion + Zeta-cypermethrin</name>
+            <price>18.41</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Fastac Duo (alpha cypermethrin)</desc>
+            <name>Fastac Duo</name>
+            <price>6</price>
+            <units>
+            </units>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Fenitrothion 1000</desc>
+            <name>Fenitrothion</name>
+            <price>30</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>L Marlin (methomyl)</desc>
+            <name>L Marlin</name>
+            <price>10.95</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Larvin 375 (thiodicarb)</desc>
+            <name>Larvin 375</name>
+            <price>25.68</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Larvin LV</desc>
+            <name>Larvin LV</name>
+            <price>17.97</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </insecticide>
+          <insecticide>
+            <desc>Lorsban 500 EC (chlorpyrifos)</desc>
+            <name>Lorsban 500 EC</name>
+            <price>9.77</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>NPV Gemstar/Vivus</desc>
+            <name>NPV Gemstar/Vivus</name>
+            <price>66.9</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </insecticide>
+          <insecticide>
+            <desc>PBO (piperonyl butoxide)</desc>
+            <name>PBO</name>
+            <price>30</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Phostoxin tablets (aluminium phosphide)</desc>
+            <name>Phostoxin tablets</name>
+            <price>0.15</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Predator 300 (chlorpyrifos)</desc>
+            <name>Predator 300</name>
+            <price>11</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Regent (fipronil)</desc>
+            <name>Regent</name>
+            <price>360</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Thidiazuron</desc>
+            <name>Thidiazuron</name>
+            <price>
+            </price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </insecticide>
+          <insecticide>
+            <desc>Tracer (spinosad)</desc>
+            <name>Tracer</name>
+            <price>91.75</price>
+            <units>
+            </units>
+            <updated>
+            </updated>
+          </insecticide>
+        </tclui>
+        <tclui name="Costs - Seed">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>seedcost</category>
+          <seedcost>
+            <desc>Barley (Tallon)</desc>
+            <name>Barley</name>
+            <price>0.78</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Chickpea (Jimbour)</desc>
+            <name>Chickpea</name>
+            <price>1.51</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Cotton </desc>
+            <name>Cotton</name>
+            <price>5.6</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Forage Sorghum (Jumbo)</desc>
+            <name>Forage Sorghum</name>
+            <price>3.96</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Lucerne (sequel)</desc>
+            <name>Lucerne</name>
+            <price>5.45</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Maize P3237</desc>
+            <name>Maize</name>
+            <price>6.51</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Millet (White frend)</desc>
+            <name>Millet</name>
+            <price>1</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Mungbean (Emerald)</desc>
+            <name>Mungbean</name>
+            <price>1.45</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Navy Bean (Spearfeld)</desc>
+            <name>NavyBean</name>
+            <price>1.49</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Peanut Streeton (20-23 weeks)</desc>
+            <name>PeanutC</name>
+            <price>2.91</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Peanut Conder (17-19 weeks)</desc>
+            <name>PeanutS</name>
+            <price>2.7</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Peanut VB97 (20-23 weeks)</desc>
+            <name>PeanutVB</name>
+            <price>2.7</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Peanut NC7 (20-23 weeks)</desc>
+            <name>PeanutNC7</name>
+            <price>2.7</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Sorghum (Buster)</desc>
+            <name>Sorghum</name>
+            <price>5.82</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Soybean (Soya791)</desc>
+            <name>Soybean</name>
+            <price>1.31</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Sunflower (Sunolei 04)</desc>
+            <name>Sunflower</name>
+            <price>11.82</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Wheat (Kennedy)</desc>
+            <name>Wheat</name>
+            <price>0.73</price>
+            <units>
+            </units>
+            <updated>30/03/2004</updated>
+          </seedcost>
+        </tclui>
+        <tclui name="Costs - Defoliants">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>defoliant</category>
+          <defoliant>
+            <desc>dropp (thidiazuron + diuron)</desc>
+            <name>dropp</name>
+            <price>147</price>
+            <units>kg</units>
+            <updated>
+            </updated>
+          </defoliant>
+          <defoliant>
+            <desc>Salt Defoliant</desc>
+            <name>salt defoliant</name>
+            <price>1.55</price>
+            <units>kg</units>
+            <updated>
+            </updated>
+          </defoliant>
+        </tclui>
+        <tclui name="Costs - Contractors">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>contract</category>
+          <contract>
+            <desc>aerial spraying - broadacre</desc>
+            <name>aerial_spraying</name>
+            <price>12.5</price>
+            <units>$/ha</units>
+            <updated>20/12/2002</updated>
+          </contract>
+          <contract>
+            <desc>aerial spraying-cotton ec</desc>
+            <name>aerial_spraying_cotton_ec</name>
+            <price>12.5</price>
+            <units>$/ha</units>
+            <updated>20/12/2002</updated>
+          </contract>
+          <contract>
+            <desc>aerial_spraying_cotton_ulv</desc>
+            <name>aerial spraying-cotton ulv</name>
+            <price>9.5</price>
+            <units>$/ha</units>
+            <updated>
+            </updated>
+          </contract>
+          <contract>
+            <desc>Broadacre Harvesting</desc>
+            <name>broadacre_harvesting</name>
+            <price>250</price>
+            <units>$/ha</units>
+            <updated>
+            </updated>
+          </contract>
+          <contract>
+            <desc>chickpea scouting</desc>
+            <name>chickpea_scouting</name>
+            <price>10</price>
+            <units>$/ha</units>
+            <updated>20/12/2002</updated>
+          </contract>
+          <contract>
+            <desc>Cotton casual labour</desc>
+            <name>cotton_casual_labour</name>
+            <price>80</price>
+            <units>$/ha</units>
+            <updated>
+            </updated>
+          </contract>
+          <contract>
+            <desc>peanut chipping</desc>
+            <name>peanut_chipping</name>
+            <price>40</price>
+            <units>$/ha</units>
+            <updated>30/05/2004</updated>
+          </contract>
+          <contract>
+            <desc>cotton consultant</desc>
+            <name>cotton_consultant</name>
+            <price>35</price>
+            <units>$/ha</units>
+            <updated>
+            </updated>
+          </contract>
+          <contract>
+            <desc>cotton crop insurance</desc>
+            <name>cotton_crop_insurance</name>
+            <price>30</price>
+            <units>$/ha</units>
+            <updated>
+            </updated>
+          </contract>
+          <contract>
+            <desc>Cotton harvesting double skip</desc>
+            <name>cotton_harvesting_double_skip</name>
+            <price>41.67</price>
+            <units>$170 / hr at 1.36 ha / hour @ 3 bales/ha</units>
+            <updated>
+            </updated>
+          </contract>
+          <contract>
+            <desc>heavy offsets - contract</desc>
+            <name>heavy_offsets</name>
+            <price>0</price>
+            <units>$/ha</units>
+            <updated>
+            </updated>
+          </contract>
+          <contract>
+            <desc>light chisel plough - contract</desc>
+            <name>light_chisel_plough</name>
+            <price>0</price>
+            <units>$/ha</units>
+            <updated>
+            </updated>
+          </contract>
+          <contract>
+            <desc>light offsets - contract</desc>
+            <name>light_offsets</name>
+            <price>0</price>
+            <units>$/ha</units>
+            <updated>
+            </updated>
+          </contract>
+          <contract>
+            <desc>peanut scouting</desc>
+            <name>peanut_scouting</name>
+            <price>45</price>
+            <units>$/ha</units>
+            <updated>
+            </updated>
+          </contract>
+          <contract>
+            <desc>cotton_eliminator</desc>
+            <name>Cotton eliminator</name>
+            <price>22</price>
+            <units>$/bale</units>
+            <updated>
+            </updated>
+          </contract>
+          <contract>
+            <desc>Cotton harvest solid nsw</desc>
+            <name>cotton_harvest_solid_nsw</name>
+            <price>280</price>
+            <units>$/ha</units>
+            <updated>
+            </updated>
+          </contract>
+          <contract>
+            <desc>gypsum spread on farm</desc>
+            <name>gypsum_spread</name>
+            <price>72.72</price>
+            <units>$/ha</units>
+            <updated>30/05/2004</updated>
+          </contract>
+          <contract>
+            <desc>lime spread on farm</desc>
+            <name>lime_spread</name>
+            <price>50</price>
+            <units>$/ha</units>
+            <updated>30/05/2004</updated>
+          </contract>
+          <contract>
+            <desc>high clearance spray rig</desc>
+            <name>high clearance spray rig</name>
+            <price>10</price>
+            <units>$/ha</units>
+            <updated>
+            </updated>
+          </contract>
+        </tclui>
+      </tclgroup>
+    </area>
+  </simulation>
+</simulations>

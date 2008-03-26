@@ -1,0 +1,80 @@
+version = 6
+[apsim.Test1]
+
+title= Surface Organic Matter Module Test 1
+module = clock    Test.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = report   Test.par [test1]
+module = input(Met)      optimum.MET [weather]
+module = manager  Test.par [test1]
+module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+module = SurfaceOM  Test.par [test1]     %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
+module = Log Test.par[test1]
+
+[apsim.Test2]
+
+title= Surface Organic Matter Module Test 2
+module = clock    Test.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = report   Test.par [test2]
+module = input(Met)      optimum.MET [weather]
+module = manager  Test.par [test2]
+module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+module = SurfaceOM  Test.par [test2]     %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
+module = Log Test.par[test2]
+
+[apsim.Test3]
+
+title= Surface Organic Matter Module Test 3
+module = clock    Test.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = report   Test.par [test3]
+module = input(Met)      optimum.MET [weather]
+module = manager  Test.par [test3]
+module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+module = SurfaceOM  Test.par [test3]     %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
+module = Log Test.par[test1]
+
+[apsim.Test4]
+
+title= Surface Organic Matter Module Test 4
+module = clock    Test.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = report   Test.par [test4]
+module = input(Met)      optimum.MET [weather]
+module = manager  Test.par [test4]
+module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+module = SurfaceOM  Test.par [test4]     %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
+module = Log Test.par[test1]
+
+
+[apsim.Test5]
+
+title= Surface Organic Matter Module Test 5
+module = clock    Test.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = report   Test.par [test5]
+module = input(Met)      optimum.MET [weather]
+module = manager  Test.par [test5]
+module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+module = SurfaceOM  Test.par [test5]     %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
+module = growth(bambatsi) Test.par[test5] %apsuite/apsim/Bambatsi/Bambatsi.ini[standard]
+module = Log Test.par[test5]
+! NOTE - NO MICROMET MODULE SO BAMBATSI WILL NOT GROW AND SO WILL REMAIN STATIC
+
+[apsim.Test6]
+
+title= Surface Organic Matter Module Test 6
+module = clock    Test.par [test6] %apsuite/apsim/clock/clock.ini[standard]
+module = report   Test.par [test6]
+module = input(Met)     optimum_long.met [weather]
+module = manager  Test.par [test6]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.ini[standard]
+module = irrigate
+module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+module = SurfaceOM  Test.par [test6]     %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
+module = Plant(wheat)  Test.par [test6] %apsuite/apsim/Wheat/wheat.ini [standard]
+module = sorghum  Test.par [test6] %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = Plant(canola)   Test.par [test6] %apsuite/apsim/canola/canola.ini[standard]
+module = Log Test.par[test6]

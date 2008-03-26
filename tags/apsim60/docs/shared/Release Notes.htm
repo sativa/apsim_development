@@ -1,0 +1,376 @@
+<html>
+   <head>
+      <title>APSIM 6</title>
+      <link href="ApsimWebStyle.css" rel="stylesheet" type="text/css">
+   </head>
+   <body>
+      <h1>APSIM 6.0 release notes</h1>
+      <p>26th March 2008</p>
+
+      <p>This release of APSIM is not 100% backwards compatible with previous versions, particularly
+         with respect to .con / .par files. The control file converter will automatically attempt to 
+         make all the necessary changes but sometimes it fails. All the changes are related to new PLANT
+         output variable names. The complete list of old and new names is as follows:
+      <p>   
+      <table>
+         <tr><td><b>Old variable name</b></td><td><b>New variable name</b></td></tr>
+         <tr><td>dm_green(1)</td><td>RootGreenWt</td></tr>
+         <tr><td>dm_green(2)</td><td>LeafGreenWt</td></tr>
+         <tr><td>dm_green(3)</td><td>StemGreenWt</td></tr>
+         <tr><td>dm_green(4)</td><td>PodGreenWt</td></tr>
+         <tr><td>dm_green(5)</td><td>MealGreenWt</td></tr>
+         <tr><td>dm_green(6)</td><td>OilGreenWt</td></tr>
+         <tr><td>dm_green_leaf</td><td>LeafGreenWt</td></tr>
+         <tr><td>dm_green_stem</td><td>StemGreenWt</td></tr>
+         <tr><td>dm_green_pod</td><td>PodGreenWt</td></tr>
+         <tr><td>dm_green_meal</td><td>MealGreenWt</td></tr>
+         <tr><td>dm_green_oil</td><td>OilGreenWt</td></tr>
+         <tr><td>dm_green_fruit</td><td>FruitGreenWt</td></tr>
+         <tr><td>dm_green_root</td><td>RootGreenWt</td></tr>
+         <tr><td>dm_green_floret</td><td>FloretGreenWt</td></tr>
+         <tr><td>dm_green()</td><td>GreenWt</td></tr>
+         <tr><td>dm_green</td><td>GreenWt</td></tr>
+         <tr><td>n_green_leaf</td><td>LeafGreenN</td></tr>
+         <tr><td>n_green_stem</td><td>StemGreenN</td></tr>
+         <tr><td>n_green_pod</td><td>PodGreenN</td></tr>
+         <tr><td>n_green_meal</td><td>MealGreenN</td></tr>
+         <tr><td>n_green_oil</td><td>OilGreenN</td></tr>
+         <tr><td>n_green_fruit</td><td>FruitGreenN</td></tr>
+         <tr><td>n_green_root</td><td>RootGreenN</td></tr>
+         <tr><td>n_green_floret</td><td>FloretGreenN</td></tr>
+         <tr><td>n_green(1)</td><td>RootGreenN</td></tr>
+         <tr><td>n_green(2)</td><td>LeafGreenN</td></tr>
+         <tr><td>n_green(3)</td><td>StemGreenN</td></tr>
+         <tr><td>n_green(4)</td><td>PodGreenN</td></tr>
+         <tr><td>n_green(5)</td><td>MealGreenN</td></tr>
+         <tr><td>n_green(6)</td><td>OilGreenN</td></tr>
+         <tr><td>n_green()</td><td>GreenN</td></tr>
+         <tr><td>n_green</td><td>GreenN</td></tr>
+         <tr><td>leaf_wt</td><td>LeafGreenWt</td></tr>
+         <tr><td>stem_wt</td><td>StemGreenWt</td></tr>
+         <tr><td>pod_wt</td><td>PodGreenWt</td></tr>
+         <tr><td>meal_wt</td><td>MealGreenWt</td></tr>
+         <tr><td>oil_wt</td><td>OilGreenWt</td></tr>
+         <tr><td>fruit_wt</td><td>FruitGreenWt</td></tr>
+         <tr><td>root_wt</td><td>RootGreenWt</td></tr>
+         <tr><td>floret_wt</td><td>FloretGreenWt</td></tr>
+         <tr><td>tuber_wt</td><td>TuberGreenWt</td></tr>
+         <tr><td>leaf_n</td><td>LeafGreenN</td></tr>
+         <tr><td>stem_n</td><td>StemGreenN</td></tr>
+         <tr><td>pod_n</td><td>PodGreenN</td></tr>
+         <tr><td>meal_n</td><td>MealGreenN</td></tr>
+         <tr><td>oil_n</td><td>OilGreenN</td></tr>
+         <tr><td>fruit_n</td><td>FruitGreenN</td></tr>
+         <tr><td>root_n</td><td>RootGreenN</td></tr>
+         <tr><td>floret_n</td><td>FloretGreenN</td></tr>
+         <tr><td>leaf_p</td><td>LeafGreenP</td></tr>
+         <tr><td>stem_p</td><td>StemGreenP</td></tr>
+         <tr><td>pod_p</td><td>PodGreenP</td></tr>
+         <tr><td>meal_p</td><td>MealGreenP</td></tr>
+         <tr><td>oil_p</td><td>OilGreenP</td></tr>
+         <tr><td>fruit_p</td><td>FruitGreenP</td></tr>
+         <tr><td>root_p</td><td>RootGreenP</td></tr>
+         <tr><td>floret_p</td><td>FloretGreenP</td></tr>
+         <tr><td>p_green()</td><td>GreenP</td></tr>
+         <tr><td>p_green</td><td>GreenP</td></tr>
+         <tr><td>p_senesced()</td><td>SenescedP</td></tr>
+         <tr><td>p_senesced</td><td>SenescedP</td></tr>
+         <tr><td>n_conc_leaf</td><td>LeafGreenNConc</td></tr>
+         <tr><td>n_conc_stem</td><td>StemGreenNConc</td></tr>
+         <tr><td>n_conc_pod</td><td>PodGreenNConc</td></tr>
+         <tr><td>n_conc_meal</td><td>MealGreenNConc</td></tr>
+         <tr><td>n_conc_oil</td><td>OilGreenNConc</td></tr>
+         <tr><td>n_conc_fruit</td><td>FruitGreenNConc</td></tr>
+         <tr><td>n_conc_root</td><td>RootGreenNConc</td></tr>
+         <tr><td>n_conc_floret</td><td>FloretGreenNConc</td></tr>
+         <tr><td>p_conc_leaf</td><td>LeafGreenPConc</td></tr>
+         <tr><td>p_conc_stem</td><td>StemGreenPConc</td></tr>
+         <tr><td>p_conc_pod</td><td>PodGreenPConc</td></tr>
+         <tr><td>p_conc_meal</td><td>MealGreenPConc</td></tr>
+         <tr><td>p_conc_oil</td><td>OilGreenPConc</td></tr>
+         <tr><td>p_conc_fruit</td><td>FruitGreenPConc</td></tr>
+         <tr><td>p_conc_root</td><td>RootGreenPConc</td></tr>
+         <tr><td>p_conc_grain</td><td>GrainGreenPConc</td></tr>
+         <tr><td>p_conc_floret</td><td>FloretGreenPConc</td></tr>
+         <tr><td>dm_senesced_leaf</td><td>LeafSenescedWt</td></tr>
+         <tr><td>dm_senesced_stem</td><td>StemSenescedWt</td></tr>
+         <tr><td>dm_senesced_pod</td><td>PodSenescedWt</td></tr>
+         <tr><td>dm_senesced_meal</td><td>MealSenescedWt</td></tr>
+         <tr><td>dm_senesced_oil</td><td>OilSenescedWt</td></tr>
+         <tr><td>dm_senesced_fruit</td><td>FruitSenescedWt</td></tr>
+         <tr><td>dm_senesced_root</td><td>RootSenescedWt</td></tr>
+         <tr><td>dm_senesced_floret</td><td>FloretSenescedWt</td></tr>
+         <tr><td>dm_senesced(1)</td><td>RootSenescedWt</td></tr>
+         <tr><td>dm_senesced(2)</td><td>LeafSenescedWt</td></tr>
+         <tr><td>dm_senesced(3)</td><td>StemSenescedWt</td></tr>
+         <tr><td>dm_senesced(4)</td><td>PodSenescedWt</td></tr>
+         <tr><td>dm_senesced(5)</td><td>MealSenescedWt</td></tr>
+         <tr><td>dm_senesced(6)</td><td>OilSenescedWt</td></tr>
+         <tr><td>dm_senesced()</td><td>SenescedWt</td></tr>
+         <tr><td>dm_senesced</td><td>SenescedWt</td></tr>
+         <tr><td>n_senesced_leaf</td><td>LeafSenescedN</td></tr>
+         <tr><td>n_senesced_stem</td><td>StemSenescedN</td></tr>
+         <tr><td>n_senesced_pod</td><td>PodSenescedN</td></tr>
+         <tr><td>n_senesced_meal</td><td>MealSenescedN</td></tr>
+         <tr><td>n_senesced_oil</td><td>OilSenescedN</td></tr>
+         <tr><td>n_senesced_fruit</td><td>FruitSenescedN</td></tr>
+         <tr><td>n_senesced_root</td><td>RootSenescedN</td></tr>
+         <tr><td>n_senesced_floret</td><td>FloretSenescedN</td></tr>
+         <tr><td>n_senesced(1)</td><td>RootSenescedN</td></tr>
+         <tr><td>n_senesced(2)</td><td>LeafSenescedN</td></tr>
+         <tr><td>n_senesced(3)</td><td>StemSenescedN</td></tr>
+         <tr><td>n_senesced(4)</td><td>PodSenescedN</td></tr>
+         <tr><td>n_senesced(5)</td><td>MealSenescedN</td></tr>
+         <tr><td>n_senesced(6)</td><td>OilSenescedN</td></tr>
+         <tr><td>n_senesced()</td><td>SenescedN</td></tr>
+         <tr><td>n_senesced</td><td>SenescedN</td></tr>
+      </table></p>
+      <p>The following variables no longer exist:         
+         dm_dead
+         dm_dead_leaf
+         dm_dead_stem
+         n_dead
+         p_dead
+         deadleaf_n
+         deadleaf_p
+         tlai_dead
+         cep</p>
+         
+      <h2>Sorghum</h2>
+      <p>Version 6 incorporates updated nitrogen algorithms that more realistically simulate 
+         the functional basis of nitrogen dynamics in the plant. For example, these routines 
+         allow grain nitrogen concentration and leaf senescence to be emergent properties of 
+         the effects of growth and development process on N dynamics.</p>
+      <p>Changes have been made to the default sorghum genotypes, with early, medium and late 
+         types now having on average 14, 16 and 18 leaves respectively. Users may see changes 
+         in yield for these cultivars due to these changes in phenology.</p>
+      <p>A default fertile tillering calculation has been included that will estimate the tiller 
+         number if none is added by the user. This rule only applies to the Australian sorghum 
+         cropping regions. Users can still enter this value.</p>
+
+      <h2>APSIM user interface</h2>
+      <ul>
+         <li>The 'shared' concept has now been extended to allow full inheritance. Simulations 
+             can now be inherited from other simulations with the bits that are differnet being
+            underlined in the tree</li>
+         <li>'Rules' and 'Logic' in the user interface are now the same thing - called 'manager'.
+             Users can right click on the properties tab in a manager component and select edit.
+            This will allow them to add/delete/rename properties</li>
+         <li>The graph toolbox has been redesigned to use the new APSIM Report functionality.
+             Graphs can now be dropped on an output file</li>
+         <li>Updated the OzCot variable list.</li>
+         <li>Simplified the code to further externalise button presses and menu clicks. 
+             APSoil and ApsimUI are now the same executable as a result.</li>
+         <li>Added a WaterSupply sample to the user interface.</li>
+         <li>Reworked the APSIM user interface by making all 'actions' (button bar + 
+             context menu) externalised to an actions.xml file. Users will notice a much 
+             improved menu when right clicking on a node in the simulation tree.</li>
+         <li>The run window now displays error messages in red.</li>
+         <li>Fixed bug in .apsim file changetool where variables were being stripped 
+             when converting from an old .apsim file to a new one - reported by Howard Cox.</li>
+         <li>Removed duplicate parameter Receive_crop_runoff from 'Dam' in the standard toolbox 
+             - reported by Perry Poulton</li>
+         <li>Harvesting rule in standard toolbox can now work with ozcot</li>
+         <li>Added GRASP to standard toolbox</li>
+         <li>Added some GCM / SOI index components to the standard toolbox</li>
+         <li>Fixed operations crash in user interface</li>
+         <li>Added INPUT</li>
+         <li>Added a 'constants' section to the top of the output variable window. These constants'
+             are written to the top of an output file, on multiple lines. NB: This may break any
+             third party tools that expect the headings to start on line 4 of an output file.</li>
+      </ul>
+
+
+      <h2>APSIMOutlook</h2>
+      <ul>
+         <li>APSIM Outlook has been reworked to facilitate rebadging work done by 
+             CSIRO Plant Industry at Narrabri. </li>
+      </ul>
+
+      
+      <h2>APSIMReport</h2>
+      <ul>
+         <li>Minor modification to the pie chart colouring so that set colours are applied to 
+             each slice. Done for Yield Prophet.</li>
+         <li>Major reworking of code to use more .NET forms and controls. The whole data 
+            form is now very different.</li>
+         <li>Multi page PDF's can now be generated from reports.</li>
+      </ul>
+
+
+      <h2>APSIM infrastructure</h2>
+      <ul>
+         <li>Change the component interface so that parameters (SDML) is passed into the 
+             FORTRAN / DELPHI components as a string. This was done for AgResearch.</li>
+         <li>.NET component interface has been reworked to use the existing APSIM component interface. 
+             New metadata tags (e.g. <output> and <subscribe>) have been added.</li>
+             
+      </ul>
+
+
+      <h2>APSFarm</h2>
+      <ul>
+         <li>Added &quot;detailed cash flow&quot; analysis to economics module</li>
+         <li>Stability changes to UI components have been made.</li>
+      </ul>
+
+
+      <h2>SoilN2</h2>
+      <ul>
+         <li>Change for sandy soil mineralisation processes for Western Australia. 2 lines were added:<br>
+             wfmin_index = 0.0 0.5 1.0 2.0  ! index specifying water content for water factor for mineralization<br>
+             wfmin_values= 0.05 1.0 1.0 0.5  ! value of water factor function at given index values(mineralization)
+         </li>
+      </ul>
+      
+      
+      <h2>SoilWat2</h2>
+      <ul>
+         <li>Added settable water table depth for water logging studies. Parameter is called 'water_table'</li>
+      </ul>
+      
+      
+      <h2>Plant</h2>
+      <ul>
+         <li>Continued refactoring of PLANT. All Tops and Stover calculations have now been 
+             modelled using the composite pattern.</li>
+         <li>dm_green, dm_dead, dm_senesced, n_green, n_senesced, n_dead, p_green, p_senesced, 
+             p_dead and dlt_dm_green are now scalars rather than an array of values for each part. To output dm_green for the leaf part use: dm_green_leaf.</li>
+         <li>Added a set_stage event to Plant phenology.</li>
+         <li>Correction to remove biomass phenology and N  </li>
+         <li>Added new genericArbitratorXY class to plant to allow partitioning rules to be specified using interpolation functions.</li>
+         <li>Bug fixes to cohorting leaf part and some refactoring of plant utilities.</li>
+         <li>The RootPart class has be refactored so that it is self contained. As part of this 
+             work a NoRoot class can be instantiated that meets the crops water and nitrogen demands i.e. a potential crop can be easily simulated.</li>
+         <li>A new StoragePart has been added to PLANT to facilitate work on a Potato module for APSIM.</li>
+         <li>A new FloretPart has been added to PLANT and broccoli modified to use it. </li>
+         <li>The arbitrator part in PLANT has been made more generic with a lot of its functionality being externalised to the .ini file. </li>
+         <li>Added stage x digestibility table for several crops (e.g. lablab, wheat, lucerne, sweet sorghum)</li>
+         <li>Removed all dead pools in PLANT</li>
+         <li>Many of PLANTS output variables have been renamed</li>
+         <li>A new pool and composite pool class has been added to PLANT</li>
+         <li>Many changes have been made to PLANT to allow grazing</li>
+         <li>Some corrections have been made to the P and SW stress</li>
+         <li>A start has been made on a new photosynthesis class</li>
+      </ul>
+      
+      
+      <h2>Lupin</h2>
+      <ul>
+         <li>Lupin validation added</li>
+      </ul>
+
+      
+      <h2>Lettuce</h2>
+      <ul>
+         <li>A new lettuce model has been added</li>
+      </ul>
+
+      
+      <h2>Oats</h2>
+      <ul>
+         <li>Added new variety: Wintaroo  </li>
+      </ul>
+      
+      
+      <h2>Weeds</h2>
+      <ul>
+         <li>Corrected p_conc_init names in the weed.ini file.   </li>
+      </ul>
+      
+      
+      <h2>APSwim</h2>
+      <ul>
+         <li>Added methods for parameterising SWIM using soilwat-type parameters</li>
+      </ul>
+      
+      
+      <h2>Manager</h2>
+      <ul>
+         <li>Allow replacement of multiple values of a variable e.g. soilwat2 set sw = sw1 sw2 sw3 (mm)</li>
+         <li>The manager module can now handle 100 character values for  its local variables.</li>
+         <li>Some manager arithmetic has been fixed </li>
+         <li>Cotton is seen as a crop and works properly in rotations</li>
+         <li>Warnings are given when an undefined variable is used in an expression.</li>
+      </ul>
+
+
+      <h2>Potato</h2>
+      <ul>
+         <li>A revised version of Potato from Shaun Lisson.</li>
+      </ul>
+
+
+      <h2>Canola</h2>
+      <ul>
+         <li>Triazine tolerance  has been built into the cultivars in the canola.ini 
+             file. It is now no longer necessary to specify this at sowing time.</li>
+         <li>Added canola validation</li>
+      </ul>
+
+      
+      <h2>Report</h2>
+      <ul>
+         <li>Fixed defect where a date format on a variable line wouldn't work e.g. 
+             <em>today as Date format dd-mmm</em></li>
+         <li>The REPORT module now outputs less than 3 decimal places for some units.</li>
+         <li>Users can now specify units for output variables with unit conversion 
+            happening automatically. Supported units: g/m2, kg/ha, t/ha</li>
+      </ul>
+
+
+      <h2>SILOInput</h2>
+      <ul>
+         <li>The SILOInput component now has better error handling in timeout situations when 
+             communicating with SILO.</li>
+      </ul>
+
+               
+      <h2>CSIRO Plant Industry PASTURE and STOCK</h2>
+      <ul>
+         <li>SILO was modified so that it outputs solar radiation units as MJ/m^2 rather than 
+             MJ/m2. When APSIM met files have these revised units, PASTURE runs in APSIM properly.</li>
+         <li>Changed all references to Farmwi$e to now point to AusFarm</li>
+      </ul>
+
+      
+      <h2>Graz</h2>
+      <ul>
+         <li>The Rickert and McKeon grazing model has been resurrected.</li>
+         <li>A usage sample is in its installation directory.</li>
+      </ul>
+
+
+      <h2>Maize</h2>
+      <ul>
+         <li>Fixed kill_crop in maize</li>
+      </ul>
+      
+      
+      <h2>Sysbal</h2>
+      <ul>
+         <li>Sysbal has been modified to report less false positives, particularly from PLANT</li>
+      </ul>
+
+
+      <h2>Ozcot</h2>
+      <ul>
+         <li>New cultivars have been added from CSIRO Plant Industry at Narrabri</li>
+      </ul>
+      
+
+      <h2>Lucerne</h2>
+      <ul>
+         <li>The .ini file has been modified to fix the 'sprayed' class</li>
+      </ul>
+
+
+      <h2>Oryza</h2>
+      <ul>
+         <li>Oryza is now released as part of APSIM, and works in ApsimUI.</li>
+         <li>Some minor modifications from Don Gaydon have been added.</li>
+         <li>A usage sample is in the installation directory.</li>
+      </ul>
+      
+   </body>
+</html>

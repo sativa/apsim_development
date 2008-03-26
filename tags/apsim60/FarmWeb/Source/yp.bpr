@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="yp.dll"/>
+    <OBJFILES value="yp.obj TYPServerController.obj TYPWebSession.obj TYPSetupForm.obj 
+      TYPPaddockForm.obj TYPNitrogenReportForm.obj"/>
+    <RESFILES value="yp.res"/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES) TYPServerController.dfm TYPWebSession.dfm TYPSetupForm.dfm 
+      TYPPaddockForm.dfm TYPNitrogenReportForm.dfm"/>
+    <LIBFILES value="..\..\Shared\general\general.lib ..\..\Shared\general\general_vcl.lib 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot; 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\Tms\wininet.lib&quot; 
+      FarmWebLib.lib 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot; 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib&quot;"/>
+    <LIBRARIES value="IW7TMSGRIDC6.lib IntrawebDB_70_60.lib IW7TMSC6.lib Intraweb_70_60.lib 
+      tmsc6.lib inet.lib adortl.lib VclSmp.lib vcldb.lib dbrtl.lib vclx.lib 
+      vcl.lib rtl.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib VclSmp.lib adortl.lib 
+      inet.lib tmsc6.lib Intraweb_70_60.lib IW7TMSC6.lib IntrawebDB_70_60.lib 
+      IW7TMSGRIDC6.lib"/>
+    <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi bdertl.bpi vcldb.bpi vclx.bpi nmfast.bpi 
+      bcbie.bpi inet.bpi adortl.bpi bcbsmp.bpi dsnap.bpi cds.bpi dbexpress.bpi 
+      dbxcds.bpi ibxpress.bpi vclie.bpi inetdbbde.bpi inetdbxpress.bpi 
+      dclocx.bpi soaprtl.bpi IntrawebDB_71_60.bpi Intraweb_71_60.bpi"/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value=""/>
+    <SYSDEFINES value="NO_STRICT"/>
+    <MAINSOURCE value="yp.cpp"/>
+    <INCLUDEPATH value="..\..\Shared\general;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(SHARED)"/>
+    <LIBPATH value="..\..\Shared\general;$(BCB)\Projects\Lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms\intraweb;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-WD -O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi -tWD -tWM -c"/>
+    <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zn"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpd -x -Gn -Gi"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0d32.obj sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mt.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="yp.res" FORMNAME="" UNITNAME="yp.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="yp.cpp" FORMNAME="" UNITNAME="yp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Tms\wininet.lib" FORMNAME="" UNITNAME="wininet.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FarmWebLib.lib" FORMNAME="" UNITNAME="FarmWebLib.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib" FORMNAME="" UNITNAME="libxml2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TYPServerController.cpp" FORMNAME="ServerController" UNITNAME="TYPServerController" CONTAINERID="CCompiler" DESIGNCLASS="TIWServerControllerBase" LOCALCOMMAND=""/>
+      <FILE FILENAME="TYPWebSession.cpp" FORMNAME="YPWebSession" UNITNAME="TYPWebSession" CONTAINERID="CCompiler" DESIGNCLASS="TIWUserSessionBase" LOCALCOMMAND=""/>
+      <FILE FILENAME="TYPSetupForm.cpp" FORMNAME="YPSetupForm" UNITNAME="TYPSetupForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
+      <FILE FILENAME="TYPPaddockForm.cpp" FORMNAME="YPPaddockForm" UNITNAME="TYPPaddockForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
+      <FILE FILENAME="TYPNitrogenReportForm.cpp" FORMNAME="YPNitrogenReportForm" UNITNAME="TYPNitrogenReportForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=3081
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=12
+Item0=..\..\Shared\general;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb
+Item3=..\..\Shared\general;..\..\FarmWeb\Source;..\..\Shared\ApsimShared;temp;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb
+Item4=temp;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb
+Item5=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb
+Item6=Test;..;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item8=..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item9=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item10=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item11=C:\MyData\development\Shared\Soil;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=12
+Item0=..\..\Shared\general;$(BCB)\Projects\Lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms\intraweb;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms
+Item1=$(BCB)\Projects\Lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms\intraweb;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms
+Item2=..\..\Shared\general;..\..\FarmWeb\Source;..\..\Shared\ApsimShared;temp;$(BCB)\Projects\Lib;..;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms\intraweb;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms
+Item3=temp;$(BCB)\Projects\Lib;..;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms\intraweb;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms
+Item4=$(BCB)\Projects\Lib;..;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms\intraweb;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms
+Item5=$(BCB)\Projects\Lib;..;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms\intraweb;$(BCB)\Components\IntraWeb\LibCB6
+Item6=$(BCB)\Projects\Lib;Test;..;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6
+Item7=Test;..;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6
+Item8=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item9=..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item10=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item11=$(BCB)\Components\TeeChart\CBuilder6\Lib;C:\MyData\development\Shared\Soil;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=2
+Item0=..\..\Bin\
+Item1=..\..\Bin
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+
+[Linker]
+LibPrefix=
+LibSuffix=
+LibVersion=
+  </IDEOPTIONS>
+</PROJECT>

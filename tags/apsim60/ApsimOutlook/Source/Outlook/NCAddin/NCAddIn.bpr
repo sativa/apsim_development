@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\..\..\..\Bin\NCAddIn.dll"/>
+    <OBJFILES value="dbaddin.obj DataBaseAddIn.obj DBSimulation.obj ..\scenario.obj 
+      TDirectory_select_form.obj ApsimNC.obj Utilities.obj TCSV.obj"/>
+    <RESFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES) TDirectory_select_form.dfm"/>
+    <LIBFILES value="..\..\..\..\Shared\ApsimShared\ApsimShared.lib 
+      ..\..\..\..\Shared\general\general.lib nc.lib"/>
+    <LIBRARIES value="TMSC6.lib APSGeneral.lib APSData.lib adortl.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib adortl.lib dbrtl.lib vcldb.lib bdertl.lib vclx.lib 
+      APSData.lib APSGeneral.lib TMSC6.lib"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi dbrtl.bpi vcldb.bpi bdertl.bpi ibsmp.bpi 
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
+      dclocx.bpi bcb97axserver.bpi TeeDB7C6.bpi Tee7C6.bpi TeeUI7C6.bpi 
+      TeeGL7C6.bpi TeeQR7C6.bpi TeeLanguage7C6.bpi TeePro7C6.bpi TeeImage7C6.bpi"/>
+    <PATHCPP value=".;.."/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value=""/>
+    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="NCAddIn.bpf"/>
+    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\apsimnclib;$(SHARED);$(SHARED)\components\data"/>
+    <LIBPATH value="..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general;$(BCB)\components\teechart\cbuilder6\lib;$(BCB)\components\tms"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-WD -O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi -tWD -tWM -c"/>
+    <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zn"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpd -x -Gn"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="NCAddIn.bpf" FORMNAME="" UNITNAME="NCAddIn" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="dbaddin.cpp" FORMNAME="" UNITNAME="DBAddIn" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="DataBaseAddIn.cpp" FORMNAME="" UNITNAME="DataBaseAddIn" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="DBSimulation.cpp" FORMNAME="" UNITNAME="DBSimulation" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\scenario.cpp" FORMNAME="" UNITNAME="Scenario" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TDirectory_select_form.cpp" FORMNAME="Directory_select_form" UNITNAME="TDirectory_select_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimNC.cpp" FORMNAME="" UNITNAME="ApsimNC" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Utilities.cpp" FORMNAME="" UNITNAME="Utilities" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="nc.lib" FORMNAME="" UNITNAME="nc.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TCSV.cpp" FORMNAME="" UNITNAME="TCSV" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=3081
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=30
+Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\apsimnclib;$(SHARED);$(SHARED)\components\data
+Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data;$(BCB)\components\boost;$(BCB)\components\apsimnclib
+Item2=..\;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data;$(BCB)\components\boost;$(BCB)\components\apsimnclib
+Item3=..\;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data;$(BCB)\components\boost
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data;$(BCB)\components\boost
+Item5=..\;..;./;C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;c:\components\boost;$(SHARED);$(SHARED)\components\data;C:\Projects\star\ApsimNC
+Item6=..\;./;..;C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;c:\components\boost;$(SHARED);$(SHARED)\components\data;C:\Projects\star\ApsimNC
+Item7=./;..\;..;C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;c:\components\boost;$(SHARED);$(SHARED)\components\data;C:\Projects\star\ApsimNC
+Item8=..\;..;C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;c:\components\boost;$(SHARED);$(SHARED)\components\data;C:\Projects\star\ApsimNC
+Item9=..;C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;c:\components\boost;$(SHARED);$(SHARED)\components\data;C:\Projects\star\ApsimNC
+Item10=..\;C:\Documents and Settings\Reds.REDS\Desktop\Whopper Demo;..;C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;c:\components\boost;$(SHARED);$(SHARED)\components\data;C:\Projects\star\ApsimNC
+Item11=C:\Documents and Settings\Reds.REDS\Desktop\Whopper Demo;..;C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;c:\components\boost;$(SHARED);$(SHARED)\components\data;C:\Projects\star\ApsimNC
+Item12=..;C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data;C:\Projects\star\ApsimNC
+Item13=..\;C:\Program Files\Borland\CBuilder6\Projects;..;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data;C:\Projects\star\ApsimNC
+Item14=C:\Program Files\Borland\CBuilder6\Projects;..\;C:\Program Files\Apsim34\Bin;..;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data;C:\Projects\star\ApsimNC
+Item15=C:\Program Files\Borland\CBuilder6\Projects;..\;C:\Program Files\Apsim34\Bin;..;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data
+Item16=C:\Program Files\Apsim34\Bin;..\;..;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data
+Item17=..\;C:\SEG\development\apsimoutlook\Source\Outlook;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data
+Item18=C:\SEG\development\apsimoutlook\Source\Outlook;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data
+Item19=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data
+Item20=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data
+Item21=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Item22=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Item23=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
+Item24=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\data;$(SHARED)
+Item25=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item26=..\;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item27=..\;K:\general;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item28=K:\general;..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item29=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+
+[HistoryLists\hlLibraryPath]
+Count=30
+Item0=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general;$(BCB)\components\teechart\cbuilder6\lib;$(BCB)\components\tms
+Item1=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general;$(BCB)\components\teechart\cbuilder6\lib
+Item2=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general;$(SHARED)\components\teechart\cbuilder6\lib
+Item3=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general
+Item4=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general
+Item5=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general
+Item6=..\;..;C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(SHARED)\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;c:\components\memtable;c:\components\tms;$(SHARED)\components\general
+Item7=..;C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(SHARED)\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;c:\components\memtable;c:\components\tms;$(SHARED)\components\general
+Item8=..;C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED)\components\general
+Item9=..\;C:\Program Files\Borland\CBuilder6\Projects;..;C:\Program Files\Apsim34\Bin;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED)\components\general
+Item10=C:\Program Files\Borland\CBuilder6\Projects;..\;C:\Program Files\Apsim34\Bin;..;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED)\components\general
+Item11=C:\Program Files\Apsim34\Bin;..\;..;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED)\components\general
+Item12=..\;C:\SEG\development\apsimoutlook\Source\Outlook;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED)\components\general;C:\SEG\development\shared\components\data
+Item13=..\;C:\SEG\development\apsimoutlook\Source\Outlook;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;$(BCB)\Components\TeeChart\CBuilder6\Lib;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED)\components\general
+Item14=C:\SEG\development\apsimoutlook\Source\Outlook;C:\SEG\development\apsimoutlook\Source\Outlook\DBAddin;..;$(BCB)\Components\TeeChart\CBuilder6\Lib;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED)\components\general
+Item15=..;$(BCB)\Components\TeeChart\CBuilder6\Lib;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED)\components\general
+Item16=..\;..;$(BCB)\Components\TeeChart\CBuilder6\Lib;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED)\components\general
+Item17=..\;$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED)\components\general
+Item18=..\;$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(SHARED)\components\general
+Item19=$(BCB)\Components\TeeChart\CBuilder6\Lib;..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\memtable;$(SHARED)\components\general
+Item20=$(BCB)\Components\TeeChart\CBuilder6\Lib;..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
+Item21=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
+Item22=..\;..\..\..\..\shared\components\data;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
+Item23=..\..\..\..\shared\components\data;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
+Item24=..\..\..\..\shared\components\data;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general
+Item25=..\;..;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item26=..\;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item27=..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item28=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item29=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=13
+Item0=..\..\..\..\Bin\
+Item1=..\..\..\..\Bin
+Item2=C:\Documents and Settings\Reds.REDS\Desktop\Whopper Demo\
+Item3=C:\Documents and Settings\Reds.REDS\Desktop\Whopper Demo
+Item4=C:\Program Files\WhopperCropper\
+Item5=C:\Program Files\WhopperCropper
+Item6=C:\Program Files\Apsim34\Bin\
+Item7=C:\Program Files\Apsim34\Bin
+Item8=L:\APSIMOutlook\DBAddIn\
+Item9=L:\OutlookDevelopment\DBAddIn\
+Item10=L:\DBAddIn\
+Item11=..\..\..\DBAddIn\
+Item12=..\..\..\DBAddIn
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=C:\Documents and Settings\Reds.REDS\Desktop\Whopper Demo\WhopperDemo.exe
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+
+[Linker]
+LibPrefix=
+LibSuffix=
+LibVersion=
+  </IDEOPTIONS>
+</PROJECT>

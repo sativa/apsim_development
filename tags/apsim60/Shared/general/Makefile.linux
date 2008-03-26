@@ -1,0 +1,63 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for General module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+DESTDIR ?=/usr/local/apsim
+BOOST_INCLUDEDIR ?=-I/usr/include
+XML2_INCLUDEDIR ?=-I/usr/include/libxml2
+XML2_LIBDIR ?=-L/usr/lib
+
+LIB=	$(APSROOT)/lib/libgeneral.a
+
+SRC=	date_class.cpp		\
+	math_functions.cpp	\
+	stream_functions.cpp	\
+	string_functions.cpp	\
+	StringTokenizer.cpp	\
+	stristr.cpp		\
+	macro.cpp		\
+	io_functions.cpp	\
+	xml.cpp			\
+	path.cpp		\
+	IniFile.cpp \
+	stream_processor.cpp    \
+	dll.cpp			\
+	http.cpp
+
+#	exec.cpp		\
+#	general.cpp		\
+#	http.cpp
+
+OBJ=	$(SRC:.cpp=.o)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC = /usr/bin/gcc
+CPPFLAGS = $(BOOST_INCLUDEDIR) $(XML2_INCLUDEDIR) -I$(APSROOT)/Shared \
+	-Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(LIB)($(OBJ))
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	cp $(LIB) $(DESTDIR)/lib/libgeneral.a
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

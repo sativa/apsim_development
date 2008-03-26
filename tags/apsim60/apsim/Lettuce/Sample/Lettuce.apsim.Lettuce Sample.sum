@@ -1,0 +1,299 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+Version                = 6.0
+Title                  = Lettuce Sample Simulation
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "Met" = c:\development\apsim\Input\lib\Input.dll
+Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component    "Lettuce" = c:\development\apsim\plant\lib\plant.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/04/1998
+     Simulation end date   = 30/09/1998
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.dd/mmm/yyyy as Date
+        Lettuce.das
+        Lettuce.stage
+        Lettuce.lai
+        Lettuce.biomass
+        Lettuce.ep
+        Lettuce.tt_tot
+        Lettuce.LeafGreenWt
+        Lettuce.StemGreenWt
+        Lettuce.FloretGreenWt
+        Lettuce.node_no
+
+     Output file = Lettuce.out
+     Format = normal
+
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\Gatton.met
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+     if today = date('5/4/98') then
+        lettuce sow cultivar = annie, plants = 6, sowing_depth = 50 (mm)
+        fertiliz apply amount = 200, type = urea_n, depth = 50
+     endif
+     
+     SECTION:- end_of_day
+     if lettuce.stage_name = 'maturity' or lettuce.plant_status = 'dead' then
+        lettuce harvest
+        lettuce end_crop
+     endif
+        report do_output
+     END of rules
+     
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.230  0.450  0.500  0.280  1.300  0.762  0.200
+          150.-  300.  0.200  0.240  0.459  0.509  0.364  1.300  0.190  0.200
+          300.-  600.  0.200  0.240  0.450  0.510  0.430  1.290  0.048  0.200
+          600.-  900.  0.200  0.250  0.440  0.505  0.430  1.310  0.000  0.200
+          900.- 1200.  0.200  0.260  0.420  0.490  0.400  1.350  0.000  0.200
+         1200.- 1500.  0.200  0.270  0.410  0.480  0.410  1.360  0.000  0.200
+         1500.- 1800.  0.200  0.280  0.410  0.480  0.410  1.360  0.000  0.200
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      34.50       7.50      33.00       7.50
+          150.-  300.      36.00      18.60      32.85       7.50
+          300.-  600.      72.00      57.00      63.00      18.00
+          600.-  900.      75.00      54.00      57.00      19.50
+          900.- 1200.      78.00      42.00      48.00      21.00
+         1200.- 1500.      81.00      42.00      42.00      21.00
+         1500.- 1800.      84.00      39.00      39.00      21.00
+          ---------------------------------------------------------
+               Totals     460.50     260.10     314.85     115.50
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       88.00       35.40
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              80.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            4.00 (mm^0.5)
+            CONA:                     2.50 ()
+            Eo from priestly-taylor
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.20  1.00   17.94    0.58    0.00
+             2     8.50  0.84   14.82    0.58    0.00
+             3     8.60  0.77   18.96    1.16    0.00
+             4     8.60  0.65   10.61    1.18    0.00
+             5     7.40  0.54    6.07    1.22    0.00
+             6     5.30  0.48    7.34    2.04    0.00
+             7     5.00  0.43    5.71    2.04    0.00
+          ------------------------------------------------
+           Totals               81.46    8.81    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      19038.4  1313.0   461.6    57.7   138.9     6.9
+             2      16180.2  1115.9   199.8    25.0   108.1     5.4
+             3      29622.8  2043.0   176.2    22.0    65.6     3.3
+             4      25481.8  1757.4    63.2     7.9    39.8     2.0
+             5      21848.3  1506.8    21.7     2.7    24.1     1.2
+             6      19582.1  1350.5     1.9     0.2    14.6     0.7
+             7      17542.3  1209.8     1.7     0.2     8.9     0.4
+          ---------------------------------------------------------
+           Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
+          ---------------------------------------------------------
+
+------- Lettuce Initialisation ------------------------------------------------
+     phenology model: Generic
+------- Start of simulation  --------------------------------------------------
+5 April 1998(Day of year=95), manager: 
+     Manager sending message :- lettuce sow  cultivar = annie, plants = 6, sowing_depth = 50 (mm)
+5 April 1998(Day of year=95), Lettuce: 
+     Crop Sow
+         ------------------------------------------------
+        cultivar                   = annie
+     out
+     
+     transplanting
+        x_pp_transplanting         =      11    11.4 (h)
+        y_tt_transplanting         =     980     980 (dd)
+     
+     maturity
+        tt_maturity =         10 (dd)
+     
+         ------------------------------------------------
+     
+     
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.060          0.230       1.000
+         150.0     0.060          0.240       1.000
+         300.0     0.050          0.240       1.000
+         300.0     0.030          0.250       1.000
+         300.0     0.000          0.260       0.000
+         300.0     0.000          0.270       0.000
+         300.0     0.000          0.280       0.000
+         -----------------------------------------------
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
+         Crop factor for bounding water use is set to   1.5 times eo.
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+             95   50.0    6.0  350.0   0.0   0.0 annie
+         ------------------------------------------------
+     
+     Manager sending message :- fertiliz apply  amount = 200, type = urea_n, depth = 50
+5 April 1998(Day of year=95), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+       200.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+ON TRANSPLANTING
+27 May 1998(Day of year=147), Lettuce: 
+      stage 2.0 maturity
+                     biomass =           5.76 (g/m^2)   lai          =   0.047 (m^2/m^2)
+                     stover N conc =     5.60 (%)    extractable sw =  182.02 (mm)
+27 May 1998(Day of year=147), manager: 
+     Manager sending message :- lettuce harvest
+     
+      flowering day          =    0                           stover (kg/ha)         =       57.6
+      maturity day           =  147                           grain yield (kg/ha)    =        0.0
+      grain % water content  =    0.0                         grain yield wet (kg/ha)=        0.0
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
+      grains/plant           =    0.0                         maximum lai            =      0.047
+      total above ground biomass (kg/ha)    =       57.6
+      live above ground biomass (kg/ha)     =       57.6
+      green above ground biomass (kg/ha)    =       52.0
+      senesced above ground biomass (kg/ha) =        5.5
+      number of leaves       =     16.7
+      DM Root:Shoot ratio    =     1.08                       Harvest Index          =       0.00
+      Stover C:N ratio       =     7.68                       Root C:N ratio         =      42.42
+      grain N percent        =     0.00                       total N content (kg/ha)=       3.00
+      grain N uptake (kg/ha) =     0.00                       senesced N content (kg/ha)=    0.08
+      green N content (kg/ha)=     2.92
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  55.8                     0.0
+                          N  (kg/ha) =                   2.88                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                   0.0                     0.0
+                          N  (kg/ha) =                   0.00                    0.00
+     
+     Manager sending message :- lettuce end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                   1.8                    62.2
+                          N  (kg/ha) =                   0.12                    0.59
+     
+30 September 1998(Day of year=273), clock: 
+     Simulation is terminating due to end criteria being met.

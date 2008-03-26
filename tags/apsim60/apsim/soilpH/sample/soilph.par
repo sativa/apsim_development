@@ -1,0 +1,154 @@
+[sample.clock.parameters]
+start_date=1/1/1988
+end_date=30/4/1990
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  report  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[sample.report.parameters]
+outputfile =soilph.out
+
+
+
+
+
+
+
+variable = clock.year
+variable = clock.month
+variable = clock.day
+variable = clock.dd/mm/yyyy as date
+variable = soilph.phca as ph
+variable = soilph.phbc
+variable = soilph.tec as TEC
+variable = soilph.al_exchangable as Al_ex
+variable = tracker1.sum@soilph_dlt_acid_n_cycle as acid_add_N
+variable = tracker1.sum@soilph_acid_excretion_root as rt_excr
+variable = tracker1.sum@soilph_ash_alk_wt_incorp as ash_alk_incorp
+variable = tracker1.sum@soilph_dlt_acid_org_c_cycle as org_acid_acc
+variable = tracker1.sum@soilph_dlt_lime_dissl as lime_dissl
+variable = tracker1.sum@soilph_h_equiv_flow_net as netflow
+variable = tracker1.sum@soilph_h_equiv_mass_flow as masflow
+variable = tracker1.sum@soilph_h_equiv_infiltration as infiltn_mol
+[rtexcr.report1.parameters]
+outputfile =rtexcr.out
+
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  manager  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+variable = clock.year
+variable = clock.month
+variable = clock.day
+variable = clock.dd/mm/yyyy as date
+variable = tracker2.sum@soilph_ca_uptake_equiv as ca_uptk_eqv
+variable = tracker2.sum@soilph_mg_uptake_equiv as mg_uptk_eqv
+variable = tracker2.sum@soilph_k_uptake_equiv as k_uptk_eqv
+variable = tracker2.sum@soilph_na_uptake_equiv as na_uptk_eqv
+variable = tracker2.sum@soilph_p_uptake_equiv as p_uptk_eqv
+variable = tracker2.sum@soilph_s_uptake_equiv as s_uptk_eqv
+variable = tracker2.sum@soilph_cl_uptake_equiv as cl_uptk_eqv
+[sample.manager.init]
+   crop_in = 0
+   first_day = 1
+
+[sample.manager.start_of_day]
+   ! The date_within function returns 1 when todays date lies
+   ! between the 2 dates inclusively.
+   ! It must have its arguments enclosed in quotes.
+
+   if (date_within('1-may, 1-aug') = 1 AND
+             rain[5] >= 20 AND
+             crop_in = 0 AND
+             esw >= 30) THEN
+!      nwheat sow 100 30 Sunco
+      wheat sow plants = 100 (/m2), depth = 30 (mm), cultivar = Sunco
+      crop_in = 1
+      fertiliz apply amount = 100 (kg/ha), depth = 50 (mm), type = urea ()
+   endif
+
+   if (wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' ) then
+      wheat harvest
+      crop_in = 0
+      report do_end_day_output
+      report1 do_end_day_output
+      wheat end_crop
+   endif
+
+[sample.manager.end_of_day]
+   if (first_day = 1) then
+         ! report initial state
+      report do_output
+      report1 do_output
+      first_day = 0
+   endif
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  accum  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+[sample.accum.parameters]
+
+Accum_variables =  rain[10]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  soilph  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+[sample.soilph.parameters]
+report_additions = yes
+
+! pHCa of rain water.
+ph_rain =     5.67  ()
+ionic_strength_rain = 0.001 ()  ! ionic strength of rain
+
+!phbc_method = parameters
+phbc_method = hochman
+
+!Layers                    150     300     600   900   1200   1500   1800
+!layer                      1       2       3      4      5      6      7
+lime_pool_init          =   0       0       0      0      0      0      0    (Kg/Ha) ! Initial lime pool (Kg/Ha) equivalent.
+ionic_strength_initial  = 0.007   0.007   0.007  0.007  0.007  0.007  0.007  ()      ! Initial ionic strength of layer.
+phca_initial            =  5.0     5.0     5.2    5.3    5.5    5.8    5.8   ()      ! Initial pHCa of layer.
+phbc                    = 20.42   22.5    16.5   14.38  12.69  10.3   10.3   (Kmol/ha/100mm/ph_unit)
+co2_pressure_soil       = 0.0015  0.0015  0.0015 0.0015 0.0015 0.0015 0.0015 (atm)   ! Soil air CO2 partial pressure in the layer.
+al_conc_init            =   .07   .07     .03    .01   0.0    0.0    0.0   (cMol/Kg) ! Initial aluminium concentration. (cMol/Kg).
+pal_phca_slope          =  1.711   1.711   1.711  1.711  1.711  1.711  1.711 ()      ! User supplied slope of -log(labile Al) vs pHCa.
+pal_phca_intercept      = -0.2758 -0.2758 -3.272 -2.416 -2.416 -2.416 -2.416 ()      ! User supplied intercept of -log(labile Al) vs pHCa.
+sals_supplied_use_flag  =  true    true    true   true   true   true   true            ! User supplied Slope of extractable Al verses H. ().
+sals_supplied           = 23      23      23      23    23     23     23     ()
+ecec_init               =  6.7     4.7     4.7    5.9    5.9    7.2    7.2   ()      ! Initial Effective Cation Exchange Capacity. (cMol/Kg)
+ca_avail                =  1.0     1.0     1.0    1.0    1.0    1.0    1.0           ! Availability of elements in each layer.
+mg_avail                =  1.0     1.0     1.0    1.0    1.0    1.0    1.0
+k_avail                 =  1.0     1.0     1.0    1.0    1.0    1.0    1.0
+na_avail                =  1.0     1.0     1.0    1.0    1.0    1.0    1.0
+p_avail                 =  1.0     1.0     0.0    0.0    0.0    0.0    0.0
+s_avail                 =  1.0     1.0     1.0    0.0    0.0    0.0    0.0
+cl_avail                =  1.0     1.0     1.0    1.0    1.0    1.0    1.0
+
+! Uptakes of each element in % dry matter of crop growth.
+ca_dm_percent =   0.18   (%)
+mg_dm_percent =   0.10   (%)
+k_dm_percent  =   0.60   (%)
+na_dm_percent =   0.04   (%)
+p_dm_percent  =   0.018  (%)
+s_dm_percent  =   0.018  (%)
+cl_dm_percent =   0.01   (%)
+
+
+[sample.SummaryFile.parameters]
+summaryfile = soilph.sum
+[sample.Screen.parameters]
+screen_output = off
+[sample.tracker1.parameters]
+variable = sum of soilph.dlt_acid_n_cycle since report.reported as sum@soilph_dlt_acid_n_cycle on process
+variable = sum of soilph.acid_excretion_root since report.reported as sum@soilph_acid_excretion_root on process
+variable = sum of soilph.ash_alk_wt_incorp since report.reported as sum@soilph_ash_alk_wt_incorp on process
+variable = sum of soilph.dlt_acid_org_c_cycle since report.reported as sum@soilph_dlt_acid_org_c_cycle on process
+variable = sum of soilph.dlt_lime_dissl since report.reported as sum@soilph_dlt_lime_dissl on process
+variable = sum of soilph.h_equiv_flow_net since report.reported as sum@soilph_h_equiv_flow_net on process
+variable = sum of soilph.h_equiv_mass_flow since report.reported as sum@soilph_h_equiv_mass_flow on process
+variable = sum of soilph.h_equiv_infiltration since report.reported as sum@soilph_h_equiv_infiltration on process
+[sample.tracker2.parameters]
+variable = sum of soilph.ca_uptake_equiv since report1.reported as sum@soilph_ca_uptake_equiv on process
+variable = sum of soilph.mg_uptake_equiv since report1.reported as sum@soilph_mg_uptake_equiv on process
+variable = sum of soilph.k_uptake_equiv since report1.reported as sum@soilph_k_uptake_equiv on process
+variable = sum of soilph.na_uptake_equiv since report1.reported as sum@soilph_na_uptake_equiv on process
+variable = sum of soilph.p_uptake_equiv since report1.reported as sum@soilph_p_uptake_equiv on process
+variable = sum of soilph.s_uptake_equiv since report1.reported as sum@soilph_s_uptake_equiv on process
+variable = sum of soilph.cl_uptake_equiv since report1.reported as sum@soilph_cl_uptake_equiv on process

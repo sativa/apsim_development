@@ -1,0 +1,44 @@
+Changelog 24/3/98 PdeV.
+---------
+send_my_variable: reporting grasp_total_cover() as cover_tot sends out 
+                  cover from tomorrow's pools, not todays. Changed to
+                  g_out_total_cover, which is calculated from today's pool.
+
+send_my_variable: typo in growth_regrow(th)
+                  removed runoff_cover. one less kludge.
+----------
+added SWIM interface:
+ New parameters required:
+  uptake_source: 'apsim' | 'calc'
+  kl2rlv       : conversion factor converting kl to rlv (root 
+                 length volume). Can be reset by manager. 
+ Use this at your own risk. Pasture growth by transpiration works, if
+ you can supply correct kl's and kl2rlv. PdeV (devoil@usq.edu.au) has some initial testing derived from rdc's greenmount dataset that indicates dynamic kl2rlv might be needed.
+-------- 
+Reporting growth_regrow(th)
+A bug was removed in reporting growth_regrowth.
+----------
+EP facility
+Grasp can do Erosion Productivity simulations by increasing N stress as the profile erodes. This means more parameters:
+
+max_n_avail_dist = 0.8  0.15 0.05     ! N distribution over profile
+enr_a_coeff = 0.0                     ! enrichment coefficients in N lost
+enr_b_coeff = 0.0                     ! in sediment
+
+There is a potential inconsistency in that grasp initially distributes max_n_avail over the whole profile, but as the simulation runs, it only extracts N to the depth of its roots. So, unless your roots penetrate to the bottom of the lowest layer, you should fudge the distribution so that sum(max_n_avail) to root depth is the same as before. For example:
+
+dlayer           = 100      400      500     500    (mm)!  
+max_n_avail      = 15                               ()
+max_n_avail_dist = 0.7      0.2      0.2      0.0   ()  ! Distribute for 15kg/ha to 750mm depth
+
+ie. sum(distribution) > 1.0 is OK if you know why you're doing it. This will give you _exactly the same_ results as before.
+-----------
+Fixed fr_intc_radn    (wasn't being used)
+Removed latitude      (ditto)
+Removed surface_cover (anachronism)
+-----------
+There's a rdd available.
+-----------
+ Caveats:
+  The dynamic root and N submodels in grasp are still incomplete. 
+  Grasp doesn't talk coherently with soiln2.

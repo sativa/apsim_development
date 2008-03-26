@@ -1,0 +1,222 @@
+[sample.report.parameters]
+outputfile =grasp.out
+variable = clock.year
+variable = clock.day
+variable = soilwat2.sw_dep
+variable = soilwat2.eos
+variable = soilwat2.es
+variable = soilwat2.cover_surface_runoff as soilwat_cover
+variable = grasp.green_pool
+variable = grasp.dead_pool
+variable = grasp.growth_transp
+variable = grasp.growth_photo
+variable = grasp.growth_regrowth
+variable = grasp.growth
+variable = grasp.death
+variable = grasp.n_index
+variable = grasp.rad_index
+variable = grasp.sw_index
+variable = grasp.temp_index
+variable = grasp.growth_index
+variable = grasp.basal_area
+variable = grasp.cover_tot
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_cover
+[sample.clock.parameters]
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=1/2/1989     ! dd/mm/yyyy
+
+[sample.grasp.seedling]
+! Initial values
+root_depth_init =  750      (mm)       ! Initial depth of roots
+dm_dead_leaf_init =  0        (kg/ha)
+dm_dead_stem_init =  0        (kg/ha)
+dm_dead_root_init =  0        (kg/ha)
+dm_green_leaf_init =  0        (kg/ha) ! Leaf weight at emergence (p135)
+dm_green_stem_init =  0        (kg/ha) ! Stem weight at emergence (p136)
+dm_green_root_init =  0        (kg/ha) ! Root weight at emergence
+basal_area_init =  0.5         (%)     ! Basal area (p005)
+acc_trans_for_n_init =  0        (mm)  ! Accumulated transpiration, used for N uptake
+acc_growth_for_n_init =  0     (kg/ha) ! Accumulated growth, used for N uptake
+
+[sample.grasp.parameters]
+crop_type     =  grass
+uptake_source =  calc
+
+!Soil Properties
+max_n_avail =      15        ()        ! Limit to total N (p099)
+max_n_avail_dist =  0.8 0.1 0.05  0.05  0.0 0.0  0.0    ()
+ll =     .230     .240    .240    .250 .260 .270 .280   () ! lower limit mm water/mm soil
+kl =      0.5      0.5      0.5    0.5  0.0  0.0  0.0   ()
+
+kl2rlv =  1.0                                           () !
+! grass parameters
+height_max =       1200      (mm)  ! Maximum canopy height
+hgt_vpd_screen =   200       (mm)  ! Height at which surface effects on vpd are 0 (p095*10)
+height_1000kg =    100       (mm)  ! (p096*10)
+et_use_efficiency =  0        ()   ! Evapotranspiration use efficiency used in BA calc (kg/ha/mm) (p288)
+frac_leaf2total =  0.5       ()    ! Fraction of total dm produced that goes into leaf pool (0-1) (p123)
+yld_cover_slope =  0.693147  ()    ! Shape of exponential curve relating yield and cover (was hard coded)
+yld_fpc50 =        1000      ()    ! (p046)
+yld_cov50 =        1000      ()    ! Yield transpiring at 50% of pan evap (p045)
+yld_tcov50 =       1000     (kg/ha)! Tsdm yield at which cover for runoff is 50% (p271)
+runoff_power =     0.95      ()    ! Shape factor in cover for runoff eq(2.2)(p272)
+swi_fullgreen =    0.1       ()    ! Min soil water for 100% green (p009)
+swi_nogrow =       0.4       ()
+pot_regrow =       3.0        ()   ! Max rate regrowth from tussocks (kg/ha/unit grass ba) (p006)
+te_std =           10.0        ()  ! Transpiration efficiency at vpd=20mb (p007)
+rad_factor =       8.97      ()    ! Was hard coded from rad_index
+residual_plant_N =  5      (kg/ha) ! Always this much n in plant (p097)
+litter_n =         0.3       ()    ! N conc of detached stems and roots ((p110-p111)/2)
+n_uptk_per100 =    5        (kg/ha)! Nitrogen uptake per 100mm water (p098)
+frost_start =      2         (oC)  ! Minimum screen temp at which green cover=100%     (p125)
+frost_kill =       0         (oC)  ! Minimum screen temp at which frost kills all green (p011)
+death_slope =      0.013     ()    ! Rate of green death per soil water(p051)
+death_intercept =  0.002     ()    ! Background death rate (p010)
+leaf_death_ratio =  1        ()    ! Proportion of leaf death to total death (p133)
+stem_death_ratio =  1        ()    ! Proportion of stem death to total death (p134)
+n_conc_dm_crit =   2.5       ()    ! Level of plant N at which no N stress occurs (p102)
+n_conc_dm_min =    0.4       ()    ! Level of soil N at which no N stress occurs (p101)
+n_conc_dm_max =    0.5       ()    ! Level of soil N at which soil N to high for growth
+                                   ! (p100)
+stem_thresh =      0         ()    ! (p124)
+
+! detachment rates:
+! parts:        root      leaf      stem
+detach_dryseason =  0.0   0.002     0.002
+detach_wetseason =  0.0   0.002     0.002
+
+! Date resets
+day_start_summer =  335      ()
+day_end_summer =   59        ()
+acc_et_reset =     273       ()
+acc_growth_reset =  273      ()
+trans_for_n_reset =  273      ()
+growth_for_n_reset =  273      ()
+day_start_wet =    274       ()
+day_start_dry =    91        ()
+
+enr_a_coeff =    7.4  ()
+enr_b_coeff =    0.2  ()   !
+
+[sample.manager.start_of_day]
+if (clock.day = clock.simulation_start_day and
+    clock.year = clock.simulation_start_year) then
+   grasp establish init_section = seedling
+endif
+
+if (clock.day = 1 and clock.year = 1989) then
+   grasp kill
+endif
+
+[sample.manager.end_of_day]
+report do_output
+
+[sample.summaryfile.parameters]
+summaryfile=grasp.sum
+
+[sample.log.parameters]
+debug_output = on
+logfile=log.xml
+
+! Roselea Grazing Trial, Roma. Trevor Hall Red Earth, Aristida jerichoensis
+! Taken from Q06ROSA_.mrx
+[roselea.soilwat2.parameters]
+u               = 8         (mm)
+cona            = 4         ()
+insoil          = 1.0       ()
+cn2_bare        = 74        ()
+cn_red          = 20        ()
+cn_cov          = 0.8       ()
+salb            = 0.2       ()
+diffus_const    = 88        ()
+diffus_slope    = 35        ()
+!layer           = 1        2        3         
+dlayer           = 100      400      500      (mm)
+air_dry          = 0.02     0.065    0.055    (mm/mm)
+ll15             = 0.04     0.07     0.06     (mm/mm)
+dul              = 0.15     0.15     0.18     (mm/mm)
+sat              = 0.1575   0.1575   0.189    (mm/mm)
+bd               = 2.23263  2.23263  2.14915  ()
+sw               = 0.04     0.07     0.062    (mm/mm)
+swcon            = 0.6      0.6      0.4      ()
+
+[roselea.soiln2.parameters]   !! Mostly guessed..
+root_cn =  20.   ! C:N ratio of initial root residues
+root_wt =  1000. ! root residues as biomass (kg/ha)
+soil_cn =  14.5  ! C:N ratio of soil
+!layer    1    2    3    
+oc =     1.00  0.84  0.77  (%)   ! Soil Organic Carbon
+ph =     8.20  8.50  8.60  ()    ! pH of soil
+fbiom =  0.035 0.025 0.015  ()   ! Organic C Biomass Fraction
+finert =  0.30 0.50 0.60 ()      ! Inert Organic C Fraction
+no3ppm =  9.2  3.0  1.4  (ppm)   ! Nitrate Concentration
+nh4ppm =  0.30 0.30 0.30 (ppm)   ! Ammonium Concentration
+enr_a_coeff =  7.4 ()
+enr_b_coeff =  0.2
+profile_reduction =  off
+
+[roselea.surfaceOM.parameters]
+mass = 1000. (kg/ha)   ! Initial surface residue
+cnr = 80.0 ()   ! C:N ration of initial residue
+type = grass   ! Type if initial residue
+name = grass
+
+[roselea.grasp.parameters]
+ll   = 0.04 0.07  0.06   ! lower limit mm water/mm soil
+xf   = 1.00 1.00  1.00   ! Weighting factor for root advance
+kl   = 0.5  0.5   0.5   ! Water Extraction Parameter (0-1)
+max_n_avail      =  21   (kg/ha/year)
+max_n_avail_dist =  0.8 0.1 0.1 ()
+enr_a_coeff =  7.4 ()
+enr_b_coeff =  0.2
+
+[roselea.manager.start_of_day]
+if (clock.day = clock.simulation_start_day and
+    clock.year = clock.simulation_start_year) then
+  grasp establish init_section = seedling
+endif
+
+[roselea.manager.end_of_day]
+report do_output
+
+[roselea.operatns.parameters]
+14 1993 soilwat2 set sw_dep =   3   28.1  30.1 (mm)
+15 1993  grasp set green_pool = 10.0
+15 1993  grasp set dead_pool  = 0.0
+231 1993 grasp set green_pool = 66.9
+231 1993 grasp set dead_pool  = 0.0
+
+[roselea.clock.parameters]
+start_date = 14/1/1993
+end_date   = 25/6/1994
+
+[roselea.report.parameters]
+outputfile = roselea.out
+variable = clock.year
+variable = clock.day
+variable = soilwat2.sw_dep()
+variable = soilwat2.sw_dep
+variable = grasp.tsdm
+variable = grasp.cover_green
+variable = grasp.n_uptake
+variable = grasp.n_index
+
+variable = grasp.green_pool
+variable = grasp.dead_pool
+variable = grasp.growth
+variable = grasp.growth_transp
+variable = grasp.growth_photo
+variable = grasp.growth_regrowth
+
+variable = grasp.rad_index
+variable = grasp.sw_index
+variable = grasp.temp_index
+variable = grasp.growth_index
+variable = grasp.basal_area
+variable = grasp.cover_tot
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_cover
+
+[roselea.summaryfile.parameters]
+summaryfile=roselea.sum

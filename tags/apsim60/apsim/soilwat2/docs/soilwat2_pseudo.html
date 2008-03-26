@@ -1,0 +1,4665 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+<TITLE>The APSIM SoilWat2 Model</TITLE>
+<FONT SIZE = 7><B><CENTER>The APSIM SoilWat2 Model</CENTER></B></FONT>
+<H1>TABLE OF CONTENTS</H1>
+<H2><A HREF = "#Contact Information"> Contact Information </A></H2>
+<H2><A HREF = "#Module Description"> Module Description </A></H2>
+<H2>User Input Files</H2>
+<ul><li>The Constants File
+
+<ul><li><A HREF = "#standard.soilwat2.constants"> standard constants </A>
+
+<li><A HREF = "#standard.soilwat2.tillage"> standard tillage </A>
+
+</ul></ul>
+<H2>Module Logic</H2>
+<ul><li><A HREF = "#APSIM Soilwat2 Module"> APSIM Soilwat2 Module </A>
+
+<li><A HREF = "#Structure Charts"> Structure Charts </A>
+
+</ul>
+<hr>
+<A NAME = "Module Description">  </A>
+<H2>Module Documentation</H2>
+<br>
+<A HREF = "soilwat2_int.pdf"> soilwat2_int.pdf </A>
+<br>
+<A HREF = "soilwat2_science.pdf"> soilwat2_science.pdf </A>
+<br>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "Structure Charts"> <H2>Module Structure Charts</H2> </A>
+<H2>APSIM Soilwat2 Module</H2>
+<ul><li><A HREF = "#main"> main </A>
+
+<ul><li><A HREF = "#soilwat2_set_my_variable"> soilwat2_set_my_variable </A>
+
+<ul><li><A HREF = "#soilwat2_check_profile"> soilwat2_check_profile </A>
+
+<li><A HREF = "#soilwat2_new_profile_event"> soilwat2_new_profile_event </A>
+
+</ul><li><A HREF = "#soilwat2_send_my_variable"> soilwat2_send_my_variable </A>
+
+<li><A HREF = "#soilwat2_ontick"> soilwat2_ontick </A>
+
+<li><A HREF = "#soilwat2_onnewmet"> soilwat2_onnewmet </A>
+
+<li><A HREF = "#soilwat2_zero_daily_variables"> soilwat2_zero_daily_variables </A>
+
+<li><A HREF = "#soilwat2_get_other_variables"> soilwat2_get_other_variables </A>
+
+<ul><li><A HREF = "#soilwat2_get_residue_variables"> soilwat2_get_residue_variables </A>
+
+<li><A HREF = "#soilwat2_get_crop_variables"> soilwat2_get_crop_variables </A>
+
+<li><A HREF = "#soilwat2_get_solute_variables"> soilwat2_get_solute_variables </A>
+
+<li><A HREF = "#soilwat2_get_environ_variables"> soilwat2_get_environ_variables </A>
+
+</ul><li><A HREF = "#soilwat2_process"> soilwat2_process </A>
+
+<ul><li><A HREF = "#soilwat_water_table"> soilwat_water_table </A>
+
+<li><A HREF = "#soilwat2_cover_surface_runoff"> soilwat2_cover_surface_runoff </A>
+
+<li><A HREF = "#soilwat2_runoff"> soilwat2_runoff </A>
+
+<ul><li><A HREF = "#soilwat2_scs_runoff"> soilwat2_scs_runoff </A>
+
+<ul><li><A HREF = "#soilwat2_runoff_depth_factor"> soilwat2_runoff_depth_factor </A>
+
+</ul><li><A HREF = "#soilwat2_tillage_addrain"> soilwat2_tillage_addrain </A>
+
+</ul><li><A HREF = "#soilwat2_infiltration"> soilwat2_infiltration </A>
+
+<li><A HREF = "#soilwat2_irrig_solute"> soilwat2_irrig_solute </A>
+
+<li><A HREF = "#soilwat2_drainage"> soilwat2_drainage </A>
+
+<li><A HREF = "#soilwat2_move_solute_down"> soilwat2_move_solute_down </A>
+
+<ul><li><A HREF = "#soilwat2_solute_flux"> soilwat2_solute_flux </A>
+
+</ul><li><A HREF = "#soilwat2_pot_evapotranspiration"> soilwat2_pot_evapotranspiration </A>
+
+<ul><li><A HREF = "#soilwat2_priestly_taylor"> soilwat2_priestly_taylor </A>
+
+<ul><li><A HREF = "#soilwat2_eeq_fac"> soilwat2_eeq_fac </A>
+
+</ul></ul><li><A HREF = "#soilwat2_evaporation"> soilwat2_evaporation </A>
+
+<ul><li><A HREF = "#soilwat2_pot_soil_evaporation"> soilwat2_pot_soil_evaporation </A>
+
+<li><A HREF = "#soilwat2_soil_evaporation"> soilwat2_soil_evaporation </A>
+
+<ul><li><A HREF = "#soilwat2_ritchie_evaporation"> soilwat2_ritchie_evaporation </A>
+
+<li><A HREF = "#soilwat2_bs_a_evaporation"> soilwat2_bs_a_evaporation </A>
+
+<li><A HREF = "#soilwat2_bs_b_evaporation"> soilwat2_bs_b_evaporation </A>
+
+<li><A HREF = "#soilwat2_bs_acs_evaporation"> soilwat2_bs_acs_evaporation </A>
+
+<li><A HREF = "#soilwat2_rickert_evaporation"> soilwat2_rickert_evaporation </A>
+
+<ul><li><A HREF = "#soilwat2_comp_curve"> soilwat2_comp_curve </A>
+
+</ul></ul></ul><li><A HREF = "#soilwat2_unsat_flow"> soilwat2_unsat_flow </A>
+
+<li><A HREF = "#soilwat2_check_profile"> soilwat2_check_profile </A>
+
+<li><A HREF = "#soilwat2_move_solute_up"> soilwat2_move_solute_up </A>
+
+<ul><li><A HREF = "#soilwat2_solute_flow"> soilwat2_solute_flow </A>
+
+</ul></ul><li><A HREF = "#soilwat2_set_other_variables"> soilwat2_set_other_variables </A>
+
+<li><A HREF = "#soilwat2_onirrigated"> soilwat2_onirrigated </A>
+
+<li><A HREF = "#soilwat2_tillage"> soilwat2_tillage </A>
+
+<li><A HREF = "#soilwat2_on_new_solute"> soilwat2_on_new_solute </A>
+
+<li><A HREF = "#soilwat2_zero_variables"> soilwat2_zero_variables </A>
+
+<li><A HREF = "#soilwat2_zero_data_links"> soilwat2_zero_data_links </A>
+
+<li><A HREF = "#soilwat2_zero_event_data"> soilwat2_zero_event_data </A>
+
+<li><A HREF = "#soilwat2_init"> soilwat2_init </A>
+
+<ul><li><A HREF = "#soilwat2_read_constants"> soilwat2_read_constants </A>
+
+<li><A HREF = "#soilwat2_soil_property_param"> soilwat2_soil_property_param </A>
+
+<li><A HREF = "#soilwat2_soil_profile_param"> soilwat2_soil_profile_param </A>
+
+<ul><li><A HREF = "#soilwat2_check_profile"> soilwat2_check_profile </A>
+
+<li><A HREF = "#soilwat2_set_default"> soilwat2_set_default </A>
+
+<ul><li><A HREF = "#soilwat2_layer_check"> soilwat2_layer_check </A>
+
+<li><A HREF = "#soilwat2_check_profile"> soilwat2_check_profile </A>
+
+</ul></ul><li><A HREF = "#soilwat2_evap_init"> soilwat2_evap_init </A>
+
+<ul><li><A HREF = "#soilwat2_ritchie_init"> soilwat2_ritchie_init </A>
+
+<li><A HREF = "#soilwat2_bs_a_init"> soilwat2_bs_a_init </A>
+
+<li><A HREF = "#soilwat2_bs_b_init"> soilwat2_bs_b_init </A>
+
+<ul><li><A HREF = "#soilwat2_bs_a_init"> soilwat2_bs_a_init </A>
+
+</ul><li><A HREF = "#soilwat2_bs_acs_init"> soilwat2_bs_acs_init </A>
+
+<li><A HREF = "#soilwat2_rickert_init"> soilwat2_rickert_init </A>
+
+</ul><li><A HREF = "#soilwat2_new_profile_event"> soilwat2_new_profile_event </A>
+
+</ul><li><A HREF = "#soilwat2_sum_report"> soilwat2_sum_report </A>
+
+<ul><li><A HREF = "#soilwat2_runoff_depth_factor"> soilwat2_runoff_depth_factor </A>
+
+</ul><li><A HREF = "#soilwat2_evap_init"> soilwat2_evap_init </A>
+
+<ul><li><A HREF = "#soilwat2_ritchie_init"> soilwat2_ritchie_init </A>
+
+<li><A HREF = "#soilwat2_bs_a_init"> soilwat2_bs_a_init </A>
+
+<li><A HREF = "#soilwat2_bs_b_init"> soilwat2_bs_b_init </A>
+
+<ul><li><A HREF = "#soilwat2_bs_a_init"> soilwat2_bs_a_init </A>
+
+</ul><li><A HREF = "#soilwat2_bs_acs_init"> soilwat2_bs_acs_init </A>
+
+<li><A HREF = "#soilwat2_rickert_init"> soilwat2_rickert_init </A>
+
+</ul></ul></ul>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<CENTER><A NAME = "Module Pseudo Code"> <H2><BIG>Module Pseudo Code</BIG></H2> </A></CENTER>
+<hr>
+<H2><BIG><A NAME = "APSIM Soilwat2 Module"> APSIM Soilwat2 Module </A></BIG></H2>
+<A NAME = "main">  </A>
+<H2>Main</H2>
+<br>
+<H3><CENTER>this module performs ceres_maize water balance simulates runoff, infiltration, flux (drainage), unsaturated flow, evaporation, solute movement (nitrate, urea), total transpiration.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (action.=.action_set_variable) then<br>
+
+<blockquote><A HREF = "#soilwat2_set_my_variable"> Set Variable as Requested </A><br>
+
+</blockquote>else if (action.=.action_get_variable) then<br>
+
+<blockquote><A HREF = "#soilwat2_send_my_variable"> Send Value of Requested Variable </A><br>
+
+</blockquote>else if (action.=.event_tick) then<br>
+
+<blockquote><A HREF = "#soilwat2_ontick"> Update internal time record and reset daily state variables. </A><br>
+
+</blockquote>else if (action.=.event_newmet) then<br>
+
+<blockquote><A HREF = "#soilwat2_onnewmet"> Get new met data </A><br>
+
+</blockquote>else if (action.=.action_process) then<br>
+
+<blockquote><A HREF = "#soilwat2_zero_daily_variables"> Zero Daily Variables </A><br>
+
+<A HREF = "#soilwat2_get_other_variables"> Get Other Variables </A><br>
+
+<A HREF = "#soilwat2_process"> Perform all APSIM Timestep calculations </A><br>
+
+<A HREF = "#soilwat2_set_other_variables"> Set Variables in other Modules </A><br>
+
+</blockquote>else if (action.=.event_irrigated) then<br>
+
+<blockquote><A HREF = "#soilwat2_onirrigated"> Add Water </A><br>
+
+</blockquote>else if (action.=.'add_water') then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else if (action.=.action_till) then<br>
+
+<blockquote><A HREF = "#soilwat2_tillage"> Calculate tillage effects </A><br>
+
+</blockquote>else if (action.=.event_new_solute) then<br>
+
+<blockquote><A HREF = "#soilwat2_on_new_solute"> Add new solute information to list of system solutes </A><br>
+
+</blockquote>else if (action.=.action_init) then<br>
+
+<blockquote><A HREF = "#soilwat2_zero_variables"> Zero Variables </A><br>
+
+<A HREF = "#soilwat2_zero_data_links"> Zero information describing data links with other modules </A><br>
+
+<A HREF = "#soilwat2_zero_event_data"> Zero information describing event data from other modules </A><br>
+
+<A HREF = "#soilwat2_init"> Initialise SoilWat module </A><br>
+
+<A HREF = "#soilwat2_sum_report"> Report SoilWat module summary details </A><br>
+
+</blockquote>else if ((action.=.action_reset).or.(action.=.action_user_init)) then<br>
+
+<blockquote><A HREF = "#soilwat2_zero_variables"> Zero Variables </A><br>
+
+<A HREF = "#soilwat2_get_other_variables"> Get Other Variables </A><br>
+
+<A HREF = "#soilwat2_init"> Initialise SoilWat module </A><br>
+
+</blockquote>else if (action.=.action_sum_report) then<br>
+
+<blockquote><A HREF = "#soilwat2_sum_report"> Report SoilWat module summary details </A><br>
+
+</blockquote>else if (action.=.action_post) then<br>
+
+else if (action.=.'evap_init') then<br>
+
+<blockquote><A HREF = "#soilwat2_evap_init"> Evaporation Initialisation </A><br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_set_my_variable">  </A>
+<H2>Soilwat2 Set My Variable</H2>
+<br>
+<H3><CENTER>set a variable in this module as requested by another.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'sw') then<br>
+
+<blockquote>Get temp from the message (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>sw<SUB>(in mm)</SUB> (layer) = temp<I><SUB> layer</SUB></I> * dlayer (layer)<br>
+
+<A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'sw_dep') then<br>
+
+<blockquote>Get sw<SUB>(in mm)</SUB> from the message (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote><A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'dlt_sw') then<br>
+
+<blockquote>Get temp from the message (Lower Bound = - 1 . 0, Upper Bound = 1 . 0)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>sw<SUB>(in mm)</SUB> (layer) = sw<SUB>(in mm)</SUB> (layer) + temp<I><SUB> layer</SUB></I> * dlayer (layer)<br>
+
+<A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'dlt_sw_dep') then<br>
+
+<blockquote>Get temp from the message (Lower Bound = - 10000 . 0, Upper Bound = 10000 . 0)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>sw<SUB>(in mm)</SUB> (layer) = sw<SUB>(in mm)</SUB> (layer) + temp<I><SUB> layer</SUB></I><br>
+
+<A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'dul_dep') then<br>
+
+<blockquote>Get dul<SUB>(in mm)</SUB> from the message (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote><A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'dul') then<br>
+
+<blockquote>Get temp from the message (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>dul<SUB>(in mm)</SUB> (layer) = temp<I><SUB> layer</SUB></I> * dlayer (layer)<br>
+
+<A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'ll15_dep') then<br>
+
+<blockquote>Get ll15<SUB>(in mm)</SUB> from the message (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote><A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'ll15') then<br>
+
+<blockquote>Get temp from the message (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>ll15<SUB>(in mm)</SUB> (layer) = temp<I><SUB> layer</SUB></I> * dlayer (layer)<br>
+
+<A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'sat_dep') then<br>
+
+<blockquote>Get sat<SUB>(in mm)</SUB> from the message (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote><A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'sat') then<br>
+
+<blockquote>Get temp from the message (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>sat<SUB>(in mm)</SUB> (layer) = temp<I><SUB> layer</SUB></I> * dlayer (layer)<br>
+
+<A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'air_dry_dep') then<br>
+
+<blockquote>Get air_dry<SUB>(in mm)</SUB> from the message (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote><A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'air_dry') then<br>
+
+<blockquote>Get temp from the message (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>air_dry<SUB>(in mm)</SUB> (layer) = temp<I><SUB> layer</SUB></I> * dlayer (layer)<br>
+
+<A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+</blockquote>elseif (variable_name.=.'dlayer') then<br>
+
+<blockquote>Get temp from the message (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>fract = divide (temp<I><SUB> layer</SUB></I>, dlayer (layer), 0 . 0)<br>
+
+air_dry<SUB>(in mm)</SUB> (layer) = air_dry<SUB>(in mm)</SUB> (layer) * fract<br>
+
+dul<SUB>(in mm)</SUB> (layer) = dul<SUB>(in mm)</SUB> (layer) * fract<br>
+
+ll15<SUB>(in mm)</SUB> (layer) = ll15<SUB>(in mm)</SUB> (layer) * fract<br>
+
+sat<SUB>(in mm)</SUB> (layer) = sat<SUB>(in mm)</SUB> (layer) * fract<br>
+
+sw<SUB>(in mm)</SUB> (layer) = sw<SUB>(in mm)</SUB> (layer) * fract<br>
+
+dlayer (layer) = temp<I><SUB> layer</SUB></I><br>
+
+<A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+For each layer from numvals to 1 stepping by maximum number of layers<br>
+
+<blockquote>air_dry<SUB>(in mm)</SUB> (layer) = 0 . 0<br>
+
+dul<SUB>(in mm)</SUB> (layer) = 0 . 0<br>
+
+ll15<SUB>(in mm)</SUB> (layer) = 0 . 0<br>
+
+sat<SUB>(in mm)</SUB> (layer) = 0 . 0<br>
+
+sw<SUB>(in mm)</SUB> (layer) = 0 . 0<br>
+
+dlayer (layer) = 0 . 0<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilwat2_new_profile_event"> Advise other modules of new profile specification </A><br>
+
+</blockquote>elseif (variable_name.=.'dlt_dlayer') then<br>
+
+<blockquote>Get temp from the message (Lower Bound = - 10000 . 0, Upper Bound = 10000 . 0)<br>
+
+For each layer from 1 to numvals<br>
+
+<blockquote>temp<I><SUB> layer</SUB></I> = dlayer (layer) + temp<I><SUB> layer</SUB></I><br>
+
+fract = divide (temp<I><SUB> layer</SUB></I>, dlayer (layer), 0 . 0)<br>
+
+air_dry<SUB>(in mm)</SUB> (layer) = air_dry<SUB>(in mm)</SUB> (layer) * fract<br>
+
+dul<SUB>(in mm)</SUB> (layer) = dul<SUB>(in mm)</SUB> (layer) * fract<br>
+
+ll15<SUB>(in mm)</SUB> (layer) = ll15<SUB>(in mm)</SUB> (layer) * fract<br>
+
+sat<SUB>(in mm)</SUB> (layer) = sat<SUB>(in mm)</SUB> (layer) * fract<br>
+
+sw<SUB>(in mm)</SUB> (layer) = sw<SUB>(in mm)</SUB> (layer) * fract<br>
+
+dlayer (layer) = temp<I><SUB> layer</SUB></I><br>
+
+<A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+For each layer from numvals to 1 stepping by maximum number of layers<br>
+
+<blockquote>air_dry<SUB>(in mm)</SUB> (layer) = 0 . 0<br>
+
+dul<SUB>(in mm)</SUB> (layer) = 0 . 0<br>
+
+ll15<SUB>(in mm)</SUB> (layer) = 0 . 0<br>
+
+sat<SUB>(in mm)</SUB> (layer) = 0 . 0<br>
+
+sw<SUB>(in mm)</SUB> (layer) = 0 . 0<br>
+
+dlayer (layer) = 0 . 0<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilwat2_new_profile_event"> Advise other modules of new profile specification </A><br>
+
+</blockquote>elseif (variable_name.=.'cn2_bare') then<br>
+
+<blockquote>Get cn2_bare from the message (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+</blockquote>elseif (variable_name.=.'cn_cov') then<br>
+
+<blockquote>Get cn_cov from the message (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+</blockquote>elseif (variable_name.=.'cn_red') then<br>
+
+<blockquote>Get cn_red from the message (Lower Bound = 0 . 0, Upper Bound = cn2_bare - 0 . 00009)<br>
+
+</blockquote>elseif (variable_name.=.'cona') then<br>
+
+<blockquote>Get cona from the message (Lower Bound = 0 . 0001, Upper Bound = 10 . 0)<br>
+
+</blockquote>elseif (variable_name.=.'u') then<br>
+
+<blockquote>Get u from the message (Lower Bound = 0 . 0001, Upper Bound = 40 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_check_profile">  </A>
+<H2>Soilwat2 Check Profile</H2>
+<br>
+<H3><CENTER>checks validity of soil water parameters for a soil profile layer   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote>max_sw = 1 . 0 - divide (bd (layer), specific_bd, 0 . 0)<br>
+
+sw = divide (sw<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+sat = divide (sat<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+dul = divide (dul<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+ll15 = divide (ll15<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+air_dry = divide (air_dry<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+sw_errmargin = error_margin (sw)<br>
+
+sat_errmargin = error_margin (sat)<br>
+
+dul_errmargin = error_margin (dul)<br>
+
+ll15_errmargin = error_margin (ll15)<br>
+
+air_dry_errmargin = error_margin (air_dry)<br>
+
+if (air_dry+air_dry_errmargin.&lt;.min_sw) then<br>
+
+<blockquote>write (to err_messg)  ' air dry lower limit of ' , air_dry , ' in layer ' , layer , new_line , '         is below acceptable value of ' , min_sw<br>
+
+Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (ll15+ll15_errmargin.&lt;.air_dry-air_dry_errmargin) then<br>
+
+<blockquote>write (to err_messg)  ' 15 bar lower limit of ' , ll15 , ' in layer ' , layer , new_line , '         is below air dry value of ' , air_dry<br>
+
+Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (dul+dul_errmargin.&lt;=.ll15-ll15_errmargin) then<br>
+
+<blockquote>write (to err_messg)  ' drained upper limit of ' , dul , ' in layer ' , layer , new_line , '         is at or below lower limit of ' , ll15<br>
+
+Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (sat+sat_errmargin.&lt;=.dul-dul_errmargin) then<br>
+
+<blockquote>write (to err_messg)  ' saturation of ' , sat , ' in layer ' , layer , new_line , '         is at or below drained upper limit of ' , dul<br>
+
+Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (sat-sat_errmargin.&gt;.max_sw+max_sw_margin) then<br>
+
+<blockquote>write (to err_messg)  ' saturation of ' , sat , ' in layer ' , layer , new_line , '         is above acceptable value of ' , max_sw , new_line , 'you must adjust bulk density (bd ) to below) , (1.0-sat) * specific_bd , new_line , 'or saturation (sat ) to below) , max_sw<br>
+
+Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (sw-sw_errmargin.&gt;.sat+sat_errmargin) then<br>
+
+<blockquote>write (to err_messg)  ' soil water of ' , sw , ' in layer ' , layer , new_line , '         is above saturation of ' , sat<br>
+
+Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (sw+sw_errmargin.&lt;.air_dry-air_dry_errmargin) then<br>
+
+<blockquote>write (to err_messg)  ' soil water of ' , sw , ' in layer ' , layer , new_line , '         is below air-dry value of ' , air_dry<br>
+
+Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_new_profile_event">  </A>
+<H2>Soilwat2 New Profile Event</H2>
+<br>
+<H3><CENTER>Advise other modules of new profile specification   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+<br>
+
+Supply dlayer to the messaging system using the name data_dlayer<br>
+
+Supply air_dry<SUB>(in mm)</SUB> to the messaging system using the name data_air_dry<SUB>(in mm)</SUB><br>
+
+Supply ll15<SUB>(in mm)</SUB> to the messaging system using the name data_ll15<SUB>(in mm)</SUB><br>
+
+Supply dul<SUB>(in mm)</SUB> to the messaging system using the name data_dul<SUB>(in mm)</SUB><br>
+
+Supply sat<SUB>(in mm)</SUB> to the messaging system using the name data_sat<SUB>(in mm)</SUB><br>
+
+Supply sw<SUB>(in mm)</SUB> to the messaging system using the name data_sw<SUB>(in mm)</SUB><br>
+
+Supply bd to the messaging system using the name data_bd<br>
+
+event_send<I><SUB> event_new_profile</SUB></I><br>
+
+<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_send_my_variable">  </A>
+<H2>Soilwat2 Send My Variable</H2>
+<br>
+<H3><CENTER>return the value of a variable in return_string.  used to return values of variables requested by other modules.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'es') then<br>
+
+<blockquote>es = sum_real_array (es_layers, maximum number of layers)<br>
+
+Supply es to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'eo') then<br>
+
+<blockquote>Supply eo to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'eos') then<br>
+
+<blockquote>Supply eos to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'cover_surface_runoff') then<br>
+
+<blockquote>Supply cover_surface_runoff to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'cn2_new') then<br>
+
+<blockquote>Supply cn2_new to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'runoff') then<br>
+
+<blockquote>Supply runoff to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'pond') then<br>
+
+<blockquote>Supply pond to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'drain') then<br>
+
+<blockquote>Supply drain to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'infiltration') then<br>
+
+<blockquote>Supply infiltration to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'eff_rain') then<br>
+
+<blockquote>es = sum_real_array (es_layers, maximum number of layers)<br>
+
+eff_rain = rain - runoff - drain<br>
+
+Supply eff_rain to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'salb') then<br>
+
+<blockquote>Supply salb to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'bd') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply bd to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'esw') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+esw = 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>esw = esw + l_bound (sw<SUB>(in mm)</SUB> (layer) - ll15<SUB>(in mm)</SUB> (layer), 0 . 0)<br>
+
+</blockquote>next<br>
+
+Supply esw to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'sw_dep') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply sw<SUB>(in mm)</SUB> to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'sw') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>temp_array<I><SUB> layer</SUB></I> = divide (sw<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+</blockquote>next<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'dlayer') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply dlayer to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'ll15_dep') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply ll15<SUB>(in mm)</SUB> to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'ll15') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>temp_array<I><SUB> layer</SUB></I> = divide (ll15<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+</blockquote>next<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'dul_dep') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply dul<SUB>(in mm)</SUB> to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'dul') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>temp_array<I><SUB> layer</SUB></I> = divide (dul<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+</blockquote>next<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'sat_dep') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply sat<SUB>(in mm)</SUB> to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'sat') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>temp_array<I><SUB> layer</SUB></I> = divide (sat<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+</blockquote>next<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'air_dry_dep') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply air_dry<SUB>(in mm)</SUB> to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'air_dry') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>temp_array<I><SUB> layer</SUB></I> = divide (air_dry<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+</blockquote>next<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'flux') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply flux to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'flow') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply flow to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'flow_water') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>temp_array<I><SUB> layer</SUB></I> = flux (layer) - flow (layer)<br>
+
+</blockquote>next<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>else if (index (variable_name, 'flow_').=.1) then<br>
+
+<blockquote>solute_name = variable_name<I><SUB> len ('flow_') + 1 :</SUB></I><br>
+
+solnum = position_in_char_array (solute_name, solute_names, maximum number of solutes)<br>
+
+if (solnum.=/=.0) then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>temp_array<I><SUB> layer</SUB></I> = solute_leach (solnum, layer) - solute_up (solnum, layer)<br>
+
+</blockquote>next<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+</blockquote>else if ((index (variable_name, '_leach').=/=.0).and.(index (variable_name, '_leach').=.lastnb (variable_name)-len ('_leach')+1)) then<br>
+
+<blockquote>solute_name = variable_name<I><SUB> : index (variable_name, '_leach') - 1</SUB></I><br>
+
+solnum = position_in_char_array (solute_name, solute_names, maximum number of solutes)<br>
+
+if (solnum.=/=.0) then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>temp_array<I><SUB> layer</SUB></I> = solute_leach (solnum, layer)<br>
+
+</blockquote>next<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+</blockquote>else if ((index (variable_name, '_up').=/=.0).and.(index (variable_name, '_up').=.lastnb (variable_name)-len ('_up')+1)) then<br>
+
+<blockquote>solute_name = variable_name<I><SUB> : index (variable_name, '_up') - 1</SUB></I><br>
+
+solnum = position_in_char_array (solute_name, solute_names, maximum number of solutes)<br>
+
+if (solnum.=/=.0) then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>temp_array<I><SUB> layer</SUB></I> = solute_up (solnum, layer)<br>
+
+</blockquote>next<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+</blockquote>else if (variable_name.=.'water_table') then<br>
+
+<blockquote>Supply water_table to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'sws') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply sws to the requesting module<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_ontick">  </A>
+<H2>Soilwat2 Ontick</H2>
+<br>
+<H3><CENTER>Update internal time record and reset daily state variables.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+handler_ontick<I><SUB> day, year, temp1, temp2</SUB></I><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_onnewmet">  </A>
+<H2>Soilwat2 Onnewmet</H2>
+<br>
+<H3><CENTER>Get new met data   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get radn from the message (Lower Bound = 0 . 0, Upper Bound = 50 . 0)<br>
+
+Get maxt from the message (Lower Bound = 0 . 0, Upper Bound = 50 . 0)<br>
+
+Get mint from the message (Lower Bound = - 10 . 0, Upper Bound = maxt)<br>
+
+Get rain from the message (Lower Bound = 0 . 0, Upper Bound = 500 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_zero_daily_variables">  </A>
+<H2>Soilwat2 Zero Daily Variables</H2>
+<br>
+<H3><CENTER>zero variables & arrays   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Fill flow with 0 . 0<br>
+
+Fill flux with 0 . 0<br>
+
+Fill es_layers with 0 . 0<br>
+
+Fill cover<SUB>(total)</SUB> with 0 . 0<br>
+
+Fill cover_green with 0 . 0<br>
+
+Fill crop_module with ' '<br>
+
+Fill canopy_height with 0 . 0<br>
+
+residue_cover = 0 . 0<br>
+
+eo = 0 . 0<br>
+
+eos = 0 . 0<br>
+
+cn2_new = 0 . 0<br>
+
+drain = 0 . 0<br>
+
+infiltration = 0 . 0<br>
+
+runoff = 0 . 0<br>
+
+runoff_pot = 0 . 0<br>
+
+number of crops = 0<br>
+
+obsrunoff = 0 . 0<br>
+
+obsrunoff_found = . false .<br>
+
+For each solnum from 1 to maximum number of solutes<br>
+
+<blockquote>For each layer from 1 to maximum number of layers<br>
+
+<blockquote>solute (solnum, layer) = 0 . 0<br>
+
+solute_min (solnum, layer) = 0 . 0<br>
+
+solute_leach (solnum, layer) = 0 . 0<br>
+
+solute_up (solnum, layer) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>solute (solnum, layer) = 0 . 0<br>
+
+</blockquote>next<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_get_other_variables">  </A>
+<H2>Soilwat2 Get Other Variables</H2>
+<br>
+<H3><CENTER>get the value/s of a variable/array.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#soilwat2_get_residue_variables"> Get Met Variables </A><br>
+
+<A HREF = "#soilwat2_get_crop_variables"> Get crop Variables </A><br>
+
+<A HREF = "#soilwat2_get_solute_variables"> Get solute Variables </A><br>
+
+<A HREF = "#soilwat2_get_environ_variables"> Get environment Variables </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_get_residue_variables">  </A>
+<H2>Soilwat2 Get Residue Variables</H2>
+<br>
+<H3><CENTER>get the value/s of a variable/array.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get residue_cover from the system (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<I>(OPTIONAL)</I><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_get_crop_variables">  </A>
+<H2>Soilwat2 Get Crop Variables</H2>
+<br>
+<H3><CENTER>get the value/s of a variable/array.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get cover_surface_extra from the system (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<I>(OPTIONAL)</I><br>
+
+crop = 0<br>
+
+</blockquote>next<br>
+
+Get next cover from the system (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+if (numvals.=/=.0) then<br>
+
+<blockquote>if (crop+1.&lt;=.maximum number of crops) then<br>
+
+<blockquote>crop = crop + 1<br>
+
+get_posting_module<I><SUB> owner_module</SUB></I><br>
+
+crop_module (crop) = owner_module<br>
+
+cover_green (crop) = cover<br>
+
+goto 1000<br>
+
+</blockquote>else<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+number of crops = crop<br>
+
+For each crop from 1 to number of crops<br>
+
+<blockquote>Get cover<SUB>(total)</SUB> (crop) from the system (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Get canopy_height (crop) from the system (Lower Bound = 0 . 0, Upper Bound = 100000 . 0)<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_get_solute_variables">  </A>
+<H2>Soilwat2 Get Solute Variables</H2>
+<br>
+<H3><CENTER>get the value/s of a variable/array.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>Fill temp_solute with 0 . 0<br>
+
+Get temp_solute from the system (Lower Bound = 0 . 0, Upper Bound = 30000 . 0)<br>
+
+For each layer from 1 to maximum number of layers<br>
+
+<blockquote>solute (solnum, layer) = temp_solute<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+Fill temp_solute with 0 . 0<br>
+
+min_name = solute_names (solnum) + '_min'<br>
+
+Get temp_solute from the system (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<I>(OPTIONAL)</I><br>
+
+For each layer from 1 to maximum number of layers<br>
+
+<blockquote>solute_min (solnum, layer) = temp_solute<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_get_environ_variables">  </A>
+<H2>Soilwat2 Get Environ Variables</H2>
+<br>
+<H3><CENTER>get the value/s of a variable/array.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (eo_source.=/=.blank) then<br>
+
+<blockquote>eo_system = 0 . 0<br>
+
+Get eo_system from the system (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (obsrunoff_name.=/=.blank) then<br>
+
+<blockquote>Get obsrunoff from the system (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<I>(OPTIONAL)</I><br>
+
+obsrunoff_found = numvals . &gt; . 0<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_process">  </A>
+<H2>Soilwat2 Process</H2>
+<br>
+<H3><CENTER>simulates runoff, infiltration, flux (drainage), unsaturated flow, evaporation, solute movement, transpiration.  this needs further redesign and cleaning up. this is a test version only.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+<A HREF = "#soilwat2_cover_surface_runoff"> Calculate the Effective Runoff surface Cover </A><br>
+
+<A HREF = "#soilwat2_runoff"> Calculate Runoff </A><br>
+
+pond = pond + runoff_pot<br>
+
+runoff = maximum of (pond - max_pond, 0 . 0)<br>
+
+pond = minimum of (pond, max_pond)<br>
+
+<A HREF = "#soilwat2_infiltration"> Calculate infiltration into top layer </A><br>
+
+sw<SUB>(in mm)</SUB> (1) = sw<SUB>(in mm)</SUB> (1) + infiltration<br>
+
+<A HREF = "#soilwat2_irrig_solute"> Add solutes with irrigation </A><br>
+
+irrigation = 0 . 0<br>
+
+Fill irrigation_solute with 0 . 0<br>
+
+<A HREF = "#soilwat2_drainage"> Calculate Drainage from each layer </A><br>
+
+pond = minimum of (extra_runoff, max_pond)<br>
+
+runoff = runoff + extra_runoff - pond<br>
+
+infiltration = infiltration - extra_runoff<br>
+
+sw<SUB>(in mm)</SUB> (1) = sw<SUB>(in mm)</SUB> (1) - extra_runoff<br>
+
+Move amounts of flux down array sw<SUB>(in mm)</SUB><br>
+
+drain = flux (num_layers)<br>
+
+<A HREF = "#soilwat2_move_solute_down"> Calculate downward movement of solutes </A><br>
+
+<A HREF = "#soilwat2_pot_evapotranspiration"> Calculate Potential EvapoTranspiration </A><br>
+
+<A HREF = "#soilwat2_evaporation"> Calculate Actual Soil Evaporation </A><br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>sw<SUB>(in mm)</SUB> (layer) = sw<SUB>(in mm)</SUB> (layer) - es_layers (layer)<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilwat2_unsat_flow"> Calculate Unsaturated Solute and Water Flow </A><br>
+
+Move amounts flow up array sw<SUB>(in mm)</SUB><br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote><A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+water_table = <A HREF = "#soilwat_water_table"> Calculate the water table </A><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>sws (layer) = divide (sw<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilwat2_move_solute_up"> Calculate upward movement of solutes </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat_water_table">  </A>
+<H2>Soilwat Water Table</H2>
+<br>
+<H3><CENTER>Calculate the water table  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>if (reals_are_equal (sw<SUB>(in mm)</SUB> (layer), sat<SUB>(in mm)</SUB> (layer))) then<br>
+
+<blockquote>sat_layer = layer<br>
+
+goto 200<br>
+
+</blockquote>else<br>
+
+<blockquote>sat_layer = 0<br>
+
+</blockquote>endif<br>
+
+</blockquote>next<br>
+
+</blockquote>next<br>
+
+if (sat_layer.=.0) then<br>
+
+<blockquote>soilwat_water_table = 10000 .<br>
+
+</blockquote>elseif (sat_layer.=.1) then<br>
+
+<blockquote>soilwat_water_table = 0 . 0<br>
+
+</blockquote>else<br>
+
+<blockquote>if (sw<SUB>(in mm)</SUB> (sat_layer - 1).&gt;.dul<SUB>(in mm)</SUB> (sat_layer - 1)) then<br>
+
+<blockquote>soilwat_water_table = sum_real_array (dlayer, sat_layer - 1) - divide (sw<SUB>(in mm)</SUB> (sat_layer - 1) - dul<SUB>(in mm)</SUB> (sat_layer - 1), sat<SUB>(in mm)</SUB> (sat_layer - 1) - dul<SUB>(in mm)</SUB> (sat_layer - 1), 0 . 0) * dlayer (sat_layer - 1)<br>
+
+</blockquote>else<br>
+
+<blockquote>soilwat_water_table = sum_real_array (dlayer, sat_layer - 1)<br>
+
+</blockquote>endif<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_cover_surface_runoff">  </A>
+<H2>Soilwat2 Cover Surface Runoff</H2>
+<br>
+<H3><CENTER>calculate the effective runoff cover   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+cover_surface_crop = 0 . 0<br>
+
+For each crop from 1 to number of crops<br>
+
+<blockquote>if (canopy_height (crop).&gt;=.0.0) then<br>
+
+<blockquote>canopy_fact = linear_interp_real (canopy_height (crop), canopy_fact_height, canopy_fact, number of canopy_fact)<br>
+
+</blockquote>else<br>
+
+<blockquote>canopy_fact = canopy_fact_default<br>
+
+</blockquote>endif<br>
+
+effective_crop_cover = cover<SUB>(total)</SUB> (crop) * canopy_fact<br>
+
+cover_surface_crop = add_cover (cover_surface_crop, effective_crop_cover)<br>
+
+</blockquote>next<br>
+
+cover_surface_runoff = add_cover (cover_surface_crop, residue_cover)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_runoff">  </A>
+<H2>Soilwat2 Runoff</H2>
+<br>
+<H3><CENTER>Runoff. Either predicted or observed.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+runoff = 0 . 0<br>
+
+if (rain.&gt;.0.0) then<br>
+
+<blockquote>if (obsrunoff_name.=.blank) then<br>
+
+<blockquote><A HREF = "#soilwat2_scs_runoff"> Calculate runoff using scs curve number method </A><br>
+
+</blockquote>else<br>
+
+<blockquote>if (obsrunoff_found) then<br>
+
+<blockquote>runoff = obsrunoff<br>
+
+</blockquote>else<br>
+
+<blockquote>write (to string)  'year = ' , year , ', day = ' , day , ', using predicted runoff for missing observation'<br>
+
+Print a warning error<br>
+
+<A HREF = "#soilwat2_scs_runoff"> Calculate runoff using scs curve number method </A><br>
+
+</blockquote>endif<br>
+
+</blockquote>endif<br>
+
+<A HREF = "#soilwat2_tillage_addrain"> Accumulate rainfall for tillage cn reduction </A><br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_scs_runoff">  </A>
+<H2>Soilwat2 Scs Runoff</H2>
+<br>
+<H3><CENTER>calculate runoff using scs curve number method   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+<A HREF = "#soilwat2_runoff_depth_factor"> Calculate soil moisture effect on runoff </A><br>
+
+cnpd = 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>cnpd = cnpd + divide (sw<SUB>(in mm)</SUB> (layer) - ll15<SUB>(in mm)</SUB> (layer), dul<SUB>(in mm)</SUB> (layer) - ll15<SUB>(in mm)</SUB> (layer), 0 . 0) * runoff_wf<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+cnpd = bound (cnpd, 0 . 0, 1 . 0)<br>
+
+cover_fract = divide (cover_surface_runoff, cn_cov, 0 . 0)<br>
+
+cover_fract = bound (cover_fract, 0 . 0, 1 . 0)<br>
+
+cn2_new = cn2_bare - (cn_red*cover_fract)<br>
+
+if (tillage_cn_rain.&gt;.0.0) then<br>
+
+<blockquote>tillage_reduction = tillage_cn_red * (divide (tillage_rain_sum, tillage_cn_rain, 0 . 0)-1.0)<br>
+
+cn2_new = cn2_new + tillage_reduction<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+cn2_new = bound (cn2_new, 0 . 0, 100 . 0)<br>
+
+cn1 = divide (cn2_new, (2.334-0.01334*cn2_new), 0 . 0)<br>
+
+cn3 = divide (cn2_new, (0.4036+0.005964*cn2_new), 0 . 0)<br>
+
+cn = cn1 + (cn3-cn1) * cnpd<br>
+
+s = 254 . 0 * (divide (100 . 0, cn, 1000000 . 0)-1.0)<br>
+
+xpb = rain - 0 . 2 * s<br>
+
+xpb = l_bound (xpb, 0 . 0)<br>
+
+runoff = divide (xpb * xpb, (rain+0.8*s), 0 . 0)<br>
+
+Check that runoff lies between 0 . 0 and rain<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_runoff_depth_factor">  </A>
+<H2>Soilwat2 Runoff Depth Factor</H2>
+<br>
+<H3><CENTER>Calculate the weighting factor hydraulic effectiveness used to weight the effect of soil moisture on runoff.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Fill runoff_wf with 0 . 0<br>
+
+xx = 0 . 0<br>
+
+cum_depth = 0 . 0<br>
+
+wf_tot = 0 . 0<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+profile_depth = sum_real_array (dlayer, num_layers)<br>
+
+hydrol_effective_depth = minimum of (hydrol_effective_depth, profile_depth)<br>
+
+scale_fact = 1 . 0 / (1.0-<I><BIG>e</BIG></I><SUP>- 4 . 16</SUP>)<br>
+
+hydrol_effective_layer = find_layer_no (hydrol_effective_depth, dlayer, num_layers)<br>
+
+For each layer from 1 to hydrol_effective_layer<br>
+
+<blockquote>cum_depth = cum_depth + dlayer (layer)<br>
+
+cum_depth = u_bound (cum_depth, hydrol_effective_depth)<br>
+
+wx = scale_fact * (1.0-<I><BIG>e</BIG></I><SUP>- 4 . 16 * divide (cum_depth, hydrol_effective_depth, 0 . 0)</SUP>)<br>
+
+runoff_wf<I><SUB> layer</SUB></I> = wx - xx<br>
+
+xx = wx<br>
+
+wf_tot = wf_tot + runoff_wf<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+Check that wf_tot lies between 0 . 9999 and 1 . 0001<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_tillage_addrain">  </A>
+<H2>Soilwat2 Tillage Addrain</H2>
+<br>
+<H3><CENTER>accumulate rainfall fo  r tillage cn reduction   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+tillage_rain_sum = tillage_rain_sum + rain<br>
+
+if (tillage_cn_rain.&gt;.0.0.and.tillage_rain_sum.&gt;.tillage_cn_rain) then<br>
+
+<blockquote>tillage_cn_rain = 0 . 0<br>
+
+tillage_cn_red = 0 . 0<br>
+
+write (to string)  'tillage cn reduction finished'<br>
+
+Write a string to a file<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_infiltration">  </A>
+<H2>Soilwat2 Infiltration</H2>
+<br>
+<H3><CENTER>infiltration into top layer after runoff.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+infiltration_1 = (irrigation+rain) - runoff_pot<br>
+
+infiltration_2 = pond<br>
+
+infiltration = infiltration_1 + infiltration_2<br>
+
+pond = 0 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_irrig_solute">  </A>
+<H2>Soilwat2 Irrig Solute</H2>
+<br>
+<H3><CENTER><insert here>   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>solute (solnum, 1) = solute (solnum, 1) + irrigation_solute (solnum)<br>
+
+<FONT FACE = "SYMBOL">D</FONT>solute (solnum, 1) = <FONT FACE = "SYMBOL">D</FONT>solute (solnum, 1) + irrigation_solute (solnum)<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_drainage">  </A>
+<H2>Soilwat2 Drainage</H2>
+<br>
+<H3><CENTER>calculate flux - drainage from each layer   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+w_in = 0 . 0<br>
+
+extra_runoff = 0 . 0<br>
+
+Fill flux with 0 . 0<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>w_tot = sw<SUB>(in mm)</SUB> (layer) + w_in<br>
+
+if (w_tot.&gt;.sat<SUB>(in mm)</SUB> (layer)) then<br>
+
+<blockquote>excess = w_tot - sat<SUB>(in mm)</SUB> (layer)<br>
+
+w_tot = sat<SUB>(in mm)</SUB> (layer)<br>
+
+</blockquote>else<br>
+
+<blockquote>excess = 0 . 0<br>
+
+</blockquote>endif<br>
+
+if (w_tot.&gt;.dul<SUB>(in mm)</SUB> (layer)) then<br>
+
+<blockquote>w_drain = (w_tot-dul<SUB>(in mm)</SUB> (layer)) * swcon (layer)<br>
+
+</blockquote>else<br>
+
+<blockquote>w_drain = 0 . 0<br>
+
+</blockquote>endif<br>
+
+if (excess.&gt;.0.0) then<br>
+
+<blockquote>if (mwcon (layer).&gt;=.1.0) then<br>
+
+<blockquote>w_out = excess + w_drain<br>
+
+new_sw_dep<I><SUB> layer</SUB></I> = sw<SUB>(in mm)</SUB> (layer) + w_in - w_out<br>
+
+flux<I><SUB> layer</SUB></I> = w_out<br>
+
+</blockquote>else<br>
+
+<blockquote>add = minimum of (excess, w_drain)<br>
+
+excess = excess - add<br>
+
+new_sw_dep<I><SUB> layer</SUB></I> = sat<SUB>(in mm)</SUB> (layer) - w_drain + add<br>
+
+backup = (1.-mwcon (layer)) * excess<br>
+
+excess = mwcon (layer) * excess<br>
+
+w_out = excess + w_drain<br>
+
+flux<I><SUB> layer</SUB></I> = w_out<br>
+
+For each l from layer to 1 stepping by 1,-1<br>
+
+<blockquote>flux<I><SUB> l</SUB></I> = flux<I><SUB> l</SUB></I> - backup<br>
+
+add = minimum of (sat<SUB>(in mm)</SUB> (l) - new_sw_dep<I><SUB> l</SUB></I>, backup)<br>
+
+new_sw_dep<I><SUB> l</SUB></I> = new_sw_dep<I><SUB> l</SUB></I> + add<br>
+
+backup = backup - add<br>
+
+</blockquote>next<br>
+
+extra_runoff = extra_runoff + backup<br>
+
+</blockquote>endif<br>
+
+</blockquote>else<br>
+
+<blockquote>w_out = w_drain<br>
+
+flux<I><SUB> layer</SUB></I> = w_out<br>
+
+new_sw_dep<I><SUB> layer</SUB></I> = sw<SUB>(in mm)</SUB> (layer) + w_in - w_out<br>
+
+</blockquote>endif<br>
+
+w_in = w_out<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_move_solute_down">  </A>
+<H2>Soilwat2 Move Solute Down</H2>
+<br>
+<H3><CENTER><insert here>   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>if (solute_mobility (solnum)) then<br>
+
+<blockquote>For each layer from 1 to num_layers<br>
+
+<blockquote>temp_solute<I><SUB> layer</SUB></I> = solute (solnum, layer)<br>
+
+leach<I><SUB> layer</SUB></I> = 0 . 0<br>
+
+temp_solute_min<I><SUB> layer</SUB></I> = solute_min (solnum, layer)<br>
+
+temp_dlt_solute<I><SUB> layer</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>solute (solnum, layer)<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilwat2_solute_flux"> Calculate the Solute Movement with Saturated Water Flux </A><br>
+
+Move amounts of leach down array temp_solute<br>
+
+Move amounts of leach down array temp_dlt_solute<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>solute (solnum, layer) = temp_solute<I><SUB> layer</SUB></I><br>
+
+solute_leach (solnum, layer) = leach<I><SUB> layer</SUB></I><br>
+
+<FONT FACE = "SYMBOL">D</FONT>solute (solnum, layer) = temp_dlt_solute<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_solute_flux">  </A>
+<H2>Soilwat2 Solute Flux</H2>
+<br>
+<H3><CENTER>calculate the downward movement of solute with percolating water   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Fill solute_out with 0 . 0<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+in_solute = 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>out_w = flux (layer)<br>
+
+solute_kg_layer = solute_kg<I><SUB> layer</SUB></I> + in_solute<br>
+
+water = sw<SUB>(in mm)</SUB> (layer) + out_w<br>
+
+out_solute = solute_kg_layer * divide (out_w, water, 0 . 0) * solute_flux_eff<br>
+
+out_max = l_bound (solute_kg_layer - solute_min<I><SUB> layer</SUB></I>, 0 . 0)<br>
+
+out_solute = bound (out_solute, 0 . 0, out_max)<br>
+
+solute_out<I><SUB> layer</SUB></I> = out_solute<br>
+
+in_solute = out_solute<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_pot_evapotranspiration">  </A>
+<H2>Soilwat2 Pot Evapotranspiration</H2>
+<br>
+<H3><CENTER>calculate potential evapotranspiration   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (eo_source.=.blank) then<br>
+
+<blockquote><A HREF = "#soilwat2_priestly_taylor"> Calculate potential evapotranspiration using priestly-taylor method </A><br>
+
+</blockquote>else<br>
+
+<blockquote>eo = eo_system<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_priestly_taylor">  </A>
+<H2>Soilwat2 Priestly Taylor</H2>
+<br>
+<H3><CENTER>calculate potential evapotranspiration via priestly-taylor   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+cover_green_sum = sum_cover_array (cover_green, number of crops)<br>
+
+albedo = max_albedo - (max_albedo-salb) * (1.0-cover_green_sum)<br>
+
+wt_ave_temp = 0 . 60 * maxt + 0 . 40 * mint<br>
+
+eeq = radn * 23 . 8846 * (0.000204-0.000183*albedo) * (wt_ave_temp+29.0)<br>
+
+eo = eeq * <A HREF = "#soilwat2_eeq_fac"> Calculate the Equilibrium Evaporation Rate </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_eeq_fac">  </A>
+<H2>Soilwat2 Eeq Fac</H2>
+<br>
+<H3><CENTER>calculate coefficient for equilibrium evaporation rate   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (maxt.&gt;.max_crit_temp) then<br>
+
+<blockquote>soilwat2_eeq_fac = ((maxt-max_crit_temp)*0.05+1.1)<br>
+
+</blockquote>else if (maxt.&lt;.min_crit_temp) then<br>
+
+<blockquote>soilwat2_eeq_fac = 0 . 01 * <I><BIG>e</BIG></I><SUP>0 . 18 * (maxt+20.0)</SUP><br>
+
+</blockquote>else<br>
+
+<blockquote>soilwat2_eeq_fac = 1 . 1<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_evaporation">  </A>
+<H2>Soilwat2 Evaporation</H2>
+<br>
+<H3><CENTER>calculate actual soil evaporation   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#soilwat2_pot_soil_evaporation"> Calculate potential soil evaporation </A><br>
+
+asw1 = sw<SUB>(in mm)</SUB> (1) - air_dry<SUB>(in mm)</SUB> (1)<br>
+
+asw1 = bound (asw1, 0 . 0, eo)<br>
+
+<A HREF = "#soilwat2_soil_evaporation"> Soil Evaporation from Soil Surface </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_pot_soil_evaporation">  </A>
+<H2>Soilwat2 Pot Soil Evaporation</H2>
+<br>
+<H3><CENTER>calculate potential soil evaporation   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+cover_tot_sum = sum_cover_array (cover<SUB>(total)</SUB>, number of crops)<br>
+
+eos_canopy_fract = <I><BIG>e</BIG></I><SUP>- canopy_eos_coef * cover_tot_sum</SUP><br>
+
+if (residue_cover.&gt;=.1.0) then<br>
+
+<blockquote>eos_residue_fract = 0 . 0<br>
+
+</blockquote>else<br>
+
+<blockquote>eos_residue_fract = (1.0-residue_cover) * * a_to_evap_fact<br>
+
+</blockquote>endif<br>
+
+eos = eo * eos_canopy_fract * eos_residue_fract<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_soil_evaporation">  </A>
+<H2>Soilwat2 Soil Evaporation</H2>
+<br>
+<H3><CENTER>Wrapper for various evaporation models. Returns actual evaporation from soil surface (es).   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Fill es with 0 . 0<br>
+
+if (evap_method.=.ritchie_method) then<br>
+
+<blockquote><A HREF = "#soilwat2_ritchie_evaporation"> Calculate evaporation Ritchie model </A><br>
+
+</blockquote>else if (evap_method.=.bs_a_method) then<br>
+
+<blockquote><A HREF = "#soilwat2_bs_a_evaporation"> Calculate evaporation using B&S (A) model </A><br>
+
+</blockquote>else if (evap_method.=.bs_b_method) then<br>
+
+<blockquote><A HREF = "#soilwat2_bs_b_evaporation"> Calculate evaporation using B&S (B) model </A><br>
+
+</blockquote>else if (evap_method.=.bs_acs_method) then<br>
+
+<blockquote><A HREF = "#soilwat2_bs_acs_evaporation"> Calculate evaporation using B&S (B, ACS) model </A><br>
+
+</blockquote>else if (evap_method.=.rickert_method) then<br>
+
+<blockquote><A HREF = "#soilwat2_rickert_evaporation"> Calculate evaporation using Rickert model </A><br>
+
+</blockquote>else<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_ritchie_evaporation">  </A>
+<H2>Soilwat2 Ritchie Evaporation</H2>
+<br>
+<H3><CENTER>****** calculate actual evaporation from soil surface (es) ****** most es takes place in two stages: the constant rate stage and the falling rate stage (philip, 1957).  in the constant rate stage (stage 1), the soil is sufficiently wet for water be transported to the surface at a rate at least equal to the evaporation potential (eos). in the falling rate stage (stage 2), the surface soil water content has decreased below a threshold value, so that es depends on the flux of water through the upper layer of soil to the evaporating site near the surface.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+sumes1_max = u<br>
+
+w_inf = infiltration<br>
+
+if (w_inf.&gt;.0.0) then<br>
+
+<blockquote>sumes2 = maximum of (0 . 0, sumes2 - maximum of (0 . 0, w_inf - sumes1))<br>
+
+sumes1 = maximum of (0 . 0, sumes1 - w_inf)<br>
+
+t = (divide (sumes2, cona, 0 . 0)) * * 2<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (sumes1.&lt;.sumes1_max) then<br>
+
+<blockquote>esoil1 = minimum of (eos, sumes1_max - sumes1)<br>
+
+if (eos.&gt;.esoil1.and.esoil1.&lt;.eos_max) then<br>
+
+<blockquote>if (sumes2.&gt;.0.0) then<br>
+
+<blockquote>t = t + 1 . 0<br>
+
+esoil2 = minimum of (eos - esoil1, cona * t * * 0 . 5 - sumes2)<br>
+
+</blockquote>else<br>
+
+<blockquote>esoil2 = 0 . 6 * (eos-esoil1)<br>
+
+</blockquote>endif<br>
+
+</blockquote>else<br>
+
+<blockquote>esoil2 = 0 . 0<br>
+
+</blockquote>endif<br>
+
+esoil2 = minimum of (esoil2, eos_max - esoil1)<br>
+
+sumes1 = sumes1 + esoil1<br>
+
+sumes2 = sumes2 + esoil2<br>
+
+t = (divide (sumes2, cona, 0 . 0)) * * 2<br>
+
+</blockquote>else<br>
+
+<blockquote>esoil1 = 0 . 0<br>
+
+t = t + 1 . 0<br>
+
+esoil2 = minimum of (eos, cona * t * * 0 . 5 - sumes2)<br>
+
+esoil2 = minimum of (esoil2, eos_max)<br>
+
+sumes2 = sumes2 + esoil2<br>
+
+</blockquote>endif<br>
+
+es = esoil1 + esoil2<br>
+
+es = bound (es, 0 . 0, eos)<br>
+
+es = bound (es, 0 . 0, eos_max)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_bs_a_evaporation">  </A>
+<H2>Soilwat2 Bs A Evaporation</H2>
+<br>
+<H3><CENTER>B&S (in their paper this is Option A. Fig 2)   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+sumes1_max = beta * * 2<br>
+
+w_inf = infiltration<br>
+
+if (w_inf.&gt;=.eos) then<br>
+
+<blockquote>sumes = maximum of (0 . 0, sumes - (w_inf-eos))<br>
+
+es = eos<br>
+
+espot = divide (sumes * * 2, beta * * 2, 0 . 0)<br>
+
+sumeos = maximum of (sumes, espot)<br>
+
+</blockquote>else<br>
+
+<blockquote>sumeos = sumeos + (eos-w_inf)<br>
+
+es = w_inf + (minimum of (sumeos, beta * sumeos * * 0 . 5)-sumes)<br>
+
+sumes = minimum of (sumeos, beta * sumeos * * 0 . 5)<br>
+
+</blockquote>endif<br>
+
+if (es . &gt; . sumes) then<br>
+
+sumes = es<br>
+
+</blockquote>endif<br>
+
+if (sumes . &lt;= . sumes1_max) then<br>
+
+sumeos = sumes<br>
+
+</blockquote>else<br>
+
+<blockquote>sumeos = (divide (sumes, beta, 0 . 0)) * * 2<br>
+
+</blockquote>endif<br>
+
+if (sumes.&gt;=.sumes1_max) then<br>
+
+<blockquote>sumes1 = sumes1_max<br>
+
+sumes2 = sumes - sumes1<br>
+
+</blockquote>else<br>
+
+<blockquote>sumes1 = sumes<br>
+
+sumes2 = 0 . 0<br>
+
+</blockquote>endif<br>
+
+es = bound (es, 0 . 0, eos)<br>
+
+es = bound (es, 0 . 0, eos_max)<br>
+
+<br>
+
+</blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_bs_b_evaporation">  </A>
+<H2>Soilwat2 Bs B Evaporation</H2>
+<br>
+<H3><CENTER>B&S. This code tries to achieve the result stated for their Option B. Evaporate small rainfall events & then step back to the original state   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+sumes1_max = beta * * 2<br>
+
+w_inf = infiltration<br>
+
+if (w_inf.&gt;.0.0) then<br>
+
+<blockquote>sumes2 = maximum of (0 . 0, sumes2 - maximum of (0 . 0, w_inf - sumes1))<br>
+
+sumes1 = maximum of (0 . 0, sumes1 - w_inf)<br>
+
+sumes = sumes1 + sumes2<br>
+
+if (sumes . &lt;= . sumes1_max) then<br>
+
+sumeos = sumes<br>
+
+</blockquote>else<br>
+
+<blockquote>sumeos = (divide (sumes, beta, 0 . 0)) * * 2<br>
+
+</blockquote>endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+sumeos = sumeos + eos<br>
+
+if (sumeos . &lt;= . sumes1_max) then<br>
+
+todays_es = eos<br>
+
+sumes = sumes + todays_es<br>
+
+</blockquote>else<br>
+
+<blockquote>todays_es = beta * sumeos * * 0 . 5 - sumes<br>
+
+todays_es = bound (todays_es, 0 . 0, eos)<br>
+
+sumes = sumes + todays_es<br>
+
+sumeos = (divide (sumes, beta, 0 . 0)) * * 2<br>
+
+</blockquote>endif<br>
+
+if (sumes1.&lt;.sumes1_max) then<br>
+
+<blockquote>esoil1 = minimum of (eos, sumes1_max - sumes1)<br>
+
+if (eos.&gt;.esoil1.and.esoil1.&lt;.eos_max) then<br>
+
+<blockquote>esoil2 = (eos-esoil1) * 0 . 6<br>
+
+</blockquote>else<br>
+
+<blockquote>esoil2 = 0 . 0<br>
+
+</blockquote>endif<br>
+
+esoil2 = minimum of (esoil2, eos_max - esoil1)<br>
+
+sumes1 = sumes1 + esoil1<br>
+
+sumes2 = sumes2 + esoil2<br>
+
+</blockquote>else<br>
+
+<blockquote>esoil1 = 0 . 0<br>
+
+esoil2 = todays_es<br>
+
+esoil2 = minimum of (esoil2, eos_max)<br>
+
+sumes2 = sumes2 + esoil2<br>
+
+</blockquote>endif<br>
+
+sumes = sumes1 + sumes2<br>
+
+sumeos = (divide (sumes, beta, 0 . 0)) * * 2<br>
+
+es = esoil1 + esoil2<br>
+
+es = bound (es, 0 . 0, todays_es)<br>
+
+es = bound (es, 0 . 0, eos_max)<br>
+
+<br>
+
+</blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_bs_acs_evaporation">  </A>
+<H2>Soilwat2 Bs Acs Evaporation</H2>
+<br>
+<H3><CENTER>acs attempt at B&S Option B infiltration > evap at stage 1, then return to original (pdev - I think this is work in progress, incomplete)   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+sumes1_max = beta * * 2<br>
+
+w_inf = infiltration<br>
+
+sumes_yest = sumes<br>
+
+if ((inf_pool.=.0.0).and.(w_inf.&gt;.0.0)) then<br>
+
+<blockquote>sumes_yest = 0 . 0<br>
+
+sumes_last = sumes<br>
+
+sumeos_last = sumeos<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+inf_pool = inf_pool + w_inf<br>
+
+if (inf_pool.&gt;.0.0) then<br>
+
+<blockquote>sumes = 0 . 0<br>
+
+sumeos = 0 . 0<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (sw<SUB>(in mm)</SUB> (1).&gt;.(0.9*(dul<SUB>(in mm)</SUB> (1)-air_dry<SUB>(in mm)</SUB> (1)))) then<br>
+
+<blockquote>sumes_last = 0 . 0<br>
+
+sumeos_last = 0 . 0<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+sumeos = sumeos + eos<br>
+
+if (sumes.&lt;.sumes1_max) then<br>
+
+<blockquote>sumes = sumeos<br>
+
+</blockquote>else<br>
+
+<blockquote>sumes = beta * sumeos * * 0 . 5<br>
+
+</blockquote>endif<br>
+
+es = sumes - sumes_yest<br>
+
+inf_pool = maximum of (0 . 0, inf_pool - es)<br>
+
+if (inf_pool.&lt;=.0.0) then<br>
+
+<blockquote>if (sumes_last.&gt;.0.0) then<br>
+
+<blockquote>surplus_es = 0 . 0 - inf_pool<br>
+
+inf_pool = 0 . 0<br>
+
+sumes = sumes_last + surplus_es<br>
+
+if (surplus_es.&lt;.sumes1_max) then<br>
+
+<blockquote>sumeos = sumeos_last + surplus_es<br>
+
+</blockquote>else<br>
+
+<blockquote>sumeos = sumeos_last + (surplus_es/beta) * * 2<br>
+
+</blockquote>endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+es = bound (es, 0 . 0, eos_max)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_rickert_evaporation">  </A>
+<H2>Soilwat2 Rickert Evaporation</H2>
+<br>
+<H3><CENTER>Ex Grasp                <<< need better description here - dms!!!>>> Evaporate moisture from the soil surface. The moisture can come from layers 1 & 2, if the supply is sufficient. Total evap is limited by an upper bound, max_evap, from soil parameters.    </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Fill es with 0 . 0<br>
+
+avail_water_l1 = sw<SUB>(in mm)</SUB> (1) - air_dry<SUB>(in mm)</SUB> (1)<br>
+
+avail_capacity_l1 = dul<SUB>(in mm)</SUB> (1) - air_dry<SUB>(in mm)</SUB> (1)<br>
+
+supply_ratio_l1 = divide (avail_water_l1, avail_capacity_l1, 0 . 0)<br>
+
+supply_ratio_l1 = <A HREF = "#soilwat2_comp_curve"> Competition curve supply_ratio_l1, weighting 0 . 285 </A><br>
+
+supply_ratio_l1 = bound (supply_ratio_l1, 0 . 0, 1 . 0)<br>
+
+avail_water_l1_l2 = sw<SUB>(in mm)</SUB> (1) + sw<SUB>(in mm)</SUB> (2) - air_dry<SUB>(in mm)</SUB> (1) - ll15<SUB>(in mm)</SUB> (2)<br>
+
+avail_capacity_l1_l2 = dul<SUB>(in mm)</SUB> (1) + dul<SUB>(in mm)</SUB> (2) - air_dry<SUB>(in mm)</SUB> (1) - ll15<SUB>(in mm)</SUB> (2)<br>
+
+supply_ratio_l1_l2 = divide (avail_water_l1_l2, avail_capacity_l1_l2, 0 . 0)<br>
+
+supply_ratio_l1_l2 = <A HREF = "#soilwat2_comp_curve"> Competition curve supply_ratio_l1_l2, weighting 0 . 117 </A><br>
+
+supply_ratio_l1_l2 = bound (supply_ratio_l1_l2, 0 . 0, 1 . 0)<br>
+
+evap_l1 = supply_ratio_l1 * eos<br>
+
+eos_max = minimum of (max_evap, sw<SUB>(in mm)</SUB> (1) - air_dry<SUB>(in mm)</SUB> (1))<br>
+
+evap_l1 = bound (evap_l1, 0 . 0, eos_max)<br>
+
+if (supply_ratio_l1_l2.&gt;.supply_ratio_l1.and.sw<SUB>(in mm)</SUB> (2).&gt;.ll15<SUB>(in mm)</SUB> (2)) then<br>
+
+<blockquote>supply_ratio_l2 = supply_ratio_l1_l2 - supply_ratio_l1<br>
+
+evap_l2 = supply_ratio_l2 * eos<br>
+
+eos_max = minimum of (max_evap - evap_l1, sw<SUB>(in mm)</SUB> (2) - ll15<SUB>(in mm)</SUB> (2))<br>
+
+evap_l2 = bound (evap_l2, 0 . 0, eos_max)<br>
+
+</blockquote>else<br>
+
+<blockquote>evap_l2 = 0 . 0<br>
+
+</blockquote>endif<br>
+
+eos_max = sw<SUB>(in mm)</SUB> (1) - air_dry<SUB>(in mm)</SUB> (1) + sw<SUB>(in mm)</SUB> (2) - ll15<SUB>(in mm)</SUB> (2)<br>
+
+if (evap_l1+evap_l2.&gt;.eos_max) then<br>
+
+<blockquote>Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+es<I><SUB> 1</SUB></I> = evap_l1<br>
+
+es<I><SUB> 2</SUB></I> = evap_l2<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_comp_curve">  </A>
+<H2>Soilwat2 Comp Curve</H2>
+<br>
+<H3><CENTER>.... from GRASP (Surfair) Standard competition curve (or at least so McKeon calls it) This function is used by McKeon in several places to transform an index in the range [0-1] to another index in the same range, but weighted in a different way. The weighting is controlled by the a parameter. An "a" value  of 1 leaves the index untransformed.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+soilwat2_comp_curve = divide (a * ndx, ndx * (a-1.0) + 1 . 0, 0 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_unsat_flow">  </A>
+<H2>Soilwat2 Unsat Flow</H2>
+<br>
+<H3><CENTER>calculate unsaturated flow below drained upper limit   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill flow with 0 . 0<br>
+
+second_last_layer = num_layers - 1<br>
+
+w_out = 0 . 0<br>
+
+For each layer from 1 to second_last_layer<br>
+
+<blockquote>next_layer = layer + 1<br>
+
+dlayer1 = dlayer (layer)<br>
+
+dlayer2 = dlayer (next_layer)<br>
+
+ave_dlayer = (dlayer1+dlayer2) * 0 . 5<br>
+
+sw_dep1 = sw<SUB>(in mm)</SUB> (layer)<br>
+
+sw_dep2 = sw<SUB>(in mm)</SUB> (next_layer)<br>
+
+ll15_dep1 = ll15<SUB>(in mm)</SUB> (layer)<br>
+
+ll15_dep2 = ll15<SUB>(in mm)</SUB> (next_layer)<br>
+
+sat_dep1 = sat<SUB>(in mm)</SUB> (layer)<br>
+
+sat_dep2 = sat<SUB>(in mm)</SUB> (next_layer)<br>
+
+esw_dep1 = l_bound ((sw_dep1-w_out) - ll15_dep1, 0 . 0)<br>
+
+esw_dep2 = l_bound (sw_dep2 - ll15_dep2, 0 . 0)<br>
+
+theta1 = divide (esw_dep1, dlayer1, 0 . 0)<br>
+
+theta2 = divide (esw_dep2, dlayer2, 0 . 0)<br>
+
+dbar = diffus_const * <I><BIG>e</BIG></I><SUP>diffus_slope * (theta1+theta2) * 0 . 5</SUP><br>
+
+dbar = bound (dbar, 0 . 0, 10000 . 0)<br>
+
+sw1 = divide ((sw_dep1-w_out), dlayer1, 0 . 0)<br>
+
+sw1 = l_bound (sw1, 0 . 0)<br>
+
+sw2 = divide (sw_dep2, dlayer2, 0 . 0)<br>
+
+sw2 = l_bound (sw2, 0 . 0)<br>
+
+gradient = divide ((sw2-sw1), ave_dlayer, 0 . 0) - gravity_gradient<br>
+
+flow<I><SUB> layer</SUB></I> = dbar * gradient<br>
+
+swg = gravity_gradient * ave_dlayer<br>
+
+sum_inverse_dlayer = divide (1 . 0, dlayer1, 0 . 0) + divide (1 . 0, dlayer2, 0 . 0)<br>
+
+flow_max = divide ((sw2-sw1-swg), sum_inverse_dlayer, 0 . 0)<br>
+
+if (flow<I><SUB> layer</SUB></I>.&lt;.0.0) then<br>
+
+<blockquote>next_layer_cap = l_bound (sat_dep2 - sw_dep2, 0 . 0)<br>
+
+flow_max = l_bound (flow_max, - next_layer_cap)<br>
+
+flow_max = l_bound (flow_max, - esw_dep1)<br>
+
+flow<I><SUB> layer</SUB></I> = l_bound (flow<I><SUB> layer</SUB></I>, flow_max)<br>
+
+</blockquote>elseif (flow<I><SUB> layer</SUB></I>.&gt;.0.0) then<br>
+
+<blockquote>this_layer_cap = l_bound (sat_dep1 - (sw_dep1-w_out), 0 . 0)<br>
+
+flow_max = u_bound (flow_max, this_layer_cap)<br>
+
+flow_max = u_bound (flow_max, esw_dep2)<br>
+
+flow<I><SUB> layer</SUB></I> = u_bound (flow<I><SUB> layer</SUB></I>, flow_max)<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+w_out = flow<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_move_solute_up">  </A>
+<H2>Soilwat2 Move Solute Up</H2>
+<br>
+<H3><CENTER><insert here>   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>if (solute_mobility (solnum)) then<br>
+
+<blockquote>For each layer from 1 to maximum number of layers<br>
+
+<blockquote>temp_solute<I><SUB> layer</SUB></I> = solute (solnum, layer)<br>
+
+leach<I><SUB> layer</SUB></I> = 0 . 0<br>
+
+temp_solute_min<I><SUB> layer</SUB></I> = solute_min (solnum, layer)<br>
+
+temp_dlt_solute<I><SUB> layer</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>solute (solnum, layer)<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilwat2_solute_flow"> Calculate the Solute Movement with Unsaturated Water Flow </A><br>
+
+Move amounts leach up array temp_solute<br>
+
+Move amounts leach up array temp_dlt_solute<br>
+
+For each layer from 1 to maximum number of layers<br>
+
+<blockquote>solute (solnum, layer) = temp_solute<I><SUB> layer</SUB></I><br>
+
+solute_up (solnum, layer) = leach<I><SUB> layer</SUB></I><br>
+
+<FONT FACE = "SYMBOL">D</FONT>solute (solnum, layer) = temp_dlt_solute<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_solute_flow">  </A>
+<H2>Soilwat2 Solute Flow</H2>
+<br>
+<H3><CENTER>movement of solute in response to differences in water content of adjacent soil layers when the soil water content is < the drained upper limit (unsaturated flow)   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Fill solute_up with 0 . 0<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+in_solute = 0 . 0<br>
+
+For each layer from num_layers to 2 stepping by -1<br>
+
+<blockquote>solute_up<I><SUB> layer</SUB></I> = in_solute<br>
+
+out_w = flow (layer - 1)<br>
+
+if (out_w.&lt;=.0.0) then<br>
+
+<blockquote>out_solute = 0 . 0<br>
+
+</blockquote>else<br>
+
+<blockquote>bottomw = flow (layer)<br>
+
+solute_kg_layer = solute_kg<I><SUB> layer</SUB></I> + in_solute<br>
+
+water = sw<SUB>(in mm)</SUB> (layer) + out_w - bottomw<br>
+
+out_solute = solute_kg_layer * divide (out_w, water, 0 . 0) * solute_flow_eff<br>
+
+out_solute = bound (out_solute, 0 . 0, solute_kg_layer - solute_min<I><SUB> layer</SUB></I>)<br>
+
+</blockquote>endif<br>
+
+in_solute = out_solute<br>
+
+</blockquote>next<br>
+
+solute_up<I><SUB> 1</SUB></I> = in_solute<br>
+
+remain<I><SUB> 1</SUB></I> = solute_up<I><SUB> 1</SUB></I><br>
+
+For each layer from 2 to num_layers<br>
+
+<blockquote>remain<I><SUB> layer</SUB></I> = solute_up<I><SUB> layer</SUB></I> - solute_up<I><SUB> layer - 1</SUB></I><br>
+
+</blockquote>next<br>
+
+Fill solute_down with 0 . 0<br>
+
+in_solute = 0 . 0<br>
+
+top_w = 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>out_w = - flow (layer)<br>
+
+if (out_w.&lt;=.0.0) then<br>
+
+<blockquote>out_solute = 0 . 0<br>
+
+</blockquote>else<br>
+
+<blockquote>solute_kg_layer = solute_kg<I><SUB> layer</SUB></I> + in_solute + remain<I><SUB> layer</SUB></I><br>
+
+water = sw<SUB>(in mm)</SUB> (layer) + out_w - top_w<br>
+
+out_solute = solute_kg_layer * divide (out_w, water, 0 . 0) * solute_flow_eff<br>
+
+out_solute = round_to_zero (out_solute)<br>
+
+out_solute = bound (out_solute, 0 . 0, solute_kg_layer - solute_min<I><SUB> layer</SUB></I>)<br>
+
+</blockquote>endif<br>
+
+solute_down<I><SUB> layer</SUB></I> = out_solute<br>
+
+in_solute = out_solute<br>
+
+top_w = out_w<br>
+
+</blockquote>next<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>solute_up<I><SUB> layer</SUB></I> = solute_up<I><SUB> layer</SUB></I> - solute_down<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_set_other_variables">  </A>
+<H2>Soilwat2 Set Other Variables</H2>
+<br>
+<H3><CENTER>set the value of a variable or array in other module/s.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>Fill temp_dlt_solute with 0 . 0<br>
+
+For each layer from 1 to maximum number of layers<br>
+
+<blockquote>temp_dlt_solute<I><SUB> layer</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>solute (solnum, layer)<br>
+
+</blockquote>next<br>
+
+dlt_name = 'dlt_' + solute_names (solnum)<br>
+
+<br>
+
+Supply temp_dlt_solute to the messaging system using the name dlt_name<br>
+
+action_send<I><SUB> solute_owners (solnum), action_set_variable, dlt_name</SUB></I><br>
+
+<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_onirrigated">  </A>
+<H2>Soilwat2 Onirrigated</H2>
+<br>
+<H3><CENTER><insert here>   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get amount from the message (Lower Bound = 0 . 0, Upper Bound = 1000 .)<br>
+
+irrigation = irrigation + amount<br>
+
+For each solnum from 1 to number of solutes<br>
+
+<blockquote>Get solconc from the message (Lower Bound = 0 . 0, Upper Bound = 1000 .)<I>(OPTIONAL)</I><br>
+
+if (numvals.&gt;.0) then<br>
+
+<blockquote>irrigation_solute (solnum) = irrigation_solute (solnum) + solconc<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_tillage">  </A>
+<H2>Soilwat2 Tillage</H2>
+<br>
+<H3><CENTER>Set up for CN reduction after tillage operation   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get type from the message<br>
+
+Get tillage_cn_red from the message (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<I>(OPTIONAL)</I><br>
+
+Get tillage_cn_rain from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<I>(OPTIONAL)</I><br>
+
+if (numvals_cnred.&lt;=.0.or.numvals_cnrain.&lt;=.0) then<br>
+
+<blockquote>Write a string to a file<br>
+
+Read type_info from file (Lower Bound = numvals, Upper Bound = 0 . 0) <I>(OPTIONAL)</I><br>
+
+if (numvals.=/=.2) then<br>
+
+<blockquote>tillage_cn_red = 0 . 0<br>
+
+tillage_cn_rain = 0 . 0<br>
+
+string = 'cannot find info for tillage:- ' / / type<br>
+
+Report a fatal error<br>
+
+</blockquote>else<br>
+
+<blockquote>if (numvals_cnred.&lt;=.0) then<br>
+
+<blockquote>tillage_cn_red = type_info<I><SUB> 1</SUB></I><br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (numvals_cnrain.&lt;=.0) then<br>
+
+<blockquote>tillage_cn_rain = type_info<I><SUB> 2</SUB></I><br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>endif<br>
+
+</blockquote>endif<br>
+
+tillage_cn_red = bound (tillage_cn_red, 0 . 0, cn2_bare)<br>
+
+write (to string)  'soil tilled using ' , type , new_line , 'cn reduction = ' , tillage_cn_red , new_line , 'acc rain     = ' , tillage_cn_rain<br>
+
+Write a string to a file<br>
+
+tillage_rain_sum = 0 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_on_new_solute">  </A>
+<H2>Soilwat2 On New Solute</H2>
+<br>
+<H3><CENTER>Add new solute to internal list of system solutes   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get sender from the message<br>
+
+Get names from the message<br>
+
+if (number of solutes+numvals.&gt;.maximum number of solutes) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+<blockquote>For each counter from 1 to numvals<br>
+
+<blockquote>number of solutes = number of solutes + 1<br>
+
+solute_names (number of solutes) = names<I><SUB> counter</SUB></I><br>
+
+solute_owners (number of solutes) = sender<br>
+
+mobile_no = position_in_char_array (solute_names (number of solutes), mobile_solutes, maximum number of solutes)<br>
+
+immobile_no = position_in_char_array (solute_names (number of solutes), immobile_solutes, maximum number of solutes)<br>
+
+if (mobile_no.=/=.0) then<br>
+
+<blockquote>solute_mobility (number of solutes) = . true .<br>
+
+</blockquote>elseif (immobile_no.=/=.0) then<br>
+
+<blockquote>solute_mobility (number of solutes) = . false .<br>
+
+</blockquote>else<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+</blockquote>next<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_zero_variables">  </A>
+<H2>Soilwat2 Zero Variables</H2>
+<br>
+<H3><CENTER>zero variables & arrays   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+cover_surface_extra = 0 . 0<br>
+
+cover_surface_runoff = 0 . 0<br>
+
+cover<SUB>(total)</SUB> (:) = 0 . 0<br>
+
+cover_green (:) = 0 . 0<br>
+
+canopy_height (:) = 0 . 0<br>
+
+number of crops = 0<br>
+
+sumes1 = 0 . 0<br>
+
+sumes2 = 0 . 0<br>
+
+t = 0 . 0<br>
+
+solute_min (:, :) = 0 . 0<br>
+
+solute (:, :) = 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>solute (:, :) = 0 . 0<br>
+
+solute_leach (:, :) = 0 . 0<br>
+
+solute_up (:, :) = 0 . 0<br>
+
+irrigation_solute (:) = 0 . 0<br>
+
+number of irrigation_solutes = 0<br>
+
+residue_cover = 0 . 0<br>
+
+eo = 0 . 0<br>
+
+eos = 0 . 0<br>
+
+cn2_new = 0 . 0<br>
+
+air_dry<SUB>(in mm)</SUB> (:) = 0 . 0<br>
+
+bd (:) = 0 . 0<br>
+
+dul<SUB>(in mm)</SUB> (:) = 0 . 0<br>
+
+ll15<SUB>(in mm)</SUB> (:) = 0 . 0<br>
+
+sat<SUB>(in mm)</SUB> (:) = 0 . 0<br>
+
+flow (:) = 0 . 0<br>
+
+flux (:) = 0 . 0<br>
+
+sw<SUB>(in mm)</SUB> (:) = 0 . 0<br>
+
+es_layers (:) = 0 . 0<br>
+
+drain = 0 . 0<br>
+
+infiltration = 0 . 0<br>
+
+runoff = 0 . 0<br>
+
+irrigation = 0 . 0<br>
+
+obsrunoff = 0 . 0<br>
+
+tillage_cn_red = 0 . 0<br>
+
+tillage_cn_rain = 0 . 0<br>
+
+tillage_rain_sum = 0 . 0<br>
+
+obsrunoff_found = . false .<br>
+
+obsrunoff_name = ' '<br>
+
+number of canopy_fact = 0<br>
+
+inf_pool = 0 . 0<br>
+
+sumes_last = 0 . 0<br>
+
+sumes = 0 . 0<br>
+
+sumes_yest = 0 . 0<br>
+
+sumeos = 0 . 0<br>
+
+sumeos_last = 0 . 0<br>
+
+eo_system = 0 . 0<br>
+
+eo_source = ' '<br>
+
+pond = 0 . 0<br>
+
+water_table = 0 . 0<br>
+
+sws (:) = 0 . 0<br>
+
+dlayer (:) = 0 . 0<br>
+
+swcon (:) = 0 . 0<br>
+
+cn2_bare = 0 . 0<br>
+
+cn_cov = 0 . 0<br>
+
+cn_red = 0 . 0<br>
+
+cona = 0 . 0<br>
+
+diffus_const = 0 . 0<br>
+
+diffus_slope = 0 . 0<br>
+
+salb = 0 . 0<br>
+
+u = 0 . 0<br>
+
+insoil = 0 . 0<br>
+
+max_evap = 0 . 0<br>
+
+beta = 0 . 0<br>
+
+max_pond = 0 . 0<br>
+
+mwcon (:) = 0 . 0<br>
+
+hydrol_effective_depth = 0 . 0<br>
+
+mobile_solutes (:) = ' '<br>
+
+immobile_solutes (:) = ' '<br>
+
+min_crit_temp = 0 . 0<br>
+
+max_crit_temp = 0 . 0<br>
+
+max_albedo = 0 . 0<br>
+
+a_to_evap_fact = 0 . 0<br>
+
+canopy_eos_coef = 0 . 0<br>
+
+sw_top_crit = 0 . 0<br>
+
+sumes1_max = 0 . 0<br>
+
+sumes2_max = 0 . 0<br>
+
+solute_flux_eff = 0 . 0<br>
+
+solute_flow_eff = 0 . 0<br>
+
+gravity_gradient = 0 . 0<br>
+
+specific_bd = 0 . 0<br>
+
+canopy_fact (:) = 0 . 0<br>
+
+canopy_fact_height (:) = 0 . 0<br>
+
+canopy_fact_default = 0 . 0<br>
+
+evap_method = 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_zero_data_links">  </A>
+<H2>Soilwat2 Zero Data Links</H2>
+<br>
+<H3><CENTER>Zero information describing data links with other modules   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Fill solute_names with ' '<br>
+
+Fill solute_owners with ' '<br>
+
+Fill solute_mobility with . false .<br>
+
+number of solutes = 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_zero_event_data">  </A>
+<H2>Soilwat2 Zero Event Data</H2>
+<br>
+<H3><CENTER>Zero information describing event data from other modules   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+year = 0<br>
+
+day = 0<br>
+
+rain = 0 . 0<br>
+
+radn = 0 . 0<br>
+
+mint = 0 . 0<br>
+
+maxt = 0 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_init">  </A>
+<H2>Soilwat2 Init</H2>
+<br>
+<H3><CENTER>input initial values from soil water parameter files.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#soilwat2_read_constants"> Read Constants from Ini file </A><br>
+
+<A HREF = "#soilwat2_soil_property_param"> Read Soil Parameters </A><br>
+
+<A HREF = "#soilwat2_soil_profile_param"> Read Initial Soil Profile Values </A><br>
+
+<A HREF = "#soilwat2_evap_init"> Evaporation Initialisation </A><br>
+
+<A HREF = "#soilwat2_new_profile_event"> Advise other modules of new profile specification </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_read_constants">  </A>
+<H2>Soilwat2 Read Constants</H2>
+<br>
+<H3><CENTER>Read in all coefficients from coefficient file.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+Read min_crit_temp from file (Lower Bound = 0 . 0, Upper Bound = 10 . 0)<br>
+
+Read max_crit_temp from file (Lower Bound = 0 . 0, Upper Bound = 50 . 0)<br>
+
+Read max_albedo from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read a_to_evap_fact from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read canopy_eos_coef from file (Lower Bound = 0 . 0, Upper Bound = 10 . 0)<br>
+
+Read sw_top_crit from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read sumes1_max from file (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Read sumes2_max from file (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Read solute_flow_eff from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read solute_flux_eff from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read gravity_gradient from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read specific_bd from file (Lower Bound = 0 . 0, Upper Bound = 3 . 0)<br>
+
+Read hydrol_effective_depth from file (Lower Bound = 1 . 0, Upper Bound = 1000 . 0)<br>
+
+Read mobile_solutes from file<br>
+
+Read immobile_solutes from file<br>
+
+Read canopy_fact from file (Lower Bound = number of canopy_fact, Upper Bound = 0 . 0)<br>
+
+Read canopy_fact_height from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+if (numvals.=/=.number of canopy_fact) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read canopy_fact_default from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+evap_method = 'unknown'<br>
+
+Read evap_method from file<br>
+
+if (evap_method.=.'ritchie') then<br>
+
+<blockquote>evap_method = ritchie_method<br>
+
+</blockquote>else if (evap_method.=.'bs_a') then<br>
+
+<blockquote>evap_method = bs_a_method<br>
+
+</blockquote>else if (evap_method.=.'bs_b') then<br>
+
+<blockquote>evap_method = bs_b_method<br>
+
+</blockquote>else if (evap_method.=.'bs_acs_jd') then<br>
+
+<blockquote>evap_method = bs_acs_method<br>
+
+</blockquote>else if (evap_method.=.'rickert') then<br>
+
+<blockquote>evap_method = rickert_method<br>
+
+</blockquote>else<br>
+
+<blockquote>evap_method = - 1<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_soil_property_param">  </A>
+<H2>Soilwat2 Soil Property Param</H2>
+<br>
+<H3><CENTER>input initial values from soil property file.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+Read obsrunoff_name from file <I>(OPTIONAL)</I><br>
+
+if (numvals.=.0.or.obsrunoff_name.=.'blank') then<br>
+
+<blockquote>obsrunoff_name = blank<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read insoil from file (Lower Bound = 0 . 0, Upper Bound = 10 . 0)<br>
+
+Read diffus_const from file (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Read diffus_slope from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+Read cn2_bare from file (Lower Bound = 1 . 0, Upper Bound = 100 . 0)<br>
+
+Read cn_red from file (Lower Bound = 0 . 0, Upper Bound = cn2_bare - 0 . 00009)<br>
+
+Read cn_cov from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read max_pond from file (Lower Bound = 0 . 0, Upper Bound = 1000 . 0) <I>(OPTIONAL)</I><br>
+
+Read salb from file (Lower Bound = 0 . 0001, Upper Bound = 1 . 0)<br>
+
+if (evap_method.=.ritchie_method.or.evap_method.=.bs_acs_method) then<br>
+
+<blockquote>Read cona from file (Lower Bound = 0 . 0001, Upper Bound = 10 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>cona = 0 . 0001<br>
+
+</blockquote>endif<br>
+
+if (evap_method.=.ritchie_method.or.evap_method.=.bs_acs_method) then<br>
+
+<blockquote>Read u from file (Lower Bound = 0 . 0001, Upper Bound = 40 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>u = 0 . 0001<br>
+
+</blockquote>endif<br>
+
+if (evap_method.=.bs_a_method.or.evap_method.=.bs_b_method.or.evap_method.=.bs_acs_method) then<br>
+
+<blockquote>Read beta from file (Lower Bound = 0 . 0, Upper Bound = 3 . 5)<br>
+
+</blockquote>else<br>
+
+<blockquote>beta = 0 . 0<br>
+
+</blockquote>endif<br>
+
+if (evap_method.=.rickert_method) then<br>
+
+<blockquote>Read max_evap from file (Lower Bound = 0 . 9, Upper Bound = 20 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>max_evap = 0 . 0<br>
+
+</blockquote>endif<br>
+
+Read eo_source from file <I>(OPTIONAL)</I><br>
+
+if (numvals.&lt;=.0) then<br>
+
+<blockquote>eo_source = blank<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_soil_profile_param">  </A>
+<H2>Soilwat2 Soil Profile Param</H2>
+<br>
+<H3><CENTER>input initial values from soil parameter file.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+Read dlayer from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read sat from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read dul from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read sw from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read ll15 from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read air_dry from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read swcon from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read mwcon from file (Lower Bound = numvals, Upper Bound = 0 . 0) <I>(OPTIONAL)</I><br>
+
+if (numvals.=.0) then<br>
+
+<blockquote>mwcon (:) = 1 . 0<br>
+
+</blockquote>endif<br>
+
+Read bd from file (Lower Bound = numvals, Upper Bound = 0 . 01)<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>air_dry<SUB>(in mm)</SUB> (layer) = air_dry<I><SUB> layer</SUB></I> * dlayer (layer)<br>
+
+dul<SUB>(in mm)</SUB> (layer) = dul<I><SUB> layer</SUB></I> * dlayer (layer)<br>
+
+ll15<SUB>(in mm)</SUB> (layer) = ll15<I><SUB> layer</SUB></I> * dlayer (layer)<br>
+
+sat<SUB>(in mm)</SUB> (layer) = sat<I><SUB> layer</SUB></I> * dlayer (layer)<br>
+
+sw<SUB>(in mm)</SUB> (layer) = sw<I><SUB> layer</SUB></I> * dlayer (layer)<br>
+
+<A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+if (insoil.&gt;=.0.0.and.insoil.&lt;=.1.0) then<br>
+
+<blockquote>msg = 'soil water in parameter file is being overridden by' / / new_line / / 'the insoil parameter which is between 0 and 1'<br>
+
+Write a string to a file<br>
+
+<A HREF = "#soilwat2_set_default"> Set Default Soil Water Values </A><br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_set_default">  </A>
+<H2>Soilwat2 Set Default</H2>
+<br>
+<H3><CENTER>set default soil water values   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Fill sw<SUB>(in mm)</SUB> with 0 . 0<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>sw<SUB>(in mm)</SUB> (layer) = ll15<SUB>(in mm)</SUB> (layer) + (dul<SUB>(in mm)</SUB> (layer)-ll15<SUB>(in mm)</SUB> (layer)) * insoil<br>
+
+<A HREF = "#soilwat2_layer_check"> Check Soil Water Parameters for a given layer </A><br>
+
+<A HREF = "#soilwat2_check_profile"> Check Soil Water Parameters for each layer </A><br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_layer_check">  </A>
+<H2>Soilwat2 Layer Check</H2>
+<br>
+<H3><CENTER>checks that layer lies in range of 1 - num_layers   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+if (layer.&lt;.min_layer) then<br>
+
+<blockquote>write (to err_messg)  ' soil layer no. ' , layer , ' is below mimimum of ' , min_layer<br>
+
+Print a warning error<br>
+
+</blockquote>else if (layer.&gt;.num_layers) then<br>
+
+<blockquote>write (to err_messg)  ' soil layer no. ' , layer , ' is above maximum of ' , num_layers<br>
+
+Print a warning error<br>
+
+</blockquote>endif<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_evap_init">  </A>
+<H2>Soilwat2 Evap Init</H2>
+<br>
+<H3><CENTER>Wrapper for evaporation methods   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (evap_method.=.ritchie_method) then<br>
+
+<blockquote><A HREF = "#soilwat2_ritchie_init"> Initialise ritchie evaporation model </A><br>
+
+</blockquote>else if (evap_method.=.bs_a_method) then<br>
+
+<blockquote><A HREF = "#soilwat2_bs_a_init"> Initialise B&S (A) model for evaporation </A><br>
+
+</blockquote>else if (evap_method.=.bs_b_method) then<br>
+
+<blockquote><A HREF = "#soilwat2_bs_b_init"> Initialise B&S (B) model for evaporation </A><br>
+
+</blockquote>else if (evap_method.=.bs_acs_method) then<br>
+
+<blockquote><A HREF = "#soilwat2_bs_acs_init"> Initialise B&S (B, ACS) model for evaporation </A><br>
+
+</blockquote>else if (evap_method.=.rickert_method) then<br>
+
+<blockquote><A HREF = "#soilwat2_rickert_init"> Calculate evaporation using Rickert model </A><br>
+
+</blockquote>else<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_ritchie_init">  </A>
+<H2>Soilwat2 Ritchie Init</H2>
+<br>
+<H3><CENTER>initialize ritchie evaporation model   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+swr_top = divide (sw<SUB>(in mm)</SUB> (1) - ll15<SUB>(in mm)</SUB> (1), dul<SUB>(in mm)</SUB> (1) - ll15<SUB>(in mm)</SUB> (1), 0 . 0)<br>
+
+swr_top = bound (swr_top, 0 . 0, 1 . 0)<br>
+
+if (swr_top.&lt;.sw_top_crit) then<br>
+
+<blockquote>sumes2 = sumes2_max - sumes2_max * divide (swr_top, sw_top_crit, 0 . 0)<br>
+
+sumes1 = u<br>
+
+t = (divide (sumes2, cona, 0 . 0)) * * 2<br>
+
+</blockquote>else<br>
+
+<blockquote>sumes2 = 0 . 0<br>
+
+sumes1 = sumes1_max - sumes1_max * swr_top<br>
+
+t = 0 . 0<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_bs_a_init">  </A>
+<H2>Soilwat2 Bs A Init</H2>
+<br>
+<H3><CENTER>B&S option A initialisation   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+sumes_max = dul<SUB>(in mm)</SUB> (1) - air_dry<SUB>(in mm)</SUB> (1)<br>
+
+sumes = dul<SUB>(in mm)</SUB> (1) - sw<SUB>(in mm)</SUB> (1)<br>
+
+if (sumes.&lt;=.0.0) then<br>
+
+<blockquote>sumes = 0 . 0<br>
+
+sumes1 = 0 . 0<br>
+
+sumes2 = 0 . 0<br>
+
+sumeos = 0 . 0<br>
+
+</blockquote>else if (sumes.&gt;.sumes_max) then<br>
+
+<blockquote>sumes = sumes_max<br>
+
+sumes1 = beta * * 2<br>
+
+sumes2 = sumes - sumes1<br>
+
+sumeos = divide (sumes * * 2, beta * * 2, 0 . 0)<br>
+
+</blockquote>elseif (sumes.&gt;=.(beta**2)) then<br>
+
+<blockquote>sumes1 = beta * * 2<br>
+
+sumes2 = sumes - sumes1<br>
+
+sumeos = divide (sumes * * 2, beta * * 2, 0 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>sumes1 = sumes<br>
+
+sumes2 = 0 . 0<br>
+
+sumeos = sumes<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_bs_b_init">  </A>
+<H2>Soilwat2 Bs B Init</H2>
+<br>
+<H3><CENTER>B&S option B initialisation   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#soilwat2_bs_a_init"> Initialise B&S (A) model for evaporation </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_bs_acs_init">  </A>
+<H2>Soilwat2 Bs Acs Init</H2>
+<br>
+<H3><CENTER>B&S option B initialisation. (Andy smith + John dimes' version)  PdeV - I hope andy wasn't recycling variable names here, as this is the only time cona and u are used with this model.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+sumes2_max = dul<SUB>(in mm)</SUB> (1) - air_dry<SUB>(in mm)</SUB> (1) - u<br>
+
+if ((dul<SUB>(in mm)</SUB> (1)-sw<SUB>(in mm)</SUB> (1)).&lt;.u) then<br>
+
+<blockquote>sumes1 = dul<SUB>(in mm)</SUB> (1) - sw<SUB>(in mm)</SUB> (1)<br>
+
+if (sumes1 . &lt; . 0 . 0) then<br>
+
+sumes1 = 0 . 0<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+sumes2 = 0 . 0<br>
+
+t = 0 . 0<br>
+
+</blockquote>else<br>
+
+<blockquote>sumes1 = u<br>
+
+sumes2 = dul<SUB>(in mm)</SUB> (1) - sw<SUB>(in mm)</SUB> (1) - u<br>
+
+if (sumes2.&gt;.sumes2_max) then<br>
+
+<blockquote>sumes2 = sumes2_max<br>
+
+</blockquote>endif<br>
+
+t = divide (sumes2, cona, 0 . 0) * * 2<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_rickert_init">  </A>
+<H2>Soilwat2 Rickert Init</H2>
+<br>
+<H3><CENTER>Rickert initialisation   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (diffus_const.&gt;.0.0.or.diffus_slope.&gt;.0.0) then<br>
+
+<blockquote>Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilwat2_sum_report">  </A>
+<H2>Soilwat2 Sum Report</H2>
+<br>
+<H3><CENTER><insert here>   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+line = '                 soil profile properties'<br>
+
+Write a string to a file<br>
+
+line = '   -----------------------------------------------------------' / / '----------'<br>
+
+Write a string to a file<br>
+
+line = '         depth  air_dry  ll15   dul    sat     sw     bd   ' / / 'runoff  swcon'<br>
+
+Write a string to a file<br>
+
+line = '           mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf'<br>
+
+Write a string to a file<br>
+
+line = '   -----------------------------------------------------------' / / '----------'<br>
+
+Write a string to a file<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+depth_layer_top = 0 . 0<br>
+
+<A HREF = "#soilwat2_runoff_depth_factor"> Calculate soil moisture effect on runoff </A><br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>depth_layer_bottom = depth_layer_top + dlayer (layer)<br>
+
+write (to line)  depth_layer_top , '-' , depth_layer_bottom , divide (air_dry<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0) , divide (ll15<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0) , divide (dul<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0) , divide (sat<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0) , divide (sw<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0) , bd (layer) , runoff_wf<I><SUB> layer</SUB></I> , swcon (layer)<br>
+
+Write a string to a file<br>
+
+depth_layer_top = depth_layer_bottom<br>
+
+</blockquote>next<br>
+
+line = '   -----------------------------------------------------------' / / '----------'<br>
+
+Write a string to a file<br>
+
+Write a string to a file<br>
+
+line = '             soil water holding capacity'<br>
+
+Write a string to a file<br>
+
+line = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+line = '         depth    unavailable available  max avail.  drainable'<br>
+
+Write a string to a file<br>
+
+line = ' (ll15 ) (sw-ll15) (dul-ll15) (sat-dul))<br>
+
+Write a string to a file<br>
+
+line = '                       mm        mm          mm         mm'<br>
+
+Write a string to a file<br>
+
+line = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+depth_layer_top = 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>depth_layer_bottom = depth_layer_top + dlayer (layer)<br>
+
+usw<I><SUB> layer</SUB></I> = ll15<SUB>(in mm)</SUB> (layer)<br>
+
+asw<I><SUB> layer</SUB></I> = l_bound (sw<SUB>(in mm)</SUB> (layer) - ll15<SUB>(in mm)</SUB> (layer), 0 . 0)<br>
+
+masw<I><SUB> layer</SUB></I> = dul<SUB>(in mm)</SUB> (layer) - ll15<SUB>(in mm)</SUB> (layer)<br>
+
+dsw<I><SUB> layer</SUB></I> = sat<SUB>(in mm)</SUB> (layer) - dul<SUB>(in mm)</SUB> (layer)<br>
+
+write (to line)  depth_layer_top , '-' , depth_layer_bottom , usw<I><SUB> layer</SUB></I> , asw<I><SUB> layer</SUB></I> , masw<I><SUB> layer</SUB></I> , dsw<I><SUB> layer</SUB></I><br>
+
+Write a string to a file<br>
+
+depth_layer_top = depth_layer_bottom<br>
+
+</blockquote>next<br>
+
+line = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+write (to line)  sum_real_array (usw, num_layers) , sum_real_array (asw, num_layers) , sum_real_array (masw, num_layers) , sum_real_array (dsw, num_layers)<br>
+
+Write a string to a file<br>
+
+line = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+Write a string to a file<br>
+
+Write a string to a file<br>
+
+line = '             initial soil parameters'<br>
+
+Write a string to a file<br>
+
+line = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+line = '            insoil        salb     dif_con   dif_slope'<br>
+
+Write a string to a file<br>
+
+line = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+write (to line)  insoil , salb , diffus_const , diffus_slope<br>
+
+Write a string to a file<br>
+
+line = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+Write a string to a file<br>
+
+if (obsrunoff_name.=/=.blank) then<br>
+
+<blockquote>write (to line)  '             observed runoff data , obsrunoff_name (1 : lastnb (obsrunoff_name)) , ' ) is used in water balance'<br>
+
+Write a string to a file<br>
+
+</blockquote>else<br>
+
+<blockquote>Write a string to a file<br>
+
+line = '           cn2  cn_red  cn_cov   h_eff_depth '<br>
+
+Write a string to a file<br>
+
+line = '                                      mm     '<br>
+
+Write a string to a file<br>
+
+line = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+write (to line)  cn2_bare , cn_red , cn_cov , hydrol_effective_depth<br>
+
+Write a string to a file<br>
+
+line = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+</blockquote>endif<br>
+
+Write a string to a file<br>
+
+if (evap_method.=.ritchie_method) then<br>
+
+<blockquote>line = '      using ritchie evaporation model'<br>
+
+Write a string to a file<br>
+
+write (to line)  'cuml evap (u ) :) , u , ' (mm0 . 5 ))<br>
+
+Write a string to a file<br>
+
+write (to line)  'cona:                 ' , cona , ' ())<br>
+
+Write a string to a file<br>
+
+</blockquote>else if (evap_method.=.bs_a_method) then<br>
+
+<blockquote>line = '      using b&s option a evaporation method'<br>
+
+Write a string to a file<br>
+
+write (to line)  'beta:                 ' , beta , ' (mm0 . 5 ))<br>
+
+Write a string to a file<br>
+
+</blockquote>else if (evap_method.=.bs_b_method) then<br>
+
+<blockquote>line = '      using b&s option b evaporation method'<br>
+
+Write a string to a file<br>
+
+write (to line)  'beta:                 ' , beta , ' (mm0 . 5 ))<br>
+
+Write a string to a file<br>
+
+</blockquote>else if (evap_method.=.bs_acs_method) then<br>
+
+<blockquote>line = '      using b&s option b method with acs/jd mods'<br>
+
+Write a string to a file<br>
+
+write (to line)  'cuml evap (u ) :) , u , ' (mm ))<br>
+
+Write a string to a file<br>
+
+write (to line)  'cona:                 ' , cona , ' ())<br>
+
+Write a string to a file<br>
+
+write (to line)  'beta:                 ' , beta , ' (mm0 . 5 ))<br>
+
+Write a string to a file<br>
+
+</blockquote>else if (evap_method.=.rickert_method) then<br>
+
+<blockquote>line = '      using rickert evaporation method'<br>
+
+Write a string to a file<br>
+
+write (to line)  'max daily evaporation:' , max_evap , ' (mm ))<br>
+
+Write a string to a file<br>
+
+</blockquote>else<br>
+
+<blockquote>line = '     using unknown evaporation method!'<br>
+
+Write a string to a file<br>
+
+</blockquote>endif<br>
+
+if (eo_source.=/=.blank) then<br>
+
+<blockquote>write (to line)  'eo source:             ' , eo_source<br>
+
+Write a string to a file<br>
+
+</blockquote>else<br>
+
+<blockquote>write (to line)  'eo from priestly-taylor'<br>
+
+Write a string to a file<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.soilwat2.constants"> Standard Constants </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "min_crit_temp"> min_crit_temp </A></TD><TD> temperature below which eeq decreases (oC)</TD><TD> 5.0  (oC)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "max_crit_temp"> max_crit_temp </A></TD><TD> temperature above which eeq increases (oC)</TD><TD> 35.0  (oC)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "max_albedo"> max_albedo </A></TD><TD> albedo at 100% green crop cover (0-1). Bare soil albedo must not exceed this value.</TD><TD> 0.23  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "a_to_evap_fact"> a_to_evap_fact </A></TD><TD> converts residue specfic area "A" to a coef. in exp effect on reducing pot. soil evap for wt. of mixed residues. 0.44 = 0.00022/0.0005 DMS 1st approx. 6/95</TD><TD> 0.44       ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "canopy_eos_coef"> canopy_eos_coef </A></TD><TD> coef. in exp effect of canopy on reducing pot. soil evap. = 1.7 Adams, Arkin & Ritchie 1976</TD><TD> 1.7        ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "sw_top_crit"> sw_top_crit </A></TD><TD> critical sw ratio in top layer below which stage 2 evaporation occurs</TD><TD> 0.9  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "sumes1_max"> sumes1_max </A></TD><TD> upper limit of sumes1</TD><TD> 100.0  (mm)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "sumes2_max"> sumes2_max </A></TD><TD> upper limit of sumes2</TD><TD> 25.0  (mm)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "solute_flow_eff"> solute_flow_eff </A></TD><TD> efficiency of moving solute with flow (0-1)</TD><TD> 0.5  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "solute_flux_eff"> solute_flux_eff </A></TD><TD> efficiency of moving solute with flux (0-1)</TD><TD> 0.5  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "gravity_gradient"> gravity_gradient </A></TD><TD> soil water gradient due to gravitational pressure head</TD><TD> 0.00002  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "specific_bd"> specific_bd </A></TD><TD> specific bulk density</TD><TD> 2.65  (g/cc)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "hydrol_effective_depth"> hydrol_effective_depth </A></TD><TD></TD><TD> 450  (mm)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "mobile_solutes"> mobile_solutes </A></TD><TD></TD><TD> no3 urea cl br org_n org_c_pool1 org_c_pool2 org_c_pool3 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "immobile_solutes"> immobile_solutes </A></TD><TD></TD><TD> nh4 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "canopy_fact"> canopy_fact </A></TD><TD></TD><TD>        1.0  1.0  0.0  0.0   ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "canopy_fact_height"> canopy_fact_height </A></TD><TD></TD><TD>   0  600  1800 30000  (mm)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "canopy_fact_default"> canopy_fact_default </A></TD><TD> canopy factor to use if height is missing</TD><TD> 0.5  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "act_evap_method"> act_evap_method </A></TD><TD></TD><TD> ritchie act_evap_method = rickert act_evap_method = bs_a act_evap_method = bs_b ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.soilwat2.tillage"> Standard Tillage </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "chisel"> chisel </A></TD><TD> will have no effect - SOILWAT the same as old ver.</TD><TD>      0.0           0.    ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "disc"> disc </A></TD><TD></TD><TD>      0.0           0. ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "planter"> planter </A></TD><TD></TD><TD>      0.0           0. ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "burn"> burn </A></TD><TD></TD><TD>      0.0           0. ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "">  </A></TD><TD></TD><TD> ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<br>
+<A NAME = "Contact Information"> <H2>Contact Information</H2> </A>
+For Further Information Please Contact:
+<p>
+<A HREF = "mailto:SilburM@dpi.qld.gov.au"> Mark Silburn - Module Developer </A><br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+Date: 11/01/2001  APseudo Version:  1. 0 Rev.  1<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
