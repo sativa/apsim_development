@@ -192,7 +192,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\clock\lib\clock.dll</dll>
-         <ini>%apsuite\apsim\clock\clock.ini</ini>
+         <ini>%apsuite\apsim\clock\clock.xml</ini>
       </ApsimToSim>
    </clock>
    <FarmwiseSequencerConverter>
@@ -209,7 +209,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll</dll>
-         <ini>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.ini</ini>
+         <ini>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.xml</ini>
       </ApsimToSim>
    </FarmwiseSequencerConverter>
    <summaryfile>
@@ -359,7 +359,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\fertiliz\lib\fertiliz.dll</dll>
-         <ini>%apsuite\apsim\fertiliz\fertiliz.ini</ini>
+         <ini>%apsuite\apsim\fertiliz\fertiliz.xml</ini>
       </ApsimToSim>
 
    </fertiliser>
@@ -555,7 +555,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\micromet\lib\micromet.dll</dll>
-         <ini>%apsuite\apsim\micromet\micromet.ini</ini>
+         <ini>%apsuite\apsim\micromet\micromet.xml</ini>
          <sim>
             <soil_albedo>[micromet.soilalbedo]</soil_albedo>
             <a_interception>[micromet.a_interception]</a_interception>
@@ -782,7 +782,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\stock\lib\stockscienceconverter.dll</dll>
-         <ini>%apsuite\apsim\stock\stockscienceconverter.ini</ini>
+         <ini>%apsuite\apsim\stock\stockscienceconverter.xml</ini>
          <recurse>yes</recurse>
          <sim>
             [StockHerbageConverter.innerxml]
@@ -804,7 +804,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\stock\lib\stockscienceconverter.dll</dll>
-         <ini>%apsuite\apsim\stock\stockscienceconverter.ini</ini>
+         <ini>%apsuite\apsim\stock\stockscienceconverter.xml</ini>
          <recurse>yes</recurse>
          <sim>
             [StockScienceConverter.innerxml]
@@ -1054,7 +1054,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\surfaceom\lib\surfaceom.dll</dll>
-         <ini>%apsuite\apsim\surfaceom\surfaceom.ini</ini>
+         <ini>%apsuite\apsim\surfaceom\surfaceom.xml</ini>
          <sim>
             <name>[surfaceom.PoolName]</name>
             <type>[surfaceom.type]</type>
@@ -1100,7 +1100,7 @@
      <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\erosion\lib\erosion.dll</dll>
-         <ini>%apsuite\apsim\erosion\erosion.ini</ini>
+         <ini>%apsuite\apsim\erosion\erosion.xml</ini>
          <sim>
           <model>[erosion.model]</model>
           <slope>[erosion.slope]</slope>
@@ -1174,7 +1174,7 @@
      <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\grasp\lib\grasp.dll</dll>
-         <ini>%apsuite\apsim\grasp\grasp.ini</ini>
+         <ini>%apsuite\apsim\grasp\grasp.xml</ini>
          <sim>
           <establishment>
            <root_depth_init>[grasp.root_depth_init]</root_depth_init>
@@ -1257,7 +1257,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\broccoli\broccoli.ini</ini>
+         <ini>%apsuite\apsim\broccoli\broccoli.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1284,7 +1284,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\lettuce\lettuce.ini</ini>
+         <ini>%apsuite\apsim\lettuce\lettuce.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1313,7 +1313,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\butterflypea\butterflypea.ini</ini>
+         <ini>%apsuite\apsim\butterflypea\butterflypea.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1371,7 +1371,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\canola\canola.ini</ini>
+         <ini>%apsuite\apsim\canola\canola.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1400,7 +1400,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\centro\centro.ini</ini>
+         <ini>%apsuite\apsim\centro\centro.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1437,7 +1437,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\chickpea\chickpea.ini</ini>
+         <ini>%apsuite\apsim\chickpea\chickpea.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1470,7 +1470,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\cowpea\cowpea.ini</ini>
+         <ini>%apsuite\apsim\cowpea\cowpea.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1501,7 +1501,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\fababean\fababean.ini</ini>
+         <ini>%apsuite\apsim\fababean\fababean.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1535,7 +1535,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\fieldpea\fieldpea.ini</ini>
+         <ini>%apsuite\apsim\fieldpea\fieldpea.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1568,7 +1568,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\lablab\lablab.ini</ini>
+         <ini>%apsuite\apsim\lablab\lablab.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1609,7 +1609,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\lucerne\lucerne.ini</ini>
+         <ini>%apsuite\apsim\lucerne\lucerne.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1648,7 +1648,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\lupin\lupin.ini</ini>
+         <ini>%apsuite\apsim\lupin\lupin.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1751,7 +1751,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\maize\lib\maize.dll</dll>
-         <ini>%apsuite\apsim\maize\maize.ini</ini>
+         <ini>%apsuite\apsim\maize\maize.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1780,7 +1780,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\mucuna\mucuna.ini</ini>
+         <ini>%apsuite\apsim\mucuna\mucuna.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1819,7 +1819,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\mungbean\mungbean.ini</ini>
+         <ini>%apsuite\apsim\mungbean\mungbean.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1850,7 +1850,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\horsegram\horsegram.ini</ini>
+         <ini>%apsuite\apsim\horsegram\horsegram.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1884,7 +1884,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\navybean\navybean.ini</ini>
+         <ini>%apsuite\apsim\navybean\navybean.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -1989,7 +1989,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\ozcot\lib\ozcot.dll</dll>
-         <ini>%apsuite\apsim\ozcot\ozcot.ini</ini>
+         <ini>%apsuite\apsim\ozcot\ozcot.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2059,7 +2059,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\oryza\lib\oryza.dll</dll>
-         <ini>%apsuite\apsim\oryza\oryza.ini</ini>
+         <ini>%apsuite\apsim\oryza\oryza.xml</ini>
          <sim>
             <direct-seed>
                <estab>direct-seed</estab>
@@ -2106,7 +2106,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\peanut\peanut.ini</ini>
+         <ini>%apsuite\apsim\peanut\peanut.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2139,7 +2139,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\pigeonp\pigeonp.ini</ini>
+         <ini>%apsuite\apsim\pigeonp\pigeonp.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2169,7 +2169,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\potato\potato.ini</ini>
+         <ini>%apsuite\apsim\potato\potato.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2216,7 +2216,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\growth\lib\growth.dll</dll>
-         <ini>%apsuite\apsim\seedling\seedling.ini</ini>
+         <ini>%apsuite\apsim\seedling\seedling.xml</ini>
          <sim>
             <uptake_source>calc</uptake_source>
             <n_uptake_source>calc</n_uptake_source>
@@ -2342,7 +2342,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\sorghum\lib\sorghum.dll</dll>
-         <ini>%apsuite\apsim\sorghum\sorghum.ini</ini>
+         <ini>%apsuite\apsim\sorghum\sorghum.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2381,7 +2381,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\soybean\soybean.ini</ini>
+         <ini>%apsuite\apsim\soybean\soybean.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2410,7 +2410,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\stylo\stylo.ini</ini>
+         <ini>%apsuite\apsim\stylo\stylo.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2514,7 +2514,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\sugar\lib\sugar.dll</dll>
-         <ini>%apsuite\apsim\sugar\sugar.ini</ini>
+         <ini>%apsuite\apsim\sugar\sugar.xml</ini>
          <sim>
             <uptake_source>calc</uptake_source>
             <rlv>0.04  0.02  0.01  .005  0.00  0.00 0.00</rlv>
@@ -2607,7 +2607,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\cropmod\lib\cropmod.dll</dll>
-         <ini>%apsuite\apsim\sunflower\sunflower.ini</ini>
+         <ini>%apsuite\apsim\sunflower\sunflower.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2636,7 +2636,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\SweetCorn\SweetCorn.ini</ini>
+         <ini>%apsuite\apsim\SweetCorn\SweetCorn.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2665,7 +2665,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\sweetsorghum\sweetsorghum.ini</ini>
+         <ini>%apsuite\apsim\sweetsorghum\sweetsorghum.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2714,7 +2714,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\weed\weed.ini</ini>
+         <ini>%apsuite\apsim\weed\weed.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2840,7 +2840,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\wheat\wheat.ini</ini>
+         <ini>%apsuite\apsim\wheat\wheat.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2875,7 +2875,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\oats\oats.ini</ini>
+         <ini>%apsuite\apsim\oats\oats.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -2924,7 +2924,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\growth\lib\growth.dll</dll>
-         <ini>%apsuite\apsim\bambatsi\bambatsi.ini</ini>
+         <ini>%apsuite\apsim\bambatsi\bambatsi.xml</ini>
          <sim>
             <uptake_source>calc</uptake_source>
             <n_uptake_source>calc</n_uptake_source>
@@ -2971,7 +2971,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
-         <ini>%apsuite\apsim\barley\barley.ini</ini>
+         <ini>%apsuite\apsim\barley\barley.xml</ini>
          <calldll>
             <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
@@ -3118,7 +3118,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\solute\lib\solute.dll</dll>
-         <ini>%apsuite\apsim\solute\solute.ini</ini>
+         <ini>%apsuite\apsim\solute\solute.xml</ini>
          <sim>
             <solute_names>cl</solute_names>
             <d0_cl>[solute.d0]</d0_cl>
@@ -3367,7 +3367,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\growth\lib\growth.dll</dll>
-         <ini>%apsuite\apsim\egrandis\egrandis.ini</ini>
+         <ini>%apsuite\apsim\egrandis\egrandis.xml</ini>
          <sim>
             <uptake_source>calc</uptake_source>
             <n_uptake_source>calc</n_uptake_source>
@@ -3421,7 +3421,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\growth\lib\growth.dll</dll>
-         <ini>%apsuite\apsim\Emelliodora\Emelliodora.ini</ini>
+         <ini>%apsuite\apsim\Emelliodora\Emelliodora.xml</ini>
          <sim>
             <uptake_source>calc</uptake_source>
             <n_uptake_source>calc</n_uptake_source>
@@ -3475,7 +3475,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\growth\lib\growth.dll</dll>
-         <ini>%apsuite\apsim\epopulnea\epopulnea.ini</ini>
+         <ini>%apsuite\apsim\epopulnea\epopulnea.xml</ini>
          <sim>
             <uptake_source>calc</uptake_source>
             <n_uptake_source>calc</n_uptake_source>
@@ -3944,7 +3944,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\soiltemp\lib\soiltemp.dll</dll>
-         <ini>%apsuite\apsim\soiltemp\soiltemp.ini</ini>
+         <ini>%apsuite\apsim\soiltemp\soiltemp.xml</ini>
       </ApsimToSim>
    </soiltemp>
    <canopy>

@@ -219,6 +219,11 @@ class EXPORT ApsimControlFile
                         const std::string& moduleName);
 
       // ------------------------------------------------------------------
+      // Rename all standard .ini files to .xml
+      // ------------------------------------------------------------------
+      bool iniToXml(const std::string& section);
+
+      // ------------------------------------------------------------------
       // Perform a Search and Replace on the sections of the specified module.
       // ------------------------------------------------------------------
       bool searchReplace(const std::string& section,

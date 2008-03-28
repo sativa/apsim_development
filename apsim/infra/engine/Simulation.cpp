@@ -234,10 +234,8 @@ void Simulation::resolveIncludes(string& sdml)
          }
       else
          {
-         ostringstream buffer;
-         ifstream in(includeFileName.c_str());
-         buffer << in.rdbuf();
-         contents = buffer.str();
+         XMLDocument doc(includeFileName);
+         contents = doc.documentElement().innerXML();
          }
 
       unsigned posEndInclude = posEndFileName + strlen("</include>");

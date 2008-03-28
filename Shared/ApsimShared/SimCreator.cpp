@@ -181,10 +181,18 @@ void SimCreator::ConvertConModule(ApsimControlFile::ModuleInstance& moduleInstan
       {
       std::vector<SimCreatorSection*> sectionsToOutput;
       for (unsigned p = 0; p != moduleInstance.ParFiles.size(); p++)
-         GetMatchingParFileSections(moduleInstance.instanceName,
-                                    moduleInstance.ParFiles[p].first,
-                                    moduleInstance.ParFiles[p].second,
-                                    sectionsToOutput);
+         {
+         string file = moduleInstance.ParFiles[p].first;
+         if (stristr(file.c_str(), ".xml") != NULL)
+            {
+            out << "         <include>" + file + "</include>\n";
+            }
+         else
+            GetMatchingParFileSections(moduleInstance.instanceName,
+                                       file,
+                                       moduleInstance.ParFiles[p].second,
+                                       sectionsToOutput);
+         }
 
       if (newFormat)
          writeNewFormat(sectionsToOutput, out);
