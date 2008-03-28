@@ -9,7 +9,7 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\..\..\Shared\ApsimShared\ApsimShared.lib 
-      ..\..\..\Shared\general\general.lib ..\..\..\Shared\Protocol\Protocol.lib"/>
+      ..\..\..\Shared\general\general.lib ..\..\..\Shared\Protocol\Protocol.lib &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib&quot;"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="vcl.lib rtl.lib vclx.lib dbrtl.lib vcldb.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
@@ -56,6 +56,7 @@
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\Protocol\Protocol.lib" FORMNAME="" UNITNAME="Protocol.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ComponentInterface\message.obj" FORMNAME="" UNITNAME="message.obj" CONTAINERID="OBJTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib" FORMNAME="" UNITNAME="LibXML2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -141,7 +142,7 @@ Item0=.
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=C:\development\apsim\accum\sample\accum.sim
+RunParams=&quot;C:\hol353\Development\apsim\Plant\RefSet\referenc.apsim.mungbean reference data set.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=

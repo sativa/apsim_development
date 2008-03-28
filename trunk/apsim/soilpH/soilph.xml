@@ -1,0 +1,155 @@
+<soilph>
+   <co2_pressure_atm units="atm" description="Atmospheric CO2 partial pressure">0.0003</co2_pressure_atm>
+   <!--  root weighting coefficient for root length density factor.
+    -->
+   <wr_coef units="mm" description="depth at which root weighting is 1.8% of top.">2000.0</wr_coef>
+   <!--  Used when RLV is not available.
+    Lime solubility table.
+    -->
+   <lime_sol_tbl_phca description="pHCa values">3.80 3.95  4.45  4.95  5.20  5.70  7.00  7.40         </lime_sol_tbl_phca>
+   <lime_sol_tbl_lime units="g/l" description="Solubility of CaCO3">1.000 0.891 0.390 0.170 0.117 0.052 0.013 0.000</lime_sol_tbl_lime>
+   <!--  Default humic acid coefficients.
+    -->
+   <hum_acid_slope units="cMol/Kg" description="slope of titration curve for soil orgainic matter.">32.0</hum_acid_slope>
+   <!--  cereal straw = 7, humic acids = 83, soil = 32 (Helyar & Porter)
+    -->
+   <hum_acid_phca_offset units="cMol/Kg" description="slope offset for humic acids">1.5</hum_acid_phca_offset>
+   <!--  Table to convert pHCa to pHsoil solution.
+        Conversion based on regression equation in Table 3,
+        Aitken and Moody, 1991, Aust. J. Soil Res. 29, 483-491.
+    -->
+   <phca2ph_tbl_phca description="pHCa">3.0   4.0    5.0    6.0    7.0    8.0    9.0  </phca2ph_tbl_phca>
+   <phca2ph_tbl_ph description="pHwater">3.175 4.28   5.385  6.49   7.595  8.7    9.8  </phca2ph_tbl_ph>
+   <ash_alkalinity_loss>
+      <!--  ________________________-
+       action     ash alkalinity
+        type        loss
+                   (0-1)
+       ________________________-
+       -->
+      <chisel>0.0</chisel>
+      <disc>0.0</disc>
+      <planter>0.0</planter>
+      <burn>0.2</burn>
+      <!--  these are RDC's
+       -->
+      <herbinc>0.0</herbinc>
+      <burn_95>0.2</burn_95>
+      <graze>1.0</graze>
+      <scarifier>0.0</scarifier>
+      <pits>0.0</pits>
+      <rip>0.0</rip>
+      <blade>0.0</blade>
+      <sweep>0.0</sweep>
+      <!-- KV additions
+       -->
+      <Cool_burn>0.2</Cool_burn>
+      <burn_90>0.2</burn_90>
+      <tine>0.0</tine>
+      <default>0.0</default>
+      <decomp>0.0</decomp>
+      <!--  JNGH addition
+       -->
+      <decomposed>0.0</decomposed>
+   </ash_alkalinity_loss>
+   <!--  ______________________
+    ________________________________
+    Residue     Ash
+    Type       Alkalinity
+               cMol/kg
+    ________________________________
+    These are all just guesses made from H&P p.73 - needs to be fixed - .
+    -->
+   <wheat>
+      <name_dm_type>stover root   leaf    stem   grain lfsheath   seed</name_dm_type>
+      <ash_alkalinity units="cMol/kg">44       0     93      44      5     44      0</ash_alkalinity>
+   </wheat>
+   <sugar>
+      <name_dm_type>stover     root   leaf   sstem   cabbage  sucrose</name_dm_type>
+      <ash_alkalinity units="cMol/kg">69       0    136      62       62     62</ash_alkalinity>
+   </sugar>
+   <chickpea>
+      <name_dm_type>stover     root   leaf    stem   meal  pod  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </chickpea>
+   <pigeonpea>
+      <name_dm_type>stover     root   leaf    stem   meal  pod  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </pigeonpea>
+   <mungbean>
+      <name_dm_type>stover     root   leaf    stem   meal  pod  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </mungbean>
+   <cowpea>
+      <name_dm_type>stover     root   leaf    stem   meal  pod  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </cowpea>
+   <soybean>
+      <name_dm_type>stover     root   leaf    stem   meal  pod  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </soybean>
+   <fababean>
+      <name_dm_type>stover     root   leaf    stem   meal  pod  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </fababean>
+   <navybean>
+      <name_dm_type>stover     root   leaf    stem   meal  pod  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </navybean>
+   <mucuna>
+      <name_dm_type>stover     root   leaf    stem   meal  pod  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </mucuna>
+   <lucerne>
+      <name_dm_type>stover     root   leaf    stem   meal  pod  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </lucerne>
+   <Xlupin>
+      <name_dm_type>stover     root   leaf    stem   meal  pod  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </Xlupin>
+   <stylo>
+      <name_dm_type>stover     root   leaf    stem   meal  pod  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </stylo>
+   <Xmaize>
+      <name_dm_type>stover     root   leaf    stem   grain  chaff</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96</ash_alkalinity>
+   </Xmaize>
+   <Xsunflower>
+      <name_dm_type>stover     root   leaf    stem   grain  chaff  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </Xsunflower>
+   <Xsorghum>
+      <name_dm_type>stover     root   leaf    stem   grain  chaff</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96</ash_alkalinity>
+   </Xsorghum>
+   <Xcotton>
+      <name_dm_type>stover     root   leaf    stem   meal  chaff</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96</ash_alkalinity>
+   </Xcotton>
+   <Xmillet>
+      <name_dm_type>stover     root   leaf    stem   grain  chaff</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96</ash_alkalinity>
+   </Xmillet>
+   <Xcanola>
+      <name_dm_type>stover     root   leaf    stem   meal  chaff  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </Xcanola>
+   <Xpeanut>
+      <name_dm_type>stover     root   leaf    stem   meal  chaff  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </Xpeanut>
+   <Xweed>
+      <name_dm_type>stover     root   leaf    stem   meal  chaff  oil</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96     0</ash_alkalinity>
+   </Xweed>
+   <Xpnut>
+      <name_dm_type>stover     root   leaf    stem   grain  chaff</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96</ash_alkalinity>
+   </Xpnut>
+   <Xgrass>
+      <name_dm_type>stover     root   leaf    stem   grain  chaff</name_dm_type>
+      <ash_alkalinity units="cMol/kg">110       0    254      96     83     96</ash_alkalinity>
+   </Xgrass>
+</soilph>

@@ -1466,4 +1466,35 @@ bool ApsimControlFile::enumerateManagerActionLines
 
    return someWereModified;
    }
+// ------------------------------------------------------------------
+// Rename all standard .ini files to .xml
+// ------------------------------------------------------------------
+bool ApsimControlFile::iniToXml(const std::string& section)
+   {
+   bool found = false;
+
+   vector<string> moduleLines;
+   ini->read(section, "module", moduleLines);
+   for (unsigned i = 0; i != moduleLines.size(); i++)
+      {
+      vector<ParamFile> paramFiles;
+      parseModuleLine(ini->getFileName(), moduleLines[i], paramFiles, true);
+      for (unsigned p = 0; p != paramFiles.size(); p++)
+         {
+         string fileDirectory = fileDirName(paramFiles[p].fileName);
+         replaceAll(fileDirectory, "/", "\\");
+         if (fileExtensionEquals(paramFiles[p].fileName, "ini") &&
+             stristr(fileDirectory.c_str(), getApsimDirectory().c_str()) != NULL)
+            {
+            paramFiles[p].fileName = "%apsuite\\apsim\\" + paramFiles[p].instanceName
+                                   + "\\" + paramFiles[p].instanceName + ".xml";
+            moduleLines[i] = createModuleLine(paramFiles);
+            found = true;
+            }
+         }
+      }
+   if (found)
+      ini->write(section, "module", moduleLines);
+   return found;
+   }
 

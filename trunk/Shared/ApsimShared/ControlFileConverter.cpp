@@ -32,7 +32,8 @@ using namespace boost;
 void getScriptFilesToUse(const string& fileName, vector<string>& scriptFileNames)
    {
    int fileVersion = ApsimControlFile::getVersionNumber(fileName);
-   int apsimVersion = atof(getApsimVersion().c_str())*10;
+   double versionNumber = atof(getApsimVersion().c_str()) * 10;
+   long apsimVersion = versionNumber;
    if (fileVersion != apsimVersion)
       {
       string homeDir = getApsimDirectory() + "\\apsim\\";
@@ -252,6 +253,8 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
             ok = executeRemoveReportVariable(arguments) || ok;
          else if (routineName == "DeleteModule")
             ok = executeDeleteModule(arguments) || ok;
+         else if (routineName == "IniToXml")
+            ok = executeIniToXml(arguments) || ok;
          }
       }
    catch (const exception& err)
@@ -1100,5 +1103,12 @@ bool ControlFileConverter::executeRemoveReportVariable(const string& arguments)
 bool ControlFileConverter::executeDeleteModule(const string& arguments) throw(runtime_error)
    {
    return con->deleteModule(conSection, arguments);
+   }
+//---------------------------------------------------------------------------
+// Rename an .ini file to .xml file.
+//---------------------------------------------------------------------------
+bool ControlFileConverter::executeIniToXml(const string& arguments) throw(runtime_error)
+   {
+   return con->iniToXml(conSection);
    }
 

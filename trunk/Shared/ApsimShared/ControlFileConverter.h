@@ -191,6 +191,8 @@ class __declspec(dllexport) ControlFileConverter
       //---------------------------------------------------------------------------
       bool executeDeleteModule(const string& arguments) throw(runtime_error);
 
+
+      bool executeIniToXml(const string& arguments) throw(runtime_error);
    };
 
 // ------------------------------------------------------------------
