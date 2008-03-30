@@ -15,7 +15,8 @@ OBJECTS=apsim.obj Simulation.obj $(APSROOT)\Shared\ComponentInterface\message.ob
 
 LIBFILES = $(APSROOT)\Shared\general\general.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
-	$(APSROOT)\Shared\Protocol\Protocol.lib
+	$(APSROOT)\Shared\Protocol\Protocol.lib \
+	$(BCB)\Components\LibXML2\win32\LibXML2.lib
 
 RESFILES = apsim.res
 
