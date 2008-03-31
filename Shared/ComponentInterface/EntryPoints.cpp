@@ -1,3 +1,7 @@
+#ifdef __WIN32__
+ #include <vcl.h>
+#endif
+
 #include <stdexcept>
 #include <string>
 

@@ -57,13 +57,13 @@ namespace CSGeneral
 			method.GetMethodImplementationFlags() );
 			moduleBuilder.CreateGlobalFunctions();
 
-			string IniFileName = APSIMSettings.ApsimDirectory() + "\\apsim\\" + instanceName + "\\" + instanceName + ".ini";
+			string XmlFileName = APSIMSettings.ApsimDirectory() + "\\apsim\\" + instanceName + "\\" + instanceName + ".xml";
 			string initScript= "<component name=\"" + instanceName + "\" executable=\"" + DllFileName + "\">\r\n   <initdata>\r\n";
-			if (File.Exists(IniFileName))
+			if (File.Exists(XmlFileName))
 				{
-				StringBuilder contents = new StringBuilder(500000);
-				convertIniToSim(IniFileName, contents);	
-				initScript += contents.ToString();
+                XmlDocument Doc = new XmlDocument();
+                Doc.Load(XmlFileName);
+                initScript += Doc.DocumentElement.InnerXml;
 				}
 			initScript += "   </initdata>\r\n";
 			initScript += "</component>";
