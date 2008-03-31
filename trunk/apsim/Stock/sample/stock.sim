@@ -8,7 +8,7 @@
    </component>
    <component name="clock" executable="%apsuite\apsim\clock\lib\clock.dll">
       <initdata>
-         <include>%apsuite\apsim\clock\clock.ini</include>
+         <include>%apsuite\apsim\clock\clock.xml</include>
          <start_date>1/10/1988</start_date>
          <end_date>30/6/1989</end_date>
       </initdata>
@@ -20,7 +20,7 @@
    </component>
     <component name="FarmwiseSequencer" executable="%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll">
       <initdata>
-         <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.ini</include>
+         <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.xml</include>
       </initdata>
    </component>
    <component name="reportstock" executable="%apsuite\apsim\report\lib\report.dll">
@@ -83,7 +83,7 @@
    </component>
    <component name="soilwat2" executable="%apsuite\apsim\soilwat2\lib\soilwat2.dll">
       <initdata>
-         <include>%apsuite\apsim\soilwat2\soilwat2.ini</include>
+         <include>%apsuite\apsim\soilwat2\soilwat2.xml</include>
          <insoil>2.0</insoil>
          <diffus_const>88.</diffus_const>
          <diffus_slope>35.4</diffus_slope>
@@ -105,7 +105,7 @@
    </component>
    <component name="surfaceom" executable = "%apsuite\apsim\surfaceom\lib\surfaceom.dll">
       <initdata>
-         <include>%apsuite\apsim\surfaceom\surfaceom.ini</include>
+         <include>%apsuite\apsim\surfaceom\surfaceom.xml</include>
          <name>manure       lucerne</name>
          <type>manure       lucerne</type>
          <mass>2000        4000</mass>
@@ -116,7 +116,7 @@
    </component>
    <component name="soiln2" executable="%apsuite\apsim\soiln2\lib\soiln2.dll">
       <initdata>
-         <include>%apsuite\apsim\soiln2\soiln2.ini</include>
+         <include>%apsuite\apsim\soiln2\soiln2.xml</include>
          <amp>15.0</amp>
          <tav>20.0</tav>
          <root_cn>20.</root_cn>
@@ -136,7 +136,7 @@
    </component>
    <component name="lablab" executable="%apsuite\apsim\plant\lib\plant.dll">
       <initdata>
-         <include>%apsuite\apsim\lablab\lablab.ini</include>
+         <include>%apsuite\apsim\lablab\lablab.xml</include>
          <ll>.20  .28  .320 .300 .270 .240 .310</ll>
          <xf>1.00 1.00 1.00 1.00 1.00 1.00 1.00</xf>
          <kl>0.08 0.08 0.08 0.08 0.05 0.03 0.01</kl>
@@ -149,7 +149,7 @@
         <debug type="list" listvalues="on,off">on</debug>
          <conversion_model>herbage</conversion_model>
          <herbage_model>plant</herbage_model>
-         <include>%apsuite\apsim\stock\StockScienceConverter.ini</include>
+         <include>%apsuite\apsim\stock\StockScienceConverter.xml</include>
       </initdata>
    </component>
    <component name="stock" executable="C:\Program Files\ausfarm\stock.dll">

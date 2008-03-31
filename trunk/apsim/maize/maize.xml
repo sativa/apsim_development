@@ -360,7 +360,7 @@
     -->
    <stress_determinants>leaf stem grain</stress_determinants>
    <yield_parts description="energy">grain </yield_parts>
-   <retrans_parts description="MEP added leaf & flower">leaf stem  flower </retrans_parts>
+   <retrans_parts description="MEP added leaf and flower">leaf stem  flower </retrans_parts>
    <!-- !  FIXME use 1.5 for testing changes to Pdemand code
    pfact_photo_slope = 1.5  !2.5 !2.0 !1.0
     -->
@@ -548,7 +548,7 @@
       <photoperiod_crit2 units="hours">20.0</photoperiod_crit2>
       <photoperiod_slope description="Carberry jack-knifed value ! Carberry maize.par 88.4 ! from Muchow and Carberry 1989  (oC/hour)">41.0 </photoperiod_slope>
       <tt_flower_to_maturity description="900 ! 983 (oC)">983 </tt_flower_to_maturity>
-      <tt_flag_to_flower description="50 ! 101 in Carberry maize.par ! 70 in Wilson 1989 (oC)! 61 in Carberry & Muchow">101 </tt_flag_to_flower>
+      <tt_flag_to_flower description="50 ! 101 in Carberry maize.par ! 70 in Wilson 1989 (oC)! 61 in Carberry and Muchow">101 </tt_flag_to_flower>
       <tt_flower_to_start_grain description="120 ! 70  (oC)! 170 in CERES-Maize, 70 in Wilson et al.">170 </tt_flower_to_start_grain>
       <tt_maturity_to_ripe units="oC">1</tt_maturity_to_ripe>
    </dekalb_xl82>
@@ -580,7 +580,7 @@
       <tt_flower_to_start_grain description="70  (oC)! MJR changed 21/3/00">170 </tt_flower_to_start_grain>
       <tt_maturity_to_ripe units="oC">1</tt_maturity_to_ripe>
    </usa_18leaf>
-   <3237>
+   <_3237>
       <head_grain_no_max description="750 ! 650 ()">850 </head_grain_no_max>
       <grain_gth_rate description="9.17 (mg/grain/day)">8.0 </grain_gth_rate>
       <tt_emerg_to_endjuv units="oC">270</tt_emerg_to_endjuv>
@@ -612,10 +612,10 @@
       <!--  senescence function
        -->
       <spla_intercept units="oC" description="intercept of regression for calculating">-321.0</spla_intercept>
-   </3237>
+   </_3237>
    <!--  inflection point of senescence function
     -->
-   <3527>
+   <_3527>
       <head_grain_no_max>750</head_grain_no_max>
       <grain_gth_rate units="mg/grain/day">8.0</grain_gth_rate>
       <tt_emerg_to_endjuv units="oC">240</tt_emerg_to_endjuv>
@@ -647,10 +647,10 @@
       <!--  senescence function
        -->
       <spla_intercept units="oC" description="intercept of regression for calculating">-321.0</spla_intercept>
-   </3527>
+   </_3527>
    <!--  inflection point of senescence function
     -->
-   <3153>
+   <_3153>
       <head_grain_no_max>750</head_grain_no_max>
       <grain_gth_rate units="mg/grain/day">8.0</grain_gth_rate>
       <tt_emerg_to_endjuv units="oC">300</tt_emerg_to_endjuv>
@@ -682,7 +682,7 @@
       <!--  senescence function
        -->
       <spla_intercept units="oC" description="intercept of regression for calculating">-321.0</spla_intercept>
-   </3153>
+   </_3153>
    <!--  inflection point of senescence function
     -->
    <Hycorn_424>
@@ -1292,7 +1292,7 @@
       <tt_flower_to_start_grain units="oC days">170</tt_flower_to_start_grain>
       <tt_maturity_to_ripe units="oC days">1</tt_maturity_to_ripe>
    </sc709>
-   <19leaf>
+   <_19leaf>
       <!-- ________________________________________________________________________________________________________
        GRAIN GROWTH
       ________________________________________________________________________________________________________
@@ -1319,7 +1319,7 @@
       <tt_flag_to_flower units="oC days">50</tt_flag_to_flower>
       <tt_flower_to_start_grain units="oC days">120</tt_flower_to_start_grain>
       <tt_maturity_to_ripe units="oC days">1</tt_maturity_to_ripe>
-   </19leaf>
+   </_19leaf>
    <!--  Chinese variety
     -->
    <Zhongdan2>

@@ -987,7 +987,7 @@ namespace Soils
             XmlHelper.SetName(SoilNode, Name + " Water");
             XmlHelper.SetAttribute(SoilNode, "executable", "%apsuite\\apsim\\soilwat2\\lib\\soilwat2.dll");
             XmlNode InitData = SoilNode.AppendChild(SoilNode.OwnerDocument.CreateElement("initdata"));
-            XmlHelper.SetValue(InitData, "include", "%apsuite\\apsim\\soilwat2\\soilwat2.ini");
+            XmlHelper.SetValue(InitData, "include", "%apsuite\\apsim\\soilwat2\\soilwat2.xml");
             XmlHelper.SetValue(InitData, "diffus_const", DiffusConst.ToString());
             XmlHelper.SetValue(InitData, "diffus_slope", DiffusSlope.ToString());
             XmlHelper.SetValue(InitData, "cn2_bare", CN2Bare.ToString());
@@ -1027,7 +1027,7 @@ namespace Soils
             XmlHelper.SetName(Nitrogen, Name + " Nitrogen");
             XmlHelper.SetAttribute(Nitrogen, "executable", "%apsuite\\apsim\\soiln2\\lib\\soiln2.dll");
             XmlNode NitrogenInitData = Nitrogen.AppendChild(SoilNode.OwnerDocument.CreateElement("initdata"));
-            XmlHelper.SetValue(NitrogenInitData, "include", "%apsuite\\apsim\\soiln2\\soiln2.ini");
+            XmlHelper.SetValue(NitrogenInitData, "include", "%apsuite\\apsim\\soiln2\\soiln2.xml");
             if (Classification != "")
                 XmlHelper.SetValue(NitrogenInitData, "soiltype", Classification);
             XmlHelper.SetValue(NitrogenInitData, "root_cn", RootCN.ToString());
@@ -1056,7 +1056,7 @@ namespace Soils
                 XmlHelper.SetName(Phosphorus, Name + " Phosphorus");
                 XmlHelper.SetAttribute(Phosphorus, "executable", "%apsuite\\apsim\\soilp\\lib\\soilp.dll");
                 XmlNode PhosphorusInitData = Phosphorus.AppendChild(SoilNode.OwnerDocument.CreateElement("initdata"));
-                XmlHelper.SetValue(PhosphorusInitData, "include", "%apsuite\\apsim\\soilp\\soilp.ini");
+                XmlHelper.SetValue(PhosphorusInitData, "include", "%apsuite\\apsim\\soilp\\soilp.xml");
                 XmlHelper.SetValue(PhosphorusInitData, "Root_CP", RootCP.ToString());
                 XmlHelper.SetValue(PhosphorusInitData, "rate_dissol_rock_P", RateDissolRock.ToString());
                 XmlHelper.SetValue(PhosphorusInitData, "rate_loss_avail_P", RateLossAvail.ToString());
