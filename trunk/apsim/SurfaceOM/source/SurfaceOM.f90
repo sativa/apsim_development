@@ -870,6 +870,37 @@ end function
 end function
 
 
+!================================================================
+   real function surfom_cover_total ()
+!================================================================
+   Use infrastructure
+   implicit none
+
+!+  Purpose
+!   Calculate total cover.
+
+!+  Local Variables
+   integer   i
+   real      cover1                 ! fraction of ground covered by residue (0-1)
+   real      cover2                 ! fraction of ground covered by residue (0-1)
+   real      combined_cover         ! effective combined cover from covers 1 & 2 (0-1)
+
+
+!- Implementation Section ----------------------------------
+
+   cover1 = 0.0
+   do i = 1, g%num_surfom
+       cover2 = surfom_Cover(i)
+       combined_cover = add_cover(cover1, cover2)
+       cover1 = combined_cover
+   end do
+
+   surfom_cover_total = combined_cover
+   return
+end function
+
+
+
 
 !================================================================
 subroutine surfom_Process ()
@@ -2034,7 +2065,6 @@ subroutine surfom_Send_my_variable (Variable_name)
    integer   i                      ! simple counter
    integer   surfnum                ! surfom number in system array
    real      cover1                 ! fraction of ground covered by residue (0-1)
-   real      cover2                 ! fraction of ground covered by residue (0-1)
    real      combined_cover         ! effective combined cover from covers 1 & 2 (0-1)
    real      c_decomp(max_residues) ! C in decomposing material (kg/ha)
    real      n_decomp(max_residues) ! N in decomposing material (kg/ha)
@@ -2304,12 +2334,7 @@ subroutine surfom_Send_my_variable (Variable_name)
 
 	! The total cover is calculated here by combining all surfom's in system.
    else if (Variable_name .eq. 'surfaceom_cover') then
-      cover1 = 0.0
-      do i = 1,g%num_surfom
-         cover2 = surfom_Cover(i)
-         combined_cover = add_cover(cover1,cover2)
-         cover1 = combined_cover
-      end do
+      combined_cover = surfom_cover_total()
       call respond2get_real_var (variable_name, '(m^2/m^2)', combined_cover)
 
 	! Individual surfom cover is reported here in the format 'surfaceom_cover_wheat'
@@ -2787,8 +2812,6 @@ subroutine surfom_Sum_Report ()
    real      P
    real      cover
    real      standfr
-   real      cover1                 ! fraction of ground covered by residue (0-1)
-   real      cover2                 ! fraction of ground covered by residue (0-1)
    real      combined_cover         ! effective combined cover from covers 1 & 2 (0-1)
    integer   i
 
@@ -2832,11 +2855,7 @@ subroutine surfom_Sum_Report ()
    string = '    ----------------------------------------------------------------------'
    call write_string (string)
 
-   do i = 1,g%num_surfom
-       cover2 = surfom_Cover(i)
-       combined_cover = add_cover(cover1,cover2)
-       cover1 = combined_cover
-   end do
+   combined_cover = surfom_cover_total()
 
    string = '    '
    call write_string (string)
