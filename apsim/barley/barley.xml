@@ -67,12 +67,10 @@
    <eme2ej>emergence end_of_juvenile</eme2ej>
    <stress_reporting>end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill</stress_reporting>
    <plant>
-      <>2</>
       <partition_option>2</partition_option>
       <n_retrans_option>2</n_retrans_option>
       <n_retrans_fraction description="0.33">1.0 </n_retrans_fraction>
       <n_deficit_uptake_fraction>0.0001</n_deficit_uptake_fraction>
-      <>2</>
       <x_temp_grainfill>0 26 35</x_temp_grainfill>
       <y_rel_grainfill>0  1  1</y_rel_grainfill>
       <n_uptake_option>3</n_uptake_option>
@@ -228,7 +226,6 @@
       __________________________________________________________________________________________________________-
       GRAIN FILLING
        -->
-      <>2</>
       <sw_fac_max description="soil water stress factor maximum">1.125</sw_fac_max>
       <temp_fac_min description="temperature stress factor minimum">0.69</temp_fac_min>
       <sfac_slope description="soil water stress factor slope">-0.125</sfac_slope>
