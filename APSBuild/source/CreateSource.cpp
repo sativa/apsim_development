@@ -144,10 +144,10 @@ std::string ddmlToCPP(const ApsimDataTypeData& dataType,
 // ------------------------------------------------------------------
 // convert a DDML string to a FORTRAN formatted string
 // ------------------------------------------------------------------
-std::string ddmlToFOR(const ApsimDataTypeData& dataType)
+std::string ddmlToFOR(const ApsimDataTypeData& dataType, const string& tag)
    {
    string st;
-   st = "      '<type";
+   st = "      '<" + tag;
    if (dataType.isStructure())
       st += " name=\"" + dataType.getName() + "\"";
 
@@ -174,7 +174,7 @@ std::string ddmlToFOR(const ApsimDataTypeData& dataType)
                                     field++)
       {
       if (field->isStructure())
-         st += ddmlToFOR(*field) + " // &\n";
+         st += ddmlToFOR(*field, "field") + " // &\n";
       else
          {
          st += "      '   <field name=\"" + field->getName()
@@ -187,7 +187,7 @@ std::string ddmlToFOR(const ApsimDataTypeData& dataType)
       }
    if (dataType.isArray())
       st += "      '   </element>' // &\n";
-   st += "      '</type>'";
+   st += "      '</" + tag + ">'";
    return st;
    }
 
@@ -292,7 +292,7 @@ void processStructure(const ApsimDataTypeData& dataType, XMLNode& node)
       XMLNode cddmlNode = child.appendChild("cddml");
       cddmlNode.setValue(ddmlToCPP(dataType));
       XMLNode forddmlNode = child.appendChild("forddml");
-      forddmlNode.setValue(ddmlToFOR(dataType));
+      forddmlNode.setValue(ddmlToFOR(dataType, "type"));
       XMLNode dotnetddmlNode = child.appendChild("dotnetddml");
       dotnetddmlNode.setValue(ddmlToCPP(dataType, true, 0, 9, ""));
 
@@ -349,7 +349,7 @@ void processField(const ApsimDataTypeData& dataType, XMLNode& node)
       XMLNode cddmlNode = child.appendChild("cddml");
       cddmlNode.setValue(ddmlToCPP(dataType));
       XMLNode forddmlNode = child.appendChild("forddml");
-      forddmlNode.setValue(ddmlToFOR(dataType));
+      forddmlNode.setValue(ddmlToFOR(dataType, "type"));
       }
    }
 //---------------------------------------------------------------------------
