@@ -62,7 +62,7 @@ void Population::OnPrepare()
    ZeroDaily();
    SoilTemp[2] = SoilTemp[1];
    SoilTemp[1] = SoilTemp[0];
-   scienceAPI.getOptional("maxt_soil_surface", "degree Celsius", SoilTemp[0], 0.0, 80.0);
+   scienceAPI.getOptional("maxt_soil_surface", "oC", SoilTemp[0], 0.0, 80.0);
    }
 void Population::OnEndCrop()
    {
@@ -74,7 +74,7 @@ void Population::SetPlants(float Density)
    plants = Density;
    bound_check_real_var(&Plant, plants, 0.0, 10000.0, "plants");
    }
-   
+
 void Population::PlantDeath()
    {
    //=========================================================================
@@ -207,7 +207,7 @@ float Population::DeathSeedling()
       scienceAPI.write(msg);
       }
    return dlt_plants;
-   }             
+   }
 
 float Population::DeathHighTemperature()
    {
