@@ -12,7 +12,7 @@ module = manager         SweetSorghum.par [PacSeeds1] SweetSorghum.par [all]
 module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]    %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = SurfaceOM       %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par[legume_residue]  %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = Plant(sweetsorghum)  SweetSorghum.par [all   ] ../SweetSorghum.ini [standard]
+module = Plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite/apsim/SweetSorghum/SweetSorghum.ini [standard]
 
 [apsim.PacSeeds2]
 title= Pacific Seeds Planting Two
@@ -26,7 +26,7 @@ module = manager         SweetSorghum.par [PacSeeds2] SweetSorghum.par [all]
 module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]    %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = SurfaceOM       %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par[legume_residue]  %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = Plant(sweetsorghum)  SweetSorghum.par [all   ] ../SweetSorghum.ini [standard]
+module = Plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite/apsim/SweetSorghum/SweetSorghum.ini [standard]
 
 [apsim.Lawes1]
 title= Lawes Planting One
@@ -40,7 +40,7 @@ module = manager         SweetSorghum.par [Lawes1] SweetSorghum.par [all]
 module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]    %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = SurfaceOM       %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par[legume_residue]  %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = Plant(sweetsorghum)  SweetSorghum.par [all   ] ../SweetSorghum.ini [standard]
+module = Plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite/apsim/SweetSorghum/SweetSorghum.ini [standard]
 
 [apsim.Lawes2]
 title= Lawes Planting Two
@@ -54,7 +54,7 @@ module = manager         SweetSorghum.par [Lawes2] SweetSorghum.par [all]
 module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]    %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = SurfaceOM       %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par[legume_residue]  %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = Plant(sweetsorghum)  SweetSorghum.par [all   ] ../SweetSorghum.ini [standard]
+module = Plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite/apsim/SweetSorghum/SweetSorghum.ini [standard]
 
 [apsim.Lawes3]
 title= Lawes Planting Three
@@ -68,7 +68,7 @@ module = manager         SweetSorghum.par [Lawes3] SweetSorghum.par [all]
 module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]    %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = SurfaceOM       %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par[legume_residue]  %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = Plant(sweetsorghum)  SweetSorghum.par [all   ] ../SweetSorghum.ini [standard]
+module = Plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite/apsim/SweetSorghum/SweetSorghum.ini [standard]
 
 [apsim.Lawes4]
 title= Lawes Planting Four
@@ -82,7 +82,7 @@ module = manager         SweetSorghum.par [Lawes4] SweetSorghum.par [all]
 module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]    %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = SurfaceOM       %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par[legume_residue]  %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = Plant(sweetsorghum)  SweetSorghum.par [all   ] ../SweetSorghum.ini [standard]
+module = Plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite/apsim/SweetSorghum/SweetSorghum.ini [standard]
 
 [apsim.Lawes5]
 title= Lawes Planting Five

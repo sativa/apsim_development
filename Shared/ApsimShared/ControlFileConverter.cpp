@@ -108,7 +108,7 @@ bool ControlFileConverter::convert(const string& fileName,
 
    log.close();
 
-   int apsimVersion = atof(getApsimVersion().c_str())*10;
+   double apsimVersion = atof(getApsimVersion().c_str())*10;
    ApsimControlFile::setVersionNumber(fileName, apsimVersion);
    return somethingConverted;
    }
