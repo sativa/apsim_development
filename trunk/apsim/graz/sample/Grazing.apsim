@@ -1,7 +1,7 @@
 <folder version="13" name="Simulations">
   <simulation name="Wheat Grazing Simulation">
     <metfile name="met">
-      <filename name="filename">C:\Program Files\Apsim6\apsim\met\sample\dalby.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\dalby.met</filename>
     </metfile>
     <clock>
       <start_date type="date" description="Select the start date of the simulation">14/06/1988</start_date>
@@ -1031,7 +1031,7 @@ annual_lwg = annual_lwg + graz.lwg</text>
   </simulation>
   <simulation name="Grass Grazing Simulation">
     <metfile name="met">
-      <filename name="filename">C:\Program Files\Apsim6\apsim\met\sample\dalby.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\dalby.met</filename>
     </metfile>
     <clock>
       <start_date type="date" description="Select the start date of the simulation">14/06/1988</start_date>

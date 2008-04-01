@@ -8,7 +8,7 @@
    </component>
    <component name="clock" executable="%apsuite\apsim\clock\lib\clock.dll">
       <initdata>
-         <include>%apsuite\apsim\clock\clock.ini</include>
+         <include>%apsuite\apsim\clock\clock.xml</include>
          <start_date>1/1/1988</start_date>
          <end_date>30/12/1989</end_date>
       </initdata>
@@ -20,7 +20,7 @@
    </component>
     <component name="FarmwiseSequencer" executable="%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll">
       <initdata>
-         <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.ini</include>
+         <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.xml</include>
       </initdata>
    </component>
    <component name="reportstock" executable="%apsuite\apsim\report\lib\report.dll">
@@ -86,7 +86,7 @@
    </component>
    <component name="soilwat2" executable="%apsuite\apsim\soilwat2\lib\soilwat2.dll">
       <initdata>
-         <include>%apsuite\apsim\soilwat2\soilwat2.ini</include>
+         <include>%apsuite\apsim\soilwat2\soilwat2.xml</include>
          <insoil>2.0</insoil>
          <diffus_const>88.</diffus_const>
          <diffus_slope>35.4</diffus_slope>
@@ -108,7 +108,7 @@
    </component>
    <component name="soiln2" executable="%apsuite\apsim\soiln2\lib\soiln2.dll">
       <initdata>
-         <include>%apsuite\apsim\soiln2\soiln2.ini</include>
+         <include>%apsuite\apsim\soiln2\soiln2.xml</include>
          <amp>15.0</amp>
          <tav>20.0</tav>
          <root_cn>20.</root_cn>
@@ -128,7 +128,7 @@
    </component>
     <component name="FarmwiseSequencer" executable="%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll">
       <initdata>
-         <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.ini</include>
+         <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.xml</include>
       </initdata>
    </component>
     <component name="pastureconverter" executable="%apsuite\apsim\pasture\lib\PastureScienceConverter.dll">
