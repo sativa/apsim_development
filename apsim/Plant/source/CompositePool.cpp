@@ -1,11 +1,6 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "CompositePool.h"
-#include "Delta.h"
 using namespace std;
 
 CompositePool::CompositePool(plantInterface& plant, ScienceAPI& scienceAPI, const std::string& Name,

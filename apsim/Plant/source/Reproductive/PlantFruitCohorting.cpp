@@ -1,10 +1,7 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
+#include "StdPlant.h"
 
 #include "PlantFruitCohorting.h"
-
+#include "Environment.h"
 using namespace std;
 
 void push_routine (const char *) {};
@@ -164,7 +161,7 @@ void PlantFruitCohorting::doSiteNumber(void)
     float metabolic_fact = divide (fruit_tt_cum, fruit_tt_target, 0.0);
     metabolic_fact = bound (metabolic_fact, 0.0, 1.0);
 
-    float temp_fac = rel_fruit_site.value(plant->getEnvironment()->meanT);
+    float temp_fac = rel_fruit_site.value(plant->getEnvironment()->meant());
 
     dlt_site_no = dlt_site_no_pot
                 * (1.0 - metabolic_fact)

@@ -12,11 +12,11 @@ class TTTRatePhenology : public TTTPhenology {
    TTTRatePhenology(ScienceAPI& scienceAPI, plantInterface *p)
       : TTTPhenology(scienceAPI, p) {};
    void readSpeciesParameters (protocol::Component *, std::vector<string> &); // read species parameters
-   //void process(const environment_t &e, const pheno_stress_t &ps);
+   //void process(const Environment &e, const pheno_stress_t &ps);
    //void setupTTTargets(void);
-   void updateTTTargets(const environment_t &e);
+   void updateTTTargets(const Environment &e);
    void onInit1(protocol::Component *);
-      float TT(const environment_t &e);
+      float TT(const Environment &e);
 
  protected:
    interpolationFunction y_tt_post_anthesis;

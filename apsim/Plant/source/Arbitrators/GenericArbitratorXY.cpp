@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "Leaf/Leaf.h"
 #include "arbitrator.h"
@@ -14,10 +10,9 @@ void genericArbitratorXY::zeroAllGlobals(void)
    //fill_real_array (ratio_root_shoot, 0.0, max_table);
    }
 
-void genericArbitratorXY::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+void genericArbitratorXY::readSpeciesParameters(protocol::Component *, vector<string> &)
 //=======================================================================================
    {
-   int numvals;
    ratio_root_shoot.read (scienceAPI
                          ,"x_stage_no_partition", "()", 0.0, 100.0
                          ,"y_ratio_root_shoot","()",0.0,100.0);

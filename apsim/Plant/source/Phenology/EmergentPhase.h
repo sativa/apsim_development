@@ -1,7 +1,7 @@
 #ifndef EmergentPhase_H
 #define EmergentPhase_H
 
-class environment_t;
+class Environment;
 
 class EmergentPhase : public pPhase
    // A phenological phase.
@@ -18,7 +18,7 @@ class EmergentPhase : public pPhase
       void onSow(protocol::ApsimVariant incomingApsimVariant);
       EmergentPhase(ScienceAPI& scienceAPI, const string& stage_name)
          : pPhase (scienceAPI, stage_name){};
-      //void updateTTTargets(const environment_t &e);
+      //void updateTTTargets(const Environment &e);
       void setupTTTarget(void);
       virtual string description();
    };

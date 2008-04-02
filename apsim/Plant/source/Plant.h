@@ -44,6 +44,7 @@ const int  fixation = 4 ;
 //   This class performs crop crop growth
 //     simulates root, leaf, head, stem and grain development. Water and
 //     nitrogen uptake, photosynhesis, and leaf and root senescense.
+
 class Plant : public plantInterface, public IPlant {
 private:
    PlantComponent *parent;                   // for interface calls to system
@@ -65,6 +66,7 @@ private:
    PlantPhenology *phenology;
    plantPart     *fruitPart;
    Population population;
+   Environment* environment;
 
    eventObserver *sowingEventObserver;     // Bookkeeper for Sowing events
    eventObserver *emergenceEventObserver;  // Bookkeeper for Emergence events
@@ -304,7 +306,7 @@ public:
 
    bool on_day_of(const string &what) ;
    bool inPhase(const string &what) ;
-   int  getDayOfYear(void) {return (Environment.day_of_year);};
+   int  getDayOfYear(void) {return (environment->dayOfYear());};
 
    //Phosporousy things:
    void doPInit(PlantComponent *systemInterface);
@@ -317,7 +319,7 @@ public:
    void  doPRetranslocate (void);
    const Co2Modifier  *getCo2Modifier(void) {return co2Modifier;};
 
-   const environment_t *getEnvironment(void) {return &Environment;};
+   const Environment* getEnvironment(void) {return environment;};
    const PlantPhenology  *getPhenology(void) {return phenology;};
 
 private:
@@ -357,7 +359,6 @@ private:
       vector<float> sw_dep;
       vector<float> bd;
    };
-   environment_t Environment;
 
    //     ================================================================
    //       plant Globals

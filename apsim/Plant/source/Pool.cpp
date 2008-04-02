@@ -1,11 +1,7 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "Pool.h"
-#include "Delta.h"
+//#include "Delta.h"
 using namespace std;
 
 Pool::Pool(plantInterface& plant, ScienceAPI& API, const std::string& Name, const std::string& PartName, bool DoRegist)

@@ -18,6 +18,9 @@ public:                                             // member functions
 #endif
 
 
+   void createParts();
+   plantThing* get(const std::string& name);
+
    void add(plantPart* part);
 
       // plant
@@ -198,12 +201,13 @@ protected:
    vector <plantPart *> myParts;
 
 
-private:
+   private:
+      std::vector<plantThing*> things;
+
       float nConcCrit();
       float nConcMin();
       std::string addPartToVar(const std::string& variableName);
       std::string addPartToDesc(const std::string& description);
-
 };
 
 #endif

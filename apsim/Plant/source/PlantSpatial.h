@@ -1,8 +1,8 @@
 #ifndef PlantSpatialH
 #define PlantSpatialH
 
-#include <ComponentInterface/Component.h>
-#include <general/string_functions.h>
+#include <ComponentInterface/Variant.h>
+//#include <general/string_functions.h>
 
 #include "PlantLibrary.h"
 

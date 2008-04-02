@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "SimplePart.h"
+#include "StdPlant.h"
 
 #include "StoragePart.h"
 using namespace std;
@@ -20,7 +16,7 @@ StoragePart* StoragePart::construct(ScienceAPI& scienceAPI, plantInterface *p, c
       return NULL;
    }
 
-void StoragePart::onHarvest(float cutting_height, float remove_fr,
+void StoragePart::onHarvest(float /*cutting_height*/, float /*remove_fr*/,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,
                               vector<float> &dlt_dm_n,

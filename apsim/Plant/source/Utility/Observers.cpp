@@ -1,15 +1,11 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "Plant.h"
 #include "Observers.h"
 
 // An "event observer". Waits for events to happen and records date/das for later reporting.
 eventObserver::eventObserver(ScienceAPI& scienceAPI, const string& eventOfInterest, Plant *p)
-   : plantThing(scienceAPI)
+   : plantThing(scienceAPI, "EventObserver")
    {
    myEvent = eventOfInterest;
    myDas = 0;

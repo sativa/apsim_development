@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "SimplePart.h"
+#include "StdPlant.h"
 
 #include "GrainPart.h"
 #include "PodPart.h"
@@ -32,12 +28,12 @@ void PlantPartArea::update(void)
    partAI += dlt_partAI;
 }
 
-void PlantPartArea::onHarvest(float /* cutting_height */, float remove_fr,
-                             vector<string> &dm_type,
-                             vector<float> &dlt_crop_dm,
-                             vector<float> &dlt_dm_n,
-                             vector<float> &dlt_dm_p,
-                             vector<float> &fraction_to_residue)
+void PlantPartArea::onHarvest(float /* cutting_height */, float /*remove_fr*/,
+                             vector<string> &/*dm_type*/,
+                             vector<float> &/*dlt_crop_dm*/,
+                             vector<float> &/*dlt_dm_n*/,
+                             vector<float> &/*dlt_dm_p*/,
+                             vector<float> &/*fraction_to_residue*/)
 //=======================================================================================
 {
 //   onHarvest_GenericAboveGroundPart(remove_fr, dm_type, dlt_crop_dm, dlt_dm_n, dlt_dm_p, fraction_to_residue);
@@ -57,7 +53,7 @@ void PlantPartArea::zeroDeltas(void)
 }
 
 
-void PlantPartArea::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+void PlantPartArea::readSpeciesParameters(protocol::Component *, vector<string> &)
 //=======================================================================================
 {
 

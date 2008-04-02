@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "Leaf/Leaf.h"
 #include "arbitrator.h"
@@ -18,7 +14,7 @@ void cerealArbitrator::zeroAllGlobals(void)
    num_stage_no_partition = 0;
    }
 
-void cerealArbitrator::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+void cerealArbitrator::readSpeciesParameters(protocol::Component *, vector<string> &)
 //=======================================================================================
    {
    int numvals;

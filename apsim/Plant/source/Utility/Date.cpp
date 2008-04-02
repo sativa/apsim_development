@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 //==========================================================================
 int offset_day_of_year (int iyr,     //(INPUT) day of year number
@@ -351,9 +347,9 @@ bool  check_date (int   day,  // (INPUT) Day
 //      11/08/93  DPH - Put comment in assumption section
 
 //+ Constant Values
-const int  year_high=4200 ;// Max. valid year
+int  year_high=4200 ;// Max. valid year
 //
-const int  year_low=1583 ;// Min valid year
+int  year_low=1583 ;// Min valid year
 
 //+ Local Variables
 ;// Length of each month - days

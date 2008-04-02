@@ -13,11 +13,7 @@
 // Modification log
 //  25 Feb 04  J. Hargreaves  implementation
 
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 using namespace std;
 

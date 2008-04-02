@@ -1,14 +1,12 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
+#include "StdPlant.h"
+
 #include "PlantPart.h"
 
 using namespace std;
 
 plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
 //=======================================================================================
-     : plantThing(api),
+     : plantThing(api, name),
        // deltas
        Senescing(api, "Senescing", name),
        Growth(api, "Growth", name),
@@ -35,7 +33,7 @@ plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
 plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name,
                      Pool& green, Pool& senesced)
 //=======================================================================================
-     : plantThing(api),
+     : plantThing(api, name),
        // deltas
        Senescing(api, "Senescing", name),
        Growth(api, "Growth", name),

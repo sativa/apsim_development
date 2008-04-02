@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "PlantPhenology.h"
 #include "TTTPhenology.h"
@@ -45,9 +41,9 @@ void TTTPhenology::setupTTTargets(void)
    }
 
 // dynamic TT targets
-void TTTPhenology::updateTTTargets(const environment_t &e)
+void TTTPhenology::updateTTTargets(const Environment &e)
    {
-   dlt_cumvd = vernal_days.value((e.maxt + e.mint)*0.5);
+   dlt_cumvd = vernal_days.value((e.maxt() + e.mint())*0.5);
 
    if (inPhase("germination"))
       {
@@ -58,8 +54,8 @@ void TTTPhenology::updateTTTargets(const environment_t &e)
       {
       if (on_day_of("emergence"))
          {
-         int est_day_of_floral_init = e.day_of_year + est_days_emerg_to_init % 366;
-         float est_photoperiod = e.daylength (est_day_of_floral_init, twilight);
+         int est_day_of_floral_init = e.dayOfYear() + est_days_emerg_to_init % 366;
+         float est_photoperiod = e.dayLength(est_day_of_floral_init, twilight);
 
          pPhase *endjuv_to_init = getStage("end_of_juvenile");
          endjuv_to_init->setTarget(tt_endjuv_to_init[est_photoperiod]);
@@ -157,7 +153,7 @@ void TTTPhenology::readSpeciesParameters (protocol::Component *s, vector<string>
 
 
 
-void TTTPhenology::writeCultivarInfo (PlantComponent *systemInterface)
+void TTTPhenology::writeCultivarInfo (protocol::Component *systemInterface)
    {
    string s;
    s =  "   est_days_emerg_to_init     = " + itoa(est_days_emerg_to_init) + " (days)\n";
@@ -171,9 +167,9 @@ void TTTPhenology::writeCultivarInfo (PlantComponent *systemInterface)
    systemInterface->writeString (s.c_str());
    }
 
-float TTTPhenology::TT(const environment_t &e)
+float TTTPhenology::TT(const Environment &e)
    {
-        return linint_3hrly_temp (e.maxt, e.mint, &y_tt);
+        return linint_3hrly_temp (e.maxt(), e.mint(), &y_tt);
    }
 
 //+  Purpose
@@ -181,7 +177,7 @@ float TTTPhenology::TT(const environment_t &e)
 //     to determine when the crop begins a new growth phase.
 //     The initial daily thermal time and height are also set.
 
-void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed)
+void TTTPhenology::process (const Environment &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed)
    {
    float phase_devel, new_stage;
 
@@ -368,10 +364,10 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
 
 }
 
-void TTTPhenology::prepare (const environment_t &e)
+void TTTPhenology::prepare (const Environment &e)
    {
    CropPhenology::prepare(e);
-   photoperiod = e.daylength (twilight);
+   photoperiod = e.dayLength(twilight);
 
    updateTTTargets(e);
    }

@@ -1,7 +1,7 @@
 #ifndef VernalPhase_H
 #define VernalPhase_H
 
-class environment_t;
+class Environment;
 class Output;
 
 class VernalPhase : public pPhase
@@ -18,7 +18,7 @@ class VernalPhase : public pPhase
       void readSpeciesParameters (protocol::Component *, std::vector<string> &);
       VernalPhase(ScienceAPI& scienceAPI, const string& stage_name)
          : pPhase (scienceAPI, stage_name){};
-      void updateTTTargets(PlantPhenology &parent, const environment_t &e);
+      void updateTTTargets(PlantPhenology &parent, const Environment &e);
       void GetOutputs(std::vector <Output*> &Outputs);
       virtual void reset();
       virtual string description();

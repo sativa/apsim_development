@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
+
 
 #include "WheatPhenology.h"
 #include "PlantPhenology.h"
@@ -81,16 +78,16 @@ void WheatPhenology::readCultivarParameters(protocol::Component *s, const string
 
 
 // vernalisation & photoperiod stresses
-void WheatPhenology::vernalisation (const environment_t &t)
+void WheatPhenology::vernalisation (const Environment &t)
    {
-   float tempcr = crown_temp_nwheat (t.maxt, t.mint, 0.0);
+   float tempcr = crown_temp_nwheat (t.maxt(), t.mint(), 0.0);
 
-   dlt_cumvd = wheat_vernaliz_days(t.maxt ,t.mint ,tempcr, 0.0 , cumvd);
+   dlt_cumvd = wheat_vernaliz_days(t.maxt() ,t.mint() ,tempcr, 0.0 , cumvd);
 
    //maximum vernalisation requirement is 50 days
    vern_eff = wheat_vernaliz_effect(vern_sens, cumvd, dlt_cumvd, 50.0);
 
-   float photoperiod = t.daylength(twilight);
+   float photoperiod = t.dayLength(twilight);
    photop_eff = wheat_photoperiod_effect(photoperiod, photop_sens);
 
    // Thermal time is calculated from crown temperature
@@ -118,7 +115,7 @@ float WheatPhenology::crown_temp_nwheat (float maxt, float mint, float snow)
    }
 
 
-void WheatPhenology::writeCultivarInfo (PlantComponent *systemInterface)
+void WheatPhenology::writeCultivarInfo (protocol::Component *systemInterface)
    {
    string s;
    s += "   pesw germination           = ";
@@ -149,7 +146,7 @@ void WheatPhenology::writeCultivarInfo (PlantComponent *systemInterface)
 // via the dltStage calculation in stage_devel(), or
 // via thermal time accumulation
 
-void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps, float fasw_seed, float pesw_seed)
+void WheatPhenology::process (const Environment &sw, const pheno_stress_t &ps, float fasw_seed, float pesw_seed)
    {
    float phase_devel, new_stage;
 

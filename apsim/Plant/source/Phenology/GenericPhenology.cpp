@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "PlantPhenology.h"
 #include "GenericPhenology.h"
@@ -59,7 +55,7 @@ void GenericPhenology::readSpeciesParameters (protocol::Component *s, vector<str
       }
    }
 
-void GenericPhenology::writeCultivarInfo (PlantComponent *systemInterface)
+void GenericPhenology::writeCultivarInfo (protocol::Component *systemInterface)
 //=======================================================================================
    {
    string s;
@@ -73,12 +69,12 @@ void GenericPhenology::writeCultivarInfo (PlantComponent *systemInterface)
    systemInterface->writeString (s.c_str());
    }
 
-float GenericPhenology::TT(const environment_t &e)
+float GenericPhenology::TT(const Environment &e)
    {
-   return linint_3hrly_temp (e.maxt, e.mint, &y_tt);
+   return linint_3hrly_temp (e.maxt(), e.mint(), &y_tt);
    }
 
-void GenericPhenology::process (const environment_t &e, const pheno_stress_t &/* ps*/,float fasw_seed, float pesw_seed)
+void GenericPhenology::process (const Environment &e, const pheno_stress_t &/* ps*/,float fasw_seed, float pesw_seed)
 //=======================================================================================
 //     Use temperature, photoperiod and genetic characteristics
 //     to determine when the crop begins a new growth phase.
@@ -245,11 +241,11 @@ void GenericPhenology::onRemoveBiomass(float removeBiomPheno)
 
    }
 
-void GenericPhenology::prepare (const environment_t &e)
+void GenericPhenology::prepare (const Environment &e)
 //=======================================================================================
    {
    PlantPhenology::prepare(e);
-   photoperiod = e.daylength (twilight);
+   photoperiod = e.dayLength(twilight);
 
    for(unsigned i=0; i!= phases.size();i++)
       phases[i]->updateTTTargets(*this,e);

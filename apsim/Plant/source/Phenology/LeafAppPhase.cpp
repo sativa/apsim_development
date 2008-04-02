@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "Phase.h"
 #include "LeafAppPhase.h"
@@ -50,7 +46,7 @@ void LeafAppPhase::readSpeciesParameters (protocol::Component *s, vector<string>
 
 
 
-void LeafAppPhase::updateTTTargets(PlantPhenology &parent, const environment_t &/* e*/)
+void LeafAppPhase::updateTTTargets(PlantPhenology &parent, const Environment &/* e*/)
 //=======================================================================================
    {
    if (parent.inPhase("leaf_initiation"))

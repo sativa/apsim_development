@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "PlantPhenology.h"
 #include "Environment.h"
@@ -40,12 +36,12 @@ PlantPhenology * constructPhenology(ScienceAPI& scienceAPI, plantInterface *plan
     }
 
 PlantPhenology::PlantPhenology(ScienceAPI& api, plantInterface *p)
-   : plantThing(api)
+   : plantThing(api, "Phenology")
    {
    plant = p;          // "Plant" interface
    }
 
-void PlantPhenology::readConstants (protocol::Component *s, const string &section)
+void PlantPhenology::readConstants (protocol::Component *s, const string &)
 {
 
    phases.push_back(new pPhase(scienceAPI, "out"));
@@ -148,7 +144,7 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &sectio
       }
 };
 
-pPhase* PlantPhenology::find(const string& PhaseName)
+pPhase* PlantPhenology::find(const string& PhaseName) const
    {
    for(unsigned i=0; i!=phases.size();i++)
       {
@@ -185,7 +181,7 @@ void PlantPhenology::onInit1(protocol::Component *s)
 
 
 
-void PlantPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
+void PlantPhenology::readSpeciesParameters (protocol::Component *, vector<string> &sections)
    {
    scienceAPI.read("twilight", twilight, -90.0f, 90.0f);
 
@@ -222,7 +218,7 @@ void PlantPhenology::zeroDeltas(void)
    dlt_tt = dlt_tt_phenol  = 0.0;
    }
 
-void PlantPhenology::prepare(const environment_t &/* sw*/)
+void PlantPhenology::prepare(const Environment &/* sw*/)
    {
    previousStage = currentStage;
    }
@@ -246,7 +242,7 @@ bool PlantPhenology::on_day_of(const string &stageName)
    }
 
 // Are we currently in a certain phase?
-bool PlantPhenology::inPhase(const string &phase_name)
+bool PlantPhenology::inPhase(const string &phase_name) const
    {
    // See if it's a composite
    compositePhase phase = composites[phase_name];
@@ -278,7 +274,7 @@ int PlantPhenology::daysInCurrentPhase(void)
    return ((int) current->getDays());
    }
 
-float PlantPhenology::ttInPhase(const string &phaseName)
+float PlantPhenology::ttInPhase(const string &phaseName) const
    {
       // See if it's a composite
       compositePhase phaseGroup = composites[phaseName];
@@ -300,7 +296,7 @@ float PlantPhenology::ttInPhase(const string &phaseName)
    	   }
    	}
    }
-float PlantPhenology::TTTargetInPhase(const string &phaseName)
+float PlantPhenology::TTTargetInPhase(const string &phaseName) const
    {
       // See if it's a composite
       compositePhase phaseGroup = composites[phaseName];

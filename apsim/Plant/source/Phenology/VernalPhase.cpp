@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "Environment.h"
 #include "Phase.h"
@@ -51,11 +47,11 @@ void VernalPhase::readSpeciesParameters (protocol::Component *s, vector<string> 
    }
 
 
-void VernalPhase::updateTTTargets(PlantPhenology &/* parent*/, const environment_t &e)
+void VernalPhase::updateTTTargets(PlantPhenology &/* parent*/, const Environment &e)
 //=======================================================================================
    {
    //dlt_cumvd = vernal_days.value((e.maxt + e.mint)*0.5);
-   dlt_cumvd = linint_3hrly_temp (e.maxt, e.mint, &vernal_days);
+   dlt_cumvd = linint_3hrly_temp (e.maxt(), e.mint(), &vernal_days);
    cumvd = cumvd + dlt_cumvd;
    target = vernal_tt.value(cumvd);
    }

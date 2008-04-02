@@ -1,11 +1,7 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "PlantSpatial.h"
-
+#include <ComponentInterface/ApsimVariant.h>
 PlantSpatial::PlantSpatial(void)
    {
    }

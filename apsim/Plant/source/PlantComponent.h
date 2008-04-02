@@ -1,6 +1,7 @@
 #ifndef PlantComponentH
 #define PlantComponentH
 
+#include <ComponentInterface/Component.h>
 // ------------------------------------------------------------------
 // This component acts as the interface between an instance of a
 // Plant model and an APSIM simulation.

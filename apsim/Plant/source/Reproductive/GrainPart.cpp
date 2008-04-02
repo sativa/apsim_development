@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "GrainPart.h"
 #include "Environment.h"
@@ -256,7 +252,7 @@ float fruitGrainPart::nConcPercent(void)  {return Total.NconcPercent();}   //rem
 float fruitGrainPart::dltDmDemand(void) {return gDlt_dm_grain_demand;}                               //remove
 float fruitGrainPart::dltDmGrainDemand(void)  {return gDlt_dm_grain_demand;}
 
-float fruitGrainPart::meanT (void) {return plant->getEnvironment()->meanT;}
+float fruitGrainPart::meanT (void) {return plant->getEnvironment()->meant();}
 
 void fruitGrainPart::doDMDemandGrain(void)
    //===========================================================================
@@ -443,6 +439,6 @@ float fruitGrainPart::dmGrainWetTotal(void)
    }
 
 float fruitGrainPart::grainWaterContent(void) {return cGrn_water_cont;}
-float fruitGrainPart::dltDmYieldPotential(void) {}
+float fruitGrainPart::dltDmYieldPotential(void) {return 0;}
 
 

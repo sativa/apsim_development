@@ -40,6 +40,9 @@ class EXPORT ScienceAPI
       bool read(const std::string& name, float data[], int& numVals, float lower, float upper);
       bool read(const std::string& name, std::vector<double>& data, float lower, float upper);
       bool read(const std::string& name, std::vector<std::string>& data);
+         
+      bool readFiltered(const std::string& filterName, std::vector<std::string> &values);
+      bool readAll(const std::string& section, std::vector<std::string>& names, std::vector<std::string> &values);
 
       bool readOptional(const std::string& name, int& data, int lower, int upper);
       bool readOptional(const std::string& name, float& data, float lower, float upper);

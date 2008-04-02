@@ -4,7 +4,7 @@
 #include <string>
 
 class PlantPhenology;
-class environment_t;
+class Environment;
 class Output;
 
 // Terminology:
@@ -46,7 +46,7 @@ class pPhase
      virtual string description(void)  {return "";};
      virtual void readCultivarParameters(protocol::Component *s, const string & cultivar){};
      virtual void readSpeciesParameters (protocol::Component *, std::vector<string> &){};
-     virtual void updateTTTargets(PlantPhenology &parent, const environment_t &e){};
+     virtual void updateTTTargets(PlantPhenology &parent, const Environment &e){};
      virtual void onSow(protocol::ApsimVariant incomingApsimVariant){};
      virtual void setupTTTarget(void){};
      virtual void GetOutputs(std::vector <Output*> &Outputs){};

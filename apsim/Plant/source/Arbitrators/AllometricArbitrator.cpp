@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "Leaf/Leaf.h"
 #include "arbitrator.h"
@@ -29,7 +25,7 @@ void allometricArbitrator::undoRegistrations(protocol::Component *system)
    {
    system->removeGettableVar("SLAcalc");
    }
-void allometricArbitrator::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+void allometricArbitrator::readSpeciesParameters(protocol::Component *, vector<string> &)
 //=======================================================================================
    {
    ratio_stem_leaf.read(scienceAPI,

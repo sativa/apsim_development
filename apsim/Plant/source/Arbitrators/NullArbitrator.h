@@ -1,8 +1,8 @@
-#ifndef NULLARBITRATOR_H
-#define NULLARBITRATOR_H
+#ifndef NULLARBITRATORH
+#define NULLARBITRATORH
 
 #include "PlantInterface.h"
-
+#include "Arbitrator.h"
 // A null arbitrator used to plug an empty hole...
 class nullArbitrator : public Arbitrator
    {

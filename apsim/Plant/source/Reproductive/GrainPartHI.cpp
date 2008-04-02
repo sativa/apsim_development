@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "GrainPartHI.h"
 #include "Environment.h"
@@ -141,7 +137,7 @@ void fruitGrainPartHI::doDMDemandGrain(void)
                                       ,pY_hi_max_pot
                                       ,pNum_hi_max_pot);
 
-      photoperiod = plant->getEnvironment()->daylength (cTwilight);
+      photoperiod = plant->getEnvironment()->dayLength(cTwilight);
 
       hi_incr = linear_interp_real(photoperiod
                                    ,pX_pp_hi_incr
@@ -169,7 +165,7 @@ void fruitGrainPartHI::doDMDemandGrain(void)
 
 
       // delay grainfill after cold snap
-      if (plant->getEnvironment()->mint <= pMinTempGrnFill)
+      if (plant->getEnvironment()->mint() <= pMinTempGrnFill)
          gDelayGrnFill = true;
       if (gDelayGrnFill)
          {

@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "ExternalFunction.h"
 
@@ -205,8 +201,7 @@ void bound_check_real_var (plantInterface *i,
 
    {
    char  msg[80];
-   numeric_limits<float> mathInfo;
-   float epsilon =  mathInfo.epsilon();
+   float epsilon =  numeric_limits<float>::epsilon();
 
    //are the upper and lower bounds valid?
    if ((lower - epsilon) > (upper + epsilon))
@@ -375,8 +370,7 @@ float bound(float var, float lower, float upper)
    float high;             //temporary variable constrained
                            //to upper limit of variable
 
-   numeric_limits<float> mathInfo;
-   float epsilon =  mathInfo.epsilon();
+   float epsilon =  numeric_limits<float>::epsilon();
 
    //check that lower & upper bounds are valid
 //   if (lower > upper)

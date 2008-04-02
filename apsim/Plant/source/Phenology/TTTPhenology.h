@@ -35,23 +35,23 @@ class TTTPhenology : public CropPhenology {
 
    // private members
    virtual void setupTTTargets(void);
-   virtual void updateTTTargets(const environment_t &e);
+   virtual void updateTTTargets(const Environment &e);
 
  public:
    TTTPhenology(ScienceAPI& scienceAPI, plantInterface *p)
       : CropPhenology(scienceAPI, p) {};
-   void prepare(const environment_t &e);
-   void process(const environment_t &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
+   void prepare(const Environment &e);
+   void process(const Environment &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
    void onInit1(protocol::Component *);
    void readConstants (protocol::Component *, const string &);              // read structure etc from constants
    void readSpeciesParameters (protocol::Component *, std::vector<string> &); // read species parameters
    void readCultivarParameters (protocol::Component *, const string &);  // read cv parameters from sowing line
-   void writeCultivarInfo (PlantComponent *);
+   void writeCultivarInfo (protocol::Component *);
 
 
    void onRemoveBiomass(float removeBiomPheno);
-   virtual float TT(const environment_t &e);
-   float get_dlt_tt(void) {return dlt_tt;};                          // XX remove when leaves are finished
+   virtual float TT(const Environment &e);
+   float get_dlt_tt(void) const {return dlt_tt;};                          // XX remove when leaves are finished
 
    void zeroAllGlobals(void);
    virtual void zeroDeltas(void);

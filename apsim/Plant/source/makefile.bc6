@@ -18,7 +18,6 @@ OBJFILES=PlantComponent.obj \
    PlantCanopy.obj \
    PlantLibrary.obj \
    PlantNitrogen.obj \
-   PlantTemp.obj \
    Utility\PlantUtility.obj \
    Utility\Data.obj \
    Utility\ExternalFunction.obj \
@@ -75,6 +74,7 @@ OBJFILES=PlantComponent.obj \
    CompositePool.obj \
    Delta.obj \
    Biomass.obj \
+   ThingFactory.obj \
    Phenology\PlantPhenology.obj \
    Phenology\Phase.obj \
    Phenology\CompositePhase.obj \
@@ -140,7 +140,6 @@ PlantCanopy.obj: PlantCanopy.cpp PlantLibrary.h
 PlantComms.obj: PlantComms.cpp PlantLibrary.h
 PlantLibrary.obj: PlantLibrary.cpp PlantLibrary.h
 PlantNitrogen.obj: PlantNitrogen.cpp PlantLibrary.h
-PlantTemp.obj: PlantTemp.cpp PlantLibrary.h
 Utility\PlantUtility.obj: Utility\PlantUtility.cpp Utility\PlantUtility.h PlantLibrary.h
 PlantP.obj: PlantP.cpp
 PlantPart.obj: PlantPart.cpp PlantPart.h
@@ -189,6 +188,7 @@ Biomass.obj: Biomass.cpp Biomass.h
 Population.obj: Population.cpp Population.h
 PlantStress.obj: PlantStress.cpp PlantStress.h
 Co2Modifier.obj: Co2Modifier.cpp Co2Modifier.h
+ThingFactory.obj: ThingFactory.cpp ThingFactory.h
 StageBasedInterpolationFunction.obj: StageBasedInterpolationFunction.cpp StageBasedInterpolationFunction.h
 Phenology\PlantPhenology.obj: Phenology\PlantPhenology.cpp Phenology\PlantPhenology.h
 Phenology\BroccoliPhenology.obj: Phenology\BroccoliPhenology.cpp Phenology\BroccoliPhenology.h

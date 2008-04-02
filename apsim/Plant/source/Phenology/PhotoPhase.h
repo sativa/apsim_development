@@ -1,7 +1,7 @@
 #ifndef PhotoPhase_H
 #define PhotoPhase_H
 
-class environment_t;
+class Environment;
 
 class PhotoPhase : public pPhase
    // A phenological phase.
@@ -17,7 +17,7 @@ class PhotoPhase : public pPhase
       void readSpeciesParameters (protocol::Component *, std::vector<string> &);
       PhotoPhase(ScienceAPI& scienceAPI, const string& stage_name)
          : pPhase (scienceAPI, stage_name){};
-      void updateTTTargets(PlantPhenology &parent, const environment_t &e);
+      void updateTTTargets(PlantPhenology &parent, const Environment &e);
       virtual string description();
    };
 
