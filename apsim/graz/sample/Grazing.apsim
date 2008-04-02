@@ -2118,13 +2118,13 @@ annual_lwg = annual_lwg + graz.lwg</text>
   <simulation name="Wheat Lucerne Rotation">
     <clock>
       <start_date type="date" description="Select the start date of the simulation">1/01/1940</start_date>
-      <end_date type="date" description="Select the end date of the simulation">1/01/2005</end_date>
+      <end_date type="date" description="Select the end date of the simulation">1/01/1988</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Moonggoo.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">C:\Documents and Settings\devoilp\My Documents\Projects\ApsFarm\Workshop Files\Generic Runs\oakey.met</filename>
+      <filename name="filename">%apsuite/apsim/met/sample/emerald.met</filename>
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
