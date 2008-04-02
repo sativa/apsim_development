@@ -1,6 +1,8 @@
 #include "StdPlant.h"
 #ifdef __WIN32__
- #include <vcl.h>
+   #define  INC_VCLDB_HEADERS
+   #define  INC_VCLEXT_HEADERS
+   #include <vcl.h>
 #endif
 
 #include "Plant.h"
