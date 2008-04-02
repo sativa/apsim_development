@@ -1,4 +1,7 @@
 #include "StdPlant.h"
+#ifdef __WIN32__
+ #include <vcl.h>
+#endif
 
 #include "Plant.h"
 
