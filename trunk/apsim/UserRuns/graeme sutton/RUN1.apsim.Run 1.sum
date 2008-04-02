@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 6.0
+Version                = 6.1
 Title                  = GrantCottonKamaniV1.61(61-62)
 Component      "clock" = c:\development\apsim\clock\lib\clock.dll
 Component     "report" = c:\development\apsim\report\lib\report.dll
@@ -408,7 +408,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.3
+                      Effective Cover from Surface Materials =   0.2
      
 1 September 1960(Day of year=245), manager: 
      Manager creating a new local real variable : surface_moist =    0.466506817942610
@@ -537,7 +537,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.5
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1961(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -30.360800
@@ -669,7 +669,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.6
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1962(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -29.744921
@@ -1955,7 +1955,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.6
+                      Effective Cover from Surface Materials =   0.2
      
 29 May 1964(Day of year=150), soiln2: 
      
@@ -1989,7 +1989,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.7
+                      Effective Cover from Surface Materials =   0.2
      
 28 September 1964(Day of year=272), manager: 
      Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
@@ -2113,7 +2113,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.8
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1965(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =     -6.043955
@@ -2151,7 +2151,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.8
+                      Effective Cover from Surface Materials =   0.2
      
 29 May 1967(Day of year=149), soiln2: 
      
@@ -2185,7 +2185,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.8
+                      Effective Cover from Surface Materials =   0.2
      
 29 May 1968(Day of year=150), soiln2: 
      
@@ -2219,7 +2219,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.9
+                      Effective Cover from Surface Materials =   0.2
      
 29 May 1969(Day of year=149), soiln2: 
      
@@ -2253,7 +2253,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.9
+                      Effective Cover from Surface Materials =   0.2
      
 8 September 1969(Day of year=251), manager: 
      Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
@@ -2377,7 +2377,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.9
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1970(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -47.720989
@@ -2510,7 +2510,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.9
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1971(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -34.625839
@@ -3378,7 +3378,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.9
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1972(Day of year=202), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -41.893520
@@ -3509,7 +3509,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1973(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -10.821319
@@ -4453,7 +4453,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1974(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -12.868968
@@ -4584,7 +4584,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1975(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -35.822063
@@ -4717,7 +4717,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1976(Day of year=202), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -19.055700
@@ -5509,7 +5509,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1977(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =     -3.902018
@@ -5640,7 +5640,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1978(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -12.131912
@@ -6484,7 +6484,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1979(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -17.135166
@@ -6615,7 +6615,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1980(Day of year=202), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -49.556236
@@ -6746,7 +6746,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1981(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -62.379745
@@ -6877,7 +6877,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1982(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -14.266832
@@ -8163,7 +8163,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 15 October 1983(Day of year=288), manager: 
      Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
@@ -8292,7 +8292,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1984(Day of year=202), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -30.255138
@@ -9208,7 +9208,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1985(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -22.341816
@@ -9336,7 +9336,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1986(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -11.051428
@@ -9464,7 +9464,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1987(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -20.464920
@@ -9597,7 +9597,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1988(Day of year=202), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -16.659534
@@ -9635,7 +9635,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 27 October 1989(Day of year=300), manager: 
      Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
@@ -9764,7 +9764,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1990(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -23.305470
@@ -9892,7 +9892,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1991(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =     -3.832785
@@ -11182,7 +11182,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 7 November 1992(Day of year=312), manager: 
      Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
@@ -11306,7 +11306,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1993(Day of year=201), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -12.905190
@@ -12592,7 +12592,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 29 May 1995(Day of year=149), soiln2: 
      
@@ -12626,7 +12626,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 28 October 1995(Day of year=301), manager: 
      Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
@@ -12753,7 +12753,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 20 July 1996(Day of year=202), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -34.322659
@@ -12791,7 +12791,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   1.0
+                      Effective Cover from Surface Materials =   0.2
      
 9 October 1997(Day of year=282), manager: 
      Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
