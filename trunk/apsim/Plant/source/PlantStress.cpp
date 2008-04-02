@@ -1,13 +1,10 @@
-
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
+#include "StdPlant.h"
 #include "PlantStress.h"
 
 using namespace std;
 
 #include "Root/RootPart.h"
+#include "Environment.h"
 
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 
@@ -15,7 +12,7 @@ static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 // PStress implementation
 //######################################################################################
 
-PStress::PStress(ScienceAPI& scienceAPI, PlantComponent *p)
+PStress::PStress(ScienceAPI& scienceAPI, protocol::Component *p)
    : scienceAPI(scienceAPI)
    , parent(p)
 {}
@@ -112,13 +109,6 @@ void PStress::zero_p_variables ()
 //     ===========================================================
 void PStress::read_p_constants (void)
 {
-//+  Purpose
-//       Read all module constants.
-
-//+  Constant Values
-    const char*  section_name = "constants" ;
-
-//+  Local Variables
     scienceAPI.read("pfact_photo_slope", c.pFactSlope.photo, 0.0f, 100.0f);
     scienceAPI.read("pfact_expansion_slope", c.pFactSlope.expansion, 0.0f, 100.0f);
     scienceAPI.read("pfact_pheno_slope", c.pFactSlope.pheno, 0.0f, 100.0f);
@@ -250,7 +240,7 @@ void PStress::get_pstress_grain(protocol::Component *systemInterface, protocol::
 // NStress implementation
 //######################################################################################
 
-NStress::NStress(ScienceAPI& scienceAPI, PlantComponent *p)
+NStress::NStress(ScienceAPI& scienceAPI, protocol::Component *p)
    : scienceAPI(scienceAPI)
    , parent(p)
 {
@@ -299,16 +289,7 @@ void NStress::init(void)
 //     ===========================================================
 void NStress::read_n_constants (void)
 {
-//+  Purpose
-//       Read all module constants.
-
-//+  Constant Values
-    const char*  section_name = "constants" ;
-
-//+  Local Variables
-    //    plant_nfact
     scienceAPI.read("n_stress_option", c.n_stress_option, 1, 2);
-
 //    scienceAPI.read("N_stress_start_stage", c.n_stress_start_stage, 0.0f, 100.0f);
     scienceAPI.read("n_fact_photo", c.nFact.photo, 0.0f, 100.0f);
     scienceAPI.read("n_fact_pheno", c.nFact.pheno, 0.0f, 100.0f);
@@ -447,7 +428,7 @@ void NStress::get_nstress_grain(protocol::Component *systemInterface, protocol::
 // TempStress implementation
 //######################################################################################
 
-TempStress::TempStress(ScienceAPI& scienceAPI, PlantComponent *p)
+TempStress::TempStress(ScienceAPI& scienceAPI, protocol::Component *p)
    : scienceAPI(scienceAPI)
    , parent(p)
 {
@@ -480,12 +461,11 @@ void TempStress::read_t_constants (void)
                                    "y_stress_photo", "()", 0.0, 1.0);
 }
 
-void TempStress::doPlantTempStress (environment_t& Environment)
+void TempStress::doPlantTempStress (Environment& Environment)
 //     ===========================================================
 //         Get current temperature stress factors (0-1)
    {
-   float ave_temp = (Environment.maxt + Environment.mint) / 2.0;
-   tFact.photo = cTStressPhoto.value (ave_temp);
+   tFact.photo = cTStressPhoto.value (Environment.meant());
    tFact.photo = bound (tFact.photo, 0.0, 1.0);
    }
 
@@ -506,7 +486,7 @@ void TempStress::get_tstress_photo(protocol::Component *systemInterface, protoco
 // SWStress implementation
 //######################################################################################
 
-SWStress::SWStress(ScienceAPI& scienceAPI, PlantComponent *p)
+SWStress::SWStress(ScienceAPI& scienceAPI, protocol::Component *p)
    : scienceAPI(scienceAPI)
    , parent(p)
 {

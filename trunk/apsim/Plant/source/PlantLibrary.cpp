@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
+
 #include "PlantLibrary.h"
 
 using namespace std;
@@ -160,7 +157,7 @@ float linint_3hrly_temp (float tmax,          //(INPUT) maximum temperature (oC)
                          externalFunction *ttFn)
    {
    //Constants
-   const int num3hr = 24/3;     // number of 3 hourly temperatures
+   int num3hr = 24/3;     // number of 3 hourly temperatures
 
    // Local Variables
    int period;                  // three hourly period number
@@ -175,7 +172,7 @@ float linint_3hrly_temp (float tmax,          //(INPUT) maximum temperature (oC)
       float tmean_3hour = temp_3hr (tmax, tmin, period);
       tot = tot + ttFn->value(tmean_3hour);
       }
-   return (tot / float(num3hr));
+   return tot / (float)num3hr;
    }
 
 

@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
-
+#include "StdPlant.h"
 
 //===========================================================================
 void crop_lai_equilib_water (plantInterface *iface,

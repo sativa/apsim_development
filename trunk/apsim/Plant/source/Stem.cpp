@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "SimplePart.h"
+#include "StdPlant.h"
 
 #include "Stem.h"
 using namespace std;

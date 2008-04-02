@@ -463,6 +463,25 @@ bool Component::readParameter
       }
    return true;
    }
+   
+void Component::getMultipleProperties(const std::string& sectionName,
+                                      const std::string& variableName,
+                                      std::vector<std::string>& returnValues)
+    {
+   // ------------------------------------------------------------------
+   // Return multiple values for the specified variable.
+   // ------------------------------------------------------------------
+    
+    std::vector<string> names;
+    std::vector<string> values;  
+    componentData->getProperties(sectionName, names, values);
+    for (unsigned i = 0; i != names.size(); i++)
+       {
+       if (Str_i_Eq(names[i], variableName))
+          returnValues.push_back(values[i]);   
+       }
+    }
+
 
 // ------------------------------------------------------------------
 //  Short description:

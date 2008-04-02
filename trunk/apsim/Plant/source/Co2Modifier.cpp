@@ -1,14 +1,7 @@
-
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
+#include "StdPlant.h"
 #include "Co2Modifier.h"
 
 using namespace std;
-
-static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
-
 
 //#####################################################################################
 // Co2Modifier implementation
@@ -77,12 +70,12 @@ void Co2Modifier::read_co2_constants (void)
     }
 }
 
-float Co2Modifier::rue (void)
+float Co2Modifier::rue (void) const
    {
       return co2_modifier_rue;
    }
 
-float Co2Modifier::te (void)
+float Co2Modifier::te (void) const
    {
       return co2_modifier_te;
    }
@@ -92,15 +85,15 @@ float Co2Modifier::n_conc (void)
       return co2_modifier_n_conc;
    }
 
-void Co2Modifier::doPlant_Co2Modifier (const environment_t& Environment)
+void Co2Modifier::doPlant_Co2Modifier (const Environment& Environment)
 //     ===========================================================
 //         Get current temperature stress factors (0-1)
    {
-         co2_modifier_rue = plant_rue_co2_modifier(Environment.co2,
-                               Environment.meanT);
+         co2_modifier_rue = plant_rue_co2_modifier(Environment.co2(),
+                               Environment.meant());
 
-         co2_modifier_te = cTE.value(Environment.co2);
-         co2_modifier_n_conc = cNConc.value(Environment.co2);
+         co2_modifier_te = cTE.value(Environment.co2());
+         co2_modifier_n_conc = cNConc.value(Environment.co2());
 
    }
 
@@ -143,8 +136,8 @@ float Co2Modifier::plant_rue_co2_modifier(float co2,                 //!CO2 leve
       }
     else
       throw std::invalid_argument ("Unknown photosynthetic pathway in cproc_rue_co2_modifier()");
-      return 0;
    }
+
 
 
 

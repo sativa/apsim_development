@@ -1,11 +1,7 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "FruitCohortFN.h"
-
+#include "Environment.h"
 using namespace std;
 
 // ##############################################################
@@ -217,7 +213,7 @@ float FruitCohortFN::dltDmGrainMax(void)
 
 //+  Purpose
 //       Perform grain filling calculations
-void FruitCohortFN::doDmDemand (float dlt_dm_supply_by_veg)
+void FruitCohortFN::doDmDemand (float /*dlt_dm_supply_by_veg*/)
 //   //===========================================================================
 //        float *dlt_dm_grain_demand)                         //(OUTPUT)
 {
@@ -240,7 +236,7 @@ void FruitCohortFN::doDmDemand (float dlt_dm_supply_by_veg)
                float dlt_fruit_age = divide(plant->getPhenology()->get_dlt_tt()                     //pod dm demand - pod stuff
                                            , tt_fruit_age_max, 0.0);               //pod dm demand - pod stuff
                float dm_max = p.dm_fruit_max                                      //pod dm demand - pod stuff
-                            * rel_grainfill.value(plant->getEnvironment()->meanT)                                            //pod dm demand - pod stuff
+                            * rel_grainfill.value(plant->getEnvironment()->meant())                                            //pod dm demand - pod stuff
                             * fruit_no;                                           //pod dm demand - pod stuff
                                                                             //pod dm demand - pod stuff
                float dlt_dm_fruit_demand_pot = dm_max * dlt_fruit_age;                  //pod dm demand - pod stuff

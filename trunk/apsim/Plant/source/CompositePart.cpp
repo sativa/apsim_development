@@ -1,11 +1,9 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "CompositePart.h"
 #include "CompositePool.h"
+#include "ThingFactory.h"
+#include <general/stl_functions.h>
 
 using namespace std;
 
@@ -76,12 +74,41 @@ void CompositePart::onInit1(protocol::Component *system)
       scienceAPI.exposeFunction("dlt_dm_pot_rue", "g/m^2",  "Potential above_ground dry matter production via photosynthesis", FloatFunction(&CompositePart::dltDmPotRue));
       scienceAPI.exposeFunction("cover_green", "",  "Green cover", FloatFunction(&CompositePart::coverGreen));
       }
+
    for (part =  myParts.begin(); part != myParts.end(); part++)
       (*part)->onInit1(system);
 
 
    }
 
+
+plantThing* CompositePart::get(const std::string& name)
+   {
+   vector<plantThing*>::iterator i = find_if(things.begin(), things.end(),
+                                             PEqualToName<plantThing>(name));
+   if (i == things.end())
+      throw runtime_error("Cannot find a child called: " + name);
+   return *i;
+   }
+
+void CompositePart::createParts()
+   {
+   //---------------------------------------------------------------------------
+   // Create all child parts by looking at the .ini file.
+   //---------------------------------------------------------------------------
+
+   vector<string> types, dummy;
+   scienceAPI.readAll("options", types, dummy);
+   for (unsigned i = 0; i != types.size(); i++)
+      {
+      vector<string> names;
+      scienceAPI.readFiltered(types[i] + "/name", names);
+      if (names.size() == 0)
+         names.push_back(types[i]);
+
+      things.push_back(createThing(scienceAPI, types[i], names[i]));
+      }
+   }
 void CompositePart::add(plantPart* part)
    //===========================================================================
    {

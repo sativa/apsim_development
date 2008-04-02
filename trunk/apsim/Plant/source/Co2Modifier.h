@@ -36,10 +36,10 @@ public:
    ~Co2Modifier(void);
    void init(void);
    void zero_co2_variables (void);
-   void doPlant_Co2Modifier (const environment_t& Environment);
+   void doPlant_Co2Modifier (const Environment& Environment);
    void read_co2_constants (void);
-   float rue (void);
-   float te (void);
+   float rue (void) const;
+   float te (void) const;
    float n_conc (void);
 
    StressDeficit tFact;

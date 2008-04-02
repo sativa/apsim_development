@@ -8,22 +8,10 @@
 #include <stdexcept>
 #include <iomanip>
 
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-
-#include <ComponentInterface/Type.h>
-#include <ComponentInterface/ApsimVariant.h>
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/datatypes.h>
-#include <ComponentInterface/Messages.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ApsimShared/ApsimComponentData.h>
-#include <ApsimShared/FStringExt.h>
-#include <general/string_functions.h>
 #include <ComponentInterface/ScienceAPI.h>
+#include <ComponentInterface/Component.h>  // old way of doing comms
 
 #include "PlantLibrary.h"
-#include "PlantComponent.h"
 #include "PlantInterface.h"
 #include "PlantSpatial.h"
 #include "CompositePool.h"

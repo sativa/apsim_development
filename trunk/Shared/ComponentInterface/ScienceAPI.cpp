@@ -188,6 +188,28 @@ bool ScienceAPI::read(const std::string& name, std::vector<std::string>& data)
       return false;
    }
 
+bool ScienceAPI::readFiltered(const std::string& name, std::vector<std::string>& values)
+   {
+   unsigned posDelimiter = name.find('/');
+   if (posDelimiter != string::npos)
+      component->getMultipleProperties(name.substr(0, posDelimiter), name.substr(posDelimiter+1), values);
+   else
+      {
+      if (currentClass1 != "")
+         component->getMultipleProperties(currentClass1, name, values);
+      if (values.size() == 0 && currentClass2 != "")
+         component->getMultipleProperties(currentClass2, name, values);
+      if (values.size() == 0)
+         component->getMultipleProperties("parameters", name, values);
+      }
+   return (values.size() > 0);
+   }
+bool ScienceAPI::readAll(const std::string& section, std::vector<std::string>& names, std::vector<std::string> &values)
+   {
+   component->getProperties(section, names, values);
+   return (values.size() > 0);
+   }
+   
 // -------------------------------------------------------------
 // Optional methods.
 // -------------------------------------------------------------

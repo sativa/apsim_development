@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "SimplePart.h"
+#include "StdPlant.h"
+
 #include "CompositePart.h"
 #include "Leaf.h"
 #include "GenericLeaf.h"

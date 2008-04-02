@@ -1,12 +1,8 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "FruitCohortFN.h"
 #include "GrainPartFN.h"
-
+#include "Environment.h"
 using namespace std;
 
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
@@ -192,7 +188,7 @@ float fruitGrainPartFN::dltDmYieldPotential(void)
 {
 
    return myParent->potentialCohortGrainFillRate()
-                           * rel_grainfill.value(plant->getEnvironment()->meanT)                                            //cohort dm demand - cohort stuff
+                           * rel_grainfill.value(plant->getEnvironment()->meant())                                            //cohort dm demand - cohort stuff
                            * myParent->getDltTT();
 }
 
@@ -202,8 +198,6 @@ void fruitGrainPartFN::doDMDemandGrain(void)
    if (plant->inPhase("postflowering"))
       {
       //       Perform grain filling calculations
-      float tav;
-      tav = meanT();
 
 //      if (plant->inPhase("grainfill"))
 //         gDlt_dm_grain_demand = gGrain_no

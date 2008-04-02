@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 //===========================================================================
 void crop_pool_fraction_delta (const int num_part,   // (INPUT)  number of plant parts

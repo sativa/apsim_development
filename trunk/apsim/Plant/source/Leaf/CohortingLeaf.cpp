@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "SimplePart.h"
+#include "StdPlant.h"
+
 #include "CompositePart.h"
 #include "Leaf.h"
 #include "CohortingLeaf.h"
@@ -480,7 +477,7 @@ void CohortingLeaf::leaf_death (float  /* g_nfact_expansion*/, float  /* g_dlt_t
 //XXX Fix me
    }
 
-void CohortingLeaf::CanopyExpansion (int leaf_no_pot_option, /* (INPUT) option number*/
+void CohortingLeaf::CanopyExpansion (int /*leaf_no_pot_option*/, /* (INPUT) option number*/
                                    float stressFactor,     /* (INPUT) stress factor */
                                    float dlt_tt,           /* (INPUT) Thermal Time */
                                    float AreaStressFactor)

@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
 #include "Phase.h"
 #include "PhotoPhase.h"
@@ -31,20 +27,20 @@ void PhotoPhase::readSpeciesParameters (protocol::Component *s, vector<string> &
    }
 
 
-void PhotoPhase::updateTTTargets(PlantPhenology &/* parent*/,const environment_t &e)
+void PhotoPhase::updateTTTargets(PlantPhenology &/* parent*/,const Environment &e)
 //=======================================================================================
    {
    if (cutoff == "start")
       {
       if (tt == 0.0)
          {
-         photoperiod = e.daylength (twilight);
+         photoperiod = e.dayLength(twilight);
          target = photo_tt.value(photoperiod);
          }
       }
    else if (cutoff == "end")
       {
-      photoperiod = e.daylength (twilight);
+      photoperiod = e.dayLength(twilight);
       target = photo_tt.value(photoperiod);
 
       }

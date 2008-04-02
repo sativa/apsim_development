@@ -1,8 +1,6 @@
 //---------------------------------------------------------------------------
 #ifndef PlantIfaceH
 #define PlantIfaceH
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
 
 // Maximum size_of of tables
 #define max_table 30
@@ -18,7 +16,7 @@ namespace protocol {
   class QuerySetValueData;
   class ApsimGetQueryData;
 };
-class environment_t;
+class Environment;
 class PlantPhenology;
 class pheno_stress_t;
 class Co2Modifier;
@@ -90,7 +88,7 @@ class plantInterface {
       virtual CompositePart& Tops() = 0;
 
       virtual const Co2Modifier *getCo2Modifier(void) = 0;
-      virtual const environment_t *getEnvironment(void) = 0;
+      virtual const Environment* getEnvironment(void) = 0;
       virtual const PlantPhenology  *getPhenology(void) = 0;
       virtual const string & getCropType(void) = 0;
       virtual protocol::Component *getComponent(void) = 0;
@@ -100,19 +98,22 @@ class plantInterface {
 class plantThing {
    protected:
       ScienceAPI& scienceAPI;
+      std::string name;
    public:
-     plantThing(ScienceAPI& api) : scienceAPI(api) {};
+     plantThing(ScienceAPI& api, const std::string& nam)
+       : scienceAPI(api), name(nam) {};
      virtual ~plantThing() {};
+     std::string getName() const {return name;}
      virtual void onInit1(protocol::Component *) {};
      virtual void readConstants (protocol::Component *, const string &) {};
      virtual void readSpeciesParameters (protocol::Component *, vector<string> &) {};
      virtual void readCultivarParameters (protocol::Component *, const string &) {};
      virtual void read() { }
-     virtual void onPlantEvent(const string &) = 0;
-     virtual void update(void) = 0;
+     virtual void onPlantEvent(const string &) {};
+     virtual void update(void) {};
 
-     virtual void zeroAllGlobals(void) = 0;
-     virtual void zeroDeltas(void) = 0;
+     virtual void zeroAllGlobals(void) {};
+     virtual void zeroDeltas(void) {};
 };
 
 

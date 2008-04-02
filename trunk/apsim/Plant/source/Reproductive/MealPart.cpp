@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
+#include "StdPlant.h"
 
 #include "MealPart.h"
 using namespace std;

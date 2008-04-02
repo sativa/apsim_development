@@ -25,7 +25,7 @@ class pheno_stress_t {
 
 class protocol::Component;
 class plantInterface;
-class environment_t;
+class Environment;
 
 // Terminology:
 // A "stage" is a point in time.
@@ -43,7 +43,7 @@ class PlantPhenology : public plantThing {
    std::vector<pPhase*>     phases;                        // The list of phases that this plant goes through
 
    typedef std::map<string, compositePhase> string2composite;
-   string2composite   composites;                    // Composite phases we know about
+   mutable string2composite   composites;                    // Composite phases we know about
 
    float previousStage, currentStage, dltStage;
    int   day_of_year;                                // Todays julian daynumber
@@ -72,7 +72,7 @@ class PlantPhenology : public plantThing {
    void get_phase_tt(protocol::Component *, protocol::QueryValueData &);
    void get_tt_tot(protocol::Component *, protocol::QueryValueData &);
    void get_days_tot(protocol::Component *, protocol::QueryValueData &);
-   pPhase* find(const string& phase_name);
+   pPhase* find(const string& phase_name) const;
 
        // Parameters
        float shoot_lag;                                  // minimum growing degree days for
@@ -91,24 +91,24 @@ class PlantPhenology : public plantThing {
 
  public:
    PlantPhenology(ScienceAPI& scienceAPI, plantInterface *p);
-   virtual void writeCultivarInfo (PlantComponent *)=0;
+   virtual void writeCultivarInfo (protocol::Component *)=0;
    virtual void readConstants (protocol::Component *, const string &);                // read structure etc from constants
    virtual void onInit1(protocol::Component *);
    virtual void readSpeciesParameters (protocol::Component *, std::vector<string> &);   // read species parameters
    virtual void readCultivarParameters (protocol::Component *, const string &) {}; // read cv parameters from sowing line
 
-   virtual void prepare(const environment_t &sw);
-   virtual void process(const environment_t &, const pheno_stress_t &, float fasw_seed, float pesw_seed) = 0;
+   virtual void prepare(const Environment &sw);
+   virtual void process(const Environment &, const pheno_stress_t &, float fasw_seed, float pesw_seed) = 0;
    virtual void update(void);
 
    bool on_day_of(const string &);
 
-   bool inPhase(const string &);
+   bool inPhase(const string &) const;
 
    int   daysInPhase(const string &phaseName); //XX should be private
    int   daysInCurrentPhase(void);             //XX should be private
-   float ttInPhase(const string &phaseName);   //XX should be private
-   float TTTargetInPhase(const string &phaseName);
+   float ttInPhase(const string &phaseName) const;   //XX should be private
+   float TTTargetInPhase(const string &phaseName) const;
    float ttInCurrentPhase(void);               //XX should be private
 
    float stageNumber(void) {return currentStage;};//XXX a bad thing
@@ -125,7 +125,7 @@ class PlantPhenology : public plantThing {
    virtual void onKillStem(unsigned &, unsigned &, protocol::Variant &v);
    virtual void onRemoveBiomass(float removeBiomPheno){}; // XX arg should be protocol::Variant &v
 
-   virtual float get_dlt_tt(void) = 0;                          // XX remove when leaf number development is finished
+   virtual float get_dlt_tt(void) const = 0;                          // XX remove when leaf number development is finished
    void onPlantEvent(const string &) {};
    virtual bool plant_germination(float pesw_germ, float sowing_depth, float pesw_seed);
 

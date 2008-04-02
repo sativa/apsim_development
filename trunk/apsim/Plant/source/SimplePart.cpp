@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "SimplePart.h"
+#include "StdPlant.h"
 
 using namespace std;
 
@@ -17,7 +13,7 @@ SimplePart::SimplePart(ScienceAPI& api, plantInterface *p, const string &name)
      }
 
 SimplePart::SimplePart(ScienceAPI& api, plantInterface *p, const string &name,
-                     Pool& green, Pool& senesced)
+                     Pool& /*green*/, Pool& /*senesced*/)
 //=======================================================================================
      : plantPart(api, p, name)//,
    {

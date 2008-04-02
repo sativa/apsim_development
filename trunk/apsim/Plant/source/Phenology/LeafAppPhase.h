@@ -1,7 +1,7 @@
 #ifndef LeafAppPhase_H
 #define LeafAppPhase_H
 
-class environment_t;
+class Environment;
 class Output;
 
 class LeafAppPhase : public pPhase
@@ -23,7 +23,7 @@ class LeafAppPhase : public pPhase
       void readSpeciesParameters (protocol::Component *, std::vector<string> &);
       LeafAppPhase(ScienceAPI& scienceAPI, const string& stage_name)
          : pPhase (scienceAPI, stage_name){};
-      void updateTTTargets(PlantPhenology &parent, const environment_t &e);
+      void updateTTTargets(PlantPhenology &parent, const Environment &e);
       virtual string description();
       virtual void reset();
       void GetOutputs(std::vector <Output*> &Outputs);

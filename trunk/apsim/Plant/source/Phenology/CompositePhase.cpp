@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
+
 
 #include "Phase.h"
 #include "CompositePhase.h"

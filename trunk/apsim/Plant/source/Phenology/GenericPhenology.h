@@ -12,16 +12,16 @@ class GenericPhenology : public PlantPhenology
    public:
       GenericPhenology(ScienceAPI& scienceAPI, plantInterface *p)
          : PlantPhenology(scienceAPI, p) {};
-      void prepare(const environment_t &e);
-      void process(const environment_t &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
+      void prepare(const Environment &e);
+      void process(const Environment &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
       void readConstants (protocol::Component *, const string &);
       void readSpeciesParameters (protocol::Component *, std::vector<string> &);
       void readCultivarParameters (protocol::Component *, const string &);
       void onSow(unsigned &, unsigned &, protocol::Variant &v);
-      void writeCultivarInfo (PlantComponent *);
+      void writeCultivarInfo (protocol::Component *);
       void onRemoveBiomass(float removeBiomPheno);
-      virtual float TT(const environment_t &e);
-      float get_dlt_tt(void) {return dlt_tt;};
+      virtual float TT(const Environment &e);
+      float get_dlt_tt(void) const {return dlt_tt;};
 
    };
 

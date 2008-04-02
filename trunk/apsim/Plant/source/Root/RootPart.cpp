@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "SimplePart.h"
+#include "StdPlant.h"
 
 #include "RootPart.h"
 #include "RootGrowthOption1.h"
@@ -430,9 +426,9 @@ void RootPart::plant_root_depth (void)
 //=======================================================================================
 //  Calculate change in plant rooting depth
    {
-   const environment_t *e = plant->getEnvironment();
+   const Environment *e = plant->getEnvironment();
    //Temperature factor
-   float avg_temp = (e->mint + e->maxt)/2.0;
+   float avg_temp = (e->mint() + e->maxt())/2.0;
    float temp_factor = rel_root_advance.value(avg_temp);
 
    //Water stress factor
@@ -948,7 +944,7 @@ void RootPart::doPlantWaterStress (float sw_demand, SWStress *swStress)
     swStress->doPlantWaterStress (sw_demand);
    }
 
-void RootPart::doWaterUptakeExternal (float sw_demand)
+void RootPart::doWaterUptakeExternal (float /*sw_demand*/)
 //=======================================================================================
 // Gets todays daily water uptake by this root system
    {
@@ -1055,7 +1051,7 @@ void RootPart::onNewProfile(protocol::NewProfileType &v)
       bd[i] = scratch[i];
 
     if (xf.size()==0)
-       for (unsigned layer = 0; layer != num_layers; layer++)
+       for (int layer = 0; layer != num_layers; layer++)
           xf.push_back(0.0);
 
 

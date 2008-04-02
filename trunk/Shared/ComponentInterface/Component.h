@@ -178,6 +178,16 @@ class EXPORT Component
          {
          return componentData->getProperty(a,b);
          }
+      void getProperties(const std::string &section, 
+                         std::vector<std::string> &names, 
+                         std::vector<std::string> &values) const
+         {
+         componentData->getProperties(section, names, values);
+         }
+      void getMultipleProperties(const std::string& sectionName,
+                                 const std::string& variableName,
+                                 std::vector<std::string>& values);
+         
 
       // Notify system of an error.
       void error(const FString& msg, bool isFatal);
@@ -478,6 +488,7 @@ class EXPORT Component
        stripLeadingTrailing(valueString, " \t");
        return valueString;
        };
+      
 
       // Search a list of "sections" for a parameter.
     std::string readParameter(const std::vector<std::string> &sectionNames,

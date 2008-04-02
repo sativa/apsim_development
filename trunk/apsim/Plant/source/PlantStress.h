@@ -1,39 +1,16 @@
 #ifndef PlantStressH
 #define PlantStressH
 
-#include <stdio.h>
-#include <math.h>
-#include <map>
-#include <string>
-#include <stdexcept>
-#include <iomanip>
-
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-
-#include <ComponentInterface/Type.h>
-#include <ComponentInterface/ApsimVariant.h>
-#include <ComponentInterface/Component.h>
 #include <ComponentInterface/datatypes.h>
-#include <ComponentInterface/Messages.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ApsimShared/ApsimComponentData.h>
-#include <ApsimShared/FStringExt.h>
-#include <general/string_functions.h>
+#include <ComponentInterface/messages.h>
 #include <ComponentInterface/ScienceAPI.h>
-
-
-#include "PlantLibrary.h"
-#include "PlantComponent.h"
-#include "PlantInterface.h"
-#include "Environment.h"
 
 class RootBase;
 class plantPart;
 
 class SWStress {
 public:
-   SWStress(ScienceAPI& scienceAPI,PlantComponent *p);
+   SWStress(ScienceAPI& scienceAPI, protocol::Component *p);
    ~SWStress(void);
    void init(RootBase *root);
    void read_sw_constants (void);
@@ -58,7 +35,7 @@ public:
 private:
    ScienceAPI& scienceAPI;
 
-   PlantComponent *parent;                 // The plant we are attached to
+   protocol::Component *parent;                 // The plant we are attached to
    RootBase *rootPart;
 
    interpolationFunction cSwDefPheno;
@@ -72,10 +49,10 @@ private:
 
 class TempStress {
 public:
-   TempStress(ScienceAPI& scienceAPI,PlantComponent *p);
+   TempStress(ScienceAPI& scienceAPI, protocol::Component *p);
    ~TempStress(void);
    void init(void);
-   void doPlantTempStress (environment_t& Environment);
+   void doPlantTempStress (Environment& Environment);
    void read_t_constants (void);
    void get_tstress_photo(protocol::Component *, protocol::QueryValueData &);
 
@@ -84,14 +61,14 @@ public:
 private:
    ScienceAPI& scienceAPI;
 
-   PlantComponent *parent;                 // The plant we are attached to
+   protocol::Component *parent;                 // The plant we are attached to
    interpolationFunction cTStressPhoto;
 
 }; //TempStress
 
 class NStress {
 public:
-   NStress(ScienceAPI& scienceAPI,PlantComponent *p);
+   NStress(ScienceAPI& scienceAPI, protocol::Component *p);
    ~NStress(void);
    void init(void);
    void doPlantNStress (plantPart* leafPart, plantPart* stemPart);
@@ -113,7 +90,7 @@ public:
 private:
    ScienceAPI& scienceAPI;
 
-   PlantComponent *parent;                 // The plant we are attached to
+   protocol::Component *parent;                 // The plant we are attached to
    struct {
       StressDeficit nFact;
       int   n_stress_option;
@@ -123,7 +100,7 @@ private:
 
 class PStress {
 public:
-   PStress(ScienceAPI& scienceAPI,PlantComponent *p);
+   PStress(ScienceAPI& scienceAPI, protocol::Component *p);
    ~PStress(void);
    void init(void);
    bool isPhosphorusAware(void);
@@ -147,7 +124,7 @@ private:
    void PlantP_set_phosphorus_aware (void);
    float PlantP_Pfact (vector<plantPart *>&);
 
-   PlantComponent *parent;                 // The plant we are attached to
+   protocol::Component *parent;                 // The plant we are attached to
    bool  phosphorus_aware;
    struct {
       StressDeficit pFactSlope;

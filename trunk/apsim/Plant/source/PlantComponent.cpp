@@ -1,25 +1,5 @@
-#include <general/pch.h>
-#ifdef __WIN32__
- #include <vcl.h>
-#endif
+#include "StdPlant.h"
 
-#include <boost/function.hpp>
-
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/ApsimVariant.h>
-#include <ComponentInterface/ScienceAPI.h>
-#include <ApsimShared/ApsimComponentData.h>
-#include <ComponentInterface/Type.h>
-#include <ComponentInterface/Messages.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ApsimShared/FStringExt.h>
-#include <general/string_functions.h>
-#include <general/stristr.h>
-#include <map>
-
-#include "PlantLibrary.h"
-#include "PlantComponent.h"
-#include "PlantInterface.h"
 #include "Plant.h"
 
 using namespace std;

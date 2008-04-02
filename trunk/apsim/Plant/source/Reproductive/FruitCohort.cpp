@@ -1,15 +1,11 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "PlantPart.h"
+#include "StdPlant.h"
 
-#include "CompositePart.h"
+#include "FruitCohort.h"
+
 #include "GrainPart.h"
 #include "GrainPartGN.h"
 #include "GrainPartHI.h"
 #include "PodPart.h"
-#include "FruitCohort.h"
 
 using namespace std;
 

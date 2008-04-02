@@ -11,7 +11,7 @@ class Arbitrator : public plantThing
       plantPart* FindPart(vector <plantPart *>& Parts, string name);
   public:
    Arbitrator(ScienceAPI& scienceAPI, plantInterface *p)
-      : plantThing(scienceAPI) {plant = p;};
+      : plantThing(scienceAPI, "Arbitrator") {plant = p;};
    virtual ~Arbitrator(void) {};
 
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &) {};

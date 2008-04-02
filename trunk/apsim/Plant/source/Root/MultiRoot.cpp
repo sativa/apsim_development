@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include "SimplePart.h"
+#include "StdPlant.h"
 
 #include "MultiRoot.h"
 #include "RootGrowthOption1.h"
@@ -43,7 +39,7 @@ void MultiRoot::doWaterUptakeInternal (float sw_demand_in)
    SWDemand = sw_demand_in;
    }
 
-void MultiRoot::doPlantWaterStress (float sw_demand, SWStress *swStress)
+void MultiRoot::doPlantWaterStress (float /*sw_demand*/, SWStress *swStress)
 //     ===========================================================
 //         Get current water stress factors (0-1)
    {
@@ -57,7 +53,7 @@ void MultiRoot::doPlantWaterStress (float sw_demand, SWStress *swStress)
 //   return 1;
 //   }
 
-float MultiRoot::sw_avail_ratio(int layer)  //(INPUT) soil profile layer number
+float MultiRoot::sw_avail_ratio(int /*layer*/)  //(INPUT) soil profile layer number
 //===========================================================================
 //     Get the soil water availability factor in a layer.  For a layer,
 //     it is 1.0 unless the plant-extractable soil water declines
@@ -84,7 +80,7 @@ float MultiRoot::sw_avail_ratio(int layer)  //(INPUT) soil profile layer number
 //
 
 
-float MultiRoot::plant_nit_supply(float biomass, float stageNumber, float swdef_fixation)
+float MultiRoot::plant_nit_supply(float /*biomass*/, float /*stageNumber*/, float /*swdef_fixation*/)
 //=======================================================================================
 // Calculate Plant Nitrogen Supply
     {
@@ -99,7 +95,7 @@ float MultiRoot::peswTotal()
    return 0.0;
    }
 
-float MultiRoot::pesw(int depth)
+float MultiRoot::pesw(int /*depth*/)
 //=======================================================================================
 // Calculate plant extractable soil water at the given depth.
    {
@@ -120,7 +116,7 @@ float MultiRoot::nUptake()
    return NDemand;
    }
 
-float MultiRoot::fasw(int depth)
+float MultiRoot::fasw(int /*depth*/)
 //=======================================================================================
 // calculate the fraction of available soil water at the given depth (mm)
    {
@@ -128,7 +124,7 @@ float MultiRoot::fasw(int depth)
    }
 
 
-void MultiRoot::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
+void MultiRoot::doNUptake(float /*sumNMax*/, float sumSoilNDemand, float nDemand)
 //=======================================================================================
 //       Find nitrogen uptake.
     {
@@ -150,7 +146,7 @@ void MultiRoot::onInit1(protocol::Component *system)
 
 //+  Purpose
 //       Plant transpiration and soil water extraction
-void MultiRoot::doWaterUptake (int option, float swDemand)
+void MultiRoot::doWaterUptake (int /*option*/, float swDemand)
     {
     SWDemand = swDemand;
     }
