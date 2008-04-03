@@ -448,7 +448,7 @@ void Coordinator::onTerminateSimulationMessage(void)
 // ------------------------------------------------------------------
 void Coordinator::onGetValueMessage(unsigned int fromID, GetValueData& getValueData)
    {
-   if (!afterInit2)
+/*   if (!afterInit2)
       {
       string msg = "Cannot do GET's before the INIT2.\n";
       msg += "Variable name: ";
@@ -456,7 +456,7 @@ void Coordinator::onGetValueMessage(unsigned int fromID, GetValueData& getValueD
       error(msg.c_str(), true);
       }
    else
-      sendQueryValueMessage(fromID, getValueData.ID);
+*/      sendQueryValueMessage(fromID, getValueData.ID);
    }
 // ------------------------------------------------------------------
 // Send queryValue messages to all subscribed components.
