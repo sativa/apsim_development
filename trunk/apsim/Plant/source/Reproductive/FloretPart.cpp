@@ -253,24 +253,6 @@ void FloretPart::calcDlt_Floret_area (void)
    gDlt_pai = dltDmGreen() * cSpec_Floret_area * smm2sm;
 }
 
-float FloretPart::interceptRadiationGreen (float radiation)    // incident radiation on Florets
-    //===========================================================================
-{
-   //     Calculate Floret total radiation interception and return transmitted radiation
-
-   radiationInterceptedGreen = coverGreen() * radiation;
-   return radiationInterceptedGreen;
-}
-
-float FloretPart::interceptRadiationTotal (float radiation)    // incident radiation on Florets
-    //===========================================================================
-{
-   //     Calculate Floret total radiation interception and return transmitted radiation
-
-   radiationInterceptedTotal = coverTotal() * radiation;
-   return radiationInterceptedTotal;
-}
-
 void FloretPart::doDmPotRUE (void )                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    //===========================================================================
 {

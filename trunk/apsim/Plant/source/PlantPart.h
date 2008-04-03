@@ -130,8 +130,8 @@ public:
    virtual float grainWaterContent(void) = 0;
    virtual float grainWt(void) = 0;
 
-   virtual float interceptRadiationGreen(float radiation) = 0;
-   virtual float interceptRadiationTotal(float radiation) = 0;
+   virtual void interceptRadiationGreen(float radiation) = 0;
+   virtual float calcInterceptRadiationTotal(float radiation) = 0;
    virtual void  morphology(void) = 0;
 
    virtual float nDemandGrain(void) = 0;

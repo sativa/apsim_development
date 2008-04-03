@@ -111,28 +111,12 @@ void PlantPartArea::calcDlt_area (float dltDm)
    dlt_partAI = dltDm * cSpec_area * smm2sm;
 }
 
-float PlantPartArea::interceptRadiationGreen (float radiation)    // incident radiation
-    //===========================================================================
-{
-   //     Calculate total radiation interception and return transmitted radiation
-
-   return coverGreen() * radiation;
-}
-
-float PlantPartArea::interceptRadiationTotal (float radiation)    // incident radiation
-    //===========================================================================
-{
-   //     Calculate total radiation interception and return transmitted radiation
-
-   return coverTotal() * radiation;
-}
-
 fruitPodPart::fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, FruitCohort *g, const string &name)
    : SimplePart(scienceAPI, p, name)
    , pod(scienceAPI, p, name)
    , myParent(g)
    {
-    co2Modifier = new Co2Modifier(scienceAPI, plant->getComponent());
+    co2Modifier = new Co2Modifier(scienceAPI, *plant);
    }
 
 void fruitPodPart::onInit1(protocol::Component *system)
@@ -147,7 +131,7 @@ void fruitPodPart::onInit1(protocol::Component *system)
 void fruitPodPart::prepare(void)
 //=======================================================================================
    {
-   co2Modifier->doPlant_Co2Modifier (*(plant->getEnvironment()));
+   co2Modifier->doPlant_Co2Modifier();
 
 }
 
@@ -326,22 +310,20 @@ void fruitPodPart::calcDlt_pod_area (void)
 //   gDlt_pai = dltDmGreen() * cSpec_pod_area * smm2sm;
 }
 
-float fruitPodPart::interceptRadiationGreen (float radiation)    // incident radiation on pods
+void fruitPodPart::interceptRadiationGreen (float radiation)    // incident radiation on pods
     //===========================================================================
 {
    //     Calculate pod total radiation interception and return transmitted radiation
 
-   radiationInterceptedGreen = pod.interceptRadiationGreen(radiation);
-   return radiationInterceptedGreen;
+   radiationInterceptedGreen = pod.coverGreen() * radiation;
 }
 
-float fruitPodPart::interceptRadiationTotal (float radiation)    // incident radiation on pods
+float fruitPodPart::calcInterceptRadiationTotal (float radiation)    // incident radiation on pods
     //===========================================================================
 {
    //     Calculate pod total radiation interception and return transmitted radiation
 
-   radiationInterceptedTotal = pod.interceptRadiationTotal(radiation);
-   return radiationInterceptedTotal;
+   return pod.coverTotal() * radiation;
 }
 
 void fruitPodPart::doDmPotRUE (void )                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)

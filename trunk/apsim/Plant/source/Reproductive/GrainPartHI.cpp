@@ -137,7 +137,7 @@ void fruitGrainPartHI::doDMDemandGrain(void)
                                       ,pY_hi_max_pot
                                       ,pNum_hi_max_pot);
 
-      photoperiod = plant->getEnvironment()->dayLength(cTwilight);
+      photoperiod = plant->environment().dayLength(cTwilight);
 
       hi_incr = linear_interp_real(photoperiod
                                    ,pX_pp_hi_incr
@@ -165,7 +165,7 @@ void fruitGrainPartHI::doDMDemandGrain(void)
 
 
       // delay grainfill after cold snap
-      if (plant->getEnvironment()->mint() <= pMinTempGrnFill)
+      if (plant->environment().mint() <= pMinTempGrnFill)
          gDelayGrnFill = true;
       if (gDelayGrnFill)
          {

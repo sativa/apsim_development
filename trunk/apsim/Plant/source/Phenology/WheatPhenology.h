@@ -21,7 +21,7 @@ class WheatPhenology : public PlantPhenology {
    float wheat_vernaliz_effect(float p_vern_sens, float cumvd, float dlt_cumvd, float reqvd);
    float crown_temp_nwheat (float maxt, float mint, float snow);
 
-   void vernalisation (const Environment &);
+   void vernalisation ();
    void setupTTTargets(void);
 
    void get_zadok_stage(protocol::Component *system, protocol::QueryValueData &qd);
@@ -35,7 +35,7 @@ class WheatPhenology : public PlantPhenology {
    void readCultivarParameters (protocol::Component *, const string &);  // read cv parameters from sowing line
    void writeCultivarInfo (protocol::Component *);
 
-   void process(const Environment &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
+   void process(const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
 
    void onRemoveBiomass(float removeBiomPheno);
 

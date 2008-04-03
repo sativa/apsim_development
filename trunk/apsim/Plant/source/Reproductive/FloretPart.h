@@ -29,8 +29,6 @@ class FloretPart : public SimplePart {
 
    void zeroAllGlobals(void);
    void zeroDeltas(void);
-   float interceptRadiationGreen(float radiation);
-   float interceptRadiationTotal(float radiation);
    float coverTotal(void)  ;
    float coverGreen(void)  ;
    float coverSen(void)  ;

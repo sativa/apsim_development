@@ -203,6 +203,11 @@ class RootPart : public RootBase
       void doSWSupply();
       void doSWAvailable();
       void rootDist(float root_sum, std::vector<float>& rootArray);
+      void crop_check_sw(float minsw,    // (INPUT)  lowest acceptable value for ll
+                   float *dlayer,   // (INPUT)  thickness of soil layer I (mm)
+                   float *dul_dep,  // (INPUT)  drained upper limit soil water content for soil layer L (mm water)
+                   float *sw_dep,   // (INPUT)  soil water content of layer L (mm)
+                   float *ll_dep);   // (INPUT)  lower limit of plant-extractable soil water
 
    };
 

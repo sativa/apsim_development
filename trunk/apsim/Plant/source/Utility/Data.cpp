@@ -187,7 +187,7 @@ float sum_real_array (float *var,  // INPUT array to be summed
    }
 
 //===========================================================================
-void bound_check_real_var (plantInterface *i,
+void bound_check_real_var (ScienceAPI& scienceAPI,
                            float value,       // (IN) Value to be checked
                            float lower,       // (IN) Lower bound
                            float upper,       // (IN) Upper bound
@@ -209,26 +209,26 @@ void bound_check_real_var (plantInterface *i,
       sprintf(msg,
          "Lower bound (%f) exceeds upper bound (%f)\n        Variable is not checked",
          lower, upper);
-      i->warningError (msg);
+      scienceAPI.warning(msg);
       }
    //is the value too big?
    else if (value > (upper + epsilon))    //XX wrong. Needs to be relative tolerance.
       {
       sprintf(msg,
          "%s = %f\n        exceeds upper limit of %f",vname,value,upper);
-      i->warningError (msg);
+      scienceAPI.warning(msg);
       }
    //is the value too small?
    else if (value  < (lower - epsilon))
       {
       sprintf(msg,
          "%s = %f\n        less than lower limit of %f",vname, value, lower);
-      i->warningError (msg);
+      scienceAPI.warning(msg);
       }
    }
 
 //===========================================================================
-void bound_check_integer_var (plantInterface *i,
+void bound_check_integer_var (ScienceAPI& scienceAPI,
                               int value, int lower, int upper, const char *vname)
 //===========================================================================
 
@@ -260,7 +260,7 @@ void bound_check_integer_var (plantInterface *i,
    upperf = float(upper);
    valuef = float(value);
 
-   bound_check_real_var(i, valuef, lowerf, upperf, vname);
+   bound_check_real_var(scienceAPI, valuef, lowerf, upperf, vname);
    }
 
 //===========================================================================
@@ -536,7 +536,7 @@ void subtract_real_array (const float *amount,// (INPUT) amount to be removed
 
 
 // ================================================================
-void bound_check_real_array (plantInterface *i,
+void bound_check_real_array (ScienceAPI& scienceAPI,
                              float *array,// (INPUT) array to be checked
                              int    array_size,    // (INPUT) array size_of
                              float  lower_bound,// (INPUT) lower bound of values
@@ -571,13 +571,13 @@ void bound_check_real_array (plantInterface *i,
   //- Implementation Section ----------------------------------
   for (int indx = 0; indx < array_size; indx++)
      {
-      bound_check_real_var (i, array[indx], lower_bound,
+      bound_check_real_var (scienceAPI, array[indx], lower_bound,
                             upper_bound, array_name);
      }
 }
 
 // ================================================================
-void bound_check_integer_array (plantInterface *i,
+void bound_check_integer_array (ScienceAPI& scienceAPI,
                              int *array,// (INPUT) array to be checked
                              int    array_size,    // (INPUT) array size_of
                              int  lower_bound,// (INPUT) lower bound of values
@@ -612,7 +612,7 @@ void bound_check_integer_array (plantInterface *i,
   //- Implementation Section ----------------------------------
   for (int indx = 0; indx < array_size; indx++)
      {
-      bound_check_integer_var (i, array[indx], lower_bound,
+      bound_check_integer_var (scienceAPI, array[indx], lower_bound,
                                upper_bound, array_name);
      }
 }

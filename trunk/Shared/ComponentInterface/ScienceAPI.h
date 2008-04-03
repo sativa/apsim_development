@@ -28,6 +28,7 @@ class EXPORT ScienceAPI
       protocol::Component* getComponent() {return component;}   // get rid of this ASAP.
 
       void write(const std::string& msg);
+      void warning(const std::string& msg);
 
       // read methods.
       bool read(const std::string& name, int& data, int lower, int upper);

@@ -1,31 +1,15 @@
 #include "StdPlant.h"
 
 #include "PlantSpatial.h"
-#include <ComponentInterface/ApsimVariant.h>
-PlantSpatial::PlantSpatial(void)
+
+PlantSpatial::PlantSpatial(ScienceAPI& api)
+   : scienceAPI(api)
    {
    }
 
 PlantSpatial::~PlantSpatial(void)
    {
    }
-
-// copy constructor
-//	copy data members of object
-PlantSpatial::PlantSpatial(const PlantSpatial &/* PlantSpatial*/)
-//===========================================================================
-{
-	throw std::invalid_argument("Copy constructor NI for PlantSpatial");
-}
-
-
-// Assigment operator
-//	assign data members of object
-const PlantSpatial &PlantSpatial::operator=(const PlantSpatial &/*other*/)
-   //===========================================================================
-{
-   throw std::invalid_argument("Assignment operator NI for PlantSpatial");
-}
 
 void PlantSpatial::init(plantInterface *p)
    {
@@ -76,33 +60,33 @@ void PlantSpatial::startCrop (protocol::Component *system, protocol::Variant &v/
                {
                throw std::invalid_argument("plant density ('plants') not specified");
                }
-           bound_check_real_var(plant, plants, 0.0, 1000.0, "plants");
+           bound_check_real_var(scienceAPI, plants, 0.0, 1000.0, "plants");
 
            if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)
                {
                throw std::invalid_argument("sowing_depth not specified");
                }
-           bound_check_real_var(plant, sowing_depth, 10.0, 200.0, "sowing_depth");
+           bound_check_real_var(scienceAPI, sowing_depth, 10.0, 200.0, "sowing_depth");
 
            if (incomingApsimVariant.get("row_spacing", protocol::DTsingle, false, row_spacing) == false)
                {
                row_spacing = row_spacing_default;
                }
-           bound_check_real_var(plant, row_spacing, 0.0, 2000.0, "row_spacing");
+           bound_check_real_var(scienceAPI, row_spacing, 0.0, 2000.0, "row_spacing");
 
 
            if (incomingApsimVariant.get("skipplant", protocol::DTsingle, false, skip_plant) == false)
                {
                skip_plant = skip_plant_default;
                }
-           bound_check_real_var(plant, skip_plant, 0.0, 2.0, "skipplant");
+           bound_check_real_var(scienceAPI, skip_plant, 0.0, 2.0, "skipplant");
            skip_plant_fac = (2.0 + skip_plant)/2.0;
 
            if (incomingApsimVariant.get("skiprow", protocol::DTsingle, false, skip_row) == false)
                {
                skip_row = skip_row_default;
                }
-           bound_check_real_var(plant, skip_row, 0.0, 2.0, "skiprow");
+           bound_check_real_var(scienceAPI, skip_row, 0.0, 2.0, "skiprow");
            skip_row_fac = (2.0 + skip_row)/2.0;
     }
 

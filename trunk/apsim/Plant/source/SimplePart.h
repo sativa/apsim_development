@@ -26,7 +26,6 @@ class SimplePart : public plantPart
    float Width;                      // The width of this part (mm)
    float relativeGrowthRate;
    float radiationInterceptedGreen;
-   float radiationInterceptedTotal;
    float transpEff;
    float pEoCropFactor;                             // Crop factor for sw demand applied to Eo
 
@@ -117,7 +116,7 @@ public:
    virtual float dltNSenesced(void);
    virtual float dltNSenescedTrans(void);
    virtual float giveNGreen(float) ;
-   virtual float interceptRadiationGreen(float radiation);
+   virtual void interceptRadiationGreen(float radiation);
    virtual float n_conc_crit(void);
    virtual float n_conc_min(void);
    virtual float SWDemand(void);
@@ -288,7 +287,7 @@ protected:
    virtual float dmGrainWetTotal(void);
    virtual float grainNo(void);
    virtual float grainWt(void);
-   virtual float interceptRadiationTotal(float radiation);
+   virtual float calcInterceptRadiationTotal(float radiation);
    virtual float nDemandGrain(void);
    virtual float nDemandGrain2(void);
 

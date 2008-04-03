@@ -46,7 +46,7 @@ void LeafAppPhase::readSpeciesParameters (protocol::Component *s, vector<string>
 
 
 
-void LeafAppPhase::updateTTTargets(PlantPhenology &parent, const Environment &/* e*/)
+void LeafAppPhase::updateTTTargets(PlantPhenology &parent)
 //=======================================================================================
    {
    if (parent.inPhase("leaf_initiation"))

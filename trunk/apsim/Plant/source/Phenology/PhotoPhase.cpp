@@ -27,20 +27,20 @@ void PhotoPhase::readSpeciesParameters (protocol::Component *s, vector<string> &
    }
 
 
-void PhotoPhase::updateTTTargets(PlantPhenology &/* parent*/,const Environment &e)
+void PhotoPhase::updateTTTargets(PlantPhenology &/* parent*/)
 //=======================================================================================
    {
    if (cutoff == "start")
       {
       if (tt == 0.0)
          {
-         photoperiod = e.dayLength(twilight);
+         photoperiod = plant->environment().dayLength(twilight);
          target = photo_tt.value(photoperiod);
          }
       }
    else if (cutoff == "end")
       {
-      photoperiod = e.dayLength(twilight);
+      photoperiod = plant->environment().dayLength(twilight);
       target = photo_tt.value(photoperiod);
 
       }

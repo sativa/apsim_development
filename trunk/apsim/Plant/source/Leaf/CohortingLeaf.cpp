@@ -3,6 +3,7 @@
 #include "CompositePart.h"
 #include "Leaf.h"
 #include "CohortingLeaf.h"
+#include "Environment.h"
 using namespace std;
 
 
@@ -572,7 +573,7 @@ void CohortingLeaf::Detachment (void)
     SimplePart::Detachment();
   }
 
-void CohortingLeaf::leaf_area_sen(float swdef_photo , float mint)
+void CohortingLeaf::leaf_area_sen(float swdef_photo)
 //=======================================================================================
 //   Calculate todays leaf area senescence
 {
@@ -604,7 +605,7 @@ void CohortingLeaf::leaf_area_sen(float swdef_photo , float mint)
 
     dltSLAI_frost = crop_leaf_area_sen_frost1(cSenescenceFac,
                               getLAI(),
-                              mint,
+                              plant->environment().mint(),
                               plants,
                               cMinTPLA);
 }

@@ -2,6 +2,7 @@
 
 #include "Leaf.h"
 #include "GenericLeaf.h"
+#include "Environment.h"
 using namespace std;
 
 const float  tolerance_lai = 1.0e-4 ;
@@ -506,7 +507,7 @@ void GenericLeaf::Detachment (void)
    }
 
 //   Calculate todays leaf area senescence
-void GenericLeaf::leaf_area_sen(float swdef_photo , float mint)
+void GenericLeaf::leaf_area_sen(float swdef_photo)
 {
     float plants = plant->getPlants();
 
@@ -531,7 +532,7 @@ void GenericLeaf::leaf_area_sen(float swdef_photo , float mint)
 
     dltSLAI_frost = crop_leaf_area_sen_frost1(cSenescenceFac,
                               gLAI,
-                              mint,
+                              plant->environment().mint(),
                               plants,
                               cMinTPLA);
 

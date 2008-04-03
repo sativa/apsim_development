@@ -1,17 +1,17 @@
 #include "StdPlant.h"
 #include "Co2Modifier.h"
 
+#include "Environment.h"
 using namespace std;
 
 //#####################################################################################
 // Co2Modifier implementation
 //######################################################################################
 
-Co2Modifier::Co2Modifier(ScienceAPI& scienceAPI, protocol::Component *p)
-   : scienceAPI(scienceAPI)
-   , parent(p)
-{
-}
+Co2Modifier::Co2Modifier(ScienceAPI& scienceAPI, plantInterface& p)
+   : scienceAPI(scienceAPI), plant(p)
+   {
+   }
 
 // destructor
 Co2Modifier::~Co2Modifier()
@@ -21,19 +21,9 @@ Co2Modifier::~Co2Modifier()
 void Co2Modifier::init(void)
    {
    zero_co2_variables();
-   parent->addGettableVar("temp_stress_photo",
-               tFact.photo, "", "Temperature Stress in photosynthesis");
+   scienceAPI.expose("temp_stress_photo", "", "Temperature Stress in photosynthesis", tFact.photo);
 
-//   parent->addGettableVar("temp_fact_photo",
-//               tFact.photo, "", "Temperature Stress in photosynthesis");
-//
-//   setupGetFunction(parent, "temp_stress_photo", protocol::DTsingle, false,
-//                    &Co2Modifier::get_tstress_photo,
-//                    "","Temperature stress for photosynthesis");
-
-      c.photosynthetic_pathway = photosynthetic_pathway_UNDEF;
-
-
+   c.photosynthetic_pathway = photosynthetic_pathway_UNDEF;
    }
 
 void Co2Modifier::zero_co2_variables (void)
@@ -85,15 +75,15 @@ float Co2Modifier::n_conc (void)
       return co2_modifier_n_conc;
    }
 
-void Co2Modifier::doPlant_Co2Modifier (const Environment& Environment)
+void Co2Modifier::doPlant_Co2Modifier()
 //     ===========================================================
 //         Get current temperature stress factors (0-1)
    {
-         co2_modifier_rue = plant_rue_co2_modifier(Environment.co2(),
-                               Environment.meant());
+         co2_modifier_rue = plant_rue_co2_modifier(plant.environment().co2(),
+                               plant.environment().meant());
 
-         co2_modifier_te = cTE.value(Environment.co2());
-         co2_modifier_n_conc = cNConc.value(Environment.co2());
+         co2_modifier_te = cTE.value(plant.environment().co2());
+         co2_modifier_n_conc = cNConc.value(plant.environment().co2());
 
    }
 

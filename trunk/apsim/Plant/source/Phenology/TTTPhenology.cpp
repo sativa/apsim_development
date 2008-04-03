@@ -41,9 +41,9 @@ void TTTPhenology::setupTTTargets(void)
    }
 
 // dynamic TT targets
-void TTTPhenology::updateTTTargets(const Environment &e)
+void TTTPhenology::updateTTTargets()
    {
-   dlt_cumvd = vernal_days.value((e.maxt() + e.mint())*0.5);
+   dlt_cumvd = vernal_days.value(plant->environment().meant());
 
    if (inPhase("germination"))
       {
@@ -54,8 +54,8 @@ void TTTPhenology::updateTTTargets(const Environment &e)
       {
       if (on_day_of("emergence"))
          {
-         int est_day_of_floral_init = e.dayOfYear() + est_days_emerg_to_init % 366;
-         float est_photoperiod = e.dayLength(est_day_of_floral_init, twilight);
+         int est_day_of_floral_init = plant->environment().dayOfYear() + est_days_emerg_to_init % 366;
+         float est_photoperiod = plant->environment().dayLength(est_day_of_floral_init, twilight);
 
          pPhase *endjuv_to_init = getStage("end_of_juvenile");
          endjuv_to_init->setTarget(tt_endjuv_to_init[est_photoperiod]);
@@ -167,9 +167,9 @@ void TTTPhenology::writeCultivarInfo (protocol::Component *systemInterface)
    systemInterface->writeString (s.c_str());
    }
 
-float TTTPhenology::TT(const Environment &e)
+float TTTPhenology::TT()
    {
-        return linint_3hrly_temp (e.maxt(), e.mint(), &y_tt);
+        return linint_3hrly_temp (plant->environment().maxt(), plant->environment().mint(), &y_tt);
    }
 
 //+  Purpose
@@ -177,11 +177,11 @@ float TTTPhenology::TT(const Environment &e)
 //     to determine when the crop begins a new growth phase.
 //     The initial daily thermal time and height are also set.
 
-void TTTPhenology::process (const Environment &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed)
+void TTTPhenology::process (const pheno_stress_t &ps, float fasw_seed, float pesw_seed)
    {
    float phase_devel, new_stage;
 
-   dlt_tt = TT(e);
+   dlt_tt = TT();
 
    if (inPhase("sowing"))
       {
@@ -364,12 +364,12 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
 
 }
 
-void TTTPhenology::prepare (const Environment &e)
+void TTTPhenology::prepare()
    {
-   CropPhenology::prepare(e);
-   photoperiod = e.dayLength(twilight);
+   CropPhenology::prepare();
+   photoperiod = plant->environment().dayLength(twilight);
 
-   updateTTTargets(e);
+   updateTTTargets();
    }
 
 void TTTPhenology::onInit1(protocol::Component *s)

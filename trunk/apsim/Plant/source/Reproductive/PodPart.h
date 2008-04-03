@@ -22,8 +22,6 @@ class PlantPartArea {
 
    void zeroAllGlobals(void);
    void zeroDeltas(void);
-   float interceptRadiationGreen(float radiation);
-   float interceptRadiationTotal(float radiation);
    float coverTotal(void)  ;
    float coverGreen(void)  ;
    float coverSen(void)  ;
@@ -75,8 +73,8 @@ class fruitPodPart : public SimplePart {
 
    void zeroAllGlobals(void);
    void zeroDeltas(void);
-   float interceptRadiationGreen(float radiation);
-   float interceptRadiationTotal(float radiation);
+   void interceptRadiationGreen(float radiation);
+   float calcInterceptRadiationTotal(float radiation);
    float coverTotal(void)  ;
    float coverGreen(void)  ;
    float coverSen(void)  ;
@@ -98,7 +96,6 @@ class fruitPodPart : public SimplePart {
       FruitCohort *myParent;
       PlantPartArea pod;
       float radiationInterceptedGreen;
-      float radiationInterceptedTotal;
 };
 
 #endif /* PodPartH */

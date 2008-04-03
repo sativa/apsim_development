@@ -80,8 +80,8 @@ void FruitCohortFN::onInit1(protocol::Component *system)
 void FruitCohortFN::process (void)
 //=======================================================================================
    {
-      fruitPhenology->prepare (*(plant->getEnvironment()));
-      fruitPhenology->process (*(plant->getEnvironment()), plant->getPhotoStress(), plant->getFaswSeed(), plant->getPeswSeed());
+      fruitPhenology->prepare ();
+      fruitPhenology->process (plant->getPhotoStress(), plant->getFaswSeed(), plant->getPeswSeed());
       FruitCohort::process();
    }
 
@@ -236,7 +236,7 @@ void FruitCohortFN::doDmDemand (float /*dlt_dm_supply_by_veg*/)
                float dlt_fruit_age = divide(plant->getPhenology()->get_dlt_tt()                     //pod dm demand - pod stuff
                                            , tt_fruit_age_max, 0.0);               //pod dm demand - pod stuff
                float dm_max = p.dm_fruit_max                                      //pod dm demand - pod stuff
-                            * rel_grainfill.value(plant->getEnvironment()->meant())                                            //pod dm demand - pod stuff
+                            * rel_grainfill.value(plant->environment().meant())                                            //pod dm demand - pod stuff
                             * fruit_no;                                           //pod dm demand - pod stuff
                                                                             //pod dm demand - pod stuff
                float dlt_dm_fruit_demand_pot = dm_max * dlt_fruit_age;                  //pod dm demand - pod stuff

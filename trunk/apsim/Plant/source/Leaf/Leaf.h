@@ -40,7 +40,7 @@ class Leaf : public SimplePart {
    virtual void CanopyExpansion (int option, float, float, float) =0;             // Calculate potentials
    virtual void actual(void) =0;                                     // Calculate actual leaf development from potential & stressed
    virtual void leaf_death (float nfact_expansion, float  dlt_tt) =0;//
-   virtual void leaf_area_sen (float, float) =0;
+   virtual void leaf_area_sen (float) =0;
    virtual void update (void) = 0;
    virtual void remove_detachment (float dlt_slai_detached, float dlt_lai_removed ) =0;
 
@@ -49,8 +49,6 @@ class Leaf : public SimplePart {
    virtual void doSWDemand(float SWDemandMaxFactor);
    virtual void doBioActual (void);
 
-   virtual float interceptRadiationGreen(float radiation);
-   virtual float interceptRadiationTotal(float radiation);
    virtual float coverTotal(void)  ;
    virtual float coverGreen(void)  ;
    virtual float coverSen(void)  ;

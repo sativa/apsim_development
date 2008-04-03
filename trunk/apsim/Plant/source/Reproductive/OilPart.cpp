@@ -84,7 +84,7 @@ void fruitOilPart::doBioGrainOil (void)    // for seed energy content (>= 1.0)
 //  Calculate grain oil factors
    {
    gGrain_energy = 1.0 + cGrain_oil_conc * (cCarbo_oil_conv_ratio - 1.0);
-   bound_check_real_var (plant, gGrain_energy, 1.0, 2.0, "grain_energy");
+   bound_check_real_var (scienceAPI, gGrain_energy, 1.0, 2.0, "grain_energy");
    }
 
 float fruitOilPart::energyAdjustHI (float harvestIndex)

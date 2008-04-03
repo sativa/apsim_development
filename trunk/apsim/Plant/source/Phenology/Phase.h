@@ -23,11 +23,12 @@ class pPhase
            days;           // Number of days spent in this phase.
      bool empty;
      ScienceAPI& scienceAPI;
+     plantInterface* plant;
    public:
-     pPhase(ScienceAPI& api, const std::string& n)
-        : scienceAPI(api) {myName = n; tt = target = days = 0.0; empty = true;};
-     pPhase(ScienceAPI& api, const char *n)
-        : scienceAPI(api) {myName = n; tt = target = days = 0.0; empty = true;};
+     pPhase(ScienceAPI& api, plantInterface* p, const std::string& n)
+        : scienceAPI(api), plant(p) {myName = n; tt = target = days = 0.0; empty = true;};
+     pPhase(ScienceAPI& api, plantInterface* p, const char *n)
+        : scienceAPI(api), plant(p) {myName = n; tt = target = days = 0.0; empty = true;};
      virtual ~pPhase() {};
 
      void  add(float dlt_days)               {days += dlt_days;};
@@ -46,7 +47,7 @@ class pPhase
      virtual string description(void)  {return "";};
      virtual void readCultivarParameters(protocol::Component *s, const string & cultivar){};
      virtual void readSpeciesParameters (protocol::Component *, std::vector<string> &){};
-     virtual void updateTTTargets(PlantPhenology &parent, const Environment &e){};
+     virtual void updateTTTargets(PlantPhenology &parent){};
      virtual void onSow(protocol::ApsimVariant incomingApsimVariant){};
      virtual void setupTTTarget(void){};
      virtual void GetOutputs(std::vector <Output*> &Outputs){};

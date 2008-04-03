@@ -6,6 +6,7 @@
 #endif
 
 #include "Plant.h"
+#include "PlantComponent.h"
 
 using namespace std;
 

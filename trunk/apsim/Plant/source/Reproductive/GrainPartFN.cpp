@@ -188,7 +188,7 @@ float fruitGrainPartFN::dltDmYieldPotential(void)
 {
 
    return myParent->potentialCohortGrainFillRate()
-                           * rel_grainfill.value(plant->getEnvironment()->meant())                                            //cohort dm demand - cohort stuff
+                           * rel_grainfill.value(plant->environment().meant())                                            //cohort dm demand - cohort stuff
                            * myParent->getDltTT();
 }
 
@@ -215,7 +215,7 @@ void fruitGrainPartFN::doDMDemandGrain(void)
                // we are in grain filling stage
 
                float dlt_dm_yield = dltDmYieldPotential();                        //cohort dm demand - cohort stuff
-////                                  * rel_grainfill.value(plant->getEnvironment()->meanT)                                            //cohort dm demand - cohort stuff
+////                                  * rel_grainfill.value(plant->environment()->meanT)                                            //cohort dm demand - cohort stuff
 ////                                  * myParent->getDltTT();                                   //cohort dm demand - cohort stuff
 
                dlt_dm_yield = bound (dlt_dm_yield, 0.0, myParent->dltDmGrainMax());

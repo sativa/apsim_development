@@ -252,7 +252,7 @@ float fruitGrainPart::nConcPercent(void)  {return Total.NconcPercent();}   //rem
 float fruitGrainPart::dltDmDemand(void) {return gDlt_dm_grain_demand;}                               //remove
 float fruitGrainPart::dltDmGrainDemand(void)  {return gDlt_dm_grain_demand;}
 
-float fruitGrainPart::meanT (void) {return plant->getEnvironment()->meant();}
+float fruitGrainPart::meanT (void) {return plant->environment().meant();}
 
 void fruitGrainPart::doDMDemandGrain(void)
    //===========================================================================

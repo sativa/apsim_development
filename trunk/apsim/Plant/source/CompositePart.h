@@ -22,6 +22,7 @@ public:                                             // member functions
    plantThing* get(const std::string& name);
 
    void add(plantPart* part);
+   plantPart& find(const std::string& name);
 
       // plant
    virtual void prepare(void);
@@ -111,6 +112,7 @@ public:                                             // member functions
    virtual void get_name(vector<string> &name);
    virtual void get_n_demanded(vector<float> &);
    virtual void get_p_demand(vector<float> &p_demand);
+   void doRadnPartition();
 
 protected:
    virtual void readConstants (protocol::Component *, const string &);
@@ -136,8 +138,8 @@ protected:
 
 
    virtual float coverTotal(void) ;
-   virtual float interceptRadiationGreen(float radiation);
-   virtual float interceptRadiationTotal(float radiation);
+   virtual void interceptRadiationGreen(float radiation);
+   virtual float calcInterceptRadiationTotal(float radiation);
    virtual float nDemandGrain(void);
 
    virtual float dltDmGrainDemand(void);
