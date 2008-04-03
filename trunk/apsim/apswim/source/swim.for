@@ -223,8 +223,6 @@ cnh      double precision frac
 cnh      double precision sfrac
       integer          solnum
 cnh      double precision tfrac
-      double precision tot_pep
-      double precision trf(MV)
       double precision start_of_day
       double precision end_of_day
       double precision TD_Eo
@@ -262,17 +260,8 @@ c      parameter (rad=0.1d0)
 
          TD_Eo = apswim_cevap(end_of_day)-apswim_cevap(start_of_day)
 
-         tot_pep = 0d0
-         do 10 iveg=1,g%nveg
-            trf(iveg) = apswim_transp_redn (iveg)
-            tot_pep = tot_pep + ddivide(g%pep(iveg)*trf(iveg)
-     :                                 ,TD_Eo
-     :                                 , 0d0)
-     :                        * rep*g%dt
-  10     continue
-
          do 50 j=1,g%nveg
-            g%rtp(j) = ddivide(g%pep(j)*trf(j),TD_Eo, 0d0)*rep
+            g%rtp(j) = ddivide(g%pep(j),TD_Eo, 0d0)*rep
 50       continue
 
          ! pot soil evap rate is not linked to apsim timestep
@@ -892,8 +881,6 @@ cnh         if(g%psi(p%n).ge.0.)then
       double precision dum1
       double precision dum2(0:M)
       double precision exco1
-      double precision exco2
-      double precision exco3
       double precision fq
       double precision fqc
       integer          crop
@@ -993,13 +980,11 @@ cnh         if(g%psi(p%n).ge.0.)then
 *     get eqn coeffs
 *     get production and storage components
 cnh      call slprod
-      g%rslprd(solnum)=0.
       do 45 i=0,p%n
          c1(i)=g%csl(solnum,i)
          thi=g%th(i)
 cnh         j=indxsl(solnum,i)
          j = i
-         g%rslprd(solnum)=g%rslprd(solnum)+g%qslprd(solnum,i)
          nonlin=.FALSE.
 
 *Peter's CHANGE 21/10/98 to ensure zero exchange is treated as linear
@@ -1009,27 +994,22 @@ cnh         j=indxsl(solnum,i)
 *           linear exchange isotherm
             c2(i)=1.
             exco1=p%ex(solnum,j)
-            exco2=p%betaex(solnum,j)
-            exco3 = 0d0
          else
 *           nonlinear Freundlich exchange isotherm
             nonlin=.TRUE.
             c2(i)=0.
             if(c1(i).gt.0.)c2(i)=c1(i)**(p%fip(solnum,j)-1.)
             exco1=p%ex(solnum,j)*p%fip(solnum,j)*c2(i)
-            exco2=p%betaex(solnum,j)*p%fip(solnum,j)*c2(i)
-            exco3=p%betaex(solnum,j)*(1.-p%fip(solnum,j))*c2(i)
          end if
-         b(i)=(-(thi+exco1)/g%dt+p%alpha(solnum,j)*thi+exco2)*p%dx(i)
+         b(i)=(-(thi+exco1)/g%dt)*p%dx(i)
 cnh     1        apswim_slupf(1,solnum)*g%qex(i)-g%qssof(i)
      1        -g%qssof(i)
          do 44 crop=1,g%num_crops
             b(i) = b(i) - apswim_slupf(crop,solnum)*g%qr(i,crop)
    44    continue
 cnh     1        p%slupf(solnum)*g%qex(i)
-         rhs(i)=-g%qslprd(solnum,i)
-     :          -(g%csl(solnum,i)*((g%thold(i)+exco1)
-     :                 /g%dt+exco3))*p%dx(i)
+         rhs(i)= -(g%csl(solnum,i)*((g%thold(i)+exco1)
+     :                 /g%dt))*p%dx(i)
          g%qsls(solnum,i)=
      :          -(g%csl(solnum,i)*(g%thold(i)+p%ex(solnum,j)*c2(i))/
      :          g%dt)*p%dx(i)
@@ -1207,10 +1187,9 @@ cnh               kk=indxsl(solnum,i)
      :              *(g%csl(solnum,i)*cp-c1(i)*c2(i))
                   c1(i)=g%csl(solnum,i)
                   c2(i)=cp
-                  b(j)=b(j)-(p%ex(solnum,kk)/g%dt-p%betaex(solnum,kk))
+                  b(j)=b(j)-(p%ex(solnum,kk)/g%dt)
      :                 *d1*p%dx(i)
-                  rhs(j)=rhs(j)+(p%ex(solnum,kk)/g%dt
-     :                            -p%betaex(solnum,kk))
+                  rhs(j)=rhs(j)+(p%ex(solnum,kk)/g%dt)
      :                          *d2*p%dx(i)
                end if
 67          continue
@@ -1284,7 +1263,6 @@ cnh               kk=indxsl(solnum,i)
 75    continue
       g%slp(solnum)=0.
       g%rslex(solnum)=0.
-      g%rsldec(solnum)=0.
       do 80 i=0,p%n
 cnh         j=indxsl(solnum,i)
          j = i
@@ -1303,9 +1281,6 @@ cnh     :                *apswim_slupf(1,solnum)
             g%rslex(solnum)=g%rslex(solnum)+g%qr(i,crop)*g%csl(solnum,i)
      :                *apswim_slupf(crop,solnum)
    79    continue
-         g%rsldec(solnum)=g%rsldec(solnum)
-     :           -(p%alpha(solnum,j)*g%th(i)+p%betaex(solnum,j)*cp)
-     :           *p%dx(i)*g%csl(solnum,i)
          g%qsls(solnum,i)=g%qsls(solnum,i)+
      :           (g%csl(solnum,i)*(g%thold(i)+p%ex(solnum,j)*cp)/g%dt)*
      :           p%dx(i)
@@ -1318,10 +1293,7 @@ cnh         j=indxsl(solnum,p%n)
 cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
 cnh     :              -g%qex(p%n)*g%csl(solnum,p%n)*apswim_slupf(1,solnum)
      :              -g%qssof(p%n)*g%csl(solnum,p%n)
-     :              +g%qslprd(solnum,p%n)
-     :              +(p%alpha(solnum,j)*g%th(p%n)
-     :              +p%betaex(solnum,j)*cp)
-     :              *p%dx(p%n)*g%csl(solnum,p%n)
+
          do 81 crop=1,g%num_crops
             g%qsl(solnum,p%n+1)=g%qsl(solnum,p%n+1)
      :      -g%qr(p%n,crop)*g%csl(solnum,p%n)*apswim_slupf(crop,solnum)
@@ -1837,62 +1809,6 @@ cnh      end if
       end subroutine
 
 
-* =====================================================================
-      integer function ihys(hyscon,d,x0,x0new,x,dc)
-* =====================================================================
-*     Short description:
-*     allows drying curve to be used for scanning or wetting
-*     d is distance between curves on linear (d<0) or log (d>0) scale_of
-*     adjusts p%x (g%psi or log10(-g%psi)) and gets derivative correction g%dc
-*     gets new reference point x0new on drying curve if necessary
-*     returns 0, 1 or 2 for drying, scanning or wetting curve
-*
-      Use infrastructure
-      implicit none
-
-*     Global Variables
-
-
-*     Subroutine Arguments
-cnh NOT SURE ARGUMENT TYPE IS CORRECT.
-c      real d
-      double precision d
-      double precision dc
-      double precision hyscon
-      double precision x
-c      real x0
-c      real x0new
-      double precision x0
-      double precision x0new
-
-*     Internal Variables
-
-      double precision z
-
-*     Constant Values
-*     none
-
-*
-
-      print*,'hysteresis is in effect!!!!!!!'
-      ihys=0
-      x0new=x0
-      dc=1d0
-      if(d.eq.0.)return
-      z=(x-x0)/(-d*hyscon)
-      if(z.le.0d0)then
-         x0new=x
-      else if(z.lt.1d0)then
-         ihys=1
-         x=x0-d*z*(hyscon+z*(2d0*z-3d0))
-         dc=1d0+6d0*z*(z-1d0)/hyscon
-      else
-         ihys=2
-         x0new=x+d*hyscon
-         x=x+d
-      end if
-
-      end function
 *
       subroutine map(n,x,y,M,u,v)
 *     maps concentration in y into v so that integral is conserved
