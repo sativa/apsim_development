@@ -68,7 +68,7 @@ void Population::OnEndCrop()
 void Population::SetPlants(float Density)
    {
    plants = Density;
-   bound_check_real_var(&Plant, plants, 0.0, 10000.0, "plants");
+   bound_check_real_var(scienceAPI, plants, 0.0, 10000.0, "plants");
    }
 
 void Population::PlantDeath()
@@ -274,7 +274,7 @@ void Population::OnKillCrop(protocol::KillCropType& Kill)
    {
    if (Plant.Status() != out)
       {
-      bound_check_real_var(&Plant, Kill.KillFraction, 0.0, 1.0, "KillFraction");
+      bound_check_real_var(scienceAPI, Kill.KillFraction, 0.0, 1.0, "KillFraction");
       dlt_plants_death_external = dlt_plants_death_external - plants * Kill.KillFraction;
 
       if (Kill.KillFraction > 0.0)
@@ -288,7 +288,7 @@ void Population::OnKillCrop(protocol::KillCropType& Kill)
    else
       {
       string msg = Plant.Name() + " is not in the ground - unable to kill crop.";
-      Plant.warningError (msg.c_str());
+      scienceAPI.warning(msg);
       }
    }
 

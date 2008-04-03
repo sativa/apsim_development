@@ -8,7 +8,7 @@ void EmergentPhase::onSow(protocol::ApsimVariant incomingApsimVariant)
    {
    if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)
       throw std::invalid_argument("sowing_depth not specified");
-   //bound_check_real_var(parentPlant, sowing_depth, 0.0, 100.0, "sowing_depth");
+   //bound_check_real_var(scienceAPI, sowing_depth, 0.0, 100.0, "sowing_depth");
    }
 void EmergentPhase::readCultivarParameters(protocol::Component *s, const string & cultivar)
 //=======================================================================================

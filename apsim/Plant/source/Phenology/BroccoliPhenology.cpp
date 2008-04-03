@@ -39,11 +39,11 @@ void BroccoliPhenology::setupTTTargets(void)
    buttoning_to_maturity->setTarget(tt_buttoning_to_maturity);
    }
 
-void BroccoliPhenology::updateTTTargets(const Environment &e)
+void BroccoliPhenology::updateTTTargets()
 //=======================================================================================
 // dynamic TT targets
    {
-   dlt_cumvd = vernal_days.value((e.maxt() + e.mint())*0.5);
+   dlt_cumvd = vernal_days.value(plant->environment().meant());
    //dlt_cumvd = VernalDays(e);
 
    if (inPhase("germination"))
@@ -55,8 +55,8 @@ void BroccoliPhenology::updateTTTargets(const Environment &e)
       {
       if (on_day_of("emergence"))
          {
-         int est_day_of_floral_init = e.dayOfYear() + est_days_emerg_to_init % 366;
-         float est_photoperiod = e.dayLength(est_day_of_floral_init, twilight);
+         int est_day_of_floral_init = plant->environment().dayOfYear() + est_days_emerg_to_init % 366;
+         float est_photoperiod = plant->environment().dayLength(est_day_of_floral_init, twilight);
 
          pPhase *endjuv_to_init = getStage("end_of_juvenile");
          endjuv_to_init->setTarget(tt_endjuv_to_init[est_photoperiod]);
@@ -123,19 +123,19 @@ void BroccoliPhenology::writeCultivarInfo (protocol::Component *systemInterface)
    systemInterface->writeString (s.c_str());
    }
 
-float BroccoliPhenology::TT(const Environment &e)
+float BroccoliPhenology::TT()
 //=======================================================================================
    {
-   return linint_3hrly_temp (e.maxt(), e.mint(), &y_tt);
+   return linint_3hrly_temp (plant->environment().maxt(), plant->environment().mint(), &y_tt);
    }
 
-float BroccoliPhenology::VernalDays(const Environment &e)
+float BroccoliPhenology::VernalDays()
 //=======================================================================================
    {
-   return linint_3hrly_temp (e.maxt(), e.mint(), &vernal_days);
+   return linint_3hrly_temp (plant->environment().maxt(), plant->environment().mint(), &vernal_days);
    }
 
-void BroccoliPhenology::process (const Environment &e, const pheno_stress_t &ps,float fasw_seed, float pesw_seed)
+void BroccoliPhenology::process (const pheno_stress_t &ps,float fasw_seed, float pesw_seed)
 //=======================================================================================
 //     Use temperature, photoperiod and genetic characteristics
 //     to determine when the crop begins a new growth phase.
@@ -143,7 +143,7 @@ void BroccoliPhenology::process (const Environment &e, const pheno_stress_t &ps,
    {
    float phase_devel, new_stage;
 
-   dlt_tt = TT(e);
+   dlt_tt = TT();
 
    if (inPhase("sowing"))
       {
@@ -313,13 +313,13 @@ void BroccoliPhenology::onRemoveBiomass(float removeBiomPheno)
 
 }
 
-void BroccoliPhenology::prepare (const Environment &e)
+void BroccoliPhenology::prepare ()
 //=======================================================================================
    {
-   CropPhenology::prepare(e);
-   photoperiod = e.dayLength(twilight);
+   CropPhenology::prepare();
+   photoperiod = plant->environment().dayLength(twilight);
 
-   updateTTTargets(e);
+   updateTTTargets();
    }
 
 void BroccoliPhenology::onInit1(protocol::Component *s)

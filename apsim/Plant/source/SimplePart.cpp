@@ -233,7 +233,6 @@ void SimplePart::zeroAllGlobals(void)
 
    relativeGrowthRate = 0.0;
    radiationInterceptedGreen = 0.0;
-   radiationInterceptedTotal = 0.0;
    transpEff = 0.0;
 
    zeroDeltas();
@@ -575,7 +574,7 @@ void SimplePart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c
 
        msg1 << endl << ("   dm total "+myName+" = ") << dmTotal1 << " (g/m2)" << endl << ends;
 
-       plant->writeString (msg1.str().c_str());
+       scienceAPI.write(msg1.str());
 
        ostringstream msg2;
        msg2 << "Crop Biomass Available:-" << endl;
@@ -589,7 +588,7 @@ void SimplePart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c
 
        msg2 << endl << ("   dm total "+myName+" = ") << dmTotal2 << " (g/m2)" << endl << ends;
 
-       plant->writeString (msg2.str().c_str());
+       scienceAPI.write(msg2.str());
     }
 
     // Check sensibility of part deltas
@@ -1314,8 +1313,15 @@ float SimplePart::dmGrainWetTotal(void) {return 0;}
 float SimplePart::grainWaterContent(void) {return 0;}
 float SimplePart::grainNo(void)  {return 0;}
 float SimplePart::grainWt(void)  {return 0;}
-float SimplePart::interceptRadiationGreen(float /* radiation*/){return 0;}
-float SimplePart::interceptRadiationTotal(float /* radiation*/){return 0;}
+void SimplePart::interceptRadiationGreen(float radiation)
+   {
+   radiationInterceptedGreen = coverGreen() * radiation;
+   }
+float SimplePart::calcInterceptRadiationTotal(float radiation)
+   {
+   //     Calculate total radiation interception and return transmitted radiation
+   return coverTotal() * radiation;
+   }
 float SimplePart::nDemandGrain(void)  {return 0;}
 float SimplePart::nDemandGrain2(void){return 0;}
 void SimplePart::doSWDemand(float /*SWDemandMaxFactor*/){}

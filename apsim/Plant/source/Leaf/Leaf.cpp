@@ -158,24 +158,6 @@ void Leaf::doCover (PlantSpatial &spatial)
 
 }
 
-float Leaf::interceptRadiationGreen (float radiation)    // incident radiation on leafs
-    //===========================================================================
-{
-   //     Calculate leaf total radiation interception and return transmitted radiation
-
-   radiationInterceptedGreen = coverGreen() * radiation;
-   return radiationInterceptedGreen;
-}
-
-float Leaf::interceptRadiationTotal (float radiation)    // incident radiation on leafs
-    //===========================================================================
-{
-   //     Calculate leaf total radiation interception and return transmitted radiation
-
-   radiationInterceptedTotal = coverTotal() * radiation;
-   return radiationInterceptedTotal;
-}
-
 void Leaf::doDmPotRUE (void )                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    //===========================================================================
    {

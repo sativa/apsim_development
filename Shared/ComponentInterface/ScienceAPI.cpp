@@ -90,7 +90,10 @@ void ScienceAPI::write(const std::string& msg)
    {
    component->writeString(msg.c_str());
    }
-
+void ScienceAPI::warning(const std::string& msg)
+   {
+   component->error(msg.c_str(), false);
+   }
 bool ScienceAPI::read(const std::string& name, int& data, int lower, int upper)
    {
    string valueAsString;

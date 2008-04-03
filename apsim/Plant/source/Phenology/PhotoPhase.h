@@ -11,13 +11,14 @@ class PhotoPhase : public pPhase
       float photoperiod;
       float twilight;
       string cutoff;
+      plantInterface* plant;
 
       public:
       void readCultivarParameters(protocol::Component *s, const string & cultivar);
       void readSpeciesParameters (protocol::Component *, std::vector<string> &);
-      PhotoPhase(ScienceAPI& scienceAPI, const string& stage_name)
-         : pPhase (scienceAPI, stage_name){};
-      void updateTTTargets(PlantPhenology &parent, const Environment &e);
+      PhotoPhase(ScienceAPI& scienceAPI, plantInterface* p, const string& stage_name)
+         : pPhase (scienceAPI, p, stage_name) {}
+      void updateTTTargets(PlantPhenology &parent);
       virtual string description();
    };
 

@@ -91,8 +91,8 @@ void genericArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts, st
                     + ftoa(dlt_dm_green_tot, ".6")
                     + " vs "
                     + ftoa(dlt_dm, ".6");
-       plant->warningError(msg.c_str());
-      }
+       scienceAPI.warning(msg);
+       }
    }
 
 float genericArbitrator::dltDMWhole(float dlt_dm)

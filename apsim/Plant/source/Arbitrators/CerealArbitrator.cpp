@@ -104,7 +104,7 @@ void cerealArbitrator::partitionDM(float dlt_dm,   vector <plantPart *>& Parts, 
                     + "\nstemPart="  + ftoa(stemPart->dltDmGreen(), ".6")
                     + "\nfruitPart=" + ftoa(fruitPart->dltDmGreen(), ".6")
                     ;
-       plant->warningError(msg.c_str());
+       scienceAPI.warning(msg);
       }
 }
 

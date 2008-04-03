@@ -101,12 +101,13 @@ static const char* cropChoppedDDML =  "<type name = \"CropChopped\">" \
                                       "   <field name=\"fraction_to_residue_value\" kind=\"single\" array=\"T\"/>" \
                                       "</type>";
 
-Plant::Plant(PlantComponent *P, ScienceAPI& api)
+Plant::Plant(protocol::Component *P, ScienceAPI& api)
 //=======================================================================================
    : scienceAPI(api),
      plant(scienceAPI, this, ""),
      tops(scienceAPI, this, "Tops"),
-     population(scienceAPI, *this)
+     population(scienceAPI, *this),
+     plantSpatial(scienceAPI)
    {
    parent = P;
 
@@ -119,13 +120,13 @@ Plant::Plant(PlantComponent *P, ScienceAPI& api)
    scienceAPI.setClass2(c.default_crop_class);
 
    plant.createParts();
-   environment = dynamic_cast<Environment*> (plant.get("environment"));
+   _environment = dynamic_cast<Environment*> (plant.get("environment"));
 
     nStress = new NStress(scienceAPI, parent);
     pStress = new PStress(scienceAPI, parent);
     swStress = new SWStress(scienceAPI, parent);
     tempStress = new TempStress(scienceAPI, parent);
-    co2Modifier = new Co2Modifier(scienceAPI, parent);
+    co2Modifier = new Co2Modifier(scienceAPI, *this);
 
     g.cswd_pheno.setup(&swStress->swDef.pheno);
     g.cswd_photo.setup(&swStress->swDef.photo);
@@ -219,7 +220,6 @@ void Plant::onInit1(void)
     maturityEventObserver = new eventObserver(scienceAPI, "maturity", this);
     myThings.push_back(maturityEventObserver);
 
-   environment->onInit1(parent);
    plant.tempFlagToShortCircuitInit1 = true;
    plant.onInit1(parent);
     
@@ -234,11 +234,6 @@ void Plant::onInit1(void)
                                    "parasite_sw_demand", addUnitsToDDML(floatType, "mm").c_str(),
                                    "", "");
 
-   string canopyName = string("fr_intc_radn_") + string(parent->getName());
-   id.fr_intc_radn = parent->addRegistration(RegistrationType::get,
-                                   canopyName.c_str(),
-                                   addUnitsToDDML(floatType, "").c_str(),
-                                   "", "");
    // events.
    id.crop_chopped = parent->addRegistration(RegistrationType::event,
                                    "crop_chopped", cropChoppedDDML,
@@ -543,7 +538,7 @@ void Plant::onKillStem(unsigned &, unsigned &, protocol::Variant &v)
        ,g.module_name.c_str()
        , " is not in the ground -"
        , " unable to kill stem.");
-      parent->warningError (msg);
+      scienceAPI.warning(msg);
       }
    }
 
@@ -794,12 +789,12 @@ void Plant::plant_check_bounds
 // Check bounds of internal plant data
 
     {
-    bound_check_real_var(this,g_cover_green
+    bound_check_real_var(scienceAPI,g_cover_green
                          , 0.0
                          , 1.0
                          , "cover_green");
 
-    bound_check_real_var(this,g_cover_sen
+    bound_check_real_var(scienceAPI,g_cover_sen
                          , 0.0
                          , 1.0
                          , "cover_sen");
@@ -880,41 +875,6 @@ void Plant::plant_event(void)
     }
 
 
-//===========================================================================
-void Plant::doPlantRadnPartition (int option /*(INPUT) option number*/)
-//===========================================================================
-{
-//+  Purpose
-//       light supply
-
-    if (option == 1)
-    {
-            // back calculate transmitted solar radiation to canopy
-          float fractIncidentRadn;
-          if (g.fr_intc_radn <= 0.0)
-          {
-            fractIncidentRadn = 1.0;
-          }
-          else
-          {
-            fractIncidentRadn = divide (g.fr_intc_radn, plant.coverGreen(), 0.0);
-          }
-          float incomingSolarRadiation = environment->radn() * fractIncidentRadn;
-          fruitPart->interceptRadiationGreen (incomingSolarRadiation);
-
-             // calc the total fruit interception - what is left is transmitted to the vegetative parts)
-             // fruit is considered to be at top of canopy
-          float radnIntTotFruit = fruitPart->interceptRadiationTotal (incomingSolarRadiation);
-
-          incomingSolarRadiation -= radnIntTotFruit;
-          leafPart->interceptRadiationGreen (incomingSolarRadiation);
-    }
-    else
-    {
-        throw std::invalid_argument ("invalid template option");
-    }
-
-    }
 
 //+  Purpose
 //       Return actual plant nitrogen uptake to each plant part.
@@ -943,7 +903,7 @@ void Plant::doNPartition
                     + ftoa(plant.dltNGreen(), ".6")
                     + " vs n_uptake_sum ="
                     + ftoa(nUptakeSum, ".6");
-        parent->warningError(msg.c_str());
+        scienceAPI.warning(msg);
         }
 
       // Retranslocate N Fixed
@@ -1050,7 +1010,7 @@ void Plant::doNRetranslocate (float g_grain_n_demand)
           // check that we got (some of) the maths right.
     for (part = myParts.begin(); part != myParts.end(); part++)
         {
-        bound_check_real_var (this,fabs((*part)->dltNRetransOut())
+        bound_check_real_var (scienceAPI,fabs((*part)->dltNRetransOut())
                               , 0.0, (*part)->availableRetranslocateN() + tolerence
                               , (string("dlt_N_retrans(") + (*part)->name() + string(")")).c_str() );
         }
@@ -1099,7 +1059,7 @@ void Plant::plant_process ( void )
         rootPart->doWaterUptake(1, tops.SWDemand());
         rootPart->doPlantWaterStress (tops.SWDemand(), swStress);
 
-        phenology->prepare (*environment);
+        phenology->prepare ();
 //        fruitPart->prepare ();  // need to prepare fruit phenology?
 
         pheno_stress_t ps;
@@ -1112,8 +1072,8 @@ void Plant::plant_process ( void )
         float fasw_seed = rootPart->fasw((int)plantSpatial.sowing_depth);
         float pesw_seed = rootPart->pesw((int)plantSpatial.sowing_depth);
 
-        phenology->process (*environment, ps, fasw_seed, pesw_seed);
-        fruitPart->process ();
+        phenology->process(ps, fasw_seed, pesw_seed);
+        fruitPart->process();
 
         plant.morphology();
 
@@ -1145,7 +1105,7 @@ void Plant::plant_process ( void )
         rootPart->root_length_growth();
 
         leafPart->leaf_death( min(nStress->nFact.expansion, pStress->pFact.expansion), phenology->get_dlt_tt());
-        leafPart->leaf_area_sen( swStress->swDef.photo , environment->mint());
+        leafPart->leaf_area_sen( swStress->swDef.photo);
 
         plant.doSenescence(leafPart->senFract());
         rootPart->sen_length();
@@ -1224,7 +1184,7 @@ void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
         sprintf(msg, "%s%s"
                 , g.module_name.c_str()
                 , " is not in the ground - unable to harvest.");
-        parent->warningError (msg);
+        scienceAPI.warning(msg);
         }
     }
 
@@ -1393,14 +1353,14 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
         {
         remove_fr = 0.0;
         }
-    bound_check_real_var(this,remove_fr, 0.0, 1.0, "remove");
+    bound_check_real_var(scienceAPI,remove_fr, 0.0, 1.0, "remove");
 
     // determine the cutting height
     if (incomingApsimVariant.get("height", protocol::DTsingle, false, height) == false)
        {
        height = 0.0;
        }
-    bound_check_real_var(this,height, 0.0, 1000.0, "height");
+    bound_check_real_var(scienceAPI,height, 0.0, 1000.0, "height");
 
     vector<string> dm_type;
     vector<float>  fraction_to_residue;
@@ -1587,7 +1547,7 @@ bool Plant::onSetPhase (protocol::QuerySetValueData &v/*(INPUT) message argument
      if (converter) delete converter;
         // end of FIXME
 
-        bound_check_real_var(this,phase, 1.0, 11.0, "phase");
+        bound_check_real_var(scienceAPI,phase, 1.0, 11.0, "phase");
         if (g.plant_status == alive)
            phenology->onSetPhase(phase);
 
@@ -1682,7 +1642,6 @@ void Plant::plant_zero_all_globals (void)
       swStress->swDef = 1.0;
       tempStress->tFact = 1.0;
       g.remove_biom_pheno = 1.0;
-      g.fr_intc_radn = 0.0;
 
       g.eo = 0.0;
       g.dlt_dm_parasite  =  0.0;
@@ -1739,7 +1698,6 @@ void Plant::plant_zero_variables (void)
         t++)
        (*t)->zeroAllGlobals();
 
-    environment->zeroAllGlobals();
     plantSpatial.zeroAllGlobals();
 
     g.lai_max               = 0.0;
@@ -1802,7 +1760,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            // Check anachronisms
            if (incomingApsimVariant.get("crop_type", protocol::DTstring, false, dummy) != false)
                {
-               parent->warningError ("crop type no longer used in sowing command");
+               scienceAPI.warning("crop type no longer used in sowing command");
                }
 
            // get species parameters
@@ -1873,7 +1831,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            parent->writeString ("    ------------------------------------------------");
 
            sprintf(msg, "   %7d%7.1f%7.1f%7.1f%6.1f%6.1f %s"
-                  , environment->dayOfYear(), plantSpatial.sowing_depth
+                  , environment().dayOfYear(), plantSpatial.sowing_depth
                   , getPlants(), plantSpatial.row_spacing
                   , plantSpatial.skip_row, plantSpatial.skip_plant, g.cultivar.c_str());
            parent->writeString (msg);
@@ -2013,7 +1971,7 @@ void Plant::plant_end_crop (void)
         {
         sprintf(msg, "%s%s%s", g.module_name.c_str(), " is not in the ground -", " unable to end crop.");
 
-        parent->warningError (msg);
+        scienceAPI.warning(msg);
         }
 
     }
@@ -2043,12 +2001,10 @@ void Plant::plant_get_other_variables (void)
        }
 
 
-    parent->getVariable(id.fr_intc_radn, g.fr_intc_radn, 0.0, 1.0, true);
-
     // Soilwat2
     parent->getVariable(id.eo, g.eo, 0.0, 20.0);
     rootPart->getOtherVariables();
-    co2Modifier->doPlant_Co2Modifier (*environment);
+    co2Modifier->doPlant_Co2Modifier ();
     }
 void Plant::plant_update_other_variables (void)
 //=======================================================================================
@@ -2123,8 +2079,8 @@ void Plant::plant_prepare (void)
    plant.prepare();
 
    nStress->doPlantNStress (leafPart, stemPart);
-   tempStress->doPlantTempStress (*environment);
-   doPlantRadnPartition (1);
+   tempStress->doPlantTempStress (environment());
+   plant.doRadnPartition();
 
    // Calculate Potential Photosynthesis
    plant.doDmPotRUE();
@@ -2211,7 +2167,6 @@ void Plant::plant_read_species_const (void)
         t++)
       (*t)->readSpeciesParameters(parent, search_order);
 
-    environment->read();
     plantSpatial.read(scienceAPI);
 
     scienceAPI.read("n_fix_rate", c.n_fix_rate, numvals, 0.0f, 1.0f);
@@ -2703,7 +2658,7 @@ float Plant::SenescedP(void) {return plant.Senesced.P();}
 float Plant::getStageCode(void)  {return phenology->stageCode();}
 float Plant::getStageNumber(void)  {return phenology->stageNumber();}
 float Plant::getPlants(void)  {return population.Density();}
-float Plant::getCo2(void)  {return environment->co2();}
+float Plant::getCo2(void)  {return environment().co2();}
 float Plant::getNodeNo(void)  {return leafPart->getNodeNo();}
 float Plant::getDltNodeNo(void)  {return leafPart->getDltNodeNo();}
 float Plant::getDltDMPotRueVeg(void)  {return leafPart->dltDmPotRue();}
@@ -2720,7 +2675,7 @@ float Plant::getDyingFractionPlants(void) {return population.DyingFractionPlants
 float Plant::getLAI() {return leafPart->getLAI();}
 float Plant::getCumSwdefPheno() {return g.cswd_pheno.getSum();}
 float Plant::getCumSwdefPhoto() {return g.cswd_photo.getSum();}
-float Plant::getVpd(void)  {return environment->vpdEstimate();}
+float Plant::getVpd(void)  {return environment().vpdEstimate();}
 float Plant::getTempStressPhoto(void)  {return tempStress->tFact.photo;}
 float Plant::getNfactPhoto(void)  {return nStress->nFact.photo;}
 float Plant::getNfactGrainConc(void)  {return nStress->nFact.grain;}
@@ -2729,8 +2684,6 @@ float Plant::getPfactPhoto(void)  {return pStress->pFact.photo;}
 float Plant::getSwdefPhoto(void)  {return swStress->swDef.photo;}
 bool  Plant::on_day_of(const string &what) {return (phenology->on_day_of(what));};
 bool  Plant::inPhase(const string &what) {return (phenology->inPhase(what));};
-void Plant::writeString (const char *line) {parent->writeString(line);};
-void Plant::warningError (const char *msg) {parent->warningError(msg);};
 const std::string & Plant::getCropType(void) {return c.crop_type;};
 protocol::Component *Plant::getComponent(void) {return parent;};
 int Plant::daysInCurrentPhase() {return phenology->daysInCurrentPhase();}

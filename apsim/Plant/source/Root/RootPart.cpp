@@ -426,7 +426,7 @@ void RootPart::plant_root_depth (void)
 //=======================================================================================
 //  Calculate change in plant rooting depth
    {
-   const Environment *e = plant->getEnvironment();
+   const Environment *e = &plant->environment();
    //Temperature factor
    float avg_temp = (e->mint() + e->maxt())/2.0;
    float temp_factor = rel_root_advance.value(avg_temp);
@@ -511,7 +511,7 @@ void RootPart::update(void)
         root_length_senesced[layer] += dltRootLengthDead[layer];
         }
 
-   bound_check_real_var(plant, root_depth, 0.0
+   bound_check_real_var(scienceAPI, root_depth, 0.0
                         , sum_real_array (dlayer, max_layer)
                         , "root_depth");
    }
@@ -881,7 +881,7 @@ void RootPart::doWaterSupply ()
 // Calculate today's daily water supply from this root system
 // based on the KL approach
    {
-   crop_check_sw(plant, sw_lb, dlayer, dul_dep, sw_dep, ll_dep);
+   crop_check_sw(sw_lb, dlayer, dul_dep, sw_dep, ll_dep);
 
    // potential extractable sw
    doPotentialExtractableSW();
@@ -1580,7 +1580,7 @@ float RootPart::fasw(int depth)
 
 
 //=========================================================================
-void crop_check_sw(plantInterface *iface,
+void RootPart::crop_check_sw(
                    float minsw,    // (INPUT)  lowest acceptable value for ll
                    float *dlayer,   // (INPUT)  thickness of soil layer I (mm)
                    float *dul_dep,  // (INPUT)  drained upper limit soil water content for soil layer L (mm water)
@@ -1627,7 +1627,7 @@ void crop_check_sw(plantInterface *iface,
          sprintf(err_msg,
             " lower limit of %8.2f in layer %d\n         is below acceptable value of %8.2f",
             ll, layer, minsw);
-         iface->warningError (err_msg);
+         scienceAPI.warning(err_msg);
          }
       else
          {
@@ -1639,7 +1639,7 @@ void crop_check_sw(plantInterface *iface,
          sprintf(err_msg,
             " Drained upper limit of %8.2f in layer %d\n         is at or below lower limit of %8.2f",
             dul,layer, ll);
-         iface->warningError (err_msg);
+         scienceAPI.warning(err_msg);
          }
       else
          {
@@ -1649,7 +1649,7 @@ void crop_check_sw(plantInterface *iface,
          sprintf(err_msg,
             " Soil water of %8.2f in layer %d\n         is below acceptable value of %8.2f",
             sw, layer, minsw);
-         iface->warningError (err_msg);
+         scienceAPI.warning(err_msg);
          }
       else
          {

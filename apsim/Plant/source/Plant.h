@@ -2,7 +2,6 @@
 #define PlantH
 
 class ApsimVariant;
-class PlantComponent;
 class PlantPhenology;
 class plantPart;
 class SimplePart;
@@ -47,7 +46,7 @@ const int  fixation = 4 ;
 
 class Plant : public plantInterface, public IPlant {
 private:
-   PlantComponent *parent;                   // for interface calls to system
+   protocol::Component *parent;              // for interface calls to system
    ScienceAPI& scienceAPI;
    stageSubject   stageObservers;            // A collection of state variable observers, reset at each new stage
    stageSubject   otherObservers;            // Another collection of state variable observers
@@ -66,7 +65,6 @@ private:
    PlantPhenology *phenology;
    plantPart     *fruitPart;
    Population population;
-   Environment* environment;
 
    eventObserver *sowingEventObserver;     // Bookkeeper for Sowing events
    eventObserver *emergenceEventObserver;  // Bookkeeper for Emergence events
@@ -87,7 +85,7 @@ private:
    void read(void);
 
 public:
-   Plant(PlantComponent *P, ScienceAPI& api);
+   Plant(protocol::Component *P, ScienceAPI& api);
    ~Plant(void);
 
    void onInit1(void);
@@ -109,9 +107,6 @@ public:
    void registerClassActions(void);
    void sendStageMessage(const char *what);
    void doPlantEvent(const string &);
-
-   void writeString (const char *line);
-   void warningError (const char *msg);
 
    const std::string & getCropType(void) ;
    protocol::Component *getComponent(void) ;
@@ -306,10 +301,10 @@ public:
 
    bool on_day_of(const string &what) ;
    bool inPhase(const string &what) ;
-   int  getDayOfYear(void) {return (environment->dayOfYear());};
+   int  getDayOfYear(void) {return (environment().dayOfYear());};
 
    //Phosporousy things:
-   void doPInit(PlantComponent *systemInterface);
+   void doPInit(protocol::Component *systemInterface);
    bool phosphorusAware(void)  {return pStress->isPhosphorusAware();};
    bool removeBiomassReport(void)  {return c.remove_biomass_report == "on";};
    void prepare_p(void);
@@ -319,7 +314,8 @@ public:
    void  doPRetranslocate (void);
    const Co2Modifier  *getCo2Modifier(void) {return co2Modifier;};
 
-   const Environment* getEnvironment(void) {return environment;};
+   Environment* _environment;
+   Environment& environment() {return *_environment;};
    const PlantPhenology  *getPhenology(void) {return phenology;};
 
 private:
@@ -334,7 +330,6 @@ private:
    struct IDS {
       // gets
       unsigned int eo;
-      unsigned int fr_intc_radn;
 
       unsigned int parasite_c_demand;
       unsigned int parasite_sw_demand;

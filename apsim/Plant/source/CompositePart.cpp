@@ -3,7 +3,9 @@
 #include "CompositePart.h"
 #include "CompositePool.h"
 #include "ThingFactory.h"
+#include "Environment.h"
 #include <general/stl_functions.h>
+#include <general/string_functions.h>
 
 using namespace std;
 
@@ -397,7 +399,7 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
                   + ftoa(dlt_n_green_sum, ".6")
                   + " vs nSupply ="
                   + ftoa(Growth.N(), ".6");
-      plant->warningError(msg.c_str());
+      scienceAPI.warning(msg);
       }
 }
 
@@ -959,23 +961,66 @@ float CompositePart::dltDmGreenRetransUptake(void)
    return dltDmUptake;
 }
 
-float CompositePart::interceptRadiationGreen (float radiation)
+plantPart& CompositePart::find(const std::string& name)
+   {
+   //===========================================================================
+   // Find a child part. Will throw if not found.
+   //===========================================================================
+   for (unsigned p = 0; p != myParts.size(); p++)
+      {
+      if (Str_i_Eq(myParts[p]->name(), name))
+         return *myParts[p];
+      }
+   throw runtime_error("Cannot find part: " + name);
+   }
+//===========================================================================
+void CompositePart::doRadnPartition()
+//===========================================================================
+   {
+   string canopyName = string("fr_intc_radn_") + string(plant->Name());
+   float fractIncidentRadn = 0.0;
+   scienceAPI.getOptional(canopyName, "", fractIncidentRadn, 0.0, 1.0);
+
+   // back calculate transmitted solar radiation to canopy
+   if (fractIncidentRadn <= 0.0)
+      fractIncidentRadn = 1.0;
+   else
+      fractIncidentRadn = divide (fractIncidentRadn, coverGreen(), 0.0);
+
+   float incomingSolarRadiation = plant->environment().radn() * fractIncidentRadn;
+
+   string orderString;
+   scienceAPI.read("RadiationPartitioningOrder", orderString);
+   vector<string> partOrder;
+   split(orderString, " ", partOrder);
+
+   for (unsigned o = 0; o != partOrder.size(); o++)
+      {
+      plantPart& part = find(partOrder[o]);
+
+      part.interceptRadiationGreen (incomingSolarRadiation);
+
+      // calc the total interception from this part - what is left is transmitted
+      // to the other parts.
+      incomingSolarRadiation -= part.calcInterceptRadiationTotal(incomingSolarRadiation);
+      }
+   }
+
+void CompositePart::interceptRadiationGreen (float radiation)
    //===========================================================================
 {
-   float interceptRadiation = 0.0;
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
-      interceptRadiation += (*part)->interceptRadiationGreen (radiation);         //FIXME - divey up radiation
-   return interceptRadiation;
+      (*part)->interceptRadiationGreen (radiation);         //FIXME - divey up radiation
 }
 
-float CompositePart::interceptRadiationTotal (float radiation)
+float CompositePart::calcInterceptRadiationTotal (float radiation)
    //===========================================================================
 {
    float interceptRadiation = 0.0;
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
-      interceptRadiation += (*part)->interceptRadiationTotal (radiation);         //FIXME - divey up radiation
+      interceptRadiation += (*part)->calcInterceptRadiationTotal (radiation);         //FIXME - divey up radiation
    return interceptRadiation;
 }
 
@@ -1081,7 +1126,7 @@ float CompositePart::giveDmGreen(float dmSupplied)
             part++)
          msg += (*part)->name() + "=" + ftoa((*part)->dltDmGreen(), ".6") +"\n";
 
-       plant->warningError(msg.c_str());
+       scienceAPI.warning(msg);
        }
 
    return uptake;
@@ -1118,7 +1163,7 @@ void CompositePart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialT
                    + ftoa(dltDmGreenRetransUptake (), ".6")
                    + " vs "
                    + ftoa(dlt_dm_green_retrans, ".6");
-      plant->warningError(msg.c_str());
+      scienceAPI.warning(msg);
       }
    }
 

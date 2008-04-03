@@ -39,8 +39,6 @@ class plantInterface {
    public:
       virtual ~plantInterface() {};
 
-      virtual void writeString (const char *line) = 0;
-      virtual void warningError (const char *msg) = 0;
       virtual pheno_stress_t getPhotoStress(void) = 0;
       virtual float getPeswSeed(void) = 0;
       virtual float getFaswSeed(void) = 0;
@@ -88,7 +86,7 @@ class plantInterface {
       virtual CompositePart& Tops() = 0;
 
       virtual const Co2Modifier *getCo2Modifier(void) = 0;
-      virtual const Environment* getEnvironment(void) = 0;
+      virtual Environment& environment() = 0;
       virtual const PlantPhenology  *getPhenology(void) = 0;
       virtual const string & getCropType(void) = 0;
       virtual protocol::Component *getComponent(void) = 0;

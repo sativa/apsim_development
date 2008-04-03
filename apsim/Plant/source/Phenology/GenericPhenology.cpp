@@ -69,12 +69,12 @@ void GenericPhenology::writeCultivarInfo (protocol::Component *systemInterface)
    systemInterface->writeString (s.c_str());
    }
 
-float GenericPhenology::TT(const Environment &e)
+float GenericPhenology::TT()
    {
-   return linint_3hrly_temp (e.maxt(), e.mint(), &y_tt);
+   return linint_3hrly_temp (plant->environment().maxt(), plant->environment().mint(), &y_tt);
    }
 
-void GenericPhenology::process (const Environment &e, const pheno_stress_t &/* ps*/,float fasw_seed, float pesw_seed)
+void GenericPhenology::process (const pheno_stress_t &/* ps*/,float fasw_seed, float pesw_seed)
 //=======================================================================================
 //     Use temperature, photoperiod and genetic characteristics
 //     to determine when the crop begins a new growth phase.
@@ -83,7 +83,7 @@ void GenericPhenology::process (const Environment &e, const pheno_stress_t &/* p
    {
    float phase_devel, new_stage;
 
-   dlt_tt = TT(e);
+   dlt_tt = TT();
 
    if (inPhase("sowing"))
       {
@@ -241,14 +241,14 @@ void GenericPhenology::onRemoveBiomass(float removeBiomPheno)
 
    }
 
-void GenericPhenology::prepare (const Environment &e)
+void GenericPhenology::prepare ()
 //=======================================================================================
    {
-   PlantPhenology::prepare(e);
-   photoperiod = e.dayLength(twilight);
+   PlantPhenology::prepare();
+   photoperiod = plant->environment().dayLength(twilight);
 
    for(unsigned i=0; i!= phases.size();i++)
-      phases[i]->updateTTTargets(*this,e);
+      phases[i]->updateTTTargets(*this);
 
    }
 

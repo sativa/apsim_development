@@ -40,7 +40,7 @@ class CohortingLeaf : public Leaf {
    void actual(void);
 
    void leaf_death (float nfact_expansion, float  dlt_tt);
-   void leaf_area_sen (float, float);
+   void leaf_area_sen (float);
    void Detachment (void);
    void update (void) ;
 

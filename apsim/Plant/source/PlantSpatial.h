@@ -1,19 +1,12 @@
 #ifndef PlantSpatialH
 #define PlantSpatialH
 
-#include <ComponentInterface/Variant.h>
-//#include <general/string_functions.h>
-
-#include "PlantLibrary.h"
 
 
 class PlantSpatial {
   public:
-  PlantSpatial(void);
+  PlantSpatial(ScienceAPI& scienceAPI);
   ~PlantSpatial(void);
-
-   PlantSpatial(const PlantSpatial &PlantSpatial); 			// copy constructor
-   const PlantSpatial &operator=(const PlantSpatial &other);		// Assigment operator
 
    void init(plantInterface *p);
 
@@ -40,6 +33,7 @@ class PlantSpatial {
       float skip_plant_fac;                             // skip plant factor
 
   private:
+      ScienceAPI& scienceAPI;  
       float plants;
       float canopy_width;
 

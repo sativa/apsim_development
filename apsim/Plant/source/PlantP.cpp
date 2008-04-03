@@ -61,7 +61,7 @@ void Plant::doPPartition (void)
   }
 }
 // ====================================================================
-void Plant::doPInit (PlantComponent *systemInterface)
+void Plant::doPInit(protocol::Component* systemInterface)
 {
       if (pStress->isPhosphorusAware())
       {

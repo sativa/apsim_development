@@ -244,21 +244,6 @@ void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of pl
                            float *g_dlt_dm_green_retrans,  // (INPUT)  plant biomass retranslocat
                            float *dlt_dm_senesced);         // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
 
-void cproc_dm_retranslocate1 (plantInterface *iface,
-                              float g_current_stage,         //(INPUT)  current phenological stage
-                              int start_grnfil,              //(INPUT)
-                              int end_grnfil,                //(INPUT)
-                              int grain_part_no,             //(INPUT)
-                              int max_part,                  //(INPUT)
-                              int *supply_pools,             //(INPUT)
-                              int num_supply_pools,          //(INPUT)
-                              float g_dlt_dm_grain_demand,   //(INPUT)  grain dm demand (g/m^2)
-                              float *g_dlt_dm_green,         //(INPUT)  plant biomass growth (g/m^2)
-                              float *g_dm_green,             //(INPUT)  live plant dry weight (biomass
-                              float *g_dm_plant_min,         //(INPUT)  minimum weight of each plant p
-                              float g_plants,                //(INPUT)  Plant density (plants/m^2)
-                              float *dm_retranslocate);       //(OUTPUT) actual change in plant part weights due to translocation (g/m^2)
-
 void cproc_dm_detachment1( const int max_part,
                            float *c_sen_detach_frac,
                            float *g_dm_senesced,
@@ -412,24 +397,6 @@ void legnew_canopy_fac (
     ,float  g_skip_plant_fac
     ,float  g_canopy_width
     ,float  *g_canopy_fac) ;
-
-void crop_lai_equilib_water (int    day_of_year,         // (INPUT) day of year
-                             int    year,                // (INPUT) year
-                             float  extinction_coef,     // (INPUT) radiation extinction coefficient
-                             float *rue,                 // (INPUT) radiation use efficiency (g dm/mj)
-                             float  cover_green,          //(INPUT) fraction of radiation reaching the
-                             float  current_stage,       // (INPUT) current phenological stage
-                             const int    num_layer,     // (INPUT) number of layers in profile
-                             float *dlayer,              // (INPUT) thickness of soil layer I (mm)
-                             float  lai,                 // (INPUT) live plant green lai
-                             float  nfact_photo,         // (INPUT)
-                             float  radn,                // (INPUT) solar radiation (Mj/m^2/day)
-                             float  radn_int,            // (INPUT) radn intercepted by leaves (mj/m^2)
-                             float  root_depth,          // (INPUT) depth of roots (mm)
-                             float *sw_supply,           // (INPUT) potential water to take up
-                             float  temp_stress_photo,   // (INPUT)
-                             float  transp_eff,          // (INPUT) transpiration efficiency (g dm/m^2)
-                             float *lai_equilib_water);   // (INPUT/OUTPUT) lai threshold for water sene
 
 void crop_lai_equilib_light ( float radn_int,
                               float cover_green,
@@ -943,14 +910,6 @@ void cproc_bio_water1(int   num_layer,      //(INPUT)  number of layers in profi
                       float *dlt_dm_pot_te); //(OUTPUT) potential dry matter production
                                             //         by transpiration (g/m^2)
 
-void crop_check_sw(plantInterface *,
-                   float minsw,    // (INPUT)  lowest acceptable value for ll
-                   float *dlayer,   // (INPUT)  thickness of soil layer I (mm)
-                   float *dul_dep,  // (INPUT)  drained upper limit soil water content for soil layer L (mm water)
-                   float *sw_dep,   // (INPUT)  soil water content of layer L (mm)
-                   float *ll_dep);   // (INPUT)  lower limit of plant-extractable soil water
-                                    //          for soil layer L (mm)
-
 void cproc_transp_eff_co2(float svp_fract,        // (INPUT)  fraction of distance between svp at mi
                           float transp_eff_cf,    // (INPUT)  transpiration efficiency coefficien
                           float maxt,             // (INPUT)  maximum air temperature (oC)
@@ -970,21 +929,21 @@ double divide (double dividend, double divisor, double default_value);
 float l_bound (float var, float lower);
 float u_bound (float var, float upper);
 
-void bound_check_real_array (plantInterface *,
+void bound_check_real_array (ScienceAPI& scienceAPI,
                              float *array,// (INPUT) array to be checked
                              int    array_size,    // (INPUT) array size_of
                              float  lower_bound,// (INPUT) lower bound of values
                              float  upper_bound,// (INPUT) upper bound of values
                              const char *array_name);// (INPUT) key string of array
-void bound_check_integer_array (plantInterface *,
+void bound_check_integer_array (ScienceAPI& scienceAPI,
                              int *array,// (INPUT) array to be checked
                              int    array_size,    // (INPUT) array size_of
                              int  lower_bound,// (INPUT) lower bound of values
                              int  upper_bound,// (INPUT) upper bound of values
                              const char *array_name);// (INPUT) key string of array
 
-void bound_check_real_var (plantInterface *,float value, float lower, float upper, const char *vname);
-void bound_check_integer_var (plantInterface *, int value, int lower, int upper, const char *vname);
+void bound_check_real_var (ScienceAPI& scienceAPI,float value, float lower, float upper, const char *vname);
+void bound_check_integer_var (ScienceAPI& scienceAPI, int value, int lower, int upper, const char *vname);
 
 float bound(float var, float lower, float upper);
 

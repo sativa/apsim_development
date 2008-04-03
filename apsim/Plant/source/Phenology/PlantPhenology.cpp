@@ -44,7 +44,7 @@ PlantPhenology::PlantPhenology(ScienceAPI& api, plantInterface *p)
 void PlantPhenology::readConstants (protocol::Component *s, const string &)
 {
 
-   phases.push_back(new pPhase(scienceAPI, "out"));
+   phases.push_back(new pPhase(scienceAPI, plant, "out"));
    currentStage = 0.0;
    initialOnBiomassRemove = true;
 
@@ -68,31 +68,31 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &)
       {
       if(phase_types[i]=="generic")
          {
-         phases.push_back(new pPhase(scienceAPI, phase_names[i]));
+         phases.push_back(new pPhase(scienceAPI, plant, phase_names[i]));
          }
       else if(phase_types[i]=="vernal")
          {
-         VernalPhase* vernal = new VernalPhase(scienceAPI, phase_names[i]);
+         VernalPhase* vernal = new VernalPhase(scienceAPI, plant, phase_names[i]);
          phases.push_back(vernal);
          }
       else if(phase_types[i]=="photo")
          {
-         PhotoPhase* photo = new PhotoPhase(scienceAPI, phase_names[i]);
+         PhotoPhase* photo = new PhotoPhase(scienceAPI, plant, phase_names[i]);
          phases.push_back(photo);
          }
       else if(phase_types[i]=="emergent")
          {
-         EmergentPhase* emerg = new EmergentPhase(scienceAPI, phase_names[i]);
+         EmergentPhase* emerg = new EmergentPhase(scienceAPI, plant, phase_names[i]);
          phases.push_back(emerg);
          }
       else if(phase_types[i]=="leafapp")
          {
-         LeafAppPhase* leafapp = new LeafAppPhase(scienceAPI, phase_names[i]);
+         LeafAppPhase* leafapp = new LeafAppPhase(scienceAPI, plant, phase_names[i]);
          phases.push_back(leafapp);
          }
       else
          {
-         pPhase* newPhase = new FixedPhase(scienceAPI, phase_names[i]);
+         pPhase* newPhase = new FixedPhase(scienceAPI, plant, phase_names[i]);
          phases.push_back(newPhase);
          }
 
@@ -218,7 +218,7 @@ void PlantPhenology::zeroDeltas(void)
    dlt_tt = dlt_tt_phenol  = 0.0;
    }
 
-void PlantPhenology::prepare(const Environment &/* sw*/)
+void PlantPhenology::prepare()
    {
    previousStage = currentStage;
    }
@@ -536,7 +536,7 @@ void PlantPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
    incomingApsimVariant.aliasTo(v.getMessageData());
    if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)
       throw std::invalid_argument("sowing_depth not specified");
-   bound_check_real_var(plant, sowing_depth, 0.0, 100.0, "sowing_depth");
+   bound_check_real_var(scienceAPI, sowing_depth, 0.0, 100.0, "sowing_depth");
    currentStage = 1.0;
    das = 0;
    setupTTTargets();

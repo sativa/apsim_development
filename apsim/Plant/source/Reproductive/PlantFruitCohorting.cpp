@@ -161,7 +161,7 @@ void PlantFruitCohorting::doSiteNumber(void)
     float metabolic_fact = divide (fruit_tt_cum, fruit_tt_target, 0.0);
     metabolic_fact = bound (metabolic_fact, 0.0, 1.0);
 
-    float temp_fac = rel_fruit_site.value(plant->getEnvironment()->meant());
+    float temp_fac = rel_fruit_site.value(plant->environment().meant());
 
     dlt_site_no = dlt_site_no_pot
                 * (1.0 - metabolic_fact)
