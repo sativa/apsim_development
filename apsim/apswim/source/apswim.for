@@ -335,18 +335,7 @@
 ! =====================================================================
       Type APSwimConstants
          sequence
-         double precision
-     :       lb_exco ,ub_exco
-     :      ,lb_fip ,ub_fip
-     :      ,lb_dis ,ub_dis
-     :      ,lb_slupf ,ub_slupf
-     :      ,lb_slos ,ub_slos
-     :      ,lb_d0 ,ub_d0
-     :      ,lb_a ,ub_a
-     :      ,lb_dthc ,ub_dthc
-     :      ,lb_dthp ,ub_dthp
-     :      ,lb_disp ,ub_disp
-     :      ,lb_solute, ub_solute
+         double precision lb_solute, ub_solute
 
          real             min_crit_temp
          real             max_crit_temp
@@ -499,18 +488,6 @@
       if (numvals.eq.0) then
          p%specification_type = 1
       endif
-
-         ! Read in vol. soil water from parameter file
-
-c      call read_double_array (
-c     :              init_section,
-c     :              'sw',
-c     :              max_layer,
-c     :              '(cc/cc)',
-c     :              sw,
-c     :              numvals,
-c     :              0.0d0,
-c     :              1.0d0)
 
          ! Read in minimum log suction from parameter file
 
@@ -1273,15 +1250,6 @@ c     :              1.0d0)
      :           -50.0,
      :           50.0)
 
-c      ! get potential evapotranspiration
-c
-c      ret_string = get_variable_value('potet')
-c      read(ret_string, *, iostat = err_code) g%potet
-c
-c      ! get rainfall for this timestep
-c
-c      ret_string = get_variable_value('rain')
-c      read(ret_string, *, iostat = err_code) g%rain
 
       return
       end subroutine
@@ -1685,11 +1653,6 @@ cnh      print*,g%TD_pevap
      :            '(min)',
      :            g%dt*60d0)
 
-!      else if (Variable_name .eq. 'crop_cover') then
-!         call respond2Get_double_var (
-!     :            Variable_name,
-!     :            '(0-1)',
-!     :            g%crop_cover)
 
 cnh added as per request by Dr Val Snow
 
@@ -1845,8 +1808,8 @@ cnh added as per request by Dr Val Snow
      :              '()',
      :              sol_exco(0),
      :              numvals,
-     :              c%lb_exco,
-     :              c%ub_exco)
+     :              0d0,
+     :              15000d0)
 
          do 300 node=0,numvals-1
             p%ex(solnum,node) = sol_exco(node)*p%rhob(node)
@@ -1861,8 +1824,8 @@ cnh added as per request by Dr Val Snow
      :              '()',
      :              sol_dis(0),
      :              numvals,
-     :              c%lb_dis,
-     :              c%ub_dis)
+     :              0d0,
+     :              20d0)
 
          do 400 node=0,numvals-1
             p%dis(solnum,node) = sol_dis(node)
@@ -2167,39 +2130,6 @@ c            indxsl(counter,counter2)=0
 
    32 continue
 
-cnh      itime = 0
-cnh      idepth = 0
-cnh      slxc = 0d0
-cnh      slpmax = 0d0
-cnh      slpc1 = 0d0
-cnh      slpc2 = 0d0
-cnh      scycle = 0d0
-cnh      asl1 = 0d0
-cnh      bsl1 = 0d0
-cnh      asl2 = 0d0
-cnh      bsl2 = 0d0
-
-
-* =====================================================================
-*      common/solprt/luspr,istspr,iftspr,itspr,tspr
-* =====================================================================
-cnh      call set(tspr(1,1),0.0,mtspr)
-cnh      call set(tspr(2,1),0.0,mtspr)
-cnh      luspr = 0
-cnh      istspr = 0
-cnh      iftspr = 0
-cnh      itspr = 0
-
-* =====================================================================
-*      common/solprd/ndsl,dsl,ntsl,tsl,psl
-* =====================================================================
-cnh      call set(dsl,0.0,mdsl)
-cnh      call set(tsl,0.0,mtsl)
-cnh      do 10 counter=1,mdsl
-cnh         call set(psl(counter,1),0.0,mtsl)
-cnh   10 continue
-cnh      ndsl = 0
-cnh      ntsl = 0
 
 * =====================================================================
 *      common/itern/p%ersoil,p%ernode,p%errex,p%dppl,p%dpnl,g%work,p%slcerr,g%slwork
@@ -2224,15 +2154,6 @@ cnh      ntsl = 0
       g%swta(:)=0d0
       p%slswt = 0d0
 
-* =====================================================================
-*      common/bound/lub,istb,iftb,itb,tb
-* =====================================================================
-cnh      lub = 0
-cnh      istb = 0
-cnh      iftb = 0
-cnh      itb = 0
-cnh      call set(tb(1,1),0.0,MTB)
-cnh      call set(tb(2,1),0.0,MTB)
 
 * =====================================================================
 *      common/surcon/p%g0,p%g1,p%grc,p%hm0,p%hm1,p%hrc,p%roff0,p%roff1,tzero,eqr0
@@ -2249,40 +2170,10 @@ c      tzero = 0d0
 c      eqr0 = 0d0
       g%hmin = 0d0
       g%gsurf = 0d0
-* =====================================================================
-*      common/crainb/lur,istr,iftr,itr,effpar,tr,teqr
-* =====================================================================
-c      effpar = 0d0
-cnh      iftr = 0
-cnh      istr = 0
-cnh      itr = 0
-cnh      lur = 0
-cnh      call set(tr(1,1),0.0,MTR)
-cnh      call set(tr(2,1),0.0,MTR)
-cnh      call set(teqr(1,1),0.0,MTR)
-cnh      call set(teqr(2,1),0.0,MTR)
-
-* =====================================================================
-*      common/cevapb/lue,iste,ifte,ite,te
-* =====================================================================
-cnh      ifte = 0
-cnh      iste = 0
-cnh      ite = 0
-cnh      lue = 0
-cnh      call set(te(1,1),0.0,MTE)
-cnh      call set(te(2,1),0.0,MTE)
 
 * =====================================================================
 *      common/vegvar/g%rld,g%rc,g%rtp,g%rt,g%ctp,g%ct,g%qr,g%slup
 * =====================================================================
-c       double precision g%rld(0:M,MV)
-c       double precision g%rc(0:M,MV)
-c       double precision g%rtp(MV)
-c       double precision g%rt(MV)
-c       double precision g%ctp(MV)
-c       double precision g%ct(MV)
-c       double precision g%qr(0:M,MV)
-c       double precision g%slup(MV)
 
       do 41 vegnum = 1, MV
          do 40 node = 0,M
@@ -2306,38 +2197,7 @@ c       double precision g%slup(MV)
 *     1              arld2,brld2
 * =====================================================================
        g%nveg = 0
-c       g%psim = 0d0
-c       double precision g%psimin(MV)
-c       double precision xc(MV)
-c       double precision rldmax(MV)
-c       double precision fevmax(MV)
-c       double precision vcycle(MV)
-c       integer          igrow(MV)
-c       integer          iroot(MV)
-c       double precision arld1(MV)
-c       double precision brld1(MV)
-c       double precision arld2(MV)
-c       double precision brld2(MV)
 
-* =====================================================================
-*      common/root/ndrt,drt,ntrt,trt,grt
-* =====================================================================
-c      integer ndrt(MV)
-c      real drt(mdrt,MV)
-c      real trt(mtrt,MV)
-c      real grt(mdrt,mtrt,MV)
-c      integer ntrt(MV)
-
-* =====================================================================
-*      common/cumsol/lus,ists,ifts,its,ts
-* =====================================================================
-cnh      ifts = 0
-cnh      ists = 0
-cnh      its = 0
-cnh      lus = 0
-
-cnh      call fill_real_array(ts(1,1),0.0,MTS)
-cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
       do 102 vegnum=1,MV
          g%pep(vegnum) = 0d0
@@ -2416,26 +2276,6 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
       endif
 
 
-
-      return
-      end subroutine
-
-
-
-* ====================================================================
-       subroutine apswim_post ()
-* ====================================================================
-
-      Use infrastructure
-      implicit none
-
-*+  Purpose
-*     Perform calculations after the current timestep.
-
-*+  Changes
-*     <insert here>
-
-*- Implementation Section ----------------------------------
 
       return
       end subroutine
@@ -4451,31 +4291,6 @@ cnh       double precision table_slscr(nsol)
       ! First - Read in solute information
             ! ----------------------------------
        numvals = 0
-c      call Read_char_array(
-c     :           solute_section,
-c     :           'run_solutes',
-c     :           nsol,
-c     :           '()',
-c     :           p%solute_names,
-c     :           p%num_solutes)
-
-c      call Read_double_var(
-c     :           solute_section,
-c     :           'slcerr',
-c     :           '()',
-c     :           p%slcerr,
-c     :           numvals,
-c     :           -1000d0,
-c     :           1000d0)
-
-c      call Read_double_var(
-c     :           solute_section,
-c     :           'slswt',
-c     :           '()',
-c     :           p%slswt,
-c     :           numvals,
-c     :           -1000d0,
-c     :           1000d0)
 
       call Read_char_array(
      :           solute_section,
@@ -4492,8 +4307,8 @@ c     :           1000d0)
      :           '()',
      :           table_slupf,
      :           numvals,
-     :           c%lb_slupf,
-     :           c%ub_slupf)
+     :           0d0,
+     :           1d0)
 
       call Read_double_array(
      :           solute_section,
@@ -4502,8 +4317,8 @@ c     :           1000d0)
      :           '()',
      :           table_slos,
      :           numvals,
-     :           c%lb_slos,
-     :           c%ub_slos)
+     :           0d0,
+     :           10d0)
 
       call Read_double_array(
      :           solute_section,
@@ -4512,29 +4327,8 @@ c     :           1000d0)
      :           '()',
      :           table_d0,
      :           numvals,
-     :           c%lb_d0,
-     :           c%ub_d0)
-
-c      call Read_double_array(
-c     :           solute_section,
-c     :           'slsci',
-c     :           nsol,
-c     :           '()',
-c     :           table_slsci,
-c     :           numvals,
-c     :           -1000d0,
-c     :           1000d0)
-
-c      call Read_double_array(
-c     :           solute_section,
-c     :           'slscr',
-c     :           nsol,
-c     :           '()',
-c     :           table_slscr,
-c     :           numvals,
-c     :           -1000d0,
-c     :           1000d0)
-
+     :           0d0,
+     :           1d0)
 
       call Read_double_array(
      :           solute_section,
@@ -4543,8 +4337,8 @@ c     :           1000d0)
      :           '()',
      :           table_a,
      :           numvals,
-     :           c%lb_a,
-     :           c%ub_a)
+     :           0d0,
+     :           100d0)
 
 
       call Read_double_array(
@@ -4554,8 +4348,8 @@ c     :           1000d0)
      :           '()',
      :           table_dthc,
      :           numvals,
-     :           c%lb_dthc,
-     :           c%ub_dthc)
+     :           0d0,
+     :           1d0)
 
 
       call Read_double_array(
@@ -4565,8 +4359,8 @@ c     :           1000d0)
      :           '()',
      :           table_dthp,
      :           numvals,
-     :           c%lb_dthp,
-     :           c%ub_dthp)
+     :           0d0,
+     :           10d0)
 
       call Read_double_array(
      :           solute_section,
@@ -4575,8 +4369,8 @@ c     :           1000d0)
      :           '()',
      :           table_disp,
      :           numvals,
-     :           c%lb_disp,
-     :           c%ub_disp)
+     :           0d0,
+     :           5d0)
 
       call Read_double_array(
      :           solute_section,
@@ -4691,8 +4485,8 @@ c       double precision table_beta(nsol)
      :           '()',
      :           table_exco,
      :           numvals,
-     :           c%lb_exco,
-     :           c%ub_exco)
+     :           0d0,
+     :           15000d0)
 
             call Read_double_array(
      :           p%soil_type(node),
@@ -4701,8 +4495,8 @@ c       double precision table_beta(nsol)
      :           '()',
      :           table_fip,
      :           numvals,
-     :           c%lb_fip,
-     :           c%ub_fip)
+     :           0d0,
+     :           100d0)
 
             call Read_double_array(
      :           p%soil_type(node),
@@ -4711,29 +4505,8 @@ c       double precision table_beta(nsol)
      :           '()',
      :           table_dis,
      :           numvals,
-     :           c%lb_dis,
-     :           c%ub_dis)
-
-c            call Read_double_array(
-c     :           p%soil_type(node),
-c     :           'alpha',
-c     :           nsol,
-c     :           '()',
-c     :           table_alpha,
-c     :           numvals,
-c     :           -1000d0,
-c     :           1000d0)
-
-c            call Read_double_array(
-c     :           p%soil_type(node),
-c     :           'beta',
-c     :           nsol,
-c     :           '()',
-c     :           table_beta,
-c     :           numvals,
-c     :           -1000d0,
-c     :           1000d0)
-
+     :           0d0,
+     :           20d0)
 
             do 200 solnum = 1,p%num_solutes
                found = .false.
@@ -6320,185 +6093,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
      :              0d0,
      :              1440d0)
 
-      call Read_double_var (
-     :              section_name,
-     :              'lb_exco',
-     :              '()',
-     :              c%lb_exco,
-     :              numvals,
-     :              -1d10,
-     :               1d10)
 
-      call Read_double_var (
-     :              section_name,
-     :              'ub_exco',
-     :              '()',
-     :              c%ub_exco,
-     :              numvals,
-     :              c%lb_exco,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'lb_fip',
-     :              '()',
-     :              c%lb_fip,
-     :              numvals,
-     :              -1d10,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'ub_fip',
-     :              '()',
-     :              c%ub_fip,
-     :              numvals,
-     :              c%lb_fip,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'lb_dis',
-     :              '()',
-     :              c%lb_dis,
-     :              numvals,
-     :              -1d10,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'ub_dis',
-     :              '()',
-     :              c%ub_dis,
-     :              numvals,
-     :              c%lb_dis,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'lb_slupf',
-     :              '()',
-     :              c%lb_slupf,
-     :              numvals,
-     :              -1d10,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'ub_slupf',
-     :              '()',
-     :              c%ub_slupf,
-     :              numvals,
-     :              c%lb_slupf,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'lb_slos',
-     :              '()',
-     :              c%lb_slos,
-     :              numvals,
-     :              -1d10,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'ub_slos',
-     :              '()',
-     :              c%ub_slos,
-     :              numvals,
-     :              c%lb_slos,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'lb_d0',
-     :              '()',
-     :              c%lb_d0,
-     :              numvals,
-     :              -1d10,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'ub_d0',
-     :              '()',
-     :              c%ub_d0,
-     :              numvals,
-     :              c%lb_d0,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'lb_a',
-     :              '()',
-     :              c%lb_a,
-     :              numvals,
-     :              -1d10,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'ub_a',
-     :              '()',
-     :              c%ub_a,
-     :              numvals,
-     :              c%lb_a,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'lb_dthc',
-     :              '()',
-     :              c%lb_dthc,
-     :              numvals,
-     :              -1d10,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'ub_dthc',
-     :              '()',
-     :              c%ub_dthc,
-     :              numvals,
-     :              c%lb_dthc,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'lb_dthp',
-     :              '()',
-     :              c%lb_dthp,
-     :              numvals,
-     :              -1d10,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'ub_dthp',
-     :              '()',
-     :              c%ub_dthp,
-     :              numvals,
-     :              c%lb_dthp,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'lb_disp',
-     :              '()',
-     :              c%lb_disp,
-     :              numvals,
-     :              -1d10,
-     :               1d10)
-
-      call Read_double_var (
-     :              section_name,
-     :              'ub_disp',
-     :              '()',
-     :              c%ub_disp,
-     :              numvals,
-     :              c%lb_disp,
-     :               1d10)
 
       call Read_double_var (
      :              section_name,
@@ -9117,9 +8712,6 @@ c      pause
 
       else if (Action.eq.ACTION_Process) then
          call apswim_Process ()
-
-      else if (Action .eq. ACTION_Post) then
-         call apswim_post ()
 
       else if (Action .eq. ACTION_Set_variable) then
          call apswim_set_my_variable (Data_string)
