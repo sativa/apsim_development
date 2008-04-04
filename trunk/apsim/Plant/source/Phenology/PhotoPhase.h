@@ -11,7 +11,6 @@ class PhotoPhase : public pPhase
       float photoperiod;
       float twilight;
       string cutoff;
-      plantInterface* plant;
 
       public:
       void readCultivarParameters(protocol::Component *s, const string & cultivar);

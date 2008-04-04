@@ -34,6 +34,7 @@ class Environment : public plantThing
                                                         // min temp and svp at max temp where
                                                         // average svp during transpiration
                                                         // lies. (0-1)
+      float _co2;
       float co2_default;
 
       float svp(float temp) const;

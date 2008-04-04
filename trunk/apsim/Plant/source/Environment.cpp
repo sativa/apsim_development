@@ -37,15 +37,14 @@ void Environment::OnTick(protocol::TimeType &Tick)
    jday_to_day_of_year(&sd, &day_of_year, &year);
    if (latitude == 0.0)
       scienceAPI.get("latitude", "deg", latitude, -90., 90.);
+
+   if (!scienceAPI.getOptional("co2", "mg/kg", _co2, 0.0, 1500.0))
+      _co2 = co2_default;
    }
 float Environment::co2() const
 //===========================================================================
    {
-   float co2;
-   if (!scienceAPI.getOptional("co2", "mg/kg", co2, 0.0, 1500.0))
-      return co2_default;
-   else
-      return co2;
+   return _co2;
    }
 
 float Environment::vpd(float svp_fract, float maxt, float mint) const
