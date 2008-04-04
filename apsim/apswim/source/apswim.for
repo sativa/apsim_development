@@ -2679,7 +2679,7 @@ c      double precision tth
       parameter (myname = 'apswim_SimpleK')
 
       double precision Kdul
-      parameter (Kdul = 1.0d0/24d0)
+      parameter (Kdul = 0.1d0/24d0)
 
 *+  Local Variables
       double precision S
@@ -2687,6 +2687,8 @@ c      double precision tth
       double precision Ksa ! apparent Ks
       double precision Power
       double precision Kdula
+      double precision MicroK
+      double precision MacroK
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -2694,20 +2696,18 @@ c      double precision tth
       S = Apswim_SimpleS(layer,psi)
       apswim_SimpleK = p%Ks(layer)*S**(p%b(layer)*2d0+3d0)
 
-!      Sdul = Apswim_SimpleS(layer,psi_dul)
-!
-!      Kdula = min(Kdul,p%Ks(layer))
-!
-!      if (S.lt.Sdul) then
-!         Ksa = Kdula / (Sdul**(1. + 2. + 2. * p%b(layer)))
-!         apswim_SimpleK = Ksa * s**(1. + 2. + 2. * p%b(layer))
-!
-!      else
-!         Power = Log(Kdula/p%Ks(layer)) / Log(Sdul)
-!         apswim_SimpleK = p%Ks(layer) * S**Power
-!      End If
-!      !print*,Sdul,apswim_SimpleK,psi
-!      apswim_SimpleK = apswim_SimpleK/10d0/24d0
+      Sdul = Apswim_SimpleS(layer,psi_dul)
+
+      Kdula = min(Kdul,p%Ks(layer))
+
+      Ksa = Kdula / (Sdul**(1. + 2. + 2. * p%b(layer)))
+
+      MicroK = Ksa * s**(1. + 2. + 2. * p%b(layer))
+
+      Power = Log(Kdula/100d0/(p%Ks(layer)-MicroK)) / Log(Sdul)
+      MacroK = (p%Ks(layer)-MicroK) * S**Power
+
+      apswim_SimpleK = (MicroK+MacroK)
 
       call pop_ routine (myname)
       return
