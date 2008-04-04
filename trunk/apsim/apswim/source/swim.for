@@ -175,7 +175,6 @@ cnh      if(p%isol.ne.1.or.fail)go to 90
       endif
 
 *     solve for solute movement
-cnh      call getsol(a(0),b(0),c(0),d(0),rhs(0),dp(0),vbp(0),fail)
 
       do 80 solnum = 1,p%num_solutes
          call apswim_getsol
@@ -204,33 +203,23 @@ cnh
             Use infrastructure
       implicit none
 
-*     Global Variables
-cnh      double precision cevap            ! function
-
-
 *     Subroutine Arguments
       integer istat
       double precision tresp
 
 *     Internal Variables
-cnh      double precision frac
       integer          i
       integer          iveg
       integer          j
       double precision rep
       double precision rldi
       double precision sep          ! soil evaporation demand
-cnh      double precision sfrac
       integer          solnum
-cnh      double precision tfrac
       double precision start_of_day
       double precision end_of_day
       double precision TD_Eo
 
 *     Constant Values
-
-c      double precision rad    ! set root radius rad (alter as required)
-c      parameter (rad=0.1d0)
 
       double precision pi
       parameter (pi=3.141593d0)
@@ -269,11 +258,8 @@ c      parameter (rad=0.1d0)
 
          do 60 iveg=1,g%nveg
             do 60 i=0,p%n
-cnh               g%rld(i,iveg)=g%rld(i,iveg)/p%dx(i)
                if(g%rld(i,iveg).lt.1d-20)g%rld(i,iveg)=1d-20
                rldi=g%rld(i,iveg)
-cnh now use root_raidus as in initialisation file
-cnh               g%rc(i,iveg)=-log(pi*rad**2*rldi)/(4.*pi*rldi*p%dx(i))
 
                g%rc(i,iveg)=-log(pi*g%root_radius(iveg)**2*rldi)
      :                        /(4.*pi*rldi*p%dx(i))
@@ -440,22 +426,12 @@ cnh - end subroutine
          ifirst=0
          ilast=p%n
          if(p%itbc.eq.2.and.g%hold.gt.0.)ifirst=-1
-cnh         if(p%ibbc.eq.0)gr=grad(g%t)
-cnh now uses constant gradient from input file
          if (p%ibbc.eq.0)gr = p%constant_gradient
 
          if(p%ibbc.eq.1)then
-cnh            g%psi(p%n)=potl(g%t)
-cnh now uses constant potential from input file
             g%psi(p%n) = p%constant_potential
-
             g%p(p%n)=apswim_pf(g%psi(p%n))
          end if
-cnh added to allow seepage to user potential at bbc
-ccnh - now deleted as it is pickup up below
-c         if(p%ibbc.eq.3)then
-c            g%psi(p%n) = p%constant_potential
-c         endif
 
       end if
 ***   get soil water variables and their derivatives
@@ -471,11 +447,8 @@ c         endif
          call apswim_watvar(0,g%p(0),v1,psip(0),psipp(0),g%th(0),thp(0),
      1               g%hk(0),hkp(0))
       end if
-cnh added to allow seepage to user potential at bbc
-cnh      if(p%ibbc.eq.3.and.g%psi(p%n).gt.0.)then
       if(p%ibbc.eq.3.and.g%psi(p%n).gt.p%constant_potential)then
 *        seepage at bottom boundary
-cnh         g%psi(p%n)=0.
          g%psi(p%n)=p%constant_potential
          g%p(p%n)=apswim_pf(g%psi(p%n))
          call apswim_watvar(p%n,g%p(p%n),v1,psip(p%n),psipp(p%n)
@@ -540,14 +513,6 @@ c                     value=min(1d0,value)
 20    continue
 ***   get uptake fluxes to roots if still in iterations
       if(iroots.lt.2)then
-cnh         if(tisol.eq.1.and.tslos.ne.0.)then
-cnh            do 22 i=0,p%n
-cnh22          psios(i)=g%psi(i)-tslos*tcsl(i)
-cnh            call uptake(psios,g%hk,psip,hkp,g%qex,qexp)
-cnh         else
-cnh            call uptake(g%psi,g%hk,psip,hkp,g%qex,qexp)
-cnh         end if
-cnh replaced with the following
          do 23 i=0,p%n
             psios(i) = g%psi(i)
             do 22 solnum=1,nsol
@@ -555,7 +520,6 @@ cnh replaced with the following
    22       continue
    23    continue
          call apswim_uptake(psios,g%hk,psip,hkp,g%qex,qexp)
-cnh
       end if
       g%rex=0.
       do 25 i=0,p%n
@@ -746,7 +710,6 @@ cnh
       else if(p%ibbc.eq.3)then
 **       seepage
 cnh added to allow seepage to user potential at bbc
-cnh         if(g%psi(p%n).ge.0.)then
          if(g%psi(p%n).ge.p%constant_potential) then
             g%q(p%n+1)=g%q(p%n)-g%qs(p%n)-g%qex(p%n)+g%qssif(p%n)
      :                -g%qssof(p%n)
@@ -1274,9 +1237,6 @@ cnh         j=indxsl(solnum,i)
          end if
          g%cslt(solnum,i)=(g%th(i)+p%ex(solnum,j)*cp)*g%csl(solnum,i)
          g%slp(solnum)=g%slp(solnum)+g%cslt(solnum,i)*p%dx(i)
-cnh         g%rslex(solnum)=g%rslex(solnum)+g%qex(i)*g%csl(solnum,i)*p%slupf(solnum)
-cnh         g%rslex(solnum)=g%rslex(solnum)+g%qex(i)*g%csl(solnum,i)
-cnh     :                *apswim_slupf(1,solnum)
          do 79 crop=1,g%num_Crops
             g%rslex(solnum)=g%rslex(solnum)+g%qr(i,crop)*g%csl(solnum,i)
      :                *apswim_slupf(crop,solnum)
@@ -1686,12 +1646,6 @@ cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
 
       call apswim_trans(tp,tpsi,psip,psipp)
 
-cnh   assume no hysteresis
-cnh      jhys=0...........etc  removed
-
-cnh - got rid of old calculation for interpolating inputs - used the new
-cnh   method.  note apswim_interp allows for hysteresis in calculating
-cnh   moisture characteristic and g%hk curve.
       call apswim_interp (ix,tpsi,tth,thd,hklg,hklgd)
 
       thk=exp(al10*hklg)
@@ -1700,12 +1654,6 @@ cnh   moisture characteristic and g%hk curve.
          thp=(thd*psip)/(al10*tpsi)
          hkp=(thk*hklgd*psip)/tpsi
       end if
-
-cnd no hysteresis
-c      if(jhys.ne.0)then
-c         thp=tdc*thp
-c         hkp=tdc*hkp
-c      end if
 
       thsat = p%wc(ix,1) ! NOTE: this assumes that the wettest p%wc is
                         ! first in the pairs of log suction vs p%wc
@@ -1748,13 +1696,6 @@ c      end if
 *     Constant Values
 *     none
 *
-cnh      g=p%g0
-cnh      gh=0.
-cnh      if(p%grc.ne.0..and.ttt.gt.tzero)then
-cnhcnh         g=p%g0+(p%g1-p%g0)*exp(-(eqrain(ttt)-eqr0)/p%grc)
-cnh         g=p%g0+(p%g1-p%g0)*exp(-(apswim_eqrain(ttt)-eqr0)/p%grc)
-cnh      end if
-
       g_ = g%gsurf
       gh = 0d0
 
@@ -1790,12 +1731,6 @@ cnh      end if
 *     none
 
 *
-cnh      g%hmin=p%hm0
-cnh      if(p%hrc.ne.0..and.ttt.gt.tzero)then
-cnhcnh         g%hmin=p%hm0+(p%hm1-p%hm0)*exp(-(eqrain(ttt)-eqr0)/p%hrc)
-cnh         g%hmin=p%hm0+(p%hm1-p%hm0)*exp(-(apswim_eqrain(ttt)-eqr0)/p%hrc)
-cnh      end if
-
       if(tth.gt.g%hmin)then
          v=p%roff0*(tth-g%hmin)**(p%roff1-1d0)
          ttroff=v*(tth-g%hmin)
