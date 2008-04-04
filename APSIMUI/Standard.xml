@@ -621,6 +621,21 @@
 </text>
           <event>start_of_day</event>
         </script>
+        <script name="end_of_day">
+          <text><![CDATA[
+             if [crop].stage_name = 'flowering'  then
+                [crop]  harvest height = [harvest_ht]
+              endif
+              if today= date('[killdate]') and [crop].plant_status <>'out' then
+                   if ( [crop]LeyYears > 0 ) then
+                         [crop]LeyYears = [crop]LeyYears - 1
+                   else
+                              [crop] end_crop
+                   endif
+              endif
+         ]]></text>
+          <event>end_of_day</event>
+        </script>
         <ui>
           <category name="Sowing criteria" />
           <date type="text" description="Enter sowing date (dd-mmm-yyyy) : ">1-jan-1985</date>
@@ -656,8 +671,23 @@
          endif
       endif
 
-]]></text>
+         ]]></text>
           <event>start_of_day</event>
+        </script>
+        <script>
+        <text><![CDATA[
+                if [crop].stage_name = 'flowering'  then
+             [crop]  harvest height = [harvest_ht]
+        endif
+        if today= date('[killdate]') and [crop].plant_status <>'out' then
+             if ( [crop]LeyYears > 0 ) then
+                   [crop]LeyYears = [crop]LeyYears - 1
+             else
+                        [crop] end_crop
+             endif
+        endif
+         ]]></text>
+          <event>end_of_day</event>
         </script>
         <ui>
           <category name="Sowing criteria" />
