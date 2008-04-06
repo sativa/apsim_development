@@ -2,7 +2,7 @@
 #define PlantStressH
 
 #include <ComponentInterface/datatypes.h>
-#include <ComponentInterface/messages.h>
+#include <ComponentInterface/Messages.h>
 #include <ComponentInterface/ScienceAPI.h>
 
 class RootBase;
