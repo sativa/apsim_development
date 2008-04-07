@@ -932,7 +932,11 @@
      :              '()',
      :              p%evap_source,
      :              numvals)
-
+      if (p%evap_source.eq.'sum_demands') then
+         call fatal_error(Err_User
+     :       ,'Sum_Demands no longer supported for evap data'
+     :       //' - use calc, file or variable name.')
+      endif
          ! Read in soil albedo from parameter file
 
       call Read_real_var (
