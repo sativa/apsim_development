@@ -58,8 +58,8 @@ namespace CSUserInterface
                 {
                 ApsimFile.Component SoilComponent = Controller.ApsimData.Find(SelectedPath);
                 XmlDocument Doc = new XmlDocument();
-                Doc.LoadXml(SoilComponent.Contents);
-                CreateTableFromData(Doc.DocumentElement, Table, SelectedPath, ref Row);
+                Doc.LoadXml(SoilComponent.FullXML());
+                CreateTableFromData(Doc.DocumentElement, Table, SelectedPath.Replace("/", "\\"), ref Row);
                 }
             ExcelHelper.SendDataToSheet(FileName, "SoilData", Table);
             Cursor.Current = Cursors.Default;
@@ -74,7 +74,7 @@ namespace CSUserInterface
 				{
 				if (XmlHelper.Type(Child).ToLower() == "soil" ||
 				    XmlHelper.Type(Child).ToLower() == "soils" || XmlHelper.Type(Child).ToLower() == "folder")
-					CreateTableFromData(Child, Table, ChildPath + "|" + Child.Name, ref Row); // recursion
+					CreateTableFromData(Child, Table, ChildPath + "\\" + XmlHelper.Name(Child), ref Row); // recursion
 				}
 			}
 
@@ -82,7 +82,7 @@ namespace CSUserInterface
 		static private void CreateTableFromSoil(Soil MySoil, DataTable Data, string ChildPath, ref int Row)
 			{
 			int NumLayers = MySoil.Thickness.Length;
-			DataTableUtility.AddValue(Data, "Name", "\\" + ChildPath.Replace("|", "\\"), Row, NumLayers);
+			DataTableUtility.AddValue(Data, "Name", ChildPath, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "State", MySoil.State, Row, NumLayers);
             DataTableUtility.AddValue(Data, "Region", MySoil.Region, Row, NumLayers);
             DataTableUtility.AddValue(Data, "NearestTown", MySoil.NearestTown, Row, NumLayers);
