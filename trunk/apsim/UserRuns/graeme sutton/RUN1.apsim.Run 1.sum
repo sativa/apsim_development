@@ -191,18 +191,18 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      endif
      END of rules
      
-     Manager creating a new local real variable : crop_in =     0.00000000000000
-     Manager creating a new local real variable : lucerne_in =     0.00000000000000
+     Manager creating a new local real variable : crop_in = 0.00000
+     Manager creating a new local real variable : lucerne_in = 0.00000
      Manager creating a new local string variable : blank = .
-     Manager creating a new local string variable : next_crop = .
-     Manager creating a new local string variable : crop_current = .
-     Manager creating a new local string variable : crop_sow = .
-     Manager creating a new local real variable : ready_for_next =     1.00000000000000
-     Manager creating a new local real variable : ready_to_fert_pre_sow =     0.00000000000000
-     Manager creating a new local real variable : days_last_year =     365.000000000000
-     Manager creating a new local real variable : fert_day_pre_sow =     0.00000000000000
-     Manager creating a new local real variable : ready_to_till_pre_sow =     0.00000000000000
-     Manager creating a new local real variable : till_day_pre_sow =     0.00000000000000
+     Manager creating a new local string variable : next_crop =         0.00000
+     Manager creating a new local string variable : crop_current =         0.00000
+     Manager creating a new local string variable : crop_sow =         0.00000
+     Manager creating a new local real variable : ready_for_next = 1.00000
+     Manager creating a new local real variable : ready_to_fert_pre_sow = 0.00000
+     Manager creating a new local real variable : days_last_year = 365.00000
+     Manager creating a new local real variable : fert_day_pre_sow = 0.00000
+     Manager creating a new local real variable : ready_to_till_pre_sow = 0.00000
+     Manager creating a new local real variable : till_day_pre_sow = 0.00000
      Manager creating a new local string variable : cotton = cotton
 
 ------- soilwat2 Initialisation -----------------------------------------------
@@ -375,7 +375,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : days_this_year =     366.000000000000
+     Manager creating a new local real variable : days_this_year = 366.00000
 29 May 1960(Day of year=150), soiln2: 
      
         - Reading Parameters
@@ -411,7 +411,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                       Effective Cover from Surface Materials =   0.2
      
 1 September 1960(Day of year=245), manager: 
-     Manager creating a new local real variable : surface_moist =    0.466506817942610
+     Manager creating a new local real variable : surface_moist = 0.46651
 23 October 1960(Day of year=297), manager: 
      Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
 23 October 1960(Day of year=297), ozcot: 

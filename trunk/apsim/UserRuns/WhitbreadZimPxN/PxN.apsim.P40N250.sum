@@ -156,11 +156,11 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
          endif
      END of rules
      
-     Manager creating a new local real variable : crop_flag =     0.00000000000000
-     Manager creating a new local real variable : emer_date =     0.00000000000000
-     Manager creating a new local real variable : anth_date =     0.00000000000000
-     Manager creating a new local real variable : mat_date =     0.00000000000000
-     Manager creating a new local real variable : harvd =     0.00000000000000
+     Manager creating a new local real variable : crop_flag = 0.00000
+     Manager creating a new local real variable : emer_date = 0.00000
+     Manager creating a new local real variable : anth_date = 0.00000
+     Manager creating a new local real variable : mat_date = 0.00000
+     Manager creating a new local real variable : harvd = 0.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -458,7 +458,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      
      
      
-     Manager creating a new local real variable : mz_sowdate =     333.000000000000
+     Manager creating a new local real variable : mz_sowdate = 333.00000
 30 November 1975(Day of year=334), manager: 
      Manager sending message :- fertiliz apply  amount = 83.3, type = nh4no3, depth = 5
 30 November 1975(Day of year=334), fertiliz: 

@@ -22,16 +22,16 @@ Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component     "radish" = c:\development\apsim\Plant\lib\Plant.dll
-Component    "radish2" = c:\development\apsim\Plant\lib\Plant.dll
-Component   "ryegras2" = c:\development\apsim\Plant\lib\Plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM  Fatal  Error
                       -------------------
-     Cannot find a value for parameter: default_cultivar
-     Component name: ryegras2
+     Cannot find a child called: environment
+     Component name: radish
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
+Component    "radish2" = c:\development\apsim\Plant\lib\Plant.dll
+Component   "ryegras2" = c:\development\apsim\Plant\lib\Plant.dll
 Component   "ryegrass" = c:\development\apsim\Plant\lib\Plant.dll
 Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
 Component     "wheat2" = c:\development\apsim\Plant\lib\Plant.dll

@@ -239,28 +239,28 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      srg_seeding = 2
      END of rules
      
-     Manager creating a new local real variable : wht_fert_target =     50.0000000000000
-     Manager creating a new local real variable : srg_fert_target =     50.0000000000000
-     Manager creating a new local real variable : system_fallow =     10000.0000000000
-     Manager creating a new local real variable : crop_in =     0.00000000000000
-     Manager creating a new local real variable : wht_freq =     1.00000000000000
-     Manager creating a new local real variable : days_since_wheat =     365.000000000000
-     Manager creating a new local real variable : wht_min_fallow =     7.00000000000000
-     Manager creating a new local real variable : srg_freq =     200.000000000000
-     Manager creating a new local real variable : days_since_sorg =     0.00000000000000
-     Manager creating a new local real variable : srg_min_fallow =     7.00000000000000
-     Manager creating a new local real variable : wht_crops_max =     1.00000000000000
-     Manager creating a new local real variable : sow_year =     1957.00000000000
-     Manager creating a new local real variable : sow_day =     1.00000000000000
-     Manager creating a new local real variable : wht_fert =     0.00000000000000
-     Manager creating a new local real variable : sor_fert =     0.00000000000000
-     Manager creating a new local real variable : wht_win1 =     140.000000000000
-     Manager creating a new local real variable : wht_win2 =     160.000000000000
-     Manager creating a new local real variable : wht_win3 =     220.000000000000
-     Manager creating a new local real variable : srg_win1 =     300.000000000000
-     Manager creating a new local real variable : srg_win2 =     340.000000000000
-     Manager creating a new local real variable : srg_win3 =     10.0000000000000
-     Manager creating a new local real variable : srg_seeding =     2.00000000000000
+     Manager creating a new local real variable : wht_fert_target = 50.00000
+     Manager creating a new local real variable : srg_fert_target = 50.00000
+     Manager creating a new local real variable : system_fallow = 10000.00000
+     Manager creating a new local real variable : crop_in = 0.00000
+     Manager creating a new local real variable : wht_freq = 1.00000
+     Manager creating a new local real variable : days_since_wheat = 365.00000
+     Manager creating a new local real variable : wht_min_fallow = 7.00000
+     Manager creating a new local real variable : srg_freq = 200.00000
+     Manager creating a new local real variable : days_since_sorg = 0.00000
+     Manager creating a new local real variable : srg_min_fallow = 7.00000
+     Manager creating a new local real variable : wht_crops_max = 1.00000
+     Manager creating a new local real variable : sow_year = 1957.00000
+     Manager creating a new local real variable : sow_day = 1.00000
+     Manager creating a new local real variable : wht_fert = 0.00000
+     Manager creating a new local real variable : sor_fert = 0.00000
+     Manager creating a new local real variable : wht_win1 = 140.00000
+     Manager creating a new local real variable : wht_win2 = 160.00000
+     Manager creating a new local real variable : wht_win3 = 220.00000
+     Manager creating a new local real variable : srg_win1 = 300.00000
+     Manager creating a new local real variable : srg_win2 = 340.00000
+     Manager creating a new local real variable : srg_win3 = 10.00000
+     Manager creating a new local real variable : srg_seeding = 2.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -463,36 +463,36 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         sum of soilwat2.es on end_of_day from reported to now as annual_es
         sum of soilwat2.drain on end_of_day from reported to now as annual_drain
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : maw10 =     18.1999969000000
-     Manager creating a new local real variable : maw30 =     51.8000030000000
-     Manager creating a new local real variable : maw50 =     83.8000032000000
-     Manager creating a new local real variable : maw70 =     116.800010600000
-     Manager creating a new local real variable : maw90 =     148.800011000000
-     Manager creating a new local real variable : maw110 =     179.600013400000
-     Manager creating a new local real variable : maw130 =     209.200004500000
-     Manager creating a new local real variable : maw150 =     236.399993900000
-     Manager creating a new local real variable : maw170 =     263.199989400000
-     Manager creating a new local real variable : maw190 =     271.599983600000
-     Manager creating a new local real variable : paw10 =     18.1999969000000
-     Manager creating a new local real variable : paw30 =     51.8000030000000
-     Manager creating a new local real variable : paw50 =     83.8000032000000
-     Manager creating a new local real variable : paw70 =     116.800010600000
-     Manager creating a new local real variable : paw90 =     148.800011000000
-     Manager creating a new local real variable : paw110 =     179.600013400000
-     Manager creating a new local real variable : paw130 =     209.200004500000
-     Manager creating a new local real variable : paw150 =     236.399993900000
-     Manager creating a new local real variable : paw170 =     263.199989400000
-     Manager creating a new local real variable : paw190 =     271.599983600000
-     Manager creating a new local real variable : fasw10 =     1.00000000000000
-     Manager creating a new local real variable : fasw30 =     1.00000000000000
-     Manager creating a new local real variable : fasw50 =     1.00000000000000
-     Manager creating a new local real variable : fasw70 =     1.00000000000000
-     Manager creating a new local real variable : fasw90 =     1.00000000000000
-     Manager creating a new local real variable : fasw110 =     1.00000000000000
-     Manager creating a new local real variable : fasw130 =     1.00000000000000
-     Manager creating a new local real variable : fasw150 =     1.00000000000000
-     Manager creating a new local real variable : fasw170 =     1.00000000000000
-     Manager creating a new local real variable : fasw190 =     1.00000000000000
+     Manager creating a new local real variable : maw10 = 18.20000
+     Manager creating a new local real variable : maw30 = 51.80001
+     Manager creating a new local real variable : maw50 = 83.80001
+     Manager creating a new local real variable : maw70 = 116.80002
+     Manager creating a new local real variable : maw90 = 148.80002
+     Manager creating a new local real variable : maw110 = 179.60001
+     Manager creating a new local real variable : maw130 = 209.20000
+     Manager creating a new local real variable : maw150 = 236.39999
+     Manager creating a new local real variable : maw170 = 263.19998
+     Manager creating a new local real variable : maw190 = 271.59998
+     Manager creating a new local real variable : paw10 = 18.20000
+     Manager creating a new local real variable : paw30 = 51.80001
+     Manager creating a new local real variable : paw50 = 83.80001
+     Manager creating a new local real variable : paw70 = 116.80002
+     Manager creating a new local real variable : paw90 = 148.80002
+     Manager creating a new local real variable : paw110 = 179.60001
+     Manager creating a new local real variable : paw130 = 209.20000
+     Manager creating a new local real variable : paw150 = 236.39999
+     Manager creating a new local real variable : paw170 = 263.19998
+     Manager creating a new local real variable : paw190 = 271.59998
+     Manager creating a new local real variable : fasw10 = 1.00000
+     Manager creating a new local real variable : fasw30 = 1.00000
+     Manager creating a new local real variable : fasw50 = 1.00000
+     Manager creating a new local real variable : fasw70 = 1.00000
+     Manager creating a new local real variable : fasw90 = 1.00000
+     Manager creating a new local real variable : fasw110 = 1.00000
+     Manager creating a new local real variable : fasw130 = 1.00000
+     Manager creating a new local real variable : fasw150 = 1.00000
+     Manager creating a new local real variable : fasw170 = 1.00000
+     Manager creating a new local real variable : fasw190 = 1.00000
 31 May 1970(Day of year=151): 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -504,7 +504,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      
 31 May 1970(Day of year=151), manager: 
-     Manager creating a new local real variable : wht_crop_num =     0.00000000000000
+     Manager creating a new local real variable : wht_crop_num = 0.00000
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
 31 May 1970(Day of year=151), wheat: 
      Crop Sow
@@ -556,7 +556,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
             151   80.0  100.0  250.0   0.0   0.0 sunco
          ------------------------------------------------
      
-     Manager creating a new local real variable : rz_no3 =     58.8532610800000
+     Manager creating a new local real variable : rz_no3 = 58.85326
      Manager sending message :- surfaceom tillage  type = planter
 31 May 1970(Day of year=151), SurfaceOM: 
      
@@ -599,7 +599,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =        1044.30 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =  117.53 (mm)
 4 November 1970(Day of year=308), manager: 
-     Manager creating a new local real variable : w_mat_day =     308.000000000000
+     Manager creating a new local real variable : w_mat_day = 308.00000
      Manager sending message :- wheat harvest
 4 November 1970(Day of year=308), wheat: 
      
@@ -752,7 +752,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Crop failure because of total leaf senescence.
      Plant death. standing above-ground dm = 4988.10 (kg/ha)
 30 November 1971(Day of year=334), manager: 
-     Manager creating a new local real variable : c_mat_day =     334.000000000000
+     Manager creating a new local real variable : c_mat_day = 334.00000
      Manager sending message :- chickpea harvest
 30 November 1971(Day of year=334), chickpea: 
      
@@ -3915,7 +3915,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 13 August 1998(Day of year=225), chickpea: 
       stage 5.0 floral_initiation
                      biomass =          27.85 (g/m^2)   lai          =   0.518 (m^2/m^2)
-                     stover N conc =     3.71 (%)    extractable sw =  235.16 (mm)
+                     stover N conc =     3.71 (%)    extractable sw =  235.15 (mm)
 15 August 1998(Day of year=227), chickpea: 
       stage 6.0 flowering
                      biomass =          33.40 (g/m^2)   lai          =   0.639 (m^2/m^2)
@@ -4053,75 +4053,75 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     5.83 (%)    extractable sw =   29.54 (mm)
 20 August 1999(Day of year=232), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         220.29 (g/m^2)   lai          =   3.123 (m^2/m^2)
-                     stover N conc =     2.11 (%)    extractable sw =  112.18 (mm)
+                     biomass =         220.84 (g/m^2)   lai          =   3.130 (m^2/m^2)
+                     stover N conc =     2.11 (%)    extractable sw =  112.08 (mm)
 23 September 1999(Day of year=266), wheat: 
       stage 6.0 flowering
-                     biomass =         672.00 (g/m^2)   lai          =   2.192 (m^2/m^2)
-                     stover N conc =     0.94 (%)    extractable sw =   94.96 (mm)
+                     biomass =         672.70 (g/m^2)   lai          =   2.193 (m^2/m^2)
+                     stover N conc =     0.94 (%)    extractable sw =   94.87 (mm)
 29 September 1999(Day of year=272), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         734.05 (g/m^2)   lai          =   1.763 (m^2/m^2)
-                     stover N conc =     0.67 (%)    extractable sw =   92.55 (mm)
+                     biomass =         734.67 (g/m^2)   lai          =   1.764 (m^2/m^2)
+                     stover N conc =     0.67 (%)    extractable sw =   92.47 (mm)
 24 October 1999(Day of year=297), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         853.41 (g/m^2)   lai          =   0.276 (m^2/m^2)
-                     stover N conc =     0.33 (%)    extractable sw =   68.87 (mm)
+                     biomass =         853.94 (g/m^2)   lai          =   0.276 (m^2/m^2)
+                     stover N conc =     0.33 (%)    extractable sw =   68.84 (mm)
 26 October 1999(Day of year=299), wheat: 
       stage 9.0 maturity
-                     biomass =         853.92 (g/m^2)   lai          =   0.232 (m^2/m^2)
-                     stover N conc =     0.33 (%)    extractable sw =   64.25 (mm)
+                     biomass =         854.45 (g/m^2)   lai          =   0.232 (m^2/m^2)
+                     stover N conc =     0.33 (%)    extractable sw =   64.22 (mm)
 27 October 1999(Day of year=300), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         853.92 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.33 (%)    extractable sw =   72.39 (mm)
+                     biomass =         854.45 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.33 (%)    extractable sw =   72.36 (mm)
 28 October 1999(Day of year=301), manager: 
      Manager sending message :- wheat harvest
 28 October 1999(Day of year=301), wheat: 
      
-      flowering day          =  266                           stover (kg/ha)         =     5421.9
-      maturity day           =  299                           grain yield (kg/ha)    =     3117.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3562.6
-      grain wt (g)           =    0.032                       grains/m^2             =     9689.6
-      grains/plant           =   96.9                         maximum lai            =      3.328
-      total above ground biomass (kg/ha)    =     8539.2
-      live above ground biomass (kg/ha)     =     8539.2
-      green above ground biomass (kg/ha)    =     7114.2
-      senesced above ground biomass (kg/ha) =     1425.0
+      flowering day          =  266                           stover (kg/ha)         =     5427.1
+      maturity day           =  299                           grain yield (kg/ha)    =     3117.4
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3562.7
+      grain wt (g)           =    0.032                       grains/m^2             =     9698.2
+      grains/plant           =   97.0                         maximum lai            =      3.336
+      total above ground biomass (kg/ha)    =     8544.5
+      live above ground biomass (kg/ha)     =     8544.5
+      green above ground biomass (kg/ha)    =     7115.9
+      senesced above ground biomass (kg/ha) =     1428.5
       number of leaves       =     41.8
-      DM Root:Shoot ratio    =     0.16                       Harvest Index          =       0.37
-      Stover C:N ratio       =   107.47                       Root C:N ratio         =      34.61
-      grain N percent        =     1.52                       total N content (kg/ha)=      67.48
-      grain N uptake (kg/ha) =    47.29                       senesced N content (kg/ha)=    7.12
-      green N content (kg/ha)=    13.06
+      DM Root:Shoot ratio    =     0.16                       Harvest Index          =       0.36
+      Stover C:N ratio       =   107.58                       Root C:N ratio         =      34.57
+      grain N percent        =     1.52                       total N content (kg/ha)=      67.62
+      grain N uptake (kg/ha) =    47.44                       senesced N content (kg/ha)=    7.14
+      green N content (kg/ha)=    13.04
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.108        0.150
-         floral_initiation    to flowering               0.110        0.156        0.184        0.353
-         flowering            to start_grain_fill        0.426        0.546        0.000        0.013
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.107        0.150
+         floral_initiation    to flowering               0.110        0.157        0.184        0.352
+         flowering            to start_grain_fill        0.427        0.547        0.000        0.011
          start_grain_fill     to end_grain_fill          0.110        0.150        0.442        0.730
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                5421.9                     0.0
+                          DM (kg/ha) =                5427.0                     0.0
                           N  (kg/ha) =                  20.18                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3117.2                     0.0
-                          N  (kg/ha) =                  47.29                    0.00
+                          DM (kg/ha) =                3117.4                     0.0
+                          N  (kg/ha) =                  47.44                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   72.39 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   72.36 (mm)
      Manager sending message :- wheat kill_crop
      Plant kill. 100.00% crop killed because of external action.
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1388.8
-                          N  (kg/ha) =                   0.00                   16.05
+                          DM (kg/ha) =                   0.0                  1390.6
+                          N  (kg/ha) =                   0.00                   16.09
      
 31 December 2000(Day of year=366), clock: 
      Simulation is terminating due to end criteria being met.

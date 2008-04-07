@@ -239,28 +239,28 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      srg_seeding = 2
      END of rules
      
-     Manager creating a new local real variable : wht_fert_target =     200.000000000000
-     Manager creating a new local real variable : srg_fert_target =     200.000000000000
-     Manager creating a new local real variable : system_fallow =     120.000000000000
-     Manager creating a new local real variable : crop_in =     0.00000000000000
-     Manager creating a new local real variable : wht_freq =     1.00000000000000
-     Manager creating a new local real variable : days_since_wheat =     365.000000000000
-     Manager creating a new local real variable : wht_min_fallow =     100.000000000000
-     Manager creating a new local real variable : srg_freq =     41.0000000000000
-     Manager creating a new local real variable : days_since_sorg =     30.0000000000000
-     Manager creating a new local real variable : srg_min_fallow =     10000.0000000000
-     Manager creating a new local real variable : wht_crops_max =     200.000000000000
-     Manager creating a new local real variable : sow_year =     1957.00000000000
-     Manager creating a new local real variable : sow_day =     1.00000000000000
-     Manager creating a new local real variable : wht_fert =     0.00000000000000
-     Manager creating a new local real variable : sor_fert =     0.00000000000000
-     Manager creating a new local real variable : wht_win1 =     140.000000000000
-     Manager creating a new local real variable : wht_win2 =     160.000000000000
-     Manager creating a new local real variable : wht_win3 =     220.000000000000
-     Manager creating a new local real variable : srg_win1 =     300.000000000000
-     Manager creating a new local real variable : srg_win2 =     340.000000000000
-     Manager creating a new local real variable : srg_win3 =     10.0000000000000
-     Manager creating a new local real variable : srg_seeding =     2.00000000000000
+     Manager creating a new local real variable : wht_fert_target = 200.00000
+     Manager creating a new local real variable : srg_fert_target = 200.00000
+     Manager creating a new local real variable : system_fallow = 120.00000
+     Manager creating a new local real variable : crop_in = 0.00000
+     Manager creating a new local real variable : wht_freq = 1.00000
+     Manager creating a new local real variable : days_since_wheat = 365.00000
+     Manager creating a new local real variable : wht_min_fallow = 100.00000
+     Manager creating a new local real variable : srg_freq = 41.00000
+     Manager creating a new local real variable : days_since_sorg = 30.00000
+     Manager creating a new local real variable : srg_min_fallow = 10000.00000
+     Manager creating a new local real variable : wht_crops_max = 200.00000
+     Manager creating a new local real variable : sow_year = 1957.00000
+     Manager creating a new local real variable : sow_day = 1.00000
+     Manager creating a new local real variable : wht_fert = 0.00000
+     Manager creating a new local real variable : sor_fert = 0.00000
+     Manager creating a new local real variable : wht_win1 = 140.00000
+     Manager creating a new local real variable : wht_win2 = 160.00000
+     Manager creating a new local real variable : wht_win3 = 220.00000
+     Manager creating a new local real variable : srg_win1 = 300.00000
+     Manager creating a new local real variable : srg_win2 = 340.00000
+     Manager creating a new local real variable : srg_win3 = 10.00000
+     Manager creating a new local real variable : srg_seeding = 2.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -463,38 +463,38 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         sum of soilwat2.es on end_of_day from reported to now as annual_es
         sum of soilwat2.drain on end_of_day from reported to now as annual_drain
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : maw10 =     18.1999969000000
-     Manager creating a new local real variable : maw30 =     51.8000030000000
-     Manager creating a new local real variable : maw50 =     83.8000032000000
-     Manager creating a new local real variable : maw70 =     116.800010600000
-     Manager creating a new local real variable : maw90 =     148.800011000000
-     Manager creating a new local real variable : maw110 =     179.600013400000
-     Manager creating a new local real variable : maw130 =     209.200004500000
-     Manager creating a new local real variable : maw150 =     236.399993900000
-     Manager creating a new local real variable : maw170 =     263.199989400000
-     Manager creating a new local real variable : maw190 =     271.599983600000
-     Manager creating a new local real variable : paw10 =     18.1999969000000
-     Manager creating a new local real variable : paw30 =     51.8000030000000
-     Manager creating a new local real variable : paw50 =     83.8000032000000
-     Manager creating a new local real variable : paw70 =     116.800010600000
-     Manager creating a new local real variable : paw90 =     148.800011000000
-     Manager creating a new local real variable : paw110 =     179.600013400000
-     Manager creating a new local real variable : paw130 =     209.200004500000
-     Manager creating a new local real variable : paw150 =     236.399993900000
-     Manager creating a new local real variable : paw170 =     263.199989400000
-     Manager creating a new local real variable : paw190 =     271.599983600000
-     Manager creating a new local real variable : fasw10 =     1.00000000000000
-     Manager creating a new local real variable : fasw30 =     1.00000000000000
-     Manager creating a new local real variable : fasw50 =     1.00000000000000
-     Manager creating a new local real variable : fasw70 =     1.00000000000000
-     Manager creating a new local real variable : fasw90 =     1.00000000000000
-     Manager creating a new local real variable : fasw110 =     1.00000000000000
-     Manager creating a new local real variable : fasw130 =     1.00000000000000
-     Manager creating a new local real variable : fasw150 =     1.00000000000000
-     Manager creating a new local real variable : fasw170 =     1.00000000000000
-     Manager creating a new local real variable : fasw190 =     1.00000000000000
+     Manager creating a new local real variable : maw10 = 18.20000
+     Manager creating a new local real variable : maw30 = 51.80001
+     Manager creating a new local real variable : maw50 = 83.80001
+     Manager creating a new local real variable : maw70 = 116.80002
+     Manager creating a new local real variable : maw90 = 148.80002
+     Manager creating a new local real variable : maw110 = 179.60001
+     Manager creating a new local real variable : maw130 = 209.20000
+     Manager creating a new local real variable : maw150 = 236.39999
+     Manager creating a new local real variable : maw170 = 263.19998
+     Manager creating a new local real variable : maw190 = 271.59998
+     Manager creating a new local real variable : paw10 = 18.20000
+     Manager creating a new local real variable : paw30 = 51.80001
+     Manager creating a new local real variable : paw50 = 83.80001
+     Manager creating a new local real variable : paw70 = 116.80002
+     Manager creating a new local real variable : paw90 = 148.80002
+     Manager creating a new local real variable : paw110 = 179.60001
+     Manager creating a new local real variable : paw130 = 209.20000
+     Manager creating a new local real variable : paw150 = 236.39999
+     Manager creating a new local real variable : paw170 = 263.19998
+     Manager creating a new local real variable : paw190 = 271.59998
+     Manager creating a new local real variable : fasw10 = 1.00000
+     Manager creating a new local real variable : fasw30 = 1.00000
+     Manager creating a new local real variable : fasw50 = 1.00000
+     Manager creating a new local real variable : fasw70 = 1.00000
+     Manager creating a new local real variable : fasw90 = 1.00000
+     Manager creating a new local real variable : fasw110 = 1.00000
+     Manager creating a new local real variable : fasw130 = 1.00000
+     Manager creating a new local real variable : fasw150 = 1.00000
+     Manager creating a new local real variable : fasw170 = 1.00000
+     Manager creating a new local real variable : fasw190 = 1.00000
 8 August 1970(Day of year=220), manager: 
-     Manager creating a new local real variable : wht_crop_num =     0.00000000000000
+     Manager creating a new local real variable : wht_crop_num = 0.00000
 18 July 1971(Day of year=199), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
 18 July 1971(Day of year=199), wheat: 
@@ -547,7 +547,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
             199   80.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-     Manager creating a new local real variable : rz_no3 =     32.6376568700000
+     Manager creating a new local real variable : rz_no3 = 32.63766
 18 July 1971(Day of year=199), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -595,7 +595,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =         995.53 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.56 (%)    extractable sw =   61.35 (mm)
 5 December 1971(Day of year=339), manager: 
-     Manager creating a new local real variable : w_mat_day =     339.000000000000
+     Manager creating a new local real variable : w_mat_day = 339.00000
      Manager sending message :- wheat harvest
 5 December 1971(Day of year=339), wheat: 
      
@@ -1048,7 +1048,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       senesced above ground biomass (kg/ha) =     2009.3
       number of leaves       =     39.6
       DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.39
-      Stover C:N ratio       =    34.46                       Root C:N ratio         =      17.34
+      Stover C:N ratio       =    34.47                       Root C:N ratio         =      17.34
       grain N percent        =     2.86                       total N content (kg/ha)=     198.40
       grain N uptake (kg/ha) =   121.34                       senesced N content (kg/ha)=   10.05
       green N content (kg/ha)=    67.01
@@ -1183,14 +1183,14 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat harvest
 21 November 1975(Day of year=325), wheat: 
      
-      flowering day          =  286                           stover (kg/ha)         =     8410.3
+      flowering day          =  286                           stover (kg/ha)         =     8410.4
       maturity day           =  323                           grain yield (kg/ha)    =     4693.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     5363.6
       grain wt (g)           =    0.041                       grains/m^2             =    11446.7
       grains/plant           =  114.5                         maximum lai            =      4.641
       total above ground biomass (kg/ha)    =    13103.5
       live above ground biomass (kg/ha)     =    13103.5
-      green above ground biomass (kg/ha)    =    10817.0
+      green above ground biomass (kg/ha)    =    10817.1
       senesced above ground biomass (kg/ha) =     2286.5
       number of leaves       =     41.8
       DM Root:Shoot ratio    =     0.13                       Harvest Index          =       0.36
@@ -1209,7 +1209,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                8410.3                     0.0
+                          DM (kg/ha) =                8410.4                     0.0
                           N  (kg/ha) =                  81.68                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -2768,7 +2768,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 14 October 1987(Day of year=287), wheat: 
       stage 6.0 flowering
                      biomass =         603.84 (g/m^2)   lai          =   0.744 (m^2/m^2)
-                     stover N conc =     2.48 (%)    extractable sw =   25.37 (mm)
+                     stover N conc =     2.48 (%)    extractable sw =   25.38 (mm)
 21 October 1987(Day of year=294), wheat: 
       stage 7.0 start_grain_fill
                      biomass =         641.91 (g/m^2)   lai          =   0.642 (m^2/m^2)

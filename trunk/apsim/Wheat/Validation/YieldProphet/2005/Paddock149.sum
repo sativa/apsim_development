@@ -216,8 +216,8 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
         endif
      END of rules
      
-     Manager creating a new local real variable : resetbank =     0.00000000000000
-     Manager creating a new local real variable : bank =     0.00000000000000
+     Manager creating a new local real variable : resetbank = 0.00000
+     Manager creating a new local real variable : bank = 0.00000
 
 ------- Reset Initialisation --------------------------------------------------
      Manager rules:
@@ -743,29 +743,29 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      threemonthstimedate = 0
      END of rules
      
-     Manager creating a new local real variable : currentfallow =     0.00000000000000
-     Manager creating a new local real variable : cum_days =     0.00000000000000
-     Manager creating a new local real variable : z =     0.00000000000000
-     Manager creating a new local real variable : zadok11das =     0.00000000000000
-     Manager creating a new local real variable : zadok12das =     0.00000000000000
-     Manager creating a new local real variable : zadok13das =     0.00000000000000
-     Manager creating a new local real variable : zadok14das =     0.00000000000000
-     Manager creating a new local real variable : zadok15das =     0.00000000000000
-     Manager creating a new local real variable : zadok16das =     0.00000000000000
-     Manager creating a new local real variable : zadok30das =     0.00000000000000
-     Manager creating a new local real variable : zadok31das =     0.00000000000000
-     Manager creating a new local real variable : zadok32das =     0.00000000000000
-     Manager creating a new local real variable : zadok37das =     0.00000000000000
-     Manager creating a new local real variable : zadok39das =     0.00000000000000
-     Manager creating a new local real variable : zadok45das =     0.00000000000000
-     Manager creating a new local real variable : zadok55das =     0.00000000000000
-     Manager creating a new local real variable : zadok65das =     0.00000000000000
-     Manager creating a new local real variable : zadok75das =     0.00000000000000
-     Manager creating a new local real variable : startdailydate =     0.00000000000000
-     Manager creating a new local real variable : currentcropfound =     0.00000000000000
-     Manager creating a new local real variable : deciledate =     0.00000000000000
-     Manager creating a new local real variable : dodecileoutput =     0.00000000000000
-     Manager creating a new local real variable : threemonthstimedate =     0.00000000000000
+     Manager creating a new local real variable : currentfallow = 0.00000
+     Manager creating a new local real variable : cum_days = 0.00000
+     Manager creating a new local real variable : z = 0.00000
+     Manager creating a new local real variable : zadok11das = 0.00000
+     Manager creating a new local real variable : zadok12das = 0.00000
+     Manager creating a new local real variable : zadok13das = 0.00000
+     Manager creating a new local real variable : zadok14das = 0.00000
+     Manager creating a new local real variable : zadok15das = 0.00000
+     Manager creating a new local real variable : zadok16das = 0.00000
+     Manager creating a new local real variable : zadok30das = 0.00000
+     Manager creating a new local real variable : zadok31das = 0.00000
+     Manager creating a new local real variable : zadok32das = 0.00000
+     Manager creating a new local real variable : zadok37das = 0.00000
+     Manager creating a new local real variable : zadok39das = 0.00000
+     Manager creating a new local real variable : zadok45das = 0.00000
+     Manager creating a new local real variable : zadok55das = 0.00000
+     Manager creating a new local real variable : zadok65das = 0.00000
+     Manager creating a new local real variable : zadok75das = 0.00000
+     Manager creating a new local real variable : startdailydate = 0.00000
+     Manager creating a new local real variable : currentcropfound = 0.00000
+     Manager creating a new local real variable : deciledate = 0.00000
+     Manager creating a new local real variable : dodecileoutput = 0.00000
+     Manager creating a new local real variable : threemonthstimedate = 0.00000
 
 ------- CanolaOilConc Initialisation ------------------------------------------
      Manager rules:
@@ -997,24 +997,24 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
         value of Nitrogen on sowing as NitrogenAtSowing
 ------- Start of simulation  --------------------------------------------------
      Manager creating a new local string variable : cropsown = barley
-     Manager creating a new local real variable : moisturecontent =     12.0000000000000
-     Manager creating a new local real variable : wetyield =     0.00000000000000
-     Manager creating a new local real variable : todaydate =     0.00000000000000
-     Manager creating a new local real variable : todaydatefull =     0.00000000000000
-     Manager creating a new local real variable : startseasondate =     2453462.00000000
-     Manager creating a new local real variable : startseasondatefull =     0.00000000000000
-     Manager creating a new local real variable : resetdate =     2453492.00000000
-     Manager creating a new local real variable : resetdatefull =     0.00000000000000
-     Manager creating a new local real variable : sowdatefull =     0.00000000000000
-     Manager creating a new local real variable : oil_conc =     0.00000000000000
-     Manager creating a new local real variable : avtemp =     27.0000000000000
-     Manager creating a new local real variable : amountwaterleft =     0.00000000000000
-     Manager creating a new local real variable : amountwaterabovecll =     0.00000000000000
-     Manager creating a new local real variable : nitrogen =     72.3539934000000
-     Manager creating a new local real variable : availablewater =     3.50915499999999
-     Manager creating a new local real variable : nuptakekgha =     0.00000000000000
-     Manager creating a new local real variable : ninplant =     0.00000000000000
-     Manager creating a new local real variable : biomasstonnesperha =     0.00000000000000
+     Manager creating a new local real variable : moisturecontent = 12.00000
+     Manager creating a new local real variable : wetyield = 0.00000
+     Manager creating a new local real variable : todaydate = 0.00000
+     Manager creating a new local real variable : todaydatefull = 0.00000
+     Manager creating a new local real variable : startseasondate = 2453462.00000
+     Manager creating a new local real variable : startseasondatefull = 0.00000
+     Manager creating a new local real variable : resetdate = 2453492.00000
+     Manager creating a new local real variable : resetdatefull = 0.00000
+     Manager creating a new local real variable : sowdatefull = 0.00000
+     Manager creating a new local real variable : oil_conc = 0.00000
+     Manager creating a new local real variable : avtemp = 27.00000
+     Manager creating a new local real variable : amountwaterleft = 0.00000
+     Manager creating a new local real variable : amountwaterabovecll = 0.00000
+     Manager creating a new local real variable : nitrogen = 72.35401
+     Manager creating a new local real variable : availablewater = 3.50916
+     Manager creating a new local real variable : nuptakekgha = 0.00000
+     Manager creating a new local real variable : ninplant = 0.00000
+     Manager creating a new local real variable : biomasstonnesperha = 0.00000
 1 May 2005(Day of year=121), Reset: 
      Manager creating a new local string variable : resetwater = yes
      Manager creating a new local string variable : resetnitrogen = yes
@@ -1051,7 +1051,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                       Effective Cover from Surface Materials =   0.4
      
 26 May 2005(Day of year=146), Sow: 
-     Manager creating a new local real variable : sow_year =     2005.00000000000
+     Manager creating a new local real variable : sow_year = 2005.00000
      Manager sending message :- barley sow  plants = 100, sowing_depth = 30, cultivar = keel, row_spacing = 250, crop_class = plant, tiller_no_fertile = 1, skip = solid
 26 May 2005(Day of year=146), barley: 
      Crop Sow
@@ -1108,10 +1108,10 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
         18.00 of N as nitrate (no3_n)
                                               added at depth   20.00 (layer   1)
 26 May 2005(Day of year=146), GrossMargin: 
-     Manager creating a new local real variable : cost =     36.6000009000000
+     Manager creating a new local real variable : cost = 36.60000
 27 May 2005(Day of year=147), CanolaOilConc: 
-     Manager creating a new local real variable : cum_temp =     0.00000000000000
-     Manager creating a new local real variable : cum_swdef =     0.00000000000000
+     Manager creating a new local real variable : cum_temp = 0.00000
+     Manager creating a new local real variable : cum_swdef = 0.00000
 27 May 2005(Day of year=147), barley: 
       stage 2.0 germination
 3 June 2005(Day of year=154), barley: 
@@ -1142,8 +1142,8 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         408.03 (g/m^2)   lai          =   1.801 (m^2/m^2)
                      stover N conc =     1.05 (%)    extractable sw =   35.79 (mm)
 7 September 2005(Day of year=250), CanolaOilConc: 
-     Manager creating a new local real variable : avg_temp =     17.5000000000000
-     Manager creating a new local real variable : avg_swdef =    0.623259008000000
+     Manager creating a new local real variable : avg_temp = 17.50000
+     Manager creating a new local real variable : avg_swdef = 0.62326
 9 October 2005(Day of year=282), barley: 
       stage 8.0 end_grain_fill
                      biomass =         615.77 (g/m^2)   lai          =   0.715 (m^2/m^2)
@@ -1157,14 +1157,14 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         616.78 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.34 (%)    extractable sw =   19.81 (mm)
 12 October 2005(Day of year=285), GrossMargin: 
-     Manager creating a new local real variable : fullprice =     140.000000000000
+     Manager creating a new local real variable : fullprice = 140.00000
 12 October 2005(Day of year=285), Harvest: 
      Manager sending message :- barley harvest
      
       flowering day          =  240                           stover (kg/ha)         =     3195.0
-      maturity day           =  284                           grain yield (kg/ha)    =     2972.8
+      maturity day           =  284                           grain yield (kg/ha)    =     2972.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3397.5
-      grain wt (g)           =    0.068                       grains/m^2             =     4390.1
+      grain wt (g)           =    0.068                       grains/m^2             =     4390.2
       grains/plant           =   43.9                         maximum lai            =      2.725
       total above ground biomass (kg/ha)    =     6167.8
       live above ground biomass (kg/ha)     =     6167.8
@@ -1204,6 +1204,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                           N  (kg/ha) =                   0.00                    9.68
      
 13 October 2005(Day of year=286), GrossMargin: 
-     Manager creating a new local real variable : twotimescost =     0.00000000000000
+     Manager creating a new local real variable : twotimescost = 0.00000
 1 April 2006(Day of year=91), Clock: 
      Simulation is terminating due to end criteria being met.

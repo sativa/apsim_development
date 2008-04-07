@@ -165,9 +165,9 @@ Component   "bambatsi" = c:\development\apsim\growth\lib\growth.dll
      report do_output
      END of rules
      
-     Manager creating a new local real variable : biom =     0.00000000000000
-     Manager creating a new local real variable : cum_production =     0.00000000000000
-     Manager creating a new local real variable : cum_runoff =     0.00000000000000
+     Manager creating a new local real variable : biom = 0.00000
+     Manager creating a new local real variable : cum_production = 0.00000
+     Manager creating a new local real variable : cum_runoff = 0.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -358,15 +358,15 @@ Component   "bambatsi" = c:\development\apsim\growth\lib\growth.dll
         sum of soiln2.dnit() on process from report.reported to now as sum@soiln2_dnit[]
         sum of soilwat2.flow_no3(16) on process from report.reported to now as sum@soilwat2_flow_no3[16]
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : surf_biomn =     28.0230656000000
-     Manager creating a new local real variable : subsurf_biomn =     91.8310566000000
-     Manager creating a new local real variable : surf_humn =     950.044067000000
-     Manager creating a new local real variable : subsurf_humn =     4197.56177000000
-     Manager creating a new local real variable : average_t =     9.39999960000000
-     Manager creating a new local real variable : sw1 =     485.727325800000
-     Manager creating a new local real variable : sw2 =     440.037521400000
-     Manager creating a new local real variable : sw3 =     418.002487200000
-     Manager creating a new local real variable : swtot =     1343.76736400000
+     Manager creating a new local real variable : surf_biomn = 28.02307
+     Manager creating a new local real variable : subsurf_biomn = 91.83105
+     Manager creating a new local real variable : surf_humn = 950.04407
+     Manager creating a new local real variable : subsurf_humn = 4197.56201
+     Manager creating a new local real variable : average_t = 9.40000
+     Manager creating a new local real variable : sw1 = 485.72733
+     Manager creating a new local real variable : sw2 = 440.03754
+     Manager creating a new local real variable : sw3 = 418.00250
+     Manager creating a new local real variable : swtot = 1343.76733
 8 December 1994(Day of year=342), operatns: 
       Sending apply message to fertiliz
 8 December 1994(Day of year=342), fertiliz: 

@@ -156,12 +156,12 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      rz_no3 = no3(1) + no3(2) + no3(3) + no3(4)
      END of rules
      
-     Manager creating a new local real variable : event =     0.00000000000000
-     Manager creating a new local real variable : crop_flag =     0.00000000000000
-     Manager creating a new local real variable : sow_date =     0.00000000000000
-     Manager creating a new local real variable : cycle_num =     0.00000000000000
-     Manager creating a new local real variable : wheat_fert =     40.0000000000000
-     Manager creating a new local real variable : sorg_fert =     10.0000000000000
+     Manager creating a new local real variable : event = 0.00000
+     Manager creating a new local real variable : crop_flag = 0.00000
+     Manager creating a new local real variable : sow_date = 0.00000
+     Manager creating a new local real variable : cycle_num = 0.00000
+     Manager creating a new local real variable : wheat_fert = 40.00000
+     Manager creating a new local real variable : sorg_fert = 10.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -322,15 +322,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         sum of soilwat2.es on end_of_day from reported to now as annual_es
         sum of soilwat2.drain on end_of_day from reported to now as annual_drain
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : esw10 =     8.19999981000000
-     Manager creating a new local real variable : esw50 =     41.0000000000000
-     Manager creating a new local real variable : esw75 =     62.0000000000000
-     Manager creating a new local real variable : esw_layer1 =     8.00000000000000
-     Manager creating a new local real variable : esw_layer2 =     9.00000000000000
-     Manager creating a new local real variable : esw_layer3 =     39.0000000000000
-     Manager creating a new local real variable : esw_layer4 =     26.0000038000000
-     Manager creating a new local real variable : esw_rooting_zone =     82.0000038000000
-     Manager creating a new local real variable : rz_no3 =     36.3285005500000
+     Manager creating a new local real variable : esw10 = 8.20000
+     Manager creating a new local real variable : esw50 = 41.00000
+     Manager creating a new local real variable : esw75 = 62.00000
+     Manager creating a new local real variable : esw_layer1 = 8.00000
+     Manager creating a new local real variable : esw_layer2 = 9.00000
+     Manager creating a new local real variable : esw_layer3 = 39.00000
+     Manager creating a new local real variable : esw_layer4 = 26.00000
+     Manager creating a new local real variable : esw_rooting_zone = 82.00000
+     Manager creating a new local real variable : rz_no3 = 36.32850
 24 July 1958(Day of year=205), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 24 July 1958(Day of year=205), wheat: 
@@ -668,9 +668,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 20 January 1960(Day of year=20), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.226807
 21 January 1960(Day of year=21), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.211670
+     **** N balance - unaccounted gain (kg/ha) =      0.211426
 22 January 1960(Day of year=22), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.151367
+     **** N balance - unaccounted gain (kg/ha) =      0.151611
 23 January 1960(Day of year=23), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.195801
 24 January 1960(Day of year=24), sysbal: 
@@ -1043,7 +1043,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 24 June 1961(Day of year=175), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.121571
+     **** N balance - unaccounted loss (kg/ha) =     -0.121567
 30 July 1961(Day of year=211), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 30 July 1961(Day of year=211), wheat: 
@@ -1267,7 +1267,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 1 February 1962(Day of year=32), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.015137
 7 February 1962(Day of year=38), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.019775
+     **** N balance - unaccounted gain (kg/ha) =      0.019531
 8 February 1962(Day of year=39), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.031006
 9 February 1962(Day of year=40), sorghum: 
@@ -2792,7 +2792,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 5 January 1972(Day of year=5), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.048584
 11 January 1972(Day of year=11), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.030122
+     **** N balance - unaccounted gain (kg/ha) =      0.029878
 12 January 1972(Day of year=12), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.047607
 14 January 1972(Day of year=14), sysbal: 
@@ -3124,15 +3124,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 30 March 1973(Day of year=89), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.017578
 31 March 1973(Day of year=90), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.012207
+     **** N balance - unaccounted gain (kg/ha) =      0.011963
 1 April 1973(Day of year=91), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.016357
+     **** N balance - unaccounted gain (kg/ha) =      0.016602
 4 April 1973(Day of year=94), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.030762
 6 April 1973(Day of year=96), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.045898
 7 April 1973(Day of year=97), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.017334
+     **** N balance - unaccounted gain (kg/ha) =      0.017090
 10 April 1973(Day of year=100), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.014160
 11 April 1973(Day of year=101), sysbal: 
@@ -3140,7 +3140,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 20 April 1973(Day of year=110), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.013184
 21 April 1973(Day of year=111), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.010986
+     **** N balance - unaccounted gain (kg/ha) =      0.010742
 22 April 1973(Day of year=112), sorghum: 
      Stage 6 FlagLeaf  DAS = 88
      		Biomass       = 100.84 		 LAI            =   0.46
@@ -3547,17 +3547,17 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 11 January 1975(Day of year=11), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.034424
 12 January 1975(Day of year=12), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.013428
+     **** N balance - unaccounted gain (kg/ha) =      0.013184
 15 January 1975(Day of year=15), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.067871
 16 January 1975(Day of year=16), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.025879
 19 January 1975(Day of year=19), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.013184
+     **** N balance - unaccounted gain (kg/ha) =      0.012695
 22 January 1975(Day of year=22), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.026367
+     **** N balance - unaccounted gain (kg/ha) =      0.026123
 23 January 1975(Day of year=23), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.010498
+     **** N balance - unaccounted gain (kg/ha) =      0.010742
 24 January 1975(Day of year=24), sorghum: 
      Stage 6 FlagLeaf  DAS = 64
      		Biomass       = 100.09 		 LAI            =   0.50
@@ -3962,7 +3962,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       maturity day           =  340                           grain yield (kg/ha)    =      682.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      779.8
       grain wt (g)           =    0.037                       grains/m^2             =     1828.2
-      grains/plant           =   18.3                         maximum lai            =      0.953
+      grains/plant           =   18.3                         maximum lai            =      0.952
       total above ground biomass (kg/ha)    =     2255.1
       live above ground biomass (kg/ha)     =     2255.1
       green above ground biomass (kg/ha)    =     1824.2
@@ -4425,7 +4425,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 30 July 1981(Day of year=211), fertiliz: 
      
         - Reading Fertiliser Type Parameters
-         0.83 of N as nitrate (no3_n)
+         0.82 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 31 July 1981(Day of year=212), wheat: 
       stage 2.0 germination
@@ -4455,11 +4455,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.34 (%)    extractable sw =    1.23 (mm)
 7 December 1981(Day of year=341), wheat: 
       stage 9.0 maturity
-                     biomass =         141.36 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =         141.35 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     0.34 (%)    extractable sw =    1.18 (mm)
 8 December 1981(Day of year=342), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         141.36 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         141.35 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.34 (%)    extractable sw =    6.84 (mm)
 9 December 1981(Day of year=343), manager: 
      Manager sending message :- wheat harvest
@@ -4470,8 +4470,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      410.6
       grain wt (g)           =    0.022                       grains/m^2             =     1666.6
       grains/plant           =   16.7                         maximum lai            =      0.789
-      total above ground biomass (kg/ha)    =     1413.6
-      live above ground biomass (kg/ha)     =     1413.6
+      total above ground biomass (kg/ha)    =     1413.5
+      live above ground biomass (kg/ha)     =     1413.5
       green above ground biomass (kg/ha)    =      930.7
       senesced above ground biomass (kg/ha) =      482.9
       number of leaves       =     31.0
@@ -4694,11 +4694,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 10 January 1983(Day of year=10), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.064697
 11 January 1983(Day of year=11), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.012695
+     **** N balance - unaccounted gain (kg/ha) =      0.012939
 12 January 1983(Day of year=12), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.068359
+     **** N balance - unaccounted gain (kg/ha) =      0.067871
 13 January 1983(Day of year=13), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.033936
+     **** N balance - unaccounted gain (kg/ha) =      0.034180
 21 January 1983(Day of year=21), sorghum: 
      Stage 6 FlagLeaf  DAS = 51
      		Biomass       = 137.33 		 LAI            =   0.97
@@ -4955,11 +4955,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		Biomass       =  11.39 		 LAI            =   0.19
      		Stover N Conc =   0.28 		 Extractable SW =  53.62
 27 December 1983(Day of year=361), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.025635
+     **** N balance - unaccounted gain (kg/ha) =      0.025391
 28 December 1983(Day of year=362), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.059326
+     **** N balance - unaccounted gain (kg/ha) =      0.059814
 29 December 1983(Day of year=363), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.061768
+     **** N balance - unaccounted gain (kg/ha) =      0.061523
 30 December 1983(Day of year=364), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.072266
 31 December 1983(Day of year=365), sysbal: 
@@ -4969,7 +4969,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 2 January 1984(Day of year=2), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.153291
 3 January 1984(Day of year=3), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.165812
+     **** N balance - unaccounted gain (kg/ha) =      0.165568
 4 January 1984(Day of year=4), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.081055
 5 January 1984(Day of year=5), sysbal: 
@@ -4979,17 +4979,17 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 7 January 1984(Day of year=7), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.163330
 8 January 1984(Day of year=8), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.106934
+     **** N balance - unaccounted gain (kg/ha) =      0.107178
 9 January 1984(Day of year=9), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.051270
 10 January 1984(Day of year=10), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.026367
+     **** N balance - unaccounted gain (kg/ha) =      0.026123
 12 January 1984(Day of year=12), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.087891
 14 January 1984(Day of year=14), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.058105
 15 January 1984(Day of year=15), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.121094
+     **** N balance - unaccounted gain (kg/ha) =      0.120850
 16 January 1984(Day of year=16), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.026367
 17 January 1984(Day of year=17), sysbal: 
@@ -5001,7 +5001,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		Biomass       = 130.08 		 LAI            =   0.67
      		Stover N Conc =   1.14 		 Extractable SW =  25.62
 19 January 1984(Day of year=19), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.013184
+     **** N balance - unaccounted gain (kg/ha) =      0.013672
 9 February 1984(Day of year=40), sorghum: 
      Stage 7 Flowering  DAS = 83
      		Biomass       = 188.08 		 LAI            =   0.59
@@ -5520,7 +5520,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.40 (%)    extractable sw =   52.31 (mm)
 31 October 1987(Day of year=304), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         506.67 (g/m^2)   lai          =   0.141 (m^2/m^2)
+                     biomass =         506.66 (g/m^2)   lai          =   0.141 (m^2/m^2)
                      stover N conc =     0.26 (%)    extractable sw =   26.00 (mm)
 3 November 1987(Day of year=307), wheat: 
       stage 9.0 maturity
@@ -5534,7 +5534,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat harvest
 5 November 1987(Day of year=309), wheat: 
      
-      flowering day          =  262                           stover (kg/ha)         =     4523.4
+      flowering day          =  262                           stover (kg/ha)         =     4523.3
       maturity day           =  307                           grain yield (kg/ha)    =      550.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      628.9
       grain wt (g)           =    0.011                       grains/m^2             =     4880.9
@@ -5560,7 +5560,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4523.4                     0.0
+                          DM (kg/ha) =                4523.3                     0.0
                           N  (kg/ha) =                  13.19                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -5904,15 +5904,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.70 (%)    extractable sw =   18.14 (mm)
 8 December 1990(Day of year=342), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         420.42 (g/m^2)   lai          =   0.173 (m^2/m^2)
+                     biomass =         420.41 (g/m^2)   lai          =   0.173 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   11.80 (mm)
 9 December 1990(Day of year=343), wheat: 
       stage 9.0 maturity
-                     biomass =         420.42 (g/m^2)   lai          =   0.156 (m^2/m^2)
+                     biomass =         420.41 (g/m^2)   lai          =   0.156 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   11.51 (mm)
 10 December 1990(Day of year=344), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         420.42 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         420.41 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   11.21 (mm)
 11 December 1990(Day of year=345), manager: 
      Manager sending message :- wheat harvest
@@ -5923,8 +5923,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1432.0
       grain wt (g)           =    0.024                       grains/m^2             =     5253.0
       grains/plant           =   52.5                         maximum lai            =      1.951
-      total above ground biomass (kg/ha)    =     4204.2
-      live above ground biomass (kg/ha)     =     4204.2
+      total above ground biomass (kg/ha)    =     4204.1
+      live above ground biomass (kg/ha)     =     4204.1
       green above ground biomass (kg/ha)    =     3370.2
       senesced above ground biomass (kg/ha) =      834.0
       number of leaves       =     34.1
@@ -6150,31 +6150,31 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		Biomass       =  12.56 		 LAI            =   0.20
      		Stover N Conc =   0.31 		 Extractable SW =  57.98
 26 January 1992(Day of year=26), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.020264
+     **** N balance - unaccounted gain (kg/ha) =      0.020508
 27 January 1992(Day of year=27), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.040039
+     **** N balance - unaccounted gain (kg/ha) =      0.039551
 28 January 1992(Day of year=28), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.052246
+     **** N balance - unaccounted gain (kg/ha) =      0.052002
 29 January 1992(Day of year=29), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.074219
+     **** N balance - unaccounted gain (kg/ha) =      0.074463
 30 January 1992(Day of year=30), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.089355
+     **** N balance - unaccounted gain (kg/ha) =      0.089111
 31 January 1992(Day of year=31), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.087891
+     **** N balance - unaccounted gain (kg/ha) =      0.088379
 1 February 1992(Day of year=32), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.106201
+     **** N balance - unaccounted gain (kg/ha) =      0.105957
 2 February 1992(Day of year=33), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.062012
 3 February 1992(Day of year=34), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.085449
 5 February 1992(Day of year=36), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.056396
+     **** N balance - unaccounted gain (kg/ha) =      0.056641
 6 February 1992(Day of year=37), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.055664
+     **** N balance - unaccounted gain (kg/ha) =      0.055908
 7 February 1992(Day of year=38), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.045654
+     **** N balance - unaccounted gain (kg/ha) =      0.044922
 8 February 1992(Day of year=39), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.041016
+     **** N balance - unaccounted gain (kg/ha) =      0.041260
 15 February 1992(Day of year=46), sorghum: 
      Stage 6 FlagLeaf  DAS = 52
      		Biomass       = 136.61 		 LAI            =   1.00
@@ -6680,15 +6680,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		Biomass       =   1.52 		 LAI            =   0.02
      		Stover N Conc =   0.04 		 Extractable SW =  35.19
 4 February 1995(Day of year=35), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.015137
+     **** N balance - unaccounted gain (kg/ha) =      0.014893
 5 February 1995(Day of year=36), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.018555
+     **** N balance - unaccounted gain (kg/ha) =      0.018311
 6 February 1995(Day of year=37), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.040771
+     **** N balance - unaccounted gain (kg/ha) =      0.041016
 7 February 1995(Day of year=38), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.081055
+     **** N balance - unaccounted gain (kg/ha) =      0.080566
 8 February 1995(Day of year=39), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.089844
+     **** N balance - unaccounted gain (kg/ha) =      0.090332
 9 February 1995(Day of year=40), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.109131
 10 February 1995(Day of year=41), sorghum: 
@@ -6710,25 +6710,25 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 16 February 1995(Day of year=47), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.169922
 17 February 1995(Day of year=48), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.245850
+     **** N balance - unaccounted gain (kg/ha) =      0.246338
 18 February 1995(Day of year=49), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.264404
+     **** N balance - unaccounted gain (kg/ha) =      0.264160
 19 February 1995(Day of year=50), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.335693
+     **** N balance - unaccounted gain (kg/ha) =      0.335449
 20 February 1995(Day of year=51), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.255615
 21 February 1995(Day of year=52), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.168945
 22 February 1995(Day of year=53), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.167969
+     **** N balance - unaccounted gain (kg/ha) =      0.168457
 23 February 1995(Day of year=54), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.097656
+     **** N balance - unaccounted gain (kg/ha) =      0.097168
 24 February 1995(Day of year=55), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.232422
 25 February 1995(Day of year=56), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.093018
+     **** N balance - unaccounted gain (kg/ha) =      0.093262
 26 February 1995(Day of year=57), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.071777
+     **** N balance - unaccounted gain (kg/ha) =      0.071533
 27 February 1995(Day of year=58), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.065025
 28 February 1995(Day of year=59), sysbal: 
@@ -6738,7 +6738,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 2 March 1995(Day of year=61), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.045505
 3 March 1995(Day of year=62), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.032144
+     **** N balance - unaccounted gain (kg/ha) =      0.032632
 12 March 1995(Day of year=71), sorghum: 
      Stage 6 FlagLeaf  DAS = 57
      		Biomass       =  76.39 		 LAI            =   0.46
@@ -6983,21 +6983,21 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		Biomass       =  15.11 		 LAI            =   0.19
      		Stover N Conc =   0.30 		 Extractable SW =  40.06
 28 January 1996(Day of year=28), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.019531
+     **** N balance - unaccounted gain (kg/ha) =      0.019043
 29 January 1996(Day of year=29), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.036377
+     **** N balance - unaccounted gain (kg/ha) =      0.036865
 30 January 1996(Day of year=30), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.044922
 31 January 1996(Day of year=31), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.059326
 1 February 1996(Day of year=32), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.083984
+     **** N balance - unaccounted gain (kg/ha) =      0.084229
 2 February 1996(Day of year=33), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.024170
+     **** N balance - unaccounted gain (kg/ha) =      0.023926
 4 February 1996(Day of year=35), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.119629
+     **** N balance - unaccounted gain (kg/ha) =      0.119873
 6 February 1996(Day of year=37), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.099854
+     **** N balance - unaccounted gain (kg/ha) =      0.100098
 7 February 1996(Day of year=38), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.055420
 18 February 1996(Day of year=49), sorghum: 
@@ -7384,8 +7384,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Stage 4 EndOfJuvenile  DAS = 17
      		Biomass       =   1.89 		 LAI            =   0.02
      		Stover N Conc =   0.05 		 Extractable SW =  27.41
-15 December 1997(Day of year=349), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.010010
 16 December 1997(Day of year=350), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.034912
 17 December 1997(Day of year=351), sorghum: 
@@ -7393,19 +7391,19 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		Biomass       =  14.78 		 LAI            =   0.19
      		Stover N Conc =   0.26 		 Extractable SW =  30.01
 17 December 1997(Day of year=351), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.055420
+     **** N balance - unaccounted gain (kg/ha) =      0.055664
 18 December 1997(Day of year=352), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.081055
+     **** N balance - unaccounted gain (kg/ha) =      0.081299
 19 December 1997(Day of year=353), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.106445
+     **** N balance - unaccounted gain (kg/ha) =      0.105957
 20 December 1997(Day of year=354), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.122803
 21 December 1997(Day of year=355), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.160400
+     **** N balance - unaccounted gain (kg/ha) =      0.160645
 22 December 1997(Day of year=356), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.158447
+     **** N balance - unaccounted gain (kg/ha) =      0.158691
 23 December 1997(Day of year=357), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.021729
+     **** N balance - unaccounted gain (kg/ha) =      0.021240
 24 December 1997(Day of year=358), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.195557
 25 December 1997(Day of year=359), sysbal: 
@@ -7427,21 +7425,21 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 2 January 1998(Day of year=2), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.072510
 3 January 1998(Day of year=3), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.026367
+     **** N balance - unaccounted gain (kg/ha) =      0.025879
 4 January 1998(Day of year=4), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.029541
+     **** N balance - unaccounted gain (kg/ha) =      0.030029
 5 January 1998(Day of year=5), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.015625
 6 January 1998(Day of year=6), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.010498
 9 January 1998(Day of year=9), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.010498
+     **** N balance - unaccounted gain (kg/ha) =      0.010254
 13 January 1998(Day of year=13), sorghum: 
      Stage 6 FlagLeaf  DAS = 60
      		Biomass       =  85.13 		 LAI            =   0.44
      		Stover N Conc =   0.75 		 Extractable SW =   9.45
 9 March 1998(Day of year=68), sorghum: 
-      ********** Crop failed due to loss of leaf area ********     Plant Death. Standing above-ground dm = 1223.33 (kg/ha)
+      ********** Crop failed due to loss of leaf area ********     Plant Death. Standing above-ground dm = 1223.34 (kg/ha)
 10 March 1998(Day of year=69), manager: 
      Manager sending message :- sorghum harvest
 10 March 1998(Day of year=69), sorghum: 
@@ -7595,7 +7593,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          end_of_juvenile      to floral_initiation       0.000        0.001        0.238        0.267
          floral_initiation    to flowering               0.488        0.565        0.309        0.337
          flowering            to start_grain_fill        0.745        0.845        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.268        0.320        0.350        0.513
+         start_grain_fill     to end_grain_fill          0.268        0.320        0.350        0.512
      
      
      Crop harvested.
@@ -7673,7 +7671,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		Biomass       =   9.98 		 LAI            =   0.17
      		Stover N Conc =   0.26 		 Extractable SW =  90.95
 22 February 1999(Day of year=53), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.033936
+     **** N balance - unaccounted gain (kg/ha) =      0.033691
 23 February 1999(Day of year=54), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.012207
 25 February 1999(Day of year=56), sysbal: 
@@ -7943,41 +7941,41 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 17 February 2000(Day of year=48), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.023438
 18 February 2000(Day of year=49), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.038330
+     **** N balance - unaccounted gain (kg/ha) =      0.038574
 19 February 2000(Day of year=50), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.031738
+     **** N balance - unaccounted gain (kg/ha) =      0.031250
 20 February 2000(Day of year=51), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.051270
+     **** N balance - unaccounted gain (kg/ha) =      0.051514
 21 February 2000(Day of year=52), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.084229
 22 February 2000(Day of year=53), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.089844
+     **** N balance - unaccounted gain (kg/ha) =      0.090088
 23 February 2000(Day of year=54), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.095459
+     **** N balance - unaccounted gain (kg/ha) =      0.095215
 24 February 2000(Day of year=55), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.131592
 25 February 2000(Day of year=56), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.118164
+     **** N balance - unaccounted gain (kg/ha) =      0.117920
 26 February 2000(Day of year=57), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.118896
+     **** N balance - unaccounted gain (kg/ha) =      0.119629
 27 February 2000(Day of year=58), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.015731
+     **** N balance - unaccounted gain (kg/ha) =      0.015243
 28 February 2000(Day of year=59), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.020854
+     **** N balance - unaccounted gain (kg/ha) =      0.021098
 29 February 2000(Day of year=60), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.030523
+     **** N balance - unaccounted gain (kg/ha) =      0.030279
 1 March 2000(Day of year=61), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.018184
 3 March 2000(Day of year=63), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.074910
 4 March 2000(Day of year=64), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.043078
+     **** N balance - unaccounted gain (kg/ha) =      0.043322
 5 March 2000(Day of year=65), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.034657
+     **** N balance - unaccounted gain (kg/ha) =      0.034169
 7 March 2000(Day of year=67), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.030450
+     **** N balance - unaccounted gain (kg/ha) =      0.030694
 8 March 2000(Day of year=68), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.053614
+     **** N balance - unaccounted gain (kg/ha) =      0.053126
 9 March 2000(Day of year=69), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.034957
 12 March 2000(Day of year=72), sysbal: 
@@ -7989,7 +7987,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		Biomass       = 138.32 		 LAI            =   0.91
      		Stover N Conc =   1.36 		 Extractable SW = 102.62
 14 March 2000(Day of year=74), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.041839
+     **** N balance - unaccounted gain (kg/ha) =      0.042083
 17 April 2000(Day of year=108), sorghum: 
      Stage 7 Flowering  DAS = 92
      		Biomass       = 264.30 		 LAI            =   0.78
@@ -8036,7 +8034,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- sorghum end_crop
      Crop ended.
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               2825.31		 1010.42
+                         DM (kg/ha) =               2825.30		 1010.42
                          N  (kg/ha) =                 14.33		    1.38
                          P  (kg/ha) =                  0.00		    0.00
      Manager sending message :- surfaceom tillage  type = graze
@@ -8047,7 +8045,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 29 May 2000(Day of year=150), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.027628
+     **** N balance - unaccounted loss (kg/ha) =     -0.027634
 29 July 2000(Day of year=211), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 29 July 2000(Day of year=211), wheat: 
@@ -8240,29 +8238,29 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 22 February 2001(Day of year=53), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.031738
 23 February 2001(Day of year=54), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.031738
+     **** N balance - unaccounted gain (kg/ha) =      0.031494
 24 February 2001(Day of year=55), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.020541
+     **** N balance - unaccounted gain (kg/ha) =      0.020785
 25 February 2001(Day of year=56), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.028370
 26 February 2001(Day of year=57), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.042626
 27 February 2001(Day of year=58), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.061519
+     **** N balance - unaccounted gain (kg/ha) =      0.061275
 28 February 2001(Day of year=59), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.092051
+     **** N balance - unaccounted gain (kg/ha) =      0.092295
 1 March 2001(Day of year=60), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.127482
 2 March 2001(Day of year=61), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.143066
+     **** N balance - unaccounted gain (kg/ha) =      0.143555
 3 March 2001(Day of year=62), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.151367
+     **** N balance - unaccounted gain (kg/ha) =      0.151123
 4 March 2001(Day of year=63), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.154541
+     **** N balance - unaccounted gain (kg/ha) =      0.154297
 5 March 2001(Day of year=64), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.152588
+     **** N balance - unaccounted gain (kg/ha) =      0.152832
 6 March 2001(Day of year=65), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.132080
+     **** N balance - unaccounted gain (kg/ha) =      0.131836
 7 March 2001(Day of year=66), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.111816
 8 March 2001(Day of year=67), sysbal: 
@@ -8270,11 +8268,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 9 March 2001(Day of year=68), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.060059
 10 March 2001(Day of year=69), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.044434
+     **** N balance - unaccounted gain (kg/ha) =      0.044678
 11 March 2001(Day of year=70), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.032227
 12 March 2001(Day of year=71), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.035156
+     **** N balance - unaccounted gain (kg/ha) =      0.034912
 13 March 2001(Day of year=72), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.035156
 14 March 2001(Day of year=73), sysbal: 
@@ -8298,13 +8296,13 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 23 March 2001(Day of year=82), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.023438
 24 March 2001(Day of year=83), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.017334
+     **** N balance - unaccounted gain (kg/ha) =      0.017578
 25 March 2001(Day of year=84), sorghum: 
      Stage 6 FlagLeaf  DAS = 62
      		Biomass       = 132.63 		 LAI            =   0.70
      		Stover N Conc =   1.18 		 Extractable SW =  43.53
 25 March 2001(Day of year=84), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.018311
+     **** N balance - unaccounted gain (kg/ha) =      0.018066
 24 April 2001(Day of year=114), sorghum: 
      Stage 7 Flowering  DAS = 92
      		Biomass       = 214.05 		 LAI            =   0.62
@@ -8344,7 +8342,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =                656.63		    0.00
+                         DM (kg/ha) =                656.64		    0.00
                          N  (kg/ha) =                  7.11		    0.00
      Manager sending message :- sorghum kill_crop
      Kill Crop
@@ -8362,7 +8360,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 22 June 2001(Day of year=173), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.173052
+     **** N balance - unaccounted loss (kg/ha) =     -0.173765
 30 July 2001(Day of year=211), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 30 July 2001(Day of year=211), wheat: 

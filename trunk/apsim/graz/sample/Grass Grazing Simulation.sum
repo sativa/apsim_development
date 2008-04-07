@@ -75,8 +75,8 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      SECTION:- commence
      END of rules
      
-     Manager creating a new local real variable : pasture_in =     0.00000000000000
-     Manager creating a new local real variable : ready_to_graze =     0.00000000000000
+     Manager creating a new local real variable : pasture_in = 0.00000
+     Manager creating a new local real variable : ready_to_graze = 0.00000
 
 ------- Grazing management Initialisation -------------------------------------
      Manager rules:
@@ -109,7 +109,7 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      annual_lwg = annual_lwg + graz.lwg
      END of rules
      
-     Manager creating a new local real variable : annual_lwg =     0.00000000000000
+     Manager creating a new local real variable : annual_lwg = 0.00000
      Manager creating a new local string variable : paddockstate = empty
 
 ------- Soil Water Initialisation ---------------------------------------------

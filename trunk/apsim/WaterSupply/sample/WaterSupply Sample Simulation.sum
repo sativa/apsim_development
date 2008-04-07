@@ -152,7 +152,7 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
      outputfile do_output
      END of rules
      
-     Manager creating a new local real variable : crop_area =     50.0000000000000
+     Manager creating a new local real variable : crop_area = 50.00000
 
 ------- Jimbour,Waco (#016) Water Initialisation ------------------------------
      
@@ -407,10 +407,10 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
       System Solute number  2  is nh4 and the initial concentration in this storage is  0.00000000E+00  ppm
       System Solute number  3  is urea and the initial concentration in this storage is  0.00000000E+00  ppm
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : max_avail_soil_water =     400.499992400000
-     Manager creating a new local real variable : avail_soil_water =     119.099998500000
-     Manager creating a new local real variable : avail_sw_proportion =    0.297378272159800
-     Manager creating a new local real variable : deficit =     281.400002000000
+     Manager creating a new local real variable : max_avail_soil_water = 400.50000
+     Manager creating a new local real variable : avail_soil_water = 119.10000
+     Manager creating a new local real variable : avail_sw_proportion = 0.29738
+     Manager creating a new local real variable : deficit = 281.39999
      Manager sending message :- channel top_up  amount = 10, source = bore
 2 January 1940(Day of year=2), Logic: 
      Manager sending message :- channel top_up  amount = 10, source = bore
@@ -1888,7 +1888,7 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
          ------------------------------------------------
      
 28 May 1942(Day of year=148), Logic: 
-     Manager sending message :- irrigation apply  amount = 108.716278000000, source = dam
+     Manager sending message :- irrigation apply  amount = 108.71628, source = dam
 29 May 1942(Day of year=149), wheat: 
       stage 2.0 germination
 5 June 1942(Day of year=156), wheat: 
@@ -1908,33 +1908,33 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
                      biomass =         110.41 (g/m^2)   lai          =   1.533 (m^2/m^2)
                      stover N conc =     3.20 (%)    extractable sw =  245.50 (mm)
 8 August 1942(Day of year=220), Logic: 
-     Manager sending message :- irrigation apply  amount = 37.1831970000000, source = dam
+     Manager sending message :- irrigation apply  amount = 37.18320, source = dam
      Manager sending message :- dam top_up  amount = 40, source = channel
 18 August 1942(Day of year=230), Logic: 
-     Manager sending message :- irrigation apply  amount = 35.0708310000000, source = dam
+     Manager sending message :- irrigation apply  amount = 35.07074, source = dam
 27 August 1942(Day of year=239), Logic: 
-     Manager sending message :- irrigation apply  amount = 37.5219120000000, source = dam
+     Manager sending message :- irrigation apply  amount = 37.52191, source = dam
      Manager sending message :- dam top_up  amount = 40, source = channel
 31 August 1942(Day of year=243), wheat: 
       stage 6.0 flowering
                      biomass =         567.75 (g/m^2)   lai          =   1.749 (m^2/m^2)
                      stover N conc =     1.33 (%)    extractable sw =  300.17 (mm)
 5 September 1942(Day of year=248), Logic: 
-     Manager sending message :- irrigation apply  amount = 39.5068660000000, source = dam
+     Manager sending message :- irrigation apply  amount = 39.50687, source = dam
 9 September 1942(Day of year=252), wheat: 
       stage 7.0 start_grain_fill
                      biomass =         679.95 (g/m^2)   lai          =   1.573 (m^2/m^2)
                      stover N conc =     1.16 (%)    extractable sw =  309.57 (mm)
 15 September 1942(Day of year=258), Logic: 
-     Manager sending message :- irrigation apply  amount = 35.9665830000000, source = dam
+     Manager sending message :- irrigation apply  amount = 35.96658, source = dam
      Manager sending message :- dam top_up  amount = 40, source = channel
      Manager sending message :- channel top_up  amount = 10, source = bore
 16 September 1942(Day of year=259), Logic: 
      Manager sending message :- channel top_up  amount = 10, source = bore
 26 September 1942(Day of year=269), Logic: 
-     Manager sending message :- irrigation apply  amount = 36.8241880000000, source = dam
+     Manager sending message :- irrigation apply  amount = 36.82419, source = dam
 7 October 1942(Day of year=280), Logic: 
-     Manager sending message :- irrigation apply  amount = 37.7324830000000, source = dam
+     Manager sending message :- irrigation apply  amount = 37.73248, source = dam
 7 October 1942(Day of year=280), wheat: 
       stage 8.0 end_grain_fill
                      biomass =         954.44 (g/m^2)   lai          =   0.518 (m^2/m^2)

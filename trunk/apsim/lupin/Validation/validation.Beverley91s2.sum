@@ -179,24 +179,24 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      endif
      END of rules
      
-     Manager creating a new local real variable : dateset =     0.00000000000000
-     Manager creating a new local real variable : emer_date =     0.00000000000000
-     Manager creating a new local real variable : endjuv_date =     0.00000000000000
-     Manager creating a new local real variable : anth_date =     0.00000000000000
-     Manager creating a new local real variable : mat_date =     0.00000000000000
-     Manager creating a new local real variable : event =     0.00000000000000
-     Manager creating a new local real variable : apoc_rain =     0.00000000000000
-     Manager creating a new local real variable : hi =     0.00000000000000
-     Manager creating a new local real variable : hi_green =     0.00000000000000
-     Manager creating a new local real variable : sla_tot =     0.00000000000000
-     Manager creating a new local real variable : eta =     0.00000000000000
-     Manager creating a new local real variable : eta_cum =     0.00000000000000
-     Manager creating a new local real variable : etp_cum =     0.00000000000000
-     Manager creating a new local real variable : dlt_lai =     0.00000000000000
-     Manager creating a new local real variable : lai_yesterday =     0.00000000000000
-     Manager creating a new local real variable : lai_today =     0.00000000000000
-     Manager creating a new local real variable : sla =     0.00000000000000
-     Manager creating a new local real variable : day_cnt =     0.00000000000000
+     Manager creating a new local real variable : dateset = 0.00000
+     Manager creating a new local real variable : emer_date = 0.00000
+     Manager creating a new local real variable : endjuv_date = 0.00000
+     Manager creating a new local real variable : anth_date = 0.00000
+     Manager creating a new local real variable : mat_date = 0.00000
+     Manager creating a new local real variable : event = 0.00000
+     Manager creating a new local real variable : apoc_rain = 0.00000
+     Manager creating a new local real variable : hi = 0.00000
+     Manager creating a new local real variable : hi_green = 0.00000
+     Manager creating a new local real variable : sla_tot = 0.00000
+     Manager creating a new local real variable : eta = 0.00000
+     Manager creating a new local real variable : eta_cum = 0.00000
+     Manager creating a new local real variable : etp_cum = 0.00000
+     Manager creating a new local real variable : dlt_lai = 0.00000
+     Manager creating a new local real variable : lai_yesterday = 0.00000
+     Manager creating a new local real variable : lai_today = 0.00000
+     Manager creating a new local real variable : sla = 0.00000
+     Manager creating a new local real variable : day_cnt = 0.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -389,13 +389,13 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
 ------- lupin Initialisation --------------------------------------------------
      phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : sw_70 =     64.9111497900000
-     Manager creating a new local real variable : sw_110 =     132.911256590000
-     Manager creating a new local real variable : swc_10 =    0.488155000000000E-001
-     Manager creating a new local real variable : sw_40 =     21.1361281900000
-     Manager creating a new local real variable : swc_40 =    0.528403745000000E-001
-     Manager creating a new local real variable : avgt =     21.6499996000000
-     Manager creating a new local real variable : yield_in_t =     0.00000000000000
+     Manager creating a new local real variable : sw_70 = 64.91115
+     Manager creating a new local real variable : sw_110 = 132.91125
+     Manager creating a new local real variable : swc_10 = 0.04882
+     Manager creating a new local real variable : sw_40 = 21.13613
+     Manager creating a new local real variable : swc_40 = 0.05284
+     Manager creating a new local real variable : avgt = 21.65000
+     Manager creating a new local real variable : yield_in_t = 0.00000
 1 May 1991(Day of year=121), operatns: 
       Sending set message to soilwat2
 10 May 1991(Day of year=130), operatns: 

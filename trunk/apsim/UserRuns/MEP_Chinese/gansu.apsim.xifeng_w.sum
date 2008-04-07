@@ -282,7 +282,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         sum of wheat.ep on end_of_day from report.reported to now as sum@wheat_ep
         sum of soilwat2.eo on end_of_day from report.reported to now as sum@soilwat2_eo
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : flag =     1.00000000000000
+     Manager creating a new local real variable : flag = 1.00000
 21 September 1961(Day of year=264), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 21 September 1961(Day of year=264), SurfaceOM: 
@@ -344,7 +344,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 22 September 1961(Day of year=265), wheat: 
       stage 2.0 germination
 30 September 1961(Day of year=273), manager: 
-     Manager creating a new local real variable : event =     0.00000000000000
+     Manager creating a new local real variable : event = 0.00000
 1 October 1961(Day of year=274), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
