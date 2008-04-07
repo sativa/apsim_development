@@ -669,8 +669,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                          value,
      .                          numvals)
 
-         call assign_string (g%local_variable_values(variableIndex),
-     .                       value)
+         call SetLocalVariable(variableIndex, value)    
       else
          ! not our variable
 
@@ -793,10 +792,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call assign_string (
      :        g%local_variable_names(g%num_local_variables)
      :      , Variable_name)
-         call assign_string (
-     :        g%local_variable_values(g%num_local_variables)
-     :      , Variable_value)
-
+         call SetLocalVariable(g%num_local_variables, Variable_value)    
 
       endif
       if (RHSisString) then
@@ -810,10 +806,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                       stringTypeDDML, ' ', ' ')
       else
          write (str, '(4a)' )
-     .           'Manager creating a new local real variable : ',
-     .            trim(variable_name),
-     .            ' = ',
-     .            trim(Variable_value)
+     .        'Manager creating a new local real variable : ',
+     .         trim(variable_name),
+     .         ' = ',
+     .         adjustl(g%local_variable_values(g%num_local_variables))
          g%local_variable_regIds(g%num_local_variables)
      .      = Add_Registration (respondToGetSetReg, Variable_name,
      .                       floatTypeDDML, ' ', ' ')
@@ -821,6 +817,37 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call Write_string (str)
 
+      return
+      end subroutine
+
+! ====================================================================
+      subroutine SetLocalVariable(Indx, Value)
+! ====================================================================
+      Use Infrastructure
+      implicit none
+
+!+  Sub-Program Arguments
+      integer Indx                     ! (INPUT) Index of variable to set the value of.
+      character Value*(*)	       ! (INPUT) Variable value to store
+
+!+  Local Variables
+      real RealValue
+      character*500 str
+      integer read_status
+      
+      integer    Ok_status             ! Line was read from file ok.
+      parameter (Ok_status = 0)
+      
+!- Implementation Section ----------------------------------
+
+      call assign_string(g%local_variable_values(Indx), value)
+      if (Trim(Value) .ne. blank) then
+         read (value, '(g25.0)', iostat = read_status) realvalue
+         if (read_status.eq.OK_status) then
+            write(str, '(f15.5)' ) RealValue
+            g%local_variable_values(Indx) = Trim(str)
+         endif
+      endif
       return
       end subroutine
 
@@ -1275,9 +1302,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
                  call fortran_error(str, .true.)
                endif
             endif
-            call assign_string (
-     :           g%local_variable_values(Variable_index)
-     :         , Variable_value)
+            call SetLocalVariable(Variable_index, Variable_value)
 
          endif
       endif
