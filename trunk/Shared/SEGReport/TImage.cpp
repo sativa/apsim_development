@@ -17,6 +17,8 @@ void __fastcall ::TImage::Loaded(void)
    TgtQRImage::Loaded();
    if (ImageAsLink && FileExists(FileName))
       Picture->LoadFromFile(FileName);
+   else
+      Picture = NULL;
    }
 //---------------------------------------------------------------------------
 void __fastcall ::TImage::SetLink(bool link)
@@ -26,9 +28,12 @@ void __fastcall ::TImage::SetLink(bool link)
 //---------------------------------------------------------------------------
 void __fastcall ::TImage::SetFileName(AnsiString FileName)
    {
-   if (FileName != FFileName && FileExists(FileName))
+   if (FileName != FFileName)
       {
-      Picture->LoadFromFile(FileName);
+      if (FileExists(FileName))
+         Picture->LoadFromFile(FileName);
+      else
+         Picture = NULL;
       FFileName = FileName;
       }
    }
