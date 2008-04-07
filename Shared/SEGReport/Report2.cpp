@@ -829,6 +829,7 @@ void Report::exportCurrentToFile(const std::string& fileNameBase)
             }
          catch (const Exception& err)
             {
+            ShowMessage(err.Message);
             }
          }
       }
