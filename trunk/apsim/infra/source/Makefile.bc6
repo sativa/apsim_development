@@ -9,12 +9,12 @@
 OBJECTS=dataTypes.obj dataTypesInterface.obj ComponentInterfaceModule.obj \
 convertmodule.obj constantsModule.obj error.obj string.obj \
 data.obj datastr.obj date.obj science.obj  \
-read.obj Infrastructure.obj
+read.obj DOTNETModule.obj Infrastructure.obj
 
 OBJECTS2=dataTypes.obj dataTypesInterface.obj ComponentInterface2Module.obj \
 convertmodule.obj constantsModule.obj error.obj string.obj \
 data.obj datastr.obj date.obj science.obj  \
-read2.obj get2.obj Infrastructure2.obj
+read2.obj get2.obj DOTNETModule.obj Infrastructure2.obj
 
 source: ..\lib\apsinfra.lib ..\lib\apsinfra2.lib datatypes.f90
 
