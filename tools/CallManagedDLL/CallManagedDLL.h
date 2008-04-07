@@ -3,11 +3,17 @@
 #pragma once
 
 using namespace System;
+using namespace System::Collections::Generic;
 
-namespace CallManagedDLL {
-
-	public ref class Class1
+ref class Instances
 	{
-		// TODO: Add your methods for this class here.
+	public:
+		static int CreateClass(String^ dllFileName, String^ className);
+		static Object^ at(unsigned index) {return objects[index];}
+		static void CallMethod(unsigned Index, const char* methodName, Object^ argument);
+	
+	private: 
+		static List<Object^>^ objects = gcnew List<Object^>();
+		
 	};
-}
+	
