@@ -64,7 +64,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      co2 = 350.0 + dy * (700.0 - 350.0)/50.0
      END of rules
      
-     Manager creating a new local real variable : co2 =     350.000000000000
+     Manager creating a new local real variable : co2 = 350.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -209,7 +209,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 ------- barley Initialisation -------------------------------------------------
      phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : dy =     0.00000000000000
+     Manager creating a new local real variable : dy = 0.00000
 17 June 1940(Day of year=169), manager: 
      Manager sending message :- barley sow  cultivar = skiff, plants = 120, sowing_depth = 30 (mm)
 17 June 1940(Day of year=169), barley: 

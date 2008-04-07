@@ -239,28 +239,28 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      srg_seeding = 2
      END of rules
      
-     Manager creating a new local real variable : wht_fert_target =     200.000000000000
-     Manager creating a new local real variable : srg_fert_target =     200.000000000000
-     Manager creating a new local real variable : system_fallow =     10000.0000000000
-     Manager creating a new local real variable : crop_in =     0.00000000000000
-     Manager creating a new local real variable : wht_freq =     1.00000000000000
-     Manager creating a new local real variable : days_since_wheat =     365.000000000000
-     Manager creating a new local real variable : wht_min_fallow =     7.00000000000000
-     Manager creating a new local real variable : srg_freq =     200.000000000000
-     Manager creating a new local real variable : days_since_sorg =     0.00000000000000
-     Manager creating a new local real variable : srg_min_fallow =     7.00000000000000
-     Manager creating a new local real variable : wht_crops_max =     1.00000000000000
-     Manager creating a new local real variable : sow_year =     1957.00000000000
-     Manager creating a new local real variable : sow_day =     1.00000000000000
-     Manager creating a new local real variable : wht_fert =     0.00000000000000
-     Manager creating a new local real variable : sor_fert =     0.00000000000000
-     Manager creating a new local real variable : wht_win1 =     140.000000000000
-     Manager creating a new local real variable : wht_win2 =     160.000000000000
-     Manager creating a new local real variable : wht_win3 =     220.000000000000
-     Manager creating a new local real variable : srg_win1 =     300.000000000000
-     Manager creating a new local real variable : srg_win2 =     340.000000000000
-     Manager creating a new local real variable : srg_win3 =     10.0000000000000
-     Manager creating a new local real variable : srg_seeding =     2.00000000000000
+     Manager creating a new local real variable : wht_fert_target = 200.00000
+     Manager creating a new local real variable : srg_fert_target = 200.00000
+     Manager creating a new local real variable : system_fallow = 10000.00000
+     Manager creating a new local real variable : crop_in = 0.00000
+     Manager creating a new local real variable : wht_freq = 1.00000
+     Manager creating a new local real variable : days_since_wheat = 365.00000
+     Manager creating a new local real variable : wht_min_fallow = 7.00000
+     Manager creating a new local real variable : srg_freq = 200.00000
+     Manager creating a new local real variable : days_since_sorg = 0.00000
+     Manager creating a new local real variable : srg_min_fallow = 7.00000
+     Manager creating a new local real variable : wht_crops_max = 1.00000
+     Manager creating a new local real variable : sow_year = 1957.00000
+     Manager creating a new local real variable : sow_day = 1.00000
+     Manager creating a new local real variable : wht_fert = 0.00000
+     Manager creating a new local real variable : sor_fert = 0.00000
+     Manager creating a new local real variable : wht_win1 = 140.00000
+     Manager creating a new local real variable : wht_win2 = 160.00000
+     Manager creating a new local real variable : wht_win3 = 220.00000
+     Manager creating a new local real variable : srg_win1 = 300.00000
+     Manager creating a new local real variable : srg_win2 = 340.00000
+     Manager creating a new local real variable : srg_win3 = 10.00000
+     Manager creating a new local real variable : srg_seeding = 2.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -463,38 +463,38 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         sum of soilwat2.es on end_of_day from reported to now as annual_es
         sum of soilwat2.drain on end_of_day from reported to now as annual_drain
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : maw10 =     18.1999969000000
-     Manager creating a new local real variable : maw30 =     51.8000030000000
-     Manager creating a new local real variable : maw50 =     83.8000032000000
-     Manager creating a new local real variable : maw70 =     116.800010600000
-     Manager creating a new local real variable : maw90 =     148.800011000000
-     Manager creating a new local real variable : maw110 =     179.600013400000
-     Manager creating a new local real variable : maw130 =     209.200004500000
-     Manager creating a new local real variable : maw150 =     236.399993900000
-     Manager creating a new local real variable : maw170 =     263.199989400000
-     Manager creating a new local real variable : maw190 =     271.599983600000
-     Manager creating a new local real variable : paw10 =     18.1999969000000
-     Manager creating a new local real variable : paw30 =     51.8000030000000
-     Manager creating a new local real variable : paw50 =     83.8000032000000
-     Manager creating a new local real variable : paw70 =     116.800010600000
-     Manager creating a new local real variable : paw90 =     148.800011000000
-     Manager creating a new local real variable : paw110 =     179.600013400000
-     Manager creating a new local real variable : paw130 =     209.200004500000
-     Manager creating a new local real variable : paw150 =     236.399993900000
-     Manager creating a new local real variable : paw170 =     263.199989400000
-     Manager creating a new local real variable : paw190 =     271.599983600000
-     Manager creating a new local real variable : fasw10 =     1.00000000000000
-     Manager creating a new local real variable : fasw30 =     1.00000000000000
-     Manager creating a new local real variable : fasw50 =     1.00000000000000
-     Manager creating a new local real variable : fasw70 =     1.00000000000000
-     Manager creating a new local real variable : fasw90 =     1.00000000000000
-     Manager creating a new local real variable : fasw110 =     1.00000000000000
-     Manager creating a new local real variable : fasw130 =     1.00000000000000
-     Manager creating a new local real variable : fasw150 =     1.00000000000000
-     Manager creating a new local real variable : fasw170 =     1.00000000000000
-     Manager creating a new local real variable : fasw190 =     1.00000000000000
+     Manager creating a new local real variable : maw10 = 18.20000
+     Manager creating a new local real variable : maw30 = 51.80001
+     Manager creating a new local real variable : maw50 = 83.80001
+     Manager creating a new local real variable : maw70 = 116.80002
+     Manager creating a new local real variable : maw90 = 148.80002
+     Manager creating a new local real variable : maw110 = 179.60001
+     Manager creating a new local real variable : maw130 = 209.20000
+     Manager creating a new local real variable : maw150 = 236.39999
+     Manager creating a new local real variable : maw170 = 263.19998
+     Manager creating a new local real variable : maw190 = 271.59998
+     Manager creating a new local real variable : paw10 = 18.20000
+     Manager creating a new local real variable : paw30 = 51.80001
+     Manager creating a new local real variable : paw50 = 83.80001
+     Manager creating a new local real variable : paw70 = 116.80002
+     Manager creating a new local real variable : paw90 = 148.80002
+     Manager creating a new local real variable : paw110 = 179.60001
+     Manager creating a new local real variable : paw130 = 209.20000
+     Manager creating a new local real variable : paw150 = 236.39999
+     Manager creating a new local real variable : paw170 = 263.19998
+     Manager creating a new local real variable : paw190 = 271.59998
+     Manager creating a new local real variable : fasw10 = 1.00000
+     Manager creating a new local real variable : fasw30 = 1.00000
+     Manager creating a new local real variable : fasw50 = 1.00000
+     Manager creating a new local real variable : fasw70 = 1.00000
+     Manager creating a new local real variable : fasw90 = 1.00000
+     Manager creating a new local real variable : fasw110 = 1.00000
+     Manager creating a new local real variable : fasw130 = 1.00000
+     Manager creating a new local real variable : fasw150 = 1.00000
+     Manager creating a new local real variable : fasw170 = 1.00000
+     Manager creating a new local real variable : fasw190 = 1.00000
 8 August 1970(Day of year=220), manager: 
-     Manager creating a new local real variable : wht_crop_num =     0.00000000000000
+     Manager creating a new local real variable : wht_crop_num = 0.00000
 18 July 1971(Day of year=199), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
 18 July 1971(Day of year=199), wheat: 
@@ -547,7 +547,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
             199   80.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-     Manager creating a new local real variable : rz_no3 =     32.6376568700000
+     Manager creating a new local real variable : rz_no3 = 32.63766
 18 July 1971(Day of year=199), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -595,7 +595,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =         995.53 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.56 (%)    extractable sw =   61.35 (mm)
 5 December 1971(Day of year=339), manager: 
-     Manager creating a new local real variable : w_mat_day =     339.000000000000
+     Manager creating a new local real variable : w_mat_day = 339.00000
      Manager sending message :- wheat harvest
 5 December 1971(Day of year=339), wheat: 
      
@@ -748,7 +748,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Crop failure because of total leaf senescence.
      Plant death. standing above-ground dm = 3022.39 (kg/ha)
 14 November 1972(Day of year=319), manager: 
-     Manager creating a new local real variable : c_mat_day =     319.000000000000
+     Manager creating a new local real variable : c_mat_day = 319.00000
      Manager sending message :- chickpea harvest
 14 November 1972(Day of year=319), chickpea: 
      

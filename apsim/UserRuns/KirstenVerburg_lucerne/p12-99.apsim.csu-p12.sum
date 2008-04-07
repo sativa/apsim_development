@@ -688,57 +688,57 @@ Component   "tracker6" = c:\development\apsim\Tracker\lib\Tracker.dll
      report4 do_end_day_output
      END of rules
      
-     Manager creating a new local real variable : period =     0.00000000000000
-     Manager creating a new local real variable : et =     0.00000000000000
-     Manager creating a new local real variable : t =     0.00000000000000
-     Manager creating a new local real variable : drain_25 =     0.00000000000000
-     Manager creating a new local real variable : drain_90 =     0.00000000000000
-     Manager creating a new local real variable : drain180 =     0.00000000000000
-     Manager creating a new local real variable : leach_25 =     0.00000000000000
-     Manager creating a new local real variable : leach_90 =     0.00000000000000
-     Manager creating a new local real variable : leach180 =     0.00000000000000
-     Manager creating a new local real variable : cum_rain =     0.00000000000000
-     Manager creating a new local real variable : cum_et =     0.00000000000000
-     Manager creating a new local real variable : cum_e =     0.00000000000000
-     Manager creating a new local real variable : cum_t =     0.00000000000000
-     Manager creating a new local real variable : cum_drain_25 =     0.00000000000000
-     Manager creating a new local real variable : cum_drain_90 =     0.00000000000000
-     Manager creating a new local real variable : cum_drain180 =     0.00000000000000
-     Manager creating a new local real variable : cum_drain =     0.00000000000000
-     Manager creating a new local real variable : cum_leach_25 =     0.00000000000000
-     Manager creating a new local real variable : cum_leach_90 =     0.00000000000000
-     Manager creating a new local real variable : cum_leach180 =     0.00000000000000
-     Manager creating a new local real variable : netdrain130 =     0.00000000000000
-     Manager creating a new local real variable : cumnetdrain130 =     0.00000000000000
-     Manager creating a new local real variable : oldsw_dep_130 =     0.00000000000000
-     Manager creating a new local real variable : sw_dep_130 =     0.00000000000000
-     Manager creating a new local real variable : no3_025 =     0.00000000000000
-     Manager creating a new local real variable : no3_2590 =     0.00000000000000
-     Manager creating a new local real variable : nh4_025 =     0.00000000000000
-     Manager creating a new local real variable : nh4_2590 =     0.00000000000000
-     Manager creating a new local real variable : sw_dep_025 =     0.00000000000000
-     Manager creating a new local real variable : sw_dep_2590 =     0.00000000000000
-     Manager creating a new local real variable : sw_dep_90180 =     0.00000000000000
-     Manager creating a new local real variable : no3_030 =     0.00000000000000
-     Manager creating a new local real variable : no3_3080 =     0.00000000000000
-     Manager creating a new local real variable : nh4_030 =     0.00000000000000
-     Manager creating a new local real variable : nh4_3080 =     0.00000000000000
-     Manager creating a new local real variable : sw_dep_030 =     0.00000000000000
-     Manager creating a new local real variable : sw_dep_3080 =     0.00000000000000
-     Manager creating a new local real variable : cum_nmin010 =     0.00000000000000
-     Manager creating a new local real variable : cum_nmin1020 =     0.00000000000000
-     Manager creating a new local real variable : cum_nmin2030 =     0.00000000000000
-     Manager creating a new local real variable : sw_dep_010 =     0.00000000000000
-     Manager creating a new local real variable : nh4_010 =     0.00000000000000
-     Manager creating a new local real variable : no3_010 =     0.00000000000000
-     Manager creating a new local real variable : fom_n_010 =     0.00000000000000
-     Manager creating a new local real variable : biom_n_010 =     0.00000000000000
-     Manager creating a new local real variable : hum_n_010 =     0.00000000000000
-     Manager creating a new local real variable : reduce_status =     0.00000000000000
-     Manager creating a new local real variable : print_flag =     0.00000000000000
-     Manager creating a new local real variable : zero_flag =     0.00000000000000
-     Manager creating a new local real variable : crop_in =     0.00000000000000
-     Manager creating a new local real variable : cult =     0.00000000000000
+     Manager creating a new local real variable : period = 0.00000
+     Manager creating a new local real variable : et = 0.00000
+     Manager creating a new local real variable : t = 0.00000
+     Manager creating a new local real variable : drain_25 = 0.00000
+     Manager creating a new local real variable : drain_90 = 0.00000
+     Manager creating a new local real variable : drain180 = 0.00000
+     Manager creating a new local real variable : leach_25 = 0.00000
+     Manager creating a new local real variable : leach_90 = 0.00000
+     Manager creating a new local real variable : leach180 = 0.00000
+     Manager creating a new local real variable : cum_rain = 0.00000
+     Manager creating a new local real variable : cum_et = 0.00000
+     Manager creating a new local real variable : cum_e = 0.00000
+     Manager creating a new local real variable : cum_t = 0.00000
+     Manager creating a new local real variable : cum_drain_25 = 0.00000
+     Manager creating a new local real variable : cum_drain_90 = 0.00000
+     Manager creating a new local real variable : cum_drain180 = 0.00000
+     Manager creating a new local real variable : cum_drain = 0.00000
+     Manager creating a new local real variable : cum_leach_25 = 0.00000
+     Manager creating a new local real variable : cum_leach_90 = 0.00000
+     Manager creating a new local real variable : cum_leach180 = 0.00000
+     Manager creating a new local real variable : netdrain130 = 0.00000
+     Manager creating a new local real variable : cumnetdrain130 = 0.00000
+     Manager creating a new local real variable : oldsw_dep_130 = 0.00000
+     Manager creating a new local real variable : sw_dep_130 = 0.00000
+     Manager creating a new local real variable : no3_025 = 0.00000
+     Manager creating a new local real variable : no3_2590 = 0.00000
+     Manager creating a new local real variable : nh4_025 = 0.00000
+     Manager creating a new local real variable : nh4_2590 = 0.00000
+     Manager creating a new local real variable : sw_dep_025 = 0.00000
+     Manager creating a new local real variable : sw_dep_2590 = 0.00000
+     Manager creating a new local real variable : sw_dep_90180 = 0.00000
+     Manager creating a new local real variable : no3_030 = 0.00000
+     Manager creating a new local real variable : no3_3080 = 0.00000
+     Manager creating a new local real variable : nh4_030 = 0.00000
+     Manager creating a new local real variable : nh4_3080 = 0.00000
+     Manager creating a new local real variable : sw_dep_030 = 0.00000
+     Manager creating a new local real variable : sw_dep_3080 = 0.00000
+     Manager creating a new local real variable : cum_nmin010 = 0.00000
+     Manager creating a new local real variable : cum_nmin1020 = 0.00000
+     Manager creating a new local real variable : cum_nmin2030 = 0.00000
+     Manager creating a new local real variable : sw_dep_010 = 0.00000
+     Manager creating a new local real variable : nh4_010 = 0.00000
+     Manager creating a new local real variable : no3_010 = 0.00000
+     Manager creating a new local real variable : fom_n_010 = 0.00000
+     Manager creating a new local real variable : biom_n_010 = 0.00000
+     Manager creating a new local real variable : hum_n_010 = 0.00000
+     Manager creating a new local real variable : reduce_status = 0.00000
+     Manager creating a new local real variable : print_flag = 0.00000
+     Manager creating a new local real variable : zero_flag = 0.00000
+     Manager creating a new local real variable : crop_in = 0.00000
+     Manager creating a new local real variable : cult = 0.00000
 
 ------- apswim Initialisation -------------------------------------------------
      Initialising
@@ -878,9 +878,6 @@ Component   "tracker6" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      
           vapour conductivity = on
-          Rainfall Source: rain
-     
-     
           Evaporation Source: sum_demands
      
      

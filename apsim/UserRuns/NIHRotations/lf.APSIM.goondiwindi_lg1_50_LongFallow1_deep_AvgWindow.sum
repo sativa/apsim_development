@@ -238,28 +238,28 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      srg_seeding = 2
      END of rules
      
-     Manager creating a new local real variable : wht_fert_target =     50.0000000000000
-     Manager creating a new local real variable : srg_fert_target =     50.0000000000000
-     Manager creating a new local real variable : system_fallow =     10.0000000000000
-     Manager creating a new local real variable : crop_in =     0.00000000000000
-     Manager creating a new local real variable : wht_freq =     3.00000000000000
-     Manager creating a new local real variable : days_since_wheat =     690.000000000000
-     Manager creating a new local real variable : wht_min_fallow =     7.00000000000000
-     Manager creating a new local real variable : srg_freq =     3.00000000000000
-     Manager creating a new local real variable : days_since_sorg =     150.000000000000
-     Manager creating a new local real variable : srg_min_fallow =     7.00000000000000
-     Manager creating a new local real variable : wht_crops_max =     200.000000000000
-     Manager creating a new local real variable : sow_year =     1957.00000000000
-     Manager creating a new local real variable : sow_day =     1.00000000000000
-     Manager creating a new local real variable : wht_fert =     0.00000000000000
-     Manager creating a new local real variable : sor_fert =     0.00000000000000
-     Manager creating a new local real variable : wht_win1 =     140.000000000000
-     Manager creating a new local real variable : wht_win2 =     160.000000000000
-     Manager creating a new local real variable : wht_win3 =     220.000000000000
-     Manager creating a new local real variable : srg_win1 =     300.000000000000
-     Manager creating a new local real variable : srg_win2 =     340.000000000000
-     Manager creating a new local real variable : srg_win3 =     10.0000000000000
-     Manager creating a new local real variable : srg_seeding =     2.00000000000000
+     Manager creating a new local real variable : wht_fert_target = 50.00000
+     Manager creating a new local real variable : srg_fert_target = 50.00000
+     Manager creating a new local real variable : system_fallow = 10.00000
+     Manager creating a new local real variable : crop_in = 0.00000
+     Manager creating a new local real variable : wht_freq = 3.00000
+     Manager creating a new local real variable : days_since_wheat = 690.00000
+     Manager creating a new local real variable : wht_min_fallow = 7.00000
+     Manager creating a new local real variable : srg_freq = 3.00000
+     Manager creating a new local real variable : days_since_sorg = 150.00000
+     Manager creating a new local real variable : srg_min_fallow = 7.00000
+     Manager creating a new local real variable : wht_crops_max = 200.00000
+     Manager creating a new local real variable : sow_year = 1957.00000
+     Manager creating a new local real variable : sow_day = 1.00000
+     Manager creating a new local real variable : wht_fert = 0.00000
+     Manager creating a new local real variable : sor_fert = 0.00000
+     Manager creating a new local real variable : wht_win1 = 140.00000
+     Manager creating a new local real variable : wht_win2 = 160.00000
+     Manager creating a new local real variable : wht_win3 = 220.00000
+     Manager creating a new local real variable : srg_win1 = 300.00000
+     Manager creating a new local real variable : srg_win2 = 340.00000
+     Manager creating a new local real variable : srg_win3 = 10.00000
+     Manager creating a new local real variable : srg_seeding = 2.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -462,36 +462,36 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         sum of soilwat2.es on end_of_day from reported to now as annual_es
         sum of soilwat2.drain on end_of_day from reported to now as annual_drain
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : maw10 =     18.1999969000000
-     Manager creating a new local real variable : maw30 =     51.8000030000000
-     Manager creating a new local real variable : maw50 =     83.8000032000000
-     Manager creating a new local real variable : maw70 =     116.800010600000
-     Manager creating a new local real variable : maw90 =     148.800011000000
-     Manager creating a new local real variable : maw110 =     179.600013400000
-     Manager creating a new local real variable : maw130 =     209.200004500000
-     Manager creating a new local real variable : maw150 =     236.399993900000
-     Manager creating a new local real variable : maw170 =     263.199989400000
-     Manager creating a new local real variable : maw190 =     271.599983600000
-     Manager creating a new local real variable : paw10 =     18.1999969000000
-     Manager creating a new local real variable : paw30 =     51.8000030000000
-     Manager creating a new local real variable : paw50 =     83.8000032000000
-     Manager creating a new local real variable : paw70 =     116.800010600000
-     Manager creating a new local real variable : paw90 =     148.800011000000
-     Manager creating a new local real variable : paw110 =     179.600013400000
-     Manager creating a new local real variable : paw130 =     209.200004500000
-     Manager creating a new local real variable : paw150 =     236.399993900000
-     Manager creating a new local real variable : paw170 =     263.199989400000
-     Manager creating a new local real variable : paw190 =     271.599983600000
-     Manager creating a new local real variable : fasw10 =     1.00000000000000
-     Manager creating a new local real variable : fasw30 =     1.00000000000000
-     Manager creating a new local real variable : fasw50 =     1.00000000000000
-     Manager creating a new local real variable : fasw70 =     1.00000000000000
-     Manager creating a new local real variable : fasw90 =     1.00000000000000
-     Manager creating a new local real variable : fasw110 =     1.00000000000000
-     Manager creating a new local real variable : fasw130 =     1.00000000000000
-     Manager creating a new local real variable : fasw150 =     1.00000000000000
-     Manager creating a new local real variable : fasw170 =     1.00000000000000
-     Manager creating a new local real variable : fasw190 =     1.00000000000000
+     Manager creating a new local real variable : maw10 = 18.20000
+     Manager creating a new local real variable : maw30 = 51.80001
+     Manager creating a new local real variable : maw50 = 83.80001
+     Manager creating a new local real variable : maw70 = 116.80002
+     Manager creating a new local real variable : maw90 = 148.80002
+     Manager creating a new local real variable : maw110 = 179.60001
+     Manager creating a new local real variable : maw130 = 209.20000
+     Manager creating a new local real variable : maw150 = 236.39999
+     Manager creating a new local real variable : maw170 = 263.19998
+     Manager creating a new local real variable : maw190 = 271.59998
+     Manager creating a new local real variable : paw10 = 18.20000
+     Manager creating a new local real variable : paw30 = 51.80001
+     Manager creating a new local real variable : paw50 = 83.80001
+     Manager creating a new local real variable : paw70 = 116.80002
+     Manager creating a new local real variable : paw90 = 148.80002
+     Manager creating a new local real variable : paw110 = 179.60001
+     Manager creating a new local real variable : paw130 = 209.20000
+     Manager creating a new local real variable : paw150 = 236.39999
+     Manager creating a new local real variable : paw170 = 263.19998
+     Manager creating a new local real variable : paw190 = 271.59998
+     Manager creating a new local real variable : fasw10 = 1.00000
+     Manager creating a new local real variable : fasw30 = 1.00000
+     Manager creating a new local real variable : fasw50 = 1.00000
+     Manager creating a new local real variable : fasw70 = 1.00000
+     Manager creating a new local real variable : fasw90 = 1.00000
+     Manager creating a new local real variable : fasw110 = 1.00000
+     Manager creating a new local real variable : fasw130 = 1.00000
+     Manager creating a new local real variable : fasw150 = 1.00000
+     Manager creating a new local real variable : fasw170 = 1.00000
+     Manager creating a new local real variable : fasw190 = 1.00000
 25 July 1971(Day of year=206): 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -503,7 +503,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      
 25 July 1971(Day of year=206), manager: 
-     Manager creating a new local real variable : wht_crop_num =     0.00000000000000
+     Manager creating a new local real variable : wht_crop_num = 0.00000
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
 25 July 1971(Day of year=206), wheat: 
      Crop Sow
@@ -555,7 +555,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
             206   80.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-     Manager creating a new local real variable : rz_no3 =     63.9152403000000
+     Manager creating a new local real variable : rz_no3 = 63.91524
      Manager sending message :- surfaceom tillage  type = planter
 25 July 1971(Day of year=206), SurfaceOM: 
      
@@ -598,7 +598,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                      biomass =        1014.39 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   61.25 (mm)
 22 November 1971(Day of year=326), manager: 
-     Manager creating a new local real variable : w_mat_day =     326.000000000000
+     Manager creating a new local real variable : w_mat_day = 326.00000
      Manager sending message :- wheat harvest
 22 November 1971(Day of year=326), wheat: 
      
@@ -754,7 +754,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      		Biomass       = 876.25 		 LAI            =   0.89
      		Stover N Conc =   2.56 		 Extractable SW = 134.74
 15 February 1973(Day of year=46), manager: 
-     Manager creating a new local real variable : s_mat_day =     46.0000000000000
+     Manager creating a new local real variable : s_mat_day = 46.00000
      Manager sending message :- sorghum harvest
 15 February 1973(Day of year=46), sorghum: 
      
@@ -1306,7 +1306,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 15 November 1978(Day of year=319), sorghum: 
      Stage 4 EndOfJuvenile  DAS = 19
      		Biomass       =   3.29 		 LAI            =   0.05
-     		Stover N Conc =   0.09 		 Extractable SW = 233.89
+     		Stover N Conc =   0.09 		 Extractable SW = 233.88
 27 November 1978(Day of year=331), sorghum: 
      Stage 5 FloralInitiation  DAS = 31
      		Biomass       =  27.77 		 LAI            =   0.46
@@ -2212,13 +2212,13 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Flowering (DAS)       = 62 		 Maturity (DAS)          = 105
      Flowering day         = 362 		 Maturity day            = 40
      Maximum LAI           = 2.8 		 Number of leaves        = 15.0
-     Total above ground biomass    (kg/ha) = 8245.5
+     Total above ground biomass    (kg/ha) = 8245.4
      Green above ground biomass    (kg/ha) = 6793.2
      Senesced above ground biomass (kg/ha) = 1452.3
      Stover (kg/ha)        = 4664.1 	 Grain yield (kg/ha)     = 3581.3
      Grain % water content = 13.0 		 Grain yield wet (kg/ha) = 4116.5
      Weight 1000 grains(g) = 16.1 		 Grains/m^2              = 22277.8
-     Grains/head           = 3427.4
+     Grains/head           = 3427.3
      Grain N percent    (%)     =      1.40 	 Grain N            (kg/ha) =    50.04
      Total N content    (kg/ha) =     77.75 	 Senesced N content (kg/ha) =    17.55
      Green N content    (kg/ha) =     13.75
@@ -2233,7 +2233,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =               3581.34		    0.00
+                         DM (kg/ha) =               3581.33		    0.00
                          N  (kg/ha) =                 50.04		    0.00
      Manager sending message :- sorghum kill_crop
      Kill Crop
@@ -2241,7 +2241,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- sorghum end_crop
      Crop ended.
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               4664.12		 1939.11
+                         DM (kg/ha) =               4664.11		 1939.11
                          N  (kg/ha) =                 27.71		    3.59
                          P  (kg/ha) =                  0.00		    0.00
 20 May 1989(Day of year=140), manager: 
@@ -2534,7 +2534,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- sorghum end_crop
      Crop ended.
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               4309.33		 1820.30
+                         DM (kg/ha) =               4309.32		 1820.30
                          N  (kg/ha) =                 26.46		    3.53
                          P  (kg/ha) =                  0.00		    0.00
 20 May 1992(Day of year=141), manager: 

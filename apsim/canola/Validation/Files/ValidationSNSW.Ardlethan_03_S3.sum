@@ -293,18 +293,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      endif
      END of rules
      
-     Manager creating a new local real variable : samp_start_sw =     0.00000000000000
-     Manager creating a new local real variable : rain_samp_start_sw =     0.00000000000000
-     Manager creating a new local real variable : rain_samp_finish_sw =     0.00000000000000
-     Manager creating a new local real variable : sim_start_sw =     0.00000000000000
-     Manager creating a new local real variable : sim_finish_sw =     0.00000000000000
-     Manager creating a new local real variable : cum_days =     0.00000000000000
-     Manager creating a new local real variable : pre_sow_rain =     0.00000000000000
-     Manager creating a new local real variable : flower_flag =     0.00000000000000
-     Manager creating a new local real variable : grain_fill_rain =     0.00000000000000
-     Manager creating a new local real variable : sum_rain =     0.00000000000000
-     Manager creating a new local real variable : in_crop_rain =     0.00000000000000
-     Manager creating a new local real variable : num_rain_events =     0.00000000000000
+     Manager creating a new local real variable : samp_start_sw = 0.00000
+     Manager creating a new local real variable : rain_samp_start_sw = 0.00000
+     Manager creating a new local real variable : rain_samp_finish_sw = 0.00000
+     Manager creating a new local real variable : sim_start_sw = 0.00000
+     Manager creating a new local real variable : sim_finish_sw = 0.00000
+     Manager creating a new local real variable : cum_days = 0.00000
+     Manager creating a new local real variable : pre_sow_rain = 0.00000
+     Manager creating a new local real variable : flower_flag = 0.00000
+     Manager creating a new local real variable : grain_fill_rain = 0.00000
+     Manager creating a new local real variable : sum_rain = 0.00000
+     Manager creating a new local real variable : in_crop_rain = 0.00000
+     Manager creating a new local real variable : num_rain_events = 0.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -463,17 +463,17 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : oil_conc =     0.00000000000000
+     Manager creating a new local real variable : oil_conc = 0.00000
 31 January 2003(Day of year=31), manager: 
-     Manager creating a new local real variable : jan_rain =     0.00000000000000
+     Manager creating a new local real variable : jan_rain = 0.00000
 28 February 2003(Day of year=59), manager: 
-     Manager creating a new local real variable : feb_rain =     0.00000000000000
+     Manager creating a new local real variable : feb_rain = 0.00000
 31 March 2003(Day of year=90), manager: 
-     Manager creating a new local real variable : mar_rain =     0.00000000000000
+     Manager creating a new local real variable : mar_rain = 0.00000
 10 April 2003(Day of year=100), manager: 
-     Manager creating a new local real variable : accum_es =     0.00000000000000
+     Manager creating a new local real variable : accum_es = 0.00000
 30 April 2003(Day of year=120), manager: 
-     Manager creating a new local real variable : apr_rain =     0.00000000000000
+     Manager creating a new local real variable : apr_rain = 0.00000
 10 May 2003(Day of year=130), operatns: 
       Sending set message to soilwat2
 31 May 2003(Day of year=151), operatns: 
@@ -484,9 +484,9 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         35.00 of N as ammonium (nh4_n)
                                               added at depth   30.00 (layer   1)
 31 May 2003(Day of year=151), manager: 
-     Manager creating a new local real variable : may_rain =     0.00000000000000
+     Manager creating a new local real variable : may_rain = 0.00000
 30 June 2003(Day of year=181), manager: 
-     Manager creating a new local real variable : jun_rain =     34.0000000000000
+     Manager creating a new local real variable : jun_rain = 34.00000
 4 July 2003(Day of year=185), operatns: 
       Sending apply message to fertiliz
 4 July 2003(Day of year=185), fertiliz: 
@@ -548,11 +548,11 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
          ------------------------------------------------
      
 4 July 2003(Day of year=185), manager: 
-     Manager creating a new local real variable : start_esw =     14.7779284000000
-     Manager creating a new local real variable : sow_day =     185.000000000000
+     Manager creating a new local real variable : start_esw = 14.77793
+     Manager creating a new local real variable : sow_day = 185.00000
 5 July 2003(Day of year=186), manager: 
-     Manager creating a new local real variable : cum_temp =     0.00000000000000
-     Manager creating a new local real variable : cum_swdef =     0.00000000000000
+     Manager creating a new local real variable : cum_temp = 0.00000
+     Manager creating a new local real variable : cum_swdef = 0.00000
 5 July 2003(Day of year=186), canola: 
       stage 2.0 germination
 11 July 2003(Day of year=192), canola: 
@@ -560,13 +560,13 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                      biomass =           0.60 (g/m^2)   lai          =   0.002 (m^2/m^2)
                      stover N conc =     6.50 (%)    extractable sw =   17.24 (mm)
 31 July 2003(Day of year=212), manager: 
-     Manager creating a new local real variable : jul_rain =     53.0000000000000
+     Manager creating a new local real variable : jul_rain = 53.00000
 3 August 2003(Day of year=215), canola: 
       stage 4.0 end_of_juvenile
                      biomass =           3.51 (g/m^2)   lai          =   0.036 (m^2/m^2)
                      stover N conc =     5.72 (%)    extractable sw =   34.35 (mm)
 31 August 2003(Day of year=243), manager: 
-     Manager creating a new local real variable : aug_rain =     52.5000000000000
+     Manager creating a new local real variable : aug_rain = 52.50000
 9 September 2003(Day of year=252), canola: 
       stage 5.0 floral_initiation
                      biomass =          40.05 (g/m^2)   lai          =   0.229 (m^2/m^2)
@@ -576,22 +576,22 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                      biomass =         147.02 (g/m^2)   lai          =   0.934 (m^2/m^2)
                      stover N conc =     4.16 (%)    extractable sw =   12.65 (mm)
 29 September 2003(Day of year=272), manager: 
-     Manager creating a new local real variable : pre_flower_rain =     128.000000000000
-     Manager creating a new local real variable : pre_flower_rain_events =     9.00000000000000
-     Manager creating a new local real variable : flower_lai =    0.933911979000000
+     Manager creating a new local real variable : pre_flower_rain = 128.00000
+     Manager creating a new local real variable : pre_flower_rain_events = 9.00000
+     Manager creating a new local real variable : flower_lai = 0.93391
 30 September 2003(Day of year=273), manager: 
-     Manager creating a new local real variable : sep_rain =     26.5000000000000
+     Manager creating a new local real variable : sep_rain = 26.50000
 16 October 2003(Day of year=289), canola: 
       stage 7.0 start_grain_fill
                      biomass =         268.05 (g/m^2)   lai          =   0.427 (m^2/m^2)
                      stover N conc =     3.16 (%)    extractable sw =    3.61 (mm)
 17 October 2003(Day of year=290), manager: 
-     Manager creating a new local real variable : avg_temp =     15.2500000000000
-     Manager creating a new local real variable : avg_swdef =    0.609580018000000E-001
+     Manager creating a new local real variable : avg_temp = 15.25000
+     Manager creating a new local real variable : avg_swdef = 0.06096
 31 October 2003(Day of year=304), manager: 
-     Manager creating a new local real variable : oct_rain =     33.5000000000000
+     Manager creating a new local real variable : oct_rain = 33.50000
 30 November 2003(Day of year=334), manager: 
-     Manager creating a new local real variable : nov_rain =     45.5000000000000
+     Manager creating a new local real variable : nov_rain = 45.50000
 7 December 2003(Day of year=341), canola: 
       stage 8.0 end_grain_fill
                      biomass =         304.53 (g/m^2)   lai          =   0.004 (m^2/m^2)
@@ -605,8 +605,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                      biomass =         304.83 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.17 (%)    extractable sw =    1.46 (mm)
 9 December 2003(Day of year=343), manager: 
-     Manager creating a new local real variable : total_rain_events =     16.0000000000000
-     Manager creating a new local real variable : end_esw =     1.46061599000000
+     Manager creating a new local real variable : total_rain_events = 16.00000
+     Manager creating a new local real variable : end_esw = 1.46062
      Manager sending message :- canola harvest
      
       flowering day          =  272                           stover (kg/ha)         =     2149.2
@@ -653,8 +653,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                           DM (kg/ha) =                   0.0                  1275.2
                           N  (kg/ha) =                   0.00                   10.63
      
-     Manager creating a new local real variable : crop_in =     0.00000000000000
+     Manager creating a new local real variable : crop_in = 0.00000
 31 December 2003(Day of year=365), manager: 
-     Manager creating a new local real variable : dec_rain =     5.00000000000000
+     Manager creating a new local real variable : dec_rain = 5.00000
 31 December 2003(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.

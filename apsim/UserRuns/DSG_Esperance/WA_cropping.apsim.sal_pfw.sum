@@ -154,12 +154,12 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      rz_no3 = no3(1) + no3(2) + no3(3) + no3(4)
      END of rules
      
-     Manager creating a new local real variable : event =     0.00000000000000
-     Manager creating a new local real variable : crop_flag =     0.00000000000000
-     Manager creating a new local real variable : sow_date =     0.00000000000000
-     Manager creating a new local real variable : cycle_num =     0.00000000000000
-     Manager creating a new local real variable : wheat_fert =     40.0000000000000
-     Manager creating a new local real variable : sorg_fert =     10.0000000000000
+     Manager creating a new local real variable : event = 0.00000
+     Manager creating a new local real variable : crop_flag = 0.00000
+     Manager creating a new local real variable : sow_date = 0.00000
+     Manager creating a new local real variable : cycle_num = 0.00000
+     Manager creating a new local real variable : wheat_fert = 40.00000
+     Manager creating a new local real variable : sorg_fert = 10.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -320,15 +320,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         sum of soilwat2.es on end_of_day from reported to now as annual_es
         sum of soilwat2.drain on end_of_day from reported to now as annual_drain
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : esw10 =     8.19999981000000
-     Manager creating a new local real variable : esw50 =     41.0000000000000
-     Manager creating a new local real variable : esw75 =     62.0000000000000
-     Manager creating a new local real variable : esw_layer1 =     8.00000000000000
-     Manager creating a new local real variable : esw_layer2 =     9.00000000000000
-     Manager creating a new local real variable : esw_layer3 =     39.0000000000000
-     Manager creating a new local real variable : esw_layer4 =     26.0000038000000
-     Manager creating a new local real variable : esw_rooting_zone =     82.0000038000000
-     Manager creating a new local real variable : rz_no3 =     36.3285005500000
+     Manager creating a new local real variable : esw10 = 8.20000
+     Manager creating a new local real variable : esw50 = 41.00000
+     Manager creating a new local real variable : esw75 = 62.00000
+     Manager creating a new local real variable : esw_layer1 = 8.00000
+     Manager creating a new local real variable : esw_layer2 = 9.00000
+     Manager creating a new local real variable : esw_layer3 = 39.00000
+     Manager creating a new local real variable : esw_layer4 = 26.00000
+     Manager creating a new local real variable : esw_rooting_zone = 82.00000
+     Manager creating a new local real variable : rz_no3 = 36.32850
 24 July 1958(Day of year=205), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 24 July 1958(Day of year=205), wheat: 
@@ -3600,7 +3600,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 4 October 1986(Day of year=277), wheat: 
       stage 7.0 start_grain_fill
                      biomass =         509.37 (g/m^2)   lai          =   0.836 (m^2/m^2)
-                     stover N conc =     0.37 (%)    extractable sw =   36.83 (mm)
+                     stover N conc =     0.37 (%)    extractable sw =   36.82 (mm)
 9 November 1986(Day of year=313), wheat: 
       stage 8.0 end_grain_fill
                      biomass =         658.30 (g/m^2)   lai          =   0.170 (m^2/m^2)
@@ -3840,7 +3840,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 1 November 1988(Day of year=306), wheat: 
       stage 10.0 harvest_ripe
                      biomass =         521.24 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   11.00 (mm)
+                     stover N conc =     0.30 (%)    extractable sw =   10.99 (mm)
 2 November 1988(Day of year=307), manager: 
      Manager sending message :- wheat harvest
 2 November 1988(Day of year=307), wheat: 
@@ -3880,7 +3880,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   11.00 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   10.99 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
@@ -4068,7 +4068,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 10 December 1990(Day of year=344), wheat: 
       stage 10.0 harvest_ripe
                      biomass =         487.05 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =    8.38 (mm)
+                     stover N conc =     0.31 (%)    extractable sw =    8.37 (mm)
 11 December 1990(Day of year=345), manager: 
      Manager sending message :- wheat harvest
 11 December 1990(Day of year=345), wheat: 
@@ -4108,7 +4108,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =    8.38 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =    8.37 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
@@ -4416,7 +4416,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grains/plant           =    0.0                         maximum lai            =      1.428
       total above ground biomass (kg/ha)    =     2581.1
       live above ground biomass (kg/ha)     =     2581.1
-      green above ground biomass (kg/ha)    =     2335.3
+      green above ground biomass (kg/ha)    =     2335.2
       senesced above ground biomass (kg/ha) =      245.9
       number of leaves       =     44.5
       DM Root:Shoot ratio    =     0.29                       Harvest Index          =       0.00

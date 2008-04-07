@@ -196,15 +196,15 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      endif
      END of rules
      
-     Manager creating a new local real variable : dateset =     0.00000000000000
-     Manager creating a new local real variable : emer_date =     0.00000000000000
-     Manager creating a new local real variable : endjuv_date =     0.00000000000000
-     Manager creating a new local real variable : anth_date =     0.00000000000000
-     Manager creating a new local real variable : mat_date =     0.00000000000000
-     Manager creating a new local real variable : event =     0.00000000000000
-     Manager creating a new local real variable : cum_temp =     0.00000000000000
-     Manager creating a new local real variable : cum_swdef =     0.00000000000000
-     Manager creating a new local real variable : cum_days =     0.00000000000000
+     Manager creating a new local real variable : dateset = 0.00000
+     Manager creating a new local real variable : emer_date = 0.00000
+     Manager creating a new local real variable : endjuv_date = 0.00000
+     Manager creating a new local real variable : anth_date = 0.00000
+     Manager creating a new local real variable : mat_date = 0.00000
+     Manager creating a new local real variable : event = 0.00000
+     Manager creating a new local real variable : cum_temp = 0.00000
+     Manager creating a new local real variable : cum_swdef = 0.00000
+     Manager creating a new local real variable : cum_days = 0.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -413,7 +413,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         average of Met.radn on post since report.reported as avg@Met_radn
         sum of met.rain on post since report.reported as sum@met_rain
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : oil_conc =     0.00000000000000
+     Manager creating a new local real variable : oil_conc = 0.00000
 31 May 1997(Day of year=151), operatns: 
       Sending sow message to canola
 31 May 1997(Day of year=151), canola: 
@@ -504,8 +504,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                      biomass =         483.14 (g/m^2)   lai          =   1.415 (m^2/m^2)
                      stover N conc =     4.42 (%)    extractable sw =   22.75 (mm)
 20 September 1997(Day of year=263), manager: 
-     Manager creating a new local real variable : avg_temp =     16.7500000000000
-     Manager creating a new local real variable : avg_swdef =    0.227516994000000
+     Manager creating a new local real variable : avg_temp = 16.75000
+     Manager creating a new local real variable : avg_swdef = 0.22752
 15 November 1997(Day of year=319), canola: 
       stage 8.0 end_grain_fill
                      biomass =         525.78 (g/m^2)   lai          =   0.008 (m^2/m^2)

@@ -189,25 +189,25 @@ Component      "sugar" = c:\development\apsim\sugar\lib\sugar.dll
      endif
      END of rules
      
-     Manager creating a new local real variable : noratoons =     4.00000000000000
-     Manager creating a new local real variable : dryoff =     30.0000000000000
-     Manager creating a new local real variable : planting_day =     122.000000000000
-     Manager creating a new local real variable : plantlen =     457.500000000000
-     Manager creating a new local real variable : ratoonlen =     396.500000000000
-     Manager creating a new local real variable : plant_stalks =     10.0000000000000
-     Manager creating a new local real variable : ratoon_stalks =     10.0000000000000
-     Manager creating a new local real variable : sowing_reset =     0.00000000000000
-     Manager creating a new local real variable : irrigate_flag =     0.00000000000000
-     Manager creating a new local real variable : burn_flag =     1.00000000000000
-     Manager creating a new local real variable : max_irr =     10.0000000000000
-     Manager creating a new local real variable : fasw_irr =    0.500000000000000
-     Manager creating a new local real variable : plant_lag =     30.0000000000000
-     Manager creating a new local real variable : plant_fert =     200.000000000000
-     Manager creating a new local real variable : ratoon_lag =     20.0000000000000
-     Manager creating a new local real variable : ratoon_fert =     200.000000000000
-     Manager creating a new local real variable : dah =     0.00000000000000
-     Manager creating a new local real variable : sample =     0.00000000000000
-     Manager creating a new local real variable : num_irr =     0.00000000000000
+     Manager creating a new local real variable : noratoons = 4.00000
+     Manager creating a new local real variable : dryoff = 30.00000
+     Manager creating a new local real variable : planting_day = 122.00000
+     Manager creating a new local real variable : plantlen = 457.50000
+     Manager creating a new local real variable : ratoonlen = 396.50000
+     Manager creating a new local real variable : plant_stalks = 10.00000
+     Manager creating a new local real variable : ratoon_stalks = 10.00000
+     Manager creating a new local real variable : sowing_reset = 0.00000
+     Manager creating a new local real variable : irrigate_flag = 0.00000
+     Manager creating a new local real variable : burn_flag = 1.00000
+     Manager creating a new local real variable : max_irr = 10.00000
+     Manager creating a new local real variable : fasw_irr = 0.50000
+     Manager creating a new local real variable : plant_lag = 30.00000
+     Manager creating a new local real variable : plant_fert = 200.00000
+     Manager creating a new local real variable : ratoon_lag = 20.00000
+     Manager creating a new local real variable : ratoon_fert = 200.00000
+     Manager creating a new local real variable : dah = 0.00000
+     Manager creating a new local real variable : sample = 0.00000
+     Manager creating a new local real variable : num_irr = 0.00000
 
 ------- apswim Initialisation -------------------------------------------------
      Initialising
@@ -426,7 +426,7 @@ Component      "sugar" = c:\development\apsim\sugar\lib\sugar.dll
      
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : wtdepth =     130.000000000000
+     Manager creating a new local real variable : wtdepth = 130.00000
 1 May 2000(Day of year=122), manager: 
      Manager sending message :- sugar sow  plants = 10, cultivar = q117, sowing_depth = 150
 1 May 2000(Day of year=122), sugar: 

@@ -177,12 +177,12 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      endif
      END of rules
      
-     Manager creating a new local real variable : tiller0_finished =     0.00000000000000
-     Manager creating a new local real variable : tiller1_finished =     0.00000000000000
-     Manager creating a new local real variable : tiller2_finished =     0.00000000000000
-     Manager creating a new local real variable : tiller3_finished =     0.00000000000000
-     Manager creating a new local real variable : tiller4_finished =     0.00000000000000
-     Manager creating a new local real variable : tiller5_finished =     0.00000000000000
+     Manager creating a new local real variable : tiller0_finished = 0.00000
+     Manager creating a new local real variable : tiller1_finished = 0.00000
+     Manager creating a new local real variable : tiller2_finished = 0.00000
+     Manager creating a new local real variable : tiller3_finished = 0.00000
+     Manager creating a new local real variable : tiller4_finished = 0.00000
+     Manager creating a new local real variable : tiller5_finished = 0.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -355,8 +355,8 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : yield_total =     0.00000000000000
-     Manager creating a new local real variable : biomass_total =     0.00000000000000
+     Manager creating a new local real variable : yield_total = 0.00000
+     Manager creating a new local real variable : biomass_total = 0.00000
 10 January 1988(Day of year=10), manager: 
      Manager sending message :- millet sow  plants = 9.0 (plants/m2), sowing_depth = 40 (mm), cultivar = wrajpop
 10 January 1988(Day of year=10), millet: 
@@ -1330,6 +1330,6 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-     Manager creating a new local real variable : crop_in =     0.00000000000000
+     Manager creating a new local real variable : crop_in = 0.00000
 30 December 1988(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.

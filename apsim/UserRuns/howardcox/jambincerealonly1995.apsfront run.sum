@@ -566,22 +566,22 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      endif
      END of rules
      
-     Manager creating a new local real variable : crop_in =     0.00000000000000
-     Manager creating a new local real variable : lucerne_in =     0.00000000000000
+     Manager creating a new local real variable : crop_in = 0.00000
+     Manager creating a new local real variable : lucerne_in = 0.00000
      Manager creating a new local string variable : blank = fallow
      Manager creating a new local string variable : next_crop = fallow
      Manager creating a new local string variable : crop_current = fallow
      Manager creating a new local string variable : crop_sow = fallow
-     Manager creating a new local real variable : ready_for_next =     1.00000000000000
-     Manager creating a new local real variable : ready_to_fert_pre_sow =     0.00000000000000
-     Manager creating a new local real variable : days_last_year =     365.000000000000
-     Manager creating a new local real variable : fert_day_pre_sow =     0.00000000000000
-     Manager creating a new local real variable : ready_to_till_pre_sow =     0.00000000000000
-     Manager creating a new local real variable : till_day_pre_sow =     0.00000000000000
-     Manager creating a new local real variable : sow_year =     0.00000000000000
-     Manager creating a new local real variable : plant_density =     0.00000000000000
-     Manager creating a new local real variable : sorghum_to_harvest =     0.00000000000000
-     Manager creating a new local real variable : wheat_to_harvest =     0.00000000000000
+     Manager creating a new local real variable : ready_for_next = 1.00000
+     Manager creating a new local real variable : ready_to_fert_pre_sow = 0.00000
+     Manager creating a new local real variable : days_last_year = 365.00000
+     Manager creating a new local real variable : fert_day_pre_sow = 0.00000
+     Manager creating a new local real variable : ready_to_till_pre_sow = 0.00000
+     Manager creating a new local real variable : till_day_pre_sow = 0.00000
+     Manager creating a new local real variable : sow_year = 0.00000
+     Manager creating a new local real variable : plant_density = 0.00000
+     Manager creating a new local real variable : sorghum_to_harvest = 0.00000
+     Manager creating a new local real variable : wheat_to_harvest = 0.00000
      Manager creating a new local string variable : crop1 = wheat
      Manager creating a new local string variable : crop2 = sorghum
      Manager creating a new local string variable : crop3 = wf
@@ -602,19 +602,19 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      Manager creating a new local string variable : crop18 = wf
      Manager creating a new local string variable : crop19 = sf
      Manager creating a new local string variable : crop20 = wf
-     Manager creating a new local real variable : next =     1.00000000000000
-     Manager creating a new local real variable : fert_tot =     0.00000000000000
+     Manager creating a new local real variable : next = 1.00000
+     Manager creating a new local real variable : fert_tot = 0.00000
      Manager creating a new local string variable : wheat = wheat
-     Manager creating a new local real variable : nw_yield =     0.00000000000000
-     Manager creating a new local real variable : nw_density =     0.00000000000000
-     Manager creating a new local real variable : nw_ep =     0.00000000000000
-     Manager creating a new local real variable : nw_fert =     0.00000000000000
-     Manager creating a new local real variable : nw_gnp =     0.00000000000000
+     Manager creating a new local real variable : nw_yield = 0.00000
+     Manager creating a new local real variable : nw_density = 0.00000
+     Manager creating a new local real variable : nw_ep = 0.00000
+     Manager creating a new local real variable : nw_fert = 0.00000
+     Manager creating a new local real variable : nw_gnp = 0.00000
      Manager creating a new local string variable : sorghum = sorghum
-     Manager creating a new local real variable : sor_yield =     0.00000000000000
-     Manager creating a new local real variable : sor_density =     0.00000000000000
-     Manager creating a new local real variable : sor_ep =     0.00000000000000
-     Manager creating a new local real variable : sor_fert =     0.00000000000000
+     Manager creating a new local real variable : sor_yield = 0.00000
+     Manager creating a new local real variable : sor_density = 0.00000
+     Manager creating a new local real variable : sor_ep = 0.00000
+     Manager creating a new local real variable : sor_fert = 0.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -751,9 +751,9 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : days_this_year =     366.000000000000
+     Manager creating a new local real variable : days_this_year = 366.00000
 1 May 1940(Day of year=122), manager: 
-     Manager creating a new local real variable : surface_moist =    0.315753358036532
+     Manager creating a new local real variable : surface_moist = 0.31575
 30 June 1940(Day of year=182), manager: 
      Manager sending message :- wheat sow  plants = 80 (/m2), sowing_depth = 30 (mm), cultivar = hartog
 30 June 1940(Day of year=182), wheat: 

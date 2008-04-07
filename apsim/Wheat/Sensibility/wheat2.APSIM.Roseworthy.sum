@@ -121,11 +121,11 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      split_nrate = 0
      END of rules
      
-     Manager creating a new local real variable : in_crop_rain =     0.00000000000000
-     Manager creating a new local real variable : eff_in_crop_rain =     0.00000000000000
+     Manager creating a new local real variable : in_crop_rain = 0.00000
+     Manager creating a new local real variable : eff_in_crop_rain = 0.00000
      Manager creating a new local string variable : cultivar = yitpi
-     Manager creating a new local real variable : nrate =     40.0000000000000
-     Manager creating a new local real variable : split_nrate =     0.00000000000000
+     Manager creating a new local real variable : nrate = 40.00000
+     Manager creating a new local real variable : split_nrate = 0.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -298,7 +298,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1957(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1958(Day of year=60), soilwat2: 
      
          - Reading constants
@@ -331,7 +331,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 16 May 1958(Day of year=136), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 16 May 1958(Day of year=136), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -392,7 +392,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         296.05 (g/m^2)   lai          =   3.766 (m^2/m^2)
                      stover N conc =     3.23 (%)    extractable sw =   38.37 (mm)
 15 August 1958(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 26 September 1958(Day of year=269), Wheat: 
       stage 6.0 flowering
                      biomass =         955.02 (g/m^2)   lai          =   3.314 (m^2/m^2)
@@ -414,8 +414,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =        1471.40 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =   36.39 (mm)
 14 November 1958(Day of year=318), manager: 
-     Manager creating a new local real variable : hi =    0.387221712211267
-     Manager creating a new local real variable : nhi =    0.768122687271707
+     Manager creating a new local real variable : hi = 0.38722
+     Manager creating a new local real variable : nhi = 0.76812
      Manager sending message :- wheat harvest
      
       flowering day          =  269                           stover (kg/ha)         =     9016.4
@@ -492,7 +492,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1959(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1960(Day of year=61), soilwat2: 
      
          - Reading constants
@@ -525,7 +525,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 22 April 1960(Day of year=113), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 22 April 1960(Day of year=113), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -586,7 +586,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         293.57 (g/m^2)   lai          =   3.959 (m^2/m^2)
                      stover N conc =     3.23 (%)    extractable sw =   82.07 (mm)
 15 August 1960(Day of year=228), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 9 September 1960(Day of year=253), Wheat: 
       stage 6.0 flowering
                      biomass =         935.37 (g/m^2)   lai          =   3.396 (m^2/m^2)
@@ -684,7 +684,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 16 April 1961(Day of year=106), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 16 April 1961(Day of year=106), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -749,7 +749,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         611.19 (g/m^2)   lai          =   2.182 (m^2/m^2)
                      stover N conc =     1.42 (%)    extractable sw =   42.75 (mm)
 15 August 1961(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 16 August 1961(Day of year=228), Wheat: 
       stage 7.0 start_grain_fill
                      biomass =         689.30 (g/m^2)   lai          =   1.829 (m^2/m^2)
@@ -843,7 +843,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 18 May 1962(Day of year=138), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 18 May 1962(Day of year=138), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -904,7 +904,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         214.94 (g/m^2)   lai          =   2.828 (m^2/m^2)
                      stover N conc =     3.23 (%)    extractable sw =   39.72 (mm)
 15 August 1962(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 14 September 1962(Day of year=257), Wheat: 
       stage 6.0 flowering
                      biomass =         601.42 (g/m^2)   lai          =   1.231 (m^2/m^2)
@@ -1002,7 +1002,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 28 April 1963(Day of year=118), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 28 April 1963(Day of year=118), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -1063,7 +1063,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         119.68 (g/m^2)   lai          =   1.730 (m^2/m^2)
                      stover N conc =     3.27 (%)    extractable sw =  104.64 (mm)
 15 August 1963(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 26 August 1963(Day of year=238), Wheat: 
       stage 6.0 flowering
                      biomass =         471.53 (g/m^2)   lai          =   1.551 (m^2/m^2)
@@ -1161,7 +1161,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 29 May 1964(Day of year=150), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 29 May 1964(Day of year=150), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -1218,7 +1218,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =           1.19 (g/m^2)   lai          =   0.044 (m^2/m^2)
                      stover N conc =     5.83 (%)    extractable sw =   11.07 (mm)
 15 August 1964(Day of year=228), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 16 August 1964(Day of year=229), Wheat: 
       stage 5.0 floral_initiation
                      biomass =         279.68 (g/m^2)   lai          =   3.755 (m^2/m^2)
@@ -1320,7 +1320,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1965(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1966(Day of year=60), soilwat2: 
      
          - Reading constants
@@ -1353,7 +1353,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 5 May 1966(Day of year=125), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 5 May 1966(Day of year=125), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -1414,7 +1414,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         196.85 (g/m^2)   lai          =   2.641 (m^2/m^2)
                      stover N conc =     3.21 (%)    extractable sw =   35.18 (mm)
 15 August 1966(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 15 September 1966(Day of year=258), Wheat: 
       stage 6.0 flowering
                      biomass =         647.82 (g/m^2)   lai          =   1.536 (m^2/m^2)
@@ -1512,7 +1512,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1967(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1968(Day of year=61), soilwat2: 
      
          - Reading constants
@@ -1545,7 +1545,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 21 May 1968(Day of year=142), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 21 May 1968(Day of year=142), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -1606,7 +1606,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         241.32 (g/m^2)   lai          =   3.320 (m^2/m^2)
                      stover N conc =     3.23 (%)    extractable sw =  116.93 (mm)
 15 August 1968(Day of year=228), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 2 October 1968(Day of year=276), Wheat: 
       stage 6.0 flowering
                      biomass =         938.65 (g/m^2)   lai          =   3.227 (m^2/m^2)
@@ -1704,7 +1704,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 16 May 1969(Day of year=136), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 16 May 1969(Day of year=136), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -1765,7 +1765,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         258.30 (g/m^2)   lai          =   3.434 (m^2/m^2)
                      stover N conc =     3.23 (%)    extractable sw =   59.55 (mm)
 15 August 1969(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 20 September 1969(Day of year=263), Wheat: 
       stage 6.0 flowering
                      biomass =         728.99 (g/m^2)   lai          =   1.910 (m^2/m^2)
@@ -1863,7 +1863,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1970(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1971(Day of year=60), soilwat2: 
      
          - Reading constants
@@ -1896,7 +1896,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 17 April 1971(Day of year=107), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 17 April 1971(Day of year=107), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -1961,7 +1961,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         546.26 (g/m^2)   lai          =   1.947 (m^2/m^2)
                      stover N conc =     1.38 (%)    extractable sw =   90.21 (mm)
 15 August 1971(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 22 August 1971(Day of year=234), Wheat: 
       stage 7.0 start_grain_fill
                      biomass =         645.76 (g/m^2)   lai          =   1.735 (m^2/m^2)
@@ -2055,7 +2055,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 18 May 1972(Day of year=139), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 18 May 1972(Day of year=139), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -2116,7 +2116,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         138.87 (g/m^2)   lai          =   1.873 (m^2/m^2)
                      stover N conc =     3.22 (%)    extractable sw =   19.29 (mm)
 15 August 1972(Day of year=228), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 15 September 1972(Day of year=259), Wheat: 
       stage 6.0 flowering
                      biomass =         460.06 (g/m^2)   lai          =   1.051 (m^2/m^2)
@@ -2214,7 +2214,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 21 April 1973(Day of year=111), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 21 April 1973(Day of year=111), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -2279,7 +2279,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         552.37 (g/m^2)   lai          =   2.020 (m^2/m^2)
                      stover N conc =     1.42 (%)    extractable sw =   63.19 (mm)
 15 August 1973(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 22 August 1973(Day of year=234), Wheat: 
       stage 7.0 start_grain_fill
                      biomass =         638.92 (g/m^2)   lai          =   1.797 (m^2/m^2)
@@ -2373,7 +2373,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 1 May 1974(Day of year=121), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 1 May 1974(Day of year=121), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -2434,7 +2434,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         220.87 (g/m^2)   lai          =   3.022 (m^2/m^2)
                      stover N conc =     3.26 (%)    extractable sw =   72.70 (mm)
 15 August 1974(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 31 August 1974(Day of year=243), Wheat: 
       stage 6.0 flowering
                      biomass =         715.22 (g/m^2)   lai          =   2.541 (m^2/m^2)
@@ -2532,7 +2532,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 13 May 1975(Day of year=133), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 13 May 1975(Day of year=133), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -2593,7 +2593,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         218.71 (g/m^2)   lai          =   2.998 (m^2/m^2)
                      stover N conc =     3.26 (%)    extractable sw =   43.08 (mm)
 15 August 1975(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 8 September 1975(Day of year=251), Wheat: 
       stage 6.0 flowering
                      biomass =         646.66 (g/m^2)   lai          =   2.072 (m^2/m^2)
@@ -2691,7 +2691,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1976(Day of year=228), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1977(Day of year=60), soilwat2: 
      
          - Reading constants
@@ -2724,7 +2724,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1977(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1978(Day of year=60), soilwat2: 
      
          - Reading constants
@@ -2757,7 +2757,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 11 May 1978(Day of year=131), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 11 May 1978(Day of year=131), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -2818,7 +2818,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         231.20 (g/m^2)   lai          =   3.140 (m^2/m^2)
                      stover N conc =     3.22 (%)    extractable sw =   87.60 (mm)
 15 August 1978(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 17 September 1978(Day of year=260), Wheat: 
       stage 6.0 flowering
                      biomass =         843.61 (g/m^2)   lai          =   2.789 (m^2/m^2)
@@ -2916,7 +2916,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1979(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1980(Day of year=61), soilwat2: 
      
          - Reading constants
@@ -2949,7 +2949,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 19 April 1980(Day of year=110), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 19 April 1980(Day of year=110), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -3018,7 +3018,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         334.96 (g/m^2)   lai          =   0.834 (m^2/m^2)
                      stover N conc =     1.17 (%)    extractable sw =   46.89 (mm)
 15 August 1980(Day of year=228), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 21 September 1980(Day of year=265), Wheat: 
       stage 8.0 end_grain_fill
                      biomass =         514.61 (g/m^2)   lai          =   0.319 (m^2/m^2)
@@ -3108,7 +3108,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1981(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1982(Day of year=60), soilwat2: 
      
          - Reading constants
@@ -3141,7 +3141,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 27 April 1982(Day of year=117), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 27 April 1982(Day of year=117), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -3202,7 +3202,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         222.76 (g/m^2)   lai          =   3.056 (m^2/m^2)
                      stover N conc =     3.24 (%)    extractable sw =   41.95 (mm)
 15 August 1982(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 24 August 1982(Day of year=236), Wheat: 
       stage 6.0 flowering
                      biomass =         549.63 (g/m^2)   lai          =   0.868 (m^2/m^2)
@@ -3300,7 +3300,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 4 May 1983(Day of year=124), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 4 May 1983(Day of year=124), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -3361,7 +3361,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         319.93 (g/m^2)   lai          =   4.226 (m^2/m^2)
                      stover N conc =     3.22 (%)    extractable sw =   59.99 (mm)
 15 August 1983(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 6 September 1983(Day of year=249), Wheat: 
       stage 6.0 flowering
                      biomass =         918.19 (g/m^2)   lai          =   3.645 (m^2/m^2)
@@ -3459,7 +3459,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1984(Day of year=228), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1985(Day of year=60), soilwat2: 
      
          - Reading constants
@@ -3492,7 +3492,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 April 1985(Day of year=105), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 15 April 1985(Day of year=105), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -3561,7 +3561,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         656.22 (g/m^2)   lai          =   2.002 (m^2/m^2)
                      stover N conc =     1.36 (%)    extractable sw =   62.12 (mm)
 15 August 1985(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 28 September 1985(Day of year=271), Wheat: 
       stage 8.0 end_grain_fill
                      biomass =        1045.11 (g/m^2)   lai          =   0.622 (m^2/m^2)
@@ -3651,7 +3651,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1986(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1987(Day of year=60), soilwat2: 
      
          - Reading constants
@@ -3684,7 +3684,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 28 May 1987(Day of year=148), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 28 May 1987(Day of year=148), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -3741,7 +3741,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =           1.12 (g/m^2)   lai          =   0.043 (m^2/m^2)
                      stover N conc =     5.84 (%)    extractable sw =   29.57 (mm)
 15 August 1987(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 15 August 1987(Day of year=227), Wheat: 
       stage 5.0 floral_initiation
                      biomass =         290.20 (g/m^2)   lai          =   3.796 (m^2/m^2)
@@ -3843,7 +3843,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 17 May 1988(Day of year=138), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 17 May 1988(Day of year=138), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -3904,7 +3904,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         226.67 (g/m^2)   lai          =   3.107 (m^2/m^2)
                      stover N conc =     3.24 (%)    extractable sw =   69.01 (mm)
 15 August 1988(Day of year=228), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 11 September 1988(Day of year=255), Wheat: 
       stage 6.0 flowering
                      biomass =         652.63 (g/m^2)   lai          =   1.476 (m^2/m^2)
@@ -4002,7 +4002,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 10 May 1989(Day of year=130), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 10 May 1989(Day of year=130), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -4063,7 +4063,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         243.14 (g/m^2)   lai          =   3.328 (m^2/m^2)
                      stover N conc =     3.25 (%)    extractable sw =   52.22 (mm)
 15 August 1989(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 19 September 1989(Day of year=262), Wheat: 
       stage 6.0 flowering
                      biomass =         818.31 (g/m^2)   lai          =   2.124 (m^2/m^2)
@@ -4161,7 +4161,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1990(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1991(Day of year=60), soilwat2: 
      
          - Reading constants
@@ -4194,7 +4194,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 4 June 1991(Day of year=155), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 4 June 1991(Day of year=155), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -4255,7 +4255,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         211.35 (g/m^2)   lai          =   2.929 (m^2/m^2)
                      stover N conc =     3.26 (%)    extractable sw =   64.02 (mm)
 15 August 1991(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 27 September 1991(Day of year=270), Wheat: 
       stage 6.0 flowering
                      biomass =         740.02 (g/m^2)   lai          =   2.167 (m^2/m^2)
@@ -4353,7 +4353,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 May 1992(Day of year=136), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 15 May 1992(Day of year=136), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -4414,7 +4414,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         222.44 (g/m^2)   lai          =   2.603 (m^2/m^2)
                      stover N conc =     3.17 (%)    extractable sw =   22.29 (mm)
 15 August 1992(Day of year=228), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 21 September 1992(Day of year=265), Wheat: 
       stage 6.0 flowering
                      biomass =         718.15 (g/m^2)   lai          =   2.155 (m^2/m^2)
@@ -4512,7 +4512,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1993(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1994(Day of year=60), soilwat2: 
      
          - Reading constants
@@ -4545,7 +4545,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 7 June 1994(Day of year=158), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 7 June 1994(Day of year=158), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -4602,7 +4602,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =           1.12 (g/m^2)   lai          =   0.043 (m^2/m^2)
                      stover N conc =     5.84 (%)    extractable sw =   14.16 (mm)
 15 August 1994(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 22 August 1994(Day of year=234), Wheat: 
       stage 5.0 floral_initiation
                      biomass =         254.88 (g/m^2)   lai          =   2.384 (m^2/m^2)
@@ -4704,7 +4704,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 10 June 1995(Day of year=161), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 10 June 1995(Day of year=161), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -4761,7 +4761,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =           1.14 (g/m^2)   lai          =   0.044 (m^2/m^2)
                      stover N conc =     5.83 (%)    extractable sw =   13.48 (mm)
 15 August 1995(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 24 August 1995(Day of year=236), Wheat: 
       stage 5.0 floral_initiation
                      biomass =         229.76 (g/m^2)   lai          =   2.544 (m^2/m^2)
@@ -4863,7 +4863,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 1996(Day of year=228), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 1997(Day of year=60), soilwat2: 
      
          - Reading constants
@@ -4896,7 +4896,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 5 May 1997(Day of year=125), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 5 May 1997(Day of year=125), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -4957,7 +4957,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         100.66 (g/m^2)   lai          =   0.448 (m^2/m^2)
                      stover N conc =     4.01 (%)    extractable sw =    0.77 (mm)
 15 August 1997(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 12 September 1997(Day of year=255), Wheat: 
       stage 6.0 flowering
                      biomass =         131.37 (g/m^2)   lai          =   0.112 (m^2/m^2)
@@ -5055,7 +5055,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 April 1998(Day of year=105), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 15 April 1998(Day of year=105), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -5120,7 +5120,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         319.45 (g/m^2)   lai          =   0.936 (m^2/m^2)
                      stover N conc =     1.31 (%)    extractable sw =   42.76 (mm)
 15 August 1998(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 21 August 1998(Day of year=233), Wheat: 
       stage 7.0 start_grain_fill
                      biomass =         368.60 (g/m^2)   lai          =   0.817 (m^2/m^2)
@@ -5214,7 +5214,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 26 May 1999(Day of year=146), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 26 May 1999(Day of year=146), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -5275,7 +5275,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         167.02 (g/m^2)   lai          =   1.118 (m^2/m^2)
                      stover N conc =     3.29 (%)    extractable sw =   13.17 (mm)
 15 August 1999(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 24 September 1999(Day of year=267), Wheat: 
       stage 6.0 flowering
                      biomass =         254.98 (g/m^2)   lai          =   0.219 (m^2/m^2)
@@ -5373,7 +5373,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 15 August 2000(Day of year=228), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 1 March 2001(Day of year=60), soilwat2: 
      
          - Reading constants
@@ -5406,7 +5406,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 19 May 2001(Day of year=139), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 19 May 2001(Day of year=139), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -5467,7 +5467,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         242.21 (g/m^2)   lai          =   3.243 (m^2/m^2)
                      stover N conc =     3.26 (%)    extractable sw =   49.72 (mm)
 15 August 2001(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 19 September 2001(Day of year=262), Wheat: 
       stage 6.0 flowering
                      biomass =         829.60 (g/m^2)   lai          =   2.658 (m^2/m^2)
@@ -5565,7 +5565,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                       Effective Cover from Surface Materials =   0.3
      
 20 May 2002(Day of year=140), manager: 
-     Manager sending message :- fertiliz apply  amount = 40.0000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 40.00000, type = no3_n, depth = 5 (mm)
 20 May 2002(Day of year=140), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -5626,7 +5626,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      biomass =         249.61 (g/m^2)   lai          =   2.972 (m^2/m^2)
                      stover N conc =     3.16 (%)    extractable sw =   41.34 (mm)
 15 August 2002(Day of year=227), manager: 
-     Manager sending message :- fertiliz apply  amount = 0.00000000000000, type = no3_n, depth = 5 (mm)
+     Manager sending message :- fertiliz apply  amount = 0.00000, type = no3_n, depth = 5 (mm)
 21 September 2002(Day of year=264), Wheat: 
       stage 6.0 flowering
                      biomass =         443.04 (g/m^2)   lai          =   0.365 (m^2/m^2)

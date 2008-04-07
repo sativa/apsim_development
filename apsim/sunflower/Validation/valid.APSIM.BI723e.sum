@@ -124,9 +124,9 @@ Component  "sunflower" = c:\development\apsim\CropMod\lib\CropMod.dll
         geno = 1
      END of rules
      
-     Manager creating a new local real variable : crop_growing =     0.00000000000000
-     Manager creating a new local real variable : sow_day =     60.0000000000000
-     Manager creating a new local real variable : geno =     1.00000000000000
+     Manager creating a new local real variable : crop_growing = 0.00000
+     Manager creating a new local real variable : sow_day = 60.00000
+     Manager creating a new local real variable : geno = 1.00000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -361,12 +361,12 @@ Component  "sunflower" = c:\development\apsim\CropMod\lib\CropMod.dll
      
      
      
-     Manager creating a new local real variable : frac_stored_water =    0.954370233613398
-     Manager creating a new local real variable : paw =     233.248108000000
-     Manager creating a new local real variable : atsw =     233.248108000000
-     Manager creating a new local real variable : cum_et =     1.00000000000000
-     Manager creating a new local real variable : supply_demand_ratio =     0.00000000000000
-     Manager creating a new local real variable : dw1000gr =     0.00000000000000
+     Manager creating a new local real variable : frac_stored_water = 0.95437
+     Manager creating a new local real variable : paw = 233.24811
+     Manager creating a new local real variable : atsw = 233.24811
+     Manager creating a new local real variable : cum_et = 1.00000
+     Manager creating a new local real variable : supply_demand_ratio = 0.00000
+     Manager creating a new local real variable : dw1000gr = 0.00000
 2 March 1973(Day of year=61), sunflower: 
       stage    2.0 germination
 7 March 1973(Day of year=66), sunflower: 
