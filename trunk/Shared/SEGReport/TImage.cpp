@@ -15,15 +15,18 @@ __fastcall ::TImage::TImage(TComponent* Owner)
 void __fastcall ::TImage::Loaded(void)
    {
    TgtQRImage::Loaded();
-   if (ImageAsLink && FileExists(FileName))
-      Picture->LoadFromFile(FileName);
-   else
-      Picture = NULL;
+   if (ImageAsLink)
+      {
+      if (FileExists(FileName))
+         Picture->LoadFromFile(FileName);
+      else
+         Picture = NULL;
+      }
    }
 //---------------------------------------------------------------------------
 void __fastcall ::TImage::SetLink(bool link)
    {
-   FImageAsLink = true;
+   FImageAsLink = link;
    }
 //---------------------------------------------------------------------------
 void __fastcall ::TImage::SetFileName(AnsiString FileName)
@@ -32,7 +35,7 @@ void __fastcall ::TImage::SetFileName(AnsiString FileName)
       {
       if (FileExists(FileName))
          Picture->LoadFromFile(FileName);
-      else
+      else if(ImageAsLink)
          Picture = NULL;
       FFileName = FileName;
       }

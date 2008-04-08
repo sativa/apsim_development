@@ -219,6 +219,7 @@ void Report::load(const string& fileName, bool quiet, bool safe)
       contents << in.rdbuf();
       in.close();
       loadFromContents(contents.str(), quiet);
+      refreshAllPages();
       Screen->Cursor = savedCursor;
       }
    }
