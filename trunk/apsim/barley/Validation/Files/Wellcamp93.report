@@ -1,19 +1,19 @@
 <report version="5">
 <Data>
-<ApsimFileReader name="ApsimFileReader1" Left="0" Top="0">
+<ApsimFileReader name="ApsimFileReader1" Left="0" Top="0" Width="162" Height="150">
   <FileName type="filenames">Barley_Well360_1.out</FileName>
 </ApsimFileReader>
-<REMS name="REMS1" Left="200" Top="0">
+<REMS name="REMS1" Left="200" Top="0" Width="148" Height="234">
   <FileName type="filename">Barley.mdb</FileName>
   <Experiment type="experiment">Well360</Experiment>
-  <Treatment type="treatment">Grimmett </Treatment>
+  <Treatment type="treatment">Grimmett</Treatment>
   <DataSource type="datasource">Crop</DataSource>
 </REMS>
 </Data>
    <page> <![CDATA[
 object TQuickRep
-  Left = 0
-  Top = 97
+  Left = 156
+  Top = 103
   Width = 845
   Height = 653
   Frame.Color = clBlack
