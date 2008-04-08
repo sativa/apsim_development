@@ -91,6 +91,8 @@ OBJFILES=PlantComponent.obj \
    Phenology\LeafAppPhase.obj \
    Photosynthesis\PhotosynthesisModel.obj \
    Photosynthesis\RUEModel.obj \
+   Photosynthesis\Weather.obj \
+   Photosynthesis\SUCROSModel.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
     $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -206,6 +208,8 @@ Phenology\WheatPhenology.obj: Phenology\WheatPhenology.cpp Phenology\WheatPhenol
 
 Photosynthesis\PhotosynthesisModel.obj:    Photosynthesis\PhotosynthesisModel.cpp    Photosynthesis\PhotosynthesisModel.h
 Photosynthesis\RUEModel.obj: Photosynthesis\RUEModel.cpp Photosynthesis\RUEModel.h
+Photosynthesis\Weather.obj: Photosynthesis\Weather.cpp Photosynthesis\Weather.h
+Photosynthesis\SUCROSModel.obj: Photosynthesis\SUCROSModel.cpp Photosynthesis\SUCROSModel.h
 Arbitrators\NullArbitrator.obj:  Arbitrators\NullArbitrator.cpp Arbitrators\NullArbitrator.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
 Arbitrators\GenericArbitrator.obj: Arbitrators\GenericArbitrator.cpp Arbitrators\GenericArbitrator.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
 Arbitrators\GenericArbitratorXY.obj: Arbitrators\GenericArbitratorXY.cpp Arbitrators\GenericArbitratorXY.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
