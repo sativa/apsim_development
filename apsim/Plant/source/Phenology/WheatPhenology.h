@@ -1,9 +1,8 @@
-#ifndef WHEATPHENOLOGY_H
-#define WHEATPHENOLOGY_H
+#ifndef WHEATPHENOLOGYH
+#define WHEATPHENOLOGYH
 
-#include "CropPhenology.h"
-
-class WheatPhenology : public PlantPhenology {
+#include "Phenology.h"
+class WheatPhenology : public Phenology {
  private:
    // State variables
 
@@ -28,7 +27,7 @@ class WheatPhenology : public PlantPhenology {
 
  public:
    WheatPhenology(ScienceAPI& scienceAPI, plantInterface *p)
-      : PlantPhenology(scienceAPI, p) {};
+      : Phenology(scienceAPI, p) {};
 
    void readConstants (protocol::Component *, const string &);              // read structure etc from constants
    void onInit1(protocol::Component *);

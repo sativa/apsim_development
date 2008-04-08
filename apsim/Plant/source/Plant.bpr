@@ -8,12 +8,10 @@
       Plant.obj PlantCanopy.obj PlantLibrary.obj PlantNitrogen.obj 
       PlantBiomass.obj PlantP.obj Environment.obj CompositePart.obj 
       PlantPart.obj PlantSpatial.obj Phenology\WheatPhenology.obj 
-      Phenology\BroccoliPhenology.obj Phenology\CompositePhase.obj 
-      Phenology\CropPhenology.obj Phenology\EmergentPhase.obj 
+      Phenology\CompositePhase.obj Phenology\EmergentPhase.obj 
       Phenology\FixedPhase.obj Phenology\GenericPhenology.obj 
       Phenology\LeafAppPhase.obj Phenology\Phase.obj Phenology\PhotoPhase.obj 
-      Phenology\PlantPhenology.obj Phenology\TTTPhenology.obj 
-      Phenology\TTTRatePhenology.obj Phenology\VernalPhase.obj 
+      Phenology\TTTPhenology.obj Phenology\VernalPhase.obj 
       Arbitrators\NullArbitrator.obj Arbitrators\arbitrator.obj 
       Arbitrators\GenericArbitrator.obj Reproductive\PodPart.obj 
       Reproductive\FruitCohort.obj Reproductive\GrainPart.obj 
@@ -34,7 +32,8 @@
       Reproductive\PlantFruitCohorting.obj Leaf\GenericLeaf.obj Leaf\Leaf.obj 
       Leaf\CohortingLeaf.obj Stem.obj Reproductive\GrainPartFN.obj 
       Reproductive\PodPartFN.obj Photosynthesis\RUEModel.obj 
-      Photosynthesis\PhotosynthesisModel.obj ThingFactory.obj"/>
+      Photosynthesis\PhotosynthesisModel.obj ThingFactory.obj 
+      Phenology\Phenology.obj Photosynthesis\SUCROSModel.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -94,18 +93,14 @@
       <FILE FILENAME="PlantPart.cpp" FORMNAME="" UNITNAME="PlantPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantSpatial.cpp" FORMNAME="" UNITNAME="PlantSpatial" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\WheatPhenology.cpp" FORMNAME="" UNITNAME="WheatPhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Phenology\BroccoliPhenology.cpp" FORMNAME="" UNITNAME="BroccoliPhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\CompositePhase.cpp" FORMNAME="" UNITNAME="CompositePhase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Phenology\CropPhenology.cpp" FORMNAME="" UNITNAME="CropPhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\EmergentPhase.cpp" FORMNAME="" UNITNAME="EmergentPhase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\FixedPhase.cpp" FORMNAME="" UNITNAME="FixedPhase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\GenericPhenology.cpp" FORMNAME="" UNITNAME="GenericPhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\LeafAppPhase.cpp" FORMNAME="" UNITNAME="LeafAppPhase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\Phase.cpp" FORMNAME="" UNITNAME="Phase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\PhotoPhase.cpp" FORMNAME="" UNITNAME="PhotoPhase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Phenology\PlantPhenology.cpp" FORMNAME="" UNITNAME="PlantPhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\TTTPhenology.cpp" FORMNAME="" UNITNAME="TTTPhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Phenology\TTTRatePhenology.cpp" FORMNAME="" UNITNAME="TTTRatePhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\VernalPhase.cpp" FORMNAME="" UNITNAME="VernalPhase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Arbitrators\NullArbitrator.cpp" FORMNAME="" UNITNAME="NullArbitrator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Arbitrators\arbitrator.cpp" FORMNAME="" UNITNAME="arbitrator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -160,6 +155,8 @@
       <FILE FILENAME="Photosynthesis\RUEModel.cpp" FORMNAME="" UNITNAME="RUEModel.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Photosynthesis\PhotosynthesisModel.cpp" FORMNAME="" UNITNAME="PhotosynthesisModel.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ThingFactory.cpp" FORMNAME="" UNITNAME="ThingFactory" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Phenology\Phenology.cpp" FORMNAME="" UNITNAME="Phenology" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Photosynthesis\SUCROSModel.cpp" FORMNAME="" UNITNAME="SUCROSModel" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

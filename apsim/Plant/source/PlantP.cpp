@@ -19,7 +19,7 @@ using namespace std;
 
 #include "Plant.h"
 #include "Reproductive/PlantFruit.h"
-#include "Phenology/PlantPhenology.h"
+#include "Phenology/Phenology.h"
 
 
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";

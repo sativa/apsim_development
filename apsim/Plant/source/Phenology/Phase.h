@@ -1,9 +1,9 @@
-#ifndef PLANTPHENOLOGYPHASE_H
-#define PLANTPHENOLOGYPHASE_H
+#ifndef PhaseH
+#define PhaseH
 
 #include <string>
 
-class PlantPhenology;
+class Phenology;
 class Environment;
 class Output;
 
@@ -47,7 +47,7 @@ class pPhase
      virtual string description(void)  {return "";};
      virtual void readCultivarParameters(protocol::Component *s, const string & cultivar){};
      virtual void readSpeciesParameters (protocol::Component *, std::vector<string> &){};
-     virtual void updateTTTargets(PlantPhenology &parent){};
+     virtual void updateTTTargets(Phenology &parent){};
      virtual void onSow(protocol::ApsimVariant incomingApsimVariant){};
      virtual void setupTTTarget(void){};
      virtual void GetOutputs(std::vector <Output*> &Outputs){};

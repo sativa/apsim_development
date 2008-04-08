@@ -1,5 +1,5 @@
-#ifndef PLANTPHENOLOGYCOMPOSITEPHASE_H
-#define PLANTPHENOLOGYCOMPOSITEPHASE_H
+#ifndef CompositePhaseH
+#define CompositePhaseH
 
 #include "Phase.h"
 #include <vector>

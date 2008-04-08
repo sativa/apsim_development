@@ -1,17 +1,17 @@
 #include "StdPlant.h"
 
-#include "PlantPhenology.h"
+#include "Phenology.h"
 #include "TTTPhenology.h"
 #include "Environment.h"
 
 void TTTPhenology::zeroDeltas(void)
    {
-   CropPhenology::zeroDeltas();
+   Phenology::zeroDeltas();
    dlt_cumvd = 0.0;
    }
 void TTTPhenology::zeroAllGlobals(void)
    {
-   CropPhenology::zeroAllGlobals();
+   Phenology::zeroAllGlobals();
    est_days_emerg_to_init = 0;
    cumvd = 0.0;
    }
@@ -19,7 +19,7 @@ void TTTPhenology::zeroAllGlobals(void)
 
 void TTTPhenology::readConstants (protocol::Component *s, const string &section)
    {
-   CropPhenology::readConstants(s, section);
+   Phenology::readConstants(s, section);
    s->writeString("phenology model: TTT");
    }
 
@@ -108,7 +108,7 @@ void TTTPhenology::updateTTTargets()
 
 void TTTPhenology::readCultivarParameters(protocol::Component *s, const string & cultivar)
    {
-   CropPhenology::readCultivarParameters(s, cultivar);
+   Phenology::readCultivarParameters(s, cultivar);
 
    scienceAPI.read("est_days_emerg_to_init", est_days_emerg_to_init, 0, 100);
 
@@ -138,7 +138,7 @@ void TTTPhenology::readCultivarParameters(protocol::Component *s, const string &
 
 void TTTPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
    {
-   CropPhenology::readSpeciesParameters (s, sections);
+   Phenology::readSpeciesParameters (s, sections);
 
    vernal_days.read(scienceAPI,
                        "x_vernal_temp", "(oc)", -10., 60.0,
@@ -366,7 +366,7 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
 
 void TTTPhenology::prepare()
    {
-   CropPhenology::prepare();
+   Phenology::prepare();
    photoperiod = plant->environment().dayLength(twilight);
 
    updateTTTargets();
@@ -374,7 +374,7 @@ void TTTPhenology::prepare()
 
 void TTTPhenology::onInit1(protocol::Component *s)
    {
-   CropPhenology::onInit1(s);
+   Phenology::onInit1(s);
    s->addGettableVar("dlt_cumvd", dlt_cumvd,   "", "Todays vd");
    }
 

@@ -17,7 +17,7 @@ namespace protocol {
   class ApsimGetQueryData;
 };
 class Environment;
-class PlantPhenology;
+class Phenology;
 class pheno_stress_t;
 class Co2Modifier;
 class CompositePart;
@@ -87,7 +87,7 @@ class plantInterface {
 
       virtual const Co2Modifier *getCo2Modifier(void) = 0;
       virtual Environment& environment() = 0;
-      virtual const PlantPhenology  *getPhenology(void) = 0;
+      virtual const Phenology  *getPhenology(void) = 0;
       virtual const string & getCropType(void) = 0;
       virtual protocol::Component *getComponent(void) = 0;
 };

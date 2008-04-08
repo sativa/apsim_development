@@ -1,9 +1,9 @@
 #ifndef GenericPhenologyH
 #define GenericPhenologyH
 
-#include "CropPhenology.h"
+#include "Phenology.h"
 
-class GenericPhenology : public PlantPhenology
+class GenericPhenology : public Phenology
    {
    protected:
       float photoperiod;
@@ -11,7 +11,7 @@ class GenericPhenology : public PlantPhenology
 
    public:
       GenericPhenology(ScienceAPI& scienceAPI, plantInterface *p)
-         : PlantPhenology(scienceAPI, p) {};
+         : Phenology(scienceAPI, p) {};
       void prepare();
       void process(const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
       void readConstants (protocol::Component *, const string &);

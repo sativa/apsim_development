@@ -2,7 +2,7 @@
 
 #include "Phase.h"
 #include "LeafAppPhase.h"
-#include "PlantPhenology.h"
+#include "Phenology.h"
 #include "Utility/OutputVariable.h"
 
 void LeafAppPhase::reset()
@@ -46,7 +46,7 @@ void LeafAppPhase::readSpeciesParameters (protocol::Component *s, vector<string>
 
 
 
-void LeafAppPhase::updateTTTargets(PlantPhenology &parent)
+void LeafAppPhase::updateTTTargets(Phenology &parent)
 //=======================================================================================
    {
    if (parent.inPhase("leaf_initiation"))

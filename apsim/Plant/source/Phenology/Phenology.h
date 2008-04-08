@@ -6,8 +6,8 @@
 ///define phases between any two stages
 
 
-#ifndef PLANTPHENOLOGY_H
-#define PLANTPHENOLOGY_H
+#ifndef PhenologyH
+#define PhenologyH
 
 #include <algorithm>
 #include <vector>
@@ -33,7 +33,7 @@ class Environment;
 // A "composite phase" is a group of one or more phases.
 
 // An abstract phenology class.
-class PlantPhenology : public plantThing {
+class Phenology : public plantThing {
  private:
  protected:
    // The plant to talk to for "plant" things
@@ -90,7 +90,7 @@ class PlantPhenology : public plantThing {
 
 
  public:
-   PlantPhenology(ScienceAPI& scienceAPI, plantInterface *p);
+   Phenology(ScienceAPI& scienceAPI, plantInterface *p);
    virtual void writeCultivarInfo (protocol::Component *)=0;
    virtual void readConstants (protocol::Component *, const string &);                // read structure etc from constants
    virtual void onInit1(protocol::Component *);
@@ -132,8 +132,6 @@ class PlantPhenology : public plantThing {
    virtual void zeroAllGlobals(void);
    virtual void zeroDeltas(void);
 };
-
-PlantPhenology * constructPhenology(ScienceAPI& scienceAPI, plantInterface *plant, const string &name);
 
 #endif
 

@@ -47,7 +47,7 @@ void VernalPhase::readSpeciesParameters (protocol::Component *s, vector<string> 
    }
 
 
-void VernalPhase::updateTTTargets(PlantPhenology &/* parent*/)
+void VernalPhase::updateTTTargets(Phenology &/* parent*/)
 //=======================================================================================
    {
    //dlt_cumvd = vernal_days.value((e.maxt + e.mint)*0.5);

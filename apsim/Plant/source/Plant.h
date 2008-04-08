@@ -2,7 +2,7 @@
 #define PlantH
 
 class ApsimVariant;
-class PlantPhenology;
+class Phenology;
 class plantPart;
 class SimplePart;
 class Stem;
@@ -62,7 +62,7 @@ private:
    Stem  *stemPart;
    Leaf  *leafPart;
    RootBase  *rootPart;
-   PlantPhenology *phenology;
+   Phenology *phenology;
    plantPart     *fruitPart;
    Population population;
 
@@ -316,7 +316,7 @@ public:
 
    Environment* _environment;
    Environment& environment() {return *_environment;};
-   const PlantPhenology  *getPhenology(void) {return phenology;};
+   const Phenology  *getPhenology(void) {return phenology;};
 
 private:
    /* system interface: */
