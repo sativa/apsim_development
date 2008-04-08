@@ -108,7 +108,7 @@ void CompositePart::createParts()
       if (names.size() == 0)
          names.push_back(types[i]);
 
-      things.push_back(createThing(scienceAPI, types[i], names[i]));
+      things.push_back(createThing(scienceAPI, *plant, types[i], names[i]));
       }
    }
 void CompositePart::add(plantPart* part)

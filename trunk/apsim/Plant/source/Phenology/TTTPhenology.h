@@ -1,9 +1,9 @@
 #ifndef TTTPhenologyH
 #define TTTPhenologyH
 
-#include "CropPhenology.h"
+#include "Phenology.h"
 
-class TTTPhenology : public CropPhenology {
+class TTTPhenology : public Phenology {
  protected:
    // states
 
@@ -39,7 +39,7 @@ class TTTPhenology : public CropPhenology {
 
  public:
    TTTPhenology(ScienceAPI& scienceAPI, plantInterface *p)
-      : CropPhenology(scienceAPI, p) {};
+      : Phenology(scienceAPI, p) {};
    void prepare();
    void process(const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
    void onInit1(protocol::Component *);

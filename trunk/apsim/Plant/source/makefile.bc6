@@ -75,16 +75,13 @@ OBJFILES=PlantComponent.obj \
    Delta.obj \
    Biomass.obj \
    ThingFactory.obj \
-   Phenology\PlantPhenology.obj \
+   Phenology\Phenology.obj \
    Phenology\Phase.obj \
    Phenology\CompositePhase.obj \
    Phenology\TTTPhenology.obj \
-   Phenology\CropPhenology.obj \
-   Phenology\TTTRatePhenology.obj \
    Phenology\WheatPhenology.obj \
    Phenology\FixedPhase.obj \
    Phenology\VernalPhase.obj \
-   Phenology\BroccoliPhenology.obj \
    Phenology\GenericPhenology.obj \
    Phenology\PhotoPhase.obj \
    Phenology\EmergentPhase.obj \
@@ -136,7 +133,7 @@ clean:
     del $(OBJFILES) *.bak *.csm
 
 PlantComponent.obj: PlantComponent.cpp plant.h
-Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\PlantPhenology.h Reproductive\PlantFruit.h PlantPart.h SimplePart.h Leaf\Leaf.h
+Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\Phenology.h Reproductive\PlantFruit.h PlantPart.h SimplePart.h Leaf\Leaf.h
 PlantBiomass.obj: PlantBiomass.cpp PlantLibrary.h
 PlantCanopy.obj: PlantCanopy.cpp PlantLibrary.h
 PlantComms.obj: PlantComms.cpp PlantLibrary.h
@@ -192,16 +189,13 @@ PlantStress.obj: PlantStress.cpp PlantStress.h
 Co2Modifier.obj: Co2Modifier.cpp Co2Modifier.h
 ThingFactory.obj: ThingFactory.cpp ThingFactory.h
 StageBasedInterpolationFunction.obj: StageBasedInterpolationFunction.cpp StageBasedInterpolationFunction.h
-Phenology\PlantPhenology.obj: Phenology\PlantPhenology.cpp Phenology\PlantPhenology.h
-Phenology\BroccoliPhenology.obj: Phenology\BroccoliPhenology.cpp Phenology\BroccoliPhenology.h
+Phenology\Phenology.obj: Phenology\Phenology.cpp Phenology\Phenology.h
 Phenology\FixedPhase.obj: Phenology\FixedPhase.cpp Phenology\FixedPhase.h
 Phenology\VernalPhase.obj: Phenology\VernalPhase.cpp Phenology\VernalPhase.h
 Phenology\GenericPhenology.obj: Phenology\GenericPhenology.cpp Phenology\GenericPhenology.h
 Phenology\PhotoPhase.obj: Phenology\PhotoPhase.cpp Phenology\PhotoPhase.h
 Phenology\EmergentPhase.obj: Phenology\EmergentPhase.cpp Phenology\EmergentPhase.h
 Phenology\TTTPhenology.obj: Phenology\TTTPhenology.cpp Phenology\TTTPhenology.h
-Phenology\CropPhenology.obj: Phenology\CropPhenology.cpp Phenology\CropPhenology.h
-Phenology\TTTRatePhenology.obj: Phenology\TTTRatePhenology.cpp Phenology\TTTRatePhenology.h
 Phenology\CompositePhase.obj: Phenology\CompositePhase.cpp Phenology\CompositePhase.h
 Phenology\Phase.obj: Phenology\Phase.cpp Phenology\Phase.h
 Phenology\WheatPhenology.obj: Phenology\WheatPhenology.cpp Phenology\WheatPhenology.h

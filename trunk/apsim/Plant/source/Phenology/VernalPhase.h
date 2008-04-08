@@ -18,7 +18,7 @@ class VernalPhase : public pPhase
       void readSpeciesParameters (protocol::Component *, std::vector<string> &);
       VernalPhase(ScienceAPI& scienceAPI, plantInterface* plant, const string& stage_name)
          : pPhase (scienceAPI, plant, stage_name){};
-      void updateTTTargets(PlantPhenology &parent);
+      void updateTTTargets(Phenology &parent);
       void GetOutputs(std::vector <Output*> &Outputs);
       virtual void reset();
       virtual string description();

@@ -6,6 +6,7 @@
     
    <options>
       <Environment/>
+      <GenericPhenology/>
    </options>
    <RadiationPartitioningOrder>floret leaf</RadiationPartitioningOrder>
     
@@ -53,7 +54,6 @@
    SECTION 1 - CROP PHENOLOGY: Stage and Phase names
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     -->
-   <phenology_model>generic</phenology_model>
    <stage_code_list>1         2          3         4                5               6           7</stage_code_list>
    <stage_names>sowing germination emergence end_of_juvenile floral_initiation buttoning maturity</stage_names>
    <!-- phase_type =  generic  generic     generic     generic         generic       generic   generic

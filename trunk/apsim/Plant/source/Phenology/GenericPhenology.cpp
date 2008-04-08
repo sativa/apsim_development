@@ -1,13 +1,12 @@
 #include "StdPlant.h"
 
-#include "PlantPhenology.h"
 #include "GenericPhenology.h"
 #include "Environment.h"
 
 void GenericPhenology::readConstants (protocol::Component *s, const string &section)
 //=======================================================================================
    {
-   PlantPhenology::readConstants(s, section);
+   Phenology::readConstants(s, section);
    s->writeString("phenology model: Generic");
    }
 
@@ -24,7 +23,7 @@ void GenericPhenology::setupTTTargets(void)
 void GenericPhenology::readCultivarParameters(protocol::Component *s, const string & cultivar)
 //=======================================================================================
    {
-   PlantPhenology::readCultivarParameters(s, cultivar);
+   Phenology::readCultivarParameters(s, cultivar);
    for(unsigned i=0; i!= phases.size();i++)
       {
       phases[i]->readCultivarParameters(s, cultivar);
@@ -48,7 +47,7 @@ void GenericPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
 void GenericPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
 //=======================================================================================
    {
-   PlantPhenology::readSpeciesParameters (s, sections);
+   Phenology::readSpeciesParameters (s, sections);
    for(unsigned i=0; i!= phases.size();i++)
       {
       phases[i]->readSpeciesParameters(s, sections);
@@ -244,7 +243,7 @@ void GenericPhenology::onRemoveBiomass(float removeBiomPheno)
 void GenericPhenology::prepare ()
 //=======================================================================================
    {
-   PlantPhenology::prepare();
+   Phenology::prepare();
    photoperiod = plant->environment().dayLength(twilight);
 
    for(unsigned i=0; i!= phases.size();i++)

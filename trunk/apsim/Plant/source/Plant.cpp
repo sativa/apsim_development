@@ -2,7 +2,7 @@
 
 #include "Plant.h"
 #include "CompositePart.h"
-#include "Phenology/PlantPhenology.h"
+#include "Phenology/Phenology.h"
 #include "Leaf/Leaf.h"
 #include "Reproductive/PlantFruit.h"
 #include "Stem.h"
@@ -121,6 +121,8 @@ Plant::Plant(protocol::Component *P, ScienceAPI& api)
 
    plant.createParts();
    _environment = dynamic_cast<Environment*> (plant.get("environment"));
+   phenology    = dynamic_cast<Phenology*>   (plant.get("phenology"));
+   myThings.push_back(phenology);
 
     nStress = new NStress(scienceAPI, parent);
     pStress = new PStress(scienceAPI, parent);
@@ -161,11 +163,6 @@ void Plant::onInit1(void)
     plant_zero_all_globals();
 
    population.Initialise();
-
-    string phenologyModel;
-    scienceAPI.readOptional("phenology_model", phenologyModel);         //FIXME Belongs in Phenology?
-    phenology = constructPhenology(scienceAPI, this, phenologyModel);
-    myThings.push_back(phenology);
 
     string rootModel;
     scienceAPI.readOptional("root_part", rootModel);                     //FIXME belongs in root?

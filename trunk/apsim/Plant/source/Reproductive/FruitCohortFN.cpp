@@ -2,6 +2,7 @@
 
 #include "FruitCohortFN.h"
 #include "Environment.h"
+#include "ThingFactory.h"
 using namespace std;
 
 // ##############################################################
@@ -17,7 +18,8 @@ FruitCohortFN::FruitCohortFN(ScienceAPI& scienceAPI, plantInterface *p, const st
 {
     string phenologyModel;
     scienceAPI.readOptional("phenology_model", phenologyModel);
-    fruitPhenology = constructPhenology(scienceAPI, plant, phenologyModel);
+
+    fruitPhenology = dynamic_cast<Phenology*> (createThing(scienceAPI, *plant, "Phenology", phenologyModel));
 }
 
 // destructor
