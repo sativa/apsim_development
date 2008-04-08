@@ -2,9 +2,9 @@
 
 #include "ThingFactory.h"
 #include "Environment.h"
-#include "TTTPhenology.h"
-#include "GenericPhenology.h"
-#include "WheatPhenology.h"
+#include "Phenology/TTTPhenology.h"
+#include "Phenology/GenericPhenology.h"
+#include "Phenology/WheatPhenology.h"
 //---------------------------------------------------------------------------
 // This function creates parts.
 //---------------------------------------------------------------------------
