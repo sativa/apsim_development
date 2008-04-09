@@ -30,7 +30,9 @@ class PatchInputComponent : public InputComponent
       unsigned returnDataMethodID;
       std::vector<std::string> patchVariablesLongTerm;
       typedef std::map<unsigned, protocol::NewMetType> PatchData;
-      PatchData patchData;
+      PatchData patchDataByDayNumber;
+      PatchData patchDataByDate;
+
       bool haveReadPatchData;
       boost::gregorian::date patchDate;
       unsigned unpatchedMaxTID;
