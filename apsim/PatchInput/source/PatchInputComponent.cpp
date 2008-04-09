@@ -251,7 +251,7 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
                setVariable(variableID, var->asFloat());
                }
             }
-         if (patchData.size() > 0)
+         if (patchDataByDayNumber.size() > 0)
             setPatchData();
          }
       }
@@ -266,7 +266,8 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
          if (gregorian_calendar::is_leap_year(d.year()))
             dayNumber--;
 
-         patchData.insert(make_pair(dayNumber, data[i]));
+         patchDataByDayNumber.insert(make_pair(dayNumber, data[i]));
+         patchDataByDate.insert(make_pair(data[i].today, data[i]));
          }
       }
    else if (eventID != tickID)  // stop the tick event going to base class.
@@ -282,8 +283,20 @@ void PatchInputComponent::setPatchData()
    unsigned dayNumber = day_of_year(todaysDate);
    if (gregorian_calendar::is_leap_year(todaysDate.year()) && dayNumber >= 61)
       dayNumber--;
-   PatchData::iterator i = patchData.find(dayNumber);
-   if (i == patchData.end())
+   PatchData::iterator i;
+   bool found;
+   if (patchAllYears)
+      {
+      i = patchDataByDayNumber.find(dayNumber);
+      found = (i != patchDataByDayNumber.end());
+      }
+   else
+      {
+      i = patchDataByDate.find(todaysDate.julian_day());
+      found = (i != patchDataByDate.end());
+      }
+
+   if (!found)
       {
       string msg = "Cannot find patch data from INPUT component for date ";
       msg += to_iso_extended_string(todaysDate);
