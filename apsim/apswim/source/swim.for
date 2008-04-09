@@ -175,6 +175,7 @@ cnh      if(p%isol.ne.1.or.fail)go to 90
       endif
 
 *     solve for solute movement
+cnh      call getsol(a(0),b(0),c(0),d(0),rhs(0),dp(0),vbp(0),fail)
 
       do 80 solnum = 1,p%num_solutes
          call apswim_getsol
@@ -203,23 +204,35 @@ cnh
             Use infrastructure
       implicit none
 
+*     Global Variables
+cnh      double precision cevap            ! function
+
+
 *     Subroutine Arguments
       integer istat
       double precision tresp
 
 *     Internal Variables
+cnh      double precision frac
       integer          i
       integer          iveg
       integer          j
       double precision rep
       double precision rldi
       double precision sep          ! soil evaporation demand
+cnh      double precision sfrac
       integer          solnum
+cnh      double precision tfrac
+      double precision tot_pep
+      double precision trf(MV)
       double precision start_of_day
       double precision end_of_day
       double precision TD_Eo
 
 *     Constant Values
+
+c      double precision rad    ! set root radius rad (alter as required)
+c      parameter (rad=0.1d0)
 
       double precision pi
       parameter (pi=3.141593d0)
@@ -249,8 +262,17 @@ cnh
 
          TD_Eo = apswim_cevap(end_of_day)-apswim_cevap(start_of_day)
 
+         tot_pep = 0d0
+         do 10 iveg=1,g%nveg
+            trf(iveg) = apswim_transp_redn (iveg)
+            tot_pep = tot_pep + ddivide(g%pep(iveg)*trf(iveg)
+     :                                 ,TD_Eo
+     :                                 , 0d0)
+     :                        * rep*g%dt
+  10     continue
+
          do 50 j=1,g%nveg
-            g%rtp(j) = ddivide(g%pep(j),TD_Eo, 0d0)*rep
+            g%rtp(j) = ddivide(g%pep(j)*trf(j),TD_Eo, 0d0)*rep
 50       continue
 
          ! pot soil evap rate is not linked to apsim timestep
@@ -258,8 +280,11 @@ cnh
 
          do 60 iveg=1,g%nveg
             do 60 i=0,p%n
+cnh               g%rld(i,iveg)=g%rld(i,iveg)/p%dx(i)
                if(g%rld(i,iveg).lt.1d-20)g%rld(i,iveg)=1d-20
                rldi=g%rld(i,iveg)
+cnh now use root_raidus as in initialisation file
+cnh               g%rc(i,iveg)=-log(pi*rad**2*rldi)/(4.*pi*rldi*p%dx(i))
 
                g%rc(i,iveg)=-log(pi*g%root_radius(iveg)**2*rldi)
      :                        /(4.*pi*rldi*p%dx(i))
@@ -426,12 +451,22 @@ cnh - end subroutine
          ifirst=0
          ilast=p%n
          if(p%itbc.eq.2.and.g%hold.gt.0.)ifirst=-1
+cnh         if(p%ibbc.eq.0)gr=grad(g%t)
+cnh now uses constant gradient from input file
          if (p%ibbc.eq.0)gr = p%constant_gradient
 
          if(p%ibbc.eq.1)then
+cnh            g%psi(p%n)=potl(g%t)
+cnh now uses constant potential from input file
             g%psi(p%n) = p%constant_potential
+
             g%p(p%n)=apswim_pf(g%psi(p%n))
          end if
+cnh added to allow seepage to user potential at bbc
+ccnh - now deleted as it is pickup up below
+c         if(p%ibbc.eq.3)then
+c            g%psi(p%n) = p%constant_potential
+c         endif
 
       end if
 ***   get soil water variables and their derivatives
@@ -447,8 +482,11 @@ cnh - end subroutine
          call apswim_watvar(0,g%p(0),v1,psip(0),psipp(0),g%th(0),thp(0),
      1               g%hk(0),hkp(0))
       end if
+cnh added to allow seepage to user potential at bbc
+cnh      if(p%ibbc.eq.3.and.g%psi(p%n).gt.0.)then
       if(p%ibbc.eq.3.and.g%psi(p%n).gt.p%constant_potential)then
 *        seepage at bottom boundary
+cnh         g%psi(p%n)=0.
          g%psi(p%n)=p%constant_potential
          g%p(p%n)=apswim_pf(g%psi(p%n))
          call apswim_watvar(p%n,g%p(p%n),v1,psip(p%n),psipp(p%n)
@@ -513,6 +551,14 @@ c                     value=min(1d0,value)
 20    continue
 ***   get uptake fluxes to roots if still in iterations
       if(iroots.lt.2)then
+cnh         if(tisol.eq.1.and.tslos.ne.0.)then
+cnh            do 22 i=0,p%n
+cnh22          psios(i)=g%psi(i)-tslos*tcsl(i)
+cnh            call uptake(psios,g%hk,psip,hkp,g%qex,qexp)
+cnh         else
+cnh            call uptake(g%psi,g%hk,psip,hkp,g%qex,qexp)
+cnh         end if
+cnh replaced with the following
          do 23 i=0,p%n
             psios(i) = g%psi(i)
             do 22 solnum=1,nsol
@@ -520,6 +566,7 @@ c                     value=min(1d0,value)
    22       continue
    23    continue
          call apswim_uptake(psios,g%hk,psip,hkp,g%qex,qexp)
+cnh
       end if
       g%rex=0.
       do 25 i=0,p%n
@@ -710,6 +757,7 @@ c                     value=min(1d0,value)
       else if(p%ibbc.eq.3)then
 **       seepage
 cnh added to allow seepage to user potential at bbc
+cnh         if(g%psi(p%n).ge.0.)then
          if(g%psi(p%n).ge.p%constant_potential) then
             g%q(p%n+1)=g%q(p%n)-g%qs(p%n)-g%qex(p%n)+g%qssif(p%n)
      :                -g%qssof(p%n)
@@ -844,6 +892,8 @@ cnh added to allow seepage to user potential at bbc
       double precision dum1
       double precision dum2(0:M)
       double precision exco1
+      double precision exco2
+      double precision exco3
       double precision fq
       double precision fqc
       integer          crop
@@ -943,11 +993,13 @@ cnh added to allow seepage to user potential at bbc
 *     get eqn coeffs
 *     get production and storage components
 cnh      call slprod
+      g%rslprd(solnum)=0.
       do 45 i=0,p%n
          c1(i)=g%csl(solnum,i)
          thi=g%th(i)
 cnh         j=indxsl(solnum,i)
          j = i
+         g%rslprd(solnum)=g%rslprd(solnum)+g%qslprd(solnum,i)
          nonlin=.FALSE.
 
 *Peter's CHANGE 21/10/98 to ensure zero exchange is treated as linear
@@ -957,22 +1009,27 @@ cnh         j=indxsl(solnum,i)
 *           linear exchange isotherm
             c2(i)=1.
             exco1=p%ex(solnum,j)
+            exco2=p%betaex(solnum,j)
+            exco3 = 0d0
          else
 *           nonlinear Freundlich exchange isotherm
             nonlin=.TRUE.
             c2(i)=0.
             if(c1(i).gt.0.)c2(i)=c1(i)**(p%fip(solnum,j)-1.)
             exco1=p%ex(solnum,j)*p%fip(solnum,j)*c2(i)
+            exco2=p%betaex(solnum,j)*p%fip(solnum,j)*c2(i)
+            exco3=p%betaex(solnum,j)*(1.-p%fip(solnum,j))*c2(i)
          end if
-         b(i)=(-(thi+exco1)/g%dt)*p%dx(i)
+         b(i)=(-(thi+exco1)/g%dt+p%alpha(solnum,j)*thi+exco2)*p%dx(i)
 cnh     1        apswim_slupf(1,solnum)*g%qex(i)-g%qssof(i)
      1        -g%qssof(i)
          do 44 crop=1,g%num_crops
             b(i) = b(i) - apswim_slupf(crop,solnum)*g%qr(i,crop)
    44    continue
 cnh     1        p%slupf(solnum)*g%qex(i)
-         rhs(i)= -(g%csl(solnum,i)*((g%thold(i)+exco1)
-     :                 /g%dt))*p%dx(i)
+         rhs(i)=-g%qslprd(solnum,i)
+     :          -(g%csl(solnum,i)*((g%thold(i)+exco1)
+     :                 /g%dt+exco3))*p%dx(i)
          g%qsls(solnum,i)=
      :          -(g%csl(solnum,i)*(g%thold(i)+p%ex(solnum,j)*c2(i))/
      :          g%dt)*p%dx(i)
@@ -1150,9 +1207,10 @@ cnh               kk=indxsl(solnum,i)
      :              *(g%csl(solnum,i)*cp-c1(i)*c2(i))
                   c1(i)=g%csl(solnum,i)
                   c2(i)=cp
-                  b(j)=b(j)-(p%ex(solnum,kk)/g%dt)
+                  b(j)=b(j)-(p%ex(solnum,kk)/g%dt-p%betaex(solnum,kk))
      :                 *d1*p%dx(i)
-                  rhs(j)=rhs(j)+(p%ex(solnum,kk)/g%dt)
+                  rhs(j)=rhs(j)+(p%ex(solnum,kk)/g%dt
+     :                            -p%betaex(solnum,kk))
      :                          *d2*p%dx(i)
                end if
 67          continue
@@ -1226,6 +1284,7 @@ cnh               kk=indxsl(solnum,i)
 75    continue
       g%slp(solnum)=0.
       g%rslex(solnum)=0.
+      g%rsldec(solnum)=0.
       do 80 i=0,p%n
 cnh         j=indxsl(solnum,i)
          j = i
@@ -1237,10 +1296,16 @@ cnh         j=indxsl(solnum,i)
          end if
          g%cslt(solnum,i)=(g%th(i)+p%ex(solnum,j)*cp)*g%csl(solnum,i)
          g%slp(solnum)=g%slp(solnum)+g%cslt(solnum,i)*p%dx(i)
+cnh         g%rslex(solnum)=g%rslex(solnum)+g%qex(i)*g%csl(solnum,i)*p%slupf(solnum)
+cnh         g%rslex(solnum)=g%rslex(solnum)+g%qex(i)*g%csl(solnum,i)
+cnh     :                *apswim_slupf(1,solnum)
          do 79 crop=1,g%num_Crops
             g%rslex(solnum)=g%rslex(solnum)+g%qr(i,crop)*g%csl(solnum,i)
      :                *apswim_slupf(crop,solnum)
    79    continue
+         g%rsldec(solnum)=g%rsldec(solnum)
+     :           -(p%alpha(solnum,j)*g%th(i)+p%betaex(solnum,j)*cp)
+     :           *p%dx(i)*g%csl(solnum,i)
          g%qsls(solnum,i)=g%qsls(solnum,i)+
      :           (g%csl(solnum,i)*(g%thold(i)+p%ex(solnum,j)*cp)/g%dt)*
      :           p%dx(i)
@@ -1253,7 +1318,10 @@ cnh         j=indxsl(solnum,p%n)
 cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
 cnh     :              -g%qex(p%n)*g%csl(solnum,p%n)*apswim_slupf(1,solnum)
      :              -g%qssof(p%n)*g%csl(solnum,p%n)
-
+     :              +g%qslprd(solnum,p%n)
+     :              +(p%alpha(solnum,j)*g%th(p%n)
+     :              +p%betaex(solnum,j)*cp)
+     :              *p%dx(p%n)*g%csl(solnum,p%n)
          do 81 crop=1,g%num_crops
             g%qsl(solnum,p%n+1)=g%qsl(solnum,p%n+1)
      :      -g%qr(p%n,crop)*g%csl(solnum,p%n)*apswim_slupf(crop,solnum)
@@ -1646,6 +1714,12 @@ cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
 
       call apswim_trans(tp,tpsi,psip,psipp)
 
+cnh   assume no hysteresis
+cnh      jhys=0...........etc  removed
+
+cnh - got rid of old calculation for interpolating inputs - used the new
+cnh   method.  note apswim_interp allows for hysteresis in calculating
+cnh   moisture characteristic and g%hk curve.
       call apswim_interp (ix,tpsi,tth,thd,hklg,hklgd)
 
       thk=exp(al10*hklg)
@@ -1654,6 +1728,12 @@ cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
          thp=(thd*psip)/(al10*tpsi)
          hkp=(thk*hklgd*psip)/tpsi
       end if
+
+cnd no hysteresis
+c      if(jhys.ne.0)then
+c         thp=tdc*thp
+c         hkp=tdc*hkp
+c      end if
 
       thsat = p%wc(ix,1) ! NOTE: this assumes that the wettest p%wc is
                         ! first in the pairs of log suction vs p%wc
@@ -1696,6 +1776,13 @@ cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
 *     Constant Values
 *     none
 *
+cnh      g=p%g0
+cnh      gh=0.
+cnh      if(p%grc.ne.0..and.ttt.gt.tzero)then
+cnhcnh         g=p%g0+(p%g1-p%g0)*exp(-(eqrain(ttt)-eqr0)/p%grc)
+cnh         g=p%g0+(p%g1-p%g0)*exp(-(apswim_eqrain(ttt)-eqr0)/p%grc)
+cnh      end if
+
       g_ = g%gsurf
       gh = 0d0
 
@@ -1731,6 +1818,12 @@ cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
 *     none
 
 *
+cnh      g%hmin=p%hm0
+cnh      if(p%hrc.ne.0..and.ttt.gt.tzero)then
+cnhcnh         g%hmin=p%hm0+(p%hm1-p%hm0)*exp(-(eqrain(ttt)-eqr0)/p%hrc)
+cnh         g%hmin=p%hm0+(p%hm1-p%hm0)*exp(-(apswim_eqrain(ttt)-eqr0)/p%hrc)
+cnh      end if
+
       if(tth.gt.g%hmin)then
          v=p%roff0*(tth-g%hmin)**(p%roff1-1d0)
          ttroff=v*(tth-g%hmin)
@@ -1744,6 +1837,62 @@ cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
       end subroutine
 
 
+* =====================================================================
+      integer function ihys(hyscon,d,x0,x0new,x,dc)
+* =====================================================================
+*     Short description:
+*     allows drying curve to be used for scanning or wetting
+*     d is distance between curves on linear (d<0) or log (d>0) scale_of
+*     adjusts p%x (g%psi or log10(-g%psi)) and gets derivative correction g%dc
+*     gets new reference point x0new on drying curve if necessary
+*     returns 0, 1 or 2 for drying, scanning or wetting curve
+*
+      Use infrastructure
+      implicit none
+
+*     Global Variables
+
+
+*     Subroutine Arguments
+cnh NOT SURE ARGUMENT TYPE IS CORRECT.
+c      real d
+      double precision d
+      double precision dc
+      double precision hyscon
+      double precision x
+c      real x0
+c      real x0new
+      double precision x0
+      double precision x0new
+
+*     Internal Variables
+
+      double precision z
+
+*     Constant Values
+*     none
+
+*
+
+      print*,'hysteresis is in effect!!!!!!!'
+      ihys=0
+      x0new=x0
+      dc=1d0
+      if(d.eq.0.)return
+      z=(x-x0)/(-d*hyscon)
+      if(z.le.0d0)then
+         x0new=x
+      else if(z.lt.1d0)then
+         ihys=1
+         x=x0-d*z*(hyscon+z*(2d0*z-3d0))
+         dc=1d0+6d0*z*(z-1d0)/hyscon
+      else
+         ihys=2
+         x0new=x+d*hyscon
+         x=x+d
+      end if
+
+      end function
 *
       subroutine map(n,x,y,M,u,v)
 *     maps concentration in y into v so that integral is conserved

@@ -40,8 +40,35 @@
       integer MP
       parameter (MP=25) ! originally = 100
 
+!cnh      integer MPSL
+!cnh      parameter (MPSL=11) ! originally = 101
+
+      integer MDRT, MTRT
+      parameter (MDRT=11,MTRT=15) ! originally = 21 and 25
+
+      integer MTB
+      parameter (MTB = 50) ! originally 500
+
+      integer MTE
+      parameter (MTE=50) ! originally 500
+
+      integer MTR
+      parameter (MTR=50) ! originally 500
+
+      integer MTS
+      parameter (MTS=50) ! originally 500
+
+!cnh      integer MTSPR
+!cnh      parameter (MTSPR=25)
+
       integer MV
       parameter (MV=10)
+
+!cnh      integer MDSL
+!cnh      parameter (MDSL=11)
+
+!cnh      integer MTSL
+!cnh      parameter (MTSL=11)
 
       integer SWIMLogSize
       parameter (SWIMLogSize = 1000)
@@ -63,6 +90,14 @@
 
       integer strsize
       parameter (strsize = 50)
+
+
+      integer LUNrain
+      parameter (LUNrain = 10)
+
+      integer LUNevap
+      parameter (LUNevap = 11)
+
 
 
 ! =====================================================================
@@ -147,8 +182,13 @@
          double precision slex (nsol)
          double precision slbp (nsol)
          double precision slinf (nsol)
+         double precision slh0 (nsol)
+         double precision slsadd (nsol)
          double precision slp (nsol)
+         double precision slp0 (nsol)
          double precision sldrn (nsol)
+         double precision sldec (nsol)
+         double precision slprd (nsol)
 
          double precision dc(nsol,M)
          double precision csl(nsol,0:M)
@@ -160,6 +200,9 @@
          double precision rslon (nsol)
          double precision rsloff (nsol)
          double precision rslex (nsol)
+         double precision rsldec (nsol)
+         double precision rslprd (nsol)
+         double precision qslprd(nsol,0:M)
 
          logical demand_is_met(MV,nsol)
 
@@ -208,6 +251,7 @@
          double precision cover_green_sum
 
          double precision hbp
+         double precision hbp0
          double precision hbpold
          double precision qbp
          double precision qbpd
@@ -224,6 +268,11 @@
          double precision cslold(nsol,0:M)
          double precision cslstart(nsol,0:M)
 
+         double precision hyscon
+
+         double precision hys(0:M)
+         double precision hysref(0:M)
+         double precision hysdry(0:M)
 
          logical crops_found
          double precision psix(MV)
@@ -235,7 +284,11 @@
       Type APSwimParameters
          sequence
          integer          specification_type  ! type of soil specs to be used
+         character        rainfall_source*50       ! source of rainfall data
+         character        rainfall_file*50
          character        evap_source*50
+         character        evap_file*50         ! file containing evap data
+         character        evap_curve*5
          character        echo_directives*5
          real             salb
 
@@ -294,6 +347,9 @@
 
          double precision dis(nsol,0:M)
          double precision ex(nsol,0:M)
+         double precision alpha(nsol,0:M)
+         double precision beta(nsol,0:M)
+         double precision betaex(nsol,0:M)
          double precision cslgw(nsol)
          double precision slupf (nsol)
          double precision slos (nsol)
@@ -335,7 +391,20 @@
 ! =====================================================================
       Type APSwimConstants
          sequence
-         double precision lb_solute, ub_solute
+         double precision
+     :       lb_exco ,ub_exco
+     :      ,lb_fip ,ub_fip
+     :      ,lb_dis ,ub_dis
+     :      ,lb_slupf ,ub_slupf
+     :      ,lb_slos ,ub_slos
+     :      ,lb_d0 ,ub_d0
+     :      ,lb_a ,ub_a
+     :      ,lb_dthc ,ub_dthc
+     :      ,lb_dthp ,ub_dthp
+     :      ,lb_disp ,ub_disp
+     :      ,lb_solute, ub_solute
+
+         integer          num_trf_asw
 
          real             min_crit_temp
          real             max_crit_temp
@@ -344,6 +413,8 @@
 
          double precision max_bitesize
          double precision supply_fraction
+         double precision trf_asw (max_table)
+         double precision trf_value (max_table)
          double precision a_to_evap_fact
          double precision canopy_eos_coef
 
@@ -370,9 +441,103 @@
       type (APSwimConstants),pointer :: c
       type (IDsType),pointer :: id
 
+
+
+
+! =====================================================================
+!     APSWIM Unused - Not required from SWIM Standalone Version
+! =====================================================================
+!cnh      integer itime
+!cnh      integer idepth
+!cnh      double precision slxc
+!cnh      double precision slpmax
+!cnh      double precision slpc1
+!cnh      double precision slpc2
+!cnh      double precision scycle
+!cnh      double precision asl1
+!cnh      double precision bsl1
+!cnh      double precision asl2
+!cnh      double precision bsl2
+
+!cnh      integer ndrt(MV)
+!cnh      integer ntrt(MV)
+
+!cnh      real drt(MDRT,MV)
+!cnh      real trt(MTRT,MV)
+!cnh      real grt(MDRT,MTRT,MV)
+
+!cnh      integer ifts
+!cnh      integer ists
+!cnh      integer its
+!cnh      integer lus
+!cnh      real    ts(2,1:MTS)
+
+!c      double precision t0
+!c      double precision tfin
+!c      double precision tcycle
+
+!cnh      double precision effpar
+!cnh      integer iftr
+!cnh      integer istr
+!cnh      integer itr
+!cnh      integer lur
+!cnh      real tr(2,1:MTR)
+!cnh      real teqr(2,1:MTR)
+
+!c      double precision effpar
+
+!cnh      integer ifte
+!cnh      integer iste
+!cnh      integer ite
+!cnh      integer lue
+!cnh      real te(2,1:MTE)
+
+!cnh      real tspr(2,1:MTSPR)
+!cnh      integer luspr
+!cnh      integer istspr
+!cnh      integer iftspr
+!cnh      integer itspr
+
+!cnh      real dsl(MDSL)
+!cnh      real tsl(MTSL)
+!cnh      real psl(MDSL,MTSL)
+!cnh      integer ndsl
+!cnh      integer ntsl
+
+!cnh      integer lub
+!cnh      integer istb
+!cnh      integer iftb
+!cnh      integer itb
+!cnh      real    tb(2,1:MTB)
+
+!cnh       double precision xc(MV)
+!cnh       double precision rldmax(MV)
+!cnh       double precision fevmax(MV)
+!cnh       double precision vcycle(MV)
+!cnh       double precision arld1(MV)
+!cnh       double precision brld1(MV)
+!cnh       double precision arld2(MV)
+!cnh       double precision brld2(MV)
+
+!cnh      double precision tzero
+!cnh      double precision eqr0
+
+!cnh      integer          igrow(MV)
+!cnh      integer          iroot(MV)
+
+!cnh      double precision pint
+
+!cnh      integer indxsl(nsol,0:M)
+!cnh      double precision wtint(0:M)
+
 ! =====================================================================
 
+
+
       contains
+
+
+
 
 * ====================================================================
        subroutine apswim_Reset ()
@@ -425,6 +590,35 @@
 
       ! calculate anything swim needs from input parameters
       call apswim_init_calc ()
+
+      ! read in rainfall information
+      if (p%rainfall_source .eq. 'file') then
+            ! read in rainfall if it is not to be supplied by APSIM
+            ! assume that rainfall source is then a file name.
+
+         open (UNIT=LUNrain, IOSTAT=iost, FILE=p%rainfall_file)
+
+         if (iost .ne. 0) then
+            call Fatal_Error (err_internal,
+     :                    'cannot open rainfall file')
+         else
+         endif
+      else
+      endif
+
+      ! read in evaporation information
+      if (p%evap_source .eq. 'file') then
+
+         open (UNIT=LUNevap, IOSTAT=iost, FILE=p%evap_file)
+
+         if (iost .ne. 0) then
+              call Fatal_Error (err_internal,
+     :                    'cannot open evaporation file')
+         else
+         endif
+
+      else
+      endif
 
       ! check all inputs for errors
       call apswim_check_inputs()
@@ -488,6 +682,18 @@
       if (numvals.eq.0) then
          p%specification_type = 1
       endif
+
+         ! Read in vol. soil water from parameter file
+
+c      call read_double_array (
+c     :              init_section,
+c     :              'sw',
+c     :              max_layer,
+c     :              '(cc/cc)',
+c     :              sw,
+c     :              numvals,
+c     :              0.0d0,
+c     :              1.0d0)
 
          ! Read in minimum log suction from parameter file
 
@@ -926,6 +1132,28 @@
 
          ! ------------------ Climate Information ------------------
 
+         ! Read in rainfall file name from parameter file
+
+      call Read_char_var (
+     :              climate_section,
+     :              'rainfall_source',
+     :              '()',
+     :              p%rainfall_source,
+     :              numvals)
+      if (p%rainfall_source.eq.'file') then
+         call Read_char_var (
+     :              climate_section,
+     :              'rainfall_file',
+     :              '()',
+     :              p%rainfall_file,
+     :              numvals)
+
+      elseif (p%rainfall_source.eq.'apsim') then
+         p%rainfall_source = 'rain'
+      endif
+
+         ! Read in evap file name from parameter file
+
       call Read_char_var (
      :              climate_section,
      :              'evap_source',
@@ -936,7 +1164,23 @@
          call fatal_error(Err_User
      :       ,'Sum_Demands no longer supported for evap data'
      :       //' - use calc, file or variable name.')
+      else if (p%evap_source.eq.'file') then
+         call Read_char_var (
+     :              climate_section,
+     :              'evap_file',
+     :              '()',
+     :              p%evap_file,
+     :              numvals)
+
       endif
+
+      call Read_char_var_optional (
+     :              climate_section,
+     :              'evap_curve',
+     :              '()',
+     :              p%evap_curve,
+     :              numvals)
+
          ! Read in soil albedo from parameter file
 
       call Read_real_var (
@@ -1254,6 +1498,15 @@
      :           -50.0,
      :           50.0)
 
+c      ! get potential evapotranspiration
+c
+c      ret_string = get_variable_value('potet')
+c      read(ret_string, *, iostat = err_code) g%potet
+c
+c      ! get rainfall for this timestep
+c
+c      ret_string = get_variable_value('rain')
+c      read(ret_string, *, iostat = err_code) g%rain
 
       return
       end subroutine
@@ -1474,7 +1727,24 @@
      :            '(??)',
      :            g%psi(0),
      :            p%n+1)
+      else if ((Variable_name .eq. 'rain').and.
+     :         (p%rainfall_source .ne. 'rain')) then
+!      else if (Variable_name .eq. 'rain') then
 
+         start_of_day = apswim_time (g%year,g%day,
+     :                               apswim_time_to_mins(g%apsim_time))
+         end_of_day = apswim_time (g%year
+     :                            ,g%day
+     :                            ,apswim_time_to_mins(g%apsim_time)
+     :                                +int(g%apsim_timestep))
+
+         daily_rain = (apswim_crain(end_of_day)-
+     :                     apswim_crain(start_of_day))*10d0
+
+         call respond2Get_double_var (
+     :            Variable_name,
+     :            '(mm)',
+     :            daily_rain)
       else if (Variable_name .eq. 'runoff') then
          call respond2Get_double_var (
      :            Variable_name,
@@ -1657,6 +1927,11 @@ cnh      print*,g%TD_pevap
      :            '(min)',
      :            g%dt*60d0)
 
+!      else if (Variable_name .eq. 'crop_cover') then
+!         call respond2Get_double_var (
+!     :            Variable_name,
+!     :            '(0-1)',
+!     :            g%crop_cover)
 
 cnh added as per request by Dr Val Snow
 
@@ -1812,8 +2087,8 @@ cnh added as per request by Dr Val Snow
      :              '()',
      :              sol_exco(0),
      :              numvals,
-     :              0d0,
-     :              15000d0)
+     :              c%lb_exco,
+     :              c%ub_exco)
 
          do 300 node=0,numvals-1
             p%ex(solnum,node) = sol_exco(node)*p%rhob(node)
@@ -1828,8 +2103,8 @@ cnh added as per request by Dr Val Snow
      :              '()',
      :              sol_dis(0),
      :              numvals,
-     :              0d0,
-     :              20d0)
+     :              c%lb_dis,
+     :              c%ub_dis)
 
          do 400 node=0,numvals-1
             p%dis(solnum,node) = sol_dis(node)
@@ -1909,7 +2184,7 @@ cnh added as per request by Dr Val Snow
        integer solnum
 
 *- Implementation Section ----------------------------------
-
+      p%rainfall_source = ' '
       p%evap_source = ' '
       g%SWIMRainNumPairs = 1
       g%SWIMEvapNumPairs = 1
@@ -2022,6 +2297,7 @@ cnh*      common/bypass/p%ibp,p%gbp,p%sbp,g%hbp,g%hbp0,g%hbpold,g%qbp,g%qbpd,slb
       p%gbp = 0d0
       p%sbp = 0d0
       g%hbp = 0d0
+      g%hbp0 = 0d0
       g%hbpold = 0d0
       g%qbp = 0d0
       g%qbpd = 0d0
@@ -2037,6 +2313,9 @@ cnh      slbp0 = 0d0
 * =====================================================================
       do 20 counter = 0,M
 c         wtint(counter) = 0.d0
+         g%hys(counter) = 0.d0
+         g%hysref(counter) = 0.d0
+         g%hysdry(counter) = 0.d0
          ! removed old swimv2 index variable as it clashes with
          ! fortran intrinsic function name.
          ! index(counter,1) = 0
@@ -2063,6 +2342,7 @@ c         wtint(counter) = 0.d0
   211 continue
 
       p%ivap = 0
+      g%hyscon = 0d0
 
 * =====================================================================
 *      common/solute/g%slon,g%sloff,g%slex,g%slbp,g%slinf,g%slh0,g%slsadd,g%slp,g%slp0,
@@ -2074,8 +2354,13 @@ c         wtint(counter) = 0.d0
          g%slex(counter) = 0d0
          g%slbp(counter) = 0d0
          g%slinf(counter) = 0d0
+         g%slh0(counter) = 0d0
+         g%slsadd(counter) = 0d0
          g%slp(counter) = 0d0
+         g%slp0(counter) = 0d0
          g%sldrn(counter) = 0d0
+         g%sldec(counter) = 0d0
+         g%slprd(counter) = 0d0
          do 78 node=0,M
             g%cslold(counter,node) = 0d0
    78    continue
@@ -2098,12 +2383,15 @@ c         wtint(counter) = 0.d0
             g%cslt(counter,node)=0d0
             g%qsl(counter,node)=0d0
             g%qsls(counter,node)=0d0
+            g%qslprd(counter,node)=0d0
    23    continue
          g%slsur(counter) = 0d0
          g%cslsur(counter) = 0d0
          g%rslon(counter) = 0d0
          g%rsloff(counter) = 0d0
          g%rslex(counter) = 0d0
+         g%rsldec(counter) = 0d0
+         g%rslprd(counter) = 0d0
    24 continue
 
 * =====================================================================
@@ -2116,6 +2404,8 @@ c         wtint(counter) = 0.d0
          do 30 counter2 = 0,M
             p%dis(counter,counter2)=0d0
             p%ex(counter,counter2)=0d0
+            p%alpha(counter,counter2)=0d0
+            p%betaex(counter,counter2)=0d0
             p%fip(counter,counter2)=0d0
    30    continue
 
@@ -2134,6 +2424,39 @@ c            indxsl(counter,counter2)=0
 
    32 continue
 
+cnh      itime = 0
+cnh      idepth = 0
+cnh      slxc = 0d0
+cnh      slpmax = 0d0
+cnh      slpc1 = 0d0
+cnh      slpc2 = 0d0
+cnh      scycle = 0d0
+cnh      asl1 = 0d0
+cnh      bsl1 = 0d0
+cnh      asl2 = 0d0
+cnh      bsl2 = 0d0
+
+
+* =====================================================================
+*      common/solprt/luspr,istspr,iftspr,itspr,tspr
+* =====================================================================
+cnh      call set(tspr(1,1),0.0,mtspr)
+cnh      call set(tspr(2,1),0.0,mtspr)
+cnh      luspr = 0
+cnh      istspr = 0
+cnh      iftspr = 0
+cnh      itspr = 0
+
+* =====================================================================
+*      common/solprd/ndsl,dsl,ntsl,tsl,psl
+* =====================================================================
+cnh      call set(dsl,0.0,mdsl)
+cnh      call set(tsl,0.0,mtsl)
+cnh      do 10 counter=1,mdsl
+cnh         call set(psl(counter,1),0.0,mtsl)
+cnh   10 continue
+cnh      ndsl = 0
+cnh      ntsl = 0
 
 * =====================================================================
 *      common/itern/p%ersoil,p%ernode,p%errex,p%dppl,p%dpnl,g%work,p%slcerr,g%slwork
@@ -2158,6 +2481,15 @@ c            indxsl(counter,counter2)=0
       g%swta(:)=0d0
       p%slswt = 0d0
 
+* =====================================================================
+*      common/bound/lub,istb,iftb,itb,tb
+* =====================================================================
+cnh      lub = 0
+cnh      istb = 0
+cnh      iftb = 0
+cnh      itb = 0
+cnh      call set(tb(1,1),0.0,MTB)
+cnh      call set(tb(2,1),0.0,MTB)
 
 * =====================================================================
 *      common/surcon/p%g0,p%g1,p%grc,p%hm0,p%hm1,p%hrc,p%roff0,p%roff1,tzero,eqr0
@@ -2174,10 +2506,40 @@ c      tzero = 0d0
 c      eqr0 = 0d0
       g%hmin = 0d0
       g%gsurf = 0d0
+* =====================================================================
+*      common/crainb/lur,istr,iftr,itr,effpar,tr,teqr
+* =====================================================================
+c      effpar = 0d0
+cnh      iftr = 0
+cnh      istr = 0
+cnh      itr = 0
+cnh      lur = 0
+cnh      call set(tr(1,1),0.0,MTR)
+cnh      call set(tr(2,1),0.0,MTR)
+cnh      call set(teqr(1,1),0.0,MTR)
+cnh      call set(teqr(2,1),0.0,MTR)
+
+* =====================================================================
+*      common/cevapb/lue,iste,ifte,ite,te
+* =====================================================================
+cnh      ifte = 0
+cnh      iste = 0
+cnh      ite = 0
+cnh      lue = 0
+cnh      call set(te(1,1),0.0,MTE)
+cnh      call set(te(2,1),0.0,MTE)
 
 * =====================================================================
 *      common/vegvar/g%rld,g%rc,g%rtp,g%rt,g%ctp,g%ct,g%qr,g%slup
 * =====================================================================
+c       double precision g%rld(0:M,MV)
+c       double precision g%rc(0:M,MV)
+c       double precision g%rtp(MV)
+c       double precision g%rt(MV)
+c       double precision g%ctp(MV)
+c       double precision g%ct(MV)
+c       double precision g%qr(0:M,MV)
+c       double precision g%slup(MV)
 
       do 41 vegnum = 1, MV
          do 40 node = 0,M
@@ -2201,7 +2563,38 @@ c      eqr0 = 0d0
 *     1              arld2,brld2
 * =====================================================================
        g%nveg = 0
+c       g%psim = 0d0
+c       double precision g%psimin(MV)
+c       double precision xc(MV)
+c       double precision rldmax(MV)
+c       double precision fevmax(MV)
+c       double precision vcycle(MV)
+c       integer          igrow(MV)
+c       integer          iroot(MV)
+c       double precision arld1(MV)
+c       double precision brld1(MV)
+c       double precision arld2(MV)
+c       double precision brld2(MV)
 
+* =====================================================================
+*      common/root/ndrt,drt,ntrt,trt,grt
+* =====================================================================
+c      integer ndrt(MV)
+c      real drt(mdrt,MV)
+c      real trt(mtrt,MV)
+c      real grt(mdrt,mtrt,MV)
+c      integer ntrt(MV)
+
+* =====================================================================
+*      common/cumsol/lus,ists,ifts,its,ts
+* =====================================================================
+cnh      ifts = 0
+cnh      ists = 0
+cnh      its = 0
+cnh      lus = 0
+
+cnh      call fill_real_array(ts(1,1),0.0,MTS)
+cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
       do 102 vegnum=1,MV
          g%pep(vegnum) = 0d0
@@ -2266,11 +2659,39 @@ c      eqr0 = 0d0
 
       call apswim_get_other_variables ()
 
-      call apswim_get_rain_variables ()
+      if (p%rainfall_source .eq. 'file') then
+         call apswim_read_logfile (
+     :                             LUNrain
+     :                            ,g%year
+     :                            ,g%day
+     :                            ,g%apsim_time
+     :                            ,g%apsim_timestep
+     :                            ,g%SWIMRainTime
+     :                            ,g%SWIMRainAmt
+     :                            ,g%SWIMRainNumPairs
+     :                            ,SWIMLogSize)
+
+      else
+         call apswim_get_rain_variables ()
+
+      endif
 
       call apswim_recalc_eqrain()
 
-      if (p%evap_source .eq. 'calc') then
+      if (p%evap_source .eq. 'file') then
+
+         call apswim_read_logfile (
+     :                             LUNevap
+     :                            ,g%year
+     :                            ,g%day
+     :                            ,g%apsim_time
+     :                            ,g%apsim_timestep
+     :                            ,g%SWIMEvapTime
+     :                            ,g%SWIMEvapAmt
+     :                            ,g%SWIMEvapNumPairs
+     :                            ,SWIMLogSize)
+
+      else if (p%evap_source .eq. 'calc') then
          ! I need a cumulative eo curve from Priestly taylor
          ! method for these pot. evap methods.
          call apswim_calc_evap_variables ()
@@ -2283,6 +2704,55 @@ c      eqr0 = 0d0
 
       return
       end subroutine
+
+
+
+* ====================================================================
+       subroutine apswim_post ()
+* ====================================================================
+
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*     Perform calculations after the current timestep.
+
+*+  Changes
+*     <insert here>
+
+*- Implementation Section ----------------------------------
+
+      return
+      end subroutine
+
+
+
+* ====================================================================
+       subroutine apswim_end_run ()
+* ====================================================================
+
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*     Perform cleanup because the current simulation is about to end.
+
+*+  Changes
+*     <insert here>
+
+*- Implementation Section ----------------------------------
+
+      if (p%rainfall_source .eq. 'file') then
+         close (LUNrain)
+      endif
+
+      if (p%evap_source .eq. 'file') then
+         close (LUNevap)
+      endif
+
+      return
+      end subroutine
+
 
 
 
@@ -2409,6 +2879,10 @@ c      double precision tth
      :                    fraction*(p%fip (solnum,k)-p%fip (solnum,j))
                p%dis (solnum,i) = p%dis (solnum,j)+
      :                    fraction*(p%dis (solnum,k)-p%dis (solnum,j))
+               p%alpha(solnum,i) = p%alpha(solnum,j)+
+     :                    fraction*(p%alpha(solnum,k)-p%alpha(solnum,j))
+               p%beta(solnum,i) = p%beta(solnum,j)+
+     :                    fraction*(p%beta(solnum,k)-p%beta(solnum,j))
    16       continue
 
          else
@@ -2480,6 +2954,8 @@ c      double precision tth
       do 40 node = 0,p%n
          do 30 solnum = 1,p%num_solutes
             p%ex(solnum,node) = p%rhob(node)*p%exco(solnum,node)
+            p%betaex(solnum,node) = p%beta(solnum,node)
+     :                            * p%ex(solnum,node)
    30    continue
    40 continue
 
@@ -2532,6 +3008,7 @@ c      double precision tth
       double precision dy
       integer          i
       integer          j
+      integer          jhys
       integer          k
       double precision psix
       double precision tdc
@@ -2546,8 +3023,20 @@ c      double precision tth
       if (p%specification_type .eq. 1) then
 
          psix=tpsi
+         jhys=0
+*     adjust psix for hysteresis if necessary
+         if(g%hys(node).lt.0.)jhys=ihys(g%hyscon
+     :                              ,g%hys(node)
+     :                              ,g%hysref(node)
+     :                              ,g%hysdry(node)
+     :                              ,psix
+     :                              ,tdc)
          tx=-100d0
          if(psix.lt.0d0)tx=log10(-psix)
+*     adjust tx for hysteresis if necessary
+         if(g%hys(node).gt.0.)
+     :      jhys=ihys(g%hyscon,g%hys(node),g%hysref(node),
+     :                   g%hysdry(node), tx,tdc)
 
          tx=max(dble(p%slmin),tx)
          tx=min(dble(p%slmax),tx)
@@ -2683,7 +3172,7 @@ c      double precision tth
       parameter (myname = 'apswim_SimpleK')
 
       double precision Kdul
-      parameter (Kdul = 0.1d0/24d0)
+      parameter (Kdul = 1.0d0/24d0)
 
 *+  Local Variables
       double precision S
@@ -2691,8 +3180,6 @@ c      double precision tth
       double precision Ksa ! apparent Ks
       double precision Power
       double precision Kdula
-      double precision MicroK
-      double precision MacroK
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -2700,18 +3187,20 @@ c      double precision tth
       S = Apswim_SimpleS(layer,psi)
       apswim_SimpleK = p%Ks(layer)*S**(p%b(layer)*2d0+3d0)
 
-      Sdul = Apswim_SimpleS(layer,psi_dul)
-
-      Kdula = min(Kdul,p%Ks(layer))
-
-      Ksa = Kdula / (Sdul**(1. + 2. + 2. * p%b(layer)))
-
-      MicroK = Ksa * s**(1. + 2. + 2. * p%b(layer))
-
-      Power = Log(Kdula/100d0/(p%Ks(layer)-MicroK)) / Log(Sdul)
-      MacroK = (p%Ks(layer)-MicroK) * S**Power
-
-      apswim_SimpleK = (MicroK+MacroK)
+!      Sdul = Apswim_SimpleS(layer,psi_dul)
+!
+!      Kdula = min(Kdul,p%Ks(layer))
+!
+!      if (S.lt.Sdul) then
+!         Ksa = Kdula / (Sdul**(1. + 2. + 2. * p%b(layer)))
+!         apswim_SimpleK = Ksa * s**(1. + 2. + 2. * p%b(layer))
+!
+!      else
+!         Power = Log(Kdula/p%Ks(layer)) / Log(Sdul)
+!         apswim_SimpleK = p%Ks(layer) * S**Power
+!      End If
+!      !print*,Sdul,apswim_SimpleK,psi
+!      apswim_SimpleK = apswim_SimpleK/10d0/24d0
 
       call pop_ routine (myname)
       return
@@ -3091,6 +3580,8 @@ cnh Commented out until fully tested need for constraining timestep to within Eo
          g%hold=g%h
          g%hbpold=max(g%psi(p%ibp),0d0)
          do 34 i=0,p%n
+*           save reference point on water retention curve if changed
+            if(.not.g%run_has_started)g%hysref(i)=g%hysdry(i)
 *           save transformed potls and water contents
             pold(i)=g%p(i)
             g%thold(i)=g%th(i)
@@ -3246,6 +3737,10 @@ cnh
                      g%sldrn(solnum)=g%sldrn(solnum)
      :                              +g%qsl(solnum,p%n+1)*g%dt
 
+                     g%sldec(solnum)=g%sldec(solnum)
+     :                              +g%rsldec(solnum)*g%dt
+                     g%slprd(solnum)=g%slprd(solnum)
+     :                              +g%rslprd(solnum)*g%dt
    43             continue
                   !if(p%slupf(solnum).ne.0.)then
                      call apswim_pstat(2,g%resp)
@@ -3649,6 +4144,10 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
       endif
 
 
+      string = '     Rainfall Source: '//p%rainfall_source
+     :               //new_line//new_line
+      call write_string (string)
+
       string = '     Evaporation Source: '//p%evap_source
      :               //new_line//new_line
       call write_string (string)
@@ -3920,14 +4419,56 @@ c      eqr0  = 0.d0
        integer          counter         ! simple counter variable
        double precision Timefr          ! fractional distance between
                                         ! evap time pointer
+       double precision FBell           ! Area of bell curve for Timefr
+       double precision TBell           ! total bell curve area (=2pi)
 
 *+  Initial Data Values
+      double precision xx
+*
+      double precision Bell_area  ! area under curve from 3pi/2 for
+                                  ! Y = sin(p%x)+1
+      Bell_area(xx) = xx - cos(xx) - 3d0*pi/2d0
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
+      if (p%evap_curve.eq.'on') then
+
+         if (Time.ge.g%SWIMEvapTime(g%SWIMEvapNumPairs)) then
+            cevap_mm = g%SWIMEvapAmt(g%SWIMEvapNumPairs)
+
+         elseif (Time.le.g%SWIMEvapTime(1)) then
+            cevap_mm = g%SWIMEvapAmt(1)
+
+         else
+            do 100 counter = 2,g%SWIMEvapNumPairs
+               if((g%SWIMEvapTime(counter).ge.Time).and.
+     :            (g%SWIMEvapTime(Counter-1).le.Time)) then
+
+               ! apply a bell ((sin.p%x+1) function using 3pi/2 to 5pi/2)
+               Timefr = (Time - g%SWIMEvapTime(counter-1))
+     :                  /(g%SWIMEvapTime(counter)
+     :                     -g%SWIMEvapTime(counter-1))
+               Tbell = Bell_area(7d0*pi/2d0)
+               FBell = Bell_area(3d0*pi/2d0+2d0*pi*TimeFr)
+
+               cevap_mm = g%SWIMEvapAmt(counter-1)+Fbell/Tbell*
+     :                 (g%SWIMEvapAmt(counter)-g%SWIMEvapAmt(counter-1))
+
+               goto 200
+
+               else
+               endif
+
+  100       continue
+  200       continue
+
+         endif
+
+      else
          cevap_mm = dlinint(time,g%SWIMEvapTime,g%SWIMEvapAmt,
      :                       g%SWIMEvapNumPairs)
+      endif
 
       apswim_cevap = cevap_mm / 10d0
 
@@ -4295,6 +4836,31 @@ cnh       double precision table_slscr(nsol)
       ! First - Read in solute information
             ! ----------------------------------
        numvals = 0
+c      call Read_char_array(
+c     :           solute_section,
+c     :           'run_solutes',
+c     :           nsol,
+c     :           '()',
+c     :           p%solute_names,
+c     :           p%num_solutes)
+
+c      call Read_double_var(
+c     :           solute_section,
+c     :           'slcerr',
+c     :           '()',
+c     :           p%slcerr,
+c     :           numvals,
+c     :           -1000d0,
+c     :           1000d0)
+
+c      call Read_double_var(
+c     :           solute_section,
+c     :           'slswt',
+c     :           '()',
+c     :           p%slswt,
+c     :           numvals,
+c     :           -1000d0,
+c     :           1000d0)
 
       call Read_char_array(
      :           solute_section,
@@ -4311,8 +4877,8 @@ cnh       double precision table_slscr(nsol)
      :           '()',
      :           table_slupf,
      :           numvals,
-     :           0d0,
-     :           1d0)
+     :           c%lb_slupf,
+     :           c%ub_slupf)
 
       call Read_double_array(
      :           solute_section,
@@ -4321,8 +4887,8 @@ cnh       double precision table_slscr(nsol)
      :           '()',
      :           table_slos,
      :           numvals,
-     :           0d0,
-     :           10d0)
+     :           c%lb_slos,
+     :           c%ub_slos)
 
       call Read_double_array(
      :           solute_section,
@@ -4331,8 +4897,29 @@ cnh       double precision table_slscr(nsol)
      :           '()',
      :           table_d0,
      :           numvals,
-     :           0d0,
-     :           1d0)
+     :           c%lb_d0,
+     :           c%ub_d0)
+
+c      call Read_double_array(
+c     :           solute_section,
+c     :           'slsci',
+c     :           nsol,
+c     :           '()',
+c     :           table_slsci,
+c     :           numvals,
+c     :           -1000d0,
+c     :           1000d0)
+
+c      call Read_double_array(
+c     :           solute_section,
+c     :           'slscr',
+c     :           nsol,
+c     :           '()',
+c     :           table_slscr,
+c     :           numvals,
+c     :           -1000d0,
+c     :           1000d0)
+
 
       call Read_double_array(
      :           solute_section,
@@ -4341,8 +4928,8 @@ cnh       double precision table_slscr(nsol)
      :           '()',
      :           table_a,
      :           numvals,
-     :           0d0,
-     :           100d0)
+     :           c%lb_a,
+     :           c%ub_a)
 
 
       call Read_double_array(
@@ -4352,8 +4939,8 @@ cnh       double precision table_slscr(nsol)
      :           '()',
      :           table_dthc,
      :           numvals,
-     :           0d0,
-     :           1d0)
+     :           c%lb_dthc,
+     :           c%ub_dthc)
 
 
       call Read_double_array(
@@ -4363,8 +4950,8 @@ cnh       double precision table_slscr(nsol)
      :           '()',
      :           table_dthp,
      :           numvals,
-     :           0d0,
-     :           10d0)
+     :           c%lb_dthp,
+     :           c%ub_dthp)
 
       call Read_double_array(
      :           solute_section,
@@ -4373,8 +4960,8 @@ cnh       double precision table_slscr(nsol)
      :           '()',
      :           table_disp,
      :           numvals,
-     :           0d0,
-     :           5d0)
+     :           c%lb_disp,
+     :           c%ub_disp)
 
       call Read_double_array(
      :           solute_section,
@@ -4489,8 +5076,8 @@ c       double precision table_beta(nsol)
      :           '()',
      :           table_exco,
      :           numvals,
-     :           0d0,
-     :           15000d0)
+     :           c%lb_exco,
+     :           c%ub_exco)
 
             call Read_double_array(
      :           p%soil_type(node),
@@ -4499,8 +5086,8 @@ c       double precision table_beta(nsol)
      :           '()',
      :           table_fip,
      :           numvals,
-     :           0d0,
-     :           100d0)
+     :           c%lb_fip,
+     :           c%ub_fip)
 
             call Read_double_array(
      :           p%soil_type(node),
@@ -4509,8 +5096,29 @@ c       double precision table_beta(nsol)
      :           '()',
      :           table_dis,
      :           numvals,
-     :           0d0,
-     :           20d0)
+     :           c%lb_dis,
+     :           c%ub_dis)
+
+c            call Read_double_array(
+c     :           p%soil_type(node),
+c     :           'alpha',
+c     :           nsol,
+c     :           '()',
+c     :           table_alpha,
+c     :           numvals,
+c     :           -1000d0,
+c     :           1000d0)
+
+c            call Read_double_array(
+c     :           p%soil_type(node),
+c     :           'beta',
+c     :           nsol,
+c     :           '()',
+c     :           table_beta,
+c     :           numvals,
+c     :           -1000d0,
+c     :           1000d0)
+
 
             do 200 solnum = 1,p%num_solutes
                found = .false.
@@ -6027,6 +6635,25 @@ cnh NOTE - intensity is not part of the official design !!!!?
      :              1.0d0)
 
 
+      call Read_double_array (
+     :              section_name,
+     :              'trf_fasw',
+     :              max_table,
+     :              '(0-1)',
+     :              c%trf_asw,
+     :              c%num_trf_asw,  ! get number of nodes from here
+     :              0.0d0,
+     :              1.0d0)
+      call Read_double_array (
+     :              section_name,
+     :              'trf_value',
+     :              max_table,
+     :              '(0-1)',
+     :              c%trf_value,
+     :              c%num_trf_asw,  ! get number of nodes from here
+     :              0.0d0,
+     :              1.0d0)
+
       call Read_double_var (
      :              section_name,
      :              'min_total_root_length',
@@ -6097,7 +6724,185 @@ cnh NOTE - intensity is not part of the official design !!!!?
      :              0d0,
      :              1440d0)
 
+      call Read_double_var (
+     :              section_name,
+     :              'lb_exco',
+     :              '()',
+     :              c%lb_exco,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
 
+      call Read_double_var (
+     :              section_name,
+     :              'ub_exco',
+     :              '()',
+     :              c%ub_exco,
+     :              numvals,
+     :              c%lb_exco,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_fip',
+     :              '()',
+     :              c%lb_fip,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_fip',
+     :              '()',
+     :              c%ub_fip,
+     :              numvals,
+     :              c%lb_fip,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_dis',
+     :              '()',
+     :              c%lb_dis,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_dis',
+     :              '()',
+     :              c%ub_dis,
+     :              numvals,
+     :              c%lb_dis,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_slupf',
+     :              '()',
+     :              c%lb_slupf,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_slupf',
+     :              '()',
+     :              c%ub_slupf,
+     :              numvals,
+     :              c%lb_slupf,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_slos',
+     :              '()',
+     :              c%lb_slos,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_slos',
+     :              '()',
+     :              c%ub_slos,
+     :              numvals,
+     :              c%lb_slos,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_d0',
+     :              '()',
+     :              c%lb_d0,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_d0',
+     :              '()',
+     :              c%ub_d0,
+     :              numvals,
+     :              c%lb_d0,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_a',
+     :              '()',
+     :              c%lb_a,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_a',
+     :              '()',
+     :              c%ub_a,
+     :              numvals,
+     :              c%lb_a,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_dthc',
+     :              '()',
+     :              c%lb_dthc,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_dthc',
+     :              '()',
+     :              c%ub_dthc,
+     :              numvals,
+     :              c%lb_dthc,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_dthp',
+     :              '()',
+     :              c%lb_dthp,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_dthp',
+     :              '()',
+     :              c%ub_dthp,
+     :              numvals,
+     :              c%lb_dthp,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'lb_disp',
+     :              '()',
+     :              c%lb_disp,
+     :              numvals,
+     :              -1d10,
+     :               1d10)
+
+      call Read_double_var (
+     :              section_name,
+     :              'ub_disp',
+     :              '()',
+     :              c%ub_disp,
+     :              numvals,
+     :              c%lb_disp,
+     :               1d10)
 
       call Read_double_var (
      :              section_name,
@@ -6267,6 +7072,129 @@ cnh NOTE - intensity is not part of the official design !!!!?
       call pop_routine (myname)
       return
       end subroutine
+
+
+
+* ====================================================================
+      real function integral_real_linint_function (X1,X2,X,Y,N)
+* ====================================================================
+      use Infrastructure
+      Use infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+       real X1
+       real X2
+       real X(*)
+       real Y(*)
+       integer N
+
+*+  Purpose
+*     <insert here>
+
+*+  Assumptions
+*   1) that X2 > X1
+*   2) that (X,Y) pairs are ordered according to ascending X.
+
+*+  Notes
+*        A set of points used for linear interpolation consists of a series
+*        of individual line segments.  The Integral, or area under sections
+*        of these segments can be found using simple calculus.
+*
+*        if f(X) =       y = M.X + c       - simple linear equation
+*        Then the integral of y (=I) is
+*                         2
+*              I = 1/2.M.X  + c.X + C
+*
+*        Therefore the integral between two values, X1 and X2, would be
+*
+*               X2           2                      2
+*              I   = 1/2.M.X2 + c.X2 + C - (1/2.M.X1 + c.X1 + C)
+*               X1
+*                             2    2
+*                  = 1/2.M.(X2 - X1) + c.(X2 - X1)
+*        where
+*                   Ya - Yb
+*               M = -------     and  c = Ya - M.Xa
+*                   Xa - Xb
+
+*+  Changes
+*   neilh - 06-01-1995 - Programmed and Specified
+
+*+  Constant Values
+      character myname*(*)               ! name of current procedure
+      parameter (myname = 'integral_real_linint_function')
+
+*+  Local Variables
+      integer i
+      real    Area
+      real    Xa,Ya
+      real    Xb,Yb
+      real    M
+      real    c
+
+*+  Initial Data Values
+      Area = 0.0
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+c      if (X1.lt.X(1)) then
+c         if (X2.lt.X(1)) then
+c            Area = Area + (X2-X1)*Y(1)
+c         else
+c            Area = Area + (X(1)-X1)*Y(1)
+c         endif
+c      else
+c         ! don't start integration yet
+c      endif
+
+      ! now for outside LHS boundary
+      Xa = min(X(1), X1)
+      Xb = min(X(1), X2)
+
+      Area = Area + Y(1)*(Xb-Xa)
+
+      do 100 i = 1, N-1
+         ! Find the slope and intercept for this segment.
+         M = (Y(i+1)-Y(i))/(X(i+1)-X(i))
+         c = Y(i) - M*X(i)
+
+         Xa = bound (X1,X(i),X(i+1))
+         Xb = bound (X2,X(i),X(i+1))
+
+         Ya = M*Xa+c
+         Yb = M*Xb+c
+
+         Area = Area + 0.5*(Yb+Ya)*(Xb-Xa)
+
+  100 continue
+
+
+      ! now for outside RHS boundary
+      Xa = max(X(N), X1)
+      Xb = max(X(N), X2)
+
+      Ya = M*Xa+c
+      Yb = M*Xb+c
+
+      Area = Area + Y(N)*(Xb-Xa)
+
+c      if (X2.gt.X(N)) then
+c         if (X1.lt.X(N)) then
+c            Area = Area + (X2-X1)*Y(N)
+c         else
+c            Area = Area + (X2-X(N))*Y(N)
+c         endif
+c      else
+c         ! nothing to add to the integration
+c      endif
+
+      integral_real_linint_function = Area
+
+      call pop_routine (myname)
+      return
+      end function
 
 
 
@@ -7410,6 +8338,75 @@ cnh      end if
 
 
 
+* ====================================================================
+       double precision function apswim_transp_redn (crop_num)
+* ====================================================================
+
+      Use infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      integer crop_num
+
+*+  Purpose
+*     <insert here>
+
+*+  Changes
+*   neilh - 30-01-1996 - Programmed and Specified
+
+*+  Calls
+
+
+*+  Constant Values
+      character myname*(*)               ! name of current procedure
+      parameter (myname = 'apswim_transp_redn')
+
+*+  Local Variables
+      double precision asw
+      double precision fasw
+      double precision ll
+      double precision masw
+      integer          node
+      double precision tasw
+      double precision tmasw
+      double precision trf
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      tasw = 0d0
+      tmasw = 0d0
+
+      do 100 node = 0,p%n
+         if (g%rld(node,crop_num).gt.0.05d0) then
+            ll = apswim_theta(node,g%psimin(crop_num))
+
+            masw = p%dx(node) * max((g%DUL(node)-ll),0d0)
+            masw = dlbound(masw,0d0)
+            tmasw = tmasw + masw
+
+            asw = p%dx(node) * (g%th(node)-ll)
+            asw = dbound(asw,0d0,masw)
+            tasw = tasw + asw
+
+         else
+            ! no roots in this layer for this crop
+            ! so no water is available
+         endif
+
+  100 continue
+
+      fasw = ddivide (tasw,tmasw,0d0)
+
+      trf = dlinint (fasw,c%trf_asw,c%trf_value,c%num_trf_asw)
+
+      apswim_transp_redn = trf
+
+      call pop_routine (myname)
+      return
+      end function
+
+
 
 * ====================================================================
        double precision function apswim_slupf (crop, solnum)
@@ -7570,6 +8567,132 @@ c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
       call write_string(string)
       call write_string('================================')
 c      pause
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+
+
+* ====================================================================
+      subroutine apswim_read_logfile (LUNlog
+     :                               ,year
+     :                               ,day
+     :                               ,time
+     :                               ,timestep
+     :                               ,SWIMtime
+     :                               ,SWIMamt
+     :                               ,SWIMNumPairs
+     :                               ,SWIMLogSize)
+* ====================================================================
+      use Infrastructure
+      Use infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      integer LUNlog
+      integer year
+      integer day
+      character time*(*)
+      real timestep
+      double precision SWIMtime(*)
+      double precision SWIMamt(*)
+      integer          SWIMNumPairs
+      integer          SWIMLogSize
+
+*+  Purpose
+*   Read a general purpose logfile for the current apsim
+*   timestep into time and amount arrays.
+
+*+  Changes
+*   28-11-96 NIH - programmed and specified
+
+*+  Calls
+
+
+*+  Constant Values
+      character myname*(*)               ! name of current procedure
+      parameter (myname = 'apswim_read_logfile')
+
+*+  Local Variables
+       integer iost
+       character line*80, filetime*8
+       integer fileday,fileyear
+       integer file_time_of_day
+       double precision file_time
+       double precision fileamt,filedurn
+       integer apsim_time_of_day
+       double precision apsim_time
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+
+  100    continue
+         line = blank
+         read(LUNlog,'(A)',iostat=iost) line
+
+         If (iost.lt.0) then
+            ! We have reached end of file
+
+         elseif (line.eq.blank) then
+            goto 100 ! try reading next line
+
+         else
+
+            fileyear = 0
+            fileday = 0
+            filetime=' '
+            fileamt=0.0
+            filedurn=0.0
+            read(line,*,iostat=iost) fileyear,fileday,filetime,
+     :                            fileamt,filedurn
+            if (iost .ne. 0) then
+               call fatal_error(err_user,'bad log file record: '//line)
+            else
+               file_time_of_day = apswim_time_to_mins (filetime)
+               file_Time = apswim_time (fileyear,fileday
+     :                                 ,file_time_of_day)
+
+               apsim_time_of_day = apswim_time_to_mins (time)
+               apsim_time = apswim_time (year
+     :                                    ,day
+     :                                    ,apsim_time_of_day)
+
+               if (file_time+filedurn/60d0.le.apsim_time) then
+                  ! The end of this record is before the current timestep
+                  ! so ignore it.
+                  goto 100
+
+               elseif (((file_time.ge.apsim_time)
+     :                   .and.
+     :            (file_time.lt.apsim_time+timestep/60d0))
+     :                   .or.
+     :            ((file_time+filedurn/60d0.ge.apsim_time)
+     :                   .and.
+     :         (file_time+filedurn/60d0.lt.apsim_time+timestep/60d0)))
+     :         then
+                  ! the start or end of the file record lies in this timestep
+                  ! ---------------------------------------------------------
+
+                  call apswim_insert_loginfo(file_time
+     :                                      ,filedurn
+     :                                      ,fileamt
+     :                                      ,SWIMTime
+     :                                      ,SWIMAmt
+     :                                      ,SWIMNumPairs
+     :                                      ,SWIMLogSize)
+
+                  goto 100
+
+               else
+                  backspace(LUNlog)
+
+               endif
+
+            endif
+         endif
+
 
       call pop_routine (myname)
       return
@@ -8417,6 +9540,40 @@ c      pause
       call pop_routine (myname)
       return
       end subroutine
+!*     ===========================================================
+!      subroutine apswim_ONSubSurfaceFlow (variant)
+!*     ===========================================================
+!      Use infrastructure
+!      implicit none
+!
+!      integer, intent(in) :: variant
+!
+!*+  Purpose
+!*     Add Subsurface flow of water to today's water balance data
+!
+!*+  Mission Statement
+!*     Add Subsurface flow of water to today's water balance data
+!
+!*+  Changes
+!*        270899 nih
+!
+!*+  Calls
+!
+!*+  Local Variables
+!      type(SubSurfaceFlowType) :: temp
+!
+!*+  Constant Values
+!      character*(*) myname               ! name of current procedure
+!      parameter (myname = 'apswim_ONSubSurfaceFlow')
+!
+!*- Implementation Section ----------------------------------
+!      call push_routine (myname)
+!
+!      call unpack_time(variant, temp)
+!
+!      call pop_routine (myname)
+!      return
+!      end subroutine
 
 * ====================================================================
        subroutine apswim_remove_interception ()
@@ -8717,6 +9874,9 @@ c      pause
       else if (Action.eq.ACTION_Process) then
          call apswim_Process ()
 
+      else if (Action .eq. ACTION_Post) then
+         call apswim_post ()
+
       else if (Action .eq. ACTION_Set_variable) then
          call apswim_set_my_variable (Data_string)
 
@@ -8730,6 +9890,9 @@ c      pause
 
       else if (Action .eq. ACTION_Till) then
          call apswim_tillage ()
+
+      else if (Action .eq. ACTION_End_run) then
+         call apswim_end_run ()
 
       else if (Action .eq. EVENT_new_solute) then
          call apswim_on_new_solute()
