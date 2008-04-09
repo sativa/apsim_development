@@ -54,25 +54,26 @@
    SECTION - CROP PHENOLOGY: Stage and Phase names
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     -->
-   <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
-   <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
-   <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
-   <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
-   <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation  emergence2floral_initiation preflowering node_formation start_grain_fill2harvest_ripe hi_stress_sensitive stress_reporting tiller_formation postflowering</composite_phases>
+   <stage_code_list>1         2          3         4                5               6                  7             8                 9            10       11           12</stage_code_list>
+   <stage_names>sowing   germination emergence end_of_juvenile  floral_initiation   flag_leaf         flowering   start_grain_fill end_grain_fill  maturity  harvest_ripe end_crop</stage_names>
+   <phase_names>sowing   germination emergence endjuv_to_fi     fi_to_flag          flag_to_flower    flowering   start_grain_fill end_grain_fill  maturity  harvest_ripe end_crop</phase_names>
+   <phase_type>generic  emergent       fixed     photo            leafapp           fixed             fixed       fixed            fixed           fixed     fixed        generic</phase_type>
+   <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation  emergence2floral_initiation preflowering node_formation start_grain_fill2harvest_ripe hi_stress_sensitive stress_reporting tiller_formation leaf_initiation postflowering</composite_phases>
    <under_ground>sowing germination</under_ground>
-   <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
-   <leaf_senescence>floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</leaf_senescence>
+   <above_ground>emergence endjuv_to_fi fi_to_flag flag_to_flower flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
+   <leaf_senescence>fi_to_flag flag_to_flower flowering start_grain_fill end_grain_fill maturity harvest_ripe</leaf_senescence>
    <reproductive>flowering start_grain_fill end_grain_fill</reproductive>
    <grainfill>start_grain_fill end_grain_fill</grainfill>
-   <vernalisation>germination emergence end_of_juvenile</vernalisation>
-   <emergence2floral_initiation>emergence end_of_juvenile floral_initiation</emergence2floral_initiation>
+   <vernalisation>germination emergence endjuv_to_fi</vernalisation>
+   <emergence2floral_initiation>emergence endjuv_to_fi fi_to_flag</emergence2floral_initiation>
    <start_grain_fill2harvest_ripe>start_grain_fill end_grain_fill maturity</start_grain_fill2harvest_ripe>
-   <preflowering>emergence end_of_juvenile floral_initiation</preflowering>
+   <preflowering>emergence endjuv_to_fi fi_to_flag flag_to_flower</preflowering>
    <postflowering>flowering start_grain_fill</postflowering>
-   <node_formation>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill</node_formation>
+   <node_formation>emergence endjuv_to_fi fi_to_flag</node_formation>
    <hi_stress_sensitive>flowering</hi_stress_sensitive>
-   <stress_reporting>end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill</stress_reporting>
-   <tiller_formation>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity</tiller_formation>
+   <stress_reporting>endjuv_to_fi fi_to_flag flag_to_flower flowering start_grain_fill end_grain_fill</stress_reporting>
+   <tiller_formation>emergence endjuv_to_fi fi_to_flag</tiller_formation>
+   <leaf_initiation>germination emergence endjuv_to_fi</leaf_initiation>
    <plant>
       <partition_option>2</partition_option>
       <n_retrans_option>2</n_retrans_option>
@@ -133,9 +134,20 @@
       <twilight description="-2.2 (o)   ! Twilight is defined as the interval between sunrise or sunset and the time when the true">-6.0 </twilight>
       <!--  centre of the sun is 2.2 degrees below the horizon. Sunrise or sunset is defined as when
        the true centre of the sun is 50' below the horizon.
+      
       __________________________________________________________________________________________________________-
       Vernalisation
        -->
+            <endjuv_to_fi_pp_inductive_cutoff>end</endjuv_to_fi_pp_inductive_cutoff>
+      <!-- leaf_no_at_emerg = 0.5     ! (expanded) leaf number at emergence ()
+       -->
+      <leaf_no_seed description="number of leaf primordia present in seed">6.0     </leaf_no_seed>
+      <leaf_no_min description="minimum leaf number">5.0</leaf_no_min>
+      <leaf_no_max description="maximum leaf number">40.0</leaf_no_max>
+      <!-- leaf_init_rate   = 23.2  (oCd)        ! degree days to initiate each leaf primordium until floral init (deg day)
+       -->
+      <leaf_init_rate units="oCd" description="degree days to initiate each leaf primordium until floral init (deg day)">22</leaf_init_rate> 
+
       <x_vernal_temp>0 2  8  15</x_vernal_temp>
       <y_vernal_days>0 1  0.5  0</y_vernal_days>
       <!-- __________________________________________________________________________________________________________-
@@ -174,7 +186,7 @@
       y_node_app_rate  = 20   20  43 ! Lawes 0405 - Base 13
        -->
       <x_node_no_app>1    12  13</x_node_no_app>
-      <y_node_app_rate description="Lawes 0405 - Base 11">30   30  55 </y_node_app_rate>
+      <y_node_app_rate description="Lawes 0405 - Base 11">41   41  20 </y_node_app_rate>
       <!-- x_node_no_leaf    =   0    5   8
        -->
       <x_node_no_leaf>0    2.5   6</x_node_no_leaf>
@@ -624,29 +636,25 @@
        Simulations but choose from the following list of cultivars.
        -->
       <grains_per_gram_stem>10.0</grains_per_gram_stem>
-      <potential_grain_filling_rate description="grain growth rate during grainfill">0.0020  </potential_grain_filling_rate>
-      <potential_grain_growth_rate description="grain growth from flowering to grain fill">0.0000  </potential_grain_growth_rate>
-      <max_grain_size description="set to large value to remove effect">0.500  </max_grain_size>
-      <cum_vernal_days>0          100</cum_vernal_days>
-      <!-- tt_emerg_to_endjuv       =  100.0        100.0  (oCd) ! Base 5
-       -->
-      <tt_emerg_to_endjuv units="oCd" description="Base 9">70.0        70.0</tt_emerg_to_endjuv>
+      <potential_grain_filling_rate>0.01</potential_grain_filling_rate>
+      <potential_grain_growth_rate description="grain growth from flowering to grain fill - assume none for now">0.00  </potential_grain_growth_rate>
+      <max_grain_size description="set to high number">0.5  </max_grain_size>
       <est_days_emerg_to_init units="d" description="Ferraris and Charles-Edwards">45</est_days_emerg_to_init>
-      <!-- x_pp_endjuv_to_init      = 13.0 14   14.6 14.75                ! photoperiod (h)
-      y_tt_endjuv_to_init      = 100  200   312  365                  ! TT from end juvenile to floral initiation
-       -->
-      <x_pp_endjuv_to_init description="photoperiod (h)">13.9  14.7                </x_pp_endjuv_to_init>
-      <!-- y_tt_endjuv_to_init      = 250    330                  ! Base 5
-       -->
-      <y_tt_endjuv_to_init description="Base 9">150    250                  </y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <!-- y_tt_init_to_flower        =   470.0  470.0  (oCd)           ! Base 5
-       -->
-      <y_tt_init_to_flower units="oCd" description="Base 9">450.0  450.0</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd" description="TT from flowering to start grain fill">100    100</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">12      14</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">200.   350.</y_tt_start_to_end_grain>
+      <x_pp_endjuv_to_fi description="photoperiod (h)">13.0 14   14.6 14.75                </x_pp_endjuv_to_fi>
+      <y_tt_endjuv_to_fi description="Base 9">75  150   240  300                  </y_tt_endjuv_to_fi>
+      <tt_sowing>100</tt_sowing>
+      <tt_germination>33</tt_germination>
+      <tt_emergence description="from maize model">70   </tt_emergence>
+      <tt_fi_to_flag>150</tt_fi_to_flag>
+      <tt_flag_to_flower description="from maize model">80  </tt_flag_to_flower>
+      <tt_flowering description="from maize model">170 </tt_flowering>
+      <tt_start_grain_fill>250</tt_start_grain_fill>
+      <tt_end_grain_fill>5</tt_end_grain_fill>
+      <tt_maturity description="from maize model">1         </tt_maturity>
+      <tt_harvest_ripe>1</tt_harvest_ripe>
+      <tt_end_crop>1</tt_end_crop>
+      <tt_init_to_flower units="oCd">470.0</tt_init_to_flower>
+      <tt_flower_to_start_grain units="oCd">100</tt_flower_to_start_grain>
       <tt_end_grain_to_maturity units="oCd">5.0</tt_end_grain_to_maturity>
       <tt_maturity_to_ripe units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity_to_ripe>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  50</x_stem_wt>
@@ -656,6 +664,9 @@
       <derived_from>base_cultivar</derived_from>
    </wray>
    <sugargraze>
+   <derived_from>base_cultivar</derived_from>
+   </sugargraze>
+   <sugargrazeold>
       <derived_from>base_cultivar</derived_from>
       <!--    x_pp_endjuv_to_init      = 12     14.5                ! photoperiod (h)
          y_tt_endjuv_to_init      = 100    800                  ! TT from end juvenile to floral initiation
@@ -689,5 +700,5 @@
       y_tt_start_to_end_grain =    180.   180.  (oCd)    ! Base 13
        -->
       <y_tt_start_to_end_grain units="oCd" description="Base 5">200.   200.</y_tt_start_to_end_grain>
-   </sugargraze>
+   </sugargrazeold>
 </sweetsorghum>
