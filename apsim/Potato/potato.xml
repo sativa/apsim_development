@@ -5,6 +5,7 @@
     -->
    <options>
       <Environment/>
+      <GenericPhenology/>
    </options>
    <RadiationPartitioningOrder>floret leaf</RadiationPartitioningOrder>
     
@@ -55,7 +56,6 @@
    SECTION 1 - CROP PHENOLOGY: Stage and Phase names
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     -->
-   <phenology_model description="Needs to be revised to accommodate changes for potato">generic </phenology_model>
    <stage_code_list>1            2             3               4                    5                   6                7</stage_code_list>
    <stage_names>sowing    germination    emergence     end_of_juvenile    start_tuber_fill     end_tuber_fill       maturity</stage_names>
    <phase_names>sowing    germination    emergence     end_of_juvenile    start_tuber_fill     end_tuber_fill       maturity</phase_names>
