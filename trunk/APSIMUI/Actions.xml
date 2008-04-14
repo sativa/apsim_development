@@ -184,7 +184,7 @@
          <Description>Rename the selected node</Description>
          <SmallIcon>%apsuite\ApsimUI\Images\pen_blue16.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
-         <DisabledWhen>RootNode</DisabledWhen>
+         <DisabledWhen>MultipleNodesSelected</DisabledWhen>
          <ShortCut>F2</ShortCut>
          <OnInvoke>
             <call>

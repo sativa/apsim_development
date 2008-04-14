@@ -10,7 +10,8 @@ Public Class ExplorerUI
     Private UIs As New ArrayList
     Private UITypes As New StringCollection
     Private CurrentUIIndex As Integer = -1
-    Private Controller As BaseController
+    Private Controller As BaseController    'this is very important. The base controller controls all the actions and events in ApsimUI. There is only one base controller variable for the entire ApsimUI and it gets passed around because it is needed to deal with clicks etc.
+
 
 #Region " Windows Form Designer generated code "
 
@@ -26,6 +27,7 @@ Public Class ExplorerUI
         End If
         MyBase.Dispose(disposing)
     End Sub
+
 
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
@@ -84,10 +86,10 @@ Public Class ExplorerUI
 #End Region
 
     Public Overloads Sub OnLoad(ByVal Controller As BaseController)
-        Me.Controller = Controller
+        Me.Controller = Controller          'set the controller to "the" base controller for ApsimUI
         DataTree.OnLoad(Controller)
-        AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
-        AddHandler Controller.ApsimData.BeforeSave, AddressOf OnBeforeSave
+        AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged   'ExplorerUI will handle a "Selection Changed" event (see OnSelectionChanged method for how)
+        AddHandler Controller.ApsimData.BeforeSave, AddressOf OnBeforeSave          'ExplorerUI will handle a "Before Save" event (see OnBeforeSave method for how)
     End Sub
 
 
@@ -183,15 +185,19 @@ Public Class ExplorerUI
         ' -----------------------------------------------------
         ' User has selected a node - update user interface
         ' -----------------------------------------------------
-        Visible = True
-        Dim SavedCursor As Cursor = Windows.Forms.Cursor.Current
-        Windows.Forms.Cursor.Current = Cursors.WaitCursor
+        Visible = True                                              'make the ExplorerUI visible
+        Dim SavedCursor As Cursor = Windows.Forms.Cursor.Current    'store the current cursor object (usually an arrow)
+        Windows.Forms.Cursor.Current = Cursors.WaitCursor           'set the cursor object to the default cursor object used for waiting (usually an hourglass) 
+
+        'If there is only 1 node that is selected
         If Controller.SelectedPaths.Count = 1 Then
-            ShowUI()
+            ShowUI()        'show the corresponding UI for that node in the panel to the right of the tree
+
+            'If there are multiple nodes selected
         Else
-            CloseUI()
+            CloseUI()       'show no UI in the panel to the right of the tree
         End If
-        Windows.Forms.Cursor.Current = SavedCursor
+        Windows.Forms.Cursor.Current = SavedCursor                  'restore the cursor object to what it was before the wait cursor.
     End Sub
 
 End Class

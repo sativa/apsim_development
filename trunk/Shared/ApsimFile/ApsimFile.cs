@@ -43,11 +43,13 @@ namespace ApsimFile
         public event FileDelegate<bool> DirtyChanged;
         public event FileDelegate<string> FileNameChanged;
         public event EmptyDelegate BeforeSave;
+
         internal void PublishComponentChanged(Component Comp)
             {
-            if (Comp != null && DisabledEventCount == 0 && ComponentChangedEvent != null)
-                ComponentChangedEvent.Invoke(Comp);
-            SetDirty(true);
+            // If you are not already executing a ComponentChangedEvent 
+            if (DisabledEventCount == 0 && ComponentChangedEvent != null)   
+                ComponentChangedEvent.Invoke(Comp);         //raise a ComponentChangedEvent
+            SetDirty(true);                                
             }
         internal void PublishContentChanged(Component Comp)
             {
