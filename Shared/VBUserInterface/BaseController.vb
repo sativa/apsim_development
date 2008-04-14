@@ -121,32 +121,35 @@ Public Class BaseController
             ' The strings returned contain data paths to all
             ' selected nodes.
             ' --------------------------------------------------------
-            Dim ReturnValues As New StringCollection
-            For Each FullPath As String In MySelectedData
+            Dim ReturnValues As New StringCollection        'temporary collection used to store selected paths  
+            For Each FullPath As String In MySelectedData   'store selected paths in temporary collection
                 ReturnValues.Add(FullPath)
             Next
             Return ReturnValues
         End Get
         Set(ByVal Paths As StringCollection)
-            Dim OldSelections As New StringCollection
-            For Each Selection As String In MySelectedData
+            Dim OldSelections As New StringCollection       'temporary collection used to store old selected paths
+            For Each Selection As String In MySelectedData  'store old selected paths in temporary collection
                 OldSelections.Add(Selection)
             Next
 
-            ' Has anything changed?
+            ' Are the new selected paths different from the old selected paths?
+            'quick test (based on number of paths)
             Dim Different As Boolean = OldSelections.Count <> Paths.Count
+            'exhaustive test 
             If Not Different Then
                 For i As Integer = 0 To OldSelections.Count - 1
-                    Different = Different Or (OldSelections(i) <> Paths(i))
+                    'if Different is set to true once in the loop, make sure Different is permanently set to true.
+                    Different = Different Or (OldSelections(i) <> Paths(i))     'does each path in the old selected paths, match their new equivalent in the new selected paths  
                 Next
             End If
 
-            ' Only flag the change is something is actually different.
+            ' If they are different
             If Different Then
                 RaiseEvent SelectionChangingEvent()
-                MySelectedData = Paths
-                RaiseEvent SelectionChangedEvent(OldSelections, MySelectedData)
-                RefreshToolStrips()
+                MySelectedData = Paths              'set "the controllers" selected paths to the new selected paths.
+                RaiseEvent SelectionChangedEvent(OldSelections, MySelectedData)     'calls OnSelectionChanged() -> in DataTree.vb and in ExplorerUI.vb 
+                RefreshToolStrips()     'See first sub in Action Region below. This region is where all the toolstrips get rebinded after the selection is changed. This first sub is what starts all this rebinding.
             End If
         End Set
     End Property
@@ -168,7 +171,7 @@ Public Class BaseController
     End Property
     Public ReadOnly Property Selection() As ApsimFile.Component
         Get
-            Return ApsimData.Find(SelectedPath)
+            Return ApsimData.Find(SelectedPath) 'return the corresponding component to the node that was selected.
         End Get
     End Property
 #End Region
@@ -198,7 +201,7 @@ Public Class BaseController
         ' currently selected type. 
         ' --------------------------------------------------------------
         Strip.Items.Clear()
-        AddHandler Strip.ItemClicked, AddressOf ActionOnClick
+        AddHandler Strip.ItemClicked, AddressOf ActionOnClick           'add an event handler to the strip.
         Strip.Name = ToolStripName
         Dim ToolStripDescriptor As XmlNode = XmlHelper.Find(ActionFile, ToolStripName)
         If Not IsNothing(ToolStripDescriptor) Then
@@ -296,7 +299,7 @@ Public Class BaseController
             ElseIf XmlHelper.Type(ToolDescriptor) = "DropDownItem" And _
                    TypeOf Strip.Items(ItemIndex) Is ToolStripDropDownItem Then
                 Dim DropDownButton As ToolStripDropDownItem = Strip.Items(ItemIndex)
-                RefreshRecentFileList(DropDownButton.DropDown, ToolDescriptor)
+                RefreshRecentFileList(DropDownButton.DropDown, ToolDescriptor)      'recursion call
                 ItemIndex = ItemIndex + 1
             End If
         Next
@@ -329,7 +332,7 @@ Public Class BaseController
             If TypeOf ToolItem Is ToolStripDropDownItem Then
                 Dim DropDownItem As ToolStripDropDownItem = ToolItem
                 ToolItem.Enabled = IsActionAllowed(XmlHelper.Find(ActionFile, "/Folder/Actions/" + ToolItem.Tag.ToString))
-                EnableActions(DropDownItem.DropDown)
+                EnableActions(DropDownItem.DropDown)        'recursion call
             End If
         Next
     End Sub
