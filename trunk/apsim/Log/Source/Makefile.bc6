@@ -3,9 +3,6 @@
 BCB = $(MAKEDIR)\..
 !endif
 
-# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
-#APSROOT=c:\progra~1\apsim33
-#APSROOT=c:\development
 !include $(APSROOT)\APSBuild\platform.make
 !include $(APSROOT)\APSBuild\cpp.make
 
@@ -18,24 +15,24 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\general\general.lib \
 	$(APSROOT)\Shared\Protocol\Protocol.lib
 
-USERDEFINES =
-SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
-LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
-
 
 # ---------------------------------------------------------------------------
+RESFILES = 
+USERDEFINES =
+SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost;
+LIBPATH = $(SYSLIBPATH)
 CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
-ALLOBJ = c0d32.obj rtl.bpi vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib $(OBJFILES)
 ALLRES = $(RESFILES)
 ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
 
 CC=$(BCB)\Bin\bcc32.exe
 LD=$(BCB)\Bin\ilink32
-# ---------------------------------------------------------------------------
+
 source: $(PROJECT)
 
 $(PROJECT): $(OBJFILES) $(DEFFILE)
@@ -47,10 +44,9 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
     $(DEFFILE), +
     $(ALLRES)
 !
-
 .cpp.obj:
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
-
+# ---------------------------------------------------------------------------
 
 ####
 Log.obj: Log.cpp

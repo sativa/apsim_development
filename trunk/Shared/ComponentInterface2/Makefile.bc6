@@ -5,7 +5,9 @@ BCB = $(MAKEDIR)\..
 !include $(APSROOT)\APSBuild\platform.make
 !include $(APSROOT)\APSBuild\cpp.make
 
-OBJECTS = ComponentInterface.obj       \
+PROJECT= ..\..\Bin\ComponentInterface2.dll
+
+OBJFILES = ComponentInterface.obj       \
           message.obj                  \
           TypeConverter.obj            \
           ArraySpecifier.obj           \
@@ -17,54 +19,42 @@ OBJECTS = ComponentInterface.obj       \
           CreateComponent.obj          \
           Variant.obj                  \
           EntryPoints.obj              
-
-PACKAGES = vcl.bpi rtl.bpi
-USERDEFINES =
-SYSDEFINES = NO_STRICT;_RTLDLL;_NO_VCL;USEPACKAGES
-INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost
-LIBPATH = $(SYSLIBPATH)
-LIBRARIES = rtl.lib
+          
 LIBFILES = $(SYSLIBS)                                    \
            $(APSROOT)\Shared\general\general.lib         \
            $(BCB)\Components\LibXml2\win32\LibXml2.lib
-
-all: DataTypes.h ComponentInterface2.dll
-
-
-ALLOBJ = c0d32.obj $(PACKAGES) $(OBJECTS)
-ALLRES = $(RESFILES)
-ALLLIB = vcl.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
+                     
 # ---------------------------------------------------------------------------
-# For ComponentInterface.dll, use:
-!if "$(DEBUG)" == ""
-#SYSCFLAGS = -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -tWM -c
-CFLAG1 =                                     -Vx -Ve -X- -a8 -b- -tWM -tWD -O2 -c -V -w-inl
-!else
-CFLAG1 =                                     -Vx -Ve -X- -a8 -b- -tWM -tWD -Od -c -V -w-inl -vG
-!endif
-
+RESFILES = 
+USERDEFINES =
+SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost;
+LIBPATH = $(SYSLIBPATH)
+CFLAG1 =  -O2 -TWD -Vx -Ve -X- -a8 -b- -tWM -tWD -c -V -w-inl
 WARNINGS = -w-par
-LFLAGS = $(SYSLDFLAGS) -aa -Tpd -x -Gn -Gi -v
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
 
 CC=$(BCB)\Bin\bcc32.exe
-LINKER=$(BCB)\Bin\ilink32.exe
-IMPLIB=$(BCB)\Bin\implib.exe
-IMPDEF=$(BCB)\Bin\impdef.exe
+LD=$(BCB)\Bin\ilink32
 
-.cpp.obj:
-    $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+source: $(PROJECT)
 
-ComponentInterface2.dll: $(OBJECTS)
-	$(LINKER) @&&!
-$(LFLAGS) -L$(LIBPATH) +
-$(ALLOBJ), +
-ComponentInterface2.dll,, +
-$(ALLLIB), +
-$(DEFFILE), +
-$(ALLRES)
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
 !
-	$(IMPLIB) ComponentInterface2.lib ComponentInterface2.dll
-	move /Y ComponentInterface2.dll ..\..\bin
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+# ---------------------------------------------------------------------------          
 
 DataTypes.h: $(APSROOT)\apsim\infra\datatypes.interface datatypes.macro $(APSROOT)\Bin\ProcessDataTypesInterface.exe
    call DataTypes.bat

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 #include <general\pch.h>
-#include <vcl.h>
 #pragma hdrstop
+#include <windows.h>
 HINSTANCE hInstance;
 //---------------------------------------------------------------------------
 //   Important note about DLL memory management when your DLL uses the
@@ -28,9 +28,9 @@ HINSTANCE hInstance;
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved)
    {
    hInstance = hinst;
-   const unsigned _MCW_EW = 0x037f;
-   const unsigned _EM_INVALID = 0xffff;
-   _controlfp(_MCW_EW, _EM_INVALID);
+   //const unsigned _MCW_EW = 0x037f;
+   //const unsigned _EM_INVALID = 0xffff;
+   //_controlfp(_MCW_EW, _EM_INVALID);
 
    return 1;
    }

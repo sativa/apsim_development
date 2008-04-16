@@ -44,37 +44,27 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	 $(APSROOT)\Shared\Protocol\Protocol.lib \
     tcl$(VER).lib tk$(VER).lib 
 
-PACKAGES = rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi \
-    bdertl.bpi bcbsmp.bpi vcldbx.bpi dclocx.bpi qrpt.bpi
-
 # ---------------------------------------------------------------------------
-USERDEFINES = _DEBUG
-SYSDEFINES  = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared;$(BCB)\Components\Boost;.\tcl$(TCLVER)\generic;.\tk$(TCLVER)\generic;.\tk$(TCLVER)\xlib
-LIBPATH     = $(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-
-# declarations common to all compiler options
-#cbase	= -c -q -3 -a4 -g0 -tWM -Ve -Vx -X-
-#WARNINGS = -w-rch -w-pch -w-par -w-dup -w-pro -w-dpu -w-ccc -w-inl
-
-#CFLAG1 = -WD -O2 -Vx -Ve -X- -r- -a8 -b- -k -vi -c -tWM -q
-#LFLAGS = -D"" -aa -Tpd -x -Gn -Gi -v
-#CFLAG1= $(cdebug) $(cbase) 
-
+RESFILES = 
+USERDEFINES =
+SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost;.\tcl$(TCLVER)\generic;.\tk$(TCLVER)\generic;.\tk$(TCLVER)\xlib
+LIBPATH = $(SYSLIBPATH)
 CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
-# ---------------------------------------------------------------------------
-source:  ..\lib\ASTcl$(TCLVER).license.terms $(PROJECT) 
-
-# ---------------------------------------------------------------------------
-ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib $(OBJFILES)
 ALLRES = $(RESFILES)
-ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib 
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
 
-$(PROJECT): $(OBJFILES) $(LIBFILES)
-    $(LINKER) @&&!
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+
+source: ..\lib\ASTcl$(TCLVER).license.terms $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
     $(LFLAGS) -L$(LIBPATH) +
     $(ALLOBJ), +
     $(PROJECT),, +
@@ -82,9 +72,9 @@ $(PROJECT): $(OBJFILES) $(LIBFILES)
     $(DEFFILE), +
     $(ALLRES)
 !
-
-.cpp.obj: 
+.cpp.obj:
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+# ---------------------------------------------------------------------------
 
 clean:
 	del $(OBJFILES) 
