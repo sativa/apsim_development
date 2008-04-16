@@ -14,37 +14,42 @@ LD=$(BCB)/Bin/ilink32.exe
 !include $(APSROOT)\APSBuild\platform.make
 !include $(APSROOT)\APSBuild\cpp.make
 
-TARGET = ..\..\Bin\Protocol.dll
-OBJECTS = Protocol.obj transport.obj Computation.obj
+PROJECT= ..\..\Bin\Protocol.dll
+OBJFILES = Protocol.obj transport.obj Computation.obj
 RESFILES = Protocol.res
 LIBFILES = $(APSROOT)\Shared\general\general.lib $(APSROOT)\Shared\general\general_vcl.lib $(APSROOT)\Shared\ApsimShared\ApsimShared.lib
 
-USERDEFINES =
-SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
-LIBPATH = $(SYSLIBPATH)
-
-ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJECTS)
-ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib
-
 # ---------------------------------------------------------------------------
+RESFILES = 
+USERDEFINES =
+SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost;
+LIBPATH = $(SYSLIBPATH)
 CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
 WARNINGS = -w-par
-LFLAGS = -l. -D"" -aa -Tpd -x -Gn -Gi
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
-$(TARGET): $(OBJECTS)
-	$(LD) @&&!
-$(LFLAGS) -L$(LIBPATH) +
-$(ALLOBJ), +
-$(TARGET),, +
-$(ALLLIB), +
-$(DEFFILE), +
-$(ALLRES)
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
 
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
 !
-
 .cpp.obj:
-    $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+# ---------------------------------------------------------------------------
 
 clean:
 	$(RM) $(OBJECTS) $(TARGET)

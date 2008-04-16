@@ -19,8 +19,8 @@
 #include <ApsimShared/ApsimDataFile.h>
 #include <ComponentInterface/Component.h>
 
-#include <StringVariant.h>
-#include <InputComponent.h>
+#include "../../input/source/StringVariant.h"
+#include "../../input/source/InputComponent.h"
 #include "SiloInputComponent.h"
 
 using namespace std;
