@@ -1,12 +1,13 @@
 #ifndef RootPartH
 #define RootPartH
 #include "RootBase.h"
+#include "Soil.h"
 
 class RootPart : public RootBase
    {
    public:
       ~RootPart(){};
-
+      Soil soil;
       void zeroAllGlobals(void);
       void zeroDeltas(void);
       void onInit1(protocol::Component *system);
@@ -57,7 +58,6 @@ class RootPart : public RootBase
       void UpdateOtherVariables();
 
       float wet_root_fr (void);
-      void onNewProfile(protocol::NewProfileType &v);
       virtual void write();
 
       float plant_nit_supply(float biomass, float stageNumber, float swdef_fixation);
@@ -76,14 +76,9 @@ class RootPart : public RootBase
    protected:
       RootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
 
-      int find_layer_no(float);
-      int find_layer_no(float,const vector<float>&);
-      int find_layer_no(float, float *, int);
 
-      int num_layers;
       vector<float> dltRootLength;
       float root_length[max_layer];                     // root length (mm/mm^2)
-      float dlayer[max_layer];                         // thickness of soil layer I (mm)
       float dltRootDepth;                               // increase in root depth (mm)
       float root_depth;                                 // depth of roots (mm)
       vector<float> xf;                                 // root exploration factor (0-1)
@@ -97,14 +92,6 @@ class RootPart : public RootBase
       interpolationFunction ws_root_fac;
       lookupFunction root_depth_rate;
 
-      float ll15_dep[max_layer];
-      float dul_dep[max_layer];                        // drained upper limit soil water content for soil layer L (mm water)
-      float sat_dep[max_layer];
-      float bd[max_layer];
-      float sw_dep[max_layer];                         // soil water content of layer L (mm)
-
-      float no3gsm [max_layer];                         // nitrate nitrogen in layer L (g N/m^2)
-      float nh4gsm [max_layer];                         // nitrate nitrogen in layer L (g N/m^2)
       float dlt_nh4gsm[max_layer];                      // actual NH4 uptake from soil (g/m^2)
       float dlt_no3gsm[max_layer];                      // actual NO3 uptake from soil (g/m^2)
       float sw_lb;                                      // lower limit of soilwater  (mm/mm)
