@@ -102,13 +102,6 @@ float NoRoot::pesw(int /*depth*/)
    return 1.0;
    }
 
-float NoRoot::dltSwDep()
-//=======================================================================================
-// Calculate total plant extractable soil water.
-   {
-   return SWDemand;
-   }
-
 float NoRoot::nUptake()
 //=======================================================================================
 // find the proportion of uptake to be distributed

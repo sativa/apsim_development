@@ -19,7 +19,7 @@ RootPart::RootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name
    {
    incorp_fom_ID = 0;
 
-   zeroSoil();
+
    zeroAllGlobals();
    }
 
@@ -38,16 +38,8 @@ void RootPart::zeroAllGlobals(void)
    fill_real_array (root_length_senesced, 0.0, max_layer);
    n_conc_min = n_conc_crit = n_conc_max = 0.0;
 
-      fill_real_array (kl, 0.0, max_layer);
-      kl_ub = 0.0;
 
 
-      fill_real_array (sw_avail_pot, 0.0, max_layer);
-      fill_real_array (sw_avail, 0.0, max_layer);
-      fill_real_array (sw_supply , 0.0, max_layer);
-      fill_real_array (dlt_sw_dep, 0.0, max_layer);
-      fill_real_array (dlt_no3gsm, 0.0, max_layer);
-      fill_real_array (dlt_nh4gsm, 0.0, max_layer);
 
       uptake_source = "";
 
@@ -58,38 +50,18 @@ void RootPart::zeroAllGlobals(void)
       no3_conc_half_max = 0.0;
    }
 
-void RootPart::zeroSoil(void)
-//=======================================================================================
-// Zero all Soil variables
-   {
-      fill_real_array (ll_dep, 0.0, max_layer);
-      sw_dep_ub = 0.0;
-      sw_dep_lb = 0.0;
-
-      sw_lb = 0.0;
-      sw_ub = 0.0;
-      xf.clear();
-      //for (unsigned int layer = 1; layer != max_layer; layer++)
-      //xf.push_back(0.0);
-
-   }
-
 void RootPart::zeroDeltas(void)
 //=======================================================================================
 // Zero all daily deltas
    {
    SimplePart::zeroDeltas();
+   soil.ZeroDeltas();
+
    dltRootDepth = 0.0;
    setTo(dltRootLength, (float)0.0);
    setTo(dltRootLengthSenesced, (float)0.0);
    setTo(dltRootLengthDead, (float)0.0);
 
-   fill_real_array (sw_avail , 0.0, max_layer);
-   fill_real_array (sw_avail_pot , 0.0, max_layer);
-   fill_real_array (sw_supply , 0.0, max_layer);
-   fill_real_array (dlt_sw_dep , 0.0, max_layer);
-   fill_real_array (dlt_no3gsm , 0.0, max_layer);
-   fill_real_array (dlt_nh4gsm , 0.0, max_layer);
 
    fill_real_array (no3gsm_uptake_pot, 0.0, max_layer);
    fill_real_array (nh4gsm_uptake_pot, 0.0, max_layer);
@@ -118,12 +90,6 @@ void RootPart::onInit1(protocol::Component *system)
 
    setupGetFunction(system, "rld", protocol::DTsingle, true,
                     &RootPart::get_rlv, "mm/mm^3", "Root length density");
-
-   setupGetFunction(system, "kl", protocol::DTsingle, true,
-                    &RootPart::get_kl, "", "Root Water Uptake Parameter");
-
-   setupGetFunction(system, "xf", protocol::DTsingle, true,
-                    &RootPart::get_xf, "", "Root Exploration Factor");
 
    setupGetFunction(system, "no3gsm_uptake_pot", protocol::DTsingle, true,
                     &RootPart::get_no3gsm_uptake_pot,
@@ -176,14 +142,8 @@ void RootPart::read()
    scienceAPI.readOptional("crop_type", crop_type);
    scienceAPI.read("n_supply_preference", n_supply_preference);
 
-   scienceAPI.read("sw_ub", sw_ub, 0.0f, 1.0f);
-   scienceAPI.read("sw_lb", sw_lb, 0.0f, 1.0f);
-   scienceAPI.read("sw_dep_ub", sw_dep_ub, 0.0f, 10000.0f);
-   scienceAPI.read("sw_dep_lb", sw_dep_lb, 0.0f, 10000.0f);
-
    // Read species-specific parameters
 
-   scienceAPI.read("kl_ub",kl_ub, 0.0f, 1.0f);
    scienceAPI.read("specific_root_length", specificRootLength,0.0f, 1000000.0f);
    scienceAPI.read("n_conc_crit_root", n_conc_crit, 0.0f, 100.0f);
    scienceAPI.read("n_conc_max_root", n_conc_max, 0.0f, 100.0f);
@@ -213,37 +173,6 @@ void RootPart::read()
                          "x_ws_root", "()", 0.0, 1.0,
                          "y_ws_root_fac", "()", 0.0, 1.0);
 
-   // Read Rooting parameters
-    vector<float> ll ;   // lower limit of plant-extractable
-                         // soil water for soil layer l
-                         // (mm water/mm soil)
-
-    if (scienceAPI.readOptional("ll", ll, 0.0, sw_ub))
-       {
-       for (unsigned int layer = 0; layer != ll.size(); layer++)
-          ll_dep[layer] = ll[layer]*soil.dlayer[layer];
-
-       if ((int)ll.size() != soil.num_layers)
-          throw std::runtime_error ("Size of LL array doesn't match soil profile.");
-       }
-    else
-       {
-       scienceAPI.getOptional("ll15", "", ll, 0.0, sw_ub);
-       if (ll.size() == 0)
-          throw std::runtime_error("No Crop Lower Limit found");
-
-       for (unsigned int i=0; i< ll.size(); i++) ll_dep[i] = ll[i]*soil.dlayer[i];
-       cout << "        Using externally supplied Lower Limit (ll15)\n";
-       }
-
-   scienceAPI.read("xf", xf, 0.0f, 1.0f);
-   if (xf.size() != (unsigned) soil.num_layers)
-       throw std::runtime_error ("Size of XF array doesn't match soil profile.");
-
-   int num_kls = 0;
-   scienceAPI.read("kl", kl, num_kls, 0.0f, kl_ub);
-   if (num_kls != soil.num_layers)
-      throw std::runtime_error  ("Size of KL array doesn't match soil profile.");
 
 
    scienceAPI.readOptional("uptake_source", uptake_source);
@@ -271,45 +200,15 @@ void RootPart::read()
       scienceAPI.read("total_n_uptake_max", total_n_uptake_max, 0.0f, 100.0f);
       }
 
-   scienceAPI.read("no3_ub", no3_ub, 0.0f, 100000.0f);
-   scienceAPI.read("no3_lb", no3_lb, 0.0f, 100000.0f);
-   scienceAPI.read("nh4_ub", nh4_ub, 0.0f, 100000.0f);
-   scienceAPI.read("nh4_lb", nh4_lb, 0.0f, 100000.0f);
+
+   soil.Read();
    }
 
 void RootPart::write()
 //=======================================================================================
 // Write all parameters as a summary to stdout.
    {
-   cout << "                        Root Profile" << endl;
-   cout << "         -----------------------------------------------" << endl;
-   cout << "          Layer       Kl           Lower    Exploration" << endl;
-   cout << "          Depth     Factor         Limit      Factor" << endl;
-   cout << "          (mm)         ()        (mm/mm)       (0-1)" << endl;
-   cout << "         -----------------------------------------------" << endl;
-
-    float dep_tot, esw_tot;                      // total depth of soil & ll
-    char  msg[200];
-
-    dep_tot = esw_tot = 0.0;
-    for (int layer = 0; layer < soil.num_layers; layer++)
-       {
-       sprintf (msg, "     %9.1f%10.3f%15.3f%12.3f"
-          , soil.dlayer[layer]
-          , kl[layer]
-          , divide(ll_dep[layer],soil.dlayer[layer],0.0)
-          , xf[layer]);
-       cout << msg << endl;
-       dep_tot += soil.dlayer[layer];
-       esw_tot += soil.dul_dep[layer] - ll_dep[layer];
-       }
-    cout << "         -----------------------------------------------" << endl;
-    sprintf (msg
-          , "         Extractable SW: %5.0fmm in %5.0fmm total depth (%3.0f%%)."
-          , esw_tot
-          , dep_tot
-          , fract2pcnt * divide(esw_tot, dep_tot, 0.0));
-    cout << msg << endl;
+   soil.write();
    }
 
 void RootPart::onTransplanting(void)
@@ -354,7 +253,7 @@ void RootPart::onEmergence(void)
    int deepest_layer = soil.find_layer_no (root_depth);
 
    for (int layer = 0; layer <= deepest_layer; layer++)
-      root_length[layer] = rld *soil.dlayer[layer] * root_proportion (layer);
+      root_length[layer] = rld *soil.dlayer[layer] * soil.root_proportion (layer, root_depth);
    }
 
 void RootPart::onFlowering(void)
@@ -442,11 +341,9 @@ void RootPart::plant_root_depth (void)
 
    int next_layer = min(layer+1, deepest_layer);
 
-   float fasw1 = divide (soil.sw_dep [layer] - ll_dep[layer],
-                         soil.dul_dep[layer] - ll_dep[layer], 0.0);
+   float fasw1 = soil.layer_fasw(layer);
 
-   float fasw2 = divide (soil.sw_dep [next_layer] - ll_dep[next_layer],
-                         soil.dul_dep[next_layer] - ll_dep[next_layer], 0.0);
+   float fasw2 = soil.layer_fasw(next_layer);
 
    fasw1 = min(1.0,max(0.0, fasw1));
    fasw2 = min(1.0,max(0.0, fasw2));
@@ -462,11 +359,11 @@ void RootPart::plant_root_depth (void)
    dltRootDepth  = root_depth_rate.value(stage) *
                      temp_factor *
                        min(ws_factor, sw_avail_factor) *
-                         xf[layer];
+                         soil.xf[layer];
 
    // prevent roots partially entering layers where xf == 0
-   for (deepest_layer = xf.size()-1;
-        deepest_layer >= 0 && xf[deepest_layer] <= 0.0;
+   for (deepest_layer = soil.xf.size()-1;
+        deepest_layer >= 0 && soil.xf[deepest_layer] <= 0.0;
         deepest_layer--)
       ; /* nothing */
 
@@ -652,31 +549,7 @@ void RootPart::root_incorp_dead (float  dlt_dm_root,                  // (INPUT)
    }
 
 
-float RootPart::root_proportion (int layer)
-//===========================================================================
-//  Returns the proportion of layer that has roots in it (0-1).
-//  Definition
-//     Each element of "dlayr" holds the height of  the
-//     corresponding soil layer.  The height of the top layer is
-//     held in "dlayr"(1), and the rest follow in sequence down
-//     into the soil profile.  Given a root depth of "root_depth",
-//     this function will return the proportion of "dlayr"("layer")
-//     which has roots in it  (a value in the range 0..1).
-//
-   {
-   // Local Variables
-   float depth_to_layer_bottom;   // depth to bottom of layer (mm)
-   float depth_to_layer_top;      // depth to top of layer (mm)
-   float depth_to_root;           // depth to root in layer (mm)
-   float depth_of_root_in_layer;  // depth of root within layer (mm)
-   // Implementation Section ----------------------------------
-   depth_to_layer_bottom = sum_real_array(soil.dlayer, layer+1);
-   depth_to_layer_top = depth_to_layer_bottom - soil.dlayer[layer];
-   depth_to_root  = min(depth_to_layer_bottom, root_depth);
-   depth_of_root_in_layer = max(0.0, depth_to_root-depth_to_layer_top);
 
-   return (divide (depth_of_root_in_layer, soil.dlayer[layer], 0.0));
-   }
 
 void RootPart::doNConccentrationLimits(float)
 //==========================================================================
@@ -799,20 +672,6 @@ void RootPart::get_root_length_senesced(protocol::Component *system, protocol::Q
     system->sendVariable(qd, protocol::vector<float>(root_length_senesced, root_length_senesced+soil.num_layers));
 }
 
-void RootPart::get_kl(protocol::Component *system, protocol::QueryValueData &qd)
-//=======================================================================================
-// Getter Function for KL
-{
-    system->sendVariable(qd, protocol::vector<float>(kl,kl+soil.num_layers));
-}
-
-void RootPart::get_xf(protocol::Component *system, protocol::QueryValueData &qd)
-//=======================================================================================
-// Getter Function of XF
-{
-    system->sendVariable(qd, xf);
-}
-
 void RootPart::get_no3gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)                  //FIXME - belongs in rootPart
    {
    system->sendVariable(qd, protocol::vector<float>(no3gsm_uptake_pot, no3gsm_uptake_pot+soil.num_layers));
@@ -842,93 +701,17 @@ void RootPart::getOtherVariables()
 //=======================================================================================
 // Get data from other modules as required
    {
-   std::vector<float> values;               // Scratch area
-   scienceAPI.get("sw_dep", "", values, sw_dep_lb, sw_dep_ub);
-   for (unsigned int i=0; i< values.size(); i++)
-      soil.sw_dep[i] = values[i];
-
-   values.clear();
-   if (!scienceAPI.getOptional("no3", "", values, no3_lb, no3_ub))
-      {
-      // we have no N supply - make non-limiting.
-      for (int i = 0; i < soil.num_layers; i++)
-         values.push_back(10000.0);
-      }
-   for (int i = 0; i < soil.num_layers; i++)
-      soil.no3gsm[i] = values[i] * kg2gm /ha2sm;
-
-    values.clear();
-    if (!scienceAPI.getOptional("nh4", "", values, nh4_lb, nh4_ub))
-        {
-        // we have no N supply - make non-limiting.
-        for (int i = 0; i < soil.num_layers; i++)
-           values.push_back(10000.0);
-        }
-    for (int i = 0; i < soil.num_layers; i++)
-       soil.nh4gsm[i] = values[i] * kg2gm /ha2sm;
-
+   soil.getOtherVariables();
    }
 
-void RootPart::doWaterSupply ()
-//=======================================================================================
-// Calculate today's daily water supply from this root system
-// based on the KL approach
-   {
-   crop_check_sw(sw_lb, soil.dlayer, soil.dul_dep, soil.sw_dep, ll_dep);
-
-   // potential extractable sw
-   doPotentialExtractableSW();
-
-   // actual extractable sw (sw-ll)
-   doSWAvailable();
-
-   doSWSupply();
-   }
 
 float RootPart::waterUptake (void)
 //=======================================================================================
 // Return the total daily water uptake from this root system
    {
-   return (- sum_real_array(dlt_sw_dep, max_layer));;
+   return (- sum_real_array(soil.dlt_sw_dep, max_layer));;
    }
 
-void RootPart::doWaterUptakeInternal (float sw_demand)
-//=======================================================================================
-// Calculate todays daily water uptake by this root system
-   {
-   int deepest_layer = find_layer_no (root_depth, soil.dlayer, max_layer);
-   float sw_supply_sum = sum_real_array (sw_supply, deepest_layer+1);
-
-   if ((sw_supply_sum < 0.0) || (sw_demand  < 0.0))
-      {
-      //we have no uptake - there is no demand or potential
-      fill_real_array (dlt_sw_dep, 0.0, max_layer);
-      }
-   else
-      {
-      // get actual uptake
-      fill_real_array (dlt_sw_dep, 0.0, max_layer);
-      if (sw_demand < sw_supply_sum)
-         {
-         // demand is less than what roots could take up.
-         // water is non-limiting.
-         // distribute demand proportionately in all layers.
-         for(int layer = 0; layer <= deepest_layer; layer++)
-            {
-            dlt_sw_dep[layer] = -1 * divide (sw_supply[layer], sw_supply_sum, 0.0) * sw_demand;
-            }
-         }
-      else
-         {
-         // water is limiting - not enough to meet demand so take
-         // what is available (potential)
-         for(int layer = 0; layer <= deepest_layer; layer++)
-            {
-            dlt_sw_dep[layer] = -1 * sw_supply[layer];
-            }
-         }
-      }
-   }
 
 void RootPart::doPlantWaterStress (float sw_demand, SWStress *swStress)
 //     ===========================================================
@@ -937,26 +720,7 @@ void RootPart::doPlantWaterStress (float sw_demand, SWStress *swStress)
     swStress->doPlantWaterStress (sw_demand);
    }
 
-void RootPart::doWaterUptakeExternal (float /*sw_demand*/)
-//=======================================================================================
-// Gets todays daily water uptake by this root system
-   {
-    int   layer;                                  // layer number of profile ()
-    float ext_sw_supply[max_layer];
 
-     plant_get_ext_uptakes(uptake_source.c_str()
-                          ,crop_type.c_str()
-                          ,"water"
-                          ,1.0
-                          ,0.0
-                          ,100.0
-                          ,ext_sw_supply);
-
-     for (layer = 0; layer < soil.num_layers; layer++)
-        {
-        dlt_sw_dep[layer] = -ext_sw_supply[layer];
-        }
-   }
 
 float RootPart::wet_root_fr (void)
 //=======================================================================================
@@ -1019,8 +783,8 @@ float RootPart::sw_avail_ratio(int layer)  //(INPUT) soil profile layer number
    float pesw_capacity;       // plant extractable soil-water capacity (mm/mm)
    float sw_avail_ratio;      // soil water availability ratio (0-1)
 
-   pesw = soil.sw_dep[layer] - ll_dep[layer];
-   pesw_capacity = soil.dul_dep[layer] - ll_dep[layer];
+   pesw = soil.sw_dep[layer] - soil.ll_dep[layer];
+   pesw_capacity = soil.dul_dep[layer] - soil.ll_dep[layer];
    sw_avail_ratio = divide (pesw, pesw_capacity, 10.0);
    return sw_avail_ratio;
    }
@@ -1031,23 +795,7 @@ void RootPart::UpdateOtherVariables()
 //=======================================================================================
 // Update data owned by other modules that has changed due to calculations by this root system
    {
-   if (Str_i_Eq(uptake_source, "calc"))
-      {
-      vector<float> dltNO3KgHa, dltNH4KgHa, dltSwDep;
-      for (int layer = 0; layer< soil.num_layers;layer++)
-         {
-         dltNO3KgHa.push_back(dlt_no3gsm[layer] * gm2kg /sm2ha);
-         dltNH4KgHa.push_back(dlt_nh4gsm[layer] * gm2kg /sm2ha);
-         dltSwDep.push_back(dlt_sw_dep[layer]);
-         }
-      scienceAPI.set("dlt_no3", "kg/ha", dltNO3KgHa);
-      scienceAPI.set("dlt_nh4", "kg/ha", dltNH4KgHa);
-      scienceAPI.set("dlt_sw_dep", "mm", dltSwDep);
-      }
-   else
-      {
-      // no need to send updates
-      }
+   soil.UpdateOtherVariables(uptake_source);
    }
 
 void RootPart::get_sw_uptake(protocol::Component *system, protocol::QueryValueData &qd)
@@ -1057,7 +805,7 @@ void RootPart::get_sw_uptake(protocol::Component *system, protocol::QueryValueDa
     float rwu[max_layer];
     for (int layer = 0; layer < soil.num_layers; layer++)
         {
-        rwu[layer] = fabs(dlt_sw_dep[layer]);
+        rwu[layer] = fabs(soil.dlt_sw_dep[layer]);
         }
     system->sendVariable(qd, protocol::vector<float>(rwu, rwu+soil.num_layers));
 }
@@ -1068,7 +816,7 @@ void RootPart::get_sw_supply(protocol::Component *system, protocol::QueryValueDa
 // Getter Function for Total Profile Soil Water Supply
 {
     int deepest_layer = soil.find_layer_no (root_depth);
-    float sw_supply_sum = sum_real_array (sw_supply, deepest_layer+1);
+    float sw_supply_sum = sum_real_array (soil.sw_supply, deepest_layer+1);
     system->sendVariable(qd, sw_supply_sum);
 }
 
@@ -1076,7 +824,7 @@ void RootPart::get_sw_supply_layr(protocol::Component *system, protocol::QueryVa
 //=======================================================================================
 // Getter function for soil water supply from each layer
 {
-    system->sendVariable(qd, protocol::vector<float>(sw_supply, sw_supply+soil.num_layers));
+    system->sendVariable(qd, protocol::vector<float>(soil.sw_supply, soil.sw_supply+soil.num_layers));
 }
 
 void RootPart::get_ep(protocol::Component *system, protocol::QueryValueData &qd)
@@ -1086,7 +834,7 @@ void RootPart::get_ep(protocol::Component *system, protocol::QueryValueData &qd)
     float sum = 0.0;
     for (int layer = 0; layer < soil.num_layers; layer++)
         {
-        sum = sum + fabs(dlt_sw_dep[layer]);
+        sum = sum + fabs(soil.dlt_sw_dep[layer]);
         }
     system->sendVariable(qd, sum);
 }
@@ -1098,7 +846,7 @@ void RootPart::get_esw_layr(protocol::Component *system, protocol::QueryValueDat
     float esw_layr[max_layer];
     for (int layer = 0; layer < soil.num_layers; layer++)
        {
-       esw_layr[layer] = l_bound (soil.sw_dep[layer] - ll_dep[layer], 0.0);
+       esw_layr[layer] = l_bound (soil.sw_dep[layer] - soil.ll_dep[layer], 0.0);
        }
     system->sendVariable(qd, protocol::vector<float>(esw_layr,esw_layr+soil.num_layers));
 }
@@ -1109,7 +857,7 @@ void RootPart::get_no3_uptake(protocol::Component *system, protocol::QueryValueD
     float no3_uptake[max_layer];
     fill_real_array(no3_uptake,0.0, max_layer);
     for (int layer = 0; layer < soil.num_layers; layer++) {
-       no3_uptake[layer] =  dlt_no3gsm[layer] * gm2kg/sm2ha;
+       no3_uptake[layer] =  soil.dlt_no3gsm[layer] * gm2kg/sm2ha;
     }
     system->sendVariable(qd, protocol::vector<float>(no3_uptake, no3_uptake+soil.num_layers));
 }
@@ -1121,7 +869,7 @@ void RootPart::get_nh4_uptake(protocol::Component *system, protocol::QueryValueD
     float nh4_uptake[max_layer];
     fill_real_array(nh4_uptake,0.0, max_layer);
     for (int layer = 0; layer <= soil.num_layers; layer++) {
-       nh4_uptake[layer] =  dlt_nh4gsm[layer] * gm2kg/sm2ha;
+       nh4_uptake[layer] =  soil.dlt_nh4gsm[layer] * gm2kg/sm2ha;
     }
     system->sendVariable(qd, protocol::vector<float>(nh4_uptake, nh4_uptake+soil.num_layers));
 }
@@ -1140,7 +888,7 @@ void RootPart::get_ll_dep(protocol::Component *systemInterface, protocol::QueryV
    {
    vector<float> lldep;
    for(int layer = 0; layer < soil.num_layers; layer++)
-      lldep.push_back(ll_dep[layer]);
+      lldep.push_back(soil.ll_dep[layer]);
    systemInterface->sendVariable(qd, lldep);
 }
 
@@ -1150,7 +898,7 @@ void RootPart::get_ll(protocol::Component *systemInterface, protocol::QueryValue
    {
    vector<float> ll;
    for(int layer = 0; layer < soil.num_layers; layer++)
-      ll.push_back(ll_dep[layer] / soil.dlayer[layer]);
+      ll.push_back(soil.ll_dep[layer] / soil.dlayer[layer]);
    systemInterface->sendVariable(qd, ll);
    }
 
@@ -1159,8 +907,8 @@ void RootPart::get_n_supply_soil(protocol::Component *systemInterface, protocol:
 // Getter function for soil n supply (g/m^2)
    {
    int deepest_layer = soil.find_layer_no(root_depth);
-   float n_uptake_sum = sum_real_array(dlt_no3gsm, deepest_layer+1)
-                     +  sum_real_array(dlt_nh4gsm, deepest_layer+1);
+   float n_uptake_sum = sum_real_array(soil.dlt_no3gsm, deepest_layer+1)
+                     +  sum_real_array(soil.dlt_nh4gsm, deepest_layer+1);
    if (n_uptake_sum > 0)
       n_uptake_sum = - n_uptake_sum;
    else if (n_uptake_sum < 0)
@@ -1177,7 +925,7 @@ void RootPart::get_no3_swfac(protocol::Component *systemInterface, protocol::Que
    float swfac[max_layer];
    for (int layer=0; layer < soil.num_layers; layer++)
       {
-      swfac[layer] = pow(divide(sw_avail[layer], sw_avail_pot[layer],0.0), 2);
+      swfac[layer] = pow(divide(soil.sw_avail[layer], soil.sw_avail_pot[layer],0.0), 2);
       swfac[layer] = bound(swfac[layer],0.0,1.0);
       }
 
@@ -1195,13 +943,13 @@ float RootPart::plant_nit_supply(float biomass, float stageNumber, float swdef_f
 
     if (n_uptake_option == 1)
         cproc_n_supply1 (soil.dlayer
-                         , dlt_sw_dep
+                         , soil.dlt_sw_dep
                          , soil.no3gsm
                          , no3gsm_min
                          , root_depth
                          , soil.sw_dep
                          , no3gsm_mflow_avail
-                         , sw_avail
+                         , soil.sw_avail
                          , no3gsm_diffn_pot
                          , stageNumber
                          , n_fix_rate
@@ -1221,8 +969,8 @@ float RootPart::plant_nit_supply(float biomass, float stageNumber, float swdef_f
                          , total_n_uptake_max
                          , no3_uptake_max
                          , no3_conc_half_max
-                         , sw_avail_pot
-                         , sw_avail
+                         , soil.sw_avail_pot
+                         , soil.sw_avail
                          , stageNumber
                          , n_fix_rate
                          , biomass
@@ -1249,8 +997,8 @@ float RootPart::plant_nit_supply(float biomass, float stageNumber, float swdef_f
                              , knh4
                              , nh4ppm_min
                              , total_n_uptake_max
-                             , sw_avail_pot
-                             , sw_avail
+                             , soil.sw_avail_pot
+                             , soil.sw_avail
                              , stageNumber
                              , n_fix_rate
                              , biomass
@@ -1272,13 +1020,13 @@ void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
         {
         // NIH - note that I use a -ve conversion
         // factor FOR NOW to make it a delta.
-        plant_get_ext_uptakes(uptake_source.c_str()
+        soil.plant_get_ext_uptakes(uptake_source.c_str()
                              ,crop_type.c_str()
                              ,"no3"
                              ,-kg2gm/ha2sm
                              ,0.0
                              ,100.0
-                             ,dlt_no3gsm);
+                             ,soil.dlt_no3gsm);
 
 
         }
@@ -1293,7 +1041,7 @@ void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
                        , nDemand
                        , sumNMax
                        , root_depth
-                       , dlt_no3gsm);
+                       , soil.dlt_no3gsm);
         }
     else if ((n_uptake_option == 2) || (n_uptake_option == 3))
         {
@@ -1305,8 +1053,8 @@ void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
                         , sumSoilNDemand
                         , sumNMax
                         , root_depth
-                        , dlt_no3gsm
-                        , dlt_nh4gsm);
+                        , soil.dlt_no3gsm
+                        , soil.dlt_nh4gsm);
         }
     else
         {
@@ -1318,14 +1066,14 @@ void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
 //       Plant transpiration and soil water extraction
 void RootPart::doWaterUptake (int option, float SWDemand)
     {
-    doWaterSupply();
+    soil.doWaterSupply(root_depth);
     if (Str_i_Eq(uptake_source,"apsim"))
         {
-        doWaterUptakeExternal(SWDemand);
+        soil.doWaterUptakeExternal(uptake_source, crop_type);
         }
     else if (option == 1)
         {
-        doWaterUptakeInternal(SWDemand);
+        soil.doWaterUptakeInternal(SWDemand, root_depth);
         }
     else
         {
@@ -1334,85 +1082,20 @@ void RootPart::doWaterUptake (int option, float SWDemand)
     }
 
 // SWIM
-void RootPart::plant_get_ext_uptakes (const char *uptake_source,        //(INPUT) uptake flag
-                           const char *crop_type,            //(INPUT) crop type name
-                           const char *uptake_type,          //(INPUT) uptake name
-                           float unit_conversion_factor,     //(INPUT) unit conversion factor
-                           float uptake_lbound,              //(INPUT) uptake lower limit
-                           float uptake_ubound,              //(INPUT) uptake upper limit
-                           float *uptake_array)              //(OUTPUT) crop uptake array
-
-/*  Purpose
-*     Ask swim for uptakes of water or solute
-*
-*  Mission Statement
-*   Get the soil uptake for %3 from another module
-*
-*  Notes
-*      Bounds should probably be passed in when crops decide what
-*      these should be (ie when ini files have limits for uptake
-*      in them)
-*
-*  Changes
-*     08-05-1997 - huth - Programmed and Specified
-*     20/5/2003 ad converted to BC++
-*/
-   {
-   char uptake_name[80];             // Uptake variable name
-   unsigned layer;
-   std::vector<float> values;   // Scratch area
-
-   if (strcmp(uptake_source, "apsim") == 0 && *crop_type != '\0')
-      {
-      // NB - if crop type is blank then swim will know nothing
-      // about this crop (eg if not initialised yet)
-
-      sprintf(uptake_name, "uptake_%s_%s", uptake_type, crop_type);
-
-      scienceAPI.get(uptake_name, "", values, uptake_lbound, uptake_ubound);
-      for (layer=0; layer< values.size(); layer++)
-         uptake_array[layer] = values[layer] * unit_conversion_factor;
-      }
-   }
-
 
 
 float RootPart::peswTotal()
 //=======================================================================================
 // Calculate total plant extractable soil water.
    {
-   vector<float> pesw;
-   int deepest_layer = find_layer_no(root_depth, soil.dlayer, max_layer);
-   for (int layer = 0; layer <= deepest_layer; layer++)
-      {
-      pesw.push_back(soil.sw_dep[layer] - ll_dep[layer]);
-      pesw[layer] = l_bound (pesw[layer], 0.0);
-      }
-   return std::accumulate(pesw.begin(), pesw.end(), 0.0);
-   }
-
-float RootPart::pesw(int depth)
-//=======================================================================================
-// Calculate plant extractable soil water at the given depth.
-   {
-   int layerNo = soil.find_layer_no(depth);
-   return divide (soil.sw_dep[layerNo] - ll_dep[layerNo], soil.dlayer[layerNo], 0.0);
-   }
-
-float RootPart::dltSwDep()
-//=======================================================================================
-// Calculate total plant extractable soil water.
-   {
-   int deepest_layer = find_layer_no (root_depth, soil.dlayer, max_layer);
-   return -sum_real_array (dlt_sw_dep, deepest_layer+1);
+   return soil.peswTotal(root_depth);
    }
 
 float RootPart::swSupply()
 //=======================================================================================
 // Calculate total plant extractable soil water.
    {
-   int deepest_layer = find_layer_no (root_depth, soil.dlayer, max_layer);
-   return sum_real_array (sw_supply, deepest_layer+1);
+   return soil.swSupply(root_depth);
    }
 
 float RootPart::swAvailablePotential()
@@ -1420,171 +1103,21 @@ float RootPart::swAvailablePotential()
 // Calculate total plant potential extractable soil water.
    {
    int deepest_layer = find_layer_no (root_depth, soil.dlayer, max_layer);
-   return sum_real_array (sw_avail_pot, deepest_layer+1);
+   return sum_real_array (soil.sw_avail_pot, deepest_layer+1);
    }
 
-float RootPart::swAvailable()
-//=======================================================================================
-// Calculate total plant extractable soil water.
-   {
-   int deepest_layer = find_layer_no (root_depth, soil.dlayer, max_layer);
-   return sum_real_array (sw_avail, deepest_layer+1);
-   }
 
 float RootPart::nUptake()
 //=======================================================================================
-// find the proportion of uptake to be distributed
+//
    {
    int deepest_layer = find_layer_no (root_depth, soil.dlayer, max_layer);
-   float nUptakeSum = - sum_real_array (dlt_no3gsm, deepest_layer+1)
-                      - sum_real_array (dlt_nh4gsm, deepest_layer+1);
+   float nUptakeSum = - sum_real_array (soil.dlt_no3gsm, deepest_layer+1)
+                      - sum_real_array (soil.dlt_nh4gsm, deepest_layer+1);
    return nUptakeSum;
    }
 
-float RootPart::fasw(int depth)
-//=======================================================================================
-// calculate the fraction of available soil water at the given depth (mm)
-   {
-   int layerNo = soil.find_layer_no(depth);
-   float fasw = divide (soil.sw_dep[layerNo] - ll_dep[layerNo],
-                        soil.dul_dep[layerNo] - ll_dep[layerNo], 0.0);
-   return bound (fasw, 0.0, 1.0);
-   }
 
-
-//=========================================================================
-void RootPart::crop_check_sw(
-                   float minsw,    // (INPUT)  lowest acceptable value for ll
-                   float *dlayer,   // (INPUT)  thickness of soil layer I (mm)
-                   float *dul_dep,  // (INPUT)  drained upper limit soil water content for soil layer L (mm water)
-                   float *sw_dep,   // (INPUT)  soil water content of layer L (mm)
-                   float *ll_dep)   // (INPUT)  lower limit of plant-extractable soil water
-                                    //          for soil layer L (mm)
-//=========================================================================
-/*  Purpose
-*       Check validity of soil water parameters for all soil profile layers.
-*
-*  Mission Statement
-*       Check validity of soil water parameters for all soil profile layers.
-*
-*  Notes
-*           Reports an error if
-*           - ll_dep and dul_dep are not in ascending order
-*           - ll is below c_minsw
-*           - sw < c_minsw
-*
-*  Changes
-*     21/5/2003 ad converted to BC++
-*     010994 jngh specified and programmed
-*     970216 slw generalised to avoid common blocks
-*/
-   {
-   //  Local Variables
-   float dul;              // drained upper limit water content of layer (mm water/mm soil)
-   char err_msg[80];          // error message
-   int layer;              // layer number
-   float ll;               // lower limit water content of layer (mm water/mm soil)
-   float sw;               // soil water content of layer l (mm water/mm soil)
-   int num_layers;
-   // Implementation Section ----------------------------------
-
-   num_layers = count_of_real_vals (dlayer, max_layer);  //XX index_of_real_vals
-   for(layer = 0; layer <= num_layers; layer++)
-      {
-      sw = divide (soil.sw_dep[layer], dlayer[layer], 0.0);
-      dul = divide (soil.dul_dep[layer], dlayer[layer], 0.0);
-      ll = divide (ll_dep[layer], dlayer[layer], 0.0);
-
-      if (ll < minsw)
-         {
-         sprintf(err_msg,
-            " lower limit of %8.2f in layer %d\n         is below acceptable value of %8.2f",
-            ll, layer, minsw);
-         scienceAPI.warning(err_msg);
-         }
-      else
-         {
-         }
-
-      if (dul < ll)
-         {
-
-         sprintf(err_msg,
-            " Drained upper limit of %8.2f in layer %d\n         is at or below lower limit of %8.2f",
-            dul,layer, ll);
-         scienceAPI.warning(err_msg);
-         }
-      else
-         {
-         }
-      if (sw < minsw)
-         {
-         sprintf(err_msg,
-            " Soil water of %8.2f in layer %d\n         is below acceptable value of %8.2f",
-            sw, layer, minsw);
-         scienceAPI.warning(err_msg);
-         }
-      else
-         {
-         }
-      }
-
-   }
-
-
-
-void RootPart::doPotentialExtractableSW()
-//===========================================================================
-// Return potential available soil water from each layer in the root zone.
-   {
-   fill_real_array (sw_avail_pot, 0.0, max_layer);
-
-   int deepest_layer = find_layer_no (root_depth, soil.dlayer, max_layer);
-   for (int layer = 0; layer <= deepest_layer; layer++)
-      sw_avail_pot[layer] = soil.dul_dep[layer] - ll_dep[layer];
-
-   // correct bottom layer for actual root penetration
-   sw_avail_pot[deepest_layer] = sw_avail_pot[deepest_layer] * root_proportion(deepest_layer);
-   }
-
-void RootPart::doSWAvailable()
-//===========================================================================
-// Return actual water available for extraction from each layer in the
-// soil profile by the crop (mm water)
-   {
-   fill_real_array (sw_avail, 0.0, max_layer);
-
-   int deepest_layer = find_layer_no (root_depth, soil.dlayer, max_layer);
-   for(int layer = 0; layer <= deepest_layer; layer++)
-      {
-      sw_avail[layer] = soil.sw_dep[layer] - ll_dep[layer];
-      sw_avail[layer] = l_bound (sw_avail[layer], 0.0);
-      }
-   // correct bottom layer for actual root penetration
-   sw_avail[deepest_layer] = sw_avail[deepest_layer] * root_proportion(deepest_layer);
-   }
-
-
-void RootPart::doSWSupply()
-//=========================================================================
-// Return potential water uptake from each layer of the soil profile
-// by the crop (mm water). This represents the maximum amount in each
-// layer regardless of lateral root distribution but takes account of
-// root depth in bottom layer.
-   {
-   fill_real_array (sw_supply, 0.0, max_layer);
-
-   int deepest_layer = find_layer_no (root_depth, soil.dlayer, max_layer);
-   float sw_avail;
-   for(int i = 0; i <= deepest_layer; i++)
-      {
-      sw_avail = (soil.sw_dep[i] - ll_dep[i]);
-      sw_supply[i] = sw_avail * kl[i];
-      sw_supply[i] = l_bound (sw_supply[i], 0.0);
-      }
-   //now adjust bottom layer for depth of root
-   sw_supply[deepest_layer] = sw_supply[deepest_layer] * root_proportion(deepest_layer);
-   }
 
 void RootPart::rootDist(float root_sum, vector<float>& rootArray)
 //=========================================================================
@@ -1600,3 +1133,20 @@ void RootPart::rootDist(float root_sum, vector<float>& rootArray)
    }
 
 
+float RootPart::pesw(int depth)
+//=======================================================================================
+// Calculate plant extractable soil water at the given depth.
+   {
+   return soil.pesw(depth);
+   }
+
+float RootPart::fasw(int depth)
+   {
+   return soil.fasw(depth);
+   }
+float RootPart::swAvailable()
+//=======================================================================================
+// Calculate total plant extractable soil water.
+   {
+   return soil.swAvailable(root_depth);
+   }   

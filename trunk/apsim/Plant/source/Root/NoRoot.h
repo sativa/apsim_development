@@ -29,7 +29,6 @@ class NoRoot : public RootBase
 
       float peswTotal();
       float pesw(int depth);
-      float dltSwDep();
       float nUptake();
       float fasw(int depth);
 
