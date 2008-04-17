@@ -22,7 +22,7 @@ void Soil::onInit1(protocol::Component *system)
 
    scienceAPI.expose("xf", "", "Root exploration factor", xf);
    scienceAPI.expose("kl", "", "Root water uptake parameter", kl);
-   scienceAPI.expose("ll_dep", "", "Plant Lower Limit (mm/mm)", ll_dep);
+   scienceAPI.expose("ll_dep", "mm", "Plant Lower Limit (mm/mm)", ll_dep);
 
    }
 
