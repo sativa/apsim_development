@@ -108,13 +108,6 @@ class RootPart : public RootBase
                                                         // time it would take to take up by
                                                         // diffusion the current amount of N if
                                                         // it wasn't depleted between time steps
-      float no3gsm_uptake_pot[max_layer];
-      float no3gsm_mflow_avail[max_layer];              // potential NO3 (supply) from soil (g/m^2) by mass flow
-      float no3gsm_diffn_pot[max_layer];                // potential NO3 (supply) from soil (g/m^2), by diffusion
-
-      float nh4gsm_uptake_pot[max_layer];
-      float nh4gsm_mflow_avail[max_layer];              // potential NH4 (supply) from soil (g/m^2) by mass flow
-      float nh4gsm_diffn_pot[max_layer];                // potential NH4 (supply) from soil (g/m^2), by diffusion
 
       float no3_uptake_max;
       float no3_conc_half_max;
@@ -137,12 +130,10 @@ class RootPart : public RootBase
       void get_no3_uptake(protocol::Component *system, protocol::QueryValueData &qd);
       void get_nh4_uptake(protocol::Component *system, protocol::QueryValueData &qd);
       void get_no3_tot(protocol::Component *system, protocol::QueryValueData &qd);
-      void get_ll_dep(protocol::Component *systemInterface, protocol::QueryValueData &qd);
       void get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd);
       void get_no3gsm_uptake_pot(protocol::Component *, protocol::QueryValueData &);
       void get_nh4gsm_uptake_pot(protocol::Component *, protocol::QueryValueData &);
       void get_n_supply_soil(protocol::Component *system, protocol::QueryValueData &qd);
-      void get_no3_swfac(protocol::Component *systemInterface, protocol::QueryValueData &qd);
       void get_rlv(protocol::Component *system, protocol::QueryValueData &qd);
       void get_root_length(protocol::Component *system, protocol::QueryValueData &qd);
       void get_root_length_senesced(protocol::Component *system, protocol::QueryValueData &qd);

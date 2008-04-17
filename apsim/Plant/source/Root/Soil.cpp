@@ -22,6 +22,7 @@ void Soil::onInit1(protocol::Component *system)
 
    scienceAPI.expose("xf", "", "Root exploration factor", xf);
    scienceAPI.expose("kl", "", "Root water uptake parameter", kl);
+   scienceAPI.expose("ll_dep", "", "Plant Lower Limit (mm/mm)", ll_dep);
 
    }
 
@@ -47,8 +48,9 @@ void Soil::Read(void)
 
     if (scienceAPI.readOptional("ll", ll, 0.0, sw_ub))
        {
+       ll_dep.clear();
        for (unsigned int layer = 0; layer != ll.size(); layer++)
-          ll_dep[layer] = ll[layer]*dlayer[layer];
+          ll_dep.push_back (ll[layer]*dlayer[layer]);
 
        if ((int)ll.size() != num_layers)
           throw std::runtime_error ("Size of LL array doesn't match soil profile.");
@@ -59,7 +61,8 @@ void Soil::Read(void)
        if (ll.size() == 0)
           throw std::runtime_error("No Crop Lower Limit found");
 
-       for (unsigned int i=0; i< ll.size(); i++) ll_dep[i] = ll[i]*dlayer[i];
+       ll_dep.clear();
+       for (unsigned int i=0; i< ll.size(); i++) ll_dep.push_back(ll[i]*dlayer[i]);
        cout << "        Using externally supplied Lower Limit (ll15)\n";
        }
 
@@ -156,8 +159,9 @@ void Soil::zero(void)
       fill_real_array (bd , 0.0, max_layer);
       fill_real_array (no3gsm , 0.0, max_layer);
       fill_real_array (nh4gsm , 0.0, max_layer);
+
       fill_real_array (sw_dep , 0.0, max_layer);
-      fill_real_array (ll_dep, 0.0, max_layer);
+      ll_dep.clear();
       kl.clear();
       kl_ub = 0.0;
 
@@ -178,6 +182,8 @@ void Soil::ZeroDeltas(void)
 
    fill_real_array (dlt_no3gsm , 0.0, max_layer);
    fill_real_array (dlt_nh4gsm , 0.0, max_layer);
+   fill_real_array (no3gsm_uptake_pot, 0.0, max_layer);
+   fill_real_array (nh4gsm_uptake_pot, 0.0, max_layer);
 
    }
 
@@ -355,7 +361,7 @@ void Soil::doWaterSupply (float root_depth)
 // Calculate today's daily water supply from this root system
 // based on the KL approach
    {
-   crop_check_sw(sw_lb, dlayer, dul_dep, sw_dep, ll_dep);
+   crop_check_sw(sw_lb, dlayer, dul_dep, sw_dep);
 
    // potential extractable sw
    doPotentialExtractableSW(root_depth);
@@ -371,9 +377,8 @@ void Soil::crop_check_sw(
                    float minsw,    // (INPUT)  lowest acceptable value for ll
                    float *dlayer,   // (INPUT)  thickness of soil layer I (mm)
                    float *dul_dep,  // (INPUT)  drained upper limit soil water content for soil layer L (mm water)
-                   float *sw_dep,   // (INPUT)  soil water content of layer L (mm)
-                   float *ll_dep)   // (INPUT)  lower limit of plant-extractable soil water
-                                    //          for soil layer L (mm)
+                   float *sw_dep)   // (INPUT)  soil water content of layer L (mm)
+
 //=========================================================================
 /*  Purpose
 *       Check validity of soil water parameters for all soil profile layers.
@@ -653,4 +658,22 @@ void Soil::UpdateOtherVariables(string uptake_source)
       {
       // no need to send updates
       }
-   }   
+   }
+
+float Soil::waterUptake (void)
+//=======================================================================================
+// Return the total daily water uptake from this root system
+   {
+   return (- sum_real_array(dlt_sw_dep, max_layer));;
+   }
+
+float Soil::WFPS(int layer)
+//=======================================================================================
+//
+   {
+   float wfps;
+   wfps = divide(sw_dep[layer] - ll15_dep[layer],
+                sat_dep[layer] - ll15_dep[layer], 0.0);
+   wfps = bound (wfps, 0.0, 1.0);
+   return wfps;
+   }
