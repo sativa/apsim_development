@@ -20,6 +20,7 @@ LIBFILES = $(SYSLIBS) $(APSROOT)\Shared\general\general.lib \
     $(BCB)\Components\Boost\libs\date_time\date_time.lib \
     $(BCB)\Components\LibXml2\win32\LibXml2.lib
     
+IMPDEF=$(BCB)\Bin\impdef.exe    
 # ---------------------------------------------------------------------------
 RESFILES = 
 USERDEFINES =
@@ -48,6 +49,10 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
     $(DEFFILE), +
     $(ALLRES)
 !
+	$(MV) $(APSROOT)\Bin\ApsimShared.lib .
+	$(IMPDEF) ApsimShared.def $(PROJECT)
+	$(APSROOT)\Tools\def2imp\def2imp.exe ApsimShared.def ApsimShared.imp
+     
 .cpp.obj:
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 # ---------------------------------------------------------------------------
