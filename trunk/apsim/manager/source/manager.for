@@ -845,7 +845,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
          read (value, '(g25.0)', iostat = read_status) realvalue
          if (read_status.eq.OK_status) then
             write(str, '(f15.5)' ) RealValue
-            g%local_variable_values(Indx) = Trim(str)
+            !g%local_variable_values(Indx) = Trim(str)
+            call assign_string(g%local_variable_values(Indx), Trim(str))
          endif
       endif
       return
