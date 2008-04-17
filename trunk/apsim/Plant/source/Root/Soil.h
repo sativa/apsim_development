@@ -33,8 +33,9 @@ class Soil
       void getOtherVariables();
       void doWaterUptakeExternal (string uptake_source, string crop_type);
       void UpdateOtherVariables(string uptake_source);
-      void crop_check_sw(float minsw, float *dlayer, float *dul_dep, float *sw_dep, float *ll_dep);
-
+      void crop_check_sw(float minsw, float *dlayer, float *dul_dep, float *sw_dep);
+      float waterUptake (void);
+      float WFPS(int layer);
       float swAvailable(float root_depth);
       float sw_lb;                                      // lower limit of soilwater  (mm/mm)
       float sw_ub;                                      // upper limit of soilwater  (mm/mm)
@@ -48,7 +49,7 @@ class Soil
 
 
       float dlayer[max_layer];                         // thickness of soil layer I (mm)
-      float ll_dep[max_layer];                          // lower limit of plant-extractable
+      vector<float> ll_dep;                          // lower limit of plant-extractable
       vector<float> kl;                                // root length density factor for water
       vector<float> xf;                                 // root exploration factor (0-1)
 
@@ -64,6 +65,13 @@ class Soil
                                                         // from current soil water (mm)
       float dlt_nh4gsm[max_layer];                      // actual NH4 uptake from soil (g/m^2)
       float dlt_no3gsm[max_layer];                      // actual NO3 uptake from soil (g/m^2)
+      float no3gsm_uptake_pot[max_layer];
+      float no3gsm_mflow_avail[max_layer];              // potential NO3 (supply) from soil (g/m^2) by mass flow
+      float no3gsm_diffn_pot[max_layer];                // potential NO3 (supply) from soil (g/m^2), by diffusion
+
+      float nh4gsm_uptake_pot[max_layer];
+      float nh4gsm_mflow_avail[max_layer];              // potential NH4 (supply) from soil (g/m^2) by mass flow
+      float nh4gsm_diffn_pot[max_layer];                // potential NH4 (supply) from soil (g/m^2), by diffusion
 
 
       int find_layer_no(float);

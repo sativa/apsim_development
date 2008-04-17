@@ -43,8 +43,6 @@ void RootPart::zeroAllGlobals(void)
 
       uptake_source = "";
 
-      fill_real_array (no3gsm_uptake_pot, 0.0, max_layer);
-      fill_real_array (nh4gsm_uptake_pot, 0.0, max_layer);
       no3_diffn_const = 0.0;
       no3_uptake_max = 0.0;
       no3_conc_half_max = 0.0;
@@ -62,9 +60,6 @@ void RootPart::zeroDeltas(void)
    setTo(dltRootLengthSenesced, (float)0.0);
    setTo(dltRootLengthDead, (float)0.0);
 
-
-   fill_real_array (no3gsm_uptake_pot, 0.0, max_layer);
-   fill_real_array (nh4gsm_uptake_pot, 0.0, max_layer);
    }
 
 void RootPart::onInit1(protocol::Component *system)
@@ -119,16 +114,12 @@ void RootPart::onInit1(protocol::Component *system)
                     &RootPart::get_nh4_uptake,"kg/ha","NH4 uptake");
    setupGetFunction(system, "no3_tot", protocol::DTsingle, false,
                     &RootPart::get_no3_tot,"g/m^2", "NO3 available to plants");
-   setupGetFunction(system, "ll_dep", protocol::DTsingle, true,
-                    &RootPart::get_ll_dep,"mm","Crop lower limit");
    setupGetFunction(system, "ll", protocol::DTsingle, true,
                     &RootPart::get_ll,"%vol","Crop lower limit");
    setupGetFunction(system, "n_supply_soil", protocol::DTsingle, false,
                     &RootPart::get_n_supply_soil,
                     "g/m^2", "N supply");
-   setupGetFunction(system, "no3_swfac", protocol::DTsingle, true,
-                    &RootPart::get_no3_swfac,
-                    "???", "Work this out...>>");
+
    }
 
 void RootPart::read()
@@ -674,12 +665,12 @@ void RootPart::get_root_length_senesced(protocol::Component *system, protocol::Q
 
 void RootPart::get_no3gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)                  //FIXME - belongs in rootPart
    {
-   system->sendVariable(qd, protocol::vector<float>(no3gsm_uptake_pot, no3gsm_uptake_pot+soil.num_layers));
+   system->sendVariable(qd, protocol::vector<float>(soil.no3gsm_uptake_pot, soil.no3gsm_uptake_pot+soil.num_layers));
    }
 
 void RootPart::get_nh4gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)                  //FIXME - belongs in rootPart
    {
-   system->sendVariable(qd, protocol::vector<float>(nh4gsm_uptake_pot, nh4gsm_uptake_pot+soil.num_layers));
+   system->sendVariable(qd, protocol::vector<float>(soil.nh4gsm_uptake_pot, soil.nh4gsm_uptake_pot+soil.num_layers));
    }
 
 void RootPart::checkBounds(void)
@@ -709,7 +700,7 @@ float RootPart::waterUptake (void)
 //=======================================================================================
 // Return the total daily water uptake from this root system
    {
-   return (- sum_real_array(soil.dlt_sw_dep, max_layer));;
+   return soil.waterUptake();
    }
 
 
@@ -735,11 +726,7 @@ float RootPart::wet_root_fr (void)
       float wet_root_fr = 0.0;
       for (unsigned layer = 0; layer <= root_fr.size(); layer++)
          {
-         wfps = divide(soil.sw_dep[layer] - soil.ll15_dep[layer],
-                       soil.sat_dep[layer] - soil.ll15_dep[layer], 0.0);
-         wfps = bound (wfps, 0.0, 1.0);
-
-         wet_root_fr = wet_root_fr + wfps * root_fr[layer];
+         wet_root_fr = wet_root_fr + soil.WFPS(layer) * root_fr[layer];
          }
       return wet_root_fr;
       }
@@ -882,15 +869,6 @@ void RootPart::get_no3_tot(protocol::Component *system, protocol::QueryValueData
     float no3gsm_tot = sum_real_array (soil.no3gsm, deepest_layer+1);
     system->sendVariable(qd, no3gsm_tot);
 }
-void RootPart::get_ll_dep(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-//=======================================================================================
-// Getter function for crop lower limit (mm)
-   {
-   vector<float> lldep;
-   for(int layer = 0; layer < soil.num_layers; layer++)
-      lldep.push_back(soil.ll_dep[layer]);
-   systemInterface->sendVariable(qd, lldep);
-}
 
 void RootPart::get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 //=======================================================================================
@@ -918,21 +896,6 @@ void RootPart::get_n_supply_soil(protocol::Component *systemInterface, protocol:
    systemInterface->sendVariable(qd, n_uptake_sum);
    }
 
-void RootPart::get_no3_swfac(protocol::Component *systemInterface, protocol::QueryValueData &qd)                          //FIXME - belongs in rootPart
-//=======================================================================================
-// Getter function for soil n supply (g/m^2)
-   {
-   float swfac[max_layer];
-   for (int layer=0; layer < soil.num_layers; layer++)
-      {
-      swfac[layer] = pow(divide(soil.sw_avail[layer], soil.sw_avail_pot[layer],0.0), 2);
-      swfac[layer] = bound(swfac[layer],0.0,1.0);
-      }
-
-   systemInterface->sendVariable(qd, protocol::vector<float>(swfac, swfac+soil.num_layers));
-   }
-
-
 float RootPart::plant_nit_supply(float biomass, float stageNumber, float swdef_fixation)
 //=======================================================================================
 // Calculate Plant Nitrogen Supply
@@ -948,9 +911,9 @@ float RootPart::plant_nit_supply(float biomass, float stageNumber, float swdef_f
                          , no3gsm_min
                          , root_depth
                          , soil.sw_dep
-                         , no3gsm_mflow_avail
+                         , soil.no3gsm_mflow_avail
                          , soil.sw_avail
-                         , no3gsm_diffn_pot
+                         , soil.no3gsm_diffn_pot
                          , stageNumber
                          , n_fix_rate
                          , biomass
@@ -961,7 +924,7 @@ float RootPart::plant_nit_supply(float biomass, float stageNumber, float swdef_f
         cproc_n_supply3 (soil.dlayer
                          , soil.no3gsm
                          , no3gsm_min
-                         , no3gsm_uptake_pot
+                         , soil.no3gsm_uptake_pot
                          , root_depth
                          , root_length
                          , soil.bd
@@ -986,10 +949,10 @@ float RootPart::plant_nit_supply(float biomass, float stageNumber, float swdef_f
                              , soil.bd
                              , soil.no3gsm
                              , no3gsm_min
-                             , no3gsm_uptake_pot
+                             , soil.no3gsm_uptake_pot
                              , soil.nh4gsm
                              , nh4gsm_min
-                             , nh4gsm_uptake_pot
+                             , soil.nh4gsm_uptake_pot
                              , root_depth
                              , n_stress_start_stage
                              , kno3
@@ -1034,8 +997,8 @@ void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
         {
         cproc_n_uptake1(no3_diffn_const
                        , soil.dlayer
-                       , no3gsm_diffn_pot
-                       , no3gsm_mflow_avail
+                       , soil.no3gsm_diffn_pot
+                       , soil.no3gsm_mflow_avail
                        , n_fix_pot
                        , n_supply_preference.c_str()
                        , nDemand
@@ -1046,8 +1009,8 @@ void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
     else if ((n_uptake_option == 2) || (n_uptake_option == 3))
         {
         cproc_n_uptake3(soil.dlayer
-                        , no3gsm_uptake_pot
-                        , nh4gsm_uptake_pot
+                        , soil.no3gsm_uptake_pot
+                        , soil.nh4gsm_uptake_pot
                         , n_fix_pot
                         , n_supply_preference.c_str()
                         , sumSoilNDemand
