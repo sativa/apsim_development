@@ -16,8 +16,8 @@
 
 #include <ComponentInterface/Component.h>
 
-#include <StringVariant.h>
-#include <InputComponent.h>
+#include "../../Input/source/StringVariant.h"
+#include "../../Input/source/InputComponent.h"
 #include "PatchInputComponent.h"
 
 using namespace std;

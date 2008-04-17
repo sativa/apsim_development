@@ -1,10 +1,10 @@
 LIBRARY     APSIMSHARED.DLL
 
 EXPORTS
-    @@Simcreator@Finalize          @245 ; __linkproc__ Simcreator::Finalize
-    @@Simcreator@Initialize        @244 ; __linkproc__ Simcreator::Initialize
-    @@Simcreatorsection@Finalize   @247 ; __linkproc__ Simcreatorsection::Finalize
-    @@Simcreatorsection@Initialize @246 ; __linkproc__ Simcreatorsection::Initialize
+    @@Simcreator@Finalize          @247 ; __linkproc__ Simcreator::Finalize
+    @@Simcreator@Initialize        @246 ; __linkproc__ Simcreator::Initialize
+    @@Simcreatorsection@Finalize   @249 ; __linkproc__ Simcreatorsection::Finalize
+    @@Simcreatorsection@Initialize @248 ; __linkproc__ Simcreatorsection::Initialize
     @ApsimComponentData@$basg$qrx18ApsimComponentData @6   ; ApsimComponentData::operator =(const ApsimComponentData&)
     @ApsimComponentData@$bctr$qrx18ApsimComponentData @5   ; ApsimComponentData::ApsimComponentData(const ApsimComponentData&)
     @ApsimComponentData@$bctr$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @2   ; ApsimComponentData::ApsimComponentData(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
@@ -57,6 +57,7 @@ EXPORTS
     @ApsimControlFile@getTitle$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @51  ; ApsimControlFile::getTitle(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
     @ApsimControlFile@getVersionNumber$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @53  ; ApsimControlFile::getVersionNumber(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
     @ApsimControlFile@hasParametersInCon$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @63  ; ApsimControlFile::hasParametersInCon(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimControlFile@iniToXml$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @73  ; ApsimControlFile::iniToXml(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
     @ApsimControlFile@isValid$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @36  ; ApsimControlFile::isValid(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
     @ApsimControlFile@moduleToInstance$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1 @58  ; ApsimControlFile::moduleToInstance(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
     @ApsimControlFile@moveParameter$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1t1t1 @62  ; ApsimControlFile::moveParameter(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, 
@@ -69,185 +70,186 @@ EXPORTS
     @ApsimControlFile@setParameterValues$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1t1t1rx163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traUDbt @48  ; ApsimControlFile::setParameterValues(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<ch
     @ApsimControlFile@setTitle$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1 @52  ; ApsimControlFile::setTitle(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
     @ApsimControlFile@setVersionNumber$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%i @54  ; ApsimControlFile::setVersionNumber(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, int)
-    @ApsimDataFile@$bdtr$qv        @171 ; ApsimDataFile::~ApsimDataFile()
-    @ApsimDataFile@close$qv        @156 ; ApsimDataFile::close()
-    @ApsimDataFile@eof$qv          @166 ; ApsimDataFile::eof()
-    @ApsimDataFile@first$qv        @159 ; ApsimDataFile::first()
-    @ApsimDataFile@getDate$qv      @164 ; ApsimDataFile::getDate()
-    @ApsimDataFile@getline$qr63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @157 ; ApsimDataFile::getline(_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimDataFile@gotoDate$q20boost@gregorian@date @165 ; ApsimDataFile::gotoDate(boost::gregorian::date)
-    @ApsimDataFile@last$qv         @160 ; ApsimDataFile::last()
-    @ApsimDataFile@lookForDateField$qv @163 ; ApsimDataFile::lookForDateField()
-    @ApsimDataFile@next$qv         @158 ; ApsimDataFile::next()
-    @ApsimDataFile@open$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @155 ; ApsimDataFile::open(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimDataFile@readApsimHeader$qv @161 ; ApsimDataFile::readApsimHeader()
-    @ApsimDataFile@readNextRecord$qv @162 ; ApsimDataFile::readNextRecord()
-    @ApsimDataTypeData@begin$xqv   @192 ; ApsimDataTypeData::begin() const
-    @ApsimDataTypeData@end$xqv     @193 ; ApsimDataTypeData::end() const
-    @ApsimDataTypeData@getDescription$xqv @186 ; ApsimDataTypeData::getDescription() const
-    @ApsimDataTypeData@getKind$xqv @185 ; ApsimDataTypeData::getKind() const
-    @ApsimDataTypeData@getLowerBound$xqv @188 ; ApsimDataTypeData::getLowerBound() const
-    @ApsimDataTypeData@getName$xqv @184 ; ApsimDataTypeData::getName() const
-    @ApsimDataTypeData@getNumFields$xqv @177 ; ApsimDataTypeData::getNumFields() const
-    @ApsimDataTypeData@getType$xqv @191 ; ApsimDataTypeData::getType() const
-    @ApsimDataTypeData@getTypeString$xqv @190 ; ApsimDataTypeData::getTypeString() const
-    @ApsimDataTypeData@getUnit$xqv @187 ; ApsimDataTypeData::getUnit() const
-    @ApsimDataTypeData@getUpperBound$xqv @189 ; ApsimDataTypeData::getUpperBound() const
-    @ApsimDataTypeData@isArray$xqv @179 ; ApsimDataTypeData::isArray() const
-    @ApsimDataTypeData@isArrayElement$xqv @182 ; ApsimDataTypeData::isArrayElement() const
-    @ApsimDataTypeData@isBuiltIn$xqv @180 ; ApsimDataTypeData::isBuiltIn() const
-    @ApsimDataTypeData@isEvent$xqv @183 ; ApsimDataTypeData::isEvent() const
-    @ApsimDataTypeData@isMessage$xqv @181 ; ApsimDataTypeData::isMessage() const
-    @ApsimDataTypeData@isStructure$xqv @178 ; ApsimDataTypeData::isStructure() const
-    @ApsimDataTypesFile@$bctr$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @173 ; ApsimDataTypesFile::ApsimDataTypesFile(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimDataTypesFile@$bctr$qv   @172 ; ApsimDataTypesFile::ApsimDataTypesFile()
-    @ApsimDataTypesFile@begin$xqv  @175 ; ApsimDataTypesFile::begin() const
-    @ApsimDataTypesFile@end$xqv    @176 ; ApsimDataTypesFile::end() const
-    @ApsimDataTypesFile@getDataType$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @174 ; ApsimDataTypesFile::getDataType(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimRegistrationData@doAutoRegister$xqv @194 ; ApsimRegistrationData::doAutoRegister() const
-    @ApsimRegistrationData@getDataTypeName$xqv @198 ; ApsimRegistrationData::getDataTypeName() const
-    @ApsimRegistrationData@getInternalName$xqv @200 ; ApsimRegistrationData::getInternalName() const
-    @ApsimRegistrationData@getName$xqv @195 ; ApsimRegistrationData::getName() const
-    @ApsimRegistrationData@getType$xqv @197 ; ApsimRegistrationData::getType() const
-    @ApsimRegistrationData@getUnits$xqv @196 ; ApsimRegistrationData::getUnits() const
-    @ApsimRegistrationData@isOfType$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @199 ; ApsimRegistrationData::isOfType(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ApsimRunFile@$bctr$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @75  ; ApsimRunFile::ApsimRunFile(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimRunFile@$bdtr$qv         @76  ; ApsimRunFile::~ApsimRunFile()
-    @ApsimRunFile@getRun$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%alloiws7 @78  ; ApsimRunFile::getRun(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
-    @ApsimRunFile@getRuns$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @77  ; ApsimRunFile::getRuns(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
-    @ApsimServiceData@$bctr$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @80  ; ApsimServiceData::ApsimServiceData(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimServiceData@$bctr$qrx7XMLNode @79  ; ApsimServiceData::ApsimServiceData(const XMLNode&)
-    @ApsimServiceData@$bdtr$qv     @81  ; ApsimServiceData::~ApsimServiceData()
-    @ApsimServiceData@getExecutableFileName$xqv @83  ; ApsimServiceData::getExecutableFileName() const
-    @ApsimServiceData@getInitData$xqv @85  ; ApsimServiceData::getInitData() const
-    @ApsimServiceData@getName$xqv  @82  ; ApsimServiceData::getName() const
-    @ApsimServiceData@getProperty$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @84  ; ApsimServiceData::getProperty(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ApsimServiceData@getXML$xqv   @89  ; ApsimServiceData::getXML() const
-    @ApsimServiceData@setExecutableFileName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @87  ; ApsimServiceData::setExecutableFileName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimServiceData@setName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @86  ; ApsimServiceData::setName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimServiceData@setProperty$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1 @88  ; ApsimServiceData::setProperty(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSettings@$bctr$qv        @90  ; ApsimSettings::ApsimSettings()
-    @ApsimSettings@$bdtr$qv        @91  ; ApsimSettings::~ApsimSettings()
-    @ApsimSettings@deleteKey$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @111 ; ApsimSettings::deleteKey(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSettings@deleteSection$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @110 ; ApsimSettings::deleteSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSettings@deleteSection$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @101 ; ApsimSettings::deleteSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ApsimSettings@getKey$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @94  ; ApsimSettings::getKey(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ApsimSettings@getKeysUnder$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%alD8cb @108 ; ApsimSettings::getKeysUnder(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
-    @ApsimSettings@getSection$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @93  ; ApsimSettings::getSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ApsimSettings@getSectionNames$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @109 ; ApsimSettings::getSectionNames(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
-    @ApsimSettings@read$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocatorTJ4c @102 ; ApsimSettings::read(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
-    @ApsimSettings@read$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%o @95  ; ApsimSettings::read(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, bool) const
-    @ApsimSettings@read$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%rd @98  ; ApsimSettings::read(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, double&) const
-    @ApsimSettings@read$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%ri @96  ; ApsimSettings::read(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, int&) const
-    @ApsimSettings@read$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%ro @97  ; ApsimSettings::read(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, bool&) const
-    @ApsimSettings@readSection$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @99  ; ApsimSettings::readSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ApsimSettings@refresh$qv      @92  ; ApsimSettings::refresh()
-    @ApsimSettings@write$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%d @106 ; ApsimSettings::write(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, double)
-    @ApsimSettings@write$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%i @104 ; ApsimSettings::write(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, int)
-    @ApsimSettings@write$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%o @105 ; ApsimSettings::write(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, bool)
-    @ApsimSettings@write$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%rx163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocatodTOJ @107 ; ApsimSettings::write(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
-    @ApsimSettings@write$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1 @103 ; ApsimSettings::write(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSettings@writeSection$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1 @100 ; ApsimSettings::writeSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ApsimSimulationFile@$bctr$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @115 ; ApsimSimulationFile::ApsimSimulationFile(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSimulationFile@$bctr$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%o @116 ; ApsimSimulationFile::ApsimSimulationFile(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, bool)
-    @ApsimSimulationFile@$bctr$qv  @114 ; ApsimSimulationFile::ApsimSimulationFile()
-    @ApsimSimulationFile@$bdtr$qv  @117 ; ApsimSimulationFile::~ApsimSimulationFile()
-    @ApsimSimulationFile@addComponent$qr18ApsimComponentData @133 ; ApsimSimulationFile::addComponent(ApsimComponentData&)
-    @ApsimSimulationFile@addComponent$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @132 ; ApsimSimulationFile::addComponent(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSimulationFile@addService$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @134 ; ApsimSimulationFile::addService(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSimulationFile@addSystem$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @135 ; ApsimSimulationFile::addSystem(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSimulationFile@asComponent$qv @138 ; ApsimSimulationFile::asComponent()
-    @ApsimSimulationFile@asSystem$qv @137 ; ApsimSimulationFile::asSystem()
-    @ApsimSimulationFile@deleteComponent$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @136 ; ApsimSimulationFile::deleteComponent(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSimulationFile@doPrintReport$xqv @120 ; ApsimSimulationFile::doPrintReport() const
-    @ApsimSimulationFile@getComponent$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @126 ; ApsimSimulationFile::getComponent(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ApsimSimulationFile@getComponentNames$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @124 ; ApsimSimulationFile::getComponentNames(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
-    @ApsimSimulationFile@getExecutableFileName$xqv @121 ; ApsimSimulationFile::getExecutableFileName() const
-    @ApsimSimulationFile@getName$xqv @119 ; ApsimSimulationFile::getName() const
-    @ApsimSimulationFile@getService$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @128 ; ApsimSimulationFile::getService(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ApsimSimulationFile@getServiceNames$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @125 ; ApsimSimulationFile::getServiceNames(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
-    @ApsimSimulationFile@getSystem$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @127 ; ApsimSimulationFile::getSystem(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ApsimSimulationFile@getSystemNames$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @123 ; ApsimSimulationFile::getSystemNames(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
-    @ApsimSimulationFile@getTitle$xqv @122 ; ApsimSimulationFile::getTitle() const
-    @ApsimSimulationFile@setExecutableFileName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @130 ; ApsimSimulationFile::setExecutableFileName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSimulationFile@setName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @129 ; ApsimSimulationFile::setName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSimulationFile@setTitle$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @131 ; ApsimSimulationFile::setTitle(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSimulationFile@write$xqv @118 ; ApsimSimulationFile::write() const
-    @ApsimSystemData@$bctr$qrx7XMLNode @139 ; ApsimSystemData::ApsimSystemData(const XMLNode&)
-    @ApsimSystemData@addComponent$qr18ApsimComponentData @149 ; ApsimSystemData::addComponent(ApsimComponentData&)
-    @ApsimSystemData@addComponent$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @148 ; ApsimSystemData::addComponent(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSystemData@addSystem$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @150 ; ApsimSystemData::addSystem(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSystemData@asComponent$qv @153 ; ApsimSystemData::asComponent()
-    @ApsimSystemData@deleteComponent$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @152 ; ApsimSystemData::deleteComponent(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSystemData@getComponent$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @146 ; ApsimSystemData::getComponent(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ApsimSystemData@getComponentNames$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @145 ; ApsimSystemData::getComponentNames(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
-    @ApsimSystemData@getExecutableFileName$xqv @141 ; ApsimSystemData::getExecutableFileName() const
-    @ApsimSystemData@getName$xqv   @140 ; ApsimSystemData::getName() const
-    @ApsimSystemData@getSystem$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @147 ; ApsimSystemData::getSystem(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ApsimSystemData@getSystemNames$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @144 ; ApsimSystemData::getSystemNames(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
-    @ApsimSystemData@getXML$xqv    @151 ; ApsimSystemData::getXML() const
-    @ApsimSystemData@setExecutableFileName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @143 ; ApsimSystemData::setExecutableFileName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ApsimSystemData@setName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @142 ; ApsimSystemData::setName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@DeleteManagerActionCallback$qr115_STL@%vector$39ApsimControlFile@ManagerActionParameter58_STL@%allocator$39ApsimControlFile@ManagerActionParameter%%ro @227 ; ControlFileConverter::DeleteManagerActionCallback(_STL::vector<ApsimControlFile::ManagerActionParameter, _STL::allocator<ApsimControlFile::ManagerActionParameter> >&, bool&)
-    @ControlFileConverter@ReworkTrackerVariables$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @221 ; ControlFileConverter::ReworkTrackerVariables(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@SetManagerActionCallback$qr115_STL@%vector$39ApsimControlFile@ManagerActionParameter58_STL@%allocator$39ApsimControlFile@ManagerActionParameter%%ro @225 ; ControlFileConverter::SetManagerActionCallback(_STL::vector<ApsimControlFile::ManagerActionParameter, _STL::allocator<ApsimControlFile::ManagerActionParameter> >&, bool&)
-    @ControlFileConverter@convert$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1ynpqqrrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%$v @203 ; ControlFileConverter::convert(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, __closure(*)(const _STL::basic_string<char, _STL::char_tra
-    @ControlFileConverter@convert$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%ynpqqrrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%$v @202 ; ControlFileConverter::convert(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, void __fastcall __closure(*)(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&))
-    @ControlFileConverter@convertSection$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @204 ; ControlFileConverter::convertSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@evaluate$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @205 ; ControlFileConverter::evaluate(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ControlFileConverter@evaluateDate$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @207 ; ControlFileConverter::evaluateDate(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @ControlFileConverter@executeAddParamFileToModule$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @219 ; ControlFileConverter::executeAddParamFileToModule(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeChangeInstantiation$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @211 ; ControlFileConverter::executeChangeInstantiation(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeDeleteManagerActionParameter$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @226 ; ControlFileConverter::executeDeleteManagerActionParameter(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeDeleteModule$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @230 ; ControlFileConverter::executeDeleteModule(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeDeleteParameter$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @210 ; ControlFileConverter::executeDeleteParameter(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeFindModuleLocalIniFile$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @228 ; ControlFileConverter::executeFindModuleLocalIniFile(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeMoveParameter$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @213 ; ControlFileConverter::executeMoveParameter(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeMoveParametersOutOfCon$qx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @215 ; ControlFileConverter::executeMoveParametersOutOfCon(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >)
-    @ControlFileConverter@executeNewFormatReportVariables$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @214 ; ControlFileConverter::executeNewFormatReportVariables(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeRemoveReportOutputSwitch$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @212 ; ControlFileConverter::executeRemoveReportOutputSwitch(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeRemoveReportVariable$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @229 ; ControlFileConverter::executeRemoveReportVariable(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeRemoveSumAvgToTracker$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @216 ; ControlFileConverter::executeRemoveSumAvgToTracker(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeRemoveTrackerDefault$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @217 ; ControlFileConverter::executeRemoveTrackerDefault(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeRenameModule$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @222 ; ControlFileConverter::executeRenameModule(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeRenameParameter$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @209 ; ControlFileConverter::executeRenameParameter(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeSearchReplace$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @223 ; ControlFileConverter::executeSearchReplace(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeSearchReplaceReportVariables$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @218 ; ControlFileConverter::executeSearchReplaceReportVariables(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeSetManagerActionParameter$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @224 ; ControlFileConverter::executeSetManagerActionParameter(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@executeSetParameterValue$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @208 ; ControlFileConverter::executeSetParameterValue(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@needsConversion$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @201 ; ControlFileConverter::needsConversion(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@removePeriodsInReportAndTracker$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @220 ; ControlFileConverter::removePeriodsInReportAndTracker(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @ControlFileConverter@resolveVariableRef$xqr63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @206 ; ControlFileConverter::resolveVariableRef(_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
-    @SimCreator@$bdtr$qv           @231 ; SimCreator::~SimCreator()
-    @SimCreator@ConToSim$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @232 ; SimCreator::ConToSim(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @SimCreator@ConToSim$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocatorAkVG @233 ; SimCreator::ConToSim(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
-    @SimCreator@ConToSim$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1 @234 ; SimCreator::ConToSim(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @SimCreator@ConToSimInternal$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%rx163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%tGM5 @235 ; SimCreator::ConToSimInternal(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
-    @SimCreator@ConvertConModule$qr31ApsimControlFile@ModuleInstancer44_STL@%basic_ostream$c20_STL@%char_traits$c%% @236 ; SimCreator::ConvertConModule(ApsimControlFile::ModuleInstance&, _STL::basic_ostream<char, _STL::char_traits<char> >&)
-    @SimCreator@ConvertParFile$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @239 ; SimCreator::ConvertParFile(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @SimCreator@GetMatchingParFileSections$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1t1r73_STL@%vector$p17SimCreatorSection37_STL@%allocator$p17SimCreatorSection%% @237 ; SimCreator::GetMatchingParFileSections(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<
-    @SimCreator@convertIniToSim$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @240 ; SimCreator::convertIniToSim(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
-    @SimCreator@sectionIsAMatch$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1t1 @238 ; SimCreator::sectionIsAMatch(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL
-    @SimCreator@writeNewFormat$qr73_STL@%vector$p17SimCreatorSection37_STL@%allocator$p17SimCreatorSection%%r44_STL@%basic_ostream$c20_STL@%char_traits$c%% @243 ; SimCreator::writeNewFormat(_STL::vector<SimCreatorSection *, _STL::allocator<SimCreatorSection *> >&, _STL::basic_ostream<char, _STL::char_traits<char> >&)
-    @SimCreator@writeOldFormat$qr73_STL@%vector$p17SimCreatorSection37_STL@%allocator$p17SimCreatorSection%%r44_STL@%basic_ostream$c20_STL@%char_traits$c%% @242 ; SimCreator::writeOldFormat(_STL::vector<SimCreatorSection *, _STL::allocator<SimCreatorSection *> >&, _STL::basic_ostream<char, _STL::char_traits<char> >&)
-    @asString$qqsrx7FString        @249 ; __stdcall asString(const FString&)
-    @getAppHomeDirectory$qv        @74  ; getAppHomeDirectory()
-    @getApsimDirectory$qv          @73  ; getApsimDirectory()
-    @getApsimVersion$qv            @154 ; getApsimVersion()
+    @ApsimDataFile@$bdtr$qv        @172 ; ApsimDataFile::~ApsimDataFile()
+    @ApsimDataFile@close$qv        @157 ; ApsimDataFile::close()
+    @ApsimDataFile@eof$qv          @167 ; ApsimDataFile::eof()
+    @ApsimDataFile@first$qv        @160 ; ApsimDataFile::first()
+    @ApsimDataFile@getDate$qv      @165 ; ApsimDataFile::getDate()
+    @ApsimDataFile@getline$qr63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @158 ; ApsimDataFile::getline(_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimDataFile@gotoDate$q20boost@gregorian@date @166 ; ApsimDataFile::gotoDate(boost::gregorian::date)
+    @ApsimDataFile@last$qv         @161 ; ApsimDataFile::last()
+    @ApsimDataFile@lookForDateField$qv @164 ; ApsimDataFile::lookForDateField()
+    @ApsimDataFile@next$qv         @159 ; ApsimDataFile::next()
+    @ApsimDataFile@open$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @156 ; ApsimDataFile::open(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimDataFile@readApsimHeader$qv @162 ; ApsimDataFile::readApsimHeader()
+    @ApsimDataFile@readNextRecord$qv @163 ; ApsimDataFile::readNextRecord()
+    @ApsimDataTypeData@begin$xqv   @193 ; ApsimDataTypeData::begin() const
+    @ApsimDataTypeData@end$xqv     @194 ; ApsimDataTypeData::end() const
+    @ApsimDataTypeData@getDescription$xqv @187 ; ApsimDataTypeData::getDescription() const
+    @ApsimDataTypeData@getKind$xqv @186 ; ApsimDataTypeData::getKind() const
+    @ApsimDataTypeData@getLowerBound$xqv @189 ; ApsimDataTypeData::getLowerBound() const
+    @ApsimDataTypeData@getName$xqv @185 ; ApsimDataTypeData::getName() const
+    @ApsimDataTypeData@getNumFields$xqv @178 ; ApsimDataTypeData::getNumFields() const
+    @ApsimDataTypeData@getType$xqv @192 ; ApsimDataTypeData::getType() const
+    @ApsimDataTypeData@getTypeString$xqv @191 ; ApsimDataTypeData::getTypeString() const
+    @ApsimDataTypeData@getUnit$xqv @188 ; ApsimDataTypeData::getUnit() const
+    @ApsimDataTypeData@getUpperBound$xqv @190 ; ApsimDataTypeData::getUpperBound() const
+    @ApsimDataTypeData@isArray$xqv @180 ; ApsimDataTypeData::isArray() const
+    @ApsimDataTypeData@isArrayElement$xqv @183 ; ApsimDataTypeData::isArrayElement() const
+    @ApsimDataTypeData@isBuiltIn$xqv @181 ; ApsimDataTypeData::isBuiltIn() const
+    @ApsimDataTypeData@isEvent$xqv @184 ; ApsimDataTypeData::isEvent() const
+    @ApsimDataTypeData@isMessage$xqv @182 ; ApsimDataTypeData::isMessage() const
+    @ApsimDataTypeData@isStructure$xqv @179 ; ApsimDataTypeData::isStructure() const
+    @ApsimDataTypesFile@$bctr$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @174 ; ApsimDataTypesFile::ApsimDataTypesFile(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimDataTypesFile@$bctr$qv   @173 ; ApsimDataTypesFile::ApsimDataTypesFile()
+    @ApsimDataTypesFile@begin$xqv  @176 ; ApsimDataTypesFile::begin() const
+    @ApsimDataTypesFile@end$xqv    @177 ; ApsimDataTypesFile::end() const
+    @ApsimDataTypesFile@getDataType$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @175 ; ApsimDataTypesFile::getDataType(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimRegistrationData@doAutoRegister$xqv @195 ; ApsimRegistrationData::doAutoRegister() const
+    @ApsimRegistrationData@getDataTypeName$xqv @199 ; ApsimRegistrationData::getDataTypeName() const
+    @ApsimRegistrationData@getInternalName$xqv @201 ; ApsimRegistrationData::getInternalName() const
+    @ApsimRegistrationData@getName$xqv @196 ; ApsimRegistrationData::getName() const
+    @ApsimRegistrationData@getType$xqv @198 ; ApsimRegistrationData::getType() const
+    @ApsimRegistrationData@getUnits$xqv @197 ; ApsimRegistrationData::getUnits() const
+    @ApsimRegistrationData@isOfType$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @200 ; ApsimRegistrationData::isOfType(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ApsimRunFile@$bctr$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @76  ; ApsimRunFile::ApsimRunFile(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimRunFile@$bdtr$qv         @77  ; ApsimRunFile::~ApsimRunFile()
+    @ApsimRunFile@getRun$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%alloiws7 @79  ; ApsimRunFile::getRun(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
+    @ApsimRunFile@getRuns$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @78  ; ApsimRunFile::getRuns(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
+    @ApsimServiceData@$bctr$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @81  ; ApsimServiceData::ApsimServiceData(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimServiceData@$bctr$qrx7XMLNode @80  ; ApsimServiceData::ApsimServiceData(const XMLNode&)
+    @ApsimServiceData@$bdtr$qv     @82  ; ApsimServiceData::~ApsimServiceData()
+    @ApsimServiceData@getExecutableFileName$xqv @84  ; ApsimServiceData::getExecutableFileName() const
+    @ApsimServiceData@getInitData$xqv @86  ; ApsimServiceData::getInitData() const
+    @ApsimServiceData@getName$xqv  @83  ; ApsimServiceData::getName() const
+    @ApsimServiceData@getProperty$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @85  ; ApsimServiceData::getProperty(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ApsimServiceData@getXML$xqv   @90  ; ApsimServiceData::getXML() const
+    @ApsimServiceData@setExecutableFileName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @88  ; ApsimServiceData::setExecutableFileName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimServiceData@setName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @87  ; ApsimServiceData::setName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimServiceData@setProperty$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1 @89  ; ApsimServiceData::setProperty(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSettings@$bctr$qv        @91  ; ApsimSettings::ApsimSettings()
+    @ApsimSettings@$bdtr$qv        @92  ; ApsimSettings::~ApsimSettings()
+    @ApsimSettings@deleteKey$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @112 ; ApsimSettings::deleteKey(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSettings@deleteSection$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @111 ; ApsimSettings::deleteSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSettings@deleteSection$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @102 ; ApsimSettings::deleteSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ApsimSettings@getKey$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @95  ; ApsimSettings::getKey(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ApsimSettings@getKeysUnder$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%alD8cb @109 ; ApsimSettings::getKeysUnder(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
+    @ApsimSettings@getSection$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @94  ; ApsimSettings::getSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ApsimSettings@getSectionNames$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @110 ; ApsimSettings::getSectionNames(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
+    @ApsimSettings@read$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocatorTJ4c @103 ; ApsimSettings::read(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
+    @ApsimSettings@read$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%o @96  ; ApsimSettings::read(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, bool) const
+    @ApsimSettings@read$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%rd @99  ; ApsimSettings::read(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, double&) const
+    @ApsimSettings@read$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%ri @97  ; ApsimSettings::read(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, int&) const
+    @ApsimSettings@read$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%ro @98  ; ApsimSettings::read(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, bool&) const
+    @ApsimSettings@readSection$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @100 ; ApsimSettings::readSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ApsimSettings@refresh$qv      @93  ; ApsimSettings::refresh()
+    @ApsimSettings@write$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%d @107 ; ApsimSettings::write(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, double)
+    @ApsimSettings@write$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%i @105 ; ApsimSettings::write(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, int)
+    @ApsimSettings@write$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%o @106 ; ApsimSettings::write(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, bool)
+    @ApsimSettings@write$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%rx163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocatodTOJ @108 ; ApsimSettings::write(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
+    @ApsimSettings@write$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1 @104 ; ApsimSettings::write(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSettings@writeSection$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1 @101 ; ApsimSettings::writeSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ApsimSimulationFile@$bctr$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @116 ; ApsimSimulationFile::ApsimSimulationFile(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSimulationFile@$bctr$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%o @117 ; ApsimSimulationFile::ApsimSimulationFile(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, bool)
+    @ApsimSimulationFile@$bctr$qv  @115 ; ApsimSimulationFile::ApsimSimulationFile()
+    @ApsimSimulationFile@$bdtr$qv  @118 ; ApsimSimulationFile::~ApsimSimulationFile()
+    @ApsimSimulationFile@addComponent$qr18ApsimComponentData @134 ; ApsimSimulationFile::addComponent(ApsimComponentData&)
+    @ApsimSimulationFile@addComponent$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @133 ; ApsimSimulationFile::addComponent(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSimulationFile@addService$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @135 ; ApsimSimulationFile::addService(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSimulationFile@addSystem$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @136 ; ApsimSimulationFile::addSystem(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSimulationFile@asComponent$qv @139 ; ApsimSimulationFile::asComponent()
+    @ApsimSimulationFile@asSystem$qv @138 ; ApsimSimulationFile::asSystem()
+    @ApsimSimulationFile@deleteComponent$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @137 ; ApsimSimulationFile::deleteComponent(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSimulationFile@doPrintReport$xqv @121 ; ApsimSimulationFile::doPrintReport() const
+    @ApsimSimulationFile@getComponent$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @127 ; ApsimSimulationFile::getComponent(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ApsimSimulationFile@getComponentNames$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @125 ; ApsimSimulationFile::getComponentNames(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
+    @ApsimSimulationFile@getExecutableFileName$xqv @122 ; ApsimSimulationFile::getExecutableFileName() const
+    @ApsimSimulationFile@getName$xqv @120 ; ApsimSimulationFile::getName() const
+    @ApsimSimulationFile@getService$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @129 ; ApsimSimulationFile::getService(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ApsimSimulationFile@getServiceNames$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @126 ; ApsimSimulationFile::getServiceNames(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
+    @ApsimSimulationFile@getSystem$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @128 ; ApsimSimulationFile::getSystem(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ApsimSimulationFile@getSystemNames$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @124 ; ApsimSimulationFile::getSystemNames(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
+    @ApsimSimulationFile@getTitle$xqv @123 ; ApsimSimulationFile::getTitle() const
+    @ApsimSimulationFile@setExecutableFileName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @131 ; ApsimSimulationFile::setExecutableFileName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSimulationFile@setName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @130 ; ApsimSimulationFile::setName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSimulationFile@setTitle$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @132 ; ApsimSimulationFile::setTitle(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSimulationFile@write$xqv @119 ; ApsimSimulationFile::write() const
+    @ApsimSystemData@$bctr$qrx7XMLNode @140 ; ApsimSystemData::ApsimSystemData(const XMLNode&)
+    @ApsimSystemData@addComponent$qr18ApsimComponentData @150 ; ApsimSystemData::addComponent(ApsimComponentData&)
+    @ApsimSystemData@addComponent$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @149 ; ApsimSystemData::addComponent(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSystemData@addSystem$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @151 ; ApsimSystemData::addSystem(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSystemData@asComponent$qv @154 ; ApsimSystemData::asComponent()
+    @ApsimSystemData@deleteComponent$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @153 ; ApsimSystemData::deleteComponent(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSystemData@getComponent$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @147 ; ApsimSystemData::getComponent(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ApsimSystemData@getComponentNames$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @146 ; ApsimSystemData::getComponentNames(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
+    @ApsimSystemData@getExecutableFileName$xqv @142 ; ApsimSystemData::getExecutableFileName() const
+    @ApsimSystemData@getName$xqv   @141 ; ApsimSystemData::getName() const
+    @ApsimSystemData@getSystem$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @148 ; ApsimSystemData::getSystem(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ApsimSystemData@getSystemNames$xqr163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%%% @145 ; ApsimSystemData::getSystemNames(_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >&) const
+    @ApsimSystemData@getXML$xqv    @152 ; ApsimSystemData::getXML() const
+    @ApsimSystemData@setExecutableFileName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @144 ; ApsimSystemData::setExecutableFileName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ApsimSystemData@setName$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @143 ; ApsimSystemData::setName(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@DeleteManagerActionCallback$qr115_STL@%vector$39ApsimControlFile@ManagerActionParameter58_STL@%allocator$39ApsimControlFile@ManagerActionParameter%%ro @228 ; ControlFileConverter::DeleteManagerActionCallback(_STL::vector<ApsimControlFile::ManagerActionParameter, _STL::allocator<ApsimControlFile::ManagerActionParameter> >&, bool&)
+    @ControlFileConverter@ReworkTrackerVariables$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @222 ; ControlFileConverter::ReworkTrackerVariables(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@SetManagerActionCallback$qr115_STL@%vector$39ApsimControlFile@ManagerActionParameter58_STL@%allocator$39ApsimControlFile@ManagerActionParameter%%ro @226 ; ControlFileConverter::SetManagerActionCallback(_STL::vector<ApsimControlFile::ManagerActionParameter, _STL::allocator<ApsimControlFile::ManagerActionParameter> >&, bool&)
+    @ControlFileConverter@convert$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1ynpqqrrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%$v @204 ; ControlFileConverter::convert(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, __closure(*)(const _STL::basic_string<char, _STL::char_tra
+    @ControlFileConverter@convert$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%ynpqqrrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%$v @203 ; ControlFileConverter::convert(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, void __fastcall __closure(*)(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&))
+    @ControlFileConverter@convertSection$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @205 ; ControlFileConverter::convertSection(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@evaluate$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @206 ; ControlFileConverter::evaluate(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ControlFileConverter@evaluateDate$xqrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @208 ; ControlFileConverter::evaluateDate(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @ControlFileConverter@executeAddParamFileToModule$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @220 ; ControlFileConverter::executeAddParamFileToModule(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeChangeInstantiation$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @212 ; ControlFileConverter::executeChangeInstantiation(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeDeleteManagerActionParameter$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @227 ; ControlFileConverter::executeDeleteManagerActionParameter(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeDeleteModule$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @231 ; ControlFileConverter::executeDeleteModule(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeDeleteParameter$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @211 ; ControlFileConverter::executeDeleteParameter(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeFindModuleLocalIniFile$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @229 ; ControlFileConverter::executeFindModuleLocalIniFile(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeIniToXml$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @232 ; ControlFileConverter::executeIniToXml(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeMoveParameter$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @214 ; ControlFileConverter::executeMoveParameter(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeMoveParametersOutOfCon$qx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @216 ; ControlFileConverter::executeMoveParametersOutOfCon(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >)
+    @ControlFileConverter@executeNewFormatReportVariables$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @215 ; ControlFileConverter::executeNewFormatReportVariables(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeRemoveReportOutputSwitch$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @213 ; ControlFileConverter::executeRemoveReportOutputSwitch(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeRemoveReportVariable$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @230 ; ControlFileConverter::executeRemoveReportVariable(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeRemoveSumAvgToTracker$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @217 ; ControlFileConverter::executeRemoveSumAvgToTracker(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeRemoveTrackerDefault$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @218 ; ControlFileConverter::executeRemoveTrackerDefault(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeRenameModule$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @223 ; ControlFileConverter::executeRenameModule(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeRenameParameter$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @210 ; ControlFileConverter::executeRenameParameter(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeSearchReplace$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @224 ; ControlFileConverter::executeSearchReplace(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeSearchReplaceReportVariables$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @219 ; ControlFileConverter::executeSearchReplaceReportVariables(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeSetManagerActionParameter$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @225 ; ControlFileConverter::executeSetManagerActionParameter(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@executeSetParameterValue$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @209 ; ControlFileConverter::executeSetParameterValue(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@needsConversion$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @202 ; ControlFileConverter::needsConversion(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@removePeriodsInReportAndTracker$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @221 ; ControlFileConverter::removePeriodsInReportAndTracker(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @ControlFileConverter@resolveVariableRef$xqr63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @207 ; ControlFileConverter::resolveVariableRef(_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&) const
+    @SimCreator@$bdtr$qv           @233 ; SimCreator::~SimCreator()
+    @SimCreator@ConToSim$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @234 ; SimCreator::ConToSim(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @SimCreator@ConToSim$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%r163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocatorAkVG @235 ; SimCreator::ConToSim(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
+    @SimCreator@ConToSim$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1 @236 ; SimCreator::ConToSim(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @SimCreator@ConToSimInternal$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%rx163_STL@%vector$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%82_STL@%allocator$63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%tGM5 @237 ; SimCreator::ConToSimInternal(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, ...
+    @SimCreator@ConvertConModule$qr31ApsimControlFile@ModuleInstancer44_STL@%basic_ostream$c20_STL@%char_traits$c%% @238 ; SimCreator::ConvertConModule(ApsimControlFile::ModuleInstance&, _STL::basic_ostream<char, _STL::char_traits<char> >&)
+    @SimCreator@ConvertParFile$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @241 ; SimCreator::ConvertParFile(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @SimCreator@GetMatchingParFileSections$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1t1r73_STL@%vector$p17SimCreatorSection37_STL@%allocator$p17SimCreatorSection%% @239 ; SimCreator::GetMatchingParFileSections(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<
+    @SimCreator@convertIniToSim$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%% @242 ; SimCreator::convertIniToSim(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&)
+    @SimCreator@sectionIsAMatch$qrx63_STL@%basic_string$c20_STL@%char_traits$c%18_STL@%allocator$c%%t1t1 @240 ; SimCreator::sectionIsAMatch(const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >&, const _STL::basic_string<char, _STL::char_traits<char>, _STL
+    @SimCreator@writeNewFormat$qr73_STL@%vector$p17SimCreatorSection37_STL@%allocator$p17SimCreatorSection%%r44_STL@%basic_ostream$c20_STL@%char_traits$c%% @245 ; SimCreator::writeNewFormat(_STL::vector<SimCreatorSection *, _STL::allocator<SimCreatorSection *> >&, _STL::basic_ostream<char, _STL::char_traits<char> >&)
+    @SimCreator@writeOldFormat$qr73_STL@%vector$p17SimCreatorSection37_STL@%allocator$p17SimCreatorSection%%r44_STL@%basic_ostream$c20_STL@%char_traits$c%% @244 ; SimCreator::writeOldFormat(_STL::vector<SimCreatorSection *, _STL::allocator<SimCreatorSection *> >&, _STL::basic_ostream<char, _STL::char_traits<char> >&)
+    @asString$qqsrx7FString        @251 ; __stdcall asString(const FString&)
+    @getAppHomeDirectory$qv        @75  ; getAppHomeDirectory()
+    @getApsimDirectory$qv          @74  ; getApsimDirectory()
+    @getApsimVersion$qv            @155 ; getApsimVersion()
     ApsimComponentData_getNumRuleLines @30  ; ApsimComponentData_getNumRuleLines
     ApsimComponentData_getProperty @27  ; ApsimComponentData_getProperty
     ApsimComponentData_getRuleCondition @32  ; ApsimComponentData_getRuleCondition
     ApsimComponentData_getRuleLine @31  ; ApsimComponentData_getRuleLine
     ApsimComponentData_getRuleNames @28  ; ApsimComponentData_getRuleNames
     ApsimComponentData_loadRule    @29  ; ApsimComponentData_loadRule
-    ApsimDataFile_getFieldValue    @169 ; ApsimDataFile_getFieldValue
-    ApsimDataFile_next             @170 ; ApsimDataFile_next
-    SettingsRead                   @112 ; SettingsRead
-    SettingsWrite                  @113 ; SettingsWrite
-    ___CPPdebugHook                @250 ; ___CPPdebugHook
-    convertIniToSim                @241 ; convertIniToSim
+    ApsimDataFile_getFieldValue    @170 ; ApsimDataFile_getFieldValue
+    ApsimDataFile_next             @171 ; ApsimDataFile_next
+    SettingsRead                   @113 ; SettingsRead
+    SettingsWrite                  @114 ; SettingsWrite
+    ___CPPdebugHook                @252 ; ___CPPdebugHook
+    convertIniToSim                @243 ; convertIniToSim
     deleteApsimComponentData       @26  ; deleteApsimComponentData
-    deleteApsimDataFile            @168 ; deleteApsimDataFile
-    doMacroTransform               @248 ; doMacroTransform
+    deleteApsimDataFile            @169 ; deleteApsimDataFile
+    doMacroTransform               @250 ; doMacroTransform
     newApsimComponentData          @25  ; newApsimComponentData
-    newApsimDataFile               @167 ; newApsimDataFile
+    newApsimDataFile               @168 ; newApsimDataFile

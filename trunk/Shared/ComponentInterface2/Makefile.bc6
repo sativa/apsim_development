@@ -52,6 +52,7 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
     $(DEFFILE), +
     $(ALLRES)
 !
+     $(MV) $(APSROOT)\Bin\ComponentInterface2.lib .
 .cpp.obj:
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 # ---------------------------------------------------------------------------          

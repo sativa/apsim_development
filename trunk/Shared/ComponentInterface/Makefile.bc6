@@ -39,7 +39,7 @@ ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
 CC=$(BCB)\Bin\bcc32.exe
 LD=$(BCB)\Bin\ilink32
 
-source: $(PROJECT) SimpleWrapper.obj 
+source: datatypes.h $(PROJECT) SimpleWrapper.obj 
 
 $(PROJECT): $(OBJFILES) $(DEFFILE)
     $(LD) @&&!
@@ -50,6 +50,10 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
     $(DEFFILE), +
     $(ALLRES)
 !
+	$(MV) $(APSROOT)\Bin\ComponentInterface.lib .
+	$(IMPDEF) ComponentInterface.def $(PROJECT)
+	$(APSROOT)\Tools\def2imp\def2imp.exe ComponentInterface.def ComponentInterface.imp
+
 .cpp.obj:
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 # ---------------------------------------------------------------------------
