@@ -298,10 +298,10 @@ void Component::doInit1(const Init1Data& init1Data)
    author = "APSRU";
    active = 1;
    state = "";
-   
-   componentData = newApsimComponentData(init1Data.sdml.f_str(), 
+
+   componentData = newApsimComponentData(init1Data.sdml.f_str(),
                                          init1Data.sdml.length());
-      
+
    addGettableVar("name", name, "", "");
    addGettableVar("type", type, "", "");
    addGettableVar("version", version, "", "");
@@ -463,7 +463,7 @@ bool Component::readParameter
       }
    return true;
    }
-   
+
 void Component::getMultipleProperties(const std::string& sectionName,
                                       const std::string& variableName,
                                       std::vector<std::string>& returnValues)
@@ -471,14 +471,14 @@ void Component::getMultipleProperties(const std::string& sectionName,
    // ------------------------------------------------------------------
    // Return multiple values for the specified variable.
    // ------------------------------------------------------------------
-    
+
     std::vector<string> names;
-    std::vector<string> values;  
+    std::vector<string> values;
     componentData->getProperties(sectionName, names, values);
     for (unsigned i = 0; i != names.size(); i++)
        {
        if (Str_i_Eq(names[i], variableName))
-          returnValues.push_back(values[i]);   
+          returnValues.push_back(values[i]);
        }
     }
 
@@ -496,7 +496,7 @@ void Component::getMultipleProperties(const std::string& sectionName,
 void Component::error(const FString& msg, bool isFatal)
    {
    string message = asString(msg) + "\nComponent name: " + name;
-      
+
    // create and send a message.
    Message* errorMessage = newPublishEventMessage(componentID,
                                                   parentID,
@@ -706,7 +706,7 @@ namespace protocol {
 
 void Component::writeString(const FString& lines)
    {
-   writeStringToStream(asString(lines), cout, name);   
+   writeStringToStream(asString(lines), cout, name);
    }
 void Component::writeStringToStream(const std::string& lines, ostream& out,
                                     const std::string& componentName)
@@ -928,6 +928,11 @@ void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
       }
    }
 
+void varVectorFloatInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
+   {
+   systemInterface->sendVariable(qd, myPtr);
+   }
+
 unsigned int Component::addEvent(const char *systemName,
                                  RegistrationType type,
                                  boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr,
@@ -1076,7 +1081,7 @@ std::string Component::getDescription()
 	  throw runtime_error(err.what());
       }
    }
-  
+
 void Component::removeGettableVar(const char *systemName)
 // remove a variable from our list of variables
    {

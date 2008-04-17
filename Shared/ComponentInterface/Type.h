@@ -3,6 +3,7 @@
 #include "MessageData.h"
 #include <ApsimShared/FString.h>
 #include <general/platform.h>
+#include <vector>
 namespace protocol {
 
 enum DataTypeCode  {DTint1 = 0,
@@ -108,6 +109,7 @@ inline unsigned int memorySize(const Type& type)
 inline DataTypeCode dataTypeCodeOf(bool)   {return DTboolean;}
 inline DataTypeCode dataTypeCodeOf(int)    {return DTint4;}
 inline DataTypeCode dataTypeCodeOf(float)  {return DTsingle;}
+inline DataTypeCode dataTypeCodeOf(const std::vector<float>&)  {return DTsingle;}
 inline DataTypeCode dataTypeCodeOf(double) {return DTdouble;}
 inline DataTypeCode dataTypeCodeOf(char)   {return DTchar;}
 inline DataTypeCode dataTypeCodeOf(char *) {return DTstring;}

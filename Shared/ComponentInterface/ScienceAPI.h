@@ -41,7 +41,7 @@ class EXPORT ScienceAPI
       bool read(const std::string& name, float data[], int& numVals, float lower, float upper);
       bool read(const std::string& name, std::vector<double>& data, float lower, float upper);
       bool read(const std::string& name, std::vector<std::string>& data);
-         
+
       bool readFiltered(const std::string& filterName, std::vector<std::string> &values);
       bool readAll(const std::string& section, std::vector<std::string>& names, std::vector<std::string> &values);
 
@@ -70,6 +70,7 @@ class EXPORT ScienceAPI
       #define FloatFunction(address) boost::function0<float>(boost::bind(address, this))
       void expose(const std::string& name, const std::string& units, const std::string& description, float& variable);
       void expose(const std::string& name, const std::string& units, const std::string& description, string& variable);
+      void expose(const std::string& name, const std::string& units, const std::string& description, const std::vector<float>& variable);
       void exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function0<float> fn);
 
       // set methods

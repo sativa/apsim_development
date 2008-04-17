@@ -97,9 +97,26 @@ class EXPORT varInfo : public baseInfo {
       myUnits = units;
       myDescription = desc;
    };
+
    ~varInfo() {};
    void sendVariable(Component *, QueryValueData&);
 
+  };
+class EXPORT varVectorFloatInfo : public baseInfo {
+  private:
+      const std::vector<float>& myPtr;
+  public:
+   varVectorFloatInfo(const char *name, DataTypeCode type, const std::vector<float>& ptr, const char *units, const char *desc)
+      : myPtr(ptr)
+      {
+      myName = name;
+      myType = type;
+      myLength = ptr.size();
+      myIsArray = true;
+      myUnits = units;
+      myDescription = desc;
+   };
+   void sendVariable(Component *, QueryValueData&);
   };
 class EXPORT stringInfo : public baseInfo {
   private:
@@ -178,8 +195,8 @@ class EXPORT Component
          {
          return componentData->getProperty(a,b);
          }
-      void getProperties(const std::string &section, 
-                         std::vector<std::string> &names, 
+      void getProperties(const std::string &section,
+                         std::vector<std::string> &names,
                          std::vector<std::string> &values) const
          {
          componentData->getProperties(section, names, values);
@@ -187,7 +204,7 @@ class EXPORT Component
       void getMultipleProperties(const std::string& sectionName,
                                  const std::string& variableName,
                                  std::vector<std::string>& values);
-         
+
 
       // Notify system of an error.
       void error(const FString& msg, bool isFatal);
@@ -488,7 +505,7 @@ class EXPORT Component
        stripLeadingTrailing(valueString, " \t");
        return valueString;
        };
-      
+
 
       // Search a list of "sections" for a parameter.
     std::string readParameter(const std::vector<std::string> &sectionNames,
@@ -752,11 +769,14 @@ class EXPORT Component
       // vector
       template <class T>
       void addGettableVar(const char *systemName,
-                          std::vector<T> &value,
+                          const std::vector<T> &value,
                           const char *units,
                           const char *desc)
            {
-           throw "vector addGettableVar not yet implemented";
+          DataTypeCode type = dataTypeCodeOf(value);
+          unsigned int id = getReg(systemName, type, true, units);
+          varVectorFloatInfo *v = new varVectorFloatInfo(systemName, type, value, units, desc);
+          getVarMap.insert(UInt2InfoMap::value_type(id,v));
            };
 
       void removeGettableVar(const char *systemName);
