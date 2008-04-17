@@ -212,7 +212,7 @@ bool ScienceAPI::readAll(const std::string& section, std::vector<std::string>& n
    component->getProperties(section, names, values);
    return (values.size() > 0);
    }
-   
+
 // -------------------------------------------------------------
 // Optional methods.
 // -------------------------------------------------------------
@@ -391,6 +391,10 @@ class CMPGetter : public DeletableThing
    };
 
 void ScienceAPI::expose(const std::string& name, const std::string& units, const std::string& description, float& variable)
+   {
+   component->addGettableVar(name.c_str(), variable, units.c_str(), description.c_str());
+   }
+void ScienceAPI::expose(const std::string& name, const std::string& units, const std::string& description, const std::vector<float>& variable)
    {
    component->addGettableVar(name.c_str(), variable, units.c_str(), description.c_str());
    }
