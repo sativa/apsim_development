@@ -53,7 +53,7 @@ class RootBase : public SimplePart
 
       virtual void doPlantWaterStress (float sw_demand, SWStress *swStress) {};
 
-      virtual void doWaterSupply(){};
+
       virtual void doWaterUptakeInternal(float sw_demand){};
       virtual float waterUptake(void){return 0;};
       virtual void getOtherVariables(){};
@@ -68,7 +68,6 @@ class RootBase : public SimplePart
       virtual void doWaterUptake (int option, float SWDemand){};
       virtual float peswTotal(){return 0;};
       virtual float pesw(int depth){return 0;};
-      virtual float dltSwDep(){return 0;};
       virtual float swSupply(){return 0.0;};
       virtual float swAvailable(){return 0.0;};
       virtual float swAvailablePotential(){return 0.0;};

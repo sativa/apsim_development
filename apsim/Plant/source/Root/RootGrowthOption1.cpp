@@ -37,7 +37,7 @@ void rootGrowthOption1::root_length_growth (void)
 
       rlv_factor[layer] = sw_fac_root.value(sw_avail_ratio(layer)) *
                  branching_factor *                                      // branching factor
-                   xf [layer]  *                                       // growth factor
+                   soil.xf [layer]  *                                       // growth factor
                      divide(soil.dlayer[layer],      // space weighting
                             root_depth, 0.0);                            //       factor
 
