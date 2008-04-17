@@ -52,6 +52,7 @@ OBJFILES=PlantComponent.obj \
    SimplePart.obj \
    Root\RootBase.obj \
    Root\RootPart.obj \
+   Root\Soil.obj \
    Root\NoRoot.obj \
    Root\MultiRoot.obj \
    Root\RootGrowthOption1.obj \
@@ -165,6 +166,7 @@ Reproductive\FloretPart.obj: Reproductive\FloretPart.cpp Reproductive\FloretPart
 Reproductive\MealPart.obj: Reproductive\MealPart.cpp Reproductive\MealPart.h PlantPart.h SimplePart.h
 Root\RootBase.obj: Root\RootBase.cpp Root\RootBase.h PlantPart.h SimplePart.h
 Root\RootPart.obj: Root\RootPart.cpp Root\RootPart.h Root\RootBase.h
+Root\Soil.obj: Root\Soil.cpp Root\Soil.h
 Root\NoRoot.obj: Root\NoRoot.cpp Root\NoRoot.h Root\RootBase.h
 Root\NoRoot.obj: Root\MultiRoot.cpp Root\MultiRoot.h Root\RootBase.h
 Root\RootGrowthOption1.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h Root\RootGrowthOption1.cpp Root\RootGrowthOption1.h SimplePart.h
