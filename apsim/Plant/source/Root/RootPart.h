@@ -58,8 +58,8 @@ class RootPart : public RootBase
       float wet_root_fr (void);
       virtual void write();
 
-      float plant_nit_supply(float biomass, float stageNumber, float swdef_fixation);
-      void doNUptake(float sumNMax, float sumSoilNDemand, float NDemand);
+      void plant_nit_supply(float stageNumber);
+      void doNUptake(float sumNMax, float sumSoilNDemand, float NDemand, float n_fix_pot);
       void doWaterUptake (int option, float SWDemand);
       float peswTotal();
       float pesw(int depth);
@@ -98,26 +98,10 @@ class RootPart : public RootBase
 
       unsigned int incorp_fom_ID;
 
-      int   n_uptake_option;
-      float n_fix_rate[max_table];                      // potential rate of N fixation (g N fixed
-      float n_stress_start_stage;
-      float total_n_uptake_max;
-      float no3_diffn_const;                            // time constant for uptake by
-                                                        // diffusion (days). H van Keulen &
-                                                        // NG Seligman. Purdoe 1987. This is the
-                                                        // time it would take to take up by
-                                                        // diffusion the current amount of N if
-                                                        // it wasn't depleted between time steps
 
-      float no3_uptake_max;
-      float no3_conc_half_max;
-      float kno3;
-      float no3ppm_min;
-      float knh4;
-      float nh4ppm_min;
       string crop_type;
-      float n_fix_pot;                                  // N fixation potential (g/m^2)
-      string n_supply_preference;                        // preference of n supply
+
+
 
 
 

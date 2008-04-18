@@ -682,10 +682,6 @@ void plant_leaf_removal_top (float *leaf_area
     ,float  *g_sw_avail_pot
     ,float  *g_sw_avail
     ,float  g_current_stage
-    ,float  *c_n_fix_rate
-    ,float  fixation_determinant
-    ,float  g_swdef_fixation
-    ,float  *g_n_fix_pot
     ) ;
 void cproc_n_supply4 (float* g_dlayer  //  ! (INPUT)
                ,float* g_bd                   //
@@ -705,10 +701,7 @@ void cproc_n_supply4 (float* g_dlayer  //  ! (INPUT)
                ,float* g_sw_avail_pot         //  ! (INPUT)
                ,float* g_sw_avail             //  ! (INPUT)
                ,float G_current_stage         //  ! (INPUT)
-               ,float *C_n_fix_rate            //  ! (INPUT)
-               ,float fixation_determinant    //  ! (INPUT)
-               ,float G_swdef_fixation        //  ! (INPUT)
-               ,float *g_n_fix_pot);           //   ! (outPUT)
+);           //   ! (outPUT)
 void legnew_n_senescence1
     (
      int    num_part
@@ -782,11 +775,7 @@ void cproc_n_supply1 (float *G_dlayer,                   // (INPUT)
                       float *G_NO3gsm_mflow_avail,       // (OUTPUT)
                       float *G_sw_avail,                 // (INPUT)
                       float *G_NO3gsm_diffn_pot,         // (OUTPUT)
-                      float G_current_stage,             // (INPUT)
-                      float *C_n_fix_rate,               // (INPUT)
-                      float fixation_determinant,       // (INPUT)
-                      float G_swdef_fixation,           // (INPUT)
-                      float *G_N_fix_pot);                // (INPUT)
+                      float G_current_stage);                // (INPUT)
 
 void crop_n_mass_flow1(const int num_layer,          // (INPUT)  number of layers in profile
                        float *dlayer,                // (INPUT)  thickness of soil layer I (mm)

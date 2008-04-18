@@ -5,6 +5,7 @@
 #include "Phenology/TTTPhenology.h"
 #include "Phenology/GenericPhenology.h"
 #include "Phenology/WheatPhenology.h"
+#include "Fixation.h"
 //---------------------------------------------------------------------------
 // This function creates parts.
 //---------------------------------------------------------------------------
@@ -21,6 +22,8 @@ plantThing* createThing(ScienceAPI& api, plantInterface& plant, const std::strin
       return new GenericPhenology(api, &plant);
    else if (nameLower == "wheatphenology")
       return new WheatPhenology(api, &plant);
+   else if (nameLower == "fixation")
+      return new Fixation(api, name);
 
    throw runtime_error("Cannot create a thing of type: " + type);
    }

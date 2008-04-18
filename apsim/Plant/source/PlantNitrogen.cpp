@@ -388,11 +388,7 @@ void cproc_n_supply1 (float *G_dlayer,                   // (INPUT)
                       float *G_NO3gsm_mflow_avail,       // (OUTPUT)
                       float *G_sw_avail,                 // (INPUT)
                       float *G_NO3gsm_diffn_pot,         // (OUTPUT)
-                      float G_current_stage,             // (INPUT)
-                      float *C_n_fix_rate,               // (INPUT)
-                      float fixation_determinant,       // (INPUT)
-                      float G_swdef_fixation,           // (INPUT)
-                      float *G_N_fix_pot)                // (INPUT)
+                      float G_current_stage)                // (INPUT)
 //=========================================================================
 /*  Purpose
 *      Calculate nitrogen supplies from soil and fixation
@@ -410,9 +406,6 @@ void cproc_n_supply1 (float *G_dlayer,                   // (INPUT)
    crop_n_diffusion1(max_layer, G_dlayer, G_NO3gsm, G_NO3gsm_min, G_root_depth,
             G_sw_avail, G_sw_dep, G_NO3gsm_diffn_pot);
 
-   // determine N from fixation
-   crop_n_fixation_pot1(G_current_stage, C_n_fix_rate, fixation_determinant,
-            G_swdef_fixation, G_N_fix_pot);
    }
 
 //=============================================================================
@@ -539,7 +532,7 @@ void crop_n_fixation_pot1( float G_current_stage,              // (INPUT) Curren
    current_phase = int(G_current_stage);
 
    *N_fix_pot = C_n_fix_rate[current_phase-1] * fixation_determinant * G_swdef_fixation;
-   
+
    }
 
 //============================================================================
@@ -838,12 +831,8 @@ void cproc_n_supply3 (
     ,float  c_no3_uptake_max
     ,float  c_no3_conc_half_max
     ,float  *g_sw_avail_pot                  // (INPUT)
-    ,float  *g_sw_avail                      // (INPUT)
-    ,float  g_current_stage                  // (INPUT)
-    ,float  *c_n_fix_rate                    // (INPUT)
-    ,float  fixation_determinant             // (INPUT)
-    ,float  g_swdef_fixation                 // (INPUT)
-    ,float  *g_n_fix_pot                      // (INPUT)
+    ,float  *g_sw_avail
+    ,float  g_current_stage                     // (INPUT)
     ) {
 
 //+  Local variables
@@ -902,13 +891,6 @@ void cproc_n_supply3 (
          g_no3gsm_uptake_pot[layer] = scalef * g_no3gsm_uptake_pot[layer];
          }
 
-    // determine N from fixation
-    crop_n_fixation_pot1 (g_current_stage
-                         , c_n_fix_rate
-                         , fixation_determinant
-                         , g_swdef_fixation
-                         , g_n_fix_pot);
-
     }
 
 
@@ -933,12 +915,8 @@ void cproc_n_supply4 (float* g_dlayer    //! (INPUT)
                ,float c_nh4ppm_min
                ,float c_total_n_uptake_max      //
                ,float* g_sw_avail_pot           //! (INPUT)
-               ,float* g_sw_avail               //! (INPUT)
-               ,float g_current_stage           //! (INPUT)
-               ,float *c_n_fix_rate             //! (INPUT)
-               ,float fixation_determinant      //! (INPUT)
-               ,float g_swdef_fixation          //! (INPUT)
-               ,float *g_n_fix_pot)             //! (outPUT)
+               ,float* g_sw_avail
+               ,float  g_current_stage)             //! (outPUT)
   {
       float no3ppm;
       float nh4ppm;
@@ -1010,13 +988,6 @@ void cproc_n_supply4 (float* g_dlayer    //! (INPUT)
            g_no3gsm_uptake_pot[layer] = scalef * g_no3gsm_uptake_pot[layer];
            g_nh4gsm_uptake_pot[layer] = scalef * g_nh4gsm_uptake_pot[layer];;
            }
-
-      // determine N from fixation
-      crop_n_fixation_pot1(g_current_stage
-                         , c_n_fix_rate
-                         , fixation_determinant
-                         , g_swdef_fixation
-                         , g_n_fix_pot);
 
    }
 

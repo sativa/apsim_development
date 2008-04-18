@@ -30,6 +30,9 @@ class Soil
                            float uptake_lbound,              //(INPUT) uptake lower limit
                            float uptake_ubound,              //(INPUT) uptake upper limit
                            float *uptake_array);              //(OUTPUT) crop uptake array
+      void doNUptake(string uptake_source, string crop_type, float root_depth, float sumNMax, float sumSoilNDemand, float nDemand, float n_fix_pot);
+      void doWaterUptake (string uptake_source, string crop_type, float SWDemand, float root_depth);
+      void plant_nit_supply(float stageNumber, float root_depth, float *root_lengt);
       void getOtherVariables();
       void doWaterUptakeExternal (string uptake_source, string crop_type);
       void UpdateOtherVariables(string uptake_source);
@@ -72,7 +75,22 @@ class Soil
       float nh4gsm_uptake_pot[max_layer];
       float nh4gsm_mflow_avail[max_layer];              // potential NH4 (supply) from soil (g/m^2) by mass flow
       float nh4gsm_diffn_pot[max_layer];                // potential NH4 (supply) from soil (g/m^2), by diffusion
-
+      int   n_uptake_option;
+      float no3_uptake_max;
+      float no3_conc_half_max;
+      float kno3;
+      float no3ppm_min;
+      float knh4;
+      float nh4ppm_min;
+      float total_n_uptake_max;
+      float n_stress_start_stage;
+      string n_supply_preference;                        // preference of n supply
+      float no3_diffn_const;                            // time constant for uptake by
+                                                        // diffusion (days). H van Keulen &
+                                                        // NG Seligman. Purdoe 1987. This is the
+                                                        // time it would take to take up by
+                                                        // diffusion the current amount of N if
+                                                        // it wasn't depleted between time steps
 
       int find_layer_no(float);
       int find_layer_no(float,const vector<float>&);

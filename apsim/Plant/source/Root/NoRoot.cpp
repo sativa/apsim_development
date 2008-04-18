@@ -80,12 +80,11 @@ float NoRoot::sw_avail_ratio(int /*layer*/)  //(INPUT) soil profile layer number
 //
 
 
-float NoRoot::plant_nit_supply(float /*biomass*/, float /*stageNumber*/, float /*swdef_fixation*/)
+void NoRoot::plant_nit_supply(float /*stageNumber*/)
 //=======================================================================================
 // Calculate Plant Nitrogen Supply
     {
-    return 0.0;
-   }
+    }
 
 
 float NoRoot::peswTotal()
@@ -117,7 +116,7 @@ float NoRoot::fasw(int /*depth*/)
    }
 
 
-void NoRoot::doNUptake(float /*sumNMax*/, float sumSoilNDemand, float nDemand)
+void NoRoot::doNUptake(float /*sumNMax*/, float sumSoilNDemand, float nDemand, float n_fix_pot)
 //=======================================================================================
 //       Find nitrogen uptake.
     {

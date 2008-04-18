@@ -20,6 +20,7 @@ public:                                             // member functions
 
    void createParts();
    plantThing* get(const std::string& name);
+   plantThing* getOptional(const std::string& name);
 
    void add(plantPart* part);
    plantPart& find(const std::string& name);

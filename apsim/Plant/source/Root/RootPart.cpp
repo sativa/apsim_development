@@ -38,14 +38,9 @@ void RootPart::zeroAllGlobals(void)
    fill_real_array (root_length_senesced, 0.0, max_layer);
    n_conc_min = n_conc_crit = n_conc_max = 0.0;
 
-
-
-
       uptake_source = "";
 
-      no3_diffn_const = 0.0;
-      no3_uptake_max = 0.0;
-      no3_conc_half_max = 0.0;
+
    }
 
 void RootPart::zeroDeltas(void)
@@ -131,7 +126,6 @@ void RootPart::read()
    //SimplePart::readCultivarParameters(NULL, "");
 
    scienceAPI.readOptional("crop_type", crop_type);
-   scienceAPI.read("n_supply_preference", n_supply_preference);
 
    // Read species-specific parameters
 
@@ -168,29 +162,6 @@ void RootPart::read()
 
    scienceAPI.readOptional("uptake_source", uptake_source);
    if (uptake_source == "")uptake_source = "calc";
-
-   int numvals;
-   scienceAPI.read("n_fix_rate", n_fix_rate, numvals, 0.0f, 1.0f);
-   scienceAPI.read("N_stress_start_stage", n_stress_start_stage, 0.0f, 100.0f);
-
-   scienceAPI.read("n_uptake_option", n_uptake_option, 1, 3);
-   if (n_uptake_option==1)
-      scienceAPI.read("no3_diffn_const", no3_diffn_const, 0.0f, 100.0f);
-   else if (n_uptake_option==2)
-      {
-      scienceAPI.read("no3_uptake_max", no3_uptake_max, 0.0f, 1.0f);
-      scienceAPI.read("no3_conc_half_max", no3_conc_half_max, 0.0f, 100.0f);
-      scienceAPI.read("total_n_uptake_max", total_n_uptake_max, 0.0f, 100.0f);
-      }
-   else if (n_uptake_option==3)
-      {
-      scienceAPI.read("kno3", kno3, 0.0f, 1.0f);
-      scienceAPI.read("no3ppm_min", no3ppm_min, 0.0f, 10.0f);
-      scienceAPI.read("knh4", knh4, 0.0f, 1.0f);
-      scienceAPI.read("nh4ppm_min", nh4ppm_min, 0.0f, 10.0f);
-      scienceAPI.read("total_n_uptake_max", total_n_uptake_max, 0.0f, 100.0f);
-      }
-
 
    soil.Read();
    }
@@ -896,152 +867,25 @@ void RootPart::get_n_supply_soil(protocol::Component *systemInterface, protocol:
    systemInterface->sendVariable(qd, n_uptake_sum);
    }
 
-float RootPart::plant_nit_supply(float biomass, float stageNumber, float swdef_fixation)
+void RootPart::plant_nit_supply(float stageNumber)
 //=======================================================================================
 // Calculate Plant Nitrogen Supply
-    {
-//+  Local Variables
-    float no3gsm_min[max_layer];   // minimum allowable NO3 in soil (g/m^2)
-    fill_real_array (no3gsm_min, 0.0, max_layer);
-
-    if (n_uptake_option == 1)
-        cproc_n_supply1 (soil.dlayer
-                         , soil.dlt_sw_dep
-                         , soil.no3gsm
-                         , no3gsm_min
-                         , root_depth
-                         , soil.sw_dep
-                         , soil.no3gsm_mflow_avail
-                         , soil.sw_avail
-                         , soil.no3gsm_diffn_pot
-                         , stageNumber
-                         , n_fix_rate
-                         , biomass
-                         , swdef_fixation
-                         , &n_fix_pot);
-
-    else if (n_uptake_option == 2)
-        cproc_n_supply3 (soil.dlayer
-                         , soil.no3gsm
-                         , no3gsm_min
-                         , soil.no3gsm_uptake_pot
-                         , root_depth
-                         , root_length
-                         , soil.bd
-                         , n_stress_start_stage
-                         , total_n_uptake_max
-                         , no3_uptake_max
-                         , no3_conc_half_max
-                         , soil.sw_avail_pot
-                         , soil.sw_avail
-                         , stageNumber
-                         , n_fix_rate
-                         , biomass
-                         , swdef_fixation
-                         , &n_fix_pot);
-
-     else if (n_uptake_option == 3)
-        {
-        float nh4gsm_min[max_layer];   // minimum allowable NH4 in soil (g/m^2)
-        fill_real_array (nh4gsm_min, 0.0, max_layer);
-
-        cproc_n_supply4 (soil.dlayer
-                             , soil.bd
-                             , soil.no3gsm
-                             , no3gsm_min
-                             , soil.no3gsm_uptake_pot
-                             , soil.nh4gsm
-                             , nh4gsm_min
-                             , soil.nh4gsm_uptake_pot
-                             , root_depth
-                             , n_stress_start_stage
-                             , kno3
-                             , no3ppm_min
-                             , knh4
-                             , nh4ppm_min
-                             , total_n_uptake_max
-                             , soil.sw_avail_pot
-                             , soil.sw_avail
-                             , stageNumber
-                             , n_fix_rate
-                             , biomass
-                             , swdef_fixation
-                             , &n_fix_pot);
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template N uptake option");
-        }
-   return n_fix_pot;
+   {
+   soil.plant_nit_supply(stageNumber, root_depth, root_length);
    }
 
-void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
+void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand, float n_fix_pot)
 //=======================================================================================
 //       Find nitrogen uptake.
     {
-    if (Str_i_Eq(uptake_source, "apsim"))
-        {
-        // NIH - note that I use a -ve conversion
-        // factor FOR NOW to make it a delta.
-        soil.plant_get_ext_uptakes(uptake_source.c_str()
-                             ,crop_type.c_str()
-                             ,"no3"
-                             ,-kg2gm/ha2sm
-                             ,0.0
-                             ,100.0
-                             ,soil.dlt_no3gsm);
-
-
-        }
-    else if (n_uptake_option == 1)
-        {
-        cproc_n_uptake1(no3_diffn_const
-                       , soil.dlayer
-                       , soil.no3gsm_diffn_pot
-                       , soil.no3gsm_mflow_avail
-                       , n_fix_pot
-                       , n_supply_preference.c_str()
-                       , nDemand
-                       , sumNMax
-                       , root_depth
-                       , soil.dlt_no3gsm);
-        }
-    else if ((n_uptake_option == 2) || (n_uptake_option == 3))
-        {
-        cproc_n_uptake3(soil.dlayer
-                        , soil.no3gsm_uptake_pot
-                        , soil.nh4gsm_uptake_pot
-                        , n_fix_pot
-                        , n_supply_preference.c_str()
-                        , sumSoilNDemand
-                        , sumNMax
-                        , root_depth
-                        , soil.dlt_no3gsm
-                        , soil.dlt_nh4gsm);
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option");
-        }
+    soil.doNUptake(uptake_source, crop_type, root_depth, sumNMax, sumSoilNDemand, nDemand, n_fix_pot);
     }
 
 //+  Purpose
 //       Plant transpiration and soil water extraction
 void RootPart::doWaterUptake (int option, float SWDemand)
     {
-    soil.doWaterSupply(root_depth);
-    if (Str_i_Eq(uptake_source,"apsim"))
-        {
-        soil.doWaterUptakeExternal(uptake_source, crop_type);
-        }
-    else if (option == 1)
-        {
-        soil.doWaterUptakeInternal(SWDemand, root_depth);
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option");
-        }
+    soil.doWaterUptake(uptake_source, crop_type, SWDemand, root_depth);
     }
 
 // SWIM

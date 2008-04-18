@@ -30,6 +30,7 @@ OBJFILES=PlantComponent.obj \
    StageBasedInterpolationFunction.obj \
    ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
    Environment.obj \
+   Fixation.obj \
    Utility\Observers.obj \
    Leaf\Leaf.obj \
    Stem.obj \
@@ -95,7 +96,7 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 
 
 # ---------------------------------------------------------------------------
-RESFILES = 
+RESFILES =
 USERDEFINES =
 SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost;
@@ -155,6 +156,7 @@ Date.obj: Utility\Date.cpp PlantLibrary.h
 Science.obj: Utility\Science.cpp PlantLibrary.h
 Error.obj: Error.cpp PlantLibrary.h
 Environment.obj: Environment.cpp Environment.h
+Fixation.obj: Fixation.cpp Fixation.h
 Utility\Observers.obj: Utility\Observers.cpp Utility\Observers.h
 Leaf\Leaf.obj: Leaf\Leaf.cpp PlantPart.h Leaf\Leaf.h SimplePart.h
 Stem.obj: Stem.cpp Stem.h PlantPart.h SimplePart.h
