@@ -14,6 +14,7 @@ class Plant;
 class Arbitrator;
 class pheno_stress_t;
 class Co2Modifier;
+class Fixation;
 
 #include "PlantInterface.h"
 #include "Environment.h"
@@ -63,6 +64,7 @@ private:
    Leaf  *leafPart;
    RootBase  *rootPart;
    Phenology *phenology;
+   Fixation  *fixation;
    plantPart     *fruitPart;
    Population population;
 

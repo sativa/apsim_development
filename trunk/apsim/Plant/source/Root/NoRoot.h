@@ -11,7 +11,7 @@ class NoRoot : public RootBase
       void read();
       void onInit1(protocol::Component *system);
       void doWaterUptake (int option, float swDemand);
-      void doNUptake(float sumNMax, float sumSoilNDemand, float NDemand);
+      void doNUptake(float sumNMax, float sumSoilNDemand, float NDemand, float n_fix_pot);
 
       void zeroAllGlobals(void){};
       void zeroDeltas(void){};
@@ -25,7 +25,7 @@ class NoRoot : public RootBase
 
       virtual void write();
 
-      float plant_nit_supply(float biomass, float stageNumber, float swdef_fixation);
+      void plant_nit_supply(float stageNumber);
 
       float peswTotal();
       float pesw(int depth);

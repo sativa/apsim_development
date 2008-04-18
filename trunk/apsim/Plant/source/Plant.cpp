@@ -15,6 +15,7 @@
 #include "Utility/Observers.h"
 #include "Arbitrators/arbitrator.h"
 #include "Utility/PlantUtility.h"
+#include "Fixation.h"
 
 using namespace std;
 
@@ -124,6 +125,9 @@ Plant::Plant(protocol::Component *P, ScienceAPI& api)
    phenology    = dynamic_cast<Phenology*>   (plant.get("phenology"));
    myThings.push_back(phenology);
 
+   fixation    = dynamic_cast<Fixation*>   (plant.getOptional("fixation"));
+
+
     nStress = new NStress(scienceAPI, parent);
     pStress = new PStress(scienceAPI, parent);
     swStress = new SWStress(scienceAPI, parent);
@@ -219,7 +223,7 @@ void Plant::onInit1(void)
 
    plant.tempFlagToShortCircuitInit1 = true;
    plant.onInit1(parent);
-    
+
     id.eo = parent->addRegistration(RegistrationType::get,
                                    "eo", addUnitsToDDML(floatType, "mm").c_str(),
                                    "", "");
@@ -1110,7 +1114,11 @@ void Plant::plant_process ( void )
         plant.doNDemandGrain(nStress->nFact.grain, swStress->swDef.expansion);
 
         float biomass = tops.Green.DM() + plant.dltDm();
-        g.n_fix_pot = rootPart->plant_nit_supply(biomass, phenology->stageNumber(), swStress->swDef.fixation);
+        rootPart->plant_nit_supply(phenology->stageNumber());
+        if (fixation!=NULL)
+           g.n_fix_pot = fixation->Potential(biomass, phenology->stageNumber(), swStress->swDef.fixation);
+        else
+           g.n_fix_pot = 0.0;
 
         if (c.n_retrans_option==1)
            {
@@ -1126,7 +1134,12 @@ void Plant::plant_process ( void )
 
         doNSenescence (c.n_senescence_option);
         plant.doSoilNDemand ();
-        rootPart->doNUptake(plant.nMax(), plant.soilNDemand(), plant.nDemand());     // allows preference of N source
+        float PotNFix;
+        if (fixation != NULL)
+           PotNFix = fixation->NFixPot();
+        else
+           PotNFix = 0.0;
+        rootPart->doNUptake(plant.nMax(), plant.soilNDemand(), plant.nDemand(), PotNFix);     // allows preference of N source
         doNPartition ();                  // allows output of n fixed
         doPPartition();
 

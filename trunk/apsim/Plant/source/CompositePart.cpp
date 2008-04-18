@@ -92,6 +92,15 @@ plantThing* CompositePart::get(const std::string& name)
       throw runtime_error("Cannot find a child called: " + name);
    return *i;
    }
+plantThing* CompositePart::getOptional(const std::string& name)
+   {
+   vector<plantThing*>::iterator i = find_if(things.begin(), things.end(),
+                                             PEqualToName<plantThing>(name));
+   if (i == things.end())
+      return NULL;
+   return *i;
+   }
+
 
 void CompositePart::createParts()
    {

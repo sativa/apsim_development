@@ -39,6 +39,26 @@ void Soil::Read(void)
    scienceAPI.read("no3_lb", no3_lb, 0.0f, 100000.0f);
    scienceAPI.read("nh4_ub", nh4_ub, 0.0f, 100000.0f);
    scienceAPI.read("nh4_lb", nh4_lb, 0.0f, 100000.0f);
+   scienceAPI.read("n_uptake_option", n_uptake_option, 1, 3);
+   scienceAPI.read("n_supply_preference", n_supply_preference);
+   scienceAPI.read("N_stress_start_stage", n_stress_start_stage, 0.0f, 100.0f);
+
+   if (n_uptake_option==1)
+      scienceAPI.read("no3_diffn_const", no3_diffn_const, 0.0f, 100.0f);
+   else if (n_uptake_option==2)
+      {
+      scienceAPI.read("no3_uptake_max", no3_uptake_max, 0.0f, 1.0f);
+      scienceAPI.read("no3_conc_half_max", no3_conc_half_max, 0.0f, 100.0f);
+      scienceAPI.read("total_n_uptake_max", total_n_uptake_max, 0.0f, 100.0f);
+      }
+   else if (n_uptake_option==3)
+      {
+      scienceAPI.read("kno3", kno3, 0.0f, 1.0f);
+      scienceAPI.read("no3ppm_min", no3ppm_min, 0.0f, 10.0f);
+      scienceAPI.read("knh4", knh4, 0.0f, 1.0f);
+      scienceAPI.read("nh4ppm_min", nh4ppm_min, 0.0f, 10.0f);
+      scienceAPI.read("total_n_uptake_max", total_n_uptake_max, 0.0f, 100.0f);
+      }
 
 
    // Read Rooting parameters
@@ -166,6 +186,11 @@ void Soil::zero(void)
       kl_ub = 0.0;
 
       xf.clear();
+
+      no3_diffn_const = 0.0;
+      no3_uptake_max = 0.0;
+      no3_conc_half_max = 0.0;
+
 
       ZeroDeltas();
    }
@@ -677,3 +702,137 @@ float Soil::WFPS(int layer)
    wfps = bound (wfps, 0.0, 1.0);
    return wfps;
    }
+
+void Soil::doNUptake(string uptake_source, string crop_type, float root_depth, float sumNMax, float sumSoilNDemand, float nDemand, float n_fix_pot)
+//=======================================================================================
+//       Find nitrogen uptake.
+    {
+    if (Str_i_Eq(uptake_source, "apsim"))
+        {
+        // NIH - note that I use a -ve conversion
+        // factor FOR NOW to make it a delta.
+        plant_get_ext_uptakes(uptake_source.c_str()
+                             ,crop_type.c_str()
+                             ,"no3"
+                             ,-kg2gm/ha2sm
+                             ,0.0
+                             ,100.0
+                             ,dlt_no3gsm);
+
+
+        }
+    else if (n_uptake_option == 1)
+        {
+        cproc_n_uptake1(no3_diffn_const
+                       , dlayer
+                       , no3gsm_diffn_pot
+                       , no3gsm_mflow_avail
+                       , n_fix_pot
+                       , n_supply_preference.c_str()
+                       , nDemand
+                       , sumNMax
+                       , root_depth
+                       , dlt_no3gsm);
+        }
+    else if ((n_uptake_option == 2) || (n_uptake_option == 3))
+        {
+        cproc_n_uptake3(dlayer
+                        , no3gsm_uptake_pot
+                        , nh4gsm_uptake_pot
+                        , n_fix_pot
+                        , n_supply_preference.c_str()
+                        , sumSoilNDemand
+                        , sumNMax
+                        , root_depth
+                        , dlt_no3gsm
+                        , dlt_nh4gsm);
+        }
+    else
+        {
+        throw std::invalid_argument ("invalid template option");
+        }
+    }
+
+//+  Purpose
+//       Plant transpiration and soil water extraction
+void Soil::doWaterUptake (string uptake_source, string crop_type, float SWDemand, float root_depth)
+    {
+    doWaterSupply(root_depth);
+
+    if (Str_i_Eq(uptake_source,"apsim"))
+        {
+        doWaterUptakeExternal(uptake_source, crop_type);
+        }
+    else
+        {
+        doWaterUptakeInternal(SWDemand, root_depth);
+        }
+    }
+
+void Soil::plant_nit_supply(float stageNumber, float root_depth, float *root_length)
+//=======================================================================================
+// Calculate Plant Nitrogen Supply
+    {
+//+  Local Variables
+    float no3gsm_min[max_layer];   // minimum allowable NO3 in soil (g/m^2)
+    fill_real_array (no3gsm_min, 0.0, max_layer);
+
+    if (n_uptake_option == 1)
+        cproc_n_supply1 (dlayer
+                         , dlt_sw_dep
+                         , no3gsm
+                         , no3gsm_min
+                         , root_depth
+                         , sw_dep
+                         , no3gsm_mflow_avail
+                         , sw_avail
+                         , no3gsm_diffn_pot
+                         , stageNumber);
+
+    else if (n_uptake_option == 2)
+        cproc_n_supply3 (dlayer
+                         , no3gsm
+                         , no3gsm_min
+                         , no3gsm_uptake_pot
+                         , root_depth
+                         , root_length
+                         , bd
+                         , n_stress_start_stage
+                         , total_n_uptake_max
+                         , no3_uptake_max
+                         , no3_conc_half_max
+                         , sw_avail_pot
+                         , sw_avail
+                         , stageNumber);
+
+     else if (n_uptake_option == 3)
+        {
+        float nh4gsm_min[max_layer];   // minimum allowable NH4 in soil (g/m^2)
+        fill_real_array (nh4gsm_min, 0.0, max_layer);
+
+        cproc_n_supply4 (dlayer
+                             , bd
+                             , no3gsm
+                             , no3gsm_min
+                             , no3gsm_uptake_pot
+                             , nh4gsm
+                             , nh4gsm_min
+                             , nh4gsm_uptake_pot
+                             , root_depth
+                             , n_stress_start_stage
+                             , kno3
+                             , no3ppm_min
+                             , knh4
+                             , nh4ppm_min
+                             , total_n_uptake_max
+                             , sw_avail_pot
+                             , sw_avail
+                             , stageNumber);
+        }
+    else
+        {
+        throw std::invalid_argument ("invalid template N uptake option");
+        }
+
+   }
+   
