@@ -37,6 +37,7 @@ class RootPart : public RootBase
       void sen_length(void);
       virtual void root_length_growth (void) = 0;
       virtual void plant_root_depth (void);
+      float sw_avail_ratio(int layer);
 
       void collectDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_residue
