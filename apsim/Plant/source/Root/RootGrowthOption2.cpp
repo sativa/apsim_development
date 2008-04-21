@@ -23,26 +23,26 @@ void rootGrowthOption2::root_length_growth (void)
     float rwf;
     float cum_depth;
 
-   vector<float> rlv_factor(soil.num_layers);
-   vector<float> root_length_new(soil.num_layers);
+   vector<float> rlv_factor(soil[0].num_layers);
+   vector<float> root_length_new(soil[0].num_layers);
 
    setTo(dltRootLength, (float)0.0);
 
    float depth_today = root_depth + dltRootDepth;
-   int deepest_layer = soil.find_layer_no (depth_today);
+   int deepest_layer = soil[0].find_layer_no (depth_today);
 
-   float cum_layer_depth = sum_real_array(soil.dlayer, deepest_layer);
+   float cum_layer_depth = sum_real_array(soil[0].dlayer, deepest_layer);
 
    rlv_factor_tot = 0.0;
    cum_depth      = 0.0;
 
    for (int layer = 0; layer <= deepest_layer; layer++)
       {
-      cum_depth +=  0.5 * soil.dlayer[layer];
+      cum_depth +=  0.5 * soil[0].dlayer[layer];
       rwf       = divide (cum_depth, cum_layer_depth, 0.0) ;
       rwf       = pow((1.0 - rwf), rootDistributionPattern);
 
-      rld       = divide (root_length[layer], soil.dlayer[layer], 0.0);
+      rld       = divide (root_length[layer], soil[0].dlayer[layer], 0.0);
 
       plant_rld = divide (rld, plant->getPlants() ,0.0);
 
@@ -50,8 +50,8 @@ void rootGrowthOption2::root_length_growth (void)
 
       rlv_factor[layer] = sw_fac_root.value(sw_avail_ratio(layer)) *
                             branching_factor *
-                             soil.xf [layer] *
-                             divide(soil.dlayer[layer], root_depth, 0.0) *
+                             soil[0].xf [layer] *
+                             divide(soil[0].dlayer[layer], root_depth, 0.0) *
                               rwf;
 
       rlv_factor[layer] = l_bound(rlv_factor[layer], 1e-6);
