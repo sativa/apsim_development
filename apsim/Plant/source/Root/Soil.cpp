@@ -837,21 +837,5 @@ void Soil::plant_nit_supply(float stageNumber, float root_depth, float *root_len
    }
 
 
-float Soil::sw_avail_ratio(int layer)  //(INPUT) soil profile layer number
-//===========================================================================
-//     Get the soil water availability factor in a layer.  For a layer,
-//     it is 1.0 unless the plant-extractable soil water declines
-//     below a fraction of plant-extractable soil water capacity for
-//     that layer.
-   {
-   //  Local Variables
-   float pesw;                // plant extractable soil-water (mm/mm)
-   float pesw_capacity;       // plant extractable soil-water capacity (mm/mm)
-   float sw_avail_ratio;      // soil water availability ratio (0-1)
 
-   pesw = sw_dep[layer] - ll_dep[layer];
-   pesw_capacity = dul_dep[layer] - ll_dep[layer];
-   sw_avail_ratio = divide (pesw, pesw_capacity, 10.0);
-   return sw_avail_ratio;
-   }
    
