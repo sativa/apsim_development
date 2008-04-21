@@ -729,24 +729,6 @@ void RootPart::removeBiomass2(float chop_fr)
 
    }
 
-float RootPart::sw_avail_ratio(int layer)  //(INPUT) soil profile layer number
-//===========================================================================
-//     Get the soil water availability factor in a layer.  For a layer,
-//     it is 1.0 unless the plant-extractable soil water declines
-//     below a fraction of plant-extractable soil water capacity for
-//     that layer.
-   {
-   //  Local Variables
-   float pesw;                // plant extractable soil-water (mm/mm)
-   float pesw_capacity;       // plant extractable soil-water capacity (mm/mm)
-   float sw_avail_ratio;      // soil water availability ratio (0-1)
-
-   pesw = soil.sw_dep[layer] - soil.ll_dep[layer];
-   pesw_capacity = soil.dul_dep[layer] - soil.ll_dep[layer];
-   sw_avail_ratio = divide (pesw, pesw_capacity, 10.0);
-   return sw_avail_ratio;
-   }
-
 
 
 void RootPart::UpdateOtherVariables()

@@ -46,8 +46,6 @@ class RootPart : public RootBase
       void doNConccentrationLimits(float);
       void redistribute(const vector<float> &, const vector<float> &, float);
 
-      float sw_avail_ratio(int layer);
-
       void doPlantWaterStress (float sw_demand, SWStress *swStress);
 
       void doWaterSupply();
