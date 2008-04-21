@@ -7,7 +7,7 @@ class RootPart : public RootBase
    {
    public:
       ~RootPart(){};
-      Soil soil;
+      vector<Soil> soil;
       void zeroAllGlobals(void);
       void zeroDeltas(void);
       void onInit1(protocol::Component *system);

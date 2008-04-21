@@ -22,14 +22,14 @@ void rootGrowthOption1::root_length_growth (void)
    setTo(dltRootLength, (float)0.0);
 
    float depth_today = root_depth + dltRootDepth;
-   int deepest_layer = soil.find_layer_no (depth_today);
+   int deepest_layer = soil[0].find_layer_no (depth_today);
 
-   vector<float> rlv_factor(soil.num_layers);  // relative rooting factor for all layers
+   vector<float> rlv_factor(soil[0].num_layers);  // relative rooting factor for all layers
 
    rlv_factor_tot = 0.0;
    for(int layer = 0; layer <= deepest_layer; layer++)
       {
-      rld = divide (root_length[layer], soil.dlayer[layer], 0.0);
+      rld = divide (root_length[layer], soil[0].dlayer[layer], 0.0);
 
       plant_rld = divide (rld, plant->getPlants(), 0.0);
 
@@ -37,8 +37,8 @@ void rootGrowthOption1::root_length_growth (void)
 
       rlv_factor[layer] = sw_fac_root.value(sw_avail_ratio(layer)) *
                  branching_factor *                                      // branching factor
-                   soil.xf [layer]  *                                       // growth factor
-                     divide(soil.dlayer[layer],      // space weighting
+                   soil[0].xf [layer]  *                                       // growth factor
+                     divide(soil[0].dlayer[layer],      // space weighting
                             root_depth, 0.0);                            //       factor
 
       rlv_factor[layer] = l_bound(rlv_factor[layer], 1e-6);
