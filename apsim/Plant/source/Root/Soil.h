@@ -23,7 +23,7 @@ class Soil
       void doWaterUptake (string uptake_source, string crop_type, float SWDemand, float root_depth);
       void doNUptake(string uptake_source, string crop_type, float root_depth, float sumNMax, float sumSoilNDemand, float nDemand, float n_fix_pot);
       float swAvailable(float root_depth);
-
+      float sw_avail_ratio(int layer);
 
       float dlayer[max_layer];                         // thickness of soil layer I (mm)
       int num_layers;
@@ -34,7 +34,6 @@ class Soil
       vector<float> xf;                                 // root exploration factor (0-1)
       vector<float> ll_dep;                          // lower limit of plant-extractable
 
-      float dul_dep[max_layer];                        // drained upper limit soil water content for soil layer L (mm water)
       float sw_dep[max_layer];                         // soil water content of layer L (mm)
       float dlt_sw_dep[max_layer];                      // water uptake in each layer (mm water)
       float sw_avail_pot[max_layer];                    // potential extractable soil water (mm)
@@ -82,6 +81,7 @@ class Soil
       float ll15_dep[max_layer];
       float sat_dep[max_layer];
       float bd[max_layer];
+      float dul_dep[max_layer];                        // drained upper limit soil water content for soil layer L (mm water)
 
 
 
