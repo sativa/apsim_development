@@ -29,6 +29,7 @@ SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost;
 LIBPATH = $(SYSLIBPATH)
 CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+CFLAGLF95 =  -x- -RT- -r- -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k -y -v -vi- -tWD -tWM -c
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
@@ -57,6 +58,9 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 .cpp.obj:
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 # ---------------------------------------------------------------------------
+
+SimpleWrapper.obj: SimpleWrapper.cpp
+    $(CC) $(CFLAGLF95) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) SimpleWrapper.cpp
 
 # NB. Assumption here that we are always working within the development tree. NB.
 # Datatypes.
