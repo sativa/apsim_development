@@ -84,6 +84,7 @@ OBJFILES=PlantComponent.obj \
    Phenology\EmergentPhase.obj \
    Phenology\LeafAppPhase.obj \
    Phenology\SowingPhase.obj \
+   Phenology\WaitingPhase.obj \
    Phenology\CWEmergentPhase.obj \
    Phenology\CWVernalPhase.obj \
    Phenology\CWInductivePhase.obj \
@@ -211,6 +212,7 @@ Phenology\CWInductivePhase.obj: Phenology\CWInductivePhase.cpp Phenology\CWInduc
 Phenology\CWSowingPhase.obj: Phenology\CWSowingPhase.cpp Phenology\CWSowingPhase.h
 Phenology\CWFixedPhase.obj: Phenology\CWFixedPhase.cpp Phenology\CWFixedPhase.h
 Phenology\Zadok.obj: Phenology\Zadok.cpp Phenology\Zadok.h
+Phenology\WaitingPhase.obj: Phenology\WaitingPhase.cpp Phenology\WaitingPhase.h
 
 Photosynthesis\PhotosynthesisModel.obj:    Photosynthesis\PhotosynthesisModel.cpp    Photosynthesis\PhotosynthesisModel.h
 Photosynthesis\RUEModel.obj: Photosynthesis\RUEModel.cpp Photosynthesis\RUEModel.h
