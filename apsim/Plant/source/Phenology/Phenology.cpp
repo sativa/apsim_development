@@ -512,7 +512,7 @@ void Phenology::process()
    for (int i = 1; i < (int)currentStage; i++)
       phases[i]->add(1, dlt_tt_phenol);
       
-   if ((int)currentStage != (int)previousStage)
+   if (phases[(int)currentStage]->isFirstDay())
       plant.doPlantEvent(phases[(int)currentStage]->name());
    das++;
    }
