@@ -61,8 +61,6 @@ class Phenology : public plantThing
       bool on_day_of(const string &);
 
       bool inPhase(const string &) const;
-      int   daysInPhase(const string &phaseName); //XX should be private
-      int   daysInCurrentPhase(void);             //XX should be private
       float ttInPhase(const string &phaseName) const;   //XX should be private
       float TTTargetInPhase(const string &phaseName) const;
       float ttInCurrentPhase(void);               //XX should be private

@@ -87,7 +87,6 @@ class plantInterface {
       virtual void doPlantEvent(const string &) = 0;      // Something is asking the plant to do something
       virtual bool on_day_of(const string &) = 0;
       virtual bool inPhase(const string &) = 0;
-      virtual int daysInCurrentPhase() = 0;
       virtual float ttInCurrentPhase() = 0;
       virtual status_t Status() = 0;
       virtual void SetStatus(status_t NewStatus) = 0;

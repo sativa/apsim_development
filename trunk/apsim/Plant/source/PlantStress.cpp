@@ -537,7 +537,7 @@ void SWStress::init(RootBase *root)
    }
 
 //     ===========================================================
-void SWStress::read_sw_constants (void)
+void SWStress::read_sw_constants (void) 
 {
    cSwDefPheno.read(scienceAPI, "x_sw_avail_ratio", "()", 0.0, 100.0,
                                 "y_swdef_pheno", "()", 0.0, 100.0);

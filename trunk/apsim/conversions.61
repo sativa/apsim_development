@@ -1,2 +1,118 @@
 [Converted standard .ini files to .xml files]
 command = IniToXml()
+
+[Renamed variable: stage_code to Stage]
+command = SearchReplace(report, "stage_code",  "Stage")
+command = SearchReplace(tracker, "stage_code", "Stage")
+command = SearchReplace(manager, "stage_code", "Stage")
+
+[Renamed variable: dlt_stage to DeltaStage]
+command = SearchReplace(report, "dlt_stage",  "DeltaStage")
+command = SearchReplace(tracker, "dlt_stage", "DeltaStage")
+command = SearchReplace(manager, "dlt_stage", "DeltaStage")
+
+[Renamed variable: stage_name to StageName]
+command = SearchReplace(report, "stage_name",  "StageName")
+command = SearchReplace(tracker, "stage_name", "StageName")
+command = SearchReplace(manager, "stage_name", "StageName")
+
+[Renamed variable: dlt_tt_phenol to TT]
+command = SearchReplace(report, "dlt_tt_phenol",  "TT")
+command = SearchReplace(tracker, "dlt_tt_phenol", "TT")
+command = SearchReplace(manager, "dlt_tt_phenol", "TT")
+
+[Renamed variable: dlt_tt to TT]
+command = SearchReplace(report, "dlt_tt",  "TT")
+command = SearchReplace(tracker, "dlt_tt", "TT")
+command = SearchReplace(manager, "dlt_tt", "TT")
+
+[Renamed variable: das to DaysAfterSowing]
+command = SearchReplace(report, "das",  "DaysAfterSowing")
+command = SearchReplace(tracker, "das", "DaysAfterSowing")
+command = SearchReplace(manager, "das", "DaysAfterSowing")
+
+[Renamed variable: phase_tt(1) to SowingTTTarget]
+command = SearchReplace(report, "phase_tt(1)",  "SowingTTTarget")
+command = SearchReplace(tracker, "phase_tt(1)", "SowingTTTarget")
+command = SearchReplace(manager, "phase_tt(1)", "SowingTTTarget")
+
+[Renamed variable: phase_tt(2) to GerminationTTTarget]
+command = SearchReplace(report, "phase_tt(2)",  "GerminationTTTarget")
+command = SearchReplace(tracker, "phase_tt(2)", "GerminationTTTarget")
+command = SearchReplace(manager, "phase_tt(2)", "GerminationTTTarget")
+
+[Renamed variable: phase_tt(3) to EmergenceTTTarget]
+command = SearchReplace(report, "phase_tt(3)",  "EmergenceTTTarget")
+command = SearchReplace(tracker, "phase_tt(3)", "EmergenceTTTarget")
+command = SearchReplace(manager, "phase_tt(3)", "EmergenceTTTarget")
+
+[Renamed variable: phase_tt(4) to end_of_juvenileTTTarget]
+command = SearchReplace(report, "phase_tt(4)",  "end_of_juvenileTTTarget")
+command = SearchReplace(tracker, "phase_tt(4)", "end_of_juvenileTTTarget")
+command = SearchReplace(manager, "phase_tt(4)", "end_of_juvenileTTTarget")
+
+[Renamed variable: phase_tt(5) to floral_initiationTTTarget]
+command = SearchReplace(report, "phase_tt(5)",  "floral_initiationTTTarget")
+command = SearchReplace(tracker, "phase_tt(5)", "floral_initiationTTTarget")
+command = SearchReplace(manager, "phase_tt(5)", "floral_initiationTTTarget")
+
+[Renamed variable: phase_tt(6) to FloweringTTTarget]
+command = SearchReplace(report, "phase_tt(6)",  "FloweringTTTarget")
+command = SearchReplace(tracker, "phase_tt(6)", "FloweringTTTarget")
+command = SearchReplace(manager, "phase_tt(6)", "FloweringTTTarget")
+
+[Renamed variable: phase_tt(7) to start_grain_fillTTTarget]
+command = SearchReplace(report, "phase_tt(7)",  "start_grain_fillTTTarget")
+command = SearchReplace(tracker, "phase_tt(7)", "start_grain_fillTTTarget")
+command = SearchReplace(manager, "phase_tt(7)", "start_grain_fillTTTarget")
+
+[Renamed variable: phase_tt(8) to end_grain_fillTTTarget]
+command = SearchReplace(report, "phase_tt(8)",  "end_grain_fillTTTarget")
+command = SearchReplace(tracker, "phase_tt(8)", "end_grain_fillTTTarget")
+command = SearchReplace(manager, "phase_tt(8)", "end_grain_fillTTTarget")
+
+
+[Renamed variable: days_tot(1) to DaysAfterSowing]
+command = SearchReplace(report, "days_tot(1)",  "DaysAfterSowing")
+command = SearchReplace(tracker, "days_tot(1)", "DaysAfterSowing")
+command = SearchReplace(manager, "days_tot(1)", "DaysAfterSowing")
+
+[Renamed variable: days_tot(2) to DaysAfterGermination]
+command = SearchReplace(report, "days_tot(2)",  "DaysAfterGermination")
+command = SearchReplace(tracker, "days_tot(2)", "DaysAfterGermination")
+command = SearchReplace(manager, "days_tot(2)", "DaysAfterGermination")
+
+[Renamed variable: days_tot(3) to DaysAfterEmergence]
+command = SearchReplace(report, "days_tot(3)",  "DaysAfterEmergence")
+command = SearchReplace(tracker, "days_tot(3)", "DaysAfterEmergence")
+command = SearchReplace(manager, "days_tot(3)", "DaysAfterEmergence")
+
+[Renamed variable: days_tot(4) to DaysAfterend_of_juvenile]
+command = SearchReplace(report, "days_tot(4)",  "end_of_juvenileTTTarget")
+command = SearchReplace(tracker, "days_tot(4)", "end_of_juvenileTTTarget")
+command = SearchReplace(manager, "days_tot(4)", "end_of_juvenileTTTarget")
+
+[Renamed variable: days_tot(5) to DaysAfterfloral_initiation]
+command = SearchReplace(report, "days_tot(5)",  "DaysAfterfloral_initiation")
+command = SearchReplace(tracker, "days_tot(5)", "DaysAfterfloral_initiation")
+command = SearchReplace(manager, "days_tot(5)", "DaysAfterfloral_initiation")
+
+[Renamed variable: days_tot(6) to DaysAfterFlowering]
+command = SearchReplace(report, "days_tot(6)",  "DaysAfterFlowering")
+command = SearchReplace(tracker, "days_tot(6)", "DaysAfterFlowering")
+command = SearchReplace(manager, "days_tot(6)", "DaysAfterFlowering")
+
+[Renamed variable: days_tot(7) to DaysAfterStart_Grain_Fill]
+command = SearchReplace(report, "days_tot(7)",  "DaysAfterStart_Grain_Fill")
+command = SearchReplace(tracker, "days_tot(7)", "DaysAfterStart_Grain_Fill")
+command = SearchReplace(manager, "days_tot(7)", "DaysAfterStart_Grain_Fill")
+
+[Renamed variable: days_tot(8) to DaysAtterEnd_Grain_Fill]
+command = SearchReplace(report, "days_tot(8)",  "DaysAtterEnd_Grain_Fill")
+command = SearchReplace(tracker, "days_tot(8)", "DaysAtterEnd_Grain_Fill")
+command = SearchReplace(manager, "days_tot(8)", "DaysAtterEnd_Grain_Fill")
+
+[Renamed variable: tt_tot() to TTAfterSowing]
+command = SearchReplace(report, "tt_tot(0)",  "TTAfterSowing")
+command = SearchReplace(tracker, "tt_tot(0)", "TTAfterSowing")
+command = SearchReplace(manager, "tt_tot(0)", "TTAfterSowing")

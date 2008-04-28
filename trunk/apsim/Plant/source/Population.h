@@ -37,6 +37,7 @@ class Population
 
       plantInterface& Plant;
       ScienceAPI& scienceAPI;
+      int das;
 
       float DeathDrought();
       float DeathSeedling();

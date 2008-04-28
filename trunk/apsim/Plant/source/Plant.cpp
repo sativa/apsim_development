@@ -729,19 +729,15 @@ void Plant::plant_cleanup (void)
         {
         plant_event ();
         if (phenology->inPhase("stress_reporting")) {
-            float si1 = divide (g.cswd_photo.getSum(),
-                                phenology->daysInPhase(phenology->previousStageName()), 0.0);
-            float si2 = divide (g.cswd_expansion.getSum(),
-                                phenology->daysInPhase(phenology->previousStageName()), 0.0);
-            float si4 = divide (g.cnd_photo.getSum(),
-                                phenology->daysInPhase(phenology->previousStageName()), 0.0);
-            float si5 = divide (g.cnd_grain_conc.getSum(),
-                                phenology->daysInPhase(phenology->previousStageName()), 0.0);
             char msg[1024];
             sprintf (msg,"%4s%-20s%s%-23s%6.3f%13.3f%13.3f%13.3f\n", " ",
                       phenology->previousStageName().c_str(),
                       " to ",
-                      phenology->stageName().c_str(), si1, si2, si4, si5);
+                      phenology->stageName().c_str(),
+                      g.cswd_photo.getAverage(),
+                      g.cswd_expansion.getAverage(),
+                      g.cnd_photo.getAverage(),
+                      g.cnd_grain_conc.getAverage());
             g.averageStressMessage += msg;
         }
         stageObservers.reset();
@@ -2687,5 +2683,4 @@ bool  Plant::on_day_of(const string &what) {return (phenology->on_day_of(what));
 bool  Plant::inPhase(const string &what) {return (phenology->inPhase(what));};
 const std::string & Plant::getCropType(void) {return c.crop_type;};
 protocol::Component *Plant::getComponent(void) {return parent;};
-int Plant::daysInCurrentPhase() {return phenology->daysInCurrentPhase();}
 float Plant::ttInCurrentPhase() {return phenology->ttInCurrentPhase();}

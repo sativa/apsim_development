@@ -34,6 +34,7 @@ void Population::Zero()
    plants = 0.0;
    dlt_plants_death_external = 0.0;
    ZeroDaily();
+   das = 0;
    }
 
 void Population::ZeroDaily()
@@ -75,6 +76,7 @@ void Population::PlantDeath()
    {
    //=========================================================================
 
+   das++;
    if (Plant.inPhase("sowing"))
       dlt_plants_failure_germ = CropFailureGermination();
 
@@ -87,12 +89,8 @@ void Population::PlantDeath()
       dlt_plants_failure_emergence = 0.0;
 
    dlt_plants_death_seedling = 0.0;
-   if (Plant.inPhase("emergence"))
-      {
-      int days_after_emerg = Plant.daysInCurrentPhase();//XZZZZ Can do this on emergence day?
-      if (days_after_emerg == 1)
-         dlt_plants_death_seedling = DeathSeedling();
-      }
+   if (Plant.on_day_of("emergence"))
+      dlt_plants_death_seedling = DeathSeedling();
 
      /*XXXX this needs tou be coupled with dlt_leaf_area_sen, c_sen_start_stage  FIXME*/
    if (Plant.inPhase("above_ground"))
@@ -136,7 +134,7 @@ float Population::CropFailureGermination()
    {
    //===========================================================================
    // Crop failure from lack of germination within a specific maximum number of days.
-   if (Plant.daysInCurrentPhase() >= days_germ_limit)
+   if (das >= days_germ_limit)
       {
       ostringstream out;
       out << "      crop failure because of lack of" << endl

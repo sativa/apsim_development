@@ -16,7 +16,6 @@ class compositePhase
       bool isEmpty(void)  {return phases.size() == 0;};
       float getTT(void);
       float getTTTarget(void);
-      float getDays(void);
    };
 
 #endif

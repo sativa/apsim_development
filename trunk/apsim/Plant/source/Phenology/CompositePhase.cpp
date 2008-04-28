@@ -33,13 +33,3 @@ float compositePhase::getTTTarget(void)
    return tttarget;
    }
 
-
-float compositePhase::getDays(void)
-//=======================================================================================
-   {
-   float days = 0.0;
-   for (vector<pPhase *>::const_iterator phase = phases.begin(); phase !=  phases.end(); phase++)
-      days += (*phase)->getDays();
-
-   return days;
-   }

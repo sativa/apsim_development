@@ -54,10 +54,10 @@
    SECTION - CROP PHENOLOGY: Stage and Phase names
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     -->
-   <stage_code_list>1         2          3         4                5               6                  7             8                 9            10       11           12</stage_code_list>
-   <stage_names>sowing   germination emergence end_of_juvenile  floral_initiation   flag_leaf         flowering   start_grain_fill end_grain_fill  maturity  harvest_ripe end_crop</stage_names>
-   <phase_names>sowing   germination emergence endjuv_to_fi     fi_to_flag          flag_to_flower    flowering   start_grain_fill end_grain_fill  maturity  harvest_ripe end_crop</phase_names>
-   <phase_type>sowing  emergent       fixed     photo            leafapp           fixed             fixed       fixed            fixed           fixed     fixed        generic</phase_type>
+   <stage_code_list>1         2          3         4                5               6                  7             8                 9            10       11           </stage_code_list>
+   <stage_names>sowing   germination emergence end_of_juvenile  floral_initiation   flag_leaf         flowering   start_grain_fill end_grain_fill  maturity  harvest_ripe </stage_names>
+   <phase_names>sowing   germination emergence endjuv_to_fi     fi_to_flag          flag_to_flower    flowering   start_grain_fill end_grain_fill  maturity  harvest_ripe </phase_names>
+   <phase_type>sowing  emergent       fixed     photo            leafapp           fixed             fixed       fixed            fixed           fixed     fixed         </phase_type>
    <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation  emergence2floral_initiation preflowering node_formation start_grain_fill2harvest_ripe hi_stress_sensitive stress_reporting tiller_formation leaf_initiation postflowering</composite_phases>
    <under_ground>sowing germination</under_ground>
    <above_ground>emergence endjuv_to_fi fi_to_flag flag_to_flower flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
@@ -572,7 +572,6 @@
       <tt_end_grain_fill>5</tt_end_grain_fill>
       <tt_maturity description="from maize model">1         </tt_maturity>
       <tt_harvest_ripe>1</tt_harvest_ripe>
-      <tt_end_crop>1</tt_end_crop>
       <tt_init_to_flower units="oCd">450.0</tt_init_to_flower>
       <tt_flower_to_start_grain units="oCd">100</tt_flower_to_start_grain>
       <tt_start_to_end_grain units="oCd">200.</tt_start_to_end_grain>
@@ -602,6 +601,5 @@
       <tt_end_grain_fill>5</tt_end_grain_fill>
       <tt_maturity description="from maize model">1         </tt_maturity>
       <tt_harvest_ripe>1</tt_harvest_ripe>
-      <tt_end_crop>1</tt_end_crop>
    </dekalb_xl82>
 </sweetcorn>
