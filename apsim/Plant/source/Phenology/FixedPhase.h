@@ -1,14 +1,17 @@
-#ifndef FIXEDPHASE_H
-#define FIXEDPHASE_H
+#ifndef FixedPhaseH
+#define FixedPhaseH
 
-class FixedPhase : public pPhase
+#include "Phase.h"
 // A fixed duration phenological phase.
+class FixedPhase : public pPhase
    {
    protected:
+      interpolationFunction stressFunction;
 
+      virtual float stress();
    public:
-      void readCultivarParameters(protocol::Component *s, const string & cultivar);
-      FixedPhase(ScienceAPI& scienceAPI, plantInterface* p, const string& stage_name)
+      void read();
+      FixedPhase(ScienceAPI& scienceAPI, plantInterface& p, const string& stage_name)
          : pPhase (scienceAPI, p, stage_name){};
       virtual string description();
    };

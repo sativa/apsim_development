@@ -68,10 +68,14 @@ class EXPORT ScienceAPI
       // expose variables
       #define FloatFunctionType boost::function0<float>
       #define FloatFunction(address) boost::function0<float>(boost::bind(address, this))
+      #define StringFunctionType boost::function0<std::string>
+      #define StringFunction(address) boost::function0<std::string>(boost::bind(address, this))
+      void expose(const std::string& name, const std::string& units, const std::string& description, int& variable);
       void expose(const std::string& name, const std::string& units, const std::string& description, float& variable);
       void expose(const std::string& name, const std::string& units, const std::string& description, string& variable);
       void expose(const std::string& name, const std::string& units, const std::string& description, const std::vector<float>& variable);
       void exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function0<float> fn);
+      void exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function0<std::string> fn);
 
       // set methods
       void set(const std::string& name, const std::string& units, std::vector<float>& data);

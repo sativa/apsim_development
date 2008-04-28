@@ -387,8 +387,7 @@ void cproc_n_supply1 (float *G_dlayer,                   // (INPUT)
                       float *G_sw_dep,                   // (INPUT)
                       float *G_NO3gsm_mflow_avail,       // (OUTPUT)
                       float *G_sw_avail,                 // (INPUT)
-                      float *G_NO3gsm_diffn_pot,         // (OUTPUT)
-                      float G_current_stage)                // (INPUT)
+                      float *G_NO3gsm_diffn_pot)                // (INPUT)
 //=========================================================================
 /*  Purpose
 *      Calculate nitrogen supplies from soil and fixation

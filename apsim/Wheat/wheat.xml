@@ -4,8 +4,9 @@
    ***********************************************************************************************************
     -->
    <options>
-      <Environment/><Fixation/>
-      <WheatPhenology/>
+      <Environment/>
+      <Phenology/>
+      <Zadok/>
    </options>
    <RadiationPartitioningOrder>fruit leaf</RadiationPartitioningOrder>
     
@@ -59,7 +60,7 @@
    <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
    <stage_names description="stage names">sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop </stage_names>
    <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
-   <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
+   <phase_type>cwsowing cwemergent  cwinductive   cwinductive      cwinductive       cwfixed        cwfixed     cwfixed    cwfixed  cwfixed      cwfixed</phase_type>
    <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation eme2ej preflowering tiller_formation hi_stress_sensitive stress_reporting postflowering</composite_phases>
    <under_ground>sowing germination</under_ground>
    <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
@@ -356,10 +357,10 @@
        -->
       <x_sw_avail_ratio description="water availability">0.0 0.16</x_sw_avail_ratio>
       <y_swdef_pheno description="stress index for phenology">1.0 1.0</y_swdef_pheno>
-      <x_sw_avail_ratio_flower description="water availability">0.2   0.50  1.0</x_sw_avail_ratio_flower>
-      <y_swdef_pheno_flower description="stress index for flowering phenology">1.0   1.0    1.0</y_swdef_pheno_flower>
-      <x_sw_avail_ratio_grainfill description="water availability">0.2   0.50   1.0</x_sw_avail_ratio_grainfill>
-      <y_swdef_pheno_grainfill description="stress index for grainfilling phenology">1.0   1.0    1.0</y_swdef_pheno_grainfill>
+      <x_sw_avail_ratio_flowering description="water availability">0.2   0.50  1.0</x_sw_avail_ratio_flowering>
+      <y_swdef_pheno_flowering description="stress index for flowering phenology">1.0   1.0    1.0</y_swdef_pheno_flowering>
+      <x_sw_avail_ratio_start_grain_fill description="water availability">0.2   0.50   1.0</x_sw_avail_ratio_start_grain_fill>
+      <y_swdef_pheno_start_grain_fill description="stress index for grainfilling phenology">1.0   1.0    1.0</y_swdef_pheno_start_grain_fill>
       <!-- __________________________________________________________________________________________________________-
       WATERLOGGING STRESS (OXYGEN DEFICIT) FACTOR FOR PHOTOSYNTHESIS
        -->
@@ -615,7 +616,7 @@
       <minsw description="lowest acceptable value for ll">0.00001</minsw>
       <!--  cultivar parameter upper bounds
        -->
-      <tt_emerg_to_endjuv_ub units="oCd" description="upper limit">1000.0</tt_emerg_to_endjuv_ub>
+      <tt_emergence_ub units="oCd" description="upper limit">1000.0</tt_emergence_ub>
       <tt_flower_to_maturity_ub units="oCd" description="upper limit">1500.0</tt_flower_to_maturity_ub>
       <tt_maturity_to_ripe_ub units="oCd" description="upper limit">1000.0</tt_maturity_to_ripe_ub>
       <tt_flower_to_start_grain_ub units="oCd" description="upper limit">1000.0</tt_flower_to_start_grain_ub>
@@ -633,12 +634,30 @@
       <potential_grain_filling_rate description="grain growth rate during grainfill">0.0020  </potential_grain_filling_rate>
       <potential_grain_growth_rate description="grain growth from flowering to grain fill">0.0010  </potential_grain_growth_rate>
       <max_grain_size>0.041</max_grain_size>
-      <phyllochron>95.0</phyllochron>
+      <tt_emergence units="oCd">1.0</tt_emergence>
+      <tt_end_of_juvenile units="oCd">400.0</tt_end_of_juvenile>
+      <tt_floral_initiation units="oCd">555.0</tt_floral_initiation>
+      <tt_flowering units="oCd">120.0</tt_flowering>
+
+      <!-- 
+      startgf_to_mat = 580
+      tt_end_grain_fill = (0.05 * (tt_flowering + startgf_to_mat))
+                        = 35
+      tt_start_grain_fill = startgf_to_mat - tt_end_grain_fill
+                          = 545 
+      -->
+   
+      <tt_start_grain_fill units="oCd">545</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">35</tt_end_grain_fill>
+      <tt_maturity units="oCd">1</tt_maturity>
+      <tt_end_crop units="oCd">1000</tt_end_crop>
+      
+      <tt_harvest_ripe units="oCd">1000</tt_harvest_ripe>
       <startgf_to_mat>580</startgf_to_mat>
       <vern_sens>1.5</vern_sens>
       <photop_sens>3.0</photop_sens>
       <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">800  600</tt_emerg_to_endjuv>
+      <tt_emergence units="oCd">800  600</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
       <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
       <y_tt_endjuv_to_init>50     50</y_tt_endjuv_to_init>
@@ -652,6 +671,7 @@
       <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
+      
    </base_cultivar>
    <!--  ===================== Eastern Australian Cultivars  ==================
     In order from fastest to slowest maturing varieties.
@@ -726,7 +746,10 @@
    </pasture>
    <kulin>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron>100.0</phyllochron>
+      <tt_floral_initiation units="oCd">580.0</tt_floral_initiation>
+      <tt_start_grain_fill units="oCd">646</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">34</tt_end_grain_fill>
+
       <startgf_to_mat>680</startgf_to_mat>
       <vern_sens>1.6</vern_sens>
       <photop_sens>1.8</photop_sens>
@@ -735,7 +758,10 @@
       <derived_from>base_cultivar</derived_from>
       <vern_sens>1.6</vern_sens>
       <photop_sens>2.0</photop_sens>
-      <phyllochron>110.0</phyllochron>
+      <tt_floral_initiation units="oCd">630.0</tt_floral_initiation>
+      <tt_start_grain_fill units="oCd">665</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">35</tt_end_grain_fill>
+
       <startgf_to_mat>700</startgf_to_mat>
    </gamenya>
    <gutha>
@@ -746,7 +772,8 @@
    </gutha>
    <spear>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron description="was 110.0">95 </phyllochron>
+      <tt_floral_initiation units="oCd">555.0</tt_floral_initiation>
+
       <startgf_to_mat description="was 740">580 </startgf_to_mat>
       <vern_sens>1.5</vern_sens>
       <photop_sens>3.5</photop_sens>
@@ -755,7 +782,8 @@
    </spear>
    <wilgoyne>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron description="was 100">95.0 </phyllochron>
+      <tt_floral_initiation units="oCd">555.0</tt_floral_initiation>
+
       <startgf_to_mat description="was 680">580 </startgf_to_mat>
       <vern_sens>1.4</vern_sens>
       <photop_sens>1.6</photop_sens>
@@ -788,6 +816,9 @@
     -->
    <xifeng24 description="tested and revised by mike and wen on 26 Nov.02">
       <derived_from>base_cultivar</derived_from>
+      <tt_start_grain_fill units="oCd">617.5</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">32.5</tt_end_grain_fill>
+
       <startgf_to_mat>650</startgf_to_mat>
       <vern_sens>2.0</vern_sens>
       <photop_sens>2.0</photop_sens>
@@ -1144,31 +1175,32 @@
     -->
    <lorikeet>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron>60.0</phyllochron>
+      <tt_floral_initiation units="oCd">380.0</tt_floral_initiation>
+
       <vern_sens>3.9</vern_sens>
       <photop_sens>3.9</photop_sens>
    </lorikeet>
    <wylah>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron>60.0</phyllochron>
+      <tt_floral_initiation units="oCd">380.0</tt_floral_initiation>
       <vern_sens>3.9</vern_sens>
       <photop_sens>3.9</photop_sens>
    </wylah>
    <rosella>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron>60.0</phyllochron>
+      <tt_floral_initiation units="oCd">380.0</tt_floral_initiation>
       <vern_sens>3.9</vern_sens>
       <photop_sens>3.9</photop_sens>
    </rosella>
    <whistler>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron>60.0</phyllochron>
+      <tt_floral_initiation units="oCd">380.0</tt_floral_initiation>
       <vern_sens>3.9</vern_sens>
       <photop_sens>3.9</photop_sens>
    </whistler>
    <wedgetail>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron>60.0</phyllochron>
+      <tt_floral_initiation units="oCd">380.0</tt_floral_initiation>
       <vern_sens>3.9</vern_sens>
       <photop_sens>3.9</photop_sens>
    </wedgetail>
@@ -1178,7 +1210,7 @@
     -->
    <marombi>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron>75.0</phyllochron>
+      <tt_floral_initiation units="oCd">455.0</tt_floral_initiation>
       <vern_sens>3.9</vern_sens>
       <photop_sens>4.0</photop_sens>
    </marombi>
@@ -1188,19 +1220,19 @@
     -->
    <declic>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron>90.0</phyllochron>
+      <tt_floral_initiation units="oCd">530.0</tt_floral_initiation>
       <vern_sens>3.9</vern_sens>
       <photop_sens>4.3</photop_sens>
    </declic>
    <mackellar>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron>90.0</phyllochron>
+      <tt_floral_initiation units="oCd">530.0</tt_floral_initiation>
       <vern_sens>3.9</vern_sens>
       <photop_sens>4.3</photop_sens>
    </mackellar>
    <brennan>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron>90.0</phyllochron>
+      <tt_floral_initiation units="oCd">530.0</tt_floral_initiation>
       <vern_sens>3.9</vern_sens>
       <photop_sens>4.3</photop_sens>
    </brennan>
@@ -1210,13 +1242,13 @@
     -->
    <dennis>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron>100.0</phyllochron>
+      <tt_floral_initiation units="oCd">580.0</tt_floral_initiation>
       <vern_sens>3.9</vern_sens>
       <photop_sens>4.5</photop_sens>
    </dennis>
    <tennant>
       <derived_from>base_cultivar</derived_from>
-      <phyllochron>100.0</phyllochron>
+      <tt_floral_initiation units="oCd">580.0</tt_floral_initiation>
       <vern_sens>3.9</vern_sens>
       <photop_sens>4.5</photop_sens>
    </tennant>
@@ -1228,8 +1260,11 @@
    <schooner>
       <derived_from>base_cultivar</derived_from>
       <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+      <tt_start_grain_fill units="oCd">503.5</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">26.5</tt_end_grain_fill>
+
       <startgf_to_mat>530</startgf_to_mat>
-      <phyllochron>30.0</phyllochron>
+      <tt_floral_initiation units="oCd">230.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>3.50</photop_sens>
    </schooner>
@@ -1238,8 +1273,11 @@
    <skiff>
       <derived_from>base_cultivar</derived_from>
       <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+      <tt_start_grain_fill units="oCd">522.5</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">27.5</tt_end_grain_fill>
+
       <startgf_to_mat>550</startgf_to_mat>
-      <phyllochron>35.0</phyllochron>
+      <tt_floral_initiation units="oCd">255.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>3.50</photop_sens>
    </skiff>
@@ -1249,7 +1287,7 @@
       <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
       <derived_from>base_cultivar</derived_from>
       <startgf_to_mat>580</startgf_to_mat>
-      <phyllochron>90.0</phyllochron>
+      <tt_floral_initiation units="oCd">530.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>2.90</photop_sens>
    </franklin>
@@ -1258,8 +1296,11 @@
    <sloop>
       <derived_from>base_cultivar</derived_from>
       <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+      <tt_start_grain_fill units="oCd">503.5</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">26.5</tt_end_grain_fill>
+
       <startgf_to_mat>530</startgf_to_mat>
-      <phyllochron>30.0</phyllochron>
+      <tt_floral_initiation units="oCd">230.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>3.50</photop_sens>
    </sloop>
@@ -1268,8 +1309,10 @@
    <Sloop_SA>
       <derived_from>base_cultivar</derived_from>
       <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+      <tt_start_grain_fill units="oCd">503.5</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">26.5</tt_end_grain_fill>
       <startgf_to_mat>530</startgf_to_mat>
-      <phyllochron>35.0</phyllochron>
+      <tt_floral_initiation units="oCd">255.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>3.50</photop_sens>
    </Sloop_SA>
@@ -1278,8 +1321,10 @@
    <Sloop_VIC>
       <derived_from>base_cultivar</derived_from>
       <potential_grain_filling_rate>0.0031</potential_grain_filling_rate>
+      <tt_start_grain_fill units="oCd">503.5</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">26.5</tt_end_grain_fill>
       <startgf_to_mat>530</startgf_to_mat>
-      <phyllochron>30.0</phyllochron>
+      <tt_floral_initiation units="oCd">230.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>3.50</photop_sens>
    </Sloop_VIC>
@@ -1289,15 +1334,17 @@
       <derived_from>base_cultivar</derived_from>
       <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
       <startgf_to_mat>580</startgf_to_mat>
-      <phyllochron>40.0</phyllochron>
+      <tt_floral_initiation units="oCd">280.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>3.50</photop_sens>
    </gairdner>
    <barque>
       <derived_from>base_cultivar</derived_from>
       <potential_grain_filling_rate>0.0031</potential_grain_filling_rate>
+      <tt_start_grain_fill units="oCd">522.5</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">27.5</tt_end_grain_fill>
       <startgf_to_mat>550</startgf_to_mat>
-      <phyllochron>30.0</phyllochron>
+      <tt_floral_initiation units="oCd">230.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>3.30</photop_sens>
    </barque>
@@ -1306,8 +1353,10 @@
    <maritime>
       <derived_from>base_cultivar</derived_from>
       <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+      <tt_start_grain_fill units="oCd">503.5</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">26.5</tt_end_grain_fill>
       <startgf_to_mat>530</startgf_to_mat>
-      <phyllochron>30.0</phyllochron>
+      <tt_floral_initiation units="oCd">230.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>3.30</photop_sens>
    </maritime>
@@ -1316,8 +1365,10 @@
    <baudin>
       <derived_from>base_cultivar</derived_from>
       <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+      <tt_start_grain_fill units="oCd">522.5</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">27.5</tt_end_grain_fill>
       <startgf_to_mat>550</startgf_to_mat>
-      <phyllochron>35.0</phyllochron>
+      <tt_floral_initiation units="oCd">255.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>3.50</photop_sens>
    </baudin>
@@ -1326,8 +1377,10 @@
    <vb0021>
       <derived_from>base_cultivar</derived_from>
       <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+      <tt_start_grain_fill units="oCd">503.5</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">26.5</tt_end_grain_fill>
       <startgf_to_mat>530</startgf_to_mat>
-      <phyllochron>40.0</phyllochron>
+      <tt_floral_initiation units="oCd">280.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>3.50</photop_sens>
    </vb0021>
@@ -1336,8 +1389,10 @@
    <keel>
       <derived_from>base_cultivar</derived_from>
       <potential_grain_filling_rate>0.0035</potential_grain_filling_rate>
+      <tt_start_grain_fill units="oCd">475</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">25</tt_end_grain_fill>
       <startgf_to_mat>500</startgf_to_mat>
-      <phyllochron>30.0</phyllochron>
+      <tt_floral_initiation units="oCd">230.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>2.90</photop_sens>
    </keel>
@@ -1346,8 +1401,10 @@
    <hamelin>
       <derived_from>base_cultivar</derived_from>
       <potential_grain_filling_rate>0.0031</potential_grain_filling_rate>
+      <tt_start_grain_fill units="oCd">503.5</tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">26.5</tt_end_grain_fill>
       <startgf_to_mat>530</startgf_to_mat>
-      <phyllochron>30.0</phyllochron>
+      <tt_floral_initiation units="oCd">230.0</tt_floral_initiation>
       <vern_sens>1.00</vern_sens>
       <photop_sens>2.90</photop_sens>
    </hamelin>

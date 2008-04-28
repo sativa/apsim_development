@@ -7,7 +7,7 @@ class Output;
 class LeafAppPhase : public pPhase
    // A phenological phase.
    {
-      protected:
+   protected:
       float leaf_init_rate;
       float leaf_no_seed;
       float leaf_no_min;
@@ -18,10 +18,9 @@ class LeafAppPhase : public pPhase
       interpolationFunction node_app;       // leaf node appearance as a function of leaf node number
 
 
-      public:
-      void readCultivarParameters(protocol::Component *s, const string & cultivar);
-      void readSpeciesParameters (protocol::Component *, std::vector<string> &);
-      LeafAppPhase(ScienceAPI& scienceAPI, plantInterface* p, const string& stage_name)
+   public:
+      void read();
+      LeafAppPhase(ScienceAPI& scienceAPI, plantInterface& p, const string& stage_name)
          : pPhase (scienceAPI, p, stage_name){};
       void updateTTTargets(Phenology &parent);
       virtual string description();

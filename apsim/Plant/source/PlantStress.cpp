@@ -542,11 +542,11 @@ void SWStress::read_sw_constants (void)
    cSwDefPheno.read(scienceAPI, "x_sw_avail_ratio", "()", 0.0, 100.0,
                                 "y_swdef_pheno", "()", 0.0, 100.0);
 
-   cSwwDefPhenoFlower.read(scienceAPI, "x_sw_avail_ratio_flower", "()", 0.0, 1.0,
-                                       "y_swdef_pheno_flower", "()", 0.0, 5.0);
+   cSwwDefPhenoFlower.read(scienceAPI, "x_sw_avail_ratio_flowering", "()", 0.0, 1.0,
+                                       "y_swdef_pheno_flowering", "()", 0.0, 5.0);
 
-   cSwwDefPhenoGrainfill.read(scienceAPI, "x_sw_avail_ratio_grainfill", "()", 0.0, 1.0,
-                                          "y_swdef_pheno_grainfill", "()", 0.0, 5.0);
+   cSwwDefPhenoGrainfill.read(scienceAPI, "x_sw_avail_ratio_start_grain_fill", "()", 0.0, 1.0,
+                                          "y_swdef_pheno_start_grain_fill", "()", 0.0, 5.0);
 
    cSwwDefExpansion.read(scienceAPI, "x_sw_demand_ratio", "()", 0.0, 100.0,
                                      "y_swdef_leaf", "()", 0.0, 100.0);

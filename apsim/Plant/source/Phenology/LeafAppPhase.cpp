@@ -21,17 +21,10 @@ void LeafAppPhase::GetOutputs(std::vector <Output*> &Outputs)
 
 
    }
-void LeafAppPhase::readCultivarParameters(protocol::Component *s, const string & cultivar)
+void LeafAppPhase::read()
 //=======================================================================================
    {
-   pPhase::readCultivarParameters(s, cultivar);
-
-   }
-
-void LeafAppPhase::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
-//=======================================================================================
-   {
-   pPhase::readSpeciesParameters (s, sections);
+   pPhase::read();
 
    scienceAPI.read("leaf_init_rate", leaf_init_rate, 0.0f, 100.0f);
    scienceAPI.read("leaf_no_min", leaf_no_min, 0.0f, 100.0f);
@@ -65,6 +58,6 @@ void LeafAppPhase::updateTTTargets(Phenology &parent)
 string LeafAppPhase::description()
 //=======================================================================================
    {
-   return "   Stage duration determined by leaf appearance rates";
+   return "         Stage duration determined by leaf appearance rates";
    }
 

@@ -2,9 +2,8 @@
 
 #include "ThingFactory.h"
 #include "Environment.h"
-#include "Phenology/TTTPhenology.h"
-#include "Phenology/GenericPhenology.h"
-#include "Phenology/WheatPhenology.h"
+#include "Phenology/Zadok.h"
+#include "Phenology/Phenology.h"
 #include "Fixation.h"
 //---------------------------------------------------------------------------
 // This function creates parts.
@@ -16,14 +15,12 @@ plantThing* createThing(ScienceAPI& api, plantInterface& plant, const std::strin
 
    if (nameLower == "environment")
       return new Environment(api, name);
-   else if (nameLower == "tttphenology")
-      return new TTTPhenology(api, &plant);
-   else if (nameLower == "genericphenology")
-      return new GenericPhenology(api, &plant);
-   else if (nameLower == "wheatphenology")
-      return new WheatPhenology(api, &plant);
+   else if (nameLower == "phenology")
+      return new Phenology(api, plant);
    else if (nameLower == "fixation")
       return new Fixation(api, name);
+   else if (nameLower == "zadok")
+      return new Zadok(api, plant);
 
    throw runtime_error("Cannot create a thing of type: " + type);
    }

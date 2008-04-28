@@ -4,89 +4,116 @@
 #include "Environment.h"
 #include "FixedPhase.h"
 #include "VernalPhase.h"
+#include "InductivePhase.h"
 #include "PhotoPhase.h"
 #include "EmergentPhase.h"
 #include "LeafAppPhase.h"
+#include "SowingPhase.h"
+#include "CWEmergentPhase.h"
+#include "CWInductivePhase.h"
+#include "CWFixedPhase.h"
+#include "CWSowingPhase.h"
 
 #include "Utility/OutputVariable.h"
 
-Phenology::Phenology(ScienceAPI& api, plantInterface *p)
-   : plantThing(api, "Phenology")
+Phenology::Phenology(ScienceAPI& api, plantInterface& p)
+   : plantThing(api, "Phenology"), plant(p)
    {
-   plant = p;          // "Plant" interface
+   // --------------------------------------------------------------------------
+   // Constructor.
+   // --------------------------------------------------------------------------
+   initialise();
    }
+Phenology::~Phenology()
+   {
+   // --------------------------------------------------------------------------
+   // Destructor.
+   // --------------------------------------------------------------------------
+   clear();
+   }
+void Phenology::clear()
+   {
+   // --------------------------------------------------------------------------
+   // Clear out all phases.
+   // --------------------------------------------------------------------------
+   for (unsigned i = 0; i != phases.size(); i++)
+      delete phases[i];
+   phases.clear();
+   }
+void Phenology::initialise()
+   {
+   // --------------------------------------------------------------------------
+   // This will remove all existing phases and recreate them. It
+   // will also register our variables.
+   // --------------------------------------------------------------------------
+   scienceAPI.expose("stage", "", "Plant stage", currentStage);
+   scienceAPI.expose("dlt_stage", "", "Change in plant stage", dltStage);
+   scienceAPI.exposeFunction("stage_name", "", "Plant stage name", StringFunction(&Phenology::stageName));
+   scienceAPI.expose("das", "day", "Days after sowing", das);
+   scienceAPI.expose("dlt_tt_phenol", "deg. day", "Todays thermal time (incl. stress factors)", dlt_tt_phenol);
+   scienceAPI.exposeFunction("dlt_tt", "dd", "Todays thermal time (no stress factors)", FloatFunction(&Phenology::get_dlt_tt));
 
-void Phenology::readConstants (protocol::Component *s, const string &)
-{
+   scienceAPI.subscribe("harvest", NullFunction(&Phenology::onHarvest));
+   scienceAPI.subscribe("end_crop", NullFunction(&Phenology::onEndCrop));
+   scienceAPI.subscribe("kill_stem", NullFunction(&Phenology::onKillStem));
 
+   clear();
    phases.push_back(new pPhase(scienceAPI, plant, "out"));
    currentStage = 0.0;
-   initialOnBiomassRemove = true;
 
    // Read the sequential list of stage names
-   string scratch;
-   scienceAPI.read("stage_names", scratch);
-   string ptypes;
-   scienceAPI.read("phase_type", ptypes);
-   string pnames;
-   scienceAPI.read("phase_names", pnames);
-
    vector<string> stage_names;
    vector<string> phase_types;
    vector<string> phase_names;
-   Split_string(scratch, " ", stage_names);
-   Split_string(ptypes, " ", phase_types);
-   Split_string(pnames, " ", phase_names);
+   scienceAPI.read("stage_names", stage_names);
+   scienceAPI.read("phase_type", phase_types);
+   scienceAPI.read("phase_names", phase_names);
 
-   if (stage_names.size() == 0) throw std::runtime_error("No stage names found");
    for (unsigned i=0;i!=phase_names.size();i++)
       {
-      if(phase_types[i]=="generic")
-         {
-         phases.push_back(new pPhase(scienceAPI, plant, phase_names[i]));
-         }
+      pPhase* newPhase;
+      if(phase_types[i]=="sowing")
+         newPhase = new SowingPhase(scienceAPI, plant, phase_names[i]);
+      else if(phase_types[i]=="generic")
+         newPhase = new pPhase(scienceAPI, plant, phase_names[i]);
       else if(phase_types[i]=="vernal")
-         {
-         VernalPhase* vernal = new VernalPhase(scienceAPI, plant, phase_names[i]);
-         phases.push_back(vernal);
-         }
+         newPhase = new VernalPhase(scienceAPI, plant, phase_names[i]);
       else if(phase_types[i]=="photo")
-         {
-         PhotoPhase* photo = new PhotoPhase(scienceAPI, plant, phase_names[i]);
-         phases.push_back(photo);
-         }
+         newPhase = new PhotoPhase(scienceAPI, plant, phase_names[i]);
       else if(phase_types[i]=="emergent")
-         {
-         EmergentPhase* emerg = new EmergentPhase(scienceAPI, plant, phase_names[i]);
-         phases.push_back(emerg);
-         }
+         newPhase = new EmergentPhase(scienceAPI, plant, phase_names[i]);
+      else if(phase_types[i]=="inductive")
+         newPhase = new InductivePhase(scienceAPI, plant, phase_names[i]);
       else if(phase_types[i]=="leafapp")
-         {
-         LeafAppPhase* leafapp = new LeafAppPhase(scienceAPI, plant, phase_names[i]);
-         phases.push_back(leafapp);
-         }
+         newPhase = new LeafAppPhase(scienceAPI, plant, phase_names[i]);
+      else if(phase_types[i]=="fixed")
+         newPhase = new FixedPhase(scienceAPI, plant, phase_names[i]);
+      else if(phase_types[i]=="cwemergent")
+         newPhase = new CWEmergentPhase(scienceAPI, plant, phase_names[i]);
+      else if(phase_types[i]=="cwinductive")
+         newPhase = new CWInductivePhase(scienceAPI, plant, phase_names[i]);
+      else if(phase_types[i]=="cwfixed")
+         newPhase = new CWFixedPhase(scienceAPI, plant, phase_names[i]);
+      else if(phase_types[i]=="cwsowing")
+         newPhase = new CWSowingPhase(scienceAPI, plant, phase_names[i]);
       else
-         {
-         pPhase* newPhase = new FixedPhase(scienceAPI, plant, phase_names[i]);
-         phases.push_back(newPhase);
-         }
+         throw runtime_error("Invalid phase type: " + phase_types[i]);
 
-      zeroAllGlobals();
+      phases.push_back(newPhase);
       }
+   zeroAll();
 
    //XX composites need to be defined as "start stage, end stage" pairs.
    // find composite phases that we care about
-   scienceAPI.read("composite_phases", scratch);
    vector<string> composite_names;
-   Split_string(scratch, " ", composite_names);
+   scienceAPI.read("composite_phases", composite_names);
    for (vector<string>::iterator name = composite_names.begin();
         name !=  composite_names.end();
         name++)
       {
       compositePhase composite;
-      scienceAPI.read(*name, scratch);
       vector<string> composite_names;
-      Split_string(scratch, " ", composite_names);
+      scienceAPI.read(*name, composite_names);
       for (vector<string>::iterator phase = composite_names.begin();
            phase !=  composite_names.end();
            phase++)
@@ -99,28 +126,23 @@ void Phenology::readConstants (protocol::Component *s, const string &)
          }
       composites.insert(string2composite::value_type(*name,composite));
       }
+   }
 
-
-   for (unsigned i = 0; i != phases.size(); i++)
-      {
-   // Register stage names as events (eg. flowering)
-      s->addRegistration(RegistrationType::event, phases[i]->name().c_str(),
-                         nullTypeDDML, "", "");
-
-      std::vector <Output*> Outputs;
-      phases[i]->GetOutputs(Outputs);
-      for (unsigned o=0; o!=Outputs.size();o++)
-         {
-         OutputVariable *Variable = dynamic_cast<OutputVariable*> (Outputs[o]);
-         s->addGettableVar(Outputs[o]->Name.c_str(), *((float*)Variable->Variable), Outputs[o]->Units.c_str(), Outputs[o]->Description.c_str());
-         delete Outputs[o];
-         }
-
-      }
-};
+void Phenology::read()
+   {
+   // --------------------------------------------------------------------------
+   // Re-read all parameters but don't reinitialise the phases.
+   // --------------------------------------------------------------------------
+   for(unsigned i=0; i!= phases.size();i++)
+      phases[i]->read();
+   }
 
 pPhase* Phenology::find(const string& PhaseName) const
    {
+   // --------------------------------------------------------------------------
+   // Find the specified phase and return a pointer to it. Returns NULL if
+   // not found.
+   // --------------------------------------------------------------------------
    for(unsigned i=0; i!=phases.size();i++)
       {
       if(phases[i]->name()==PhaseName)
@@ -129,78 +151,42 @@ pPhase* Phenology::find(const string& PhaseName) const
       return NULL;
    }
 
-void Phenology::onInit1(protocol::Component *s)
-{
-
-   s->addGettableVar("stage", currentStage, "", "Plant stage");
-   s->addGettableVar("dlt_stage", dltStage, "", "Change in plant stage");
-   setupGetFunction(s, "stage_name", protocol::DTstring, false,
-                    &Phenology::get_stage_name, "", "Plant stage name");
-   setupGetFunction(s, "stage_code", protocol::DTint4, false,
-                    &Phenology::get_stage_code, "", "Plant stage code");
-   setupGetFunction(s, "phase_tt", protocol::DTsingle, true,
-                    &Phenology::get_phase_tt, "dd", "Thermal time target for each crop phase");
-   setupGetFunction(s, "tt_tot", protocol::DTsingle, true,
-                    &Phenology::get_tt_tot, "dd", "Thermal time spent in each crop stage");
-   setupGetFunction(s, "days_tot",protocol::DTsingle, true,
-                    &Phenology::get_days_tot, "days", "Days spent in each crop stage");
-
-   setupEvent(s, "sow", RegistrationType::respondToEvent, &Phenology::onSow, "<type/>");
-   setupEvent(s, "end_crop", RegistrationType::respondToEvent, &Phenology::onEndCrop, "<type/>");
-
-   s->addGettableVar("das", das, "d", "Days after Sowing");
-   s->addGettableVar("dlt_tt_phenol", dlt_tt_phenol,"dd", "Todays thermal time (incl. stress factors)");
-   s->addGettableVar("dlt_tt", dlt_tt, "dd", "Todays thermal time (no stress factors)");
-
-}
-
-
-
-void Phenology::readSpeciesParameters (protocol::Component *, vector<string> &sections)
-   {
-   scienceAPI.read("twilight", twilight, -90.0f, 90.0f);
-
-   iniSectionList = sections;
-   initialOnBiomassRemove = true;
-
-   stage_reduction_harvest.read(scienceAPI,
-                                "stage_code_list" , "()", 1.0, 100.0,
-                                "stage_stem_reduction_harvest" , "()", 1.0, 100.0);
-
-   stage_reduction_kill_stem.read(scienceAPI,
-                                  "stage_code_list" , "()", 1.0, 100.0,
-                                  "stage_stem_reduction_kill_stem" , "()", 1.0, 100.0);
-
-   y_tt.read(scienceAPI,
-               "x_temp", "oC", 0.0, 100.0,
-               "y_tt", "oC days", 0.0, 100.0);
-
-   scienceAPI.read("shoot_lag", shoot_lag, 0.0f, 100.0f);
-
-   scienceAPI.read("shoot_rate", shoot_rate, 0.0f, 100.0f);
-
-   scienceAPI.read("pesw_germ", pesw_germ, 0.0f, 1.0f);
-
-   rel_emerg_rate.read(scienceAPI,
-                         "fasw_emerg", "()", 0.0, 1.0,
-                         "rel_emerg_rate",  "()", 0.0, 1.0);
-
-   }
-
-void Phenology::zeroDeltas(void)
-   {
-   dltStage = 0;
-   dlt_tt = dlt_tt_phenol  = 0.0;
-   }
-
-void Phenology::prepare()
-   {
-   previousStage = currentStage;
-   }
-
 void Phenology::update(void)
    {
    phases[(int)currentStage]->update();
+   }
+
+void Phenology::setupTTTargets(void)
+//=======================================================================================
+// static TT targets (called at sowing)
+   {
+   for(unsigned i=0; i!= phases.size();i++)
+      {
+      phases[i]->setupTTTarget();
+      }
+   }
+
+void Phenology::write()
+//=======================================================================================
+   {
+   string s;
+   scienceAPI.write("   Phases:");
+   for(unsigned i=0;i!=phases.size();i++)
+      {
+      s += "      " + phases[i]->name() +"\n";
+      string desc = phases[i]->description();
+      if (desc != "")
+         s += desc;
+      }
+   scienceAPI.write(s);
+   }
+
+float Phenology::get_dlt_tt(void)
+   {
+   if (das > 0)
+      return phases[(int)currentStage]->TT();
+   else
+      return 0;
    }
 
 
@@ -327,10 +313,6 @@ string Phenology::stageName(void)
    unsigned int stage_no = (unsigned int) currentStage;
    return string(phases[stage_no]->name());
    }
-string Phenology::stageName(int n)
-   {
-   return phases[n]->name();
-   }
 string Phenology::previousStageName(void)
    {
    unsigned int stage_no = (unsigned int) previousStage;
@@ -350,14 +332,13 @@ float Phenology::phase_fraction(float dlt_tt) //(INPUT)  daily thermal time (gro
    result = bound(result, 0.0, 1.0);
    return result;
    }
-void Phenology::zeroAllGlobals(void)
+void Phenology::zeroAll(void)
    {
    previousStage = currentStage = 0.0;
    for (unsigned int i=0; i < phases.size(); i++) phases[i]->reset();
    day_of_year = 0;
    zeroDeltas();
    das = 0;
-
    }
 
 //+  Purpose
@@ -378,40 +359,6 @@ float Phenology::stageCode (void)
         }
     return currentStage;
     }
-
-
-//////////////////////GetVariable etc////////////////////////////
-void Phenology::get_stage_name(protocol::Component *s, protocol::QueryValueData &qd)
-   {
-   unsigned int stage_no = (unsigned int) currentStage;
-   s->sendVariable(qd, phases[stage_no]->name());
-   }
-void Phenology::get_stage_code(protocol::Component *s, protocol::QueryValueData &qd)
-   {
-   int stage_no = (int) currentStage;
-   s->sendVariable(qd, stage_no);
-   }
-
-// NB. the 0'th element in these arrays is the "out" stage.
-// For backward compatibility, don't report it.
-void Phenology::get_phase_tt(protocol::Component *s, protocol::QueryValueData &qd)
-   {
-   vector<float> t;
-   for(unsigned int i=1; i < phases.size(); i++) t.push_back(phases[i]->getTTTarget());
-   s->sendVariable(qd, t);
-   }
-void Phenology::get_tt_tot(protocol::Component *s, protocol::QueryValueData &qd)
-   {
-   vector<float> t;
-   for(unsigned int i=1; i < phases.size(); i++) t.push_back(phases[i]->getTT());
-   s->sendVariable(qd, t);
-   }
-void Phenology::get_days_tot(protocol::Component *s, protocol::QueryValueData &qd)
-   {
-   vector<float> t;
-   for(unsigned int i=1; i < phases.size(); i++) t.push_back(phases[i]->getDays());
-   s->sendVariable(qd, t);
-   }
 
 void Phenology::onSetPhase(float resetPhase)
 {
@@ -452,7 +399,7 @@ void Phenology::onSetPhase(float resetPhase)
             else
             {
                msg << "    Unable set to a higher phase" << endl;
-               plant->getComponent()->writeString (msg.str().c_str());
+               plant.getComponent()->writeString (msg.str().c_str());
                break;
             } // Trying to set to a higher phase so do nothing
          }
@@ -467,9 +414,14 @@ void Phenology::onSetPhase(float resetPhase)
 
 }
 
-void Phenology::onHarvest(unsigned &, unsigned &, protocol::Variant &)
+void Phenology::onHarvest()
 //=======================================================================================
    {
+   lookupFunction stage_reduction_harvest;
+   stage_reduction_harvest.read(scienceAPI,
+                                "stage_code_list" , "()", 1.0, 100.0,
+                                "stage_stem_reduction_harvest" , "()", 1.0, 100.0);
+
    previousStage = currentStage;
    currentStage = stage_reduction_harvest[currentStage];
    for (unsigned int stage = (int) currentStage; stage != phases.size(); stage++)
@@ -477,9 +429,14 @@ void Phenology::onHarvest(unsigned &, unsigned &, protocol::Variant &)
    setupTTTargets();
    }
 
-void Phenology::onKillStem(unsigned &, unsigned &, protocol::Variant &)
+void Phenology::onKillStem()
 //=======================================================================================
    {
+   lookupFunction stage_reduction_kill_stem;
+   stage_reduction_kill_stem.read(scienceAPI,
+                                  "stage_code_list" , "()", 1.0, 100.0,
+                                  "stage_stem_reduction_kill_stem" , "()", 1.0, 100.0);
+
    previousStage = currentStage;
    currentStage = stage_reduction_kill_stem[currentStage];
    for (unsigned int stage = (int)currentStage; stage != phases.size(); stage++)
@@ -487,32 +444,158 @@ void Phenology::onKillStem(unsigned &, unsigned &, protocol::Variant &)
    setupTTTargets();
    }
 
-bool Phenology::plant_germination(float pesw_germ,         // plant extractable soil water required for germination
-                                      float /* sowing_depth*/,      // depth of seed (mm)
-                                      float pesw_seed) // soil water structure
-//=======================================================================================
-//    Determine whether seed germinates based on soil water availability
-   {
-   // Soil water content of the seeded layer must be > the
-   // lower limit to be adequate for germination.
-   if (pesw_seed > pesw_germ)
-      {
-      // we have germination
-      return true;
-      }
-   // no germination yet.
-   return false;
-   }
-
-void Phenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
+void Phenology::onSow(protocol::Variant &v)
 //=======================================================================================
    {
-   protocol::ApsimVariant incomingApsimVariant(plant->getComponent());
+   protocol::ApsimVariant incomingApsimVariant(plant.getComponent());
    incomingApsimVariant.aliasTo(v.getMessageData());
+
+   float sowing_depth;
    if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)
       throw std::invalid_argument("sowing_depth not specified");
    bound_check_real_var(scienceAPI, sowing_depth, 0.0, 100.0, "sowing_depth");
    currentStage = 1.0;
    das = 0;
+   for(unsigned i=0; i!= phases.size();i++)
+      phases[i]->OnSow(sowing_depth);
    setupTTTargets();
    }
+
+void Phenology::onEndCrop()
+   {
+   zeroAll();
+   }
+
+void Phenology::process()
+   {
+   dltStage = 0;
+   dlt_tt = 0.0;
+   dlt_tt_phenol  = 0.0;
+   previousStage = currentStage;
+   for(unsigned i=0; i!= phases.size();i++)
+      phases[i]->updateTTTargets(*this);
+
+   float phase_devel, new_stage;
+   for(unsigned i=0; i!= phases.size();i++)
+      phases[i]->process();
+
+   phases[(int)currentStage]->calcPhaseDevelopment(das,
+                                                   dlt_tt_phenol, phase_devel);
+
+   new_stage = floor(currentStage) + phase_devel;
+
+   dltStage = new_stage - currentStage;
+
+   /// accumulate() to objects
+   float value = dlt_tt_phenol;             //  (INPUT) value to add to array
+   float p_index = currentStage;           //  (INPUT) current p_index no
+   float dlt_index = dltStage;       //  (INPUT) increment in p_index no
+
+   {
+   int current_index;           // current index number ()
+   float fract_in_old;           // fraction of value in last index
+   float index_devel;            // fraction_of of current index elapsed ()
+   int new_index;                // number of index just starting ()
+   float portion_in_new;         // portion of value in next index
+   float portion_in_old;         // portion of value in last index
+
+   // (implicit) assert(dlt_index <= 1.0);
+   current_index = int(p_index);
+
+   // make sure the index is something we can work with
+   if(current_index >= 0)
+      {
+      index_devel = p_index - floor(p_index) + dlt_index;
+      if (index_devel >= 1.0)
+         {
+         // now we need to divvy
+         new_index = (int) (p_index + min (1.0, dlt_index));
+         if (reals_are_equal(fmod(p_index,1.0),0.0))
+            {
+            fract_in_old = 1.0 - divide(index_devel - 1.0, dlt_index, 0.0);
+            portion_in_old = fract_in_old * (value + phases[current_index]->getTT())-
+                                 phases[current_index]->getTT();
+            }
+         else
+            {
+            fract_in_old = 1.0 - divide(index_devel - 1.0, dlt_index, 0.0);
+            portion_in_old = fract_in_old * value;
+            }
+         portion_in_new = value - portion_in_old;
+         phases[current_index]->add(fract_in_old, portion_in_old);
+         phases[new_index]->add(1.0-fract_in_old, portion_in_new);
+         }
+      else
+         {
+         phases[current_index]->add(1.0, value);
+         }
+      }
+   }
+
+   if (phase_devel >= 1.0)
+      currentStage = floor(currentStage + 1.0);
+   else
+      currentStage = new_stage;
+
+   if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
+     throw std::runtime_error("stage has gone wild in Phenology::process()..");
+
+   if ((int)currentStage != (int)previousStage)
+      plant.doPlantEvent(phases[(int)currentStage]->name());
+   das++;
+   }
+
+
+void Phenology::onRemoveBiomass(float removeBiomPheno)
+   {
+   interpolationFunction y_removeFractPheno;
+   y_removeFractPheno.read(scienceAPI,
+               "x_removeBiomPheno", "()", 0.0, 1.0,
+               "y_removeFractPheno", "()", 0.0, 1.0);
+
+   float ttCritical = ttInPhase("above_ground");
+   float removeFractPheno = y_removeFractPheno[removeBiomPheno];
+   float removeTTPheno = ttCritical * removeFractPheno;
+
+   ostringstream msg;
+   msg << "Phenology change:-" << endl;
+   msg << "    Fraction DM removed  = " << removeBiomPheno << endl;
+   msg << "    Fraction TT removed  = " << removeFractPheno << endl;
+   msg << "    Critical TT          = " << ttCritical << endl;
+   msg << "    Remove TT            = " << removeTTPheno << endl;
+
+   float ttRemaining = removeTTPheno;
+   vector <pPhase*>::reverse_iterator rphase;
+   for (rphase = phases.rbegin(); rphase !=  phases.rend(); rphase++)
+   {
+      pPhase* phase = *rphase;
+      if (!phase->isEmpty())
+      {
+         float ttCurrentPhase = phase->getTT();
+         if (ttRemaining > ttCurrentPhase)
+         {
+            phase->reset();
+            ttRemaining -= ttCurrentPhase;
+            currentStage -= 1.0;
+            if (currentStage < 4.0)  //FIXME - hack to stop onEmergence being fired which initialises biomass parts
+            {
+               currentStage = 4.0;
+               break;
+            }
+         }
+         else
+         {
+            phase->add(0.0, -ttRemaining);
+            currentStage = (phase_fraction(0.0) + floor(currentStage));
+            break;
+         }
+      }
+      else
+      { // phase is empty - not interested in it
+      }
+   }
+   msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
+   if (plant.removeBiomassReport())
+      scienceAPI.warning(msg.str());
+   }
+

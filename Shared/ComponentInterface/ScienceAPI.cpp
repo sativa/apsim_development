@@ -394,6 +394,10 @@ void ScienceAPI::expose(const std::string& name, const std::string& units, const
    {
    component->addGettableVar(name.c_str(), variable, units.c_str(), description.c_str());
    }
+void ScienceAPI::expose(const std::string& name, const std::string& units, const std::string& description, int& variable)
+   {
+   component->addGettableVar(name.c_str(), variable, units.c_str(), description.c_str());
+   }
 void ScienceAPI::expose(const std::string& name, const std::string& units, const std::string& description, const std::vector<float>& variable)
    {
    component->addGettableVar(name.c_str(), variable, units.c_str(), description.c_str());
@@ -410,6 +414,15 @@ void ScienceAPI::exposeFunction(const std::string& name, const std::string& unit
    boost::function2<void, protocol::Component*, protocol::QueryValueData &> fn;
    fn = boost::bind(&WrapperType::CMPFunction, wrapper, _1, _2);
    component->addGettableVar(name.c_str(), protocol::DTsingle, false, fn, units.c_str(), description.c_str());
+   }
+void ScienceAPI::exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function0<std::string> handler)
+   {
+   typedef CMPGetter<StringFunctionType, std::string> WrapperType;
+   WrapperType* wrapper = new WrapperType (handler);
+   stuffToDelete.push_back(wrapper);
+   boost::function2<void, protocol::Component*, protocol::QueryValueData &> fn;
+   fn = boost::bind(&WrapperType::CMPFunction, wrapper, _1, _2);
+   component->addGettableVar(name.c_str(), protocol::DTstring, false, fn, units.c_str(), description.c_str());
    }
 
 

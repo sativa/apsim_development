@@ -22,14 +22,14 @@ std::string interpolationFunction::description(void)
    int pad;
    ostringstream text;
    pad = max(0, 27 - (int)xName.size());
-   text << "   " << xName << setw(pad) << " " << setw(-1) << "=";
+   text << "         " << xName << setw(pad) << " " << setw(-1) << "=";
    for (unsigned int i = 0; i != x.size(); i++) {
    	text << " " << setw(7) << x[i] << setw(-1);
    }
    text << " (" << xUnits << ")\n";
 
    pad = max(0, 27 - (int)yName.size());
-   text << "   " << yName << setw(pad) << " " << setw(-1) << "=";
+   text << "         " << yName << setw(pad) << " " << setw(-1) << "=";
    for (unsigned int i = 0; i != y.size(); i++) {
    	text << " " << setw(7) << y[i] << setw(-1);
    }

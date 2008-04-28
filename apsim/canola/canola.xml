@@ -33,7 +33,7 @@
     
    <options>
       <Environment/><Fixation/>
-      <TTTPhenology/>
+      <Phenology/>
    </options>
    <RadiationPartitioningOrder>fruit leaf</RadiationPartitioningOrder>
     
@@ -85,7 +85,7 @@
    <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
    <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
    <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
-   <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
+   <phase_type>sowing    emergent   inductive     photo            photo        photo       photo              fixed      fixed      fixed      fixed</phase_type>
    <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation  emergence2floral_initiation preflowering node_formation start_grain_fill2harvest_ripe hi_stress_sensitive stress_reporting</composite_phases>
    <under_ground>sowing germination</under_ground>
    <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
@@ -337,10 +337,10 @@
        -->
       <x_sw_avail_ratio description="water availability">0.0 0.16</x_sw_avail_ratio>
       <y_swdef_pheno description="stress index for phenology">1.0 1.0</y_swdef_pheno>
-      <x_sw_avail_ratio_flower description="water availability">0.2   0.50  1.0</x_sw_avail_ratio_flower>
-      <y_swdef_pheno_flower description="stress index for flowering phenology">1.0   1.0    1.0</y_swdef_pheno_flower>
-      <x_sw_avail_ratio_grainfill description="water availability">0.2   0.50   1.0</x_sw_avail_ratio_grainfill>
-      <y_swdef_pheno_grainfill description="stress index for grainfilling phenology">1.0   1.0    1.0</y_swdef_pheno_grainfill>
+      <x_sw_avail_ratio_flowering description="water availability">0.2   0.50  1.0</x_sw_avail_ratio_flowering>
+      <y_swdef_pheno_flowering description="stress index for flowering phenology">1.0   1.0    1.0</y_swdef_pheno_flowering>
+      <x_sw_avail_ratio_start_grain_fill description="water availability">0.2   0.50   1.0</x_sw_avail_ratio_start_grain_fill>
+      <y_swdef_pheno_start_grain_fill description="stress index for grainfilling phenology">1.0   1.0    1.0</y_swdef_pheno_start_grain_fill>
       <!-- __________________________________________________________________________________________________________-
       WATERLOGGING STRESS (OXYGEN DEFICIT) FACTOR FOR PHOTOSYNTHESIS
        -->
@@ -515,11 +515,15 @@
       <minsw description="lowest acceptable value for ll">0.00001</minsw>
       <!--  cultivar parameter upper bounds
        -->
-      <tt_emerg_to_endjuv_ub units="oCd" description="upper limit">1000.0</tt_emerg_to_endjuv_ub>
+      <tt_emergence_ub units="oCd" description="upper limit">1000.0</tt_emergence_ub>
       <tt_flower_to_maturity_ub units="oCd" description="upper limit">1500.0</tt_flower_to_maturity_ub>
-      <tt_maturity_to_ripe_ub units="oCd" description="upper limit">1000.0</tt_maturity_to_ripe_ub>
+      <tt_maturity_ub units="oCd" description="upper limit">1000.0</tt_maturity_ub>
       <tt_flower_to_start_grain_ub units="oCd" description="upper limit">1000.0</tt_flower_to_start_grain_ub>
       <tt_init_to_flower_ub units="oCd" description="upper limit">1000.0</tt_init_to_flower_ub>
+
+      <tt_maturity units="oCd">1.0</tt_maturity>
+      <tt_harvest_ripe units="oCd">1.0</tt_harvest_ripe>
+      <tt_end_crop units="oCd">1000</tt_end_crop>
    </plant>
    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    !! section for parameters for triazine tolerant varieties!!!
@@ -564,19 +568,18 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">235  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">235  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>395    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">50.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>395    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">50.0</tt_end_grain_fill>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </PacN145>
@@ -586,19 +589,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">290  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">290  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>406     1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>406     1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </monty>
@@ -608,19 +611,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">183  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">183  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>632    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>632    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </JL1>
@@ -630,19 +633,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.50 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">67   1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">67   1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>602    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>602    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </mustard_397>
@@ -652,19 +655,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">300  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">300  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>500    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>500    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </Hyola42>
@@ -674,19 +677,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">441  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">441  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>404    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>404    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </Surpass400>
@@ -696,19 +699,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">407  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">407  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>513    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>513    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </rainbow>
@@ -718,19 +721,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">300  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">300  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8  16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>500   1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8  16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>500   1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </Mystic>
@@ -740,19 +743,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">308  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">308  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>526    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>526    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </Karoo>
@@ -762,19 +765,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">420  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">420  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>420    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>420    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </narendra>
@@ -784,19 +787,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">321  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">321  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>572    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>572    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </Surpass600>
@@ -806,19 +809,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">300  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">300  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>500    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>500    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </geordie>
@@ -828,19 +831,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">495  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">495  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8    16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>514     1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8    16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>514     1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </oscar>
@@ -856,19 +859,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">495  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">495  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8    16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>650     1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">700    700</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8    16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>650     1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">700    700</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </taparoo>
@@ -878,19 +881,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">399  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">399  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>554    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">800    800</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>554    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">800    800</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </charlton>
@@ -900,19 +903,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">348  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">348  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>607    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">800    800</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>607    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">800    800</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </Drum>
@@ -922,19 +925,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">528  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">528  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>538    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">800    800</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>538    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">800    800</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </clancy>
@@ -944,19 +947,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">467  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">467  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>638    1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">800    800</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8   16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>638    1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">800    800</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </pinnacle>
@@ -967,19 +970,19 @@
       <y_hi_incr units="1/days">0.010    0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">467  0</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">467  0</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8     16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>636   0</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">800.0  800.0</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">0.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8     16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>636   0</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">800.0  800.0</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">0.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/m2">0  6</x_stem_wt>
       <y_height units="mm">0  1500</y_height>
    </range>
@@ -989,19 +992,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">462  1</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    25</cumvd_emergence>
+      <tt_emergence units="oCd">462  1</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8    16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>549     1</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">800    800</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8    16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>549     1</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">800    800</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  1500</y_height>
    </dunkeld>
@@ -1031,19 +1034,19 @@
       <y_hi_incr units="1/days">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.30 0.30</y_hi_max_pot>
-      <cum_vernal_days>0    50</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">500  100</tt_emerg_to_endjuv>
+      <cumvd_emergence>0    50</cumvd_emergence>
+      <tt_emergence units="oCd">500  100</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init>10.8    16.3</x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init>900    430</y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd">250    250</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd">200   200</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">1000   1000</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">1.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd">1.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile>10.8    16.3</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile>900    430</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">250    250</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd">200   200</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">1000   1000</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">1.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
       <x_stem_wt units="g/plant" description="stem weight per plant">0  6</x_stem_wt>
       <y_height units="mm)C">0  1500</y_height>
    </french_winter>
