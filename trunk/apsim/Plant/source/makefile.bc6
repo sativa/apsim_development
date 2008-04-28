@@ -77,14 +77,19 @@ OBJFILES=PlantComponent.obj \
    Phenology\Phenology.obj \
    Phenology\Phase.obj \
    Phenology\CompositePhase.obj \
-   Phenology\TTTPhenology.obj \
-   Phenology\WheatPhenology.obj \
    Phenology\FixedPhase.obj \
+   Phenology\InductivePhase.obj \
    Phenology\VernalPhase.obj \
-   Phenology\GenericPhenology.obj \
    Phenology\PhotoPhase.obj \
    Phenology\EmergentPhase.obj \
    Phenology\LeafAppPhase.obj \
+   Phenology\SowingPhase.obj \
+   Phenology\CWEmergentPhase.obj \
+   Phenology\CWVernalPhase.obj \
+   Phenology\CWInductivePhase.obj \
+   Phenology\CWSowingPhase.obj \
+   Phenology\CWFixedPhase.obj \
+   Phenology\Zadok.obj \
    Photosynthesis\PhotosynthesisModel.obj \
    Photosynthesis\RUEModel.obj \
    Photosynthesis\Weather.obj \
@@ -193,14 +198,19 @@ ThingFactory.obj: ThingFactory.cpp ThingFactory.h
 StageBasedInterpolationFunction.obj: StageBasedInterpolationFunction.cpp StageBasedInterpolationFunction.h
 Phenology\Phenology.obj: Phenology\Phenology.cpp Phenology\Phenology.h
 Phenology\FixedPhase.obj: Phenology\FixedPhase.cpp Phenology\FixedPhase.h
+Phenology\InductivePhase.obj: Phenology\InductivePhase.cpp Phenology\InductivePhase.h
 Phenology\VernalPhase.obj: Phenology\VernalPhase.cpp Phenology\VernalPhase.h
-Phenology\GenericPhenology.obj: Phenology\GenericPhenology.cpp Phenology\GenericPhenology.h
 Phenology\PhotoPhase.obj: Phenology\PhotoPhase.cpp Phenology\PhotoPhase.h
 Phenology\EmergentPhase.obj: Phenology\EmergentPhase.cpp Phenology\EmergentPhase.h
-Phenology\TTTPhenology.obj: Phenology\TTTPhenology.cpp Phenology\TTTPhenology.h
 Phenology\CompositePhase.obj: Phenology\CompositePhase.cpp Phenology\CompositePhase.h
 Phenology\Phase.obj: Phenology\Phase.cpp Phenology\Phase.h
-Phenology\WheatPhenology.obj: Phenology\WheatPhenology.cpp Phenology\WheatPhenology.h
+Phenology\SowingPhase.obj: Phenology\SowingPhase.cpp Phenology\SowingPhase.h
+Phenology\CWEmergentPhase.obj: Phenology\CWEmergentPhase.cpp Phenology\CWEmergentPhase.h
+Phenology\CWVernalPhase.obj: Phenology\CWVernalPhase.cpp Phenology\CWVernalPhase.h
+Phenology\CWInductivePhase.obj: Phenology\CWInductivePhase.cpp Phenology\CWInductivePhase.h
+Phenology\CWSowingPhase.obj: Phenology\CWSowingPhase.cpp Phenology\CWSowingPhase.h
+Phenology\CWFixedPhase.obj: Phenology\CWFixedPhase.cpp Phenology\CWFixedPhase.h
+Phenology\Zadok.obj: Phenology\Zadok.cpp Phenology\Zadok.h
 
 Photosynthesis\PhotosynthesisModel.obj:    Photosynthesis\PhotosynthesisModel.cpp    Photosynthesis\PhotosynthesisModel.h
 Photosynthesis\RUEModel.obj: Photosynthesis\RUEModel.cpp Photosynthesis\RUEModel.h

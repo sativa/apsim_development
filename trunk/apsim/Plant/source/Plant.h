@@ -230,6 +230,11 @@ public:
    float getOxdefPhoto(void);
    float getPfactPhoto(void);
    float getSwdefPhoto(void);
+   float getSwDefPheno();
+   float getNFactPheno();
+   float getPFactPheno();
+   float swAvailablePotential();   
+   float swAvailable();   
 
    void get_cover_tot(protocol::Component *, protocol::QueryValueData &);
    void get_lai_canopy_green(protocol::Component *, protocol::QueryValueData &);

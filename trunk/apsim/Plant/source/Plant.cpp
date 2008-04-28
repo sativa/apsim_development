@@ -436,13 +436,14 @@ void Plant::onInit2(void)
 
 
 
-void Plant::doPlantEvent(const string &e)
+void Plant::doPlantEvent(const string &newStageName)
 //=======================================================================================
    {
+
    for (vector<plantThing *>::iterator t = myThings.begin();
         t != myThings.end();
         t++)
-      (*t)->onPlantEvent(e);
+      (*t)->onPlantEvent(newStageName);
    }
 
 bool Plant::respondToSet(unsigned int &id, protocol::QuerySetValueData& qd)
@@ -1060,20 +1061,7 @@ void Plant::plant_process ( void )
         rootPart->doWaterUptake(1, tops.SWDemand());
         rootPart->doPlantWaterStress (tops.SWDemand(), swStress);
 
-        phenology->prepare ();
-//        fruitPart->prepare ();  // need to prepare fruit phenology?
-
-        pheno_stress_t ps;
-        ps.swdef = swStress->swDef.pheno;
-        ps.nfact = min(nStress->nFact.pheno, pStress->pFact.pheno);
-        ps.swdef_flower = swStress->swDef.pheno_flower;
-        ps.swdef_grainfill = swStress->swDef.pheno_grainfill;
-        ps.remove_biom_pheno = g.remove_biom_pheno;
-
-        float fasw_seed = rootPart->fasw((int)plantSpatial.sowing_depth);
-        float pesw_seed = rootPart->pesw((int)plantSpatial.sowing_depth);
-
-        phenology->process(ps, fasw_seed, pesw_seed);
+        phenology->process();
         fruitPart->process();
 
         plant.morphology();
@@ -1351,9 +1339,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     protocol::ApsimVariant incomingApsimVariant(parent);
     incomingApsimVariant.aliasTo(v.getMessageData());
 
-    unsigned int junk = 0L;
-    phenology->onHarvest(junk,junk,v);
-
     // determine the new stem density
     // ==============================
     if (incomingApsimVariant.get("plants", protocol::DTsingle, false, temp) == true)
@@ -1504,9 +1489,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 
     protocol::ApsimVariant aV(parent);
     aV.aliasTo(v.getMessageData());
-
-    unsigned int junk = 0L;
-    phenology->onKillStem(junk,junk,v);
 
     // determine the new stem density
     // ==============================
@@ -1809,12 +1791,12 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                }
            population.SetPlants(temp);
 
-           parent->writeString ("    ------------------------------------------------");
+           parent->writeString ("   ------------------------------------------------");
            sprintf (msg, "   %s%s",  "cultivar                   = ", g.cultivar.c_str());
            parent->writeString (msg);
-           phenology->writeCultivarInfo(parent);
+           phenology->write();
            plant.writeCultivarInfo(parent);
-           parent->writeString ("    ------------------------------------------------\n\n");
+           parent->writeString ("   ------------------------------------------------\n\n");
 
            rootPart->write();
 
@@ -1825,6 +1807,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            parent->writeString (msg);
 
            plantSpatial.startCrop (parent, v);
+           phenology->onSow(v);
            UpdateCanopy();
 
            // Bang.
@@ -1885,6 +1868,7 @@ void Plant::read(void)
       p.eo_crop_factor = c.eo_crop_factor_default;
    scienceAPI.readOptional("remove_biomass_report", c.remove_biomass_report);
 
+   phenology->read();
    rootPart->read();
    }
 
@@ -2692,6 +2676,13 @@ float Plant::getNfactGrainConc(void)  {return nStress->nFact.grain;}
 float Plant::getOxdefPhoto(void)  {return swStress->swDef.oxdef_photo;}
 float Plant::getPfactPhoto(void)  {return pStress->pFact.photo;}
 float Plant::getSwdefPhoto(void)  {return swStress->swDef.photo;}
+float Plant::getSwDefPheno() {return swStress->swDef.pheno;}
+float Plant::getNFactPheno() {return nStress->nFact.pheno;}
+float Plant::getPFactPheno() {return pStress->pFact.pheno;}
+float Plant::swAvailablePotential() {return rootPart->swAvailablePotential();}
+float Plant::swAvailable() {return rootPart->swAvailable();}
+
+
 bool  Plant::on_day_of(const string &what) {return (phenology->on_day_of(what));};
 bool  Plant::inPhase(const string &what) {return (phenology->inPhase(what));};
 const std::string & Plant::getCropType(void) {return c.crop_type;};

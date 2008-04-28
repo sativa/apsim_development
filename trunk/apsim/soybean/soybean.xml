@@ -33,7 +33,7 @@
     -->
    <options>
       <Environment/><Fixation/>
-      <TTTPhenology/>
+      <Phenology/>
    </options>
    <RadiationPartitioningOrder>fruit leaf</RadiationPartitioningOrder>
     
@@ -123,7 +123,7 @@
    <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
    <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
    <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
-   <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
+   <phase_type>sowing    emergent   inductive     photo            photo         photo        photo           fixed       fixed      fixed       fixed</phase_type>
    <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation  emergence2floral_initiation preflowering node_formation start_grain_fill2harvest_ripe hi_stress_sensitive stress_reporting</composite_phases>
    <under_ground>sowing germination</under_ground>
    <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
@@ -380,10 +380,10 @@
        -->
       <x_sw_avail_ratio description="water availability">0.0 0.16</x_sw_avail_ratio>
       <y_swdef_pheno description="stress index for phenology">1.0 1.0</y_swdef_pheno>
-      <x_sw_avail_ratio_flower description="water availability">0.2   0.50  1.0</x_sw_avail_ratio_flower>
-      <y_swdef_pheno_flower description="stress index for flowering phenology">1.0   1.0    1.0</y_swdef_pheno_flower>
-      <x_sw_avail_ratio_grainfill description="water availability">0.2   0.50   1.0</x_sw_avail_ratio_grainfill>
-      <y_swdef_pheno_grainfill description="stress index for grainfilling phenology">1.0   1.0    1.0</y_swdef_pheno_grainfill>
+      <x_sw_avail_ratio_flowering description="water availability">0.2   0.50  1.0</x_sw_avail_ratio_flowering>
+      <y_swdef_pheno_flowering description="stress index for flowering phenology">1.0   1.0    1.0</y_swdef_pheno_flowering>
+      <x_sw_avail_ratio_start_grain_fill description="water availability">0.2   0.50   1.0</x_sw_avail_ratio_start_grain_fill>
+      <y_swdef_pheno_start_grain_fill description="stress index for grainfilling phenology">1.0   1.0    1.0</y_swdef_pheno_start_grain_fill>
       <!-- __________________________________________________________________________________________________________-
       WATERLOGGING STRESS (OXYGEN DEFICIT) FACTOR FOR PHOTOSYNTHESIS
        -->
@@ -559,11 +559,13 @@
       <minsw description="lowest acceptable value for ll">0.00001</minsw>
       <!--  cultivar parameter upper bounds
        -->
-      <tt_emerg_to_endjuv_ub units="oCd" description="upper limit">1000.0</tt_emerg_to_endjuv_ub>
+      <tt_emergence_ub units="oCd" description="upper limit">1000.0</tt_emergence_ub>
       <tt_flower_to_maturity_ub units="oCd" description="upper limit">1500.0</tt_flower_to_maturity_ub>
-      <tt_maturity_to_ripe_ub units="oCd" description="upper limit">1000.0</tt_maturity_to_ripe_ub>
+      <tt_maturity_ub units="oCd" description="upper limit">1000.0</tt_maturity_ub>
       <tt_flower_to_start_grain_ub units="oCd" description="upper limit">1000.0</tt_flower_to_start_grain_ub>
       <tt_init_to_flower_ub units="oCd" description="upper limit">1000.0</tt_init_to_flower_ub>
+      <tt_harvest_ripe units="oCd">1.0</tt_harvest_ripe>
+      <tt_end_crop units="oCd">1000</tt_end_crop>
    </plant>
    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    !! section for parameters for promiscuous nodulator!!!
@@ -588,19 +590,19 @@
       <y_hi_incr units="1/days" description="Sin'86 - rate of HI increase (optional)">0.0110 0.011</y_hi_incr>
       <x_hi_max_pot_stress description="Sin'86 - maximum harvest index potential">0.0 1.0</x_hi_max_pot_stress>
       <y_hi_max_pot description="TT from emergence to end of juvenile phase">0.5 0.5</y_hi_max_pot>
-      <cum_vernal_days>0        100</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0       60.0</tt_emerg_to_endjuv>
+      <cumvd_emergence>0        100</cumvd_emergence>
+      <tt_emergence units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0       60.0</tt_emergence>
       <est_days_emerg_to_init units="d" description="estimated days from emergence to floral init.">20</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init description="photoperiod (h)">12.0      18.0              </x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init description="TT from end juvenile to floral initiation">350    850              </y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd" description="TT from flowering to start grain fill">300.0   300.0</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">460.0  460.0</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">40</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile description="photoperiod (h)">12.0      18.0              </x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile description="TT from end juvenile to floral initiation">350    850              </y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd" description="TT from flowering to start grain fill">300.0   300.0</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">460.0  460.0</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">40</tt_end_grain_fill>
+      <tt_maturity units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity>
       <x_stem_wt>0 10</x_stem_wt>
       <y_height>0 1200</y_height>
    </davis>
@@ -609,19 +611,19 @@
       <y_hi_incr units="1/days" description="Sin'86 - rate of HI increase (optional)">0.0100 0.010</y_hi_incr>
       <x_hi_max_pot_stress description="Sin'86 - maximum harvest index potential">0.0 1.0</x_hi_max_pot_stress>
       <y_hi_max_pot description="TT from emergence to end of juvenile phase">0.5 0.5</y_hi_max_pot>
-      <cum_vernal_days>0        100</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">150       150</tt_emerg_to_endjuv>
+      <cumvd_emergence>0        100</cumvd_emergence>
+      <tt_emergence units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">150       150</tt_emergence>
       <est_days_emerg_to_init units="d" description="estimated days from emergence to floral init.">20</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init description="photoperiod (h)">12.0      18.0              </x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init description="TT from end juvenile to floral initiation">350    850              </y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd" description="TT from flowering to start grain fill">276.0   276.0</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">674.0  674.0</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">50.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile description="photoperiod (h)">12.0      18.0              </x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile description="TT from end juvenile to floral initiation">350    850              </y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd" description="TT from flowering to start grain fill">276.0   276.0</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">674.0  674.0</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">50.0</tt_end_grain_fill>
+      <tt_maturity units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity>
       <x_stem_wt>0 10</x_stem_wt>
       <y_height>0 1200</y_height>
    </buchanan>
@@ -630,19 +632,19 @@
       <y_hi_incr units="1/days" description="Sin'86 - rate of HI increase (optional)">0.0110 0.011</y_hi_incr>
       <x_hi_max_pot_stress description="Sin'86 - maximum harvest index potential">0.0 1.0</x_hi_max_pot_stress>
       <y_hi_max_pot description="TT from emergence to end of juvenile phase">0.5 0.5</y_hi_max_pot>
-      <cum_vernal_days>0        100</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0       60.0</tt_emerg_to_endjuv>
+      <cumvd_emergence>0        100</cumvd_emergence>
+      <tt_emergence units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0       60.0</tt_emergence>
       <est_days_emerg_to_init units="d" description="estimated days from emergence to floral init.">20</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init description="photoperiod (h)">12.0      18.0              </x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init description="TT from end juvenile to floral initiation">150    650              </y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd" description="TT from flowering to start grain fill">276.0   276.0</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">408.0  408.0</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">36</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile description="photoperiod (h)">12.0      18.0              </x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile description="TT from end juvenile to floral initiation">150    650              </y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd" description="TT from flowering to start grain fill">276.0   276.0</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">408.0  408.0</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">36</tt_end_grain_fill>
+      <tt_maturity units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity>
       <x_stem_wt>0 10</x_stem_wt>
       <y_height>0 1200</y_height>
    </CPI26671>
@@ -651,19 +653,19 @@
       <y_hi_incr units="1/days" description="Sin'86 - rate of HI increase (optional)">0.0110 0.011</y_hi_incr>
       <x_hi_max_pot_stress description="Sin'86 - maximum harvest index potential">0.0 1.0</x_hi_max_pot_stress>
       <y_hi_max_pot description="TT from emergence to end of juvenile phase">0.5 0.5</y_hi_max_pot>
-      <cum_vernal_days>0        100</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">350       350</tt_emerg_to_endjuv>
+      <cumvd_emergence>0        100</cumvd_emergence>
+      <tt_emergence units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">350       350</tt_emergence>
       <est_days_emerg_to_init units="d" description="estimated days from emergence to floral init.">20</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init description="photoperiod (h)">12.0      18.0              </x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init description="TT from end juvenile to floral initiation">1    1000              </y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd" description="TT from flowering to start grain fill">276.0   276.0</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">446.0  446.0</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">38.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile description="photoperiod (h)">12.0      18.0              </x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile description="TT from end juvenile to floral initiation">1    1000              </y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd" description="TT from flowering to start grain fill">276.0   276.0</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">446.0  446.0</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">38.0</tt_end_grain_fill>
+      <tt_maturity units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity>
       <x_stem_wt>0 10</x_stem_wt>
       <y_height>0 1200</y_height>
    </Durack>
@@ -672,19 +674,19 @@
       <y_hi_incr units="1/days" description="Sin'86 - rate of HI increase (optional)">0.0060 0.006</y_hi_incr>
       <x_hi_max_pot_stress description="Sin'86 - maximum harvest index potential">0.0 1.0</x_hi_max_pot_stress>
       <y_hi_max_pot description="TT from emergence to end of juvenile phase">0.5 0.5</y_hi_max_pot>
-      <cum_vernal_days>0        100</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0       60.0</tt_emerg_to_endjuv>
+      <cumvd_emergence>0        100</cumvd_emergence>
+      <tt_emergence units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0       60.0</tt_emergence>
       <est_days_emerg_to_init units="d" description="estimated days from emergence to floral init.">20</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init description="photoperiod (h)">12.0      18.0              </x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init description="TT from end juvenile to floral initiation">150    400              </y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd" description="TT from flowering to start grain fill">500.0   500.0</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">640.0  640.0</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">60.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile description="photoperiod (h)">12.0      18.0              </x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile description="TT from end juvenile to floral initiation">150    400              </y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd" description="TT from flowering to start grain fill">500.0   500.0</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">640.0  640.0</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">60.0</tt_end_grain_fill>
+      <tt_maturity units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity>
       <x_stem_wt>0 10</x_stem_wt>
       <y_height>0 1200</y_height>
    </valiant>
@@ -693,19 +695,19 @@
       <y_hi_incr units="1/days" description="Sin'86 - rate of HI increase (optional)">0.0110 0.011</y_hi_incr>
       <x_hi_max_pot_stress description="Sin'86 - maximum harvest index potential">0.0 1.0</x_hi_max_pot_stress>
       <y_hi_max_pot description="TT from emergence to end of juvenile phase">0.5 0.5</y_hi_max_pot>
-      <cum_vernal_days>0        100</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0      60.0</tt_emerg_to_endjuv>
+      <cumvd_emergence>0        100</cumvd_emergence>
+      <tt_emergence units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0      60.0</tt_emergence>
       <est_days_emerg_to_init units="d" description="estimated days from emergence to floral init.">20</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init description="photoperiod (h)">12.0      18.0              </x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init description="TT from end juvenile to floral initiation">350    850              </y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd" description="TT from flowering to start grain fill">270.0   270.0</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">490.0  490.0</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">40</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile description="photoperiod (h)">12.0      18.0              </x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile description="TT from end juvenile to floral initiation">350    850              </y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd" description="TT from flowering to start grain fill">270.0   270.0</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">490.0  490.0</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">40</tt_end_grain_fill>
+      <tt_maturity units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity>
       <x_stem_wt>0 10</x_stem_wt>
       <y_height>0 1200</y_height>
    </dragon>
@@ -714,19 +716,19 @@
       <y_hi_incr units="1/days" description="Sin'86 - rate of HI increase (optional)">0.0200 0.02</y_hi_incr>
       <x_hi_max_pot_stress description="Sin'86 - maximum harvest index potential">0.0 1.0</x_hi_max_pot_stress>
       <y_hi_max_pot description="TT from emergence to end of juvenile phase">0.35 0.35</y_hi_max_pot>
-      <cum_vernal_days>0        100</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0       60.0</tt_emerg_to_endjuv>
+      <cumvd_emergence>0        100</cumvd_emergence>
+      <tt_emergence units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0       60.0</tt_emergence>
       <est_days_emerg_to_init units="d" description="estimated days from emergence to floral init.">20</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init description="photoperiod (h)">12.0      18.0              </x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init description="TT from end juvenile to floral initiation">500    850              </y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd" description="TT from flowering to start grain fill">300.0   300.0</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">412.5  412.5</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">37.5</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile description="photoperiod (h)">12.0      18.0              </x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile description="TT from end juvenile to floral initiation">500    850              </y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd" description="TT from flowering to start grain fill">300.0   300.0</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">412.5  412.5</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">37.5</tt_end_grain_fill>
+      <tt_maturity units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity>
       <x_stem_wt>0 10</x_stem_wt>
       <y_height>0 1200</y_height>
    </magoye>
@@ -735,19 +737,19 @@
       <y_hi_incr units="1/days" description="Sin'86 - rate of HI increase (optional)">0.0060 0.006</y_hi_incr>
       <x_hi_max_pot_stress description="Sin'86 - maximum harvest index potential">0.0 1.0</x_hi_max_pot_stress>
       <y_hi_max_pot description="TT from emergence to end of juvenile phase">0.5 0.5</y_hi_max_pot>
-      <cum_vernal_days>0        100</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0       60.0</tt_emerg_to_endjuv>
+      <cumvd_emergence>0        100</cumvd_emergence>
+      <tt_emergence units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0       60.0</tt_emergence>
       <est_days_emerg_to_init units="d" description="estimated days from emergence to floral init.">20</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init description="photoperiod (h)">12.0      18.0              </x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init description="TT from end juvenile to floral initiation">500    850              </y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain units="oCd" description="TT from flowering to start grain fill">300.0   300.0</y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain units="oCd">412.5  412.5</y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">37.5</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile description="photoperiod (h)">12.0      18.0              </x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile description="TT from end juvenile to floral initiation">500    850              </y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering units="oCd" description="TT from flowering to start grain fill">300.0   300.0</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">412.5  412.5</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">37.5</tt_end_grain_fill>
+      <tt_maturity units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity>
       <x_stem_wt>0 10</x_stem_wt>
       <y_height>0 1200</y_height>
    </roan>
@@ -756,19 +758,19 @@
       <y_hi_incr units="1/days" description="Sin'86 - rate of HI increase (optional)">0.0110 0.011</y_hi_incr>
       <x_hi_max_pot_stress description="Sin'86 - maximum harvest index potential">0.0 1.0</x_hi_max_pot_stress>
       <y_hi_max_pot description="TT from emergence to end of juvenile phase">0.5 0.5</y_hi_max_pot>
-      <cum_vernal_days>0        100</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0       60.0</tt_emerg_to_endjuv>
+      <cumvd_emergence>0        100</cumvd_emergence>
+      <tt_emergence units="oCd" description="aps1 550 - TT from emergence to end of juvenile phase">60.0       60.0</tt_emergence>
       <est_days_emerg_to_init units="d" description="estimated days from emergence to floral init.">20</est_days_emerg_to_init>
-      <x_pp_endjuv_to_init description="14          ! photoperiod (h) daylength response of soybean is different from that of lucerne">12.0   16.0  </x_pp_endjuv_to_init>
-      <y_tt_endjuv_to_init description="300    600   !200         ! TT from end juvenile to floral initiation">80    350  </y_tt_endjuv_to_init>
-      <x_pp_init_to_flower units="h">1      24</x_pp_init_to_flower>
-      <y_tt_init_to_flower units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_init_to_flower>
-      <x_pp_flower_to_start_grain units="h">1      24</x_pp_flower_to_start_grain>
-      <y_tt_flower_to_start_grain description="300.0   300.0 (oCd) TT from flowering to start grain fill">100    100             </y_tt_flower_to_start_grain>
-      <x_pp_start_to_end_grain units="h">1      24</x_pp_start_to_end_grain>
-      <y_tt_start_to_end_grain description="460.0  460.0 (oCd)">400    400             </y_tt_start_to_end_grain>
-      <tt_end_grain_to_maturity units="oCd">5.0</tt_end_grain_to_maturity>
-      <tt_maturity_to_ripe units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity_to_ripe>
+      <x_pp_end_of_juvenile description="14          ! photoperiod (h) daylength response of soybean is different from that of lucerne">12.0   16.0  </x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile description="300    600   !200         ! TT from end juvenile to floral initiation">80    350  </y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1      24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd" description="TT from initiation to flowering">24.0  24.0</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1      24</x_pp_flowering>
+      <y_tt_flowering description="300.0   300.0 (oCd) TT from flowering to start grain fill">100    100             </y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1      24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill description="460.0  460.0 (oCd)">400    400             </y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">5.0</tt_end_grain_fill>
+      <tt_maturity units="oCd" description="TT from maturity to harvest ripe">5.0</tt_maturity>
       <x_stem_wt>0 10</x_stem_wt>
       <y_height>0 1200</y_height>
    </harvest12>

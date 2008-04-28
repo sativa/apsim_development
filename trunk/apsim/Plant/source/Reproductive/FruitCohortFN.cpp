@@ -82,8 +82,7 @@ void FruitCohortFN::onInit1(protocol::Component *system)
 void FruitCohortFN::process (void)
 //=======================================================================================
    {
-      fruitPhenology->prepare ();
-      fruitPhenology->process (plant->getPhotoStress(), plant->getFaswSeed(), plant->getPeswSeed());
+      fruitPhenology->process ();
       FruitCohort::process();
    }
 

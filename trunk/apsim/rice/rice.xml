@@ -380,10 +380,10 @@
    <y_swdef_pheno description="stress indices">0.45 1.0</y_swdef_pheno>
    <!-- ###Activated in light of lilley cv 3 delays in flowering with irrigation withheld
     -->
-   <x_sw_avail_ratio_flower description="water availability">0.2   0.50  1.0</x_sw_avail_ratio_flower>
-   <y_swdef_pheno_flower description="stress index for flowering phenology">1.0   1.0    1.0</y_swdef_pheno_flower>
-   <x_sw_avail_ratio_grainfill description="water availability">0.2   0.50   1.0</x_sw_avail_ratio_grainfill>
-   <y_swdef_pheno_grainfill description="stress index for grainfilling phenology">1.0   1.0    1.0</y_swdef_pheno_grainfill>
+   <x_sw_avail_ratio_flowering description="water availability">0.2   0.50  1.0</x_sw_avail_ratio_flowering>
+   <y_swdef_pheno_flowering description="stress index for flowering phenology">1.0   1.0    1.0</y_swdef_pheno_flowering>
+   <x_sw_avail_ratio_start_grain_fill description="water availability">0.2   0.50   1.0</x_sw_avail_ratio_start_grain_fill>
+   <y_swdef_pheno_start_grain_fill description="stress index for grainfilling phenology">1.0   1.0    1.0</y_swdef_pheno_start_grain_fill>
    <!-- For tiller
     -->
    <x_sw_avail_ratio_tiller>0.25  1.0</x_sw_avail_ratio_tiller>
@@ -616,7 +616,7 @@
       <tt_startgf_to_mat description="p5">450.0 </tt_startgf_to_mat>
       <!-- ###For IR8 rice cv
        -->
-      <tt_emerg_to_endjuv units="oCd" description="TT from emergence to end of juvenile phase (no vernalisation effect)">880.0</tt_emerg_to_endjuv>
+      <tt_emergence units="oCd" description="TT from emergence to end of juvenile phase (no vernalisation effect)">880.0</tt_emergence>
       <!-- ###TT from emergence to end of juvenile is set to 0 days for wheat. 880dd for IR8 rice cv.
       ###A more flexible system can be found in LEGUME
       ________________________________________________________________________________________________________

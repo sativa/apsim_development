@@ -5,7 +5,8 @@
     -->
    <options>
       <Environment/><Fixation/>
-      <WheatPhenology/>
+      <Phenology/>
+      <Zadok/>
    </options>
    <RadiationPartitioningOrder>fruit leaf</RadiationPartitioningOrder>
     
@@ -59,7 +60,7 @@
    <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
    <stage_names description="stage names">sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop </stage_names>
    <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
-   <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
+   <phase_type>cwsowing cwemergent  cwinductive   cwinductive      cwinductive       cwfixed        cwfixed     cwfixed    cwfixed  cwfixed      cwfixed</phase_type>
    <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation eme2ej preflowering tiller_formation hi_stress_sensitive stress_reporting postflowering</composite_phases>
    <under_ground>sowing germination</under_ground>
    <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
@@ -325,10 +326,10 @@
        -->
       <x_sw_avail_ratio description="water availability">0.0 0.2 1.0</x_sw_avail_ratio>
       <y_swdef_pheno description="stress index for phenology">0.0 1.0 1.0</y_swdef_pheno>
-      <x_sw_avail_ratio_flower description="water availability">0.0 0.2 1.0</x_sw_avail_ratio_flower>
-      <y_swdef_pheno_flower description="stress index for flowering phenology">1.5 1.0 1.0</y_swdef_pheno_flower>
-      <x_sw_avail_ratio_grainfill description="water availability">0.0 0.2 1.0</x_sw_avail_ratio_grainfill>
-      <y_swdef_pheno_grainfill description="stress index for grainfilling phenology">1.5 1.0 1.0</y_swdef_pheno_grainfill>
+      <x_sw_avail_ratio_flowering description="water availability">0.0 0.2 1.0</x_sw_avail_ratio_flowering>
+      <y_swdef_pheno_flowering description="stress index for flowering phenology">1.5 1.0 1.0</y_swdef_pheno_flowering>
+      <x_sw_avail_ratio_start_grain_fill description="water availability">0.0 0.2 1.0</x_sw_avail_ratio_start_grain_fill>
+      <y_swdef_pheno_start_grain_fill description="stress index for grainfilling phenology">1.5 1.0 1.0</y_swdef_pheno_start_grain_fill>
       <!-- __________________________________________________________________________________________________________-
       WATERLOGGING STRESS (OXYGEN DEFICIT) FACTOR FOR PHOTOSYNTHESIS
        -->
@@ -519,7 +520,7 @@
       <minsw description="lowest acceptable value for ll">0.00001</minsw>
       <!--  cultivar parameter upper bounds
        -->
-      <tt_emerg_to_endjuv_ub units="oCd" description="upper limit">1000.0</tt_emerg_to_endjuv_ub>
+      <tt_emergence_ub units="oCd" description="upper limit">1000.0</tt_emergence_ub>
       <tt_flower_to_maturity_ub units="oCd" description="upper limit">1500.0</tt_flower_to_maturity_ub>
       <tt_maturity_to_ripe_ub units="oCd" description="upper limit">1000.0</tt_maturity_to_ripe_ub>
       <tt_flower_to_start_grain_ub units="oCd" description="upper limit">1000.0</tt_flower_to_start_grain_ub>
@@ -546,8 +547,17 @@
       <potential_grain_filling_rate description="0.003 ! 0.0020  ! grain growth rate during grainfill">0.001 </potential_grain_filling_rate>
       <potential_grain_growth_rate description="0.002 ! 0.0010  ! grain growth from flowering to grain fill">0.001 </potential_grain_growth_rate>
       <max_grain_size>0.041</max_grain_size>
-      <phyllochron description="NOT IMPORTANT AP">95.0   </phyllochron>
-      <startgf_to_mat description="680  !580 PLP">580 </startgf_to_mat>
+
+      <tt_emergence units="oCd">1.0</tt_emergence>
+      <tt_end_of_juvenile units="oCd">400.0</tt_end_of_juvenile>
+      <tt_floral_initiation description="NOT IMPORTANT AP">555</tt_floral_initiation>
+      <tt_flowering>120</tt_flowering>
+      <tt_start_grain_fill>545</tt_start_grain_fill>
+      <tt_end_grain_fill>35</tt_end_grain_fill>
+      <tt_maturity units="oCd">1</tt_maturity>
+      <tt_end_crop units="oCd">1000</tt_end_crop>
+      <tt_harvest_ripe units="oCd">1000</tt_harvest_ripe>
+
       <vern_sens>1.5</vern_sens>
       <photop_sens>3.0</photop_sens>
       <x_pp_hi_incr units="h">1      24</x_pp_hi_incr>
@@ -555,7 +565,7 @@
       <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
       <y_hi_max_pot>0.50 0.50</y_hi_max_pot>
       <cum_vernal_days>0    25</cum_vernal_days>
-      <tt_emerg_to_endjuv units="oCd">800  600</tt_emerg_to_endjuv>
+      <tt_emergence units="oCd">800  600</tt_emergence>
       <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
       <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
       <y_tt_endjuv_to_init>50     50</y_tt_endjuv_to_init>

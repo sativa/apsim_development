@@ -1,6 +1,19 @@
 #include "StdPlant.h"
 
 #include "Phase.h"
+#include "Environment.h"
+
+
+pPhase::pPhase(ScienceAPI& api, plantInterface& p, const std::string& name)
+   : scienceAPI(api), plant(p)
+   {
+   myName = name;
+   tt = target = days = 0.0;
+   empty = true;
+   scienceAPI.expose(name + "TTTarget", "deg. days", name + " thermal time target", target);
+   scienceAPI.expose(name + "TT", "deg. days", name + " - thermal time spent in this phase", tt);
+   scienceAPI.expose(name + "Days", "day", name + " - days spent in this phase", days);
+   }
 
 bool operator == (const pPhase &a, const pPhase &b)
 // ===================================================================================
@@ -8,37 +21,24 @@ bool operator == (const pPhase &a, const pPhase &b)
    return (a.name() == b.name());
    };
 
-void pPhase::add(float dlt_days, float dlt_tt, float *balance_days, float *balance_tt)
-// ===================================================================================
-// Add tt and days to the accumulator. Return a balance if too much.
-// A target of 0.0 or less indicates it's a stage that doesn't use
-// thermal time accumulation. So avoid taking any tt if you can avoid it..
-   {
-   if (target > 0.0)
-      {
-      if ((tt + dlt_tt) > target)
-         {
-         // only take a enough to fill, and don't take any out..
-         float tt_in_old = max(0.0, target - tt);
-         float days_in_old = dlt_days * divide(tt_in_old, dlt_tt, 0.0);
 
-         tt += tt_in_old;
-         days += days_in_old;
-         *balance_tt = dlt_tt - tt_in_old;
-         *balance_days = dlt_days - days_in_old;
-         }
-      else
-         {
-         // take it all
-         tt += dlt_tt;
-         days += dlt_days;
-         *balance_tt = 0.0; *balance_days = 0.0;
-         }
-      }
-   else
-      {
-      // no target - don't take any.
-      *balance_tt = dlt_tt;
-      *balance_days = dlt_days;
-      }
+void pPhase::read()
+   {
+   y_tt.read(scienceAPI,
+               "x_temp", "oC", 0.0, 100.0,
+               "y_tt", "oC days", 0.0, 100.0);
    }
+
+float pPhase::TT()
+   {
+   return linint_3hrly_temp (plant.environment().maxt(), plant.environment().mint(), &y_tt);
+   }
+
+void pPhase::calcPhaseDevelopment(int /*das*/, 
+                                      float& dlt_tt_phenol, float& phase_devel)
+   {
+   dlt_tt_phenol = TT() * stress();
+
+   phase_devel = divide(getTT() + dlt_tt_phenol, getTTTarget(), 1.0);
+   }
+

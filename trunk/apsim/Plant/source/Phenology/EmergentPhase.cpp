@@ -1,30 +1,23 @@
 #include "StdPlant.h"
 
-#include "Phase.h"
 #include "EmergentPhase.h"
 
-void EmergentPhase::onSow(protocol::ApsimVariant incomingApsimVariant)
+void EmergentPhase::OnSow(float sowingdepth)
 //=======================================================================================
    {
-   if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)
-      throw std::invalid_argument("sowing_depth not specified");
-   //bound_check_real_var(scienceAPI, sowing_depth, 0.0, 100.0, "sowing_depth");
+   sowing_depth = sowingdepth;
    }
-void EmergentPhase::readCultivarParameters(protocol::Component *s, const string & cultivar)
+void EmergentPhase::read()
 //=======================================================================================
    {
-   pPhase::readCultivarParameters(s, cultivar);
-
-   }
-
-void EmergentPhase::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
-//=======================================================================================
-   {
-   pPhase::readSpeciesParameters (s, sections);
+   pPhase::read();
    scienceAPI.read("shoot_lag", shoot_lag, 0.0f, 1000.0f);
    scienceAPI.read("shoot_rate", shoot_rate, 0.0f, 1000.0f);
-   }
 
+   rel_emerg_rate.read(scienceAPI,
+                         "fasw_emerg", "()", 0.0, 1.0,
+                         "rel_emerg_rate",  "()", 0.0, 1.0);
+   }
 
 void EmergentPhase::setupTTTarget()
 //=======================================================================================
@@ -36,9 +29,14 @@ string EmergentPhase::description()
 //=======================================================================================
    {
    string s;
-   s = "shoot_lag = "+ftoa(shoot_lag, "10.0")+ " (dd)\n";
-   s += "shoot_rate = "+ftoa(shoot_rate, "10.0")+ " (dd/mm)\n";
+   s =  "         shoot_lag                  = "+ftoa(shoot_lag, "7.0")+ " (dd)\n";
+   s += "         shoot_rate                 = "+ftoa(shoot_rate, "7.0")+ " (dd/mm)\n";
 
    return s;
    } 
+
+float EmergentPhase::stress()
+   {
+   return rel_emerg_rate[plant.getFaswSeed()];
+   }
 

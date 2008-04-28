@@ -17,25 +17,31 @@ class Output;
 class pPhase
    {
    protected:
-     std::string  myName;  // Usually the name of the "stage" that the phase starts from.
+     std::string myName;   // The name of the "stage" that the phase starts from.
      float tt,             // Thermal time spent in this phase
            target,         // Target time we want to spend here
            days;           // Number of days spent in this phase.
      bool empty;
      ScienceAPI& scienceAPI;
-     plantInterface* plant;
+     plantInterface& plant;
+
+     interpolationFunction y_tt;
+
+     virtual float stress() {return 1.0;}  // no stress.
+
    public:
-     pPhase(ScienceAPI& api, plantInterface* p, const std::string& n)
-        : scienceAPI(api), plant(p) {myName = n; tt = target = days = 0.0; empty = true;};
-     pPhase(ScienceAPI& api, plantInterface* p, const char *n)
-        : scienceAPI(api), plant(p) {myName = n; tt = target = days = 0.0; empty = true;};
+     pPhase(ScienceAPI& api, plantInterface& p, const std::string& n);
      virtual ~pPhase() {};
 
-     void  add(float dlt_days)               {days += dlt_days;};
+     virtual void process() {};
+     virtual void OnSow(float sowing_depth) {};
+
+     virtual void calcPhaseDevelopment(int das, 
+                                       float& dlt_tt_phenol, float& phase_devel);
+
      void  add(float dlt_days, float dlt_tt) {days += dlt_days; tt += dlt_tt;};
-     void  add(float dlt_days, float dlt_tt, float *balance_days, float *balance_tt);
-     void  setTarget(float value) {target = value;};
      void  setTT(float value)     {tt = value;};
+     virtual float TT();
      float getTT(void) const       {return tt;};
      float getTTTarget(void) const {return target;};
      float getDays(void) const     {return days;};
@@ -45,8 +51,7 @@ class pPhase
      bool  isEmpty(void)  {return empty;};
      string name(void) const {return myName;};
      virtual string description(void)  {return "";};
-     virtual void readCultivarParameters(protocol::Component *s, const string & cultivar){};
-     virtual void readSpeciesParameters (protocol::Component *, std::vector<string> &){};
+     virtual void read();
      virtual void updateTTTargets(Phenology &parent){};
      virtual void onSow(protocol::ApsimVariant incomingApsimVariant){};
      virtual void setupTTTarget(void){};

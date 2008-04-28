@@ -18,9 +18,17 @@ namespace protocol {
 };
 class Environment;
 class Phenology;
-class pheno_stress_t;
 class Co2Modifier;
 class CompositePart;
+
+class pheno_stress_t {
+   public:
+    float swdef;
+    float nfact;
+    float swdef_flower;
+    float swdef_grainfill;
+    float remove_biom_pheno;
+};
 
 // An abstract plant interface, as seen from protocol::Component (outside)
 class IPlant {
@@ -90,6 +98,12 @@ class plantInterface {
       virtual const Phenology  *getPhenology(void) = 0;
       virtual const string & getCropType(void) = 0;
       virtual protocol::Component *getComponent(void) = 0;
+      virtual float getSwDefPheno() = 0;
+      virtual float getNFactPheno() = 0;
+      virtual float getPFactPheno() = 0;
+      virtual float swAvailablePotential() = 0;
+      virtual float swAvailable() = 0;
+
 };
 
 // Something that plugs into a plant
@@ -109,6 +123,7 @@ class plantThing {
      virtual void read() { }
      virtual void onPlantEvent(const string &) {};
      virtual void update(void) {};
+     virtual void onClassChange() {};
 
      virtual void zeroAllGlobals(void) {};
      virtual void zeroDeltas(void) {};
