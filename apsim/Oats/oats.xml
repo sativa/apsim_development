@@ -57,10 +57,10 @@
    SECTION - CROP PHENOLOGY
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     -->
-   <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
-   <stage_names description="stage names">sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop </stage_names>
-   <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
-   <phase_type>cwsowing cwemergent  cwinductive   cwinductive      cwinductive       cwfixed        cwfixed     cwfixed    cwfixed  cwfixed      cwfixed</phase_type>
+   <stage_code_list>1         2          3         4                5               6           7               8             9            10     </stage_code_list>
+   <stage_names description="stage names">sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe </stage_names>
+   <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe </phase_names>
+   <phase_type>cwsowing cwemergent  cwinductive   cwinductive      cwinductive       cwfixed        cwfixed     cwfixed    cwfixed  cwfixed      </phase_type>
    <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation eme2ej preflowering tiller_formation hi_stress_sensitive stress_reporting postflowering</composite_phases>
    <under_ground>sowing germination</under_ground>
    <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
@@ -110,7 +110,7 @@
        -->
       <phenology_option>2</phenology_option>
       <stage_code description="numeric code for phenological stages">1      2    3     4     5     6     7      8     9    10     11</stage_code>
-      <stage_names description="stage names">sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop </stage_names>
+      <stage_names description="stage names">sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe </stage_names>
       <!-- __________________________________________________________________________________________________________-
       STEM REDUCTION EFFECT ON PHENOLOGY
                                          sow    ger   eme  juv    fi    fl   st_gf end_gf  mat hv_rpe  end
@@ -555,7 +555,6 @@
       <tt_start_grain_fill>545</tt_start_grain_fill>
       <tt_end_grain_fill>35</tt_end_grain_fill>
       <tt_maturity units="oCd">1</tt_maturity>
-      <tt_end_crop units="oCd">1000</tt_end_crop>
       <tt_harvest_ripe units="oCd">1000</tt_harvest_ripe>
 
       <vern_sens>1.5</vern_sens>

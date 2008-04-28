@@ -28,6 +28,7 @@ class pPhase
      interpolationFunction y_tt;
 
      virtual float stress() {return 1.0;}  // no stress.
+     int getDays(void) {return days;};
 
    public:
      pPhase(ScienceAPI& api, plantInterface& p, const std::string& n);
@@ -36,7 +37,7 @@ class pPhase
      virtual void process() {};
      virtual void OnSow(float sowing_depth) {};
 
-     virtual void calcPhaseDevelopment(int das, 
+     virtual void calcPhaseDevelopment(int das,
                                        float& dlt_tt_phenol, float& phase_devel);
 
      void  add(float dlt_days, float dlt_tt) {days += dlt_days; tt += dlt_tt;};
@@ -44,7 +45,6 @@ class pPhase
      virtual float TT();
      float getTT(void) const       {return tt;};
      float getTTTarget(void) const {return target;};
-     float getDays(void) const     {return days;};
      virtual void  reset(void)             {tt = days = 0.0; empty = true;};
      void  update(void)            {empty = false;};
      bool  isFirstDay(void) const  {return empty == true;};

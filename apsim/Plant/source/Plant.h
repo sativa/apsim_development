@@ -173,7 +173,6 @@ public:
    void get_plant_status(protocol::Component *, protocol::QueryValueData &);
    float getStageCode(void);
    float getStageNumber(void);
-   int daysInCurrentPhase(void);
    float ttInCurrentPhase(void);
    status_t Status(void) {return g.plant_status;}
    void SetStatus(status_t NewStatus) {g.plant_status = NewStatus;}

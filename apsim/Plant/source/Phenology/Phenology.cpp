@@ -46,12 +46,10 @@ void Phenology::initialise()
    // This will remove all existing phases and recreate them. It
    // will also register our variables.
    // --------------------------------------------------------------------------
-   scienceAPI.expose("stage", "", "Plant stage", currentStage);
-   scienceAPI.expose("dlt_stage", "", "Change in plant stage", dltStage);
-   scienceAPI.exposeFunction("stage_name", "", "Plant stage name", StringFunction(&Phenology::stageName));
-   scienceAPI.expose("das", "day", "Days after sowing", das);
-   scienceAPI.expose("dlt_tt_phenol", "deg. day", "Todays thermal time (incl. stress factors)", dlt_tt_phenol);
-   scienceAPI.exposeFunction("dlt_tt", "dd", "Todays thermal time (no stress factors)", FloatFunction(&Phenology::get_dlt_tt));
+   scienceAPI.expose("Stage", "", "Plant stage", currentStage);
+   scienceAPI.expose("DeltaStage", "", "Change in plant stage", dltStage);
+   scienceAPI.exposeFunction("StageName", "", "Plant stage name", StringFunction(&Phenology::stageName));
+   scienceAPI.exposeFunction("TT", "deg. day", "Todays thermal time", FloatFunction(&Phenology::get_dlt_tt));
 
    scienceAPI.subscribe("harvest", NullFunction(&Phenology::onHarvest));
    scienceAPI.subscribe("end_crop", NullFunction(&Phenology::onEndCrop));
@@ -62,10 +60,8 @@ void Phenology::initialise()
    currentStage = 0.0;
 
    // Read the sequential list of stage names
-   vector<string> stage_names;
    vector<string> phase_types;
    vector<string> phase_names;
-   scienceAPI.read("stage_names", stage_names);
    scienceAPI.read("phase_type", phase_types);
    scienceAPI.read("phase_names", phase_names);
 
@@ -145,7 +141,7 @@ pPhase* Phenology::find(const string& PhaseName) const
    // --------------------------------------------------------------------------
    for(unsigned i=0; i!=phases.size();i++)
       {
-      if(phases[i]->name()==PhaseName)
+      if(Str_i_Eq(phases[i]->name(), PhaseName))
          return phases[i];
       }
       return NULL;
@@ -229,12 +225,6 @@ pPhase *Phenology::getStage(const string &name)
    return pos;
    }
 
-int Phenology::daysInCurrentPhase(void)
-   {
-   const pPhase *current = phases[(int)currentStage];
-   return ((int) current->getDays());
-   }
-
 float Phenology::ttInPhase(const string &phaseName) const
    {
       // See if it's a composite
@@ -283,29 +273,6 @@ float Phenology::ttInCurrentPhase(void)
    {
 	const pPhase *current = phases[(int)currentStage];
 	return ((int)current->getTT());
-   }
-
-int Phenology::daysInPhase(const string &phaseName)
-   {
-      // See if it's a composite
-      compositePhase phaseGroup = composites[phaseName];
-      if (!phaseGroup.isEmpty())
-      {
-         return ((int)phaseGroup.getDays());
-      }
-      else
-      {
-         // No, see if the stage is known at all to us
-         pPhase *phase = find(phaseName);
-         if (phase == NULL)
-         {
-            throw std::runtime_error("unknown phase name3 " + phaseName);
-         }
-         else
-         {
-   	      return ((int)phase->getDays());
-   	   }
-   	}
    }
 
 string Phenology::stageName(void)
@@ -537,9 +504,14 @@ void Phenology::process()
    else
       currentStage = new_stage;
 
-   if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
-     throw std::runtime_error("stage has gone wild in Phenology::process()..");
+   // The next 2 lines makes the final phase a never ending one.
+   if ((unsigned int)currentStage >= phases.size())
+     currentStage = phases.size()-1;
 
+   // Add a new day to all phases up to but not including the current phase.
+   for (int i = 1; i < (int)currentStage; i++)
+      phases[i]->add(1, dlt_tt_phenol);
+      
    if ((int)currentStage != (int)previousStage)
       plant.doPlantEvent(phases[(int)currentStage]->name());
    das++;

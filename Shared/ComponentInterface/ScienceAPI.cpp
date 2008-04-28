@@ -406,6 +406,15 @@ void ScienceAPI::expose(const std::string& name, const std::string& units, const
    {
    component->addGettableVar(name.c_str(), variable, units.c_str(), description.c_str());
    }
+void ScienceAPI::exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function0<int> handler)
+   {
+   typedef CMPGetter<IntFunctionType, int> WrapperType;
+   WrapperType* wrapper = new WrapperType (handler);
+   stuffToDelete.push_back(wrapper);
+   boost::function2<void, protocol::Component*, protocol::QueryValueData &> fn;
+   fn = boost::bind(&WrapperType::CMPFunction, wrapper, _1, _2);
+   component->addGettableVar(name.c_str(), protocol::DTint4, false, fn, units.c_str(), description.c_str());
+   }
 void ScienceAPI::exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function0<float> handler)
    {
    typedef CMPGetter<FloatFunctionType, float> WrapperType;
