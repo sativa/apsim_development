@@ -9,6 +9,7 @@
 #include "EmergentPhase.h"
 #include "LeafAppPhase.h"
 #include "SowingPhase.h"
+#include "WaitingPhase.h"
 #include "CWEmergentPhase.h"
 #include "CWInductivePhase.h"
 #include "CWFixedPhase.h"
@@ -92,6 +93,8 @@ void Phenology::initialise()
          newPhase = new CWFixedPhase(scienceAPI, plant, phase_names[i]);
       else if(phase_types[i]=="cwsowing")
          newPhase = new CWSowingPhase(scienceAPI, plant, phase_names[i]);
+      else if(phase_types[i]=="waiting")
+         newPhase = new WaitingPhase(scienceAPI, plant, phase_names[i]);
       else
          throw runtime_error("Invalid phase type: " + phase_types[i]);
 
@@ -504,9 +507,8 @@ void Phenology::process()
    else
       currentStage = new_stage;
 
-   // The next 2 lines makes the final phase a never ending one.
-   if ((unsigned int)currentStage >= phases.size())
-     currentStage = phases.size()-1;
+   if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
+     throw std::runtime_error("stage has gone wild in Phenology::process()..");
 
    // Add a new day to all phases up to but not including the current phase.
    for (int i = 1; i < (int)currentStage; i++)

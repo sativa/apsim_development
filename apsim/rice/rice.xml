@@ -27,10 +27,10 @@
    SECTION 1 - CROP PHENOLOGY: DEVELOPMENT PARAMETERS
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     -->
-   <stage_names>sowing germination emergence end_of_juvenile floral_initiation flag_leaf flowering start_grain_fill end_grain_fill maturity harvest_ripe </stage_names>
+   <stage_names>sowing germination emergence end_of_juvenile floral_initiation flag_leaf flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
    <!--                  sow ger eme  juv    fi  flag   fl  st_gf end_gf mat hv_rpe end_crop
     -->
-   <stage_code>1   2   3    4      5     6     7    8    9    10   11   </stage_code>
+   <stage_code>1   2   3    4      5     6     7    8    9    10   11   12</stage_code>
    <!-- Zadok_stage      = 0   5  10   10     15    40    60   71   87    90   93  100
    Notes: Zadok_stage are optional parameters. If they are ommited, the above values are used as default.
           The Zadok stages are only approximates. Only from flag leaf to end_crop the above listed Zadok stage values are used
