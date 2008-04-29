@@ -2884,7 +2884,7 @@ cmjr
      :                             , '()'
      :                             , c%stage_code_list(stage_no))
 
-      elseif (variable_name .eq. 'stage_name') then
+      elseif (variable_name .eq. 'StageName') then
          stage_no = int (g%current_stage)
          call respond2get_char_var (variable_name
      :                             , '()'
@@ -3358,7 +3358,7 @@ c      call sugar_nit_stress_expansion (1)
      :                             , '(0-1)'
      :                             , g%oxdef_photo)
 
-      elseif (variable_name .eq. 'das') then
+      elseif (variable_name .eq. 'DaysAfterSowing') then
          das = sum_between (sowing, now, g%days_tot)
          das1 = nint(das)
          call respond2get_integer_var (variable_name

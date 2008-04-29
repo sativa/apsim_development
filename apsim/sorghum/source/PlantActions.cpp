@@ -24,7 +24,7 @@ void Plant::doRegistrations(void)
    // Variables available to other modules on request (e.g. report)
    scienceAPI.expose("crop_type",   "",          "Crop species",             false, cropType);
    scienceAPI.expose("crop_class",  "",          "Crop class",               false, cropClass);
-   scienceAPI.expose("Das",         "days",      "Days after sowing",        false, das);
+   scienceAPI.expose("DaysAfterSowing",  "days",      "Days after sowing",        false, das);
    scienceAPI.expose("radn_int",    "",          "",                         false, radnIntercepted);
    scienceAPI.expose("temp_stress", "",          "",                         false, tempStress);
    scienceAPI.expose("vpd",         "",          "Vapour pressure deficit",  false, vpd);
