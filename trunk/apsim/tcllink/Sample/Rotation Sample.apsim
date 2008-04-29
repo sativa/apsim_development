@@ -123,7 +123,7 @@ doProcess
             <actions>apsimSendMessage wheat harvest</actions>
             <actions>apsimSendMessage wheat end_crop</actions>
             <y>416.5</y>
-            <rules>{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}</rules>
+            <rules>{[apsimGet wheat.stagename] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}</rules>
             <rules />
             <actions />
           </arc>
@@ -156,7 +156,7 @@ doProcess
             <actions>apsimSendMessage chickpea harvest</actions>
             <actions>apsimSendMessage chickpea end_crop</actions>
             <y>162.5</y>
-            <rules>{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}</rules>
+            <rules>{[apsimGet chickpea.stagename] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}</rules>
             <rules />
             <actions />
           </arc>
@@ -218,7 +218,7 @@ stateGraph arc lappend "arc6" actions {}
 stateGraph arc insert "Wheat" "SummerFallow2" "arc3"
 stateGraph arc lappend "arc3" actions {apsimSendMessage wheat harvest}
 stateGraph arc lappend "arc3" actions {apsimSendMessage wheat end_crop}
-stateGraph arc lappend "arc3" rules {{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}}
+stateGraph arc lappend "arc3" rules {{[apsimGet wheat.stagename] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}}
 stateGraph arc lappend "arc3" actions {}
 stateGraph arc insert "F1" "SummerFallow1" "arc7"
 stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
@@ -230,7 +230,7 @@ stateGraph arc lappend "arc0" actions {}
 stateGraph arc insert "Chickpea" "SummerFallow1" "arc8"
 stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea harvest}
 stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea end_crop}
-stateGraph arc lappend "arc8" rules {{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}}
+stateGraph arc lappend "arc8" rules {{[apsimGet chickpea.stagename] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}}
 stateGraph arc lappend "arc8" actions {}
 stateGraph arc insert "SummerFallow1" "Wheat" "arc1"
 stateGraph arc lappend "arc1" actions {sow_wheat}
@@ -2365,7 +2365,7 @@ exit
         <actions>apsimSendMessage wheat harvest</actions>
         <actions>apsimSendMessage wheat end_crop</actions>
         <y>416.5</y>
-        <rules>{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}</rules>
+        <rules>{[apsimGet wheat.stagename] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}</rules>
         <rules />
         <actions />
       </arc>
@@ -2377,7 +2377,7 @@ exit
         <actions>apsimSendMessage chickpea harvest</actions>
         <actions>apsimSendMessage chickpea end_crop</actions>
         <y>162.5</y>
-        <rules>{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}</rules>
+        <rules>{[apsimGet chickpea.stagename] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}</rules>
         <rules />
         <actions />
       </arc>
@@ -2454,12 +2454,12 @@ stateGraph arc lappend "arc7" actions {}
 stateGraph arc insert "Wheat" "SummerFallow2" "arc3"
 stateGraph arc lappend "arc3" actions {apsimSendMessage wheat harvest}
 stateGraph arc lappend "arc3" actions {apsimSendMessage wheat end_crop}
-stateGraph arc lappend "arc3" rules {{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}}
+stateGraph arc lappend "arc3" rules {{[apsimGet wheat.stagename] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}}
 stateGraph arc lappend "arc3" actions {}
 stateGraph arc insert "Chickpea" "SummerFallow1" "arc8"
 stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea harvest}
 stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea end_crop}
-stateGraph arc lappend "arc8" rules {{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}}
+stateGraph arc lappend "arc8" rules {{[apsimGet chickpea.stagename] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}}
 stateGraph arc lappend "arc8" actions {}
 stateGraph arc insert "F1" "Chickpea" "arc0"
 stateGraph arc lappend "arc0" actions {sow_chickpea}
