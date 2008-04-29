@@ -3,6 +3,7 @@ using CSGeneral;
 using VBGeneral;
 using Soils;
 using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace ApsimFile
 	{
@@ -12,7 +13,7 @@ namespace ApsimFile
 	// ------------------------------------------
 	public class APSIMChangeTool
 		{
-		public static int CurrentVersion = 13;	   
+		public static int CurrentVersion = 14;	   
 		private delegate void UpgraderDelegate(XmlNode Data, Configuration Config);
 
 		// ------------------------------------------
@@ -77,7 +78,14 @@ namespace ApsimFile
 
                 // Upgrade from version 12 to 13.
                 if (DataVersion < 13)
+                    {
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion13), Config);
+                    Upgrade(Data, new UpgraderDelegate(ApplyConversionsFile), Config);
+                    }
+
+                // Upgrade from version 13 to 14.
+                if (DataVersion < 14)
+                    Upgrade(Data, new UpgraderDelegate(ApplyConversionsFile), Config);
 
                 // All finished upgrading - write version number out.
                 XmlHelper.SetAttribute(Data, "version", CurrentVersion.ToString());
@@ -536,9 +544,45 @@ namespace ApsimFile
         }
         private static void UpdateToVersion13(XmlNode Variables, Configuration Config)
             {
+            if (XmlHelper.Type(Variables) == "tclgroup")
+                { 
+                // Clone this node with a new "type"
+                XmlNode NewNode = Variables.ParentNode.AppendChild(Variables.OwnerDocument.CreateElement("tclmanager"));
+                XmlHelper.SetName(NewNode, XmlHelper.Name(Variables));
+                foreach (XmlNode Child in XmlHelper.ChildNodes(Variables, ""))
+                    { 
+                    if (XmlHelper.Type(Child) == "initscript") 
+                       {
+                       // make this an explicit "logic" component
+                       XmlNode InitScriptNode = XmlHelper.CreateNode(Variables.OwnerDocument, "rule", "Initialisation logic");
+                       XmlNode LogicScriptNode = XmlHelper.CreateNode(Variables.OwnerDocument, "script", "init");
+                       XmlHelper.SetValue(LogicScriptNode, "text", Child.InnerText);
+                       XmlHelper.SetValue(LogicScriptNode, "event", "init");
+                       InitScriptNode.AppendChild(LogicScriptNode);
+                       NewNode.AppendChild(InitScriptNode);
+                       } 
+                    else 
+                       {
+                       NewNode.AppendChild(NewNode.OwnerDocument.ImportNode(Child, true));
+                       }
+                    }
+                Variables.ParentNode.ReplaceChild(NewNode, Variables);
+                }
+            }
+
+        private static void ApplyConversionsFile(XmlNode Variables, Configuration Config)
+            {
             if (Variables.Name.ToLower() == "variables")
                 {
-                string[] Conversions = APSIMSettings.INIReadAllSections(APSIMSettings.ApsimDirectory() + "\\apsim\\conversions.54");
+                string FileName;
+                if (APSIMSettings.ApsimVersion() == "6.0")
+                    FileName = APSIMSettings.ApsimDirectory() + "\\apsim\\conversions.54";
+                else
+                    {
+                    string VersionString = APSIMSettings.ApsimVersion().Replace(".", "");
+                    FileName = APSIMSettings.ApsimDirectory() + "\\apsim\\conversions." + VersionString;
+                    }
+                string[] Conversions = APSIMSettings.INIReadAllSections(FileName);
                 foreach (string Conversion in Conversions)
                     {
                     string[] Bits = Conversion.Split(' ');
@@ -596,31 +640,39 @@ namespace ApsimFile
                             }
 
                         }
-                }
-		    } else if (XmlHelper.Type(Variables) == "tclgroup")
-                { 
-                // Clone this node with a new "type"
-                XmlNode NewNode = Variables.ParentNode.AppendChild(Variables.OwnerDocument.CreateElement("tclmanager"));
-                XmlHelper.SetName(NewNode, XmlHelper.Name(Variables));
-                foreach (XmlNode Child in XmlHelper.ChildNodes(Variables, ""))
-                    { 
-                    if (XmlHelper.Type(Child) == "initscript") 
-                       {
-                       // make this an explicit "logic" component
-                       XmlNode InitScriptNode = XmlHelper.CreateNode(Variables.OwnerDocument, "rule", "Initialisation logic");
-                       XmlNode LogicScriptNode = XmlHelper.CreateNode(Variables.OwnerDocument, "script", "init");
-                       XmlHelper.SetValue(LogicScriptNode, "text", Child.InnerText);
-                       XmlHelper.SetValue(LogicScriptNode, "event", "init");
-                       InitScriptNode.AppendChild(LogicScriptNode);
-                       NewNode.AppendChild(InitScriptNode);
-                       } 
-                    else 
-                       {
-                       NewNode.AppendChild(NewNode.OwnerDocument.ImportNode(Child, true));
-                       }
+
                     }
-                Variables.ParentNode.ReplaceChild(NewNode, Variables);
+                }
+            else if (Variables.Name.ToLower() == "manager")
+                {
+                string FileName;
+                if (APSIMSettings.ApsimVersion() == "6.0")
+                    FileName = APSIMSettings.ApsimDirectory() + "\\apsim\\conversions.54";
+                else
+                    {
+                    string VersionString = APSIMSettings.ApsimVersion().Replace(".", "");
+                    FileName = APSIMSettings.ApsimDirectory() + "\\apsim\\conversions." + VersionString;
+                    }
+                string[] Conversions = APSIMSettings.INIReadAllSections(FileName);
+                foreach (string Conversion in Conversions)
+                    {
+                    string[] Bits = Conversion.Split(' ');
+                    if (Bits.Length == 5 && Bits[0] == "Renamed")
+                        {
+                        string OldName = Bits[2].ToLower();
+                        string NewName = Bits[4];
+                        foreach (XmlNode Script in XmlHelper.ChildNodes(Variables, "script"))
+                            {
+                            string Text = XmlHelper.Value(Script, "text");
+                            Text = Regex.Replace(Text, "(\\W)" + OldName + "(\\W)", "$1" + NewName + "$2");
+                            XmlHelper.SetValue(Script, "text", Text);
+                            }
+                        }
+                    }
                 }
             }
+
+
+
         }
 	}
