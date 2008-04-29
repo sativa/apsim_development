@@ -794,12 +794,6 @@ void crop_n_diffusion1 (const int num_layer,      // (INPUT)  number of layers i
                         float *sw_avail_pot,      // (INPUT)  potential extractable soil water (m
                         float *NO3gsm_diffn_pot);  // (OUTPUT) potential plant NO3 by diffusion
 
-void crop_n_fixation_pot1( float G_current_stage,              // (INPUT) Current stage
-                           float *C_n_fix_rate,                // (INPUT)  potential rate of N fixation (
-                           float fixation_determinant,         // (INPUT)
-                           float G_swdef_fixation,             // (INPUT)
-                           float *N_fix_pot);                   // (OUTPUT) N fixation potential (g/
-
 void cproc_n_demand1(const int max_part,          // (INPUT)
                      int   *demand_parts,         // (INPUT)
                      const int num_demand_parts,  // (INPUT)
@@ -823,22 +817,6 @@ void crop_n_dead_detachment(int num_part,
                             float *dead_detach_frac, //(INPUT)  fraction of dead plant parts detaching each day (0-1)
                             float *n_dead,           //(INPUT)  plant N content of dead plants (g N/m^2)
                             float *dlt_N_dead_detached);  //(OUTPUT) change in dm of dead plants (g/m^2)
-
-void cproc_n_supply2 (float *g_dlayer,                // (INPUT)
-                      float *g_dlt_sw_dep,            // (INPUT)
-                      float *g_NO3gsm,                // (INPUT)
-                      float *g_NO3gsm_min,            // (INPUT)
-                      float g_root_depth,             // (INPUT)
-                      float *g_sw_dep,                // (INPUT)
-                      float *g_NO3gsm_mflow_avail,    // (OUTPUT)
-                      float *g_sw_avail,              // (INPUT)
-                      float *g_sw_avail_pot,          // (INPUT)
-                      float *g_NO3gsm_diffn_pot,      // (OUTPUT)
-                      float g_current_stage,          // (INPUT)
-                      float *c_n_fix_rate,             // (INPUT)
-                      float fixation_determinant,     // (INPUT)
-                      float g_swdef_fixation,        // (INPUT)
-                      float *g_N_fix_pot);             // (INPUT)
 
 //---------------------------------------------------------------------------
 

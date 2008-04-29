@@ -20,6 +20,7 @@ class Environment;
 class Phenology;
 class Co2Modifier;
 class CompositePart;
+class Phenology;
 
 class pheno_stress_t {
    public:
@@ -47,10 +48,12 @@ class plantInterface {
    public:
       virtual ~plantInterface() {};
 
+      virtual Phenology& phenology() = 0;
+      virtual Environment& environment() = 0;
+
       virtual pheno_stress_t getPhotoStress(void) = 0;
       virtual float getPeswSeed(void) = 0;
       virtual float getFaswSeed(void) = 0;
-
       virtual float getNodeNo (void) = 0;           // Node number
       virtual float getDltNodeNo(void) = 0;         // The change in number of nodes
       virtual float getLeafNo (void) = 0;           // Leaf number (leaves/m^2)
@@ -58,7 +61,6 @@ class plantInterface {
       virtual std::string Name() = 0;
       virtual float getPlants (void) = 0;           // Planting density (plants/m^2)
       virtual float getCo2 (void) = 0;              // CO2 level (ppm)
-      virtual float getStageCode (void) = 0;        // Phenological stage code AAACK DIE YOU BASTARD
       virtual float getStageNumber (void) = 0;        // Phenological stage code AAACK DIE YOU BASTARD
       virtual float getDltDMPotRueVeg(void) = 0;
       virtual float getDmTops(void) = 0;
@@ -93,8 +95,6 @@ class plantInterface {
       virtual CompositePart& Tops() = 0;
 
       virtual const Co2Modifier *getCo2Modifier(void) = 0;
-      virtual Environment& environment() = 0;
-      virtual const Phenology  *getPhenology(void) = 0;
       virtual const string & getCropType(void) = 0;
       virtual protocol::Component *getComponent(void) = 0;
       virtual float getSwDefPheno() = 0;

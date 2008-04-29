@@ -18,7 +18,7 @@ plantThing* createThing(ScienceAPI& api, plantInterface& plant, const std::strin
    else if (nameLower == "phenology")
       return new Phenology(api, plant);
    else if (nameLower == "fixation")
-      return new Fixation(api, name);
+      return new Fixation(api, plant, name);
    else if (nameLower == "zadok")
       return new Zadok(api, plant);
 

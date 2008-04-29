@@ -36,7 +36,7 @@
       Phenology\CWVernalPhase.obj Phenology\CWInductivePhase.obj 
       Phenology\CWFixedPhase.obj Phenology\CWSowingPhase.obj Root\Soil.obj 
       Fixation.obj Phenology\Zadok.obj Phenology\InductivePhase.obj 
-      Phenology\WaitingPhase.obj"/>
+      Phenology\WaitingPhase.obj Utility\SimpleLookupFunction.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -168,6 +168,7 @@
       <FILE FILENAME="Phenology\Zadok.cpp" FORMNAME="" UNITNAME="Zadok" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\InductivePhase.cpp" FORMNAME="" UNITNAME="InductivePhase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\WaitingPhase.cpp" FORMNAME="" UNITNAME="WaitingPhase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Utility\SimpleLookupFunction.cpp" FORMNAME="" UNITNAME="SimpleLookupFunction" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

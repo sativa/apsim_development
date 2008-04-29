@@ -1,6 +1,7 @@
 #include "StdPlant.h"
 
 #include "StageBasedInterpolationFunction.h"
+#include "phenology/phenology.h"
 using namespace std;
 
 StageBasedInterpolationFunction::StageBasedInterpolationFunction(plantInterface& p, ScienceAPI& API, const std::string& Name, const std::string& Units, const std::string& Description)
@@ -16,5 +17,5 @@ StageBasedInterpolationFunction::StageBasedInterpolationFunction(plantInterface&
 
 float StageBasedInterpolationFunction::value(void)
    {
-   return f.value(plant.getStageCode());
+   return plant.phenology().doInterpolation(f);
    }

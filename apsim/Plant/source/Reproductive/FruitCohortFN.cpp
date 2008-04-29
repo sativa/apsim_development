@@ -230,11 +230,11 @@ void FruitCohortFN::doDmDemand (float /*dlt_dm_supply_by_veg*/)
 
        if (fruit_no > 0.0)
            {
-           if (plant->getPhenology()->inPhase("flowering"))                 //pod dm demand - pod stuff
+           if (plant->phenology().inPhase("flowering"))                 //pod dm demand - pod stuff
                {                                                            //pod dm demand - pod stuff
                // we are in flowering phase                                 //pod dm demand - pod stuff
                float tt_fruit_age_max = fruitPhenology->TTTargetInPhase("fruiting");
-               float dlt_fruit_age = divide(plant->getPhenology()->get_dlt_tt()                     //pod dm demand - pod stuff
+               float dlt_fruit_age = divide(plant->phenology().get_dlt_tt()                     //pod dm demand - pod stuff
                                            , tt_fruit_age_max, 0.0);               //pod dm demand - pod stuff
                float dm_max = p.dm_fruit_max                                      //pod dm demand - pod stuff
                             * rel_grainfill.value(plant->environment().meant())                                            //pod dm demand - pod stuff
@@ -243,7 +243,7 @@ void FruitCohortFN::doDmDemand (float /*dlt_dm_supply_by_veg*/)
                float dlt_dm_fruit_demand_pot = dm_max * dlt_fruit_age;                  //pod dm demand - pod stuff
                podPart->doDmDemand(dlt_dm_fruit_demand_pot);                                                             //pod dm demand - pod stuff
                }
-           else if (plant->getPhenology()->inPhase("grainfilling"))
+           else if (plant->phenology().inPhase("grainfilling"))
                {
                // we are in grain filling stage
 //               float frac_pod = linear_interp_real(g_current_stage[cohort]
