@@ -136,6 +136,9 @@ Public Class DataTree
                 'Get the node you want to refresh 
             Else
                 Dim NodeToRefresh As TreeNode = GetNodeFromPath(Comp.FullPath)                  'get the corresponding node for the component this sub was passed
+                If IsNothing(NodeToRefresh) Then
+                    NodeToRefresh = Nodes(0)
+                End If
                 RefreshNodeAndChildren(NodeToRefresh, Comp)                                     'refresh the tree from this node down.
             End If
         Catch ex As Exception
