@@ -78,14 +78,11 @@ namespace ApsimFile
 
                 // Upgrade from version 12 to 13.
                 if (DataVersion < 13)
-                    {
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion13), Config);
-                    Upgrade(Data, new UpgraderDelegate(ApplyConversionsFile), Config);
-                    }
 
                 // Upgrade from version 13 to 14.
                 if (DataVersion < 14)
-                    Upgrade(Data, new UpgraderDelegate(ApplyConversionsFile), Config);
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion14), Config);
 
                 // All finished upgrading - write version number out.
                 XmlHelper.SetAttribute(Data, "version", CurrentVersion.ToString());
@@ -544,6 +541,8 @@ namespace ApsimFile
         }
         private static void UpdateToVersion13(XmlNode Variables, Configuration Config)
             {
+            ApplyConversionsFile(Variables, Config, APSIMSettings.ApsimDirectory() + "\\apsim\\conversions.54");
+
             if (XmlHelper.Type(Variables) == "tclgroup")
                 { 
                 // Clone this node with a new "type"
@@ -570,18 +569,15 @@ namespace ApsimFile
                 }
             }
 
-        private static void ApplyConversionsFile(XmlNode Variables, Configuration Config)
+        private static void UpdateToVersion14(XmlNode Variables, Configuration Config)
+            {
+            ApplyConversionsFile(Variables, Config, APSIMSettings.ApsimDirectory() + "\\apsim\\conversions.61");
+            }
+
+        private static void ApplyConversionsFile(XmlNode Variables, Configuration Config, string FileName)
             {
             if (Variables.Name.ToLower() == "variables")
                 {
-                string FileName;
-                if (APSIMSettings.ApsimVersion() == "6.0")
-                    FileName = APSIMSettings.ApsimDirectory() + "\\apsim\\conversions.54";
-                else
-                    {
-                    string VersionString = APSIMSettings.ApsimVersion().Replace(".", "");
-                    FileName = APSIMSettings.ApsimDirectory() + "\\apsim\\conversions." + VersionString;
-                    }
                 string[] Conversions = APSIMSettings.INIReadAllSections(FileName);
                 foreach (string Conversion in Conversions)
                     {
@@ -645,14 +641,6 @@ namespace ApsimFile
                 }
             else if (Variables.Name.ToLower() == "manager")
                 {
-                string FileName;
-                if (APSIMSettings.ApsimVersion() == "6.0")
-                    FileName = APSIMSettings.ApsimDirectory() + "\\apsim\\conversions.54";
-                else
-                    {
-                    string VersionString = APSIMSettings.ApsimVersion().Replace(".", "");
-                    FileName = APSIMSettings.ApsimDirectory() + "\\apsim\\conversions." + VersionString;
-                    }
                 string[] Conversions = APSIMSettings.INIReadAllSections(FileName);
                 foreach (string Conversion in Conversions)
                     {
