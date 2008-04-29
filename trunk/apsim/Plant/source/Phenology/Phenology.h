@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "CompositePhase.h"
-#include "Utility/SimpleLookupFunction.h"
 class plantInterface;
 
 // Terminology:
