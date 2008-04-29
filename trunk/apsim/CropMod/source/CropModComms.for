@@ -796,7 +796,7 @@ c      end if
 
       !================================================================
       !Days after sowing
-      elseif ((variable_name .eq. 'das'    ) .or.
+      elseif ((variable_name .eq. 'DaysAfterSowing'    ) .or.
      :        (variable_name .eq. 'das_int')) then
 
          das_real = sum_between (sowing, now, g%days_tot)
@@ -814,7 +814,7 @@ c      end if
      :                             , '()'
      :                             , g%plant_status)
 
-      elseif (variable_name .eq. 'stage_name') then
+      elseif (variable_name .eq. 'StageName') then
 
          if (g%plant_status.ne.status_out) then
             stage_no = int (g%current_stage)
@@ -853,13 +853,13 @@ c      end if
      :                             , stage_no)
 
 
-      elseif (variable_name .eq. 'dlt_stage') then
+      elseif (variable_name .eq. 'DeltaStage') then
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , g%dlt_stage)
 
 
-      elseif (variable_name .eq. 'dlt_tt') then
+      elseif (variable_name .eq. 'TT') then
          call respond2get_real_var (variable_name
      :                             , '(oCd)'
      :                             , g%dlt_tt)

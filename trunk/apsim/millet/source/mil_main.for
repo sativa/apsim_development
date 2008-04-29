@@ -3300,7 +3300,7 @@ cjh
      :                             , '()'
      :                             , g%plant_status)
 
-      elseif (variable_name .eq. 'dlt_stage') then
+      elseif (variable_name .eq. 'DeltaStage') then
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , g%dlt_stage)
@@ -3321,7 +3321,7 @@ cjh
      :                             , '()'
      :                             , 0.0)
          endif
-      elseif (variable_name .eq. 'stage_name') then
+      elseif (variable_name .eq. 'StageName') then
          if (g%plant_status.ne.status_out) then
          stage_no = int (g%current_stage)
          call respond2get_char_var (variable_name
@@ -3337,7 +3337,7 @@ cjh
      :                             , '()'
      :                             , c%crop_type)
 
-      elseif (variable_name .eq. 'dlt_tt') then
+      elseif (variable_name .eq. 'TT') then
          call respond2get_real_var (variable_name
      :                             , '(oCd)'
      :                             , g%dlt_tt)
