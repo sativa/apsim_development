@@ -113,6 +113,6 @@ command = SearchReplace(tracker, "days_tot(8)", "DaysAtterEnd_Grain_Fill")
 command = SearchReplace(manager, "days_tot(8)", "DaysAtterEnd_Grain_Fill")
 
 [Renamed variable: tt_tot() to TTAfterSowing]
-command = SearchReplace(report, "tt_tot(0)",  "TTAfterSowing")
-command = SearchReplace(tracker, "tt_tot(0)", "TTAfterSowing")
-command = SearchReplace(manager, "tt_tot(0)", "TTAfterSowing")
+command = SearchReplace(report, "tt_tot()",  "TTAfterSowing")
+command = SearchReplace(tracker, "tt_tot()", "TTAfterSowing")
+command = SearchReplace(manager, "tt_tot()", "TTAfterSowing")

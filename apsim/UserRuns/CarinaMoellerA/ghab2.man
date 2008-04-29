@@ -23,7 +23,7 @@ endif
 
 
 if day = 356 and year = 1999 then 
-   chickpea sow cultivar = ghab2, plants = 50 (/m2), sowing_depth = 60 (mm)  !depth was very variable, slippery dry soil at sowing
+   chickpea sow cultivar = amethyst, plants = 50 (/m2), sowing_depth = 60 (mm)  !depth was very variable, slippery dry soil at sowing
 endif
 
 !------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ endif
 
        
 if day = 333 and year = 1998 then
-   chickpea sow cultivar = ghab2, plants = 43 (/m2), sowing_depth = 70 (mm)
+   chickpea sow cultivar = amethyst, plants = 43 (/m2), sowing_depth = 70 (mm)
 endif
 
 
@@ -71,7 +71,7 @@ endif
 
 
 if (chickpea.stage >= 3 and chickpea.stage <11) then
-   tt_since_emerg = tt_since_emerg + chickpea.dlt_tt
+   tt_since_emerg = tt_since_emerg + chickpea.TT
 else
    tt_since_emerg = 0
 endif
@@ -82,7 +82,7 @@ n_from_soil = biomass_n - n_fixed_tops
 wat_mm_1_4  = sw_dep(1) + sw_dep(2) + sw_dep(3) + sw_dep(4)
 
 
-if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
+if chickpea.StageName = 'harvest_ripe' or chickpea.plant_status = 'dead' then
 !if chickpea.plant_status = 'dead' then
    chickpea harvest
    chickpea end_crop
