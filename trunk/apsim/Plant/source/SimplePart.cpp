@@ -1,5 +1,5 @@
 #include "StdPlant.h"
-
+#include "Phenology/Phenology.h"
 using namespace std;
 
 SimplePart::SimplePart(ScienceAPI& api, plantInterface *p, const string &name)
@@ -311,15 +311,20 @@ void SimplePart::readConstants(protocol::Component *, const string &)
 
     if (plant->phosphorusAware())
        {
-       scienceAPI.read("x_p_stage_code", c.x_p_stage_code, c.num_x_p_stage_code, 0.0, 12.0);
-       scienceAPI.read("y_p_conc_max_" + myName, c.y_p_conc_max, c.num_x_p_stage_code, 0.0, 1.0);
-       scienceAPI.read("y_p_conc_sen_" + myName, c.y_p_conc_sen, c.num_x_p_stage_code, 0.0, 1.0);
-       scienceAPI.read("y_p_conc_min_" + myName, c.y_p_conc_min, c.num_x_p_stage_code, 0.0, 1.0);
+       c.y_p_conc_max.read(scienceAPI
+                        , "x_p_stage_code" , "()", 0.0, 12.0
+                        , "y_p_conc_max_" + myName, "()", 0.0, 1.0);
+       c.y_p_conc_sen.read(scienceAPI
+                        , "x_p_stage_code" , "()", 0.0, 12.0
+                        , "y_p_conc_sen_" + myName, "()", 0.0, 1.0);
+       c.y_p_conc_min.read(scienceAPI
+                        , "x_p_stage_code" , "()", 0.0, 12.0
+                        , "y_p_conc_min_" + myName, "()", 0.0, 1.0);
+
        scienceAPI.read(myName + "_p_conc_init", c.p_init_conc, 0.0f, 1.0f);
        }
      else
        {
-       c.num_x_p_stage_code = 0;
        c.p_init_conc = 0.0;
        }
     }
@@ -431,9 +436,9 @@ void SimplePart::onKillStem(void)
 void SimplePart::doNConccentrationLimits(float)
 //=======================================================================================
    {
-   g.n_conc_crit = c.n_conc_crit.value(plant->getStageCode());
-   g.n_conc_min = c.n_conc_min.value(plant->getStageCode());
-   g.n_conc_max = c.n_conc_max.value(plant->getStageCode());
+   g.n_conc_crit = plant->phenology().doInterpolation(c.n_conc_crit);
+   g.n_conc_min  = plant->phenology().doInterpolation(c.n_conc_min);
+   g.n_conc_max = plant->phenology().doInterpolation(c.n_conc_max);
    }
 
 void SimplePart::morphology(void)
@@ -750,10 +755,7 @@ void SimplePart::doPDemand(void)
    else
       {
       // Not a yield part - therefore it contributes to demand
-      pConcMax = linear_interp_real (plant->getStageCode()
-                                     , c.x_p_stage_code
-                                     , c.y_p_conc_max
-                                     , c.num_x_p_stage_code);
+      pConcMax = plant->phenology().doInterpolation(c.y_p_conc_max);
 
    // scale up to include potential new growth
    // assuming partitioning today similar to current
@@ -773,10 +775,7 @@ void SimplePart::doPDemand(void)
       }
  // FIXME - remove following 4 lines after P demand corrections above are activated
    float rel_growth_rate = plant->getRelativeGrowthRate();
-   float p_conc_max = linear_interp_real (plant->getStageCode()
-                                     , c.x_p_stage_code
-                                     , c.y_p_conc_max
-                                     , c.num_x_p_stage_code);
+   float p_conc_max = plant->phenology().doInterpolation(c.y_p_conc_max);
    deficit = p_conc_max * Green.DM() * (1.0 + rel_growth_rate) - Green.P();
    PDemand = l_bound(deficit, 0.0);
    }
@@ -891,10 +890,7 @@ void SimplePart::Detachment(void)
 void SimplePart::doPSenescence(void)
 //=======================================================================================
    {
-   float sen_p_conc = linear_interp_real (plant->getStageCode()
-                                        , c.x_p_stage_code
-                                        , c.y_p_conc_sen
-                                        , c.num_x_p_stage_code);
+   float sen_p_conc = plant->phenology().doInterpolation(c.y_p_conc_sen);
 
    float SenescingP = u_bound(sen_p_conc, Green.Pconc()) * Senescing.DM();
    SenescingP = u_bound (SenescingP, Green.P());
@@ -1251,20 +1247,14 @@ void SimplePart::doPRetranslocate(float total_p_supply, float total_p_demand)
 float SimplePart::pMaxPot(void)
 //=======================================================================================
    {
-   float p_conc_max = linear_interp_real (plant->getStageCode()
-                                         , c.x_p_stage_code
-                                         , c.y_p_conc_max
-                                         , c.num_x_p_stage_code);
+   float p_conc_max = plant->phenology().doInterpolation(c.y_p_conc_max);
    return p_conc_max * Green.DM();
    }
 
 float SimplePart::pMinPot(void)
 //=======================================================================================
    {
-   float p_conc_min = linear_interp_real (plant->getStageCode()
-                                         , c.x_p_stage_code
-                                         , c.y_p_conc_min
-                                         , c.num_x_p_stage_code);
+   float p_conc_min = plant->phenology().doInterpolation(c.y_p_conc_min);
    return p_conc_min * Green.DM();
    }
 

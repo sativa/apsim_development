@@ -82,7 +82,7 @@ float CWVernalPhase::wheat_photoperiod_effect(float photoperiod, float p_photop_
     {
     float photop_eff = 1.0;
 
-    if (plant.getPhenology()->inPhase("eme2ej"))
+    if (plant.phenology().inPhase("eme2ej"))
         {
         float  photop_sen_factor = p_photop_sen * 0.002;
         photop_eff = 1. - photop_sen_factor * pow(20. - photoperiod, 2);
@@ -115,7 +115,7 @@ float CWVernalPhase::wheat_vernaliz_days(float g_maxt    //Daily maximum Tempera
    {
    float dlt_cumvd = 0.0;
 
-   if (plant.getPhenology()->inPhase("vernalisation"))
+   if (plant.phenology().inPhase("vernalisation"))
       {
       if (g_mint < 15.0 && g_maxt > 0.0)
           {
@@ -146,7 +146,7 @@ float CWVernalPhase::wheat_vernaliz_effect(float p_vern_sens
     float vern_sens_fac;
     float vern_effect = 1.0;
 
-    if (plant.getPhenology()->inPhase("eme2ej"))
+    if (plant.phenology().inPhase("eme2ej"))
         {
         if (reqvd < 0.0) { reqvd = 50.0; }
         vern_sens_fac =  p_vern_sens* 0.0054545 + 0.0003;

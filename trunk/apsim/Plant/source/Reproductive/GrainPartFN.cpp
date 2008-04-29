@@ -210,7 +210,7 @@ void fruitGrainPartFN::doDMDemandGrain(void)
 //                              * pPotential_grain_growth_rate
 //                              * rel_grainfill.value(tav);
 //          }
-           if (plant->getPhenology()->inPhase("grainfilling"))
+           if (plant->phenology().inPhase("grainfilling"))
                {
                // we are in grain filling stage
 

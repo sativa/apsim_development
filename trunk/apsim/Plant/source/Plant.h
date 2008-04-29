@@ -63,7 +63,7 @@ private:
    Stem  *stemPart;
    Leaf  *leafPart;
    RootBase  *rootPart;
-   Phenology *phenology;
+   Phenology *_phenology;
    Fixation  *fixation;
    plantPart     *fruitPart;
    Population population;
@@ -171,7 +171,6 @@ public:
    bool set_plant_crop_class(protocol::QuerySetValueData&v);
 
    void get_plant_status(protocol::Component *, protocol::QueryValueData &);
-   float getStageCode(void);
    float getStageNumber(void);
    float ttInCurrentPhase(void);
    status_t Status(void) {return g.plant_status;}
@@ -321,8 +320,8 @@ public:
    const Co2Modifier  *getCo2Modifier(void) {return co2Modifier;};
 
    Environment* _environment;
-   Environment& environment() {return *_environment;};
-   const Phenology  *getPhenology(void) {return phenology;};
+   Environment& environment() {return *_environment;}
+   Phenology& phenology() {return *_phenology;}
 
 private:
    /* system interface: */
@@ -420,7 +419,7 @@ private:
       string default_crop_class;                         // crop class
       string n_supply_preference;                        // preference of n supply
 
-      float n_fix_rate[max_table];                      // potential rate of N fixation (g N fixed
+      std::vector<float> n_fix_rate;                    // potential rate of N fixation (g N fixed
                                                         // per g above ground biomass
       vector<string> class_action;
       vector<string> class_change;

@@ -155,8 +155,8 @@ void PlantFruitCohorting::doSiteNumber(void)
     // C3
     float dlt_site_no_pot = dlt_node_no * plant->getPlants() * fruit_sites_per_node.value(node_no_now);
 
-    float fruit_tt_target = plant->getPhenology()->TTTargetInPhase("fruiting") * p.cutout_fract;
-    float fruit_tt_cum = plant->getPhenology()->ttInPhase("fruiting");
+    float fruit_tt_target = plant->phenology().TTTargetInPhase("fruiting") * p.cutout_fract;
+    float fruit_tt_cum = plant->phenology().ttInPhase("fruiting");
 
     float metabolic_fact = divide (fruit_tt_cum, fruit_tt_target, 0.0);
     metabolic_fact = bound (metabolic_fact, 0.0, 1.0);

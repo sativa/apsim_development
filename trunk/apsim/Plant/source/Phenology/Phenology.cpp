@@ -165,7 +165,11 @@ void Phenology::setupTTTargets(void)
       }
    }
 
-void Phenology::write()
+string Phenology::description()
+   {
+   return " stage " + ftoa(currentStage, 1) + " " + stageName();
+   }
+void Phenology::writeSummary()
 //=======================================================================================
    {
    string s;
@@ -571,5 +575,15 @@ void Phenology::onRemoveBiomass(float removeBiomPheno)
    msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
    if (plant.removeBiomassReport())
       scienceAPI.warning(msg.str());
+   }
+
+float Phenology::doInterpolation(interpolationFunction& f)
+   {
+   return f.value(currentStage);
+   }
+
+float Phenology::doLookup(const std::vector<float>& f)
+   {
+   return f[int(currentStage)-1];
    }
 

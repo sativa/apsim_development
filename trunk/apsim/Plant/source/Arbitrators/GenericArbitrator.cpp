@@ -3,12 +3,11 @@
 #include "Leaf/Leaf.h"
 #include "arbitrator.h"
 #include "GenericArbitrator.h"
-
+#include "Phenology/Phenology.h"
 void genericArbitrator::zeroAllGlobals(void)
 //=======================================================================================
    {
    fill_real_array (frac_leaf,0.0,max_table);
-   fill_real_array (ratio_root_shoot, 0.0, max_table);
    }
 
 void genericArbitrator::readSpeciesParameters(protocol::Component *, vector<string> &)
@@ -16,7 +15,7 @@ void genericArbitrator::readSpeciesParameters(protocol::Component *, vector<stri
    {
    int numvals;
    scienceAPI.read("frac_leaf", frac_leaf, numvals, 0.0f, 1.0f);
-   scienceAPI.read("ratio_root_shoot", ratio_root_shoot, numvals, 0.0f, 1000.0f);
+   scienceAPI.read("ratio_root_shoot", ratio_root_shoot, 0.0f, 1000.0f);
    scienceAPI.read("partitionparts", PartitionParts);
    scienceAPI.read("partitionrules", PartitionRules);
 
@@ -59,7 +58,7 @@ void genericArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts, st
       if (PartitionRules[i] == "magic")
          {
          // root:shoot ratio of new dm
-         float  c_ratio_root_shoot = ratio_root_shoot[(int)plant->getStageNumber()-1];
+         float  c_ratio_root_shoot = plant->phenology().doLookup(ratio_root_shoot);
          Part->giveDmGreen(c_ratio_root_shoot * dlt_dm);
          }
       else
@@ -70,7 +69,7 @@ void genericArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts, st
          else if (PartitionRules[i] == "frac")
             {
             // fraction of remaining dm allocated to this part
-            float frac = Fracs[i][(int)plant->getStageNumber()-1];
+            float frac = plant->phenology().doLookup(Fracs[i]);
             uptake = min(frac * dm_remaining,Part->dmGreenDemand());
             }
          else if (PartitionRules[i] == "remainder")
@@ -98,7 +97,7 @@ void genericArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts, st
 float genericArbitrator::dltDMWhole(float dlt_dm)
 //=======================================================================================
    {
-   return ((1.0 + ratio_root_shoot[(int)plant->getStageNumber()-1]) * dlt_dm);
+   return ((1.0 + plant->phenology().doLookup(ratio_root_shoot)) * dlt_dm);
    }
 
 ////////////////End generic parts

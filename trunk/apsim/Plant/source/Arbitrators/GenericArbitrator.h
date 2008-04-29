@@ -5,7 +5,7 @@ class genericArbitrator : public Arbitrator
    {
   private:
    float frac_leaf[max_table];                       // fraction of remaining dm allocated to leaves
-   float ratio_root_shoot[max_table];                // root:shoot ratio of new dm ()
+   std::vector<float> ratio_root_shoot;              // root:shoot ratio of new dm ()
    vector <string> PartitionParts;
    vector <string> PartitionRules;
    vector <vector <float> > Fracs;

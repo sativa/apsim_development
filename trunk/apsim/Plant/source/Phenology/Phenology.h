@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "CompositePhase.h"
-
+#include "Utility/SimpleLookupFunction.h"
 class plantInterface;
 
 // Terminology:
@@ -35,6 +35,7 @@ class Phenology : public plantThing
       float dlt_tt_phenol;
       float phase_fraction(float dlt_tt);               // return the fraction through the current phase we are in
       pPhase *getStage(const string &);
+      float  stageCode (void);
 
       void get_stage(protocol::Component *, protocol::QueryValueData &);
       void get_stage_name(protocol::Component *, protocol::QueryValueData &);
@@ -54,10 +55,11 @@ class Phenology : public plantThing
    public:
       Phenology(ScienceAPI& scienceAPI, plantInterface& p);
       ~Phenology();
-      virtual void write();
+      virtual void writeSummary();
       virtual void process();
       virtual void update(void);
       virtual void read();
+      std::string description();
       bool on_day_of(const string &);
 
       bool inPhase(const string &) const;
@@ -69,7 +71,9 @@ class Phenology : public plantThing
 
       std::string stageName(void);//xxxbad
       string previousStageName(void);//xxxbad
-      float  stageCode (void);//xxxbad
+
+      float doInterpolation(interpolationFunction& f);
+      float doLookup(const std::vector<float>& f);
 
       void onSetPhase(float resetPhase);
       virtual void onSow(protocol::Variant &v);

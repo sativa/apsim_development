@@ -77,11 +77,9 @@ class SimplePart : public plantPart
       interpolationFunction n_conc_crit;
       interpolationFunction n_conc_max;
 
-      int   num_x_p_stage_code;
-      float x_p_stage_code [max_table];
-      float y_p_conc_min[max_table];
-      float y_p_conc_sen[max_table];
-      float y_p_conc_max[max_table];
+      interpolationFunction y_p_conc_min;
+      interpolationFunction y_p_conc_sen;
+      interpolationFunction y_p_conc_max;
 
       interpolationFunction height;
       interpolationFunction width;

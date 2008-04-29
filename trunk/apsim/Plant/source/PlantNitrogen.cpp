@@ -506,33 +506,6 @@ void crop_n_diffusion1 (const int num_layer,      // (INPUT)  number of layers i
       }
    }
 
-//===========================================================================
-void crop_n_fixation_pot1( float G_current_stage,              // (INPUT) Current stage
-                           float *C_n_fix_rate,                // (INPUT)  potential rate of N fixation (
-                           float fixation_determinant,         // (INPUT)
-                           float G_swdef_fixation,             // (INPUT)
-                           float *N_fix_pot)                   // (OUTPUT) N fixation potential (g/
-//===========================================================================
-
-/*  Purpose
-*          Calculate the quantity of atmospheric nitrogen fixed
-*          per unit standing crop biomass (fixation_determinant) and
-*          limited by the soil water deficit factor for fixation.
-*
-*  Mission Statement
-*   Calculate crop nitrogen supply from fixation, %5.
-*
-*/
-   {
-   //  Local Variables
-   int current_phase;                     // guess
-
-   //- Implementation Section ----------------------------------
-   current_phase = int(G_current_stage);
-
-   *N_fix_pot = C_n_fix_rate[current_phase-1] * fixation_determinant * G_swdef_fixation;
-
-   }
 
 //============================================================================
 void cproc_n_demand1(const int max_part,          // (INPUT)
@@ -691,51 +664,6 @@ void cproc_n_detachment1(const int max_part,
    crop_pool_fraction_delta(max_part, c_dead_detach_frac, g_n_dead,
             g_dlt_n_dead_detached);
    }
-
-
-//=========================================================================
-void cproc_n_supply2 (float *g_dlayer,                // (INPUT)
-                      float *g_dlt_sw_dep,            // (INPUT)
-                      float *g_NO3gsm,                // (INPUT)
-                      float *g_NO3gsm_min,            // (INPUT)
-                      float g_root_depth,             // (INPUT)
-                      float *g_sw_dep,                // (INPUT)
-                      float *g_NO3gsm_mflow_avail,    // (OUTPUT)
-                      float *g_sw_avail,              // (INPUT)
-                      float *g_sw_avail_pot,          // (INPUT)
-                      float *g_NO3gsm_diffn_pot,      // (OUTPUT)
-                      float g_current_stage,          // (INPUT)
-                      float *c_n_fix_rate,             // (INPUT)
-                      float fixation_determinant,     // (INPUT)
-                      float g_swdef_fixation,        // (INPUT)
-                      float *g_N_fix_pot)             // (INPUT)
-//=========================================================================
-
-/*  Purpose
-*      Calculate nitrogen supplys from soil and fixation
-*
-*  Mission Statement
-*      Calculate nitrogen supplys from soil and fixation
-*
-*  Changes
-*     21-04-1998 - neilh - Programmed and Specified
-*
-*/
-   {
-   //- Implementation Section ----------------------------------
-   crop_n_mass_flow1  (max_layer, g_dlayer, g_dlt_sw_dep, g_NO3gsm, g_NO3gsm_min,
-            g_root_depth, g_sw_dep, g_NO3gsm_mflow_avail);
-
-   crop_n_diffusion1 (max_layer, g_dlayer, g_NO3gsm, g_NO3gsm_min, g_root_depth,
-            g_sw_avail, g_sw_avail_pot, g_NO3gsm_diffn_pot);
-
-   // determine N from fixation
-   crop_n_fixation_pot1(g_current_stage, c_n_fix_rate, fixation_determinant,
-         g_swdef_fixation, g_N_fix_pot);
-   }
-
-
-
 
 //+  Purpose
 //       Return actual plant nitrogen uptake from each soil layer.
