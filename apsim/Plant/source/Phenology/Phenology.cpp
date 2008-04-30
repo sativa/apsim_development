@@ -505,19 +505,20 @@ void Phenology::process()
          }
       }
    }
+   // Add a new day to all phases up to but not including the current phase.
+   for (int i = 1; i <= (int)currentStage; i++)
+      phases[i]->addToAfter(1, dlt_tt_phenol);
 
    if (phase_devel >= 1.0)
       currentStage = floor(currentStage + 1.0);
    else
       currentStage = new_stage;
 
+
    if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
      throw std::runtime_error("stage has gone wild in Phenology::process()..");
 
-   // Add a new day to all phases up to but not including the current phase.
-   for (int i = 1; i < (int)currentStage; i++)
-      phases[i]->add(1, dlt_tt_phenol);
-      
+     
    if (phases[(int)currentStage]->isFirstDay())
       plant.doPlantEvent(phases[(int)currentStage]->name());
    das++;

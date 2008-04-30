@@ -21,6 +21,8 @@ class pPhase
      float tt,             // Thermal time spent in this phase
            target,         // Target time we want to spend here
            days;           // Number of days spent in this phase.
+     float tt_after;
+     float days_after;
      bool empty;
      ScienceAPI& scienceAPI;
      plantInterface& plant;
@@ -28,7 +30,7 @@ class pPhase
      interpolationFunction y_tt;
 
      virtual float stress() {return 1.0;}  // no stress.
-     int getDays(void) {return days;};
+     int getDaysAfter(void) {return days_after;}
 
    public:
      pPhase(ScienceAPI& api, plantInterface& p, const std::string& n);
@@ -41,11 +43,12 @@ class pPhase
                                        float& dlt_tt_phenol, float& phase_devel);
 
      void  add(float dlt_days, float dlt_tt) {days += dlt_days; tt += dlt_tt;};
+     void  addToAfter(float dlt_days, float dlt_tt) {days_after += dlt_days; tt_after += dlt_tt;}
      void  setTT(float value)     {tt = value;};
      virtual float TT();
      float getTT(void) const       {return tt;};
      float getTTTarget(void) const {return target;};
-     virtual void  reset(void)             {tt = days = 0.0; empty = true;};
+     virtual void  reset(void)             {tt = days = days_after = 0.0; empty = true;};
      void  update(void)            {empty = false;};
      bool  isFirstDay(void) const  {return empty == true;};
      bool  isEmpty(void)  {return empty;};
