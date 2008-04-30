@@ -34,7 +34,7 @@ if day = 169 and year = 1988 then
    wheat sow cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 endif
 
-if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
    wheat harvest
    wheat end_crop
 endif]]></text>
@@ -2387,7 +2387,7 @@ proc sow_wheat {} {
 
 
 proc canHarvest_wheat {} {
-   return [expr [string match [apsimGet wheat.stage_name] "harvest_ripe"] &amp;&amp;\
+   return [expr [string match [apsimGet wheat.stagename] "harvest_ripe"] &amp;&amp;\
                 [string match [apsimGet wheat.plant_status] "dead"]]
 }
 
@@ -2455,7 +2455,7 @@ proc sow_[crop] {} {
 
 
 proc canHarvest_[crop] {} {
-   return [expr [string match [apsimGet [crop].stage_name] "harvest_ripe"] &amp;&amp;\
+   return [expr [string match [apsimGet [crop].stagename] "harvest_ripe"] &amp;&amp;\
                 [string match [apsimGet [crop].plant_status] "dead"]]
 }
 

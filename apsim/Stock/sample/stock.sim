@@ -46,7 +46,7 @@
          <outputfile>lablab.out</outputfile>
          <variable>dd/mm/yyyy as Date</variable>
          <variable>rain as rain</variable>
-         <variable>lablab.das</variable>
+         <variable>lablab.DaysAfterSowing</variable>
          <variable>lablab.stage</variable>
          <variable>lablab.lai</variable>
          <variable>lablab.biomass</variable>
@@ -75,7 +75,7 @@
                lablab sow cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
             endif
 
-            if lablab.stage_name = 'harvest_ripe' or lablab.plant_status = 'dead' then
+            if lablab.stagename = 'harvest_ripe' or lablab.plant_status = 'dead' then
             endif
             ]]>
          </rule>
