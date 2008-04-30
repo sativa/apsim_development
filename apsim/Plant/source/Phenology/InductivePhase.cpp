@@ -1,6 +1,7 @@
 #include "StdPlant.h"
 
 #include "InductivePhase.h"
+#include "Environment.h"
 
 float InductivePhase::stress()
    {
@@ -8,4 +9,11 @@ float InductivePhase::stress()
    }
 
 
+void InductivePhase::updateTTTargets(Phenology &/* parent*/)
+//=======================================================================================
+   {
+   dlt_cumvd = vernal_days.value(plant.environment().meant());
+   cumvd = cumvd + dlt_cumvd;
+   target = vernal_tt.value(cumvd);
+   }
 
