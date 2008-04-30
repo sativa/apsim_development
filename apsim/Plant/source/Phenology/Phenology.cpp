@@ -23,7 +23,6 @@ Phenology::Phenology(ScienceAPI& api, plantInterface& p)
    // --------------------------------------------------------------------------
    // Constructor.
    // --------------------------------------------------------------------------
-   initialise();
    }
 Phenology::~Phenology()
    {
@@ -41,7 +40,7 @@ void Phenology::clear()
       delete phases[i];
    phases.clear();
    }
-void Phenology::initialise()
+void Phenology::onInit1(protocol::Component *)
    {
    // --------------------------------------------------------------------------
    // This will remove all existing phases and recreate them. It

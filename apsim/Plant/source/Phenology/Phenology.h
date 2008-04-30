@@ -44,7 +44,6 @@ class Phenology : public plantThing
       void get_days_tot(protocol::Component *, protocol::QueryValueData &);
 
       pPhase* find(const string& phase_name) const;
-      void initialise();
       void clear();
       void onHarvest();
       void onEndCrop();
@@ -54,6 +53,7 @@ class Phenology : public plantThing
    public:
       Phenology(ScienceAPI& scienceAPI, plantInterface& p);
       ~Phenology();
+      virtual void onInit1(protocol::Component *);
       virtual void writeSummary();
       virtual void process();
       virtual void update(void);
