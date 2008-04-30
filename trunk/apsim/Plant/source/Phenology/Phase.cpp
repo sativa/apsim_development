@@ -10,9 +10,10 @@ pPhase::pPhase(ScienceAPI& api, plantInterface& p, const std::string& name)
    myName = name;
    tt = target = days = 0.0;
    empty = true;
+   days_after = 0.0;
    scienceAPI.expose(name + "TTTarget", "deg. days", name + " thermal time target", target);
-   scienceAPI.expose("TTAfter" + name, "deg. days", name + " - thermal time spent in this phase", tt);
-   scienceAPI.exposeFunction("DaysAfter" + name, "day", name + " - days spent in this phase", IntFunction(&pPhase::getDays));
+   scienceAPI.expose("TTAfter" + name, "deg. days", name + " - thermal time spent in this phase", tt_after);
+   scienceAPI.exposeFunction("DaysAfter" + name, "day", name + " - days spent in this phase", IntFunction(&pPhase::getDaysAfter));
    }
 
 bool operator == (const pPhase &a, const pPhase &b)

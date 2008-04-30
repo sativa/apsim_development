@@ -10,6 +10,7 @@ void LeafAppPhase::reset()
    {
    pPhase::reset();
    final_leaf_no = 0.0;
+   scienceAPI.expose("final_leaf_no", "", "Final Leaf Number",final_leaf_no);
    }
 
 void LeafAppPhase::GetOutputs(std::vector <Output*> &Outputs)
@@ -52,6 +53,7 @@ void LeafAppPhase::updateTTTargets(Phenology &parent)
       float tt_node_formation = parent.ttInPhase("node_formation");
       float tt_required = node_app.integral(leaf_no_at_emerg,final_leaf_no);
       target = tt_required - tt_node_formation;
+      
       }
    }
 
