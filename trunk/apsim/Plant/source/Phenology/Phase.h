@@ -48,7 +48,7 @@ class pPhase
      virtual float TT();
      float getTT(void) const       {return tt;};
      float getTTTarget(void) const {return target;};
-     virtual void  reset(void)             {tt = days = days_after = 0.0; empty = true;};
+     virtual void  reset(void)             {tt = days = days_after = tt_after = 0.0; empty = true;};
      void  update(void)            {empty = false;};
      bool  isFirstDay(void) const  {return empty == true;};
      bool  isEmpty(void)  {return empty;};
