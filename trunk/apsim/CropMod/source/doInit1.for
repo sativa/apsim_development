@@ -45,11 +45,12 @@
      :                                    floatTypeDDML, 'MJ/m^2/d')
       dummy = add_registration_with_units(respondToGetReg, 'rue_day',
      :                                    floatTypeDDML, 'g/MJ')
-      dummy = add_registration_with_units(respondToGetReg, 'das',
+      dummy = add_registration_with_units(respondToGetReg, 
+     :                                   'DaysAfterSowing', 
      :                                    intTypeDDML, 'days')
       dummy = add_registration_with_units(respondToGetReg
      :                         , 'plant_status', stringTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'stage_name',
+      dummy = add_registration_with_units(respondToGetReg, 'StageName',
      :                                    StringTypeDDML, '')
       dummy = add_registration_with_units(respondToGetReg, 'stage_code',
      :                                    floatTypeDDML, '')
@@ -57,9 +58,9 @@
      :                                    floatTypeDDML, '')
       dummy = add_registration_with_units(respondToGetReg,
      :                            'zadok_stage', floatTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'dlt_stage',
+      dummy = add_registration_with_units(respondToGetReg, 'DeltaStage',
      :                                    floatTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'dlt_tt',
+      dummy = add_registration_with_units(respondToGetReg, 'TT',
      :                                    floatTypeDDML, 'oCd')
       dummy = add_registration_with_units(respondToGetReg, 'tt_tot',
      :                                    floatarrayTypeDDML, 'oC')

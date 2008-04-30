@@ -12,16 +12,13 @@ void VernalPhase::reset()
    pPhase::reset();
    cumvd = 0.0;
    dlt_cumvd = 0.0;
+   scienceAPI.expose("cumvd", "", "Cumulative Vernal Days", cumvd);
    }
 
 void VernalPhase::GetOutputs(std::vector <Output*> &Outputs)
 //=======================================================================================
    {
    pPhase::GetOutputs(Outputs);
-   OutputVariable *CumVDVariable = new OutputVariable("cumvd","","Cumulative Vernal Days",cumvd);
-   Outputs.push_back(CumVDVariable);
-
-
    }
 void VernalPhase::read()
 //=======================================================================================
@@ -43,8 +40,8 @@ void VernalPhase::read()
 void VernalPhase::updateTTTargets(Phenology &/* parent*/)
 //=======================================================================================
    {
-   dlt_cumvd = vernal_days.value(plant.environment().meant());
-   //dlt_cumvd = linint_3hrly_temp (plant->environment().maxt(), plant->environment().mint(), &vernal_days);
+   //dlt_cumvd = vernal_days.value(plant.environment().meant());
+   dlt_cumvd = linint_3hrly_temp (plant.environment().maxt(), plant.environment().mint(), &vernal_days);
    cumvd = cumvd + dlt_cumvd;
    target = vernal_tt.value(cumvd);
    }
