@@ -390,6 +390,7 @@ void Phenology::onSetPhase(float resetPhase)
 void Phenology::onHarvest()
 //=======================================================================================
    {
+   string existingStage = stageName();
    lookupFunction stage_reduction_harvest;
    stage_reduction_harvest.read(scienceAPI,
                                 "stage_code_list" , "()", 1.0, 100.0,
@@ -397,14 +398,18 @@ void Phenology::onHarvest()
 
    previousStage = currentStage;
    currentStage = stage_reduction_harvest[currentStage];
+   
    for (unsigned int stage = (int) currentStage; stage != phases.size(); stage++)
       phases[stage]->reset();
    setupTTTargets();
+   if (existingStage != stageName())
+      plant.doPlantEvent(phases[(int)currentStage]->name(), true);
    }
 
 void Phenology::onKillStem()
 //=======================================================================================
    {
+   string existingStage = stageName();
    lookupFunction stage_reduction_kill_stem;
    stage_reduction_kill_stem.read(scienceAPI,
                                   "stage_code_list" , "()", 1.0, 100.0,
@@ -415,6 +420,8 @@ void Phenology::onKillStem()
    for (unsigned int stage = (int)currentStage; stage != phases.size(); stage++)
       phases[stage]->reset();
    setupTTTargets();
+   if (existingStage != stageName())
+      plant.doPlantEvent(phases[(int)currentStage]->name(), true);
    }
 
 void Phenology::onSow(protocol::Variant &v)
@@ -441,6 +448,7 @@ void Phenology::onEndCrop()
 
 void Phenology::process()
    {
+   string existingStage = stageName();
    dltStage = 0;
    dlt_tt = 0.0;
    dlt_tt_phenol  = 0.0;
@@ -518,14 +526,17 @@ void Phenology::process()
      throw std::runtime_error("stage has gone wild in Phenology::process()..");
 
      
-   if (phases[(int)currentStage]->isFirstDay())
-      plant.doPlantEvent(phases[(int)currentStage]->name());
+   if (existingStage != stageName())
+      plant.doPlantEvent(phases[(int)currentStage]->name(), false);
+
    das++;
    }
 
 
 void Phenology::onRemoveBiomass(float removeBiomPheno)
    {
+   string existingStage = stageName();
+   
    interpolationFunction y_removeFractPheno;
    y_removeFractPheno.read(scienceAPI,
                "x_removeBiomPheno", "()", 0.0, 1.0,
@@ -575,6 +586,8 @@ void Phenology::onRemoveBiomass(float removeBiomPheno)
    msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
    if (plant.removeBiomassReport())
       scienceAPI.warning(msg.str());
+   if (existingStage != stageName())
+      plant.doPlantEvent(phases[(int)currentStage]->name(), true);
    }
 
 float Phenology::doInterpolation(interpolationFunction& f)

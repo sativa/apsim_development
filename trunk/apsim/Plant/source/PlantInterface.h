@@ -86,7 +86,7 @@ class plantInterface {
       virtual float getCumSwdefPhoto(void) = 0;
       virtual bool phosphorusAware(void) = 0;       // Whether P is present in system
       virtual bool removeBiomassReport(void) = 0;
-      virtual void doPlantEvent(const string &) = 0;      // Something is asking the plant to do something
+      virtual void doPlantEvent(const string &, bool phenologyRewound) = 0;      // Something is asking the plant to do something
       virtual bool on_day_of(const string &) = 0;
       virtual bool inPhase(const string &) = 0;
       virtual float ttInCurrentPhase() = 0;
