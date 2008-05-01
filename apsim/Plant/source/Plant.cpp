@@ -436,14 +436,21 @@ void Plant::onInit2(void)
 
 
 
-void Plant::doPlantEvent(const string &newStageName)
+void Plant::doPlantEvent(const string &newStageName, bool phenologyRewound)
 //=======================================================================================
    {
-
    for (vector<plantThing *>::iterator t = myThings.begin();
         t != myThings.end();
         t++)
       (*t)->onPlantEvent(newStageName);
+   //plant.onPlantEvent(phenology().stageName());
+   plant_event ();
+   if (phenologyRewound)
+      {
+      stageObservers.reset();
+      otherObservers.reset();
+      }
+
    }
 
 bool Plant::respondToSet(unsigned int &id, protocol::QuerySetValueData& qd)
@@ -722,8 +729,8 @@ void Plant::plant_cleanup (void)
     if (g.plant_status == alive &&
         phenology().previousStageName() != phenology().stageName())
         {
-        plant_event ();
-        if (phenology().inPhase("stress_reporting")) {
+        if (phenology().inPhase("stress_reporting")) 
+           {
             char msg[1024];
             sprintf (msg,"%4s%-20s%s%-23s%6.3f%13.3f%13.3f%13.3f\n", " ",
                       phenology().previousStageName().c_str(),
@@ -734,11 +741,8 @@ void Plant::plant_cleanup (void)
                       g.cnd_photo.getAverage(),
                       g.cnd_grain_conc.getAverage());
             g.averageStressMessage += msg;
+           }
         }
-        stageObservers.reset();
-
-        }
-
     }
 
 
@@ -1451,16 +1455,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
 // other plant states
     plant.doNConccentrationLimits(co2Modifier->n_conc());
-
-    if (g.plant_status == alive &&
-        phenology().previousStageName() != phenology().stageName())
-        {
-        plant.onPlantEvent(phenology().stageName());
-        plant_event ();
-        stageObservers.reset();
-        otherObservers.reset();
-        }
-
     }
 
 
@@ -1494,17 +1488,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     UpdateCanopy();
 
     plant.doNConccentrationLimits( co2Modifier->n_conc() )  ;                  // plant N concentr
-
-    if (g.plant_status == alive &&
-        phenology().previousStageName() != phenology().stageName())
-        {
-        plant.onPlantEvent(phenology().stageName());
-        plant_event ();
-        stageObservers.reset();
-        otherObservers.reset();
-        }
-
-
     }
 
 bool Plant::onSetPhase (protocol::QuerySetValueData &v/*(INPUT) message arguments*/)
@@ -1592,16 +1575,6 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     phenology().onRemoveBiomass(g.remove_biom_pheno);
 
     plant.doNConccentrationLimits(co2Modifier->n_conc() );
-
-    if (g.plant_status == alive &&
-        phenology().previousStageName() != phenology().stageName())
-        {
-        plant.onPlantEvent(phenology().stageName());
-        plant_event ();
-        stageObservers.reset();
-        otherObservers.reset();
-        }
-
     }
 
 

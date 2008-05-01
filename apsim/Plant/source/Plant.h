@@ -108,7 +108,7 @@ public:
 
    void registerClassActions(void);
    void sendStageMessage(const char *what);
-   void doPlantEvent(const string &);
+   void doPlantEvent(const string &, bool phenologyRewound);
 
    const std::string & getCropType(void) ;
    protocol::Component *getComponent(void) ;
