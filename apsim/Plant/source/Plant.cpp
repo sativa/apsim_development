@@ -443,14 +443,8 @@ void Plant::doPlantEvent(const string &newStageName, bool phenologyRewound)
         t != myThings.end();
         t++)
       (*t)->onPlantEvent(newStageName);
-   //plant.onPlantEvent(phenology().stageName());
-   plant_event ();
-   if (phenologyRewound)
-      {
-      stageObservers.reset();
-      otherObservers.reset();
-      }
-
+   phenologyEventToday = true;
+   phenologyRewoundToday = phenologyRewound;
    }
 
 bool Plant::respondToSet(unsigned int &id, protocol::QuerySetValueData& qd)
@@ -1142,7 +1136,21 @@ void Plant::plant_process ( void )
     swStress->doPlantWaterStress (tops.SWDemand());
     nStress->doPlantNStress (leafPart, stemPart);
 
-    }
+   // See if we need to output a phenological stage report because
+   // we've entered a new phase today.
+   if (phenologyEventToday)
+     {
+     phenologyEventToday = false;
+     phenologyRewoundToday = false;
+     plant_event ();
+     if (phenologyRewoundToday)
+        {
+        stageObservers.reset();
+        otherObservers.reset();
+        }
+     }
+
+   }
 
 void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
 //=======================================================================================
@@ -1636,6 +1644,8 @@ void Plant::plant_zero_all_globals (void)
 void Plant::plant_zero_variables (void)
     {
 
+    phenologyEventToday = false;
+    phenologyRewoundToday = false;
 
 // zero pools etc.
 
