@@ -439,6 +439,7 @@ void Phenology::onSow(protocol::Variant &v)
    for(unsigned i=0; i!= phases.size();i++)
       phases[i]->OnSow(sowing_depth);
    setupTTTargets();
+   plant.doPlantEvent(phases[(int)currentStage]->name(), false);
    }
 
 void Phenology::onEndCrop()
@@ -521,11 +522,9 @@ void Phenology::process()
    else
       currentStage = new_stage;
 
-
    if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
      throw std::runtime_error("stage has gone wild in Phenology::process()..");
 
-     
    if (existingStage != stageName())
       plant.doPlantEvent(phases[(int)currentStage]->name(), false);
 
