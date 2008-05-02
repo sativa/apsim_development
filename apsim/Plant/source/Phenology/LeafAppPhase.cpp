@@ -60,6 +60,6 @@ void LeafAppPhase::updateTTTargets(Phenology &parent)
 string LeafAppPhase::description()
 //=======================================================================================
    {
-   return "         Stage duration determined by leaf appearance rates";
+   return "         Stage duration determined by leaf appearance rates\n";
    }
 
