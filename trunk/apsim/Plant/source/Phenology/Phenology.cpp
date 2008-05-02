@@ -166,7 +166,7 @@ void Phenology::setupTTTargets(void)
 
 string Phenology::description()
    {
-   return " stage " + ftoa(currentStage, 1) + " " + stageName();
+   return " stage " + ftoa(floor(currentStage), 1) + " " + stageName();
    }
 void Phenology::writeSummary()
 //=======================================================================================
