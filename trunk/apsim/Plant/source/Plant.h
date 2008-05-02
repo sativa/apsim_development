@@ -86,6 +86,10 @@ private:
 
    void read(void);
 
+   bool phenologyEventToday;
+   bool phenologyRewoundToday;
+
+
 public:
    Plant(protocol::Component *P, ScienceAPI& api);
    ~Plant(void);
