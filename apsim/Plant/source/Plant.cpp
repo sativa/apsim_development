@@ -443,8 +443,13 @@ void Plant::doPlantEvent(const string &newStageName, bool phenologyRewound)
         t != myThings.end();
         t++)
       (*t)->onPlantEvent(newStageName);
-   phenologyEventToday = true;
-   phenologyRewoundToday = phenologyRewound;
+   if (phenologyRewound)
+      plant_event();
+   else
+      {
+      phenologyEventToday = true;
+      phenologyRewoundToday = phenologyRewound;
+      }
    }
 
 bool Plant::respondToSet(unsigned int &id, protocol::QuerySetValueData& qd)
