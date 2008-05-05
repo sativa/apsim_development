@@ -1785,7 +1785,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
 
            // Bang.
            g.plant_status = alive;
-           sendStageMessage("sowing");
+           //sendStageMessage("sowing");
            for (vector<plantThing *>::iterator t = myThings.begin(); t != myThings.end(); t++)
              (*t)->onPlantEvent("sowing");
 
