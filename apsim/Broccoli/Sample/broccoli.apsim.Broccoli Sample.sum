@@ -32,7 +32,7 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
 ------- report Initialisation -------------------------------------------------
      Output variables:
         clock.dd/mmm/yyyy as Date
-        Broccoli.das
+        Broccoli.DaysAfterSowing
         Broccoli.stage
         Broccoli.lai
         Broccoli.biomass
@@ -70,7 +70,7 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
      endif
      
      SECTION:- end_of_day
-     if broccoli.stage_name = 'maturity' or broccoli.plant_status = 'dead' then
+     if broccoli.stagename = 'maturity' or broccoli.plant_status = 'dead' then
         broccoli harvest
         broccoli end_crop
      endif
@@ -198,9 +198,6 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
-
-------- Broccoli Initialisation -----------------------------------------------
-     phenology model: Generic
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -227,28 +224,26 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = greenbelt
-     out
+        Phases:
+           out
+           sowing
+           germination
+              tt_germination             =      40 (dd)
+           emergence
+              cumvd_emergence            =     1.5     3.5      15 (vd)
+              tt_emergence               =     550     250     200 (dd)
+           end_of_juvenile
+              tt_end_of_juvenile         =       1 (dd)
+           floral_initiation
+              Stage duration determined by leaf appearance rates
+           buttoning
+              tt_buttoning               =     200 (dd)
+           maturity
+              tt_maturity                =       5 (dd)
      
-     sowing
-     
-     germination
-        tt_germination =         40 (dd)
-     emergence
-        cumvd_emergence            =     1.5     3.5      15 (vd)
-        tt_emergence               =     550     250     200 (dd)
-     
-     end_of_juvenile
-        tt_end_of_juvenile =          1 (dd)
-     floral_initiation
-        Stage duration determined by leaf appearance rates
-     buttoning
-        tt_buttoning =        200 (dd)
-     maturity
-        tt_maturity =          5 (dd)
-     
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -282,6 +277,7 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
         - Reading Fertiliser Type Parameters
        200.00 of N as urea (urea_n)
                                               added at depth   50.00 (layer   1)
+      stage 1.0 sowing
 6 April 1998(Day of year=96), Broccoli: 
       stage 2.0 germination
 9 April 1998(Day of year=99), Broccoli: 
@@ -295,7 +291,7 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
 24 May 1998(Day of year=144), Broccoli: 
       stage 5.0 floral_initiation
                      biomass =           6.80 (g/m^2)   lai          =   0.054 (m^2/m^2)
-                     stover N conc =     5.26 (%)    extractable sw =  183.93 (mm)
+                     stover N conc =     5.61 (%)    extractable sw =  183.93 (mm)
 22 June 1998(Day of year=173), Broccoli: 
       stage 6.0 buttoning
                      biomass =          80.22 (g/m^2)   lai          =   0.639 (m^2/m^2)
@@ -324,9 +320,9 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
       green N content (kg/ha)=    83.20
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.000        0.221
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
-         floral_initiation    to buttoning               0.000        0.000        0.000        0.137
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.199
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.203
+         floral_initiation    to buttoning               0.000        0.000        0.000        0.176
      
      
      Crop harvested.

@@ -51,7 +51,7 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
      if day = 330 and year  = 1988 then
         peanut sow cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
      endif
-     if peanut.stage_name = 'harvest_ripe' or peanut.plant_status = 'dead' then
+     if peanut.stagename = 'harvest_ripe' or peanut.plant_status = 'dead' then
         peanut harvest
         peanut end_crop
      endif
@@ -200,34 +200,47 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
           ---------------------------------------------------------
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
-
-------- peanut Initialisation -------------------------------------------------
-     phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
 25 November 1988(Day of year=330), manager: 
      Manager sending message :- peanut sow  cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
 25 November 1988(Day of year=330), peanut: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = early_bunch
-        est_days_emerg_to_init     = 2 (days)
-        cum_vernal_days            =       0     100 (vd)
-        tt_emerg_to_endjuv         =       5       5 (dd)
-        x_pp_endjuv_to_init        =      12      17 (h)
-        y_tt_endjuv_to_init        =       1       5 (dd)
-        x_pp_init_to_flower        =       1      24 (h)
-        y_tt_init_to_flower        =     380     380 (dd)
-        x_pp_flower_to_start_grain =       1      24 (h)
-        y_tt_flower_to_start_grain =     300     300 (dd)
-        x_pp_start_to_end_grain    =       1      24 (h)
-        y_tt_start_to_end_grain    =  1020.5  1020.5 (dd)
-        tt_end_grain_to_maturity   =         70 (dd)
-        tt_maturity_to_ripe        =          5 (dd)
+        Phases:
+           out
+           sowing
+           germination
+              shoot_lag                  =      15 (dd)
+              shoot_rate                 =       2 (dd/mm)
+           emergence
+              cumvd_emergence            =       0     100 (vd)
+              tt_emergence               =       5       5 (dd)
+           end_of_juvenile
+              x_pp_end_of_juvenile       =      12      17 (h)
+              y_tt_end_of_juvenile       =       1       5 (dd)
+           floral_initiation
+              x_pp_floral_initiation     =       1      24 (h)
+              y_tt_floral_initiation     =     380     380 (dd)
+           flowering
+              x_pp_flowering             =       1      24 (h)
+              y_tt_flowering             =     300     300 (dd)
+           start_grain_fill
+              x_pp_start_grain_fill      =       1      24 (h)
+              y_tt_start_grain_fill      =  1020.5  1020.5 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      70 (dd)
+           maturity
+              tt_maturity                =       5 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =       1 (dd)
+           end_crop
+     
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0064     0.0064
         x_hi_max_pot_stress        =       0.00       1.00
         y_hi_max_pot               =       0.45       0.45
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -255,6 +268,7 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
             330   40.0   10.0  500.0   0.0   0.0 early_bunch
          ------------------------------------------------
      
+      stage 1.0 sowing
 26 November 1988(Day of year=331), peanut: 
       stage 2.0 germination
 2 December 1988(Day of year=337), peanut: 
@@ -264,11 +278,11 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
 3 December 1988(Day of year=338), peanut: 
       stage 4.0 end_of_juvenile
                      biomass =           0.52 (g/m^2)   lai          =   0.007 (m^2/m^2)
-                     stover N conc =     4.01 (%)    extractable sw =   45.62 (mm)
+                     stover N conc =     4.25 (%)    extractable sw =   45.62 (mm)
 4 December 1988(Day of year=339), peanut: 
       stage 5.0 floral_initiation
                      biomass =           0.63 (g/m^2)   lai          =   0.010 (m^2/m^2)
-                     stover N conc =     3.66 (%)    extractable sw =   45.55 (mm)
+                     stover N conc =     3.94 (%)    extractable sw =   45.55 (mm)
 29 December 1988(Day of year=364), peanut: 
       stage 6.0 flowering
                      biomass =          58.97 (g/m^2)   lai          =   0.901 (m^2/m^2)
@@ -281,5 +295,9 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
       stage 8.0 end_grain_fill
                      biomass =        1096.14 (g/m^2)   lai          =   3.879 (m^2/m^2)
                      stover N conc =     2.09 (%)    extractable sw =   66.84 (mm)
+20 April 1989(Day of year=110), peanut: 
+      stage 9.0 maturity
+                     biomass =        1103.06 (g/m^2)   lai          =   3.715 (m^2/m^2)
+                     stover N conc =     2.07 (%)    extractable sw =   42.90 (mm)
 20 April 1989(Day of year=110), clock: 
      Simulation is terminating due to end criteria being met.

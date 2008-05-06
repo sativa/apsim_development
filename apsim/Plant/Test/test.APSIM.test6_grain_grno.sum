@@ -209,26 +209,38 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
           ---------------------------------------------------------
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
-
-------- wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
 26 September 1988(Day of year=270), manager: 
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 26 September 1988(Day of year=270), wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = hartog
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -256,6 +268,7 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
             270   30.0  120.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
+      stage 1.0 sowing
 27 September 1988(Day of year=271), wheat: 
       stage 2.0 germination
 30 September 1988(Day of year=274), wheat: 
@@ -272,34 +285,34 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
                      stover N conc =     2.49 (%)    extractable sw =  107.09 (mm)
 26 November 1988(Day of year=331), wheat: 
       stage 6.0 flowering
-                     biomass =         587.81 (g/m^2)   lai          =   1.609 (m^2/m^2)
+                     biomass =         587.82 (g/m^2)   lai          =   1.610 (m^2/m^2)
                      stover N conc =     1.27 (%)    extractable sw =   95.81 (mm)
 1 December 1988(Day of year=336), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         635.87 (g/m^2)   lai          =   1.272 (m^2/m^2)
+                     biomass =         635.88 (g/m^2)   lai          =   1.273 (m^2/m^2)
                      stover N conc =     1.06 (%)    extractable sw =   80.17 (mm)
 25 December 1988(Day of year=360), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         785.19 (g/m^2)   lai          =   0.420 (m^2/m^2)
-                     stover N conc =     0.34 (%)    extractable sw =  104.85 (mm)
+                     biomass =         785.24 (g/m^2)   lai          =   0.420 (m^2/m^2)
+                     stover N conc =     0.34 (%)    extractable sw =  104.84 (mm)
 27 December 1988(Day of year=362), wheat: 
       stage 9.0 maturity
-                     biomass =         785.54 (g/m^2)   lai          =   0.337 (m^2/m^2)
-                     stover N conc =     0.34 (%)    extractable sw =  112.17 (mm)
+                     biomass =         785.47 (g/m^2)   lai          =   0.337 (m^2/m^2)
+                     stover N conc =     0.34 (%)    extractable sw =  112.66 (mm)
 28 December 1988(Day of year=363), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         785.54 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.33 (%)    extractable sw =  110.02 (mm)
+                     biomass =         785.47 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.33 (%)    extractable sw =  110.51 (mm)
 29 December 1988(Day of year=364), wheat: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 7855.35 (kg/ha)
+     Plant death. standing above-ground dm = 7854.69 (kg/ha)
 30 December 1988(Day of year=365), manager: 
      Manager sending message :- wheat end_crop
 30 December 1988(Day of year=365), wheat: 
-     Crop ended. Yield (dw) =  3069.5  (kg/ha)
+     Crop ended. Yield (dw) =  3069.9  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                7855.4                  1353.9
-                          N  (kg/ha) =                  86.09                   21.66
+                          DM (kg/ha) =                7854.7                  1353.9
+                          N  (kg/ha) =                  86.09                   21.65
      
 26 October 1989(Day of year=299), clock: 
      Simulation is terminating due to end criteria being met.

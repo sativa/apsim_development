@@ -35,10 +35,10 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      Output variables:
         clock.year
         clock.day
-        lupin.das
-        lupin.stage_code
+        lupin.DaysAfterSowing
+        lupin.Stage
         lupin.flowering_das
-        lupin.tt_tot()
+        lupin.TTAfterSowing
         lupin.root_depth
         lupin.flowering_date
         lupin.yield
@@ -112,7 +112,7 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      endif
      
      SECTION:- end_of_day
-          if lupin.das > 0 then
+          if lupin.daysaftersowing > 0 then
              report do_output
           endif
      sw_70 = sw_dep(1) + sw_dep(2) + sw_dep(3) + sw_dep(4) + sw_dep(5) + sw_dep(6) + sw_dep(7) + sw_dep(8)
@@ -148,7 +148,7 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
         lai_yesterday = lai_today
      endif
      day_cnt = day_cnt + 1
-     if (lupin.stage_name = 'harvest_ripe' or lupin.plant_status = 'dead') then
+     if (lupin.stagename = 'harvest_ripe' or lupin.plant_status = 'dead') then
         lupin harvest
         lupin kill_crop
         lupin end_crop
@@ -362,9 +362,6 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals   80059.6  6158.4   700.4    87.5   600.0    30.0
           ---------------------------------------------------------
-
-------- lupin Initialisation --------------------------------------------------
-     phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
      Manager creating a new local real variable : sw_70 = 58.92013
      Manager creating a new local real variable : sw_110 = 98.92327
@@ -377,26 +374,42 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
       Sending sow message to lupin
 17 May 1998(Day of year=137), lupin: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = merrit
-        est_days_emerg_to_init     = 83 (days)
-        cum_vernal_days            =       0      25 (vd)
-        tt_emerg_to_endjuv         =     360     360 (dd)
-        x_pp_endjuv_to_init        =    10.8      16 (h)
-        y_tt_endjuv_to_init        =     665       1 (dd)
-        x_pp_init_to_flower        =       1      24 (h)
-        y_tt_init_to_flower        =     135     135 (dd)
-        x_pp_flower_to_start_grain =       1      24 (h)
-        y_tt_flower_to_start_grain =     500     500 (dd)
-        x_pp_start_to_end_grain    =       1      24 (h)
-        y_tt_start_to_end_grain    =     450     450 (dd)
-        tt_end_grain_to_maturity   =         50 (dd)
-        tt_maturity_to_ripe        =          1 (dd)
+        Phases:
+           out
+           sowing
+           germination
+              shoot_lag                  =      20 (dd)
+              shoot_rate                 =       2 (dd/mm)
+           emergence
+              cumvd_emergence            =       0      25 (vd)
+              tt_emergence               =     360     360 (dd)
+           end_of_juvenile
+              x_pp_end_of_juvenile       =    10.8      16 (h)
+              y_tt_end_of_juvenile       =     665       1 (dd)
+           floral_initiation
+              x_pp_floral_initiation     =       1      24 (h)
+              y_tt_floral_initiation     =     135     135 (dd)
+           flowering
+              x_pp_flowering             =       1      24 (h)
+              y_tt_flowering             =     500     500 (dd)
+           start_grain_fill
+              x_pp_start_grain_fill      =       1      24 (h)
+              y_tt_start_grain_fill      =     450     450 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      50 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =       1 (dd)
+           end_crop
+     
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0080     0.0080
         x_hi_max_pot_stress        =       0.00       1.00
         y_hi_max_pot               =       0.25       0.25
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -434,6 +447,7 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
             137   40.0   40.0  200.0   0.0   0.0 merrit
          ------------------------------------------------
      
+      stage 1.0 sowing
 19 May 1998(Day of year=139), lupin: 
       stage 2.0 germination
 26 May 1998(Day of year=146), lupin: 
@@ -443,7 +457,7 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
 22 June 1998(Day of year=173), lupin: 
       stage 4.0 end_of_juvenile
                      biomass =           9.78 (g/m^2)   lai          =   0.029 (m^2/m^2)
-                     stover N conc =     5.90 (%)    extractable sw =   15.63 (mm)
+                     stover N conc =     5.91 (%)    extractable sw =   15.63 (mm)
 12 August 1998(Day of year=224), lupin: 
       stage 5.0 floral_initiation
                      biomass =         127.64 (g/m^2)   lai          =   1.542 (m^2/m^2)
@@ -488,11 +502,11 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
       green N content (kg/ha)=    63.19
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.000        0.006
-         end_of_juvenile      to floral_initiation       0.002        0.004        0.000        0.045
-         floral_initiation    to flowering               0.000        0.000        0.000        0.001
-         flowering            to start_grain_fill        0.110        0.154        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.713        0.816        0.000        0.000
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.004
+         end_of_juvenile      to floral_initiation       0.001        0.002        0.000        0.028
+         floral_initiation    to flowering               0.001        0.002        0.000        0.025
+         flowering            to start_grain_fill        0.032        0.045        0.000        0.018
+         start_grain_fill     to end_grain_fill          0.169        0.200        0.000        0.014
      
      
      Crop harvested.

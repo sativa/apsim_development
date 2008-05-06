@@ -70,7 +70,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Output variables:
         dd/mm/yyyy as Date
         sow_year
-        das
+        DaysAfterSowing
         simulation_end_date format dd/mm/yyyy
         biomass
         wetyield
@@ -206,7 +206,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
               twotimescost = twotimescost + 2 * cost
            endif
         endif
-        if stage_name = 'harvest_ripe' or plant_status = 'dead' then
+        if stagename = 'harvest_ripe' or plant_status = 'dead' then
            if (grain_protein > 10.5) then
               fullprice = 140 + (grain_protein - 10.5) * 2 * 2
            else
@@ -266,7 +266,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if barley.stage_name = 'harvest_ripe' or barley.plant_status = 'dead' then
+                if barley.stagename = 'harvest_ripe' or barley.plant_status = 'dead' then
        barley  harvest
        barley  end_crop
                 endif
@@ -432,7 +432,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
         nuptakekgha = no3_uptake() * -1
         ninplant = (biomass_n * 10) + (rootgreenn * 10)
         biomasstonnesperha= 0.8 * (biomass / (1 - 13/100) / 1000)
-        if (das = 1) then
+        if (daysaftersowing = 1) then
            zadok11das = 0
            zadok12das = 0
            zadok13das = 0
@@ -450,35 +450,35 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
            zadok75das = 0
         endif
         if (z >= 11 and zadok11das = 0) then
-           zadok11das = das
+           zadok11das = daysaftersowing
         elseif (z >= 12 and zadok12das = 0) then
-           zadok12das = das
+           zadok12das = daysaftersowing
         elseif (z >= 13 and zadok13das = 0) then
-           zadok13das = das
+           zadok13das = daysaftersowing
         elseif (z >= 14 and zadok14das = 0) then
-           zadok14das = das
+           zadok14das = daysaftersowing
         elseif (z >= 15 and zadok15das = 0) then
-           zadok15das = das
+           zadok15das = daysaftersowing
         elseif (z >= 16 and zadok16das = 0) then
-           zadok16das = das
+           zadok16das = daysaftersowing
         elseif (z >= 30 and zadok30das = 0) then
-           zadok30das = das
+           zadok30das = daysaftersowing
         elseif (z >= 31 and zadok31das = 0) then
-           zadok31das = das
+           zadok31das = daysaftersowing
         elseif (z >= 32 and zadok32das = 0) then
-           zadok32das = das
+           zadok32das = daysaftersowing
         elseif (z >= 37 and zadok37das = 0) then
-           zadok37das = das
+           zadok37das = daysaftersowing
         elseif (z >= 39 and zadok39das = 0) then
-           zadok39das = das
+           zadok39das = daysaftersowing
         elseif (z >= 45 and zadok45das = 0) then
-           zadok45das = das
+           zadok45das = daysaftersowing
         elseif (z >= 55 and zadok55das = 0) then
-           zadok55das = das
+           zadok55das = daysaftersowing
         elseif (z >= 65 and zadok65das = 0) then
-           zadok65das = das
+           zadok65das = daysaftersowing
         elseif (z >= 75 and zadok75das = 0) then
-           zadok75das = das
+           zadok75das = daysaftersowing
         endif
      
      SECTION:- sowing
@@ -493,7 +493,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
         nuptakekgha = no3_uptake() * -1
         ninplant = (biomass_n * 10) + (rootgreenn * 10)
         biomasstonnesperha= 0.8 * (biomass / (1 - 13/100) / 1000)
-        if (das = 1) then
+        if (daysaftersowing = 1) then
            zadok11das = 0
            zadok12das = 0
            zadok13das = 0
@@ -511,35 +511,35 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
            zadok75das = 0
         endif
         if (z >= 11 and zadok11das = 0) then
-           zadok11das = das
+           zadok11das = daysaftersowing
         elseif (z >= 12 and zadok12das = 0) then
-           zadok12das = das
+           zadok12das = daysaftersowing
         elseif (z >= 13 and zadok13das = 0) then
-           zadok13das = das
+           zadok13das = daysaftersowing
         elseif (z >= 14 and zadok14das = 0) then
-           zadok14das = das
+           zadok14das = daysaftersowing
         elseif (z >= 15 and zadok15das = 0) then
-           zadok15das = das
+           zadok15das = daysaftersowing
         elseif (z >= 16 and zadok16das = 0) then
-           zadok16das = das
+           zadok16das = daysaftersowing
         elseif (z >= 30 and zadok30das = 0) then
-           zadok30das = das
+           zadok30das = daysaftersowing
         elseif (z >= 31 and zadok31das = 0) then
-           zadok31das = das
+           zadok31das = daysaftersowing
         elseif (z >= 32 and zadok32das = 0) then
-           zadok32das = das
+           zadok32das = daysaftersowing
         elseif (z >= 37 and zadok37das = 0) then
-           zadok37das = das
+           zadok37das = daysaftersowing
         elseif (z >= 39 and zadok39das = 0) then
-           zadok39das = das
+           zadok39das = daysaftersowing
         elseif (z >= 45 and zadok45das = 0) then
-           zadok45das = das
+           zadok45das = daysaftersowing
         elseif (z >= 55 and zadok55das = 0) then
-           zadok55das = das
+           zadok55das = daysaftersowing
         elseif (z >= 65 and zadok65das = 0) then
-           zadok65das = das
+           zadok65das = daysaftersowing
         elseif (z >= 75 and zadok75das = 0) then
-           zadok75das = das
+           zadok75das = daysaftersowing
         endif
      
      SECTION:- harvesting
@@ -554,7 +554,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
         nuptakekgha = no3_uptake() * -1
         ninplant = (biomass_n * 10) + (rootgreenn * 10)
         biomasstonnesperha= 0.8 * (biomass / (1 - 13/100) / 1000)
-        if (das = 1) then
+        if (daysaftersowing = 1) then
            zadok11das = 0
            zadok12das = 0
            zadok13das = 0
@@ -572,35 +572,35 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
            zadok75das = 0
         endif
         if (z >= 11 and zadok11das = 0) then
-           zadok11das = das
+           zadok11das = daysaftersowing
         elseif (z >= 12 and zadok12das = 0) then
-           zadok12das = das
+           zadok12das = daysaftersowing
         elseif (z >= 13 and zadok13das = 0) then
-           zadok13das = das
+           zadok13das = daysaftersowing
         elseif (z >= 14 and zadok14das = 0) then
-           zadok14das = das
+           zadok14das = daysaftersowing
         elseif (z >= 15 and zadok15das = 0) then
-           zadok15das = das
+           zadok15das = daysaftersowing
         elseif (z >= 16 and zadok16das = 0) then
-           zadok16das = das
+           zadok16das = daysaftersowing
         elseif (z >= 30 and zadok30das = 0) then
-           zadok30das = das
+           zadok30das = daysaftersowing
         elseif (z >= 31 and zadok31das = 0) then
-           zadok31das = das
+           zadok31das = daysaftersowing
         elseif (z >= 32 and zadok32das = 0) then
-           zadok32das = das
+           zadok32das = daysaftersowing
         elseif (z >= 37 and zadok37das = 0) then
-           zadok37das = das
+           zadok37das = daysaftersowing
         elseif (z >= 39 and zadok39das = 0) then
-           zadok39das = das
+           zadok39das = daysaftersowing
         elseif (z >= 45 and zadok45das = 0) then
-           zadok45das = das
+           zadok45das = daysaftersowing
         elseif (z >= 55 and zadok55das = 0) then
-           zadok55das = das
+           zadok55das = daysaftersowing
         elseif (z >= 65 and zadok65das = 0) then
-           zadok65das = das
+           zadok65das = daysaftersowing
         elseif (z >= 75 and zadok75das = 0) then
-           zadok75das = das
+           zadok75das = daysaftersowing
         endif
      
      SECTION:- reseting
@@ -615,7 +615,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
         nuptakekgha = no3_uptake() * -1
         ninplant = (biomass_n * 10) + (rootgreenn * 10)
         biomasstonnesperha= 0.8 * (biomass / (1 - 13/100) / 1000)
-        if (das = 1) then
+        if (daysaftersowing = 1) then
            zadok11das = 0
            zadok12das = 0
            zadok13das = 0
@@ -633,35 +633,35 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
            zadok75das = 0
         endif
         if (z >= 11 and zadok11das = 0) then
-           zadok11das = das
+           zadok11das = daysaftersowing
         elseif (z >= 12 and zadok12das = 0) then
-           zadok12das = das
+           zadok12das = daysaftersowing
         elseif (z >= 13 and zadok13das = 0) then
-           zadok13das = das
+           zadok13das = daysaftersowing
         elseif (z >= 14 and zadok14das = 0) then
-           zadok14das = das
+           zadok14das = daysaftersowing
         elseif (z >= 15 and zadok15das = 0) then
-           zadok15das = das
+           zadok15das = daysaftersowing
         elseif (z >= 16 and zadok16das = 0) then
-           zadok16das = das
+           zadok16das = daysaftersowing
         elseif (z >= 30 and zadok30das = 0) then
-           zadok30das = das
+           zadok30das = daysaftersowing
         elseif (z >= 31 and zadok31das = 0) then
-           zadok31das = das
+           zadok31das = daysaftersowing
         elseif (z >= 32 and zadok32das = 0) then
-           zadok32das = das
+           zadok32das = daysaftersowing
         elseif (z >= 37 and zadok37das = 0) then
-           zadok37das = das
+           zadok37das = daysaftersowing
         elseif (z >= 39 and zadok39das = 0) then
-           zadok39das = das
+           zadok39das = daysaftersowing
         elseif (z >= 45 and zadok45das = 0) then
-           zadok45das = das
+           zadok45das = daysaftersowing
         elseif (z >= 55 and zadok55das = 0) then
-           zadok55das = das
+           zadok55das = daysaftersowing
         elseif (z >= 65 and zadok65das = 0) then
-           zadok65das = das
+           zadok65das = daysaftersowing
         elseif (z >= 75 and zadok75das = 0) then
-           zadok75das = das
+           zadok75das = daysaftersowing
         endif
      
      SECTION:- post
@@ -676,10 +676,10 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
         endif
         if (today >= startdailydate) then
            act_mods ondailyoutput
-           if (das > 0) then
+           if (daysaftersowing > 0) then
               currentcropfound = 1
            endif
-           if (currentcropfound = 1 and das = 0) then
+           if (currentcropfound = 1 and daysaftersowing = 0) then
               currentfallow = 1
            endif
         endif
@@ -772,14 +772,14 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager rules:
      
      SECTION:- start_of_day
-        if (das = 1) then
+        if (daysaftersowing = 1) then
            cum_temp = 0
            cum_swdef = 0
            cum_days = 0
-        elseif (stage_name = 'start_grain_fill' or
-         stage_name = 'end_grain_fill' or
-         stage_name = 'maturity' or
-         stage_name = 'harvest_ripe') then
+        elseif (stagename = 'start_grain_fill' or
+         stagename = 'end_grain_fill' or
+         stagename = 'maturity' or
+         stagename = 'harvest_ripe') then
            cum_temp = cum_temp + (maxt + mint) / 2
            cum_swdef = cum_swdef + swdef_photo
            cum_days = cum_days + 1
@@ -993,9 +993,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
            Totals  115081.3  9206.5  1023.7   128.0   600.0    13.3
           ---------------------------------------------------------
 
-------- barley Initialisation -------------------------------------------------
-     phenology model: Wheat
-
 ------- Tracker Initialisation ------------------------------------------------
      Tracker variables:
         sum of unpatched_rain on start_of_day from StartSeason to EndSeason as SeasonalRainUnPatched
@@ -1026,7 +1023,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 27.50000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 102.25473
+     Manager creating a new local real variable : nitrogen = 102.25472
      Manager creating a new local real variable : availablewater = 27.52014
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1071,18 +1068,32 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager sending message :- barley sow  plants = 100, sowing_depth = 30, cultivar = sloop, row_spacing = 250, crop_class = plant, tiller_no_fertile = 1, skip = solid
 13 June 2005(Day of year=164), barley: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = sloop
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.00 ()
-        photoperiod sensitivity    =       3.50 ()
-        phyllochron                =         30 ()
-        tt start gf to maturity    =        530 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     504 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      26 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0033 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.1000 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -1101,12 +1112,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:    48mm in  1500mm total depth (  3%).
          Crop factor for bounding water use is set to   1.5 times eo.
-13 June 2005(Day of year=164), Sowing tillage: 
-     Manager sending message :- surfaceom tillage  type = planter, f_incorp = 0.1, tillage_depth = 50
-13 June 2005(Day of year=164), SurfaceOM: 
-     Residue removed using planter
-                                             Fraction Incorporated =     0.10
-                                             Incorporated Depth    =    50.00
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1124,6 +1129,13 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
         - Reading Fertiliser Type Parameters
         15.00 of N as nitrate (no3_n)
                                               added at depth   20.00 (layer   1)
+13 June 2005(Day of year=164), Sowing tillage: 
+     Manager sending message :- surfaceom tillage  type = planter, f_incorp = 0.1, tillage_depth = 50
+13 June 2005(Day of year=164), SurfaceOM: 
+     Residue removed using planter
+                                             Fraction Incorporated =     0.10
+                                             Incorporated Depth    =    50.00
+      stage 1.0 sowing
 13 June 2005(Day of year=164), GrossMargin: 
      Manager creating a new local real variable : cost = 33.00000
 14 June 2005(Day of year=165), CanolaOilConc: 
@@ -1155,77 +1167,77 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                                               added at depth   20.00 (layer   1)
 14 September 2005(Day of year=257), barley: 
       stage 5.0 floral_initiation
-                     biomass =         361.05 (g/m^2)   lai          =   5.402 (m^2/m^2)
+                     biomass =         361.03 (g/m^2)   lai          =   5.402 (m^2/m^2)
                      stover N conc =     2.59 (%)    extractable sw =   48.98 (mm)
 3 October 2005(Day of year=276), barley: 
       stage 6.0 flowering
-                     biomass =         603.23 (g/m^2)   lai          =   3.526 (m^2/m^2)
-                     stover N conc =     1.78 (%)    extractable sw =   47.82 (mm)
+                     biomass =         603.03 (g/m^2)   lai          =   3.526 (m^2/m^2)
+                     stover N conc =     1.78 (%)    extractable sw =   47.83 (mm)
 13 October 2005(Day of year=286), barley: 
       stage 7.0 start_grain_fill
-                     biomass =         725.24 (g/m^2)   lai          =   2.748 (m^2/m^2)
+                     biomass =         725.05 (g/m^2)   lai          =   2.749 (m^2/m^2)
                      stover N conc =     1.44 (%)    extractable sw =   34.87 (mm)
 14 October 2005(Day of year=287), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp = 12.00000
-     Manager creating a new local real variable : avg_swdef = 0.35557
+     Manager creating a new local real variable : avg_swdef = 0.35560
 11 November 2005(Day of year=315), barley: 
       stage 8.0 end_grain_fill
-                     biomass =         995.33 (g/m^2)   lai          =   1.215 (m^2/m^2)
+                     biomass =         995.19 (g/m^2)   lai          =   1.215 (m^2/m^2)
                      stover N conc =     0.36 (%)    extractable sw =   31.76 (mm)
 13 November 2005(Day of year=317), barley: 
       stage 9.0 maturity
-                     biomass =         997.08 (g/m^2)   lai          =   1.172 (m^2/m^2)
+                     biomass =         997.33 (g/m^2)   lai          =   1.214 (m^2/m^2)
                      stover N conc =     0.35 (%)    extractable sw =   28.08 (mm)
 14 November 2005(Day of year=318), barley: 
       stage 10.0 harvest_ripe
-                     biomass =         997.08 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.33 (%)    extractable sw =   26.99 (mm)
+                     biomass =         997.33 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.33 (%)    extractable sw =   26.78 (mm)
 14 November 2005(Day of year=318), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 143.14375
+     Manager creating a new local real variable : fullprice = 143.02769
 14 November 2005(Day of year=318), Harvest: 
      Manager sending message :- barley harvest
      
-      flowering day          =  276                           stover (kg/ha)         =     5591.0
-      maturity day           =  317                           grain yield (kg/ha)    =     4379.8
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     5005.4
-      grain wt (g)           =    0.058                       grains/m^2             =     7598.9
-      grains/plant           =   76.0                         maximum lai            =      5.625
-      total above ground biomass (kg/ha)    =     9970.8
-      live above ground biomass (kg/ha)     =     9970.8
-      green above ground biomass (kg/ha)    =     7691.2
-      senesced above ground biomass (kg/ha) =     2279.6
+      flowering day          =  276                           stover (kg/ha)         =     5593.9
+      maturity day           =  317                           grain yield (kg/ha)    =     4379.5
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     5005.1
+      grain wt (g)           =    0.058                       grains/m^2             =     7596.2
+      grains/plant           =   76.0                         maximum lai            =      5.622
+      total above ground biomass (kg/ha)    =     9973.3
+      live above ground biomass (kg/ha)     =     9973.3
+      green above ground biomass (kg/ha)    =     7694.8
+      senesced above ground biomass (kg/ha) =     2278.5
       number of leaves       =     58.6
-      DM Root:Shoot ratio    =     0.16                       Harvest Index          =       0.44
-      Stover C:N ratio       =   100.63                       Root C:N ratio         =      19.23
-      grain N percent        =     1.98                       total N content (kg/ha)=     108.79
-      grain N uptake (kg/ha) =    86.57                       senesced N content (kg/ha)=   11.40
-      green N content (kg/ha)=    10.83
+      DM Root:Shoot ratio    =     0.15                       Harvest Index          =       0.44
+      Stover C:N ratio       =    99.68                       Root C:N ratio         =      19.23
+      grain N percent        =     1.97                       total N content (kg/ha)=     108.78
+      grain N uptake (kg/ha) =    86.34                       senesced N content (kg/ha)=   11.39
+      green N content (kg/ha)=    11.05
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.000        0.002        0.105        0.149
-         floral_initiation    to flowering               0.273        0.345        0.037        0.094
-         flowering            to start_grain_fill        0.270        0.337        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.284        0.353        0.018        0.073
+         end_of_juvenile      to floral_initiation       0.000        0.002        0.093        0.132
+         floral_initiation    to flowering               0.043        0.056        0.083        0.125
+         flowering            to start_grain_fill        0.060        0.076        0.077        0.114
+         start_grain_fill     to end_grain_fill          0.101        0.127        0.065        0.106
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                5591.0                     0.0
-                          N  (kg/ha) =                  22.22                    0.00
+                          DM (kg/ha) =                5593.9                     0.0
+                          N  (kg/ha) =                  22.45                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                4379.8                     0.0
-                          N  (kg/ha) =                  86.57                    0.00
+                          DM (kg/ha) =                4379.5                     0.0
+                          N  (kg/ha) =                  86.34                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   26.99 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   26.78 (mm)
      Manager sending message :- barley end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1545.7
-                          N  (kg/ha) =                   0.00                   32.15
+                          DM (kg/ha) =                   0.0                  1545.2
+                          N  (kg/ha) =                   0.00                   32.14
      
 15 November 2005(Day of year=319), GrossMargin: 
      Manager creating a new local real variable : twotimescost = 0.00000

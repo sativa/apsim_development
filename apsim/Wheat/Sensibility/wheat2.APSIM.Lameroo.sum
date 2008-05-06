@@ -97,7 +97,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      SECTION:- end_of_day
      in_crop_rain = in_crop_rain + met.rain
      eff_in_crop_rain = eff_in_crop_rain + met.rain - soilwat2.drain - soilwat2.runoff
-     if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+     if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
         if wheat.biomass > 1 then
            hi = wheat.yield/wheat.biomass
            nhi = wheat.grain_n/wheat.biomass_n
@@ -263,9 +263,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
            Totals   80305.8  5655.3  1069.2   133.6   160.0     3.6
           ---------------------------------------------------------
 
-------- Wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
-
 ------- Tracker Initialisation ------------------------------------------------
      Tracker variables:
         sum of Wheat.ep on process from reported to now as sum_ep
@@ -344,18 +341,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 15 May 1958(Day of year=135), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -382,6 +394,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 16 May 1958(Day of year=136), Wheat: 
       stage 2.0 germination
 22 May 1958(Day of year=142), Wheat: 
@@ -441,10 +454,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.013        0.022        0.000        0.000
-         floral_initiation    to flowering               0.100        0.134        0.000        0.000
-         flowering            to start_grain_fill        0.198        0.254        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.365        0.441        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.011        0.019        0.000        0.000
+         floral_initiation    to flowering               0.044        0.062        0.000        0.000
+         flowering            to start_grain_fill        0.053        0.073        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.113        0.143        0.000        0.000
      
      
      Crop harvested.
@@ -572,18 +585,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 16 April 1961(Day of year=106), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -610,6 +638,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             106   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 17 April 1961(Day of year=107), Wheat: 
       stage 2.0 germination
 22 April 1961(Day of year=112), Wheat: 
@@ -667,10 +696,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.111        0.146        0.000        0.000
-         floral_initiation    to flowering               0.054        0.070        0.000        0.000
-         flowering            to start_grain_fill        0.104        0.146        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.294        0.358        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.098        0.129        0.000        0.000
+         floral_initiation    to flowering               0.077        0.101        0.000        0.000
+         flowering            to start_grain_fill        0.079        0.104        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.127        0.161        0.000        0.000
      
      
      Crop harvested.
@@ -732,18 +761,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 24 May 1962(Day of year=144), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -770,6 +814,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             144   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 25 May 1962(Day of year=145), Wheat: 
       stage 2.0 germination
 1 June 1962(Day of year=152), Wheat: 
@@ -821,22 +866,22 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       number of leaves       =     36.7
       DM Root:Shoot ratio    =     0.15                       Harvest Index          =       0.39
       Stover C:N ratio       =    25.20                       Root C:N ratio         =      16.42
-      grain N percent        =     2.89                       total N content (kg/ha)=     106.72
+      grain N percent        =     2.89                       total N content (kg/ha)=     106.73
       grain N uptake (kg/ha) =    57.54                       senesced N content (kg/ha)=    6.29
       green N content (kg/ha)=    42.90
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.079        0.104        0.000        0.000
-         floral_initiation    to flowering               0.399        0.480        0.000        0.000
-         flowering            to start_grain_fill        0.112        0.142        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.155        0.204        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.070        0.092        0.000        0.000
+         floral_initiation    to flowering               0.187        0.230        0.000        0.000
+         flowering            to start_grain_fill        0.182        0.224        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.177        0.220        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                3098.6                     0.0
-                          N  (kg/ha) =                  49.18                    0.00
+                          N  (kg/ha) =                  49.19                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                1993.1                     0.0
@@ -892,18 +937,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 30 April 1963(Day of year=120), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -930,6 +990,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             120   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 1 May 1963(Day of year=121), Wheat: 
       stage 2.0 germination
 8 May 1963(Day of year=128), Wheat: 
@@ -980,23 +1041,23 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       senesced above ground biomass (kg/ha) =      962.5
       number of leaves       =     25.5
       DM Root:Shoot ratio    =     0.10                       Harvest Index          =       0.37
-      Stover C:N ratio       =    39.90                       Root C:N ratio         =      17.09
-      grain N percent        =     2.88                       total N content (kg/ha)=     160.76
+      Stover C:N ratio       =    39.80                       Root C:N ratio         =      17.09
+      grain N percent        =     2.88                       total N content (kg/ha)=     160.90
       grain N uptake (kg/ha) =   100.69                       senesced N content (kg/ha)=    4.81
-      green N content (kg/ha)=    55.26
+      green N content (kg/ha)=    55.40
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
          floral_initiation    to flowering               0.000        0.000        0.000        0.000
-         flowering            to start_grain_fill        0.000        0.006        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.185        0.246        0.000        0.000
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.035        0.047        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                5991.1                     0.0
-                          N  (kg/ha) =                  60.07                    0.00
+                          N  (kg/ha) =                  60.21                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                3502.0                     0.0
@@ -1052,18 +1113,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 23 April 1964(Day of year=114), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -1090,6 +1166,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             114   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 24 April 1964(Day of year=115), Wheat: 
       stage 2.0 germination
 30 April 1964(Day of year=121), Wheat: 
@@ -1147,10 +1224,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.182        0.225        0.000        0.000
-         floral_initiation    to flowering               0.136        0.177        0.000        0.000
-         flowering            to start_grain_fill        0.132        0.162        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.041        0.055        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.161        0.199        0.000        0.000
+         floral_initiation    to flowering               0.151        0.190        0.000        0.000
+         flowering            to start_grain_fill        0.149        0.186        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.124        0.156        0.000        0.000
      
      
      Crop harvested.
@@ -1278,18 +1355,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 20 May 1967(Day of year=140), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -1316,6 +1408,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             140   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 21 May 1967(Day of year=141), Wheat: 
       stage 2.0 germination
 30 May 1967(Day of year=150), Wheat: 
@@ -1366,17 +1459,17 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       senesced above ground biomass (kg/ha) =      295.4
       number of leaves       =     18.1
       DM Root:Shoot ratio    =     0.20                       Harvest Index          =       0.35
-      Stover C:N ratio       =    25.46                       Root C:N ratio         =      16.08
+      Stover C:N ratio       =    25.45                       Root C:N ratio         =      16.08
       grain N percent        =     2.90                       total N content (kg/ha)=      19.52
       grain N uptake (kg/ha) =     9.73                       senesced N content (kg/ha)=    1.48
       green N content (kg/ha)=     8.31
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.356        0.414        0.000        0.000
-         floral_initiation    to flowering               0.291        0.330        0.000        0.000
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.159        0.229        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.306        0.355        0.000        0.000
+         floral_initiation    to flowering               0.300        0.346        0.000        0.000
+         flowering            to start_grain_fill        0.281        0.324        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.258        0.306        0.000        0.000
      
      
      Crop harvested.
@@ -1438,18 +1531,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 20 May 1968(Day of year=141), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -1476,6 +1584,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             141   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 21 May 1968(Day of year=142), Wheat: 
       stage 2.0 germination
 29 May 1968(Day of year=150), Wheat: 
@@ -1533,10 +1642,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.003        0.008        0.000        0.000
-         floral_initiation    to flowering               0.316        0.381        0.000        0.000
-         flowering            to start_grain_fill        0.369        0.456        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.186        0.237        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.003        0.007        0.000        0.000
+         floral_initiation    to flowering               0.111        0.136        0.000        0.000
+         flowering            to start_grain_fill        0.124        0.153        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.134        0.167        0.000        0.000
      
      
      Crop harvested.
@@ -1631,18 +1740,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 23 April 1970(Day of year=113), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -1669,6 +1793,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             113   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 24 April 1970(Day of year=114), Wheat: 
       stage 2.0 germination
 30 April 1970(Day of year=120), Wheat: 
@@ -1688,23 +1813,23 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
 2 September 1970(Day of year=245), Wheat: 
       stage 6.0 flowering
                      biomass =         117.76 (g/m^2)   lai          =   0.058 (m^2/m^2)
-                     stover N conc =     2.33 (%)    extractable sw =    7.39 (mm)
+                     stover N conc =     2.34 (%)    extractable sw =    7.39 (mm)
 12 September 1970(Day of year=255), Wheat: 
       stage 7.0 start_grain_fill
                      biomass =         122.18 (g/m^2)   lai          =   0.057 (m^2/m^2)
-                     stover N conc =     2.31 (%)    extractable sw =    2.90 (mm)
+                     stover N conc =     2.32 (%)    extractable sw =    2.90 (mm)
 26 October 1970(Day of year=299), Wheat: 
       stage 8.0 end_grain_fill
                      biomass =         144.79 (g/m^2)   lai          =   0.043 (m^2/m^2)
-                     stover N conc =     3.06 (%)    extractable sw =    1.85 (mm)
+                     stover N conc =     3.07 (%)    extractable sw =    1.85 (mm)
 27 October 1970(Day of year=300), Wheat: 
       stage 9.0 maturity
                      biomass =         144.79 (g/m^2)   lai          =   0.040 (m^2/m^2)
-                     stover N conc =     3.07 (%)    extractable sw =    1.56 (mm)
+                     stover N conc =     3.08 (%)    extractable sw =    1.56 (mm)
 28 October 1970(Day of year=301), Wheat: 
       stage 10.0 harvest_ripe
                      biomass =         144.79 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     3.15 (%)    extractable sw =    1.42 (mm)
+                     stover N conc =     3.16 (%)    extractable sw =    1.42 (mm)
 28 October 1970(Day of year=301), manager: 
      Manager sending message :- wheat harvest
      
@@ -1719,23 +1844,23 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       senesced above ground biomass (kg/ha) =      496.8
       number of leaves       =     24.0
       DM Root:Shoot ratio    =     0.18                       Harvest Index          =       0.32
-      Stover C:N ratio       =    22.17                       Root C:N ratio         =      14.82
-      grain N percent        =     2.91                       total N content (kg/ha)=      31.30
+      Stover C:N ratio       =    22.10                       Root C:N ratio         =      14.82
+      grain N percent        =     2.91                       total N content (kg/ha)=      31.36
       grain N uptake (kg/ha) =    13.62                       senesced N content (kg/ha)=    2.48
-      green N content (kg/ha)=    15.20
+      green N content (kg/ha)=    15.25
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.200        0.246        0.000        0.000
-         floral_initiation    to flowering               0.458        0.529        0.000        0.000
-         flowering            to start_grain_fill        0.029        0.040        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.062        0.085        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.176        0.217        0.000        0.000
+         floral_initiation    to flowering               0.297        0.351        0.000        0.000
+         flowering            to start_grain_fill        0.278        0.329        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.227        0.271        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                 979.9                     0.0
-                          N  (kg/ha) =                  17.68                    0.00
+                          N  (kg/ha) =                  17.74                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                 468.0                     0.0
@@ -1791,18 +1916,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 20 April 1971(Day of year=110), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -1829,6 +1969,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             110   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 21 April 1971(Day of year=111), Wheat: 
       stage 2.0 germination
 26 April 1971(Day of year=116), Wheat: 
@@ -1886,10 +2027,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.005        0.011        0.000        0.000
-         floral_initiation    to flowering               0.239        0.306        0.000        0.000
-         flowering            to start_grain_fill        0.105        0.132        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.221        0.276        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.005        0.009        0.000        0.000
+         floral_initiation    to flowering               0.108        0.140        0.000        0.000
+         flowering            to start_grain_fill        0.107        0.138        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.134        0.171        0.000        0.000
      
      
      Crop harvested.
@@ -2017,18 +2158,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 21 April 1974(Day of year=111), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -2055,6 +2211,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             111   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 22 April 1974(Day of year=112), Wheat: 
       stage 2.0 germination
 26 April 1974(Day of year=116), Wheat: 
@@ -2112,16 +2269,16 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.006        0.010        0.000        0.000
-         floral_initiation    to flowering               0.053        0.083        0.000        0.000
-         flowering            to start_grain_fill        0.181        0.251        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.172        0.228        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.006        0.009        0.000        0.000
+         floral_initiation    to flowering               0.026        0.041        0.000        0.000
+         flowering            to start_grain_fill        0.037        0.056        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.071        0.099        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                6969.0                     0.0
-                          N  (kg/ha) =                  42.96                    0.00
+                          N  (kg/ha) =                  42.97                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                4121.8                     0.0
@@ -2342,18 +2499,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 21 April 1980(Day of year=112), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -2380,6 +2552,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             112   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 22 April 1980(Day of year=113), Wheat: 
       stage 2.0 germination
 27 April 1980(Day of year=118), Wheat: 
@@ -2437,10 +2610,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.081        0.107        0.000        0.000
-         floral_initiation    to flowering               0.054        0.073        0.000        0.000
-         flowering            to start_grain_fill        0.227        0.295        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.494        0.582        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.071        0.094        0.000        0.000
+         floral_initiation    to flowering               0.063        0.084        0.000        0.000
+         flowering            to start_grain_fill        0.075        0.100        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.171        0.210        0.000        0.000
      
      
      Crop harvested.
@@ -2502,18 +2675,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 3 June 1981(Day of year=154), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -2540,6 +2728,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             154   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 4 June 1981(Day of year=155), Wheat: 
       stage 2.0 germination
 11 June 1981(Day of year=162), Wheat: 
@@ -2598,9 +2787,9 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
-         floral_initiation    to flowering               0.227        0.275        0.000        0.000
-         flowering            to start_grain_fill        0.537        0.637        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.377        0.446        0.000        0.000
+         floral_initiation    to flowering               0.076        0.093        0.000        0.000
+         flowering            to start_grain_fill        0.100        0.121        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.155        0.185        0.000        0.000
      
      
      Crop harvested.
@@ -2761,18 +2950,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 15 April 1985(Day of year=105), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -2799,6 +3003,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             105   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 16 April 1985(Day of year=106), Wheat: 
       stage 2.0 germination
 22 April 1985(Day of year=112), Wheat: 
@@ -2856,10 +3061,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.239        0.287        0.000        0.000
-         floral_initiation    to flowering               0.061        0.089        0.000        0.000
-         flowering            to start_grain_fill        0.021        0.040        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.224        0.278        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.207        0.249        0.000        0.000
+         floral_initiation    to flowering               0.141        0.176        0.000        0.000
+         flowering            to start_grain_fill        0.131        0.165        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.152        0.191        0.000        0.000
      
      
      Crop harvested.
@@ -2921,18 +3126,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 18 April 1986(Day of year=108), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -2959,6 +3179,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             108   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 19 April 1986(Day of year=109), Wheat: 
       stage 2.0 germination
 24 April 1986(Day of year=114), Wheat: 
@@ -3009,23 +3230,23 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       senesced above ground biomass (kg/ha) =      300.0
       number of leaves       =     16.0
       DM Root:Shoot ratio    =     0.12                       Harvest Index          =       0.31
-      Stover C:N ratio       =    38.65                       Root C:N ratio         =      16.40
+      Stover C:N ratio       =    38.64                       Root C:N ratio         =      16.40
       grain N percent        =     2.88                       total N content (kg/ha)=      31.32
       grain N uptake (kg/ha) =    17.54                       senesced N content (kg/ha)=    1.50
-      green N content (kg/ha)=    12.27
+      green N content (kg/ha)=    12.28
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.342        0.379        0.000        0.000
-         floral_initiation    to flowering               0.000        0.000        0.000        0.000
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.303        0.335        0.000        0.000
+         floral_initiation    to flowering               0.168        0.186        0.000        0.000
+         flowering            to start_grain_fill        0.156        0.173        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.119        0.131        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                1331.1                     0.0
-                          N  (kg/ha) =                  13.77                    0.00
+                          N  (kg/ha) =                  13.78                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                 610.0                     0.0
@@ -3081,18 +3302,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 14 May 1987(Day of year=134), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -3119,6 +3355,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             134   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 15 May 1987(Day of year=135), Wheat: 
       stage 2.0 germination
 21 May 1987(Day of year=141), Wheat: 
@@ -3177,9 +3414,9 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.001        0.000        0.000
-         floral_initiation    to flowering               0.287        0.351        0.000        0.000
-         flowering            to start_grain_fill        0.811        0.911        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.344        0.414        0.000        0.000
+         floral_initiation    to flowering               0.106        0.130        0.000        0.000
+         flowering            to start_grain_fill        0.131        0.158        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.175        0.211        0.000        0.000
      
      
      Crop harvested.
@@ -3241,18 +3478,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 19 May 1988(Day of year=140), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -3279,6 +3531,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             140   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 20 May 1988(Day of year=141), Wheat: 
       stage 2.0 germination
 26 May 1988(Day of year=147), Wheat: 
@@ -3329,23 +3582,23 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       senesced above ground biomass (kg/ha) =     1659.6
       number of leaves       =     38.6
       DM Root:Shoot ratio    =     0.18                       Harvest Index          =       0.31
-      Stover C:N ratio       =    28.49                       Root C:N ratio         =      16.80
-      grain N percent        =     2.90                       total N content (kg/ha)=     102.09
+      Stover C:N ratio       =    28.47                       Root C:N ratio         =      16.80
+      grain N percent        =     2.90                       total N content (kg/ha)=     102.12
       grain N uptake (kg/ha) =    49.31                       senesced N content (kg/ha)=    8.30
-      green N content (kg/ha)=    44.48
+      green N content (kg/ha)=    44.51
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.020        0.031        0.000        0.000
-         floral_initiation    to flowering               0.397        0.478        0.000        0.000
-         flowering            to start_grain_fill        0.260        0.331        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.388        0.473        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.018        0.027        0.000        0.000
+         floral_initiation    to flowering               0.157        0.193        0.000        0.000
+         flowering            to start_grain_fill        0.162        0.199        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.207        0.253        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                3758.9                     0.0
-                          N  (kg/ha) =                  52.78                    0.00
+                          N  (kg/ha) =                  52.81                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                1700.8                     0.0
@@ -3467,18 +3720,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 4 June 1991(Day of year=155), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -3505,6 +3773,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             155   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 5 June 1991(Day of year=156), Wheat: 
       stage 2.0 germination
 12 June 1991(Day of year=163), Wheat: 
@@ -3556,16 +3825,16 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       number of leaves       =     36.6
       DM Root:Shoot ratio    =     0.18                       Harvest Index          =       0.30
       Stover C:N ratio       =    34.92                       Root C:N ratio         =      16.89
-      grain N percent        =     2.90                       total N content (kg/ha)=     107.45
+      grain N percent        =     2.90                       total N content (kg/ha)=     107.44
       grain N uptake (kg/ha) =    55.76                       senesced N content (kg/ha)=    7.40
       green N content (kg/ha)=    44.28
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.070        0.093        0.000        0.000
-         floral_initiation    to flowering               0.209        0.263        0.000        0.000
-         flowering            to start_grain_fill        0.607        0.721        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.479        0.563        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.061        0.081        0.000        0.000
+         floral_initiation    to flowering               0.115        0.147        0.000        0.000
+         flowering            to start_grain_fill        0.140        0.177        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.208        0.254        0.000        0.000
      
      
      Crop harvested.
@@ -3693,18 +3962,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 8 June 1994(Day of year=159), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -3731,6 +4015,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             159   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 9 June 1994(Day of year=160), Wheat: 
       stage 2.0 germination
 16 June 1994(Day of year=167), Wheat: 
@@ -3788,10 +4073,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.284        0.340        0.000        0.000
-         floral_initiation    to flowering               0.709        0.798        0.000        0.000
-         flowering            to start_grain_fill        0.988        1.000        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.406        0.406        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.249        0.298        0.000        0.000
+         floral_initiation    to flowering               0.408        0.470        0.000        0.000
+         flowering            to start_grain_fill        0.434        0.494        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.426        0.474        0.000        0.000
      
      
      Crop harvested.
@@ -3853,18 +4138,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 2 May 1995(Day of year=122), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -3891,6 +4191,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             122   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 3 May 1995(Day of year=123), Wheat: 
       stage 2.0 germination
 10 May 1995(Day of year=130), Wheat: 
@@ -3948,10 +4249,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.004        0.006        0.000        0.000
-         floral_initiation    to flowering               0.131        0.169        0.000        0.000
-         flowering            to start_grain_fill        0.441        0.530        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.411        0.492        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.004        0.005        0.000        0.000
+         floral_initiation    to flowering               0.054        0.070        0.000        0.000
+         flowering            to start_grain_fill        0.079        0.100        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.147        0.180        0.000        0.000
      
      
      Crop harvested.
@@ -4013,18 +4314,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 5 June 1996(Day of year=157), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -4051,6 +4367,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             157   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 6 June 1996(Day of year=158), Wheat: 
       stage 2.0 germination
 14 June 1996(Day of year=166), Wheat: 
@@ -4070,11 +4387,11 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
 6 October 1996(Day of year=280), Wheat: 
       stage 6.0 flowering
                      biomass =         702.61 (g/m^2)   lai          =   1.466 (m^2/m^2)
-                     stover N conc =     1.57 (%)    extractable sw =   76.63 (mm)
+                     stover N conc =     1.58 (%)    extractable sw =   76.63 (mm)
 13 October 1996(Day of year=287), Wheat: 
       stage 7.0 start_grain_fill
                      biomass =         774.64 (g/m^2)   lai          =   1.321 (m^2/m^2)
-                     stover N conc =     1.47 (%)    extractable sw =   57.74 (mm)
+                     stover N conc =     1.48 (%)    extractable sw =   57.74 (mm)
 16 November 1996(Day of year=321), Wheat: 
       stage 8.0 end_grain_fill
                      biomass =         943.11 (g/m^2)   lai          =   0.314 (m^2/m^2)
@@ -4086,7 +4403,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
 18 November 1996(Day of year=323), Wheat: 
       stage 10.0 harvest_ripe
                      biomass =         943.11 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.29 (%)    extractable sw =   13.29 (mm)
+                     stover N conc =     1.30 (%)    extractable sw =   13.29 (mm)
 18 November 1996(Day of year=323), manager: 
      Manager sending message :- wheat harvest
      
@@ -4101,23 +4418,23 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       senesced above ground biomass (kg/ha) =     2013.4
       number of leaves       =     40.8
       DM Root:Shoot ratio    =     0.15                       Harvest Index          =       0.38
-      Stover C:N ratio       =    39.24                       Root C:N ratio         =      17.14
-      grain N percent        =     2.89                       total N content (kg/ha)=     163.88
+      Stover C:N ratio       =    39.19                       Root C:N ratio         =      17.14
+      grain N percent        =     2.89                       total N content (kg/ha)=     163.96
       grain N uptake (kg/ha) =   104.67                       senesced N content (kg/ha)=   10.07
-      green N content (kg/ha)=    49.15
+      green N content (kg/ha)=    49.22
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.016        0.025        0.000        0.000
-         floral_initiation    to flowering               0.259        0.324        0.000        0.000
-         flowering            to start_grain_fill        0.146        0.189        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.425        0.516        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.014        0.021        0.000        0.000
+         floral_initiation    to flowering               0.101        0.129        0.000        0.000
+         flowering            to start_grain_fill        0.103        0.132        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.167        0.208        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                5808.8                     0.0
-                          N  (kg/ha) =                  59.21                    0.00
+                          N  (kg/ha) =                  59.29                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                3622.3                     0.0
@@ -4173,18 +4490,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 5 May 1997(Day of year=125), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -4211,6 +4543,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             125   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 6 May 1997(Day of year=126), Wheat: 
       stage 2.0 germination
 13 May 1997(Day of year=133), Wheat: 
@@ -4242,6 +4575,9 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
 2 November 1997(Day of year=306), Wheat: 
      Crop failure because of total leaf senescence.
      Plant death. standing above-ground dm = 257.84 (kg/ha)
+      stage 9.0 maturity
+                     biomass =          25.78 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.00 (%)    extractable sw =   44.95 (mm)
 2 November 1997(Day of year=306), manager: 
      Manager sending message :- wheat harvest
      
@@ -4263,10 +4599,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.590        0.614        0.000        0.000
-         floral_initiation    to flowering               0.176        0.176        0.000        0.000
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.514        0.535        0.000        0.000
+         floral_initiation    to flowering               0.387        0.400        0.000        0.000
+         flowering            to start_grain_fill        0.363        0.376        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.294        0.304        0.000        0.000
      
      
      Crop harvested.
@@ -4278,6 +4614,9 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                           DM (kg/ha) =                  48.4                     0.0
                           N  (kg/ha) =                   1.40                    0.00
      
+      stage 4.0 end_of_juvenile
+                     biomass =           0.00 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.00 (%)    extractable sw =   44.95 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
@@ -4325,18 +4664,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 15 April 1998(Day of year=105), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -4363,6 +4717,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             105   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 16 April 1998(Day of year=106), Wheat: 
       stage 2.0 germination
 21 April 1998(Day of year=111), Wheat: 
@@ -4420,10 +4775,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.108        0.143        0.000        0.000
-         floral_initiation    to flowering               0.149        0.191        0.000        0.000
-         flowering            to start_grain_fill        0.020        0.060        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.244        0.305        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.095        0.125        0.000        0.000
+         floral_initiation    to flowering               0.120        0.156        0.000        0.000
+         flowering            to start_grain_fill        0.112        0.147        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.140        0.180        0.000        0.000
      
      
      Crop harvested.
@@ -4518,18 +4873,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 200 (/m2), sowing_depth = 30 (mm)
 15 April 2000(Day of year=106), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = yitpi
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -4556,6 +4926,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             106   30.0  200.0  250.0   0.0   0.0 yitpi
          ------------------------------------------------
      
+      stage 1.0 sowing
 16 April 2000(Day of year=107), Wheat: 
       stage 2.0 germination
 21 April 2000(Day of year=112), Wheat: 
@@ -4613,10 +4984,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.196        0.238        0.000        0.000
-         floral_initiation    to flowering               0.122        0.161        0.000        0.000
-         flowering            to start_grain_fill        0.044        0.072        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.011        0.022        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.172        0.209        0.000        0.000
+         floral_initiation    to flowering               0.149        0.187        0.000        0.000
+         flowering            to start_grain_fill        0.140        0.177        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.108        0.139        0.000        0.000
      
      
      Crop harvested.

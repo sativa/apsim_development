@@ -65,7 +65,7 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      if day = 169 and year = 1988 then
         wheat sow cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
      endif
-     if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+     if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
         wheat harvest
         wheat end_crop
      endif
@@ -225,9 +225,6 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 
-------- wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
-
 ------- graz Initialisation ---------------------------------------------------
   Initial Stocking rate: 0
   Initial Live Weight: 0
@@ -237,18 +234,33 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1988(Day of year=169), wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = hartog
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -276,6 +288,7 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
             169   30.0  120.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
+      stage 1.0 sowing
 18 June 1988(Day of year=170), wheat: 
       stage 2.0 germination
 24 June 1988(Day of year=176), wheat: 
@@ -292,55 +305,55 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
                      stover N conc =     2.20 (%)    extractable sw =  183.18 (mm)
 19 September 1988(Day of year=263), wheat: 
       stage 6.0 flowering
-                     biomass =         582.65 (g/m^2)   lai          =   2.061 (m^2/m^2)
+                     biomass =         582.64 (g/m^2)   lai          =   2.061 (m^2/m^2)
                      stover N conc =     1.04 (%)    extractable sw =  262.08 (mm)
 26 September 1988(Day of year=270), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         695.27 (g/m^2)   lai          =   1.675 (m^2/m^2)
-                     stover N conc =     0.77 (%)    extractable sw =  228.59 (mm)
+                     biomass =         695.26 (g/m^2)   lai          =   1.675 (m^2/m^2)
+                     stover N conc =     0.77 (%)    extractable sw =  228.60 (mm)
 20 October 1988(Day of year=294), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         888.77 (g/m^2)   lai          =   0.281 (m^2/m^2)
+                     biomass =         888.76 (g/m^2)   lai          =   0.281 (m^2/m^2)
                      stover N conc =     0.34 (%)    extractable sw =  160.46 (mm)
 21 October 1988(Day of year=295), wheat: 
       stage 9.0 maturity
-                     biomass =         888.77 (g/m^2)   lai          =   0.256 (m^2/m^2)
+                     biomass =         888.76 (g/m^2)   lai          =   0.256 (m^2/m^2)
                      stover N conc =     0.34 (%)    extractable sw =  159.23 (mm)
 22 October 1988(Day of year=296), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         888.77 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.33 (%)    extractable sw =  157.39 (mm)
+                     biomass =         888.76 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.33 (%)    extractable sw =  157.92 (mm)
 23 October 1988(Day of year=297), manager: 
      Manager sending message :- wheat harvest
 23 October 1988(Day of year=297), wheat: 
      
-      flowering day          =  263                           stover (kg/ha)         =     5516.9
+      flowering day          =  263                           stover (kg/ha)         =     5516.8
       maturity day           =  295                           grain yield (kg/ha)    =     3370.8
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3852.4
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3852.3
       grain wt (g)           =    0.041                       grains/m^2             =     8221.5
       grains/plant           =   68.5                         maximum lai            =      2.953
-      total above ground biomass (kg/ha)    =     8887.7
-      live above ground biomass (kg/ha)     =     8887.7
-      green above ground biomass (kg/ha)    =     7610.5
+      total above ground biomass (kg/ha)    =     8887.6
+      live above ground biomass (kg/ha)     =     8887.6
+      green above ground biomass (kg/ha)    =     7610.4
       senesced above ground biomass (kg/ha) =     1277.2
       number of leaves       =     40.2
       DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.38
-      Stover C:N ratio       =   107.92                       Root C:N ratio         =      31.81
+      Stover C:N ratio       =   107.91                       Root C:N ratio         =      31.81
       grain N percent        =     1.55                       total N content (kg/ha)=      72.60
       grain N uptake (kg/ha) =    52.15                       senesced N content (kg/ha)=    6.39
       green N content (kg/ha)=    14.06
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.103        0.138
-         floral_initiation    to flowering               0.000        0.000        0.165        0.301
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.212        0.604
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.088        0.118
+         floral_initiation    to flowering               0.000        0.000        0.114        0.180
+         flowering            to start_grain_fill        0.000        0.000        0.106        0.168
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.126        0.251
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                5516.9                     0.0
+                          DM (kg/ha) =                5516.8                     0.0
                           N  (kg/ha) =                  20.45                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -349,7 +362,7 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.024 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =  157.39 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =  157.92 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM

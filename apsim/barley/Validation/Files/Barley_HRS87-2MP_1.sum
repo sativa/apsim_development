@@ -44,7 +44,7 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
 ------- outputfile Initialisation ---------------------------------------------
      Output variables:
         dd/mm/yyyy as Date
-        barley.das
+        barley.DaysAfterSowing
         barley.stage
         barley.biomass_wt
         barley.LeafGreenWt as dmLeaf
@@ -125,7 +125,7 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
       if (paddock_is_fallow() = 0) then
         outputfile do_output
      endif
-                if barley.stage_name = 'harvest_ripe' or barley.plant_status = 'dead' then
+                if barley.stagename = 'harvest_ripe' or barley.plant_status = 'dead' then
        barley  harvest
        barley  end_crop
                 endif
@@ -328,24 +328,36 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals   96613.9  7729.1   642.1    80.3   400.0     8.0
           ---------------------------------------------------------
-
-------- barley Initialisation -------------------------------------------------
-     phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- barley sow  plants = 68.9, sowing_depth = 50, cultivar = grimmett, row_spacing = 250
+2 April 1987(Day of year=92), barley: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = grimmett
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.90 ()
-        phyllochron                =         30 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.1000 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -367,11 +379,6 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   242mm in  1400mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.5 times eo.
-     Manager sending message :- fertiliser apply  amount = 80 (kg/ha), depth = 50 (mm), type = urea_n
-     
-        - Reading Fertiliser Type Parameters
-        80.00 of N as urea (urea_n)
-                                              added at depth   50.00 (layer   1)
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -381,6 +388,12 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
              92   50.0   68.9  250.0   0.0   0.0 grimmett
          ------------------------------------------------
      
+     Manager sending message :- fertiliser apply  amount = 80 (kg/ha), depth = 50 (mm), type = urea_n
+     
+        - Reading Fertiliser Type Parameters
+        80.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+      stage 1.0 sowing
 3 April 1987(Day of year=93), barley: 
       stage 2.0 germination
 9 April 1987(Day of year=99), barley: 

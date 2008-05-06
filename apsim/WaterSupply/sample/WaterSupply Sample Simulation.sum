@@ -112,7 +112,7 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+                if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
        wheat  harvest
        wheat  end_crop
                 endif
@@ -310,9 +310,6 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
           ---------------------------------------------------------
            Totals  154624.2 12369.9   483.3    60.4    80.0     2.0
           ---------------------------------------------------------
-
-------- wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
 
 ------- channel Initialisation ------------------------------------------------
      
@@ -1837,18 +1834,33 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 30, cultivar = hartog, row_spacing = 250, crop_class = plant
 28 May 1942(Day of year=148), wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = hartog
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -1871,13 +1883,6 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
          -----------------------------------------------
          Extractable SW:   320mm in  3000mm total depth ( 11%).
          Crop factor for bounding water use is set to   1.5 times eo.
-28 May 1942(Day of year=148), Sowing fertiliser: 
-     Manager sending message :- fertiliser apply  amount = 150 (kg/ha), depth = 50 (mm), type = urea_n
-28 May 1942(Day of year=148), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-       150.00 of N as urea (urea_n)
-                                              added at depth   50.00 (layer   1)
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1889,6 +1894,14 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
      
 28 May 1942(Day of year=148), Logic: 
      Manager sending message :- irrigation apply  amount = 108.71628, source = dam
+28 May 1942(Day of year=148), Sowing fertiliser: 
+     Manager sending message :- fertiliser apply  amount = 150 (kg/ha), depth = 50 (mm), type = urea_n
+28 May 1942(Day of year=148), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+       150.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+      stage 1.0 sowing
 29 May 1942(Day of year=149), wheat: 
       stage 2.0 germination
 5 June 1942(Day of year=156), wheat: 
@@ -1938,15 +1951,15 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
 7 October 1942(Day of year=280), wheat: 
       stage 8.0 end_grain_fill
                      biomass =         954.44 (g/m^2)   lai          =   0.518 (m^2/m^2)
-                     stover N conc =     1.06 (%)    extractable sw =  317.43 (mm)
+                     stover N conc =     1.07 (%)    extractable sw =  317.43 (mm)
 9 October 1942(Day of year=282), wheat: 
       stage 9.0 maturity
                      biomass =         956.88 (g/m^2)   lai          =   0.434 (m^2/m^2)
-                     stover N conc =     1.06 (%)    extractable sw =  309.47 (mm)
+                     stover N conc =     1.07 (%)    extractable sw =  309.47 (mm)
 10 October 1942(Day of year=283), wheat: 
       stage 10.0 harvest_ripe
                      biomass =         956.88 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.08 (%)    extractable sw =  307.45 (mm)
+                     stover N conc =     1.09 (%)    extractable sw =  307.45 (mm)
 10 October 1942(Day of year=283), Harvesting rule: 
      Manager sending message :- wheat harvest
      
@@ -1961,10 +1974,10 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
       senesced above ground biomass (kg/ha) =      896.7
       number of leaves       =     34.7
       DM Root:Shoot ratio    =     0.11                       Harvest Index          =       0.37
-      Stover C:N ratio       =    40.22                       Root C:N ratio         =      17.52
-      grain N percent        =     2.87                       total N content (kg/ha)=     161.42
+      Stover C:N ratio       =    39.90                       Root C:N ratio         =      17.52
+      grain N percent        =     2.87                       total N content (kg/ha)=     161.90
       grain N uptake (kg/ha) =   101.34                       senesced N content (kg/ha)=    4.48
-      green N content (kg/ha)=    55.60
+      green N content (kg/ha)=    56.08
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -1977,7 +1990,7 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                6041.4                     0.0
-                          N  (kg/ha) =                  60.08                    0.00
+                          N  (kg/ha) =                  60.57                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                3527.4                     0.0

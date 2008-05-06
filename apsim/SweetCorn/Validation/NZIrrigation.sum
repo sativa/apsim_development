@@ -71,7 +71,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
         SweetCorn.nfact_photo
         SweetCorn.temp_stress_photo
         SweetCorn.tt_tot
-        SweetCorn.das
+        SweetCorn.DaysAfterSowing
         Irrigation.irrigation
         SweetCorn.root_depth
         sw_dep()
@@ -122,7 +122,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
+                if sweetcorn.stagename = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
        sweetcorn  harvest
        sweetcorn  end_crop
                 endif
@@ -300,9 +300,6 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals  189470.0 15157.6   778.0    97.3    80.0     2.0
           ---------------------------------------------------------
-
-------- SweetCorn Initialisation ----------------------------------------------
-     phenology model: Generic
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -352,7 +349,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
         SweetCorn.nfact_photo
         SweetCorn.temp_stress_photo
         SweetCorn.tt_tot
-        SweetCorn.das
+        SweetCorn.DaysAfterSowing
         Irrigation.irrigation
         SweetCorn.root_depth
         sw_dep()
@@ -403,7 +400,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
+                if sweetcorn.stagename = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
        sweetcorn  harvest
        sweetcorn  end_crop
                 endif
@@ -581,9 +578,6 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals  189470.0 15157.6   778.0    97.3    80.0     2.0
           ---------------------------------------------------------
-
-------- SweetCorn Initialisation ----------------------------------------------
-     phenology model: Generic
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -616,6 +610,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
      
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- sweetcorn sow  plants = 5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
+30 October 1996(Day of year=304), SweetCorn: 
      Crop Sow
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -647,44 +642,40 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = challenger
-     out
-     
-     sowing
-     
-     germination
-     shoot_lag =         15 (dd)
-     shoot_rate =          1 (dd/mm)
-     
-     emergence
-        tt_emergence =        120 (dd)
-     endjuv_to_fi
-        x_pp_endjuv_to_fi          =    13.9    14.7 (h)
-        y_tt_endjuv_to_fi          =      75      75 (dd)
-     
-     fi_to_flag
-        Stage duration determined by leaf appearance rates
-     flag_to_flower
-        tt_flag_to_flower =        101 (dd)
-     flowering
-        tt_flowering =        170 (dd)
-     start_grain_fill
-        tt_start_grain_fill =        800 (dd)
-     end_grain_fill
-        tt_end_grain_fill =          5 (dd)
-     maturity
-        tt_maturity =          1 (dd)
-     harvest_ripe
-        tt_harvest_ripe =          1 (dd)
-     end_crop
-     
+        Phases:
+           out
+           sowing
+           germination
+              shoot_lag                  =      15 (dd)
+              shoot_rate                 =       1 (dd/mm)
+           emergence
+              tt_emergence               =     120 (dd)
+           endjuv_to_fi
+              x_pp_endjuv_to_fi          =    13.9    14.7 (h)
+              y_tt_endjuv_to_fi          =      75      75 (dd)
+           fi_to_flag
+              Stage duration determined by leaf appearance rates
+           flag_to_flower
+              tt_flag_to_flower          =     101 (dd)
+           flowering
+              tt_flowering               =     170 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     800 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =       5 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =       1 (dd)
+           end_crop
      
         grains_per_gram_stem           =        3.3 (/g)
         potential_grain_filling_rate   =     0.0100 (g/grain/day)
         potential_grain_growth_rate    =     0.0000 (g/grain/day)
         max_grain_size                 =     0.5000 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -703,11 +694,6 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   342mm in  1800mm total depth ( 19%).
          Crop factor for bounding water use is set to   1.0 times eo.
-     Manager sending message :- fertiliser apply  amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
-     
-        - Reading Fertiliser Type Parameters
-        24.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -718,6 +704,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
          ------------------------------------------------
      
      Manager sending message :- sweetcorn sow  plants = 5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
+30 October 1996(Day of year=304), SweetCorn: 
      Crop Sow
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -749,44 +736,40 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = challenger
-     out
-     
-     sowing
-     
-     germination
-     shoot_lag =         15 (dd)
-     shoot_rate =          1 (dd/mm)
-     
-     emergence
-        tt_emergence =        120 (dd)
-     endjuv_to_fi
-        x_pp_endjuv_to_fi          =    13.9    14.7 (h)
-        y_tt_endjuv_to_fi          =      75      75 (dd)
-     
-     fi_to_flag
-        Stage duration determined by leaf appearance rates
-     flag_to_flower
-        tt_flag_to_flower =        101 (dd)
-     flowering
-        tt_flowering =        170 (dd)
-     start_grain_fill
-        tt_start_grain_fill =        800 (dd)
-     end_grain_fill
-        tt_end_grain_fill =          5 (dd)
-     maturity
-        tt_maturity =          1 (dd)
-     harvest_ripe
-        tt_harvest_ripe =          1 (dd)
-     end_crop
-     
+        Phases:
+           out
+           sowing
+           germination
+              shoot_lag                  =      15 (dd)
+              shoot_rate                 =       1 (dd/mm)
+           emergence
+              tt_emergence               =     120 (dd)
+           endjuv_to_fi
+              x_pp_endjuv_to_fi          =    13.9    14.7 (h)
+              y_tt_endjuv_to_fi          =      75      75 (dd)
+           fi_to_flag
+              Stage duration determined by leaf appearance rates
+           flag_to_flower
+              tt_flag_to_flower          =     101 (dd)
+           flowering
+              tt_flowering               =     170 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     800 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =       5 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =       1 (dd)
+           end_crop
      
         grains_per_gram_stem           =        3.3 (/g)
         potential_grain_filling_rate   =     0.0100 (g/grain/day)
         potential_grain_growth_rate    =     0.0000 (g/grain/day)
         max_grain_size                 =     0.5000 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -805,11 +788,6 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   342mm in  1800mm total depth ( 19%).
          Crop factor for bounding water use is set to   1.0 times eo.
-     Manager sending message :- fertiliser apply  amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
-     
-        - Reading Fertiliser Type Parameters
-        24.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -819,6 +797,18 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
             304   50.0    5.7  700.0   0.0   0.0 challenger
          ------------------------------------------------
      
+     Manager sending message :- fertiliser apply  amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
+     
+        - Reading Fertiliser Type Parameters
+        24.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+      stage 1.0 sowing
+     Manager sending message :- fertiliser apply  amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
+     
+        - Reading Fertiliser Type Parameters
+        24.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+      stage 1.0 sowing
 31 October 1996(Day of year=305), SweetCorn: 
       stage 2.0 germination
 31 October 1996(Day of year=305), SweetCorn: 
@@ -832,7 +822,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
                      biomass =           0.11 (g/m^2)   lai          =   0.006 (m^2/m^2)
                      stover N conc =     5.00 (%)    extractable sw =   12.98 (mm)
 20 November 1996(Day of year=325), Fertilise on fixed date: 
-     Manager creating a new local real variable : n_topsoil = 44.24643
+     Manager creating a new local real variable : n_topsoil = 44.24638
      Manager sending message :- fertiliser apply  amount = 200 (kg/ha), depth = 50 (mm), type = urea_n
 20 November 1996(Day of year=325), fertiliser: 
      
@@ -840,7 +830,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
        200.00 of N as urea (urea_n)
                                               added at depth   50.00 (layer   1)
 20 November 1996(Day of year=325), Fertilise on fixed date: 
-     Manager creating a new local real variable : n_topsoil = 44.24643
+     Manager creating a new local real variable : n_topsoil = 44.24638
      Manager sending message :- fertiliser apply  amount = 200 (kg/ha), depth = 50 (mm), type = urea_n
 20 November 1996(Day of year=325), fertiliser: 
      
@@ -873,11 +863,11 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     2.25 (%)    extractable sw =  213.56 (mm)
 22 February 1997(Day of year=53), SweetCorn: 
       stage 7.0 flowering
-                     biomass =         605.38 (g/m^2)   lai          =   2.111 (m^2/m^2)
+                     biomass =         605.29 (g/m^2)   lai          =   2.111 (m^2/m^2)
                      stover N conc =     2.35 (%)    extractable sw =  238.25 (mm)
 22 February 1997(Day of year=53), SweetCorn: 
       stage 7.0 flowering
-                     biomass =         581.67 (g/m^2)   lai          =   2.082 (m^2/m^2)
+                     biomass =         581.61 (g/m^2)   lai          =   2.081 (m^2/m^2)
                      stover N conc =     1.63 (%)    extractable sw =  197.22 (mm)
 22 March 1997(Day of year=81), clock: 
      Simulation is terminating due to end criteria being met.

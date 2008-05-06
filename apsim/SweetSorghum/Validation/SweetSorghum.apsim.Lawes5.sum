@@ -35,7 +35,7 @@ Component "sweetsorghum" = c:\development\apsim\Plant\lib\Plant.dll
      Output variables:
         clock.dd/mmm/yyyy as Date
         met.rain as rain
-        sweetsorghum.das
+        sweetsorghum.DaysAfterSowing
         sweetsorghum.zadok_stage
         met.day_length
         sweetsorghum.stage
@@ -51,8 +51,8 @@ Component "sweetsorghum" = c:\development\apsim\Plant\lib\Plant.dll
         met.maxt
         met.mint
         met.radn
-        sweetsorghum.tt_tot()
-        sweetsorghum.dlt_tt
+        sweetsorghum.TTAfterSowing
+        sweetsorghum.TT
         sweetsorghum.LeafGreenWt
         sweetsorghum.StemGreenWt
         sweetsorghum.node_no
@@ -109,7 +109,7 @@ Component "sweetsorghum" = c:\development\apsim\Plant\lib\Plant.dll
           if sweetsorghum.plant_status = 'alive' then
              report do_output
           endif
-          if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+          if sweetsorghum.stagename = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
              sweetsorghum harvest
              sweetsorghum end_crop
           endif
@@ -255,9 +255,6 @@ Component "sweetsorghum" = c:\development\apsim\Plant\lib\Plant.dll
           ---------------------------------------------------------
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
-
-------- sweetsorghum Initialisation -------------------------------------------
-     phenology model: Generic
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------

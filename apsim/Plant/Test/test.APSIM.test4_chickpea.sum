@@ -205,9 +205,6 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
           ---------------------------------------------------------
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
-
-------- chickpea Initialisation -----------------------------------------------
-     phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- chickpea kill_stem
 9 May 1988(Day of year=130): 
@@ -219,28 +216,46 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
+9 May 1988(Day of year=130), chickpea: 
+      stage 1.0 sowing
      Manager sending message :- chickpea sow  cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = amethyst
-        est_days_emerg_to_init     = 83 (days)
-        cum_vernal_days            =       0     100 (vd)
-        tt_emerg_to_endjuv         =     515     515 (dd)
-        x_pp_endjuv_to_init        =    10.7      17 (h)
-        y_tt_endjuv_to_init        =     446       0 (dd)
-        x_pp_init_to_flower        =       1      24 (h)
-        y_tt_init_to_flower        =      33      33 (dd)
-        x_pp_flower_to_start_grain =       1      24 (h)
-        y_tt_flower_to_start_grain =     450     450 (dd)
-        x_pp_start_to_end_grain    =       1      24 (h)
-        y_tt_start_to_end_grain    =     690     690 (dd)
-        tt_end_grain_to_maturity   =         60 (dd)
-        tt_maturity_to_ripe        =          1 (dd)
+        Phases:
+           out
+           sowing
+           germination
+              shoot_lag                  =      15 (dd)
+              shoot_rate                 =       2 (dd/mm)
+           emergence
+              cumvd_emergence            =       0     100 (vd)
+              tt_emergence               =     515     515 (dd)
+           end_of_juvenile
+              x_pp_end_of_juvenile       =    10.7      17 (h)
+              y_tt_end_of_juvenile       =     446       0 (dd)
+           floral_initiation
+              x_pp_floral_initiation     =       1      24 (h)
+              y_tt_floral_initiation     =      33      33 (dd)
+           flowering
+              x_pp_flowering             =       1      24 (h)
+              y_tt_flowering             =     450     450 (dd)
+           start_grain_fill
+              x_pp_start_grain_fill      =       1      24 (h)
+              y_tt_start_grain_fill      =     690     690 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      60 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =       1 (dd)
+           end_crop
+     
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0100     0.0100
         x_hi_max_pot_stress        =       0.00       1.00
         y_hi_max_pot               =       0.50       0.50
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -268,6 +283,7 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
             130   40.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
+      stage 1.0 sowing
 10 May 1988(Day of year=131), chickpea: 
       stage 2.0 germination
 16 May 1988(Day of year=137), chickpea: 
@@ -285,7 +301,7 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
 22 July 1988(Day of year=204), chickpea: 
       stage 6.0 flowering
                      biomass =          31.22 (g/m^2)   lai          =   0.589 (m^2/m^2)
-                     stover N conc =     3.39 (%)    extractable sw =  279.51 (mm)
+                     stover N conc =     3.56 (%)    extractable sw =  279.51 (mm)
 23 August 1988(Day of year=236), chickpea: 
       stage 7.0 start_grain_fill
                      biomass =         181.29 (g/m^2)   lai          =   2.308 (m^2/m^2)
@@ -297,13 +313,12 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
 5 October 1988(Day of year=279), chickpea: 
       stage 9.0 maturity
                      biomass =         562.73 (g/m^2)   lai          =   2.290 (m^2/m^2)
-                     stover N conc =     1.72 (%)    extractable sw =  186.53 (mm)
+                     stover N conc =     1.73 (%)    extractable sw =  186.53 (mm)
 6 October 1988(Day of year=280), chickpea: 
       stage 10.0 harvest_ripe
                      biomass =         572.91 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.79 (%)    extractable sw =  178.66 (mm)
+                     stover N conc =     1.80 (%)    extractable sw =  178.66 (mm)
 7 October 1988(Day of year=281), chickpea: 
-     Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 5729.14 (kg/ha)
+      stage 11.0 end_crop
 26 October 1988(Day of year=300), clock: 
      Simulation is terminating due to end criteria being met.

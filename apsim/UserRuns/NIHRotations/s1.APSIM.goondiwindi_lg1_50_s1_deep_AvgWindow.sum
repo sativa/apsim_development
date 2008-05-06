@@ -147,7 +147,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         else
         endif
      else
-        if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+        if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
            w_mat_day = day
            wheat harvest
            wheat kill_crop
@@ -436,12 +436,6 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
           ---------------------------------------------------------
            Totals  223106.3 15386.6  1046.1   130.8   400.0    10.0
           ---------------------------------------------------------
-
-------- chickpea Initialisation -----------------------------------------------
-     phenology model: TTT
-
-------- wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
 
 ------- tracker Initialisation ------------------------------------------------
      Tracker variables:

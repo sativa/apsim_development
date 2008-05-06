@@ -65,7 +65,7 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      if day = 169 and year = 1988 then
         wheat sow cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
      endif
-     if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+     if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
         wheat harvest
         wheat end_crop
      endif
@@ -250,9 +250,6 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 
-------- wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
-
 ------- graz Initialisation ---------------------------------------------------
   Initial Stocking rate: 0
   Initial Live Weight: 0
@@ -262,18 +259,33 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      Manager sending message :- wheat sow  cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 17 June 1988(Day of year=169), wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = hartog
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -301,6 +313,7 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
             169   30.0  120.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
+      stage 1.0 sowing
 18 June 1988(Day of year=170), wheat: 
       stage 2.0 germination
 24 June 1988(Day of year=176), wheat: 
@@ -316,12 +329,15 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
                      biomass =         191.82 (g/m^2)   lai          =   2.765 (m^2/m^2)
                      stover N conc =     2.20 (%)    extractable sw =  183.18 (mm)
 21 August 1988(Day of year=234), wheat: 
-      stage 5.0 end_of_juvenile
-                     biomass =         164.22 (g/m^2)   lai          =   2.157 (m^2/m^2)
-                     stover N conc =     2.04 (%)    extractable sw =  174.21 (mm)
+      stage 4.0 end_of_juvenile
+                     biomass =         164.21 (g/m^2)   lai          =   2.157 (m^2/m^2)
+                     stover N conc =     2.04 (%)    extractable sw =  174.22 (mm)
 22 August 1988(Day of year=235), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         167.01 (g/m^2)   lai          =   2.172 (m^2/m^2)
-                     stover N conc =     2.05 (%)    extractable sw =  172.45 (mm)
+                     biomass =         167.00 (g/m^2)   lai          =   2.171 (m^2/m^2)
+                     stover N conc =     2.05 (%)    extractable sw =  172.46 (mm)
+      stage 4.0 end_of_juvenile
+                     biomass =         150.45 (g/m^2)   lai          =   1.954 (m^2/m^2)
+                     stover N conc =     2.05 (%)    extractable sw =  172.46 (mm)
 17 November 1988(Day of year=322), clock: 
      Simulation is terminating due to end criteria being met.

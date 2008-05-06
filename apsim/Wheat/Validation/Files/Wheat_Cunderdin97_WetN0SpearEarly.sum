@@ -48,7 +48,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         day
         year
         wheat.zadok_stage
-        wheat.stage_name
+        wheat.StageName
         wheat.biomass
         wheat.yield
         wheat.grain_size
@@ -124,7 +124,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+                if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
        wheat  harvest
        wheat  end_crop
                 endif
@@ -366,26 +366,38 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals   61531.1  4733.2   358.9    44.9   200.0     5.0
           ---------------------------------------------------------
-
-------- wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
 6 June 1997(Day of year=157), Sow on a fixed date: 
      Manager sending message :- wheat sow  plants = 150, sowing_depth = 30, cultivar = spear, row_spacing = 250
 6 June 1997(Day of year=157), wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = spear
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.50 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       20.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0450 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -423,6 +435,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
             157   30.0  150.0  250.0   0.0   0.0 spear
          ------------------------------------------------
      
+      stage 1.0 sowing
 7 June 1997(Day of year=158), wheat: 
       stage 2.0 germination
 13 June 1997(Day of year=164), wheat: 
@@ -445,13 +458,13 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- irrigation apply  amount = 15 (mm)
 10 October 1997(Day of year=283), wheat: 
       stage 6.0 flowering
-                     biomass =         676.82 (g/m^2)   lai          =   1.739 (m^2/m^2)
+                     biomass =         676.81 (g/m^2)   lai          =   1.739 (m^2/m^2)
                      stover N conc =     0.97 (%)    extractable sw =   61.72 (mm)
 14 October 1997(Day of year=287), Irrigator: 
      Manager sending message :- irrigation apply  amount = 20 (mm)
 17 October 1997(Day of year=290), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         755.06 (g/m^2)   lai          =   1.367 (m^2/m^2)
+                     biomass =         755.05 (g/m^2)   lai          =   1.367 (m^2/m^2)
                      stover N conc =     0.74 (%)    extractable sw =   55.04 (mm)
 21 October 1997(Day of year=294), Irrigator: 
      Manager sending message :- irrigation apply  amount = 17.5 (mm)
@@ -459,47 +472,47 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- irrigation apply  amount = 17.5 (mm)
 15 November 1997(Day of year=319), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         954.67 (g/m^2)   lai          =   0.305 (m^2/m^2)
+                     biomass =         954.65 (g/m^2)   lai          =   0.305 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   34.46 (mm)
 18 November 1997(Day of year=322), wheat: 
       stage 9.0 maturity
-                     biomass =         956.05 (g/m^2)   lai          =   0.224 (m^2/m^2)
-                     stover N conc =     0.32 (%)    extractable sw =   31.45 (mm)
+                     biomass =         955.93 (g/m^2)   lai          =   0.224 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =   31.48 (mm)
 19 November 1997(Day of year=323), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         956.05 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.32 (%)    extractable sw =   31.07 (mm)
+                     biomass =         955.93 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =   31.10 (mm)
 19 November 1997(Day of year=323), Harvesting rule: 
      Manager sending message :- wheat harvest
      
-      flowering day          =  283                           stover (kg/ha)         =     6736.4
+      flowering day          =  283                           stover (kg/ha)         =     6735.2
       maturity day           =  322                           grain yield (kg/ha)    =     2824.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3227.6
       grain wt (g)           =    0.038                       grains/m^2             =     7409.9
-      grains/plant           =   49.4                         maximum lai            =      3.842
-      total above ground biomass (kg/ha)    =     9560.5
-      live above ground biomass (kg/ha)     =     9560.5
-      green above ground biomass (kg/ha)    =     7774.2
-      senesced above ground biomass (kg/ha) =     1786.3
+      grains/plant           =   49.4                         maximum lai            =      3.841
+      total above ground biomass (kg/ha)    =     9559.3
+      live above ground biomass (kg/ha)     =     9559.3
+      green above ground biomass (kg/ha)    =     7773.2
+      senesced above ground biomass (kg/ha) =     1786.1
       number of leaves       =     49.0
       DM Root:Shoot ratio    =     0.15                       Harvest Index          =       0.30
-      Stover C:N ratio       =   109.20                       Root C:N ratio         =      31.30
-      grain N percent        =     1.58                       total N content (kg/ha)=      69.38
+      Stover C:N ratio       =   109.21                       Root C:N ratio         =      31.31
+      grain N percent        =     1.58                       total N content (kg/ha)=      69.37
       grain N uptake (kg/ha) =    44.70                       senesced N content (kg/ha)=    8.93
       green N content (kg/ha)=    15.74
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.017        0.025        0.186        0.216
-         floral_initiation    to flowering               0.159        0.203        0.307        0.384
-         flowering            to start_grain_fill        0.337        0.437        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.185        0.249        0.204        0.635
+         end_of_juvenile      to floral_initiation       0.015        0.022        0.166        0.193
+         floral_initiation    to flowering               0.063        0.082        0.212        0.254
+         flowering            to start_grain_fill        0.077        0.100        0.200        0.241
+         start_grain_fill     to end_grain_fill          0.096        0.127        0.201        0.311
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                6736.4                     0.0
-                          N  (kg/ha) =                  24.68                    0.00
+                          DM (kg/ha) =                6735.2                     0.0
+                          N  (kg/ha) =                  24.67                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                2824.1                     0.0
@@ -507,7 +520,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.030 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   31.07 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   31.10 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM

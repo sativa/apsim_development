@@ -52,7 +52,7 @@ Component  "sunflower" = c:\development\apsim\CropMod\lib\CropMod.dll
         sunflower sow cultivar = sunfola68-2, plants = 5, sowing_depth = 50 (mm)
         harvest = 2
      endif
-     if sunflower.stage_name = 'harvest_ripe' or sunflower.plant_status = 'dead' then
+     if sunflower.stagename = 'harvest_ripe' or sunflower.plant_status = 'dead' then
         sunflower harvest
         sunflower end_crop
         harvest = 1

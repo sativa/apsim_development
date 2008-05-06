@@ -41,7 +41,7 @@ Component "butterflypea" = c:\development\apsim\plant\lib\plant.dll
         post
      Output variables:
         dd/mm/yyyy as Date
-        butterflypea.das
+        butterflypea.DaysAfterSowing
         butterflypea.lai
         butterflypea.biomass
         butterflypea.LeafGreenN
@@ -53,7 +53,7 @@ Component "butterflypea" = c:\development\apsim\plant\lib\plant.dll
         butterflypea.sw_stress_pheno
         butterflypea.sw_stress_fixation
         butterflypea.sw_stress_expan
-        butterflypea.stage_name
+        butterflypea.StageName
 
      Output file = Sample Butterfly pea Simulation.out
      Format = normal
@@ -222,34 +222,47 @@ Component "butterflypea" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals   50858.7  4068.7   464.3    58.0    80.0     2.0
           ---------------------------------------------------------
-
-------- butterflypea Initialisation -------------------------------------------
-     phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
 31 January 1989(Day of year=31), Sowing rule: 
      Manager sending message :- butterflypea sow  plants = 20, sowing_depth = 30, cultivar = milgarra, row_spacing = 300
 31 January 1989(Day of year=31), butterflypea: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = milgarra
-        est_days_emerg_to_init     = 20 (days)
-        cum_vernal_days            =       0     100 (vd)
-        tt_emerg_to_endjuv         =     500     500 (dd)
-        x_pp_endjuv_to_init        =    13.3      18 (h)
-        y_tt_endjuv_to_init        =     600     600 (dd)
-        x_pp_init_to_flower        =       1      24 (h)
-        y_tt_init_to_flower        =      20      20 (dd)
-        x_pp_flower_to_start_grain =       1      24 (h)
-        y_tt_flower_to_start_grain =     100     100 (dd)
-        x_pp_start_to_end_grain    =       1      24 (h)
-        y_tt_start_to_end_grain    =     900     900 (dd)
-        tt_end_grain_to_maturity   =        400 (dd)
-        tt_maturity_to_ripe        =          5 (dd)
+        Phases:
+           out
+           sowing
+           germination
+              shoot_lag                  =      30 (dd)
+              shoot_rate                 =       3 (dd/mm)
+           emergence
+              cumvd_emergence            =       0     100 (vd)
+              tt_emergence               =     500     500 (dd)
+           end_of_juvenile
+              x_pp_end_of_juvenile       =    13.3      18 (h)
+              y_tt_end_of_juvenile       =     600     600 (dd)
+           floral_initiation
+              x_pp_floral_initiation     =       1      24 (h)
+              y_tt_floral_initiation     =      20      20 (dd)
+           flowering
+              x_pp_flowering             =       1      24 (h)
+              y_tt_flowering             =     100     100 (dd)
+           start_grain_fill
+              x_pp_start_grain_fill      =       1      24 (h)
+              y_tt_start_grain_fill      =     900     900 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =     400 (dd)
+           maturity
+              tt_maturity                =       5 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =       1 (dd)
+           end_crop
+     
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0300     0.0300
         x_hi_max_pot_stress        =       0.00       1.00
         y_hi_max_pot               =       0.20       0.20
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -276,6 +289,7 @@ Component "butterflypea" = c:\development\apsim\plant\lib\plant.dll
          ------------------------------------------------
      
      Manager creating a new local string variable : choosenextcrop = yes
+      stage 1.0 sowing
 1 February 1989(Day of year=32), butterflypea: 
       stage 2.0 germination
 13 February 1989(Day of year=44), butterflypea: 
