@@ -37,6 +37,12 @@ class interpolationFunction : public externalFunction
       return true;
       };
    float minYval(){return *min_element(y.begin(),y.end());}
+   void setXY(const vector<float>& xValues,
+              const vector<float>& yValues)
+      {
+      x = xValues;
+      y = yValues;
+      }
 };
 
 

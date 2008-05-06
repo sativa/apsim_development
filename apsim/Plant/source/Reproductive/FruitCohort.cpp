@@ -32,17 +32,6 @@ FruitCohort::~FruitCohort()
       delete (*part);
 }
 
-float FruitCohort::getStageNumber(void)
-   //===========================================================================
-{
-   return plant->getStageNumber();
-}
-
-bool  FruitCohort::on_day_of(const string &what)
-   //===========================================================================
-{
-   return (plant->on_day_of(what));
-}
 
 void FruitCohort::onInit1(protocol::Component *system)
    //===========================================================================

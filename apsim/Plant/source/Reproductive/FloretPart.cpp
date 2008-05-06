@@ -2,6 +2,7 @@
 
 #include "CompositePart.h"
 #include "FloretPart.h"
+#include "Phenology/Phenology.h"
 using namespace std;
 
 FloretPart::FloretPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
@@ -9,7 +10,6 @@ FloretPart::FloretPart(ScienceAPI& scienceAPI, plantInterface *p, const string &
    {
    fill_real_array (cX_co2_te_modifier, 0.0, max_table);
    fill_real_array (cY_co2_te_modifier, 0.0, max_table);
-   cPartition_option = 0;
    cNum_co2_te_modifier = 0;
    }
 
@@ -42,19 +42,6 @@ void FloretPart::onHarvest(float /* cutting_height */, float remove_fr,
    onHarvest_GenericAboveGroundPart(remove_fr, dm_type, dlt_crop_dm, dlt_dm_n, dlt_dm_p, fraction_to_residue);
 }
 
-void FloretPart::onFlowering(void)
-//=======================================================================================
-{
-   DMPlantMin = 0.0;
-}
-
-// set the minimum weight of part; used for retranslocation to grain
-void FloretPart::onStartGrainFill(void)
-//=======================================================================================
-{
-   DMPlantMin = 0.0;
-}
-
 void FloretPart::doDmMin(void)
 //=======================================================================================
 {
@@ -66,20 +53,7 @@ void FloretPart::doDmMin(void)
 void FloretPart::doDmDemand(float dlt_dm_supply)
 //=======================================================================================
 {
-   if (cPartition_option == 1)
-      doDmDemand1(dlt_dm_supply);
-   else if (cPartition_option == 2)
-      doDmDemand2(dlt_dm_supply);
-   else
-      throw std::invalid_argument("invalid template option in FloretPart::doDmDemand");
-}
-
-void FloretPart::doDmDemand1(float dlt_dm_supply)
-//=======================================================================================
-{
-   float dlt_dm_supply_by_Floret = 0.0;  // FIXME
-   dlt_dm_supply += dlt_dm_supply_by_Floret;
-   DMGreenDemand = dlt_dm_supply * fracFloret1() - dlt_dm_supply_by_Floret;
+   doDmDemand2(dlt_dm_supply);
 }
 
 void FloretPart::doDmDemand2(float dlt_dm_supply)
@@ -136,9 +110,7 @@ void FloretPart::readSpeciesParameters(protocol::Component *system, vector<strin
 {
    SimplePart::readSpeciesParameters(system, sections);
 
-   int   numvals;                                // number of values returned
-
-   scienceAPI.read("transp_eff_cf", c.transpEffCf, numvals, 0.0f, 1.0f);
+   scienceAPI.read("transp_eff_cf", c.transpEffCf, 0.0f, 1.0f);
    scienceAPI.read("x_co2_te_modifier", cX_co2_te_modifier, cNum_co2_te_modifier, 0.0f, 1000.0f);
    scienceAPI.read("y_co2_te_modifier", cY_co2_te_modifier, cNum_co2_te_modifier, 0.0, 10.0f);
    scienceAPI.read("extinct_coef_Floret", cExtinctionCoeffFloret, 0.0f, 1.0f);
@@ -148,23 +120,9 @@ void FloretPart::readSpeciesParameters(protocol::Component *system, vector<strin
    //    plant_transp_eff
 
    scienceAPI.read("svp_fract", cSvp_fract, 0.0f, 1.0f);
-   string partition_option;
-   scienceAPI.read("partition_option", partition_option);
 
-   if (partition_option == "1")
-      {
-      cPartition_option=1;
-      scienceAPI.read("frac_Floret", cFrac_Floret, numvals, 0.0, 2.0);
-      }
-   else if (partition_option == "2" || partition_option == "allometric" || partition_option == "genericxy")
-      {
-      // NIH - why the hell do we do this??
-      cPartition_option=2;
-      scienceAPI.read("x_stage_no_partition", cX_stage_no_partition, cNum_stage_no_partition, 0.0f, 20.0f);
-      scienceAPI.read("y_frac_Floret", cY_frac_Floret, numvals, 0.0f, 2.0f);
-      }
-   else
-      throw std::invalid_argument("invalid template option in FloretPart::readSpeciesParameters");
+   cY_frac_Floret.read(scienceAPI, "x_stage_no_partition", "", 0.0f, 20.0f,
+                                   "y_frac_Floret", "", 0.0f, 2.0f);
 }
 
 // Query
@@ -218,19 +176,9 @@ float FloretPart::fracFloret (void)
    //===========================================================================
 {
 
-   float g_current_stage = plant->getStageNumber();
-   float fracFloret = linear_interp_real(g_current_stage
-                                      ,cX_stage_no_partition
-                                      ,cY_frac_Floret
-                                      ,cNum_stage_no_partition);
-   return fracFloret;
+   return plant->phenology().doInterpolation(cY_frac_Floret);
 }
 
-float FloretPart::fracFloret1 (void)
-   //===========================================================================
-{
-   return cFrac_Floret[(int)plant->getStageNumber()-1];
-}
 
 void FloretPart::doProcessBioDemand(void)
    //===========================================================================
@@ -278,7 +226,7 @@ void FloretPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop wat
    // carbohydrate production and transpiration efficiency
 
    cproc_transp_eff_co2_1(plant->getVpd()
-                          , c.transpEffCf[(int)plant->getStageNumber()-1]
+                          , plant->phenology().doLookup(c.transpEffCf)
                           , plant->getCo2Modifier()->te()
                           , &transpEff);
 

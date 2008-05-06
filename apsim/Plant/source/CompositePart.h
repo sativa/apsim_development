@@ -120,7 +120,6 @@ protected:
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
    virtual void readCultivarParameters (protocol::Component *, const string &);
    virtual void doProcessBioDemand(void);
-   virtual void onDayOf(const string &);
    virtual void onEmergence();
    virtual void get_dlt_dm_senesced(vector<float> &);
    virtual void get_dlt_dm_detached(vector<float> &);

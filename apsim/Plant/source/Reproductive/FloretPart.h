@@ -17,8 +17,6 @@ class FloretPart : public SimplePart {
                   vector<float> &fraction_to_residue);
 
 
-   void onFlowering(void);
-   void onStartGrainFill(void);
    void doDmMin(void);
    void doDmDemand(float  dlt_dm_supply);
    void doProcessBioDemand(void);
@@ -33,7 +31,6 @@ class FloretPart : public SimplePart {
    float coverGreen(void)  ;
    float coverSen(void)  ;
    void doCover (PlantSpatial &spatial);
-   void calcDlt_Floret_area (void);
    void doDmPotRUE (void );
 
    void doSWDemand(float SWDemandMaxFactor);
@@ -48,8 +45,6 @@ class FloretPart : public SimplePart {
 
    private:
       float fracFloret(void);
-      float fracFloret1(void);
-      void doDmDemand1(float  dlt_dm_supply);
       void doDmDemand2(float  dlt_dm_supply);
 
       float cExtinctionCoeffFloret;
@@ -59,9 +54,7 @@ class FloretPart : public SimplePart {
       float gPai;
       float gDlt_pai;
       float cSvp_fract;
-      float cFrac_Floret[max_table];                        // fraction of dm allocated to Floret
-      float cX_stage_no_partition[max_table];
-      float cY_frac_Floret[max_table];                      // fraction of dm allocated to Floret
+      interpolationFunction cY_frac_Floret;                // fraction of dm allocated to Floret
       int   cNum_stage_no_partition;
       float cFloret_trans_frac;                            // fraction of Floret used in translocat
       float cX_co2_te_modifier[max_table];
@@ -76,6 +69,7 @@ class FloretPart : public SimplePart {
       };
 
       Cover coverFloret;
+      void calcDlt_Floret_area (void);
 
 };
 

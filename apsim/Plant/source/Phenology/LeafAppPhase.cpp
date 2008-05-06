@@ -13,15 +13,6 @@ void LeafAppPhase::reset()
    scienceAPI.expose("final_leaf_no", "", "Final Leaf Number",final_leaf_no);
    }
 
-void LeafAppPhase::GetOutputs(std::vector <Output*> &Outputs)
-//=======================================================================================
-   {
-   pPhase::GetOutputs(Outputs);
-   OutputVariable *FLNVariable = new OutputVariable("final_leaf_no","","Final Leaf Number",final_leaf_no);
-   Outputs.push_back(FLNVariable);
-
-
-   }
 void LeafAppPhase::read()
 //=======================================================================================
    {

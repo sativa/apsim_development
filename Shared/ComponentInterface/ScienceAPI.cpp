@@ -450,6 +450,61 @@ void ScienceAPI::set(const std::string& name, const std::string& units, std::vec
 
 
 // -------------------------------------------------------------------
+// A wrapper class for CMP setters
+// -------------------------------------------------------------------
+template <class FT, class T>
+class CMPSetter : public DeletableThing
+   {
+   private:
+      FT setter;
+      T dummy;
+      std::string name;
+      std::string ddml;
+      protocol::DataTypeCode typeCode;
+   public:
+      CMPSetter(FT& fn, const string& n, protocol::DataTypeCode dt)
+         {
+         name = n;
+         setter = fn;
+         typeCode = dt;
+         ddml = protocol::DDML(dummy);
+         }
+      bool CMPFunction(protocol::Component* component, protocol::QuerySetValueData &v)
+         {
+         protocol::TypeConverter* converter = NULL;
+         if (getTypeConverter(name.c_str(),
+                              v.variant.getType().getCode(),
+                              typeCode,
+                              v.variant.getType().isArray(),
+                              false,
+                              converter))
+           {
+           v.variant.setTypeConverter(converter);
+           }
+         v.variant.unpack(dummy);
+         setter(dummy);
+         if (converter) delete converter;
+         return true;
+         }
+      const char* DDML() {return ddml.c_str();}
+
+   };
+
+// -------------------------------------------------------------
+// Exposing a SETtable variable
+// -------------------------------------------------------------
+void ScienceAPI::exposeWritable(const std::string& name, const std::string& units, const std::string& description, boost::function1<void, float> handler)
+   {
+   typedef CMPSetter<boost::function1<void, float>, float> WrapperType;
+   WrapperType* wrapper = new WrapperType (handler, name, protocol::DTsingle);
+   stuffToDelete.push_back(wrapper);
+   boost::function2<bool, protocol::Component*, protocol::QuerySetValueData &> fn;
+   fn = boost::bind(&WrapperType::CMPFunction, wrapper, _1, _2);
+      
+   component->addSettableVar(name.c_str(), protocol::DTsingle, wrapper->DDML(), fn, units.c_str(), description.c_str());
+   }
+
+// -------------------------------------------------------------------
 // A wrapper class for CMP events, gets and sets that take a single
 // data item as an arguemnt.
 // -------------------------------------------------------------------

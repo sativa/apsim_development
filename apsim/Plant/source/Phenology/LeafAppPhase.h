@@ -25,7 +25,6 @@ class LeafAppPhase : public pPhase
       void updateTTTargets(Phenology &parent);
       virtual string description();
       virtual void reset();
-      void GetOutputs(std::vector <Output*> &Outputs);
    };
 
 

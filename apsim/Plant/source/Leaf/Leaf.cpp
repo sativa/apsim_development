@@ -5,6 +5,7 @@
 #include "GenericLeaf.h"
 #include "CohortingLeaf.h"
 #include "Photosynthesis/PhotosynthesisModel.h"
+#include "Phenology/Phenology.h"
 
 using namespace std;
 
@@ -81,7 +82,7 @@ void Leaf::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water dem
       // carbohydrate production and transpiration efficiency
 
    cproc_transp_eff_co2_1(plant->getVpd()
-                          , c.transpEffCf[(int)plant->getStageNumber()-1]
+                          , plant->phenology().doLookup(c.transpEffCf)
                           , plant->getCo2Modifier()->te()
                           , &transpEff);
 

@@ -4,6 +4,7 @@
 #include "PodPart.h"
 #include "Co2Modifier.h"
 #include "FruitCohort.h"
+#include "Phenology/Phenology.h"
 using namespace std;
 // ================================ AREA =================================================
 // This class only has functionality for pods. It needs extra methods and data members to be used for leaf and other organs.
@@ -184,9 +185,9 @@ void fruitPodPart::doDmDemand(float dlt_dm_supply)
    float dm_grain_demand = myParent->dltDmPotentialGrain();
 
    if (dm_grain_demand > 0.0)
-      DMGreenDemand = dm_grain_demand * fracPod->value(myParent->getStageNumber()) - dlt_dm_supply_by_pod;
+      DMGreenDemand = dm_grain_demand * plant->phenology().doInterpolation(*fracPod) - dlt_dm_supply_by_pod;
    else
-      DMGreenDemand = dlt_dm_supply * fracPod->value(myParent->getStageNumber())  - dlt_dm_supply_by_pod;
+      DMGreenDemand = dlt_dm_supply * plant->phenology().doInterpolation(*fracPod)  - dlt_dm_supply_by_pod;
 }
 
 void fruitPodPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
@@ -231,9 +232,7 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
    co2Modifier->init();
    co2Modifier->read_co2_constants ();
 
-   int   numvals;                                // number of values returned
-
-   scienceAPI.read("transp_eff_cf", c.transpEffCf, numvals, 0.0f, 1.0f);
+   scienceAPI.read("transp_eff_cf", c.transpEffCf, 0.0f, 1.0f);
    scienceAPI.read("rue_pod", cRue_pod, 0.0f, 3.0f);
 
    //    plant_transp_eff
@@ -352,7 +351,7 @@ void fruitPodPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop w
    // carbohydrate production and transpiration efficiency
 
    cproc_transp_eff_co2_1(plant->getVpd()
-                          , c.transpEffCf[(int)plant->getStageNumber()-1]
+                          , plant->phenology().doLookup(c.transpEffCf)
                           , co2Modifier->te()
                           , &transpEff);
 
@@ -371,7 +370,7 @@ void fruitPodPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop w
 float fruitPodPart::removePodFraction (float DM)
     //===========================================================================
 {
-   float frac_pod = fracPod->value(myParent->getStageNumber());
+   float frac_pod = plant->phenology().doInterpolation(*fracPod);
    return divide(DM, 1.0 + frac_pod, 0.0);
 }
 

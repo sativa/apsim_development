@@ -30,7 +30,6 @@ public:                                             // member functions
    float flowerNumber(void);
    float fruitNumber(void);
    void doDmDemand (float dlt_dm_supply_by_veg);
-   float getStageNumber(void);
    float getDltTT(void);
    bool  on_day_of(const string &what);
    void giveFlowerNo(float dltFlowerNo);

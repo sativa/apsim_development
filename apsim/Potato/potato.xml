@@ -59,17 +59,17 @@
    <stage_code_list>1            2             3               4                    5                   6                7</stage_code_list>
    <stage_names>sowing    germination    emergence     end_of_juvenile    start_tuber_fill     end_tuber_fill       maturity</stage_names>
    <phase_names>sowing    germination    emergence     end_of_juvenile    start_tuber_fill     end_tuber_fill       maturity</phase_names>
-   <phase_type>sowing     emergent       fixed         photo             fixed                fixed                fixed</phase_type>
+   <phase_type>sowing     emergent       fixed              photo             fixed                fixed             fixed</phase_type>
    <!-- TI/STF sensitive to photoperiod apparently - short-day plant. Other models include sensitivity. Emerg to EOJ equivalent to BVP. EOJ to STF sensitive to PP.
    No need to distinguish between TI and STF as TI taken as when stolon tip 2X diameter (ie stf started)?
    Some farmers kill crop with herbicide when weeds a problem and or senescence delayed (should be handled by the kill_crop manager command)
    Typically, crop left until total above-ground senescence occurs (end of tuber fill) and then left under ground (to avoid greening) for 2-3 weeks for skin set (harvest ripe)
    Asuming that we do not need to simulate flowering.
     -->
-   <composite_phases>under_ground    above_ground    leaf_senescence  node_formation    stress_reporting  tiller_formation</composite_phases>
+   <composite_phases>under_ground    above_ground    leaf_senescence  node_formation    stress_reporting  tiller_formation  n_stress</composite_phases>
    <under_ground>sowing   germination</under_ground>
    <above_ground>emergence   end_of_juvenile    start_tuber_fill    end_tuber_fill    maturity</above_ground>
-   <leaf_senescence>start_tuber_fill   end_tuber_fill    maturity</leaf_senescence>
+   <leaf_senescence>end_tuber_fill    maturity</leaf_senescence>
    <!-- Assuming leaf senescence commences after start_tuber_fill??
    reproductive = start_tuber_fill end_tuber_fill
    Assuming this refers to vegetative reproductive growth and not flower/seed production??
@@ -82,6 +82,7 @@
    <!-- hi_stress_sensitive =
     -->
    <stress_reporting>start_tuber_fill end_tuber_fill</stress_reporting>
+   <n_stress>emergence     end_of_juvenile    start_tuber_fill     end_tuber_fill       maturity</n_stress>
    <plant>
       <class_action>harvest</class_action>
       <class_change>unchanged</class_change>
@@ -413,7 +414,6 @@
       g_n_fact_pheno    = N_fact_pheno * N_conc_ratio
       g_nfact_expansion = N_fact_expansion * n_conc_ratio_leaf
        -->
-      <N_stress_start_stage description="N stress can start at emergence">3   </N_stress_start_stage>
       <N_fact_photo description="multipler for N deficit effect on photosynthesis">2.0     </N_fact_photo>
       <N_fact_expansion description="multipler for N deficit effect on leaf expansion">0.7     </N_fact_expansion>
       <N_fact_pheno description="multipler for N deficit effect on phenology">100     </N_fact_pheno>
@@ -485,7 +485,6 @@
       <min_tpla description="lower limit of total plant leaf area">50.0</min_tpla>
       <!--  Consistent across most other species models
        -->
-      <sen_start_stage description="stage at which leaf age senescence starts">6                   </sen_start_stage>
       <!--  Consistent across other species models
        -->
       <node_sen_rate units="oCd/node" description="rate of node senescence on main stem">114.0</node_sen_rate>

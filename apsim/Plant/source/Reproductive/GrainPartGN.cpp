@@ -1,6 +1,7 @@
 #include "StdPlant.h"
 
 #include "GrainPartGN.h"
+#include "Phenology/Phenology.h"
 
 using namespace std;
 
@@ -71,12 +72,12 @@ float fruitGrainPartGN::grainNumber (float stem_dm_green
    //       Perform grain number calculations
 {
    float grain_no;
-   if (plant->on_day_of ("emergence"))
+   if (plant->phenology().on_day_of ("emergence"))
       {
       // seedling has just emerged.
       grain_no = 0.0;
       }
-   else if (plant->on_day_of ("flowering"))
+   else if (plant->phenology().on_day_of ("flowering"))
       {
       // we are at first day of grainfill.
       grain_no = p_grains_per_gram_stem * stem_dm_green;
@@ -184,13 +185,13 @@ float fruitGrainPartGN::grainNo(void)  {return gGrain_no;}
 void fruitGrainPartGN::doDMDemandGrain(void)
    //===========================================================================
    {
-   if (plant->inPhase("postflowering"))
+   if (plant->phenology().inPhase("postflowering"))
       {
       //       Perform grain filling calculations
       float tav;
       tav = meanT();
 
-      if (plant->inPhase("grainfill"))
+      if (plant->phenology().inPhase("grainfill"))
          gDlt_dm_grain_demand = gGrain_no
                               * pPotential_grain_filling_rate
                               * rel_grainfill.value(tav);
@@ -229,7 +230,7 @@ void fruitGrainPartGN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
    // default case
    gN_grain_demand = 0.0;
 
-   if (plant->inPhase("reproductive"))
+   if (plant->phenology().inPhase("reproductive"))
       {
 
       // we are in grain filling stage
@@ -240,8 +241,7 @@ void fruitGrainPartGN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
                      * rel_grain_n_fill.value(Tav);
       }
 
-   if (plant->inPhase("postflowering"))
-   //if (plant->inPhase("grainfill"))
+   if (plant->phenology().inPhase("postflowering"))
       {
       // during grain C filling period so make sure that C filling is still
       // going on otherwise stop putting N in now

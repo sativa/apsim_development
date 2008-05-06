@@ -10,7 +10,6 @@ pPhase::pPhase(ScienceAPI& api, plantInterface& p, const std::string& name)
    myName = name;
    tt = target = days = 0.0;
    tt_after = 0.0;
-   empty = true;
    days_after = 0.0;
    scienceAPI.expose(name + "TTTarget", "deg. days", name + " thermal time target", target);
    scienceAPI.expose("TTAfter" + name, "deg. days", name + " - thermal time spent in this phase", tt_after);

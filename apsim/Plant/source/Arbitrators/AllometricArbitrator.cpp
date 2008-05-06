@@ -4,7 +4,7 @@
 #include "arbitrator.h"
 #include "NullArbitrator.h"
 #include "AllometricArbitrator.h"
-
+#include "Phenology/Phenology.h"
 
 
 //////////allometricArbitrator
@@ -66,7 +66,7 @@ void allometricArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts,
 
    // now we get the root delta for all stages - partition scheme
    // specified in coeff file
-   rootPart->giveDmGreen(ratio_root_shoot[plant->getStageNumber()] * dlt_dm);
+   rootPart->giveDmGreen(plant->phenology().doInterpolation(ratio_root_shoot) * dlt_dm);
 
    // now distribute the assimilate to plant parts
    if (fruitPart->dmGreenDemand () >= dlt_dm)
@@ -85,8 +85,8 @@ void allometricArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts,
         // Find potentials
         float dltLeafAreaPot = leafPart->dltLeafAreaPot();                               // Sink size of leaves (mm^2/plant)
         float dltStemPot =  dltLeafAreaPot *
-                              ratio_stem_leaf[plant->getStageNumber()] *
-                                  plant->getPlants();                                    // g/m^2
+                            plant->phenology().doInterpolation(ratio_stem_leaf) *
+                            plant->getPlants();                                    // g/m^2
         float dltLeafPot = l_bound(dm_remaining - dltStemPot, 0.0);                      // g/m^2
 
         if (dltLeafPot > 0.0)
@@ -94,8 +94,6 @@ void allometricArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts,
            SLAcalc = divide(dltLeafAreaPot, dltLeafPot / plant->getPlants(), 0.0);       // mm^2/g
         else
            SLAcalc = SLAmax + 1.0;
-
-        //fprintf(stdout,"ratio = %f, dltLeafAreaPot=%f, dlt_dm=%f, dltStemPot=%f dltLeafPot=%f SLAcalc=%f\n",ratio_stem_leaf[plant->getStageNumber()], dltLeafAreaPot,dlt_dm, dltStemPot, dltLeafPot, SLAcalc);
 
         // Determine SD state
         if (SLAcalc <= SLAmin)
@@ -149,5 +147,5 @@ void allometricArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts,
 float allometricArbitrator::dltDMWhole(float dlt_dm)
 //=======================================================================================
    {
-   return ((1.0 + ratio_root_shoot[plant->getStageNumber()]) * dlt_dm);
+   return ((1.0 + plant->phenology().doInterpolation(ratio_root_shoot)) * dlt_dm);
    }

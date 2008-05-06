@@ -1,5 +1,5 @@
-#ifndef GENERICARBITRATORXY_H
-#define GENERICARBITRATORXY_H
+#ifndef GenericArbitratorXYH
+#define GenericArbitratorXYH
 
 class genericArbitratorXY : public Arbitrator
    {

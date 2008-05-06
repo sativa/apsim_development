@@ -3,6 +3,7 @@
 #include "Leaf/Leaf.h"
 #include "arbitrator.h"
 #include "GenericArbitratorXY.h"
+#include "Phenology/Phenology.h"
 
 void genericArbitratorXY::zeroAllGlobals(void)
 //=======================================================================================
@@ -62,7 +63,7 @@ void genericArbitratorXY::partitionDM(float dlt_dm,vector <plantPart *>& Parts, 
       if (PartitionRules[i] == "magic")
          {
          // root:shoot ratio of new dm
-         float  c_ratio_root_shoot = ratio_root_shoot.value(plant->getStageNumber());
+         float  c_ratio_root_shoot = plant->phenology().doInterpolation(ratio_root_shoot);
          Part->giveDmGreen(c_ratio_root_shoot * dlt_dm);
          }
       else
@@ -74,7 +75,7 @@ void genericArbitratorXY::partitionDM(float dlt_dm,vector <plantPart *>& Parts, 
          else if (PartitionRules[i] == "frac")
             {
             // fraction of remaining dm allocated to this part
-            float frac = Fracs[i].value(plant->getStageNumber());
+            float frac = plant->phenology().doInterpolation(Fracs[i]);
             uptake = min(frac * dm_remaining,Part->dmGreenDemand());
             }
          else if (PartitionRules[i] == "remainder")
@@ -102,7 +103,7 @@ void genericArbitratorXY::partitionDM(float dlt_dm,vector <plantPart *>& Parts, 
 float genericArbitratorXY::dltDMWhole(float dlt_dm)
 //=======================================================================================
    {
-   return ((1.0 + ratio_root_shoot[(int)plant->getStageNumber()-1]) * dlt_dm);
+   return ((1.0 + plant->phenology().doInterpolation(ratio_root_shoot)) * dlt_dm);
    }
 
 ////////////////End generic parts

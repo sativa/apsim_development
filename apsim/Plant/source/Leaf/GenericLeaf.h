@@ -77,7 +77,6 @@ class GenericLeaf : public Leaf {
    float cInitialTPLA;                                // initial plant leaf area (mm^2)  XX needed by Plant::remove_biomass
    float cLeafNumberAtEmerg;                          // leaf number at emergence ()
    float cFrLeafSenRate;                              // rate of leaf senescence
-   float cSenStartStage;                              // Phenological stage when leaves start senescing
    float cNFactLeafSenRate;
    float cNodeSenRate;
    float cSLAMin;                                     // minimum specific leaf area for

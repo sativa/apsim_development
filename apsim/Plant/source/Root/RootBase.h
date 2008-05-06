@@ -63,7 +63,7 @@ class RootBase : public SimplePart
       virtual void onNewProfile(protocol::NewProfileType &v){};
       virtual void write(){};
 
-      virtual void plant_nit_supply(float stageNumber){};
+      virtual void plant_nit_supply(){};
       virtual void doNUptake(float sumNMax, float sumSoilNDemand, float NDemand, float n_fix_pot){};
       virtual void doWaterUptake (int option, float SWDemand){};
       virtual float peswTotal(){return 0;};

@@ -138,7 +138,6 @@ public:
    virtual float nDemandGrain2(void) = 0;
    virtual float nMax(void) = 0;
 
-   virtual void  onDayOf(const string &) = 0;
    virtual void  onKillStem(void) = 0;
    virtual void  onPlantEvent(const string &) = 0;
 

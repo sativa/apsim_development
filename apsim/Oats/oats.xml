@@ -60,11 +60,11 @@
    <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
    <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
    <phase_type>cwsowing cwemergent  cwinductive   cwinductive      cwinductive       cwfixed        cwfixed     cwfixed    cwfixed  cwfixed     waiting</phase_type>
-   <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation eme2ej preflowering tiller_formation hi_stress_sensitive stress_reporting postflowering</composite_phases>
+   <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation eme2ej preflowering tiller_formation hi_stress_sensitive stress_reporting postflowering  n_stress</composite_phases>
    <under_ground>sowing germination</under_ground>
    <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
    <vernalisation>germination emergence end_of_juvenile</vernalisation>
-   <leaf_senescence>floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</leaf_senescence>
+   <leaf_senescence>floral_initiation(0.2) flowering start_grain_fill end_grain_fill maturity harvest_ripe</leaf_senescence>
    <tiller_formation>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity</tiller_formation>
    <preflowering>emergence end_of_juvenile floral_initiation</preflowering>
    <postflowering>flowering start_grain_fill</postflowering>
@@ -73,6 +73,7 @@
    <grainfill>start_grain_fill</grainfill>
    <eme2ej>emergence end_of_juvenile</eme2ej>
    <stress_reporting>end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill</stress_reporting>
+   <n_stress>end_of_juvenile(0.3) floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</n_stress>
    <plant>
       <partition_option>2</partition_option>
       <n_retrans_option>2</n_retrans_option>
@@ -366,7 +367,6 @@
       g_nfact_expansion = N_fact_expansion * n_conc_ratio_leaf
        -->
       <n_stress_option>2</n_stress_option>
-      <n_stress_start_stage>4.3</n_stress_start_stage>
       <N_fact_photo description="multipler for N deficit effect on photosynthesis">1.5    </N_fact_photo>
       <N_fact_expansion description="multipler for N deficit effect on leaf expansion">1.0    </N_fact_expansion>
       <N_fact_pheno description="multipler for N deficit effect on phenology">100    </N_fact_pheno>
@@ -451,7 +451,6 @@
       LEAF NUMBER AND AREA SENESCENCE
        -->
       <min_tpla description="lower limit of total plant leaf area">5.0</min_tpla>
-      <sen_start_stage description="5.4   ! stage code for start of leaf sensecence CHANGED FROM 4.4 AP">5.2 </sen_start_stage>
       <node_sen_rate units="oCd/node" description="rate of node senescence on main stem CHANGED FROM 60 AP">50.0</node_sen_rate>
       <fr_lf_sen_rate description="fraction of total leaf number senescing per main stem node CHANGED FROM 0.035">0.035</fr_lf_sen_rate>
       <n_fact_lf_sen_rate>0.0</n_fact_lf_sen_rate>

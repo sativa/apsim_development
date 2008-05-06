@@ -3,24 +3,21 @@
 #include "Leaf/Leaf.h"
 #include "arbitrator.h"
 #include "CerealArbitrator.h"
-
+#include "Phenology/Phenology.h"
 
 void cerealArbitrator::zeroAllGlobals(void)
 //=======================================================================================
    {
-   fill_real_array (x_stage_no_partition, 0.0, max_table);
-   fill_real_array (y_frac_leaf, 0.0, max_table);
-   fill_real_array (y_ratio_root_shoot, 0.0, max_table);
    num_stage_no_partition = 0;
    }
 
 void cerealArbitrator::readSpeciesParameters(protocol::Component *, vector<string> &)
 //=======================================================================================
    {
-   int numvals;
-   scienceAPI.read("x_stage_no_partition", x_stage_no_partition, num_stage_no_partition, 0.0f, 20.0f);
-   scienceAPI.read("y_frac_leaf", y_frac_leaf, numvals, 0.0f, 1.0f);
-   scienceAPI.read("y_ratio_root_shoot", y_ratio_root_shoot, numvals, 0.0f, 1000.0f);
+   y_frac_leaf.read(scienceAPI, "x_stage_no_partition", "", 0.0f, 20.0f,
+                                "y_frac_leaf", "", 0.0f, 1.0f);
+   y_ratio_root_shoot.read(scienceAPI, "x_stage_no_partition", "", 0.0f, 20.0f,
+                                       "y_ratio_root_shoot", "", 0.0f, 1000.0f);
    }
 
 void cerealArbitrator::partitionDM(float dlt_dm,   vector <plantPart *>& Parts, string FruitName)
@@ -45,10 +42,7 @@ void cerealArbitrator::partitionDM(float dlt_dm,   vector <plantPart *>& Parts, 
 
    // now we get the root delta for all stages - partition scheme
    // specified in coeff file
-   float ratio_root_shoot = linear_interp_real(plant->getStageNumber()
-                                          ,x_stage_no_partition
-                                          ,y_ratio_root_shoot
-                                          ,num_stage_no_partition);
+   float ratio_root_shoot = plant->phenology().doInterpolation(y_ratio_root_shoot);
 
    rootPart->giveDmGreen(ratio_root_shoot * dlt_dm);
 
@@ -71,10 +65,8 @@ void cerealArbitrator::partitionDM(float dlt_dm,   vector <plantPart *>& Parts, 
         // distribute remainder to vegetative parts
         // fraction of remaining dm allocated to leaf
         // Interpolate leaf and pod fractions
-        float frac_leaf = linear_interp_real(plant->getStageNumber()
-                                   ,x_stage_no_partition
-                                   ,y_frac_leaf
-                                   ,num_stage_no_partition);
+
+        float frac_leaf = plant->phenology().doInterpolation(y_frac_leaf);
 
         // limit the delta leaf area to maximum
         float dLeaf = u_bound (frac_leaf * dm_remaining,
@@ -111,8 +103,5 @@ void cerealArbitrator::partitionDM(float dlt_dm,   vector <plantPart *>& Parts, 
 float cerealArbitrator::dltDMWhole(float dlt_dm)
 //=======================================================================================
    {
-   return ((1.0 + linear_interp_real(plant->getStageNumber()
-                                          ,x_stage_no_partition
-                                          ,y_ratio_root_shoot
-                                          ,num_stage_no_partition)) * dlt_dm);
+   return ((1.0 + plant->phenology().doInterpolation(y_ratio_root_shoot)) * dlt_dm);
    }

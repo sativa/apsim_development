@@ -412,6 +412,17 @@ void Component::respondToGet(unsigned int& /*fromID*/, QueryValueData& queryData
       }
    }
 
+bool Component::respondToSet(unsigned int& /*fromID*/, QuerySetValueData& setValueData)
+   {
+   if (setVarMap.find(setValueData.ID) != setVarMap.end())
+      {
+      fnSetInfo *v = setVarMap[setValueData.ID];
+      if (v)
+         return v->callSetter(this, setValueData);
+      }
+   return false;
+   }
+
 void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Variant& variant)
   {
   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> pf;

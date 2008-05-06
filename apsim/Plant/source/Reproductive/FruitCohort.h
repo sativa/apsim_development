@@ -35,8 +35,6 @@ public:                                             // member functions
    virtual void display(ostream &os = cout) ;  // display function
    void doDmDemand (float dlt_dm_supply_by_veg);
    float dltDmPotentialGrain(void);
-   float getStageNumber(void);
-   bool  on_day_of(const string &what);
 
 #if TEST_FruitCohort
    virtual ~FruitCohort();                          // destructor

@@ -7,9 +7,8 @@
 class cerealArbitrator : public Arbitrator
    {
   private:
-   float x_stage_no_partition[max_table];
-   float y_frac_leaf[max_table];                     // fraction of remaining dm allocated to leaves
-   float y_ratio_root_shoot[max_table];              // root:shoot ratio of new dm ()
+   interpolationFunction y_frac_leaf;                // fraction of remaining dm allocated to leaves
+   interpolationFunction y_ratio_root_shoot;         // root:shoot ratio of new dm ()
    int   num_stage_no_partition;
 
   public:
