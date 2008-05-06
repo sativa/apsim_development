@@ -33,7 +33,7 @@ Component       "oats" = c:\development\apsim\Plant\lib\Plant.dll
      Output variables:
         clock.dd/mm/yyyy as Date
         met.rain as rain
-        Oats.das
+        Oats.DaysAfterSowing
         Oats.stage
         Oats.lai
         Oats.biomass
@@ -55,7 +55,7 @@ Component       "oats" = c:\development\apsim\Plant\lib\Plant.dll
      if day = 169 and year = 1988 then
         oats sow cultivar = potoroo, plants = 120, sowing_depth = 30 (mm)
      endif
-     if oats.stage_name = 'harvest_ripe' or oats.plant_status = 'dead' then
+     if oats.stagename = 'harvest_ripe' or oats.plant_status = 'dead' then
         oats harvest
         oats end_crop
      endif
@@ -204,26 +204,37 @@ Component       "oats" = c:\development\apsim\Plant\lib\Plant.dll
           ---------------------------------------------------------
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
-
-------- oats Initialisation ---------------------------------------------------
-     phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
 17 June 1988(Day of year=169), manager: 
      Manager sending message :- oats sow  cultivar = potoroo, plants = 120, sowing_depth = 30 (mm)
 17 June 1988(Day of year=169), oats: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = potoroo
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       2.50 ()
-        photoperiod sensitivity    =       4.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0010 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -251,6 +262,7 @@ Component       "oats" = c:\development\apsim\Plant\lib\Plant.dll
             169   30.0  120.0  250.0   0.0   0.0 potoroo
          ------------------------------------------------
      
+      stage 1.0 sowing
 18 June 1988(Day of year=170), oats: 
       stage 2.0 germination
 24 June 1988(Day of year=176), oats: 
@@ -267,64 +279,64 @@ Component       "oats" = c:\development\apsim\Plant\lib\Plant.dll
                      stover N conc =     2.15 (%)    extractable sw =  254.05 (mm)
 30 September 1988(Day of year=274), oats: 
       stage 6.0 flowering
-                     biomass =         714.41 (g/m^2)   lai          =   2.748 (m^2/m^2)
-                     stover N conc =     0.91 (%)    extractable sw =  236.47 (mm)
+                     biomass =         714.38 (g/m^2)   lai          =   2.747 (m^2/m^2)
+                     stover N conc =     0.91 (%)    extractable sw =  236.48 (mm)
 5 October 1988(Day of year=279), oats: 
       stage 7.0 start_grain_fill
-                     biomass =         810.88 (g/m^2)   lai          =   2.234 (m^2/m^2)
-                     stover N conc =     0.70 (%)    extractable sw =  211.27 (mm)
+                     biomass =         810.83 (g/m^2)   lai          =   2.233 (m^2/m^2)
+                     stover N conc =     0.70 (%)    extractable sw =  211.29 (mm)
 30 October 1988(Day of year=304), oats: 
       stage 8.0 end_grain_fill
-                     biomass =        1103.07 (g/m^2)   lai          =   0.456 (m^2/m^2)
-                     stover N conc =     0.32 (%)    extractable sw =  125.01 (mm)
+                     biomass =        1102.89 (g/m^2)   lai          =   0.456 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =  125.07 (mm)
 1 November 1988(Day of year=306), oats: 
       stage 9.0 maturity
-                     biomass =        1103.19 (g/m^2)   lai          =   0.355 (m^2/m^2)
-                     stover N conc =     0.32 (%)    extractable sw =  120.64 (mm)
+                     biomass =        1103.00 (g/m^2)   lai          =   0.355 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =  120.71 (mm)
 2 November 1988(Day of year=307), oats: 
       stage 10.0 harvest_ripe
-                     biomass =        1103.19 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =  120.39 (mm)
+                     biomass =        1103.00 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.31 (%)    extractable sw =  120.46 (mm)
 3 November 1988(Day of year=308), manager: 
      Manager sending message :- oats harvest
 3 November 1988(Day of year=308), oats: 
      
-      flowering day          =  274                           stover (kg/ha)         =     9190.9
-      maturity day           =  306                           grain yield (kg/ha)    =     1841.0
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2104.0
-      grain wt (g)           =    0.019                       grains/m^2             =     9495.2
-      grains/plant           =   79.1                         maximum lai            =      3.866
-      total above ground biomass (kg/ha)    =    11031.9
-      live above ground biomass (kg/ha)     =    11031.9
-      green above ground biomass (kg/ha)    =     9302.5
-      senesced above ground biomass (kg/ha) =     1729.4
+      flowering day          =  274                           stover (kg/ha)         =     9188.6
+      maturity day           =  306                           grain yield (kg/ha)    =     1841.5
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2104.5
+      grain wt (g)           =    0.019                       grains/m^2             =     9495.4
+      grains/plant           =   79.1                         maximum lai            =      3.865
+      total above ground biomass (kg/ha)    =    11030.0
+      live above ground biomass (kg/ha)     =    11030.0
+      green above ground biomass (kg/ha)    =     9301.1
+      senesced above ground biomass (kg/ha) =     1728.9
       number of leaves       =     51.3
       DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.17
-      Stover C:N ratio       =   115.10                       Root C:N ratio         =      39.21
+      Stover C:N ratio       =   115.09                       Root C:N ratio         =      39.21
       grain N percent        =     2.41                       total N content (kg/ha)=      76.38
-      grain N uptake (kg/ha) =    44.44                       senesced N content (kg/ha)=    8.65
+      grain N uptake (kg/ha) =    44.45                       senesced N content (kg/ha)=    8.64
       green N content (kg/ha)=    23.29
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.194        0.250
-         floral_initiation    to flowering               0.000        0.000        0.204        0.416
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.077
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.109        0.741
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.171        0.219
+         floral_initiation    to flowering               0.000        0.000        0.181        0.279
+         flowering            to start_grain_fill        0.000        0.000        0.173        0.270
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.160        0.351
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                9190.9                     0.0
-                          N  (kg/ha) =                  31.94                    0.00
+                          DM (kg/ha) =                9188.6                     0.0
+                          N  (kg/ha) =                  31.93                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1841.0                     0.0
-                          N  (kg/ha) =                  44.44                    0.00
+                          DM (kg/ha) =                1841.5                     0.0
+                          N  (kg/ha) =                  44.45                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.007 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =  120.39 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =  120.46 (mm)
      Manager sending message :- oats end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM

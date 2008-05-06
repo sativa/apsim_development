@@ -39,12 +39,12 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Output variables:
         clock.year
         clock.day
-        canola.stage_code
+        canola.Stage
         canola.plant_status
         manager.event
         canola.grain_n
-        canola.das
-        canola.tt_tot()
+        canola.DaysAfterSowing
+        canola.TTAfterSowing
         canola.grain_wt
         canola.yield units kg/ha
         canola.biomass_wt
@@ -166,14 +166,14 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
           cum_days = 0
      
      SECTION:- start_of_day
-        if (das = 1) then
+        if (daysaftersowing = 1) then
            cum_temp = 0
            cum_swdef = 0
            cum_days = 0
-        elseif (stage_name = 'start_grain_fill' or
-                      stage_name = 'end_grain_fill' or
-                      stage_name = 'maturity' or
-                      stage_name = 'harvest_ripe') then
+        elseif (stagename = 'start_grain_fill' or
+                      stagename = 'end_grain_fill' or
+                      stagename = 'maturity' or
+                      stagename = 'harvest_ripe') then
            cum_temp = cum_temp + (maxt + mint) / 2
            cum_swdef = cum_swdef + swdef_photo
            cum_days = cum_days + 1
@@ -189,7 +189,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         else
            oil_conc = 0
         endif
-     if (canola.stage_name = 'harvest_ripe' or canola.plant_status = 'dead') then
+     if (canola.stagename = 'harvest_ripe' or canola.plant_status = 'dead') then
         canola harvest
         canola kill_crop
         canola end_crop
@@ -395,9 +395,6 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
            Totals   80059.6  6158.4   700.4    87.5   600.0    30.0
           ---------------------------------------------------------
 
-------- canola Initialisation -------------------------------------------------
-     phenology model: TTT
-
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
         average of canola.swdef_pheno on post since report.reported as avg@canola_swdef_pheno
@@ -423,7 +420,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM  Fatal  Error
                       -------------------
-     Cannot find a value for parameter: est_days_emerg_to_init
+     Cannot find a value for parameter: x_pp_hi_incr
      Component name: canola
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      

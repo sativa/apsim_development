@@ -39,12 +39,12 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Output variables:
         clock.year
         clock.day
-        canola.stage_code
+        canola.Stage
         canola.plant_status
         manager.event
         canola.grain_n
-        canola.das
-        canola.tt_tot()
+        canola.DaysAfterSowing
+        canola.TTAfterSowing
         canola.grain_wt
         canola.yield units kg/ha
         canola.biomass_wt
@@ -165,14 +165,14 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
           cum_days = 0
      
      SECTION:- start_of_day
-        if (das = 1) then
+        if (daysaftersowing = 1) then
            cum_temp = 0
            cum_swdef = 0
            cum_days = 0
-        elseif (stage_name = 'start_grain_fill' or
-                      stage_name = 'end_grain_fill' or
-                      stage_name = 'maturity' or
-                      stage_name = 'harvest_ripe') then
+        elseif (stagename = 'start_grain_fill' or
+                      stagename = 'end_grain_fill' or
+                      stagename = 'maturity' or
+                      stagename = 'harvest_ripe') then
            cum_temp = cum_temp + (maxt + mint) / 2
            cum_swdef = cum_swdef + swdef_photo
            cum_days = cum_days + 1
@@ -188,7 +188,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         else
            oil_conc = 0
         endif
-     if (canola.stage_name = 'harvest_ripe' or canola.plant_status = 'dead') then
+     if (canola.stagename = 'harvest_ripe' or canola.plant_status = 'dead') then
         canola harvest
         canola kill_crop
         canola end_crop
@@ -394,9 +394,6 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
            Totals   80059.6  6158.4   700.4    87.5   600.0    30.0
           ---------------------------------------------------------
 
-------- canola Initialisation -------------------------------------------------
-     phenology model: TTT
-
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
         average of canola.swdef_pheno on post since report.reported as avg@canola_swdef_pheno
@@ -418,26 +415,42 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
       Sending sow message to canola
 31 May 1997(Day of year=151), canola: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = hyola42
-        est_days_emerg_to_init     = 83 (days)
-        cum_vernal_days            =       0      25 (vd)
-        tt_emerg_to_endjuv         =     300       1 (dd)
-        x_pp_endjuv_to_init        =    10.8    16.3 (h)
-        y_tt_endjuv_to_init        =     500       1 (dd)
-        x_pp_init_to_flower        =       1      24 (h)
-        y_tt_init_to_flower        =     250     250 (dd)
-        x_pp_flower_to_start_grain =       1      24 (h)
-        y_tt_flower_to_start_grain =     200     200 (dd)
-        x_pp_start_to_end_grain    =       1      24 (h)
-        y_tt_start_to_end_grain    =     700     700 (dd)
-        tt_end_grain_to_maturity   =          1 (dd)
-        tt_maturity_to_ripe        =          1 (dd)
+        Phases:
+           out
+           sowing
+           germination
+              shoot_lag                  =      15 (dd)
+              shoot_rate                 =       5 (dd/mm)
+           emergence
+              cumvd_emergence            =       0      25 (vd)
+              tt_emergence               =     300       1 (dd)
+           end_of_juvenile
+              x_pp_end_of_juvenile       =    10.8    16.3 (h)
+              y_tt_end_of_juvenile       =     500       1 (dd)
+           floral_initiation
+              x_pp_floral_initiation     =       1      24 (h)
+              y_tt_floral_initiation     =     250     250 (dd)
+           flowering
+              x_pp_flowering             =       1      24 (h)
+              y_tt_flowering             =     200     200 (dd)
+           start_grain_fill
+              x_pp_start_grain_fill      =       1      24 (h)
+              y_tt_start_grain_fill      =     700     700 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =       1 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =       1 (dd)
+           end_crop
+     
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0100     0.0100
         x_hi_max_pot_stress        =       0.00       1.00
         y_hi_max_pot               =       0.30       0.30
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -481,6 +494,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         60.00 of Urea ferilizer (urea)
                                               added at depth   10.00 (layer   1)
+      stage 1.0 sowing
 1 June 1997(Day of year=152), canola: 
       stage 2.0 germination
 8 June 1997(Day of year=159), canola: 
@@ -497,27 +511,27 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     5.30 (%)    extractable sw =   40.01 (mm)
 27 August 1997(Day of year=239), canola: 
       stage 6.0 flowering
-                     biomass =         435.24 (g/m^2)   lai          =   3.387 (m^2/m^2)
+                     biomass =         435.22 (g/m^2)   lai          =   3.387 (m^2/m^2)
                      stover N conc =     4.31 (%)    extractable sw =   25.15 (mm)
 12 September 1997(Day of year=255), canola: 
       stage 7.0 start_grain_fill
-                     biomass =         590.31 (g/m^2)   lai          =   1.700 (m^2/m^2)
+                     biomass =         590.30 (g/m^2)   lai          =   1.700 (m^2/m^2)
                      stover N conc =     3.39 (%)    extractable sw =   37.72 (mm)
 13 September 1997(Day of year=256), manager: 
      Manager creating a new local real variable : avg_temp = 14.10000
-     Manager creating a new local real variable : avg_swdef = 0.60329
+     Manager creating a new local real variable : avg_swdef = 0.60330
 31 October 1997(Day of year=304), canola: 
       stage 8.0 end_grain_fill
-                     biomass =         663.24 (g/m^2)   lai          =   0.026 (m^2/m^2)
+                     biomass =         663.23 (g/m^2)   lai          =   0.026 (m^2/m^2)
                      stover N conc =     2.66 (%)    extractable sw =    3.58 (mm)
 1 November 1997(Day of year=305), canola: 
       stage 9.0 maturity
-                     biomass =         663.64 (g/m^2)   lai          =   0.023 (m^2/m^2)
+                     biomass =         663.63 (g/m^2)   lai          =   0.023 (m^2/m^2)
                      stover N conc =     2.66 (%)    extractable sw =    3.34 (mm)
 2 November 1997(Day of year=306), canola: 
       stage 10.0 harvest_ripe
-                     biomass =         663.64 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.66 (%)    extractable sw =    3.12 (mm)
+                     biomass =         663.63 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.67 (%)    extractable sw =    3.12 (mm)
 3 November 1997(Day of year=307), manager: 
      Manager sending message :- canola harvest
 3 November 1997(Day of year=307), canola: 
@@ -526,30 +540,30 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
       maturity day           =  305                           grain yield (kg/ha)    =     1660.1
       grain % water content  =    8.5                         grain yield wet (kg/ha)=     1814.3
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      3.797
-      total above ground biomass (kg/ha)    =     6636.5
-      live above ground biomass (kg/ha)     =     6636.5
-      green above ground biomass (kg/ha)    =     4486.7
-      senesced above ground biomass (kg/ha) =     2149.8
+      grains/plant           =    0.0                         maximum lai            =      3.796
+      total above ground biomass (kg/ha)    =     6636.3
+      live above ground biomass (kg/ha)     =     6636.3
+      green above ground biomass (kg/ha)    =     4486.6
+      senesced above ground biomass (kg/ha) =     2149.7
       number of leaves       =     31.2
       DM Root:Shoot ratio    =     0.50                       Harvest Index          =       0.25
-      Stover C:N ratio       =    18.52                       Root C:N ratio         =      45.88
-      grain N percent        =     4.45                       total N content (kg/ha)=     181.44
+      Stover C:N ratio       =    18.50                       Root C:N ratio         =      46.00
+      grain N percent        =     4.45                       total N content (kg/ha)=     181.52
       grain N uptake (kg/ha) =    73.95                       senesced N content (kg/ha)=   32.25
-      green N content (kg/ha)=    75.25
+      green N content (kg/ha)=    75.33
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.020        0.031        0.000        0.061
-         end_of_juvenile      to floral_initiation       0.098        0.130        0.000        0.065
-         floral_initiation    to flowering               0.219        0.279        0.000        0.090
-         flowering            to start_grain_fill        0.418        0.512        0.000        0.003
-         start_grain_fill     to end_grain_fill          0.818        0.898        0.000        0.144
+         emergence            to end_of_juvenile         0.013        0.020        0.000        0.040
+         end_of_juvenile      to floral_initiation       0.060        0.080        0.000        0.053
+         floral_initiation    to flowering               0.097        0.126        0.000        0.061
+         flowering            to start_grain_fill        0.146        0.185        0.000        0.052
+         start_grain_fill     to end_grain_fill          0.359        0.412        0.000        0.082
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4976.3                     0.0
-                          N  (kg/ha) =                 107.50                    0.00
+                          DM (kg/ha) =                4976.2                     0.0
+                          N  (kg/ha) =                 107.57                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                1660.1                     0.0
@@ -564,7 +578,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                   0.0                  3298.1
-                          N  (kg/ha) =                   0.00                   28.75
+                          N  (kg/ha) =                   0.00                   28.68
      
 31 December 1997(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.

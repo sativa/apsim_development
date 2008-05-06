@@ -98,7 +98,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      SECTION:- end_of_day
      in_crop_rain = in_crop_rain + met.rain
      eff_in_crop_rain = eff_in_crop_rain + met.rain - soilwat2.drain - soilwat2.runoff
-     if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+     if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
         hi = wheat.yield/wheat.biomass
         nhi = wheat.grain_n/wheat.biomass_n
         report do_output
@@ -258,9 +258,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
            Totals  113863.3  9109.1   498.7    62.3    80.0     2.0
           ---------------------------------------------------------
 
-------- Wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
-
 ------- Tracker Initialisation ------------------------------------------------
      Tracker variables:
         sum of Wheat.ep on process from reported to now as sum_ep
@@ -306,18 +303,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- wheat sow  cultivar = hartog, plants = 100 (/m2), sowing_depth = 40 (mm)
 15 May 1957(Day of year=135), Wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = hartog
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile

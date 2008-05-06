@@ -114,8 +114,8 @@ Component      "sugar" = c:\development\apsim\sugar\lib\sugar.dll
      report do_output
      if sugar.crop_status = 'alive' then
         dah = 0
-        if (das > (plantlen - dryoff) and ratoon_no = 0) or
-           (das > (ratoonlen - dryoff) and ratoon_no > 0) then
+        if (daysaftersowing > (plantlen - dryoff) and ratoon_no = 0) or
+           (daysaftersowing > (ratoonlen - dryoff) and ratoon_no > 0) then
            if automatic_irrigation = 'on' then
               irrigate.automatic_irrigation = 'off'
            endif
@@ -127,8 +127,8 @@ Component      "sugar" = c:\development\apsim\sugar\lib\sugar.dll
                  num_irr = num_irr + 1
            endif
         endif
-        if (das = plantlen and ratoon_no = 0) or
-           (das = ratoonlen and ratoon_no > 0) then
+        if (daysaftersowing = plantlen and ratoon_no = 0) or
+           (daysaftersowing = ratoonlen and ratoon_no > 0) then
            sugar harvest
            if burn_flag = 1 then
               surfaceom tillage type = burn
@@ -151,9 +151,9 @@ Component      "sugar" = c:\development\apsim\sugar\lib\sugar.dll
            endif
         else
         endif
-        if (das = plant_lag) and (ratoon_no = 0) then
+        if (daysaftersowing = plant_lag) and (ratoon_no = 0) then
            fertiliz.fert_no3_n = plant_fert
-        elseif (das = ratoon_lag) and (ratoon_no > 0) then
+        elseif (daysaftersowing = ratoon_lag) and (ratoon_no > 0) then
            fertiliz.fert_no3_n = ratoon_fert
         else
         endif

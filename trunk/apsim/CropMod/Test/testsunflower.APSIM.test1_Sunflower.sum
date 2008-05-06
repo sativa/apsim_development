@@ -48,7 +48,7 @@ Component  "sunflower" = c:\development\apsim\CropMod\lib\CropMod.dll
      Manager rules:
      
      SECTION:- start_of_day
-     if sunflower.stage_name = 'harvest_ripe' or sunflower.plant_status = 'dead' then
+     if sunflower.stagename = 'harvest_ripe' or sunflower.plant_status = 'dead' then
         sunflower harvest
         sunflower sow cultivar = sunfola68-2, plants = 5, sowing_depth = 50 (mm)
      endif

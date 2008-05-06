@@ -47,7 +47,7 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
         wheat.stage as nw_status
         wheat.lai as nw_lai
         sorghum.RachisGreenWt as sor_flower_wt
-        sorghum.das as sor_das
+        sorghum.DaysAfterSowing as sor_das
         sorghum.lai as sor_lai
         sorghum.yield as sor_yield
         sorghum.flowering_date as sor_flowerdate
@@ -266,7 +266,7 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
            crop_in = 0
            crop_current = blank
         endif
-        if (wheat.stage_name = 'harvest_ripe') then
+        if (wheat.stagename = 'harvest_ripe') then
            wheat harvest
            wheat_to_harvest = 1
         endif
@@ -747,9 +747,6 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
           ---------------------------------------------------------
            Totals  117668.5 10697.1  1521.5   190.2   400.0     8.0
           ---------------------------------------------------------
-
-------- wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
      Manager creating a new local real variable : days_this_year = 366.00000
 1 May 1940(Day of year=122), manager: 
@@ -758,18 +755,33 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      Manager sending message :- wheat sow  plants = 80 (/m2), sowing_depth = 30 (mm), cultivar = hartog
 30 June 1940(Day of year=182), wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = hartog
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.50 ()
-        photoperiod sensitivity    =       3.00 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -795,6 +807,7 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
             182   30.0   80.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
+      stage 1.0 sowing
 8 August 1940(Day of year=221), wheat: 
            crop failure because of lack of
               germination within 40 days of sowing

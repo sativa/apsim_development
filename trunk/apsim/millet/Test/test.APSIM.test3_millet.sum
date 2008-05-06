@@ -63,7 +63,7 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
         millet sow plants =  7.5, sowing_depth = 30, cultivar = wrajpop
         harvest = 2
      endif
-     if millet.stage_name = 'harvest_ripe' or millet.plant_status = 'dead' then
+     if millet.stagename = 'harvest_ripe' or millet.plant_status = 'dead' then
         millet harvest
         millet1 harvest
         millet2 harvest

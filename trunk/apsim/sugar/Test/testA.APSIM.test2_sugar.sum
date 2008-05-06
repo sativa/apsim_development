@@ -48,7 +48,7 @@ Component      "sugar" = c:\development\apsim\sugar\lib\sugar.dll
      Manager rules:
      
      SECTION:- start_of_day
-     if sugar.das = 100 then
+     if sugar.daysaftersowing = 100 then
         sugar harvest
         sugar end_crop
         sugar sow plants = 10 (), cultivar = q117, sowing_depth = 150

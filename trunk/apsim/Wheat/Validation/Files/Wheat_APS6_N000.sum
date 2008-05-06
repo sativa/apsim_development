@@ -48,7 +48,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         day
         year
         wheat.zadok_stage
-        wheat.stage_name
+        wheat.StageName
         wheat.biomass
         wheat.yield
         wheat.grain_size
@@ -124,7 +124,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-       if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+       if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
           wheat  harvest
           wheat  end_crop
        endif
@@ -335,9 +335,6 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals  243319.8 16780.7  1135.2   141.9   800.0    13.3
           ---------------------------------------------------------
-
-------- wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
 15 June 1992(Day of year=167), Fertilizer: 
      Manager sending message :- fertiliser apply  amount = 0 (kg/ha), depth = 50 (mm), type = no3_n
@@ -345,18 +342,33 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- wheat sow  plants = 121.61, sowing_depth = 30, cultivar = gatton_hartog, row_spacing = 250
 17 June 1992(Day of year=169), wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = gatton_hartog
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       2.50 ()
-        photoperiod sensitivity    =       3.50 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       25.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0410 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -384,6 +396,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
             169   30.0  121.6  250.0   0.0   0.0 gatton_hartog
          ------------------------------------------------
      
+      stage 1.0 sowing
 18 June 1992(Day of year=170), wheat: 
       stage 2.0 germination
 24 June 1992(Day of year=176), Irrigator: 
@@ -465,10 +478,10 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.517        0.511
-         floral_initiation    to flowering               0.000        0.000        0.292        0.409
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.217
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.618
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.448        0.443
+         floral_initiation    to flowering               0.000        0.000        0.392        0.427
+         flowering            to start_grain_fill        0.000        0.000        0.370        0.416
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.294        0.453
      
      
      Crop harvested.

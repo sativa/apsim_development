@@ -190,17 +190,15 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
           ---------------------------------------------------------
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
-
-------- wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- wheat sow  cultivar = 'cultivar with spaces', plants = 120, sowing_depth = 30 (mm)
+1 January 1988(Day of year=1), wheat: 
      Crop Sow
 1 January 1988(Day of year=1): 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM  Fatal  Error
                       -------------------
-     Cannot find a value for parameter: phyllochron
+     Cannot find a value for parameter: grains_per_gram_stem
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      

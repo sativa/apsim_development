@@ -49,7 +49,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         day
         year
         wheat.zadok_stage
-        wheat.stage_name
+        wheat.StageName
         wheat.biomass
         wheat.yield
         wheat.grain_size
@@ -125,7 +125,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+                if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
        wheat  harvest
        wheat  end_crop
                 endif
@@ -368,26 +368,38 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals   61531.1  4733.2   358.9    44.9   200.0     5.0
           ---------------------------------------------------------
-
-------- wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
 6 June 1997(Day of year=157), Sow on a fixed date: 
      Manager sending message :- wheat sow  plants = 150, sowing_depth = 30, cultivar = wilgoyne, row_spacing = 250
 6 June 1997(Day of year=157), wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = wilgoyne
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.40 ()
-        photoperiod sensitivity    =       1.60 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       20.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0450 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -425,6 +437,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
             157   30.0  150.0  250.0   0.0   0.0 wilgoyne
          ------------------------------------------------
      
+      stage 1.0 sowing
 7 June 1997(Day of year=158), wheat: 
       stage 2.0 germination
 13 June 1997(Day of year=164), wheat: 
@@ -440,7 +453,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
                      biomass =         125.04 (g/m^2)   lai          =   1.672 (m^2/m^2)
                      stover N conc =     3.29 (%)    extractable sw =   28.86 (mm)
 27 August 1997(Day of year=239), Fertilise on fixed date: 
-     Manager creating a new local real variable : n_topsoil = 2.12215
+     Manager creating a new local real variable : n_topsoil = 2.12059
      Manager sending message :- fertiliser apply  amount = 30 (kg/ha), depth = 50 (mm), type = urea_n
 27 August 1997(Day of year=239), fertiliser: 
      
@@ -453,7 +466,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     1.09 (%)    extractable sw =   41.82 (mm)
 30 September 1997(Day of year=273), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         674.11 (g/m^2)   lai          =   1.005 (m^2/m^2)
+                     biomass =         674.11 (g/m^2)   lai          =   1.006 (m^2/m^2)
                      stover N conc =     0.92 (%)    extractable sw =   29.16 (mm)
 1 November 1997(Day of year=305), wheat: 
       stage 8.0 end_grain_fill
@@ -461,7 +474,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     0.32 (%)    extractable sw =   18.88 (mm)
 2 November 1997(Day of year=306), wheat: 
       stage 9.0 maturity
-                     biomass =         768.18 (g/m^2)   lai          =   0.250 (m^2/m^2)
+                     biomass =         768.18 (g/m^2)   lai          =   0.255 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   18.39 (mm)
 3 November 1997(Day of year=307), wheat: 
       stage 10.0 harvest_ripe
@@ -488,10 +501,10 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.025        0.036        0.000        0.000
-         floral_initiation    to flowering               0.072        0.104        0.000        0.134
-         flowering            to start_grain_fill        0.628        0.740        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.399        0.478        0.210        0.440
+         end_of_juvenile      to floral_initiation       0.021        0.030        0.000        0.000
+         floral_initiation    to flowering               0.044        0.063        0.000        0.061
+         flowering            to start_grain_fill        0.083        0.109        0.000        0.056
+         start_grain_fill     to end_grain_fill          0.151        0.188        0.045        0.138
      
      
      Crop harvested.

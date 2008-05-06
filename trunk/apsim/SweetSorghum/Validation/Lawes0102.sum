@@ -125,7 +125,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+                if sweetsorghum.stagename = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
        sweetsorghum  harvest
        sweetsorghum  end_crop
                 endif
@@ -290,9 +290,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals  189470.0 15157.6   778.0    97.3    80.0     2.0
           ---------------------------------------------------------
-
-------- SweetSorghum Initialisation -------------------------------------------
-     phenology model: Generic
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -374,7 +371,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+                if sweetsorghum.stagename = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
        sweetsorghum  harvest
        sweetsorghum  end_crop
                 endif
@@ -539,9 +536,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals  189470.0 15157.6   778.0    97.3    80.0     2.0
           ---------------------------------------------------------
-
-------- SweetSorghum Initialisation -------------------------------------------
-     phenology model: Generic
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -623,7 +617,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+                if sweetsorghum.stagename = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
        sweetsorghum  harvest
        sweetsorghum  end_crop
                 endif
@@ -788,9 +782,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals  189470.0 15157.6   778.0    97.3    80.0     2.0
           ---------------------------------------------------------
-
-------- SweetSorghum Initialisation -------------------------------------------
-     phenology model: Generic
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -872,7 +863,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+                if sweetsorghum.stagename = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
        sweetsorghum  harvest
        sweetsorghum  end_crop
                 endif
@@ -1037,9 +1028,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals  189470.0 15157.6   778.0    97.3    80.0     2.0
           ---------------------------------------------------------
-
-------- SweetSorghum Initialisation -------------------------------------------
-     phenology model: Generic
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -1106,44 +1094,40 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = sugargraze
-     out
-     
-     sowing
-     
-     germination
-     shoot_lag =          0 (dd)
-     shoot_rate =          2 (dd/mm)
-     
-     emergence
-        tt_emergence =         70 (dd)
-     endjuv_to_fi
-        x_pp_endjuv_to_fi          =      13      14    14.6   14.75 (h)
-        y_tt_endjuv_to_fi          =      75     150     240     300 (dd)
-     
-     fi_to_flag
-        Stage duration determined by leaf appearance rates
-     flag_to_flower
-        tt_flag_to_flower =         80 (dd)
-     flowering
-        tt_flowering =        170 (dd)
-     start_grain_fill
-        tt_start_grain_fill =        250 (dd)
-     end_grain_fill
-        tt_end_grain_fill =          5 (dd)
-     maturity
-        tt_maturity =          1 (dd)
-     harvest_ripe
-        tt_harvest_ripe =          1 (dd)
-     end_crop
-     
+        Phases:
+           out
+           sowing
+           germination
+              shoot_lag                  =       0 (dd)
+              shoot_rate                 =       2 (dd/mm)
+           emergence
+              tt_emergence               =      70 (dd)
+           endjuv_to_fi
+              x_pp_endjuv_to_fi          =      13      14    14.6   14.75 (h)
+              y_tt_endjuv_to_fi          =      75     150     240     300 (dd)
+           fi_to_flag
+              Stage duration determined by leaf appearance rates
+           flag_to_flower
+              tt_flag_to_flower          =      80 (dd)
+           flowering
+              tt_flowering               =     170 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     250 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =       5 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =       1 (dd)
+           end_crop
      
         grains_per_gram_stem           =       10.0 (/g)
         potential_grain_filling_rate   =     0.0100 (g/grain/day)
         potential_grain_growth_rate    =     0.0000 (g/grain/day)
         max_grain_size                 =     0.5000 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -1162,13 +1146,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   243mm in  1800mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.1 times eo.
-23 November 2001(Day of year=327), Sowing fertiliser: 
-     Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
-23 November 2001(Day of year=327), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-       300.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1178,7 +1155,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
             327   50.0   10.0  600.0   0.0   0.0 sugargraze
          ------------------------------------------------
      
-24 November 2001(Day of year=328), SweetSorghum: 
       stage 2.0 germination
 1 December 2001(Day of year=335), SweetSorghum: 
       stage 3.0 emergence
@@ -1223,44 +1199,40 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = sugargraze
-     out
-     
-     sowing
-     
-     germination
-     shoot_lag =          0 (dd)
-     shoot_rate =          2 (dd/mm)
-     
-     emergence
-        tt_emergence =         70 (dd)
-     endjuv_to_fi
-        x_pp_endjuv_to_fi          =      13      14    14.6   14.75 (h)
-        y_tt_endjuv_to_fi          =      75     150     240     300 (dd)
-     
-     fi_to_flag
-        Stage duration determined by leaf appearance rates
-     flag_to_flower
-        tt_flag_to_flower =         80 (dd)
-     flowering
-        tt_flowering =        170 (dd)
-     start_grain_fill
-        tt_start_grain_fill =        250 (dd)
-     end_grain_fill
-        tt_end_grain_fill =          5 (dd)
-     maturity
-        tt_maturity =          1 (dd)
-     harvest_ripe
-        tt_harvest_ripe =          1 (dd)
-     end_crop
-     
+        Phases:
+           out
+           sowing
+           germination
+              shoot_lag                  =       0 (dd)
+              shoot_rate                 =       2 (dd/mm)
+           emergence
+              tt_emergence               =      70 (dd)
+           endjuv_to_fi
+              x_pp_endjuv_to_fi          =      13      14    14.6   14.75 (h)
+              y_tt_endjuv_to_fi          =      75     150     240     300 (dd)
+           fi_to_flag
+              Stage duration determined by leaf appearance rates
+           flag_to_flower
+              tt_flag_to_flower          =      80 (dd)
+           flowering
+              tt_flowering               =     170 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     250 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =       5 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =       1 (dd)
+           end_crop
      
         grains_per_gram_stem           =       10.0 (/g)
         potential_grain_filling_rate   =     0.0100 (g/grain/day)
         potential_grain_growth_rate    =     0.0000 (g/grain/day)
         max_grain_size                 =     0.5000 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -1279,13 +1251,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   243mm in  1800mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.1 times eo.
-21 December 2001(Day of year=355), Sowing fertiliser: 
-     Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
-21 December 2001(Day of year=355), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-       300.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1295,12 +1260,11 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
             355   50.0   10.0  600.0   0.0   0.0 sugargraze
          ------------------------------------------------
      
-22 December 2001(Day of year=356), SweetSorghum: 
       stage 2.0 germination
 27 December 2001(Day of year=361), SweetSorghum: 
       stage 5.0 fi_to_flag
-                     biomass =          86.32 (g/m^2)   lai          =   1.245 (m^2/m^2)
-                     stover N conc =     3.02 (%)    extractable sw =  179.63 (mm)
+                     biomass =          61.33 (g/m^2)   lai          =   0.906 (m^2/m^2)
+                     stover N conc =     2.08 (%)    extractable sw =  180.94 (mm)
 28 December 2001(Day of year=362), SweetSorghum: 
       stage 3.0 emergence
                      biomass =           0.05 (g/m^2)   lai          =   0.002 (m^2/m^2)
@@ -1312,11 +1276,11 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
 16 January 2002(Day of year=16), SweetSorghum: 
       stage 5.0 fi_to_flag
                      biomass =          25.92 (g/m^2)   lai          =   0.519 (m^2/m^2)
-                     stover N conc =     3.43 (%)    extractable sw =  145.23 (mm)
+                     stover N conc =     3.41 (%)    extractable sw =  145.24 (mm)
 21 January 2002(Day of year=21), SweetSorghum: 
       stage 6.0 flag_to_flower
-                     biomass =         931.26 (g/m^2)   lai          =   3.275 (m^2/m^2)
-                     stover N conc =     1.38 (%)    extractable sw =  191.60 (mm)
+                     biomass =         412.59 (g/m^2)   lai          =   1.808 (m^2/m^2)
+                     stover N conc =     0.77 (%)    extractable sw =  170.86 (mm)
 22 January 2002(Day of year=22), Sow on a fixed date: 
      Manager sending message :- sweetsorghum sow  plants = 10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
 22 January 2002(Day of year=22), SweetSorghum: 
@@ -1352,44 +1316,40 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = sugargraze
-     out
-     
-     sowing
-     
-     germination
-     shoot_lag =          0 (dd)
-     shoot_rate =          2 (dd/mm)
-     
-     emergence
-        tt_emergence =         70 (dd)
-     endjuv_to_fi
-        x_pp_endjuv_to_fi          =      13      14    14.6   14.75 (h)
-        y_tt_endjuv_to_fi          =      75     150     240     300 (dd)
-     
-     fi_to_flag
-        Stage duration determined by leaf appearance rates
-     flag_to_flower
-        tt_flag_to_flower =         80 (dd)
-     flowering
-        tt_flowering =        170 (dd)
-     start_grain_fill
-        tt_start_grain_fill =        250 (dd)
-     end_grain_fill
-        tt_end_grain_fill =          5 (dd)
-     maturity
-        tt_maturity =          1 (dd)
-     harvest_ripe
-        tt_harvest_ripe =          1 (dd)
-     end_crop
-     
+        Phases:
+           out
+           sowing
+           germination
+              shoot_lag                  =       0 (dd)
+              shoot_rate                 =       2 (dd/mm)
+           emergence
+              tt_emergence               =      70 (dd)
+           endjuv_to_fi
+              x_pp_endjuv_to_fi          =      13      14    14.6   14.75 (h)
+              y_tt_endjuv_to_fi          =      75     150     240     300 (dd)
+           fi_to_flag
+              Stage duration determined by leaf appearance rates
+           flag_to_flower
+              tt_flag_to_flower          =      80 (dd)
+           flowering
+              tt_flowering               =     170 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     250 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =       5 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =       1 (dd)
+           end_crop
      
         grains_per_gram_stem           =       10.0 (/g)
         potential_grain_filling_rate   =     0.0100 (g/grain/day)
         potential_grain_growth_rate    =     0.0000 (g/grain/day)
         max_grain_size                 =     0.5000 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -1408,13 +1368,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   243mm in  1800mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.1 times eo.
-22 January 2002(Day of year=22), Sowing fertiliser: 
-     Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
-22 January 2002(Day of year=22), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-       300.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1424,12 +1377,11 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
              22   50.0   10.0  600.0   0.0   0.0 sugargraze
          ------------------------------------------------
      
-23 January 2002(Day of year=23), SweetSorghum: 
       stage 2.0 germination
 26 January 2002(Day of year=26), SweetSorghum: 
       stage 7.0 flowering
-                     biomass =        1110.66 (g/m^2)   lai          =   3.248 (m^2/m^2)
-                     stover N conc =     1.17 (%)    extractable sw =  158.04 (mm)
+                     biomass =         541.84 (g/m^2)   lai          =   1.781 (m^2/m^2)
+                     stover N conc =     0.64 (%)    extractable sw =  145.17 (mm)
 29 January 2002(Day of year=29), SweetSorghum: 
       stage 3.0 emergence
                      biomass =           0.05 (g/m^2)   lai          =   0.002 (m^2/m^2)
@@ -1440,20 +1392,20 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     5.79 (%)    extractable sw =   31.45 (mm)
 6 February 2002(Day of year=37), SweetSorghum: 
       stage 8.0 start_grain_fill
-                     biomass =        1294.36 (g/m^2)   lai          =   2.904 (m^2/m^2)
-                     stover N conc =     1.06 (%)    extractable sw =  172.57 (mm)
+                     biomass =         680.98 (g/m^2)   lai          =   1.424 (m^2/m^2)
+                     stover N conc =     0.59 (%)    extractable sw =  168.90 (mm)
 10 February 2002(Day of year=41), SweetSorghum: 
       stage 6.0 flag_to_flower
-                     biomass =         747.40 (g/m^2)   lai          =   2.814 (m^2/m^2)
-                     stover N conc =     1.44 (%)    extractable sw =  187.00 (mm)
+                     biomass =         393.49 (g/m^2)   lai          =   1.693 (m^2/m^2)
+                     stover N conc =     0.94 (%)    extractable sw =  205.99 (mm)
 13 February 2002(Day of year=44), SweetSorghum: 
       stage 5.0 fi_to_flag
                      biomass =           8.17 (g/m^2)   lai          =   0.165 (m^2/m^2)
                      stover N conc =     3.33 (%)    extractable sw =   95.88 (mm)
 16 February 2002(Day of year=47), SweetSorghum: 
       stage 7.0 flowering
-                     biomass =         954.15 (g/m^2)   lai          =   2.801 (m^2/m^2)
-                     stover N conc =     1.17 (%)    extractable sw =  146.61 (mm)
+                     biomass =         548.71 (g/m^2)   lai          =   1.680 (m^2/m^2)
+                     stover N conc =     0.76 (%)    extractable sw =  172.53 (mm)
 21 February 2002(Day of year=52), Sow on a fixed date: 
      Manager sending message :- sweetsorghum sow  plants = 10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
 21 February 2002(Day of year=52), SweetSorghum: 
@@ -1489,44 +1441,40 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = sugargraze
-     out
-     
-     sowing
-     
-     germination
-     shoot_lag =          0 (dd)
-     shoot_rate =          2 (dd/mm)
-     
-     emergence
-        tt_emergence =         70 (dd)
-     endjuv_to_fi
-        x_pp_endjuv_to_fi          =      13      14    14.6   14.75 (h)
-        y_tt_endjuv_to_fi          =      75     150     240     300 (dd)
-     
-     fi_to_flag
-        Stage duration determined by leaf appearance rates
-     flag_to_flower
-        tt_flag_to_flower =         80 (dd)
-     flowering
-        tt_flowering =        170 (dd)
-     start_grain_fill
-        tt_start_grain_fill =        250 (dd)
-     end_grain_fill
-        tt_end_grain_fill =          5 (dd)
-     maturity
-        tt_maturity =          1 (dd)
-     harvest_ripe
-        tt_harvest_ripe =          1 (dd)
-     end_crop
-     
+        Phases:
+           out
+           sowing
+           germination
+              shoot_lag                  =       0 (dd)
+              shoot_rate                 =       2 (dd/mm)
+           emergence
+              tt_emergence               =      70 (dd)
+           endjuv_to_fi
+              x_pp_endjuv_to_fi          =      13      14    14.6   14.75 (h)
+              y_tt_endjuv_to_fi          =      75     150     240     300 (dd)
+           fi_to_flag
+              Stage duration determined by leaf appearance rates
+           flag_to_flower
+              tt_flag_to_flower          =      80 (dd)
+           flowering
+              tt_flowering               =     170 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     250 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =       5 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =       1 (dd)
+           end_crop
      
         grains_per_gram_stem           =       10.0 (/g)
         potential_grain_filling_rate   =     0.0100 (g/grain/day)
         potential_grain_growth_rate    =     0.0000 (g/grain/day)
         max_grain_size                 =     0.5000 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -1545,13 +1493,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   243mm in  1800mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.1 times eo.
-21 February 2002(Day of year=52), Sowing fertiliser: 
-     Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
-21 February 2002(Day of year=52), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-       300.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1561,67 +1502,66 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
              52   50.0   10.0  600.0   0.0   0.0 sugargraze
          ------------------------------------------------
      
-22 February 2002(Day of year=53), SweetSorghum: 
       stage 2.0 germination
 23 February 2002(Day of year=54), SweetSorghum: 
       stage 9.0 end_grain_fill
-                     biomass =        1294.36 (g/m^2)   lai          =   1.597 (m^2/m^2)
-                     stover N conc =     1.37 (%)    extractable sw =  157.71 (mm)
+                     biomass =         680.98 (g/m^2)   lai          =   0.775 (m^2/m^2)
+                     stover N conc =     0.70 (%)    extractable sw =  153.28 (mm)
 24 February 2002(Day of year=55), SweetSorghum: 
       stage 10.0 maturity
-                     biomass =        1294.36 (g/m^2)   lai          =   1.523 (m^2/m^2)
-                     stover N conc =     1.37 (%)    extractable sw =  156.94 (mm)
+                     biomass =         680.98 (g/m^2)   lai          =   0.748 (m^2/m^2)
+                     stover N conc =     0.70 (%)    extractable sw =  152.12 (mm)
 25 February 2002(Day of year=56), SweetSorghum: 
       stage 11.0 harvest_ripe
-                     biomass =        1294.36 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.44 (%)    extractable sw =  158.64 (mm)
+                     biomass =         680.98 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.70 (%)    extractable sw =  153.48 (mm)
 25 February 2002(Day of year=56), Harvesting rule: 
      Manager sending message :- sweetsorghum harvest
      
-      flowering day          =   26                           stover (kg/ha)         =     9466.6
-      maturity day           =   55                           grain yield (kg/ha)    =     3476.9
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3973.6
-      grain wt (g)           =    0.045                       grains/m^2             =     7695.4
-      grains/plant           =  769.5                         maximum lai            =      3.297
-      total above ground biomass (kg/ha)    =    12943.6
-      live above ground biomass (kg/ha)     =    12943.6
-      green above ground biomass (kg/ha)    =    11150.2
-      senesced above ground biomass (kg/ha) =     1793.4
-      number of leaves       =     20.8
-      DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.27
-      Stover C:N ratio       =    30.70                       Root C:N ratio         =      21.54
-      grain N percent        =     0.56                       total N content (kg/ha)=     142.93
-      grain N uptake (kg/ha) =    19.58                       senesced N content (kg/ha)=   12.55
-      green N content (kg/ha)=   110.79
+      flowering day          =   26                           stover (kg/ha)         =     4945.5
+      maturity day           =   55                           grain yield (kg/ha)    =     1864.2
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2130.5
+      grain wt (g)           =    0.051                       grains/m^2             =     3627.0
+      grains/plant           =  362.7                         maximum lai            =      1.831
+      total above ground biomass (kg/ha)    =     6809.8
+      live above ground biomass (kg/ha)     =     6809.8
+      green above ground biomass (kg/ha)    =     6089.2
+      senesced above ground biomass (kg/ha) =      720.5
+      number of leaves       =     21.1
+      DM Root:Shoot ratio    =     0.12                       Harvest Index          =       0.27
+      Stover C:N ratio       =    57.31                       Root C:N ratio         =      44.85
+      grain N percent        =     0.53                       total N content (kg/ha)=      44.35
+      grain N uptake (kg/ha) =     9.83                       senesced N content (kg/ha)=    5.04
+      green N content (kg/ha)=    29.47
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to endjuv_to_fi            0.000        0.000        0.000        0.000
-         endjuv_to_fi         to fi_to_flag              0.000        0.000        0.000        0.000
-         fi_to_flag           to flag_to_flower          0.000        0.003        0.020        0.204
-         flag_to_flower       to flowering               0.000        0.000        0.000        0.000
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
+         endjuv_to_fi         to fi_to_flag              0.000        0.000        0.029        0.049
+         fi_to_flag           to flag_to_flower          0.000        0.000        0.221        0.281
+         flag_to_flower       to flowering               0.000        0.000        0.208        0.301
+         flowering            to start_grain_fill        0.000        0.000        0.178        0.316
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.146        0.259
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                9466.6                     0.0
-                          N  (kg/ha) =                 123.35                    0.00
+                          DM (kg/ha) =                4945.5                     0.0
+                          N  (kg/ha) =                  34.52                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3476.9                     0.0
-                          N  (kg/ha) =                  19.58                    0.00
+                          DM (kg/ha) =                1864.2                     0.0
+                          N  (kg/ha) =                   9.83                    0.00
      
      Manager sending message :- sweetsorghum end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1868.8
-                          N  (kg/ha) =                   0.00                   34.71
+                          DM (kg/ha) =                   0.0                   807.2
+                          N  (kg/ha) =                   0.00                    7.20
      
 28 February 2002(Day of year=59), SweetSorghum: 
       stage 8.0 start_grain_fill
-                     biomass =        1109.32 (g/m^2)   lai          =   2.724 (m^2/m^2)
-                     stover N conc =     1.07 (%)    extractable sw =  155.56 (mm)
+                     biomass =         669.50 (g/m^2)   lai          =   1.593 (m^2/m^2)
+                     stover N conc =     0.71 (%)    extractable sw =  193.24 (mm)
 28 February 2002(Day of year=59), SweetSorghum: 
       stage 3.0 emergence
                      biomass =           0.05 (g/m^2)   lai          =   0.002 (m^2/m^2)
@@ -1632,172 +1572,172 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     5.79 (%)    extractable sw =  109.68 (mm)
 11 March 2002(Day of year=70), SweetSorghum: 
       stage 6.0 flag_to_flower
-                     biomass =         451.38 (g/m^2)   lai          =   1.600 (m^2/m^2)
-                     stover N conc =     1.31 (%)    extractable sw =  211.33 (mm)
+                     biomass =         450.17 (g/m^2)   lai          =   1.591 (m^2/m^2)
+                     stover N conc =     1.04 (%)    extractable sw =  211.45 (mm)
 13 March 2002(Day of year=72), SweetSorghum: 
       stage 5.0 fi_to_flag
                      biomass =           3.16 (g/m^2)   lai          =   0.045 (m^2/m^2)
                      stover N conc =     3.42 (%)    extractable sw =   98.30 (mm)
 18 March 2002(Day of year=77), SweetSorghum: 
       stage 7.0 flowering
-                     biomass =         633.42 (g/m^2)   lai          =   1.595 (m^2/m^2)
-                     stover N conc =     0.99 (%)    extractable sw =  179.57 (mm)
+                     biomass =         631.60 (g/m^2)   lai          =   1.586 (m^2/m^2)
+                     stover N conc =     0.83 (%)    extractable sw =  179.77 (mm)
 19 March 2002(Day of year=78), SweetSorghum: 
       stage 9.0 end_grain_fill
-                     biomass =        1109.32 (g/m^2)   lai          =   2.096 (m^2/m^2)
-                     stover N conc =     1.39 (%)    extractable sw =  189.09 (mm)
+                     biomass =         669.50 (g/m^2)   lai          =   0.964 (m^2/m^2)
+                     stover N conc =     0.85 (%)    extractable sw =  225.38 (mm)
 20 March 2002(Day of year=79), SweetSorghum: 
       stage 10.0 maturity
-                     biomass =        1109.32 (g/m^2)   lai          =   2.030 (m^2/m^2)
-                     stover N conc =     1.39 (%)    extractable sw =  188.57 (mm)
+                     biomass =         669.50 (g/m^2)   lai          =   0.931 (m^2/m^2)
+                     stover N conc =     0.85 (%)    extractable sw =  224.90 (mm)
 21 March 2002(Day of year=80), SweetSorghum: 
       stage 11.0 harvest_ripe
-                     biomass =        1109.32 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.49 (%)    extractable sw =  188.08 (mm)
+                     biomass =         669.50 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.86 (%)    extractable sw =  224.44 (mm)
 21 March 2002(Day of year=80), Harvesting rule: 
      Manager sending message :- sweetsorghum harvest
      
-      flowering day          =   47                           stover (kg/ha)         =     8039.5
-      maturity day           =   79                           grain yield (kg/ha)    =     3053.7
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3489.9
-      grain wt (g)           =    0.045                       grains/m^2             =     6806.8
-      grains/plant           =  680.7                         maximum lai            =      2.823
-      total above ground biomass (kg/ha)    =    11093.2
-      live above ground biomass (kg/ha)     =    11093.2
-      green above ground biomass (kg/ha)    =     9762.7
-      senesced above ground biomass (kg/ha) =     1330.5
-      number of leaves       =     17.0
-      DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.28
-      Stover C:N ratio       =    29.38                       Root C:N ratio         =      19.74
-      grain N percent        =     0.60                       total N content (kg/ha)=     127.65
-      grain N uptake (kg/ha) =    18.21                       senesced N content (kg/ha)=    9.31
-      green N content (kg/ha)=   100.13
+      flowering day          =   47                           stover (kg/ha)         =     4876.1
+      maturity day           =   79                           grain yield (kg/ha)    =     1819.0
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2078.8
+      grain wt (g)           =    0.049                       grains/m^2             =     3703.1
+      grains/plant           =  370.3                         maximum lai            =      1.703
+      total above ground biomass (kg/ha)    =     6695.0
+      live above ground biomass (kg/ha)     =     6695.0
+      green above ground biomass (kg/ha)    =     5907.8
+      senesced above ground biomass (kg/ha) =      787.2
+      number of leaves       =     17.4
+      DM Root:Shoot ratio    =     0.12                       Harvest Index          =       0.27
+      Stover C:N ratio       =    47.75                       Root C:N ratio         =      37.50
+      grain N percent        =     0.62                       total N content (kg/ha)=      52.12
+      grain N uptake (kg/ha) =    11.28                       senesced N content (kg/ha)=    5.51
+      green N content (kg/ha)=    35.33
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to endjuv_to_fi            0.000        0.000        0.000        0.000
+         endjuv_to_fi         to fi_to_flag              0.000        0.000        0.000        0.000
+         fi_to_flag           to flag_to_flower          0.000        0.000        0.169        0.252
+         flag_to_flower       to flowering               0.000        0.000        0.156        0.269
+         flowering            to start_grain_fill        0.000        0.000        0.129        0.260
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.101        0.204
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                4876.1                     0.0
+                          N  (kg/ha) =                  40.84                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                1819.0                     0.0
+                          N  (kg/ha) =                  11.28                    0.00
+     
+     Manager sending message :- sweetsorghum end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                   0.0                   815.1
+                          N  (kg/ha) =                   0.00                    8.69
+     
+30 March 2002(Day of year=89), SweetSorghum: 
+      stage 8.0 start_grain_fill
+                     biomass =         742.61 (g/m^2)   lai          =   1.567 (m^2/m^2)
+                     stover N conc =     0.78 (%)    extractable sw =  220.13 (mm)
+14 April 2002(Day of year=104), SweetSorghum: 
+      stage 6.0 flag_to_flower
+                     biomass =         380.19 (g/m^2)   lai          =   1.162 (m^2/m^2)
+                     stover N conc =     1.21 (%)    extractable sw =  197.90 (mm)
+21 April 2002(Day of year=111), SweetSorghum: 
+      stage 7.0 flowering
+                     biomass =         493.07 (g/m^2)   lai          =   1.159 (m^2/m^2)
+                     stover N conc =     0.98 (%)    extractable sw =  178.76 (mm)
+23 April 2002(Day of year=113), SweetSorghum: 
+      stage 9.0 end_grain_fill
+                     biomass =         742.61 (g/m^2)   lai          =   1.414 (m^2/m^2)
+                     stover N conc =     0.96 (%)    extractable sw =  200.59 (mm)
+24 April 2002(Day of year=114), SweetSorghum: 
+      stage 10.0 maturity
+                     biomass =         742.61 (g/m^2)   lai          =   1.399 (m^2/m^2)
+                     stover N conc =     0.96 (%)    extractable sw =  200.20 (mm)
+25 April 2002(Day of year=115), SweetSorghum: 
+      stage 11.0 harvest_ripe
+                     biomass =         742.61 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.98 (%)    extractable sw =  199.81 (mm)
+25 April 2002(Day of year=115), Harvesting rule: 
+     Manager sending message :- sweetsorghum harvest
+     
+      flowering day          =   77                           stover (kg/ha)         =     5306.8
+      maturity day           =  114                           grain yield (kg/ha)    =     2119.3
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2422.1
+      grain wt (g)           =    0.045                       grains/m^2             =     4679.8
+      grains/plant           =  468.0                         maximum lai            =      1.594
+      total above ground biomass (kg/ha)    =     7426.1
+      live above ground biomass (kg/ha)     =     7426.1
+      green above ground biomass (kg/ha)    =     6903.1
+      senesced above ground biomass (kg/ha) =      522.9
+      number of leaves       =     13.4
+      DM Root:Shoot ratio    =     0.11                       Harvest Index          =       0.29
+      Stover C:N ratio       =    41.94                       Root C:N ratio         =      27.64
+      grain N percent        =     0.60                       total N content (kg/ha)=      63.42
+      grain N uptake (kg/ha) =    12.80                       senesced N content (kg/ha)=    3.66
+      green N content (kg/ha)=    46.96
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to endjuv_to_fi            0.000        0.000        0.000        0.000
          endjuv_to_fi         to fi_to_flag              0.000        0.000        0.000        0.000
          fi_to_flag           to flag_to_flower          0.000        0.000        0.000        0.050
-         flag_to_flower       to flowering               0.000        0.000        0.000        0.000
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
+         flag_to_flower       to flowering               0.000        0.000        0.000        0.055
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.046
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.034
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                8039.5                     0.0
-                          N  (kg/ha) =                 109.45                    0.00
+                          DM (kg/ha) =                5306.8                     0.0
+                          N  (kg/ha) =                  50.62                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3053.7                     0.0
-                          N  (kg/ha) =                  18.21                    0.00
+                          DM (kg/ha) =                2119.3                     0.0
+                          N  (kg/ha) =                  12.80                    0.00
      
      Manager sending message :- sweetsorghum end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1560.6
-                          N  (kg/ha) =                   0.00                   31.62
-     
-30 March 2002(Day of year=89), SweetSorghum: 
-      stage 8.0 start_grain_fill
-                     biomass =         744.84 (g/m^2)   lai          =   1.576 (m^2/m^2)
-                     stover N conc =     0.89 (%)    extractable sw =  220.02 (mm)
-14 April 2002(Day of year=104), SweetSorghum: 
-      stage 6.0 flag_to_flower
-                     biomass =         380.23 (g/m^2)   lai          =   1.162 (m^2/m^2)
-                     stover N conc =     1.21 (%)    extractable sw =  197.89 (mm)
-21 April 2002(Day of year=111), SweetSorghum: 
-      stage 7.0 flowering
-                     biomass =         493.13 (g/m^2)   lai          =   1.159 (m^2/m^2)
-                     stover N conc =     0.96 (%)    extractable sw =  178.75 (mm)
-23 April 2002(Day of year=113), SweetSorghum: 
-      stage 9.0 end_grain_fill
-                     biomass =         744.84 (g/m^2)   lai          =   1.424 (m^2/m^2)
-                     stover N conc =     1.19 (%)    extractable sw =  200.48 (mm)
-24 April 2002(Day of year=114), SweetSorghum: 
-      stage 10.0 maturity
-                     biomass =         744.84 (g/m^2)   lai          =   1.409 (m^2/m^2)
-                     stover N conc =     1.19 (%)    extractable sw =  200.08 (mm)
-25 April 2002(Day of year=115), SweetSorghum: 
-      stage 11.0 harvest_ripe
-                     biomass =         744.84 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.24 (%)    extractable sw =  199.69 (mm)
-25 April 2002(Day of year=115), Harvesting rule: 
-     Manager sending message :- sweetsorghum harvest
-     
-      flowering day          =   77                           stover (kg/ha)         =     5322.5
-      maturity day           =  114                           grain yield (kg/ha)    =     2125.9
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2429.6
-      grain wt (g)           =    0.045                       grains/m^2             =     4693.5
-      grains/plant           =  469.3                         maximum lai            =      1.603
-      total above ground biomass (kg/ha)    =     7448.4
-      live above ground biomass (kg/ha)     =     7448.4
-      green above ground biomass (kg/ha)    =     6924.9
-      senesced above ground biomass (kg/ha) =      523.6
-      number of leaves       =     13.4
-      DM Root:Shoot ratio    =     0.11                       Harvest Index          =       0.29
-      Stover C:N ratio       =    33.79                       Root C:N ratio         =      17.15
-      grain N percent        =     0.60                       total N content (kg/ha)=      75.84
-      grain N uptake (kg/ha) =    12.84                       senesced N content (kg/ha)=    3.66
-      green N content (kg/ha)=    59.33
-     
-      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to endjuv_to_fi            0.000        0.000        0.000        0.000
-         endjuv_to_fi         to fi_to_flag              0.000        0.000        0.000        0.000
-         fi_to_flag           to flag_to_flower          0.000        0.000        0.000        0.000
-         flag_to_flower       to flowering               0.000        0.000        0.000        0.000
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
-     
-     
-     Crop harvested.
-         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                5322.5                     0.0
-                          N  (kg/ha) =                  63.00                    0.00
-     
-         Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2125.9                     0.0
-                          N  (kg/ha) =                  12.84                    0.00
-     
-     Manager sending message :- sweetsorghum end_crop
-     Crop ended. Yield (dw) =     0.0  (kg/ha)
-         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   853.1
-                          N  (kg/ha) =                   0.00                   19.90
+                          DM (kg/ha) =                   0.0                   850.8
+                          N  (kg/ha) =                   0.00                   12.31
      
 9 May 2002(Day of year=129), SweetSorghum: 
       stage 8.0 start_grain_fill
-                     biomass =         603.67 (g/m^2)   lai          =   1.144 (m^2/m^2)
-                     stover N conc =     0.82 (%)    extractable sw =  201.95 (mm)
+                     biomass =         603.55 (g/m^2)   lai          =   1.143 (m^2/m^2)
+                     stover N conc =     0.83 (%)    extractable sw =  201.93 (mm)
 19 June 2002(Day of year=170), SweetSorghum: 
       stage 9.0 end_grain_fill
-                     biomass =         603.67 (g/m^2)   lai          =   1.086 (m^2/m^2)
-                     stover N conc =     1.12 (%)    extractable sw =  206.26 (mm)
+                     biomass =         603.55 (g/m^2)   lai          =   1.086 (m^2/m^2)
+                     stover N conc =     1.13 (%)    extractable sw =  206.24 (mm)
 20 June 2002(Day of year=171), SweetSorghum: 
       stage 10.0 maturity
-                     biomass =         603.67 (g/m^2)   lai          =   1.085 (m^2/m^2)
-                     stover N conc =     1.12 (%)    extractable sw =  205.04 (mm)
+                     biomass =         603.55 (g/m^2)   lai          =   1.084 (m^2/m^2)
+                     stover N conc =     1.13 (%)    extractable sw =  205.03 (mm)
 21 June 2002(Day of year=172), SweetSorghum: 
       stage 11.0 harvest_ripe
-                     biomass =         603.67 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.15 (%)    extractable sw =  204.02 (mm)
+                     biomass =         603.55 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.17 (%)    extractable sw =  204.00 (mm)
 21 June 2002(Day of year=172), Harvesting rule: 
      Manager sending message :- sweetsorghum harvest
      
-      flowering day          =  111                           stover (kg/ha)         =     4266.5
-      maturity day           =  171                           grain yield (kg/ha)    =     1770.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2023.1
-      grain wt (g)           =    0.047                       grains/m^2             =     3771.8
-      grains/plant           =  377.2                         maximum lai            =      1.164
-      total above ground biomass (kg/ha)    =     6036.7
-      live above ground biomass (kg/ha)     =     6036.7
-      green above ground biomass (kg/ha)    =     5717.3
-      senesced above ground biomass (kg/ha) =      319.4
+      flowering day          =  111                           stover (kg/ha)         =     4265.7
+      maturity day           =  171                           grain yield (kg/ha)    =     1769.9
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2022.7
+      grain wt (g)           =    0.047                       grains/m^2             =     3771.5
+      grains/plant           =  377.1                         maximum lai            =      1.164
+      total above ground biomass (kg/ha)    =     6035.5
+      live above ground biomass (kg/ha)     =     6035.5
+      green above ground biomass (kg/ha)    =     5716.2
+      senesced above ground biomass (kg/ha) =      319.3
       number of leaves       =     12.0
       DM Root:Shoot ratio    =     0.10                       Harvest Index          =       0.29
-      Stover C:N ratio       =    35.93                       Root C:N ratio         =      15.67
-      grain N percent        =     0.62                       total N content (kg/ha)=      58.48
+      Stover C:N ratio       =    35.36                       Root C:N ratio         =      15.67
+      grain N percent        =     0.62                       total N content (kg/ha)=      59.24
       grain N uptake (kg/ha) =    10.99                       senesced N content (kg/ha)=    2.24
-      green N content (kg/ha)=    45.26
+      green N content (kg/ha)=    46.02
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to endjuv_to_fi            0.000        0.000        0.000        0.000
@@ -1810,17 +1750,17 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4266.5                     0.0
-                          N  (kg/ha) =                  47.49                    0.00
+                          DM (kg/ha) =                4265.7                     0.0
+                          N  (kg/ha) =                  48.26                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1770.2                     0.0
+                          DM (kg/ha) =                1769.9                     0.0
                           N  (kg/ha) =                  10.99                    0.00
      
      Manager sending message :- sweetsorghum end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   621.4
+                          DM (kg/ha) =                   0.0                   621.2
                           N  (kg/ha) =                   0.00                   15.86
      
 30 June 2002(Day of year=181), clock: 

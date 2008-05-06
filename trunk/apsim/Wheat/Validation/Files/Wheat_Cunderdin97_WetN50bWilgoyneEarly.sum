@@ -50,7 +50,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         day
         year
         wheat.zadok_stage
-        wheat.stage_name
+        wheat.StageName
         wheat.biomass
         wheat.yield
         wheat.grain_size
@@ -126,7 +126,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+                if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
        wheat  harvest
        wheat  end_crop
                 endif
@@ -389,26 +389,38 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
            Totals   61531.1  4733.2   358.9    44.9   200.0     5.0
           ---------------------------------------------------------
-
-------- wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
 6 June 1997(Day of year=157), Sow on a fixed date: 
      Manager sending message :- wheat sow  plants = 150, sowing_depth = 30, cultivar = wilgoyne, row_spacing = 250
 6 June 1997(Day of year=157), wheat: 
      Crop Sow
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = wilgoyne
-        pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.40 ()
-        photoperiod sensitivity    =       1.60 ()
-        phyllochron                =         95 ()
-        tt start gf to maturity    =        580 (dd)
+        Phases:
+           out
+           sowing
+           germination
+           emergence
+           end_of_juvenile
+           floral_initiation
+           flowering
+              tt_flowering               =     120 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     545 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =      35 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =    1000 (dd)
+           end_crop
+              tt_end_crop                =    1000 (dd)
+     
         grains_per_gram_stem           =       20.0 (/g)
         potential_grain_filling_rate   =     0.0020 (g/grain/day)
         potential_grain_growth_rate    =     0.0010 (g/grain/day)
         max_grain_size                 =     0.0450 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -437,13 +449,6 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   248mm in  2500mm total depth ( 10%).
          Crop factor for bounding water use is set to   1.5 times eo.
-6 June 1997(Day of year=157), Fertilise at sowing: 
-     Manager sending message :- fertiliser apply  amount = 51 (kg/ha), depth = 50 (mm), type = urea_n
-6 June 1997(Day of year=157), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-        51.00 of N as urea (urea_n)
-                                              added at depth   50.00 (layer   1)
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -453,6 +458,14 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
             157   30.0  150.0  250.0   0.0   0.0 wilgoyne
          ------------------------------------------------
      
+6 June 1997(Day of year=157), Fertilise at sowing: 
+     Manager sending message :- fertiliser apply  amount = 51 (kg/ha), depth = 50 (mm), type = urea_n
+6 June 1997(Day of year=157), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+        51.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+      stage 1.0 sowing
 7 June 1997(Day of year=158), wheat: 
       stage 2.0 germination
 13 June 1997(Day of year=164), wheat: 
@@ -468,7 +481,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
                      biomass =         125.04 (g/m^2)   lai          =   1.672 (m^2/m^2)
                      stover N conc =     3.31 (%)    extractable sw =   28.86 (mm)
 27 August 1997(Day of year=239), Fertilise on fixed date: 
-     Manager creating a new local real variable : n_topsoil = 9.92062
+     Manager creating a new local real variable : n_topsoil = 9.98925
      Manager sending message :- fertiliser apply  amount = 30 (kg/ha), depth = 50 (mm), type = urea_n
 27 August 1997(Day of year=239), fertiliser: 
      
@@ -521,17 +534,17 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
       senesced above ground biomass (kg/ha) =     1021.1
       number of leaves       =     30.1
       DM Root:Shoot ratio    =     0.13                       Harvest Index          =       0.37
-      Stover C:N ratio       =    88.83                       Root C:N ratio         =      17.21
-      grain N percent        =     2.87                       total N content (kg/ha)=     123.90
-      grain N uptake (kg/ha) =    97.80                       senesced N content (kg/ha)=    5.11
-      green N content (kg/ha)=    20.99
+      Stover C:N ratio       =    88.81                       Root C:N ratio         =      17.21
+      grain N percent        =     2.87                       total N content (kg/ha)=     123.91
+      grain N uptake (kg/ha) =    97.81                       senesced N content (kg/ha)=    5.11
+      green N content (kg/ha)=    21.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.025        0.036        0.000        0.000
-         floral_initiation    to flowering               0.072        0.104        0.000        0.000
-         flowering            to start_grain_fill        0.493        0.605        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.231        0.303        0.000        0.028
+         end_of_juvenile      to floral_initiation       0.021        0.030        0.000        0.000
+         floral_initiation    to flowering               0.044        0.063        0.000        0.000
+         flowering            to start_grain_fill        0.074        0.100        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.108        0.144        0.000        0.006
      
      
      Crop harvested.
@@ -541,7 +554,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                3405.0                     0.0
-                          N  (kg/ha) =                  97.80                    0.00
+                          N  (kg/ha) =                  97.81                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.030 (m^2/m^2)

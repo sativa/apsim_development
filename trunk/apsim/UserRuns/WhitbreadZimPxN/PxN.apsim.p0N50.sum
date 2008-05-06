@@ -124,14 +124,14 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      endif
      
      SECTION:- end_of_day
-          if stage_code = 3 and emer_date = 0 then
-             emer_date = das
-          elseif stage_code = 7 and anth_date = 0 then
-             anth_date = das
-          elseif stage_code = 11 and mat_date = 0 then
-             mat_date = das
+          if stage = 3 and emer_date = 0 then
+             emer_date = daysaftersowing
+          elseif stage = 7 and anth_date = 0 then
+             anth_date = daysaftersowing
+          elseif stage = 11 and mat_date = 0 then
+             mat_date = daysaftersowing
           endif
-          if (maize.stage_code = 11 or
+          if (maize.stage = 11 or
         maize.plant_status = 'dead') then
              report do_output
              maize harvest
@@ -146,7 +146,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
           endif
      
      SECTION:- start_of_day
-     if maize.das = 1 or maize.das = 42 then
+     if maize.daysaftersowing = 1 or maize.daysaftersowing = 42 then
            fertiliz apply amount = 25, type = nh4no3, depth = 5
          endif
      

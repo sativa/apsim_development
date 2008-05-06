@@ -33,7 +33,7 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
      Output variables:
         clock.dd/mmm/yyyy as Date
         met.rain as rain
-        SweetCorn.das
+        SweetCorn.DaysAfterSowing
         SweetCorn.zadok_stage
         met.day_length
         SweetCorn.stage
@@ -50,8 +50,8 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
         met.maxt
         met.mint
         met.radn
-        SweetCorn.tt_tot()
-        SweetCorn.dlt_tt
+        SweetCorn.TTAfterSowing
+        SweetCorn.TT
         SweetCorn.LeafGreenWt
         SweetCorn.StemGreenWt
 
@@ -84,7 +84,7 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
      endif
      
      SECTION:- end_of_day
-     if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
+     if sweetcorn.stagename = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
         sweetcorn harvest
         sweetcorn end_crop
      endif
@@ -212,9 +212,6 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
           ---------------------------------------------------------
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
-
-------- SweetCorn Initialisation ----------------------------------------------
-     phenology model: Generic
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -281,44 +278,40 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-         ------------------------------------------------
+        ------------------------------------------------
         cultivar                   = h5
-     out
-     
-     sowing
-     
-     germination
-     shoot_lag =         15 (dd)
-     shoot_rate =          1 (dd/mm)
-     
-     emergence
-        tt_emergence =        221 (dd)
-     endjuv_to_fi
-        x_pp_endjuv_to_fi          =    13.9    14.7 (h)
-        y_tt_endjuv_to_fi          =      75      75 (dd)
-     
-     fi_to_flag
-        Stage duration determined by leaf appearance rates
-     flag_to_flower
-        tt_flag_to_flower =        101 (dd)
-     flowering
-        tt_flowering =        170 (dd)
-     start_grain_fill
-        tt_start_grain_fill =        800 (dd)
-     end_grain_fill
-        tt_end_grain_fill =          5 (dd)
-     maturity
-        tt_maturity =          1 (dd)
-     harvest_ripe
-        tt_harvest_ripe =          1 (dd)
-     end_crop
-     
+        Phases:
+           out
+           sowing
+           germination
+              shoot_lag                  =      15 (dd)
+              shoot_rate                 =       1 (dd/mm)
+           emergence
+              tt_emergence               =     221 (dd)
+           endjuv_to_fi
+              x_pp_endjuv_to_fi          =    13.9    14.7 (h)
+              y_tt_endjuv_to_fi          =      75      75 (dd)
+           fi_to_flag
+              Stage duration determined by leaf appearance rates
+           flag_to_flower
+              tt_flag_to_flower          =     101 (dd)
+           flowering
+              tt_flowering               =     170 (dd)
+           start_grain_fill
+              tt_start_grain_fill        =     800 (dd)
+           end_grain_fill
+              tt_end_grain_fill          =       5 (dd)
+           maturity
+              tt_maturity                =       1 (dd)
+           harvest_ripe
+              tt_harvest_ripe            =       1 (dd)
+           end_crop
      
         grains_per_gram_stem           =        3.3 (/g)
         potential_grain_filling_rate   =     0.0100 (g/grain/day)
         potential_grain_growth_rate    =     0.0000 (g/grain/day)
         max_grain_size                 =     0.5000 (g)
-         ------------------------------------------------
+        ------------------------------------------------
      
      
                         Root Profile
@@ -352,6 +345,7 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
         - Reading Fertiliser Type Parameters
        200.00 of N as urea (urea_n)
                                               added at depth   50.00 (layer   1)
+      stage 1.0 sowing
 10 December 1998(Day of year=344), SweetCorn: 
       stage 2.0 germination
 13 December 1998(Day of year=347), SweetCorn: 
@@ -364,66 +358,69 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
                      stover N conc =     3.77 (%)    extractable sw =   33.00 (mm)
 30 December 1998(Day of year=364), SweetCorn: 
       stage 5.0 fi_to_flag
-                     biomass =          18.08 (g/m^2)   lai          =   0.214 (m^2/m^2)
+                     biomass =          18.07 (g/m^2)   lai          =   0.214 (m^2/m^2)
                      stover N conc =     3.64 (%)    extractable sw =   62.56 (mm)
 31 January 1999(Day of year=31), SweetCorn: 
       stage 6.0 flag_to_flower
-                     biomass =         564.86 (g/m^2)   lai          =   3.602 (m^2/m^2)
+                     biomass =         564.84 (g/m^2)   lai          =   3.602 (m^2/m^2)
                      stover N conc =     2.82 (%)    extractable sw =  224.51 (mm)
 7 February 1999(Day of year=38), SweetCorn: 
       stage 7.0 flowering
-                     biomass =         749.73 (g/m^2)   lai          =   4.049 (m^2/m^2)
+                     biomass =         749.70 (g/m^2)   lai          =   4.049 (m^2/m^2)
                      stover N conc =     2.40 (%)    extractable sw =  212.39 (mm)
 17 February 1999(Day of year=48), SweetCorn: 
       stage 8.0 start_grain_fill
-                     biomass =         986.92 (g/m^2)   lai          =   3.932 (m^2/m^2)
+                     biomass =         986.90 (g/m^2)   lai          =   3.932 (m^2/m^2)
                      stover N conc =     2.02 (%)    extractable sw =  265.75 (mm)
 10 April 1999(Day of year=100), SweetCorn: 
       stage 9.0 end_grain_fill
-                     biomass =        1743.68 (g/m^2)   lai          =   0.022 (m^2/m^2)
+                     biomass =        1743.66 (g/m^2)   lai          =   0.022 (m^2/m^2)
                      stover N conc =     1.64 (%)    extractable sw =  196.28 (mm)
 11 April 1999(Day of year=101), SweetCorn: 
       stage 10.0 maturity
-                     biomass =        1743.87 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1743.85 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.64 (%)    extractable sw =  196.03 (mm)
 12 April 1999(Day of year=102), SweetCorn: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 17438.70 (kg/ha)
+     Plant death. standing above-ground dm = 17438.52 (kg/ha)
+      stage 11.0 harvest_ripe
+                     biomass =        1743.85 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.00 (%)    extractable sw =  195.79 (mm)
 12 April 1999(Day of year=102), manager: 
      Manager sending message :- sweetcorn harvest
      
-      flowering day          =   38                           stover (kg/ha)         =    11777.1
-      maturity day           =  101                           grain yield (kg/ha)    =     5661.6
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6470.4
+      flowering day          =   38                           stover (kg/ha)         =    11777.0
+      maturity day           =  101                           grain yield (kg/ha)    =     5661.5
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6470.3
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      4.051
-      total above ground biomass (kg/ha)    =    17438.7
-      live above ground biomass (kg/ha)     =    17438.7
+      total above ground biomass (kg/ha)    =    17438.5
+      live above ground biomass (kg/ha)     =    17438.5
       green above ground biomass (kg/ha)    =        0.0
-      senesced above ground biomass (kg/ha) =    17438.7
+      senesced above ground biomass (kg/ha) =    17438.5
       number of leaves       =     20.7
       DM Root:Shoot ratio    =     0.11                       Harvest Index          =       0.32
-      Stover C:N ratio       =    27.81                       Root C:N ratio         =      37.50
-      grain N percent        =     1.13                       total N content (kg/ha)=     233.37
-      grain N uptake (kg/ha) =    63.95                       senesced N content (kg/ha)=  169.41
+      Stover C:N ratio       =    27.80                       Root C:N ratio         =      37.50
+      grain N percent        =     1.13                       total N content (kg/ha)=     233.43
+      grain N uptake (kg/ha) =    63.95                       senesced N content (kg/ha)=  169.47
       green N content (kg/ha)=     0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to endjuv_to_fi            0.000        0.000        0.000        0.020
-         endjuv_to_fi         to fi_to_flag              0.000        0.000        0.000        0.000
-         fi_to_flag           to flag_to_flower          0.000        0.000        0.000        0.055
-         flag_to_flower       to flowering               0.000        0.000        0.000        0.005
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
+         emergence            to endjuv_to_fi            0.000        0.000        0.000        0.013
+         endjuv_to_fi         to fi_to_flag              0.000        0.000        0.000        0.012
+         fi_to_flag           to flag_to_flower          0.000        0.000        0.000        0.037
+         flag_to_flower       to flowering               0.000        0.000        0.000        0.034
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.029
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.017
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               11777.1                     0.0
-                          N  (kg/ha) =                 169.41                    0.00
+                          DM (kg/ha) =               11777.0                     0.0
+                          N  (kg/ha) =                 169.47                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                5661.6                     0.0
+                          DM (kg/ha) =                5661.5                     0.0
                           N  (kg/ha) =                  63.95                    0.00
      
      Manager sending message :- sweetcorn end_crop

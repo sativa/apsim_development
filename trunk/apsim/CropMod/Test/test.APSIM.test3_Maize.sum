@@ -52,7 +52,7 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
         maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 30 (mm)
         harvest = 2
      endif
-     if maize.stage_name = 'harvest_ripe' or maize.plant_status = 'dead' then
+     if maize.stagename = 'harvest_ripe' or maize.plant_status = 'dead' then
         maize harvest
         maize end_crop
         harvest = 1
