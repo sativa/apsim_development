@@ -58,10 +58,9 @@
    phase_type =   generic  fixed fixed   fixed
    phase_names = sowing germination emergence maturity
     -->
-   <stage_code_list>1      2</stage_code_list>
-   <stage_names>transplanting maturity</stage_names>
-   <phase_type>photo   fixed</phase_type>
+   <stage_code_list>1            2</stage_code_list>
    <phase_names>transplanting maturity</phase_names>
+   <phase_type>    photo        fixed</phase_type>
    <composite_phases>root_growth above_ground  reproductive leaf_senescence vernalisation  emergence2floral_initiation preflowering node_formation  stress_reporting tiller_formation leaf_initiation  n_stress</composite_phases>
    <root_growth>transplanting</root_growth>
    <above_ground>transplanting maturity</above_ground>
@@ -74,7 +73,7 @@
    <node_formation>transplanting</node_formation>
    <leaf_initiation>transplanting</leaf_initiation>
    <stress_reporting>transplanting</stress_reporting>
-   <n_stress>end_crop</n_stress>
+   <n_stress>maturity</n_stress>
    <plant>
       <class_action>harvest</class_action>
       <class_change>unchanged</class_change>
