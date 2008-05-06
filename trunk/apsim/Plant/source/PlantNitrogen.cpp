@@ -753,13 +753,12 @@ void cproc_n_supply3 (
     ,float  g_root_depth                     // (INPUT)
     ,float  *g_root_length
     ,float  g_bd[]
-    ,float  c_n_stress_start_stage
     ,float  c_total_n_uptake_max
     ,float  c_no3_uptake_max
     ,float  c_no3_conc_half_max
     ,float  *g_sw_avail_pot                  // (INPUT)
     ,float  *g_sw_avail
-    ,float  g_current_stage                     // (INPUT)
+    ,bool   inNStressPhase
     ) {
 
 //+  Local variables
@@ -772,7 +771,7 @@ void cproc_n_supply3 (
     float scalef;
 
     deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
-    if (g_current_stage >= c_n_stress_start_stage)
+    if (inNStressPhase)
        {
        for (layer = 0; layer<= deepest_layer; layer++)
          {
@@ -835,7 +834,6 @@ void cproc_n_supply4 (float* g_dlayer    //! (INPUT)
                ,float* g_nh4gsm_min             //! (INPUT)
                ,float* g_nh4gsm_uptake_pot      //  (output)
                ,float g_root_depth              //! (INPUT)
-               ,float c_n_stress_start_stage    //
                ,float c_kno3                     //
                ,float c_no3ppm_min
                ,float c_knh4                     //
@@ -843,7 +841,7 @@ void cproc_n_supply4 (float* g_dlayer    //! (INPUT)
                ,float c_total_n_uptake_max      //
                ,float* g_sw_avail_pot           //! (INPUT)
                ,float* g_sw_avail
-               ,float  g_current_stage)             //! (outPUT)
+               ,bool   inNStressPhase)
   {
       float no3ppm;
       float nh4ppm;
@@ -857,7 +855,7 @@ void cproc_n_supply4 (float* g_dlayer    //! (INPUT)
                                       ,g_dlayer
                                       ,max_layer);
 
-      if (g_current_stage >= c_n_stress_start_stage)
+      if (inNStressPhase)
          {
          for (layer = 0; layer <= deepest_layer; layer++)
             {

@@ -5,6 +5,7 @@
 #include "RootGrowthOption2.h"
 #include "Environment.h"
 #include "Soil.h"
+#include "Phenology/Phenology.h"
 #include <numeric>
 using namespace std;
 
@@ -18,7 +19,7 @@ RootPart::RootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name
 // Constructor
    {
    incorp_fom_ID = 0;
-   Soil *s = new Soil(scienceAPI);
+   Soil *s = new Soil(scienceAPI, *p);
    soil.push_back(*s);
 
    zeroAllGlobals();
@@ -320,8 +321,7 @@ void RootPart::plant_root_depth (void)
    // this equation allows soil water in the deepest
    // layer in which roots are growing
    // to affect the daily increase in rooting depth.
-   int stage = (int)plant->getStageNumber();
-   dltRootDepth  = root_depth_rate.value(stage) *
+   dltRootDepth  = plant->phenology().doInterpolation(root_depth_rate) *
                      temp_factor *
                        min(ws_factor, sw_avail_factor) *
                          soil[0].xf[layer];
@@ -694,7 +694,6 @@ float RootPart::wet_root_fr (void)
    {
    if (root_depth > 0.0)
       {
-      float wfps;
       vector<float> root_fr;
       rootDist(1.0, root_fr);
 
@@ -853,11 +852,11 @@ void RootPart::get_n_supply_soil(protocol::Component *systemInterface, protocol:
    systemInterface->sendVariable(qd, n_uptake_sum);
    }
 
-void RootPart::plant_nit_supply(float stageNumber)
+void RootPart::plant_nit_supply()
 //=======================================================================================
 // Calculate Plant Nitrogen Supply
    {
-   soil[0].plant_nit_supply(stageNumber, root_depth, root_length);
+   soil[0].plant_nit_supply(root_depth, root_length);
    }
 
 void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand, float n_fix_pot)
@@ -869,7 +868,7 @@ void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand, flo
 
 //+  Purpose
 //       Plant transpiration and soil water extraction
-void RootPart::doWaterUptake (int option, float SWDemand)
+void RootPart::doWaterUptake (int,  float SWDemand)
     {
     soil[0].doWaterUptake(uptake_source, crop_type, SWDemand, root_depth);
     }

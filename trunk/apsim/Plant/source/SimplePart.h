@@ -86,7 +86,7 @@ class SimplePart : public plantPart
 
       interpolationFunction dm_sen_frac;
       interpolationFunction fr_remain;
-      float transpEffCf[max_table];                  // transpiration efficiency coefficient
+      vector<float> transpEffCf;                        // transpiration efficiency coefficient
                                                         // to convert vpd to
                                                         // transpiration efficiency (kpa)
                                                         // although this is expressed as a
@@ -256,7 +256,6 @@ protected:
                   vector<float> &fraction_to_residue);
 
    virtual void onKillStem(void);
-   virtual void onDayOf(const string &);
 
    const string &name(void) {return myName;};
 

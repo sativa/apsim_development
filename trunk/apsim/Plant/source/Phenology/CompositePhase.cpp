@@ -4,12 +4,21 @@
 #include "Phase.h"
 #include "CompositePhase.h"
 
-bool compositePhase::contains(const pPhase &PhaseToLookFor)
+bool compositePhase::contains(const pPhase &PhaseToLookFor, float fracIntoPhase)
 //=======================================================================================
    {
-   for (vector<pPhase *>::const_iterator phase = phases.begin(); phase !=  phases.end(); phase++)
-      if ((*phase)->name() == PhaseToLookFor.name()) return true;
-
+   for (unsigned p = 0; p != phases.size(); p++)
+      {
+      if (phases[p]->name() == PhaseToLookFor.name())
+         {
+         if (p == 0)
+            return (fracIntoPhase >= startFraction);
+         else if (p == phases.size()-1)
+            return (fracIntoPhase <= endFraction);
+         else
+            return true;
+         }
+      }
    return false;
    }
 

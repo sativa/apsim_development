@@ -25,7 +25,7 @@ class MultiRoot : public RootBase
 
       virtual void write();
 
-      void plant_nit_supply(float stageNumber);
+      void plant_nit_supply();
 
       float peswTotal();
       float pesw(int depth);

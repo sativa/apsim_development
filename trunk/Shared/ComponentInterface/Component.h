@@ -74,7 +74,7 @@ class EXPORT baseInfo {
       myType = protocol::DTunknown;
       };
    virtual ~baseInfo() {};
-   virtual void sendVariable(Component *, QueryValueData&) = 0;
+   virtual void sendVariable(Component *, QueryValueData&) {};
    virtual std::string getXML();
    std::string name(void) {return myName;};
 };
@@ -156,7 +156,29 @@ class EXPORT fnInfo : public baseInfo {
    void sendVariable(Component *s, QueryValueData &qd) { myFn(s, qd); };
 };
 
+// Same as above, but stores pointers to function calls, not memory regions.
+class EXPORT fnSetInfo : public baseInfo {
+  private:
+    boost::function2<bool, Component *, QuerySetValueData &> myFn;
+  public:
+    fnSetInfo(const char *name,
+           protocol::DataTypeCode type, bool isArray,
+           boost::function2<bool, Component *, QuerySetValueData &> fn,
+           const char *units, const char *desc) {
+      myFn = fn;
+      myName = name;
+      myType = type;
+      myLength = -1;          // length is variable..
+      myIsArray = isArray;
+      myUnits = units;
+      myDescription = desc;
+   };
+   ~fnSetInfo() {};
+   bool callSetter(Component *s, QuerySetValueData &qd) {return myFn(s, qd);}
+
+};
 typedef std::map<unsigned, baseInfo*>   UInt2InfoMap;
+typedef std::map<unsigned, fnSetInfo*>   UInt2SetInfoMap;
 typedef boost::function3<void, unsigned &, unsigned &, protocol::Variant &> pfcall;
 typedef std::multimap<unsigned, pfcall, std::less<unsigned> >   UInt2EventMap;
 
@@ -285,7 +307,7 @@ class EXPORT Component
       virtual void doCommence(void) { }
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, Variant& variant);
       virtual void respondToGet(unsigned int& fromID, QueryValueData& queryData);
-      virtual bool respondToSet(unsigned int& fromID, QuerySetValueData& setValueData) {return false;}
+      virtual bool respondToSet(unsigned int& fromID, QuerySetValueData& setValueData);
       virtual void notifyTermination(void) { }
       virtual void messageToLogic(const Message* message);
 
@@ -374,6 +396,7 @@ class EXPORT Component
       unsigned currentMsgID;
 
       UInt2InfoMap getVarMap;                  // List of variables we can send to system
+      UInt2SetInfoMap setVarMap;                  // List of variables we can send to system
       UInt2EventMap eventMap;                  // List of events we handle
 
       const unsigned int* callbackArg;
@@ -778,7 +801,19 @@ class EXPORT Component
           varVectorFloatInfo *v = new varVectorFloatInfo(systemName, type, value, units, desc);
           getVarMap.insert(UInt2InfoMap::value_type(id,v));
            };
-
+      // scalar 
+      void addSettableVar(const char *systemName,
+                          DataTypeCode type,
+                          const char * ddml,
+                          boost::function2<bool, Component *, QuerySetValueData &> ptr,
+                          const char *units,
+                          const char *desc)
+          {
+          unsigned int id = addRegistration(RegistrationType::respondToSet, systemName, ddml);
+          fnSetInfo *fn = new fnSetInfo(systemName, type, false, ptr, units, desc);
+          setVarMap.insert(UInt2SetInfoMap::value_type(id, fn));
+          };
+           
       void removeGettableVar(const char *systemName);
 
 

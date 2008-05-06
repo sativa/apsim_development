@@ -86,7 +86,8 @@ private:
 
    void read(void);
 
-   bool phenologyEventToday;
+   std::string phenologyEventToday;
+   std::string phenologyEventYesterday;
    bool phenologyRewoundToday;
 
 
@@ -112,7 +113,7 @@ public:
 
    void registerClassActions(void);
    void sendStageMessage(const char *what);
-   void doPlantEvent(const string &, bool phenologyRewound);
+   void doPlantEvent(const string& oldStageName, const string& newStageName, bool phenologyRewound);
 
    const std::string & getCropType(void) ;
    protocol::Component *getComponent(void) ;
@@ -134,7 +135,7 @@ public:
                      ,float  *g_n_fix_uptake
                      ,float  *g_n_fixed_tops
                     )  ;
-   void plant_event(void);
+   void plant_event(const std::string& newStageName);
 
    void plant_root_depth (int option /* (INPUT) option number*/);
    void doPlantRadnPartition (int option /*(INPUT) option number*/);
@@ -175,8 +176,6 @@ public:
    bool set_plant_crop_class(protocol::QuerySetValueData&v);
 
    void get_plant_status(protocol::Component *, protocol::QueryValueData &);
-   float getStageNumber(void);
-   float ttInCurrentPhase(void);
    status_t Status(void) {return g.plant_status;}
    void SetStatus(status_t NewStatus) {g.plant_status = NewStatus;}
    CompositePart& Tops(void) {return tops;}
@@ -308,10 +307,6 @@ public:
    void get_ll_dep(protocol::Component *systemInterface, protocol::QueryValueData &qd);
    void get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd);
 
-   bool on_day_of(const string &what) ;
-   bool inPhase(const string &what) ;
-   int  getDayOfYear(void) {return (environment().dayOfYear());};
-
    //Phosporousy things:
    void doPInit(protocol::Component *systemInterface);
    bool phosphorusAware(void)  {return pStress->isPhosphorusAware();};
@@ -416,8 +411,6 @@ private:
       int   leaf_no_pot_option;
       int   n_retrans_option;
       int   n_senescence_option;
-
-      float n_stress_start_stage;
 
       string crop_type;                                  // crop type
       string default_crop_class;                         // crop class

@@ -9,10 +9,17 @@ class compositePhase
    {
    private:
       std::vector<pPhase *> phases;
+      float startFraction;
+      float endFraction;
    public:
       compositePhase()  {};
       void add(pPhase *p) {phases.push_back(p);}
-      bool contains(const pPhase &p);
+      void setStartEndFractions(float start, float end)
+         {
+         startFraction = start;
+         endFraction = end;
+         }
+      bool contains(const pPhase &p, float fracIntoPhase);
       bool isEmpty(void)  {return phases.size() == 0;};
       float getTT(void);
       float getTTTarget(void);

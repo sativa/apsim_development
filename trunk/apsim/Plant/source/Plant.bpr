@@ -36,7 +36,7 @@
       Phenology\CWVernalPhase.obj Phenology\CWInductivePhase.obj 
       Phenology\CWFixedPhase.obj Phenology\CWSowingPhase.obj Root\Soil.obj 
       Fixation.obj Phenology\Zadok.obj Phenology\InductivePhase.obj 
-      Phenology\WaitingPhase.obj Utility\SimpleLookupFunction.obj"/>
+      Phenology\WaitingPhase.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -168,7 +168,6 @@
       <FILE FILENAME="Phenology\Zadok.cpp" FORMNAME="" UNITNAME="Zadok" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\InductivePhase.cpp" FORMNAME="" UNITNAME="InductivePhase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\WaitingPhase.cpp" FORMNAME="" UNITNAME="WaitingPhase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Utility\SimpleLookupFunction.cpp" FORMNAME="" UNITNAME="SimpleLookupFunction" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -277,7 +276,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=&quot;C:\hol353\Development\apsim\mungbean\Sample\mungbean.APSIM.sample_mungbean.sim&quot;
+RunParams=&quot;C:\hol353\Development\apsim\Broccoli\Sample\broccoli.apsim.Broccoli Sample.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=

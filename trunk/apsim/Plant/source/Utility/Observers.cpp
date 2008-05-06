@@ -1,10 +1,10 @@
 #include "StdPlant.h"
 
-#include "Plant.h"
 #include "Observers.h"
-
+#include "Phenology/Phenology.h"
+#include "Environment.h"
 // An "event observer". Waits for events to happen and records date/das for later reporting.
-eventObserver::eventObserver(ScienceAPI& scienceAPI, const string& eventOfInterest, Plant *p)
+eventObserver::eventObserver(ScienceAPI& scienceAPI, const string& eventOfInterest, plantInterface *p)
    : plantThing(scienceAPI, "EventObserver")
    {
    myEvent = eventOfInterest;
@@ -43,7 +43,7 @@ void eventObserver::onPlantEvent(const string &event)
       }
    if (event == myEvent)
       {
-      myDate = myPlant->getDayOfYear();
+      myDate = myPlant->environment().dayOfYear();
       if (dasCounter >= 0) { myDas = dasCounter; }
       }
    if (event == "end_crop")

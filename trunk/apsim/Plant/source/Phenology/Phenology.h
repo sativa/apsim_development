@@ -32,9 +32,7 @@ class Phenology : public plantThing
       int   das;
       float dlt_tt;
       float dlt_tt_phenol;
-      float phase_fraction(float dlt_tt);               // return the fraction through the current phase we are in
       pPhase *getStage(const string &);
-      float  stageCode (void);
 
       void get_stage(protocol::Component *, protocol::QueryValueData &);
       void get_stage_name(protocol::Component *, protocol::QueryValueData &);
@@ -48,7 +46,10 @@ class Phenology : public plantThing
       void onHarvest();
       void onEndCrop();
       void onKillStem();
-      void zeroAll(void);
+      void zeroAll();
+      void initialise();
+      string stageName();
+      void onSetStage(float newStageNumber);
 
    public:
       Phenology(ScienceAPI& scienceAPI, plantInterface& p);
@@ -56,27 +57,19 @@ class Phenology : public plantThing
       virtual void onInit1(protocol::Component *);
       virtual void writeSummary();
       virtual void process();
-      virtual void update(void);
       virtual void read();
       std::string description();
+
       bool on_day_of(const string &);
-
-      bool inPhase(const string &) const;
-      float ttInPhase(const string &phaseName) const;   //XX should be private
+      float fractionInCurrentPhase() const;
+      bool inPhase(const string& phaseName) const;
+      float ttInPhase(const string &phaseName) const;
       float TTTargetInPhase(const string &phaseName) const;
-      float ttInCurrentPhase(void);               //XX should be private
-
-      float stageNumber(void) {return currentStage;};//XXX a bad thing
-
-      std::string stageName(void);//xxxbad
-      string previousStageName(void);//xxxbad
-
-      float doInterpolation(interpolationFunction& f);
+      float doInterpolation(externalFunction& f);
       float doLookup(const std::vector<float>& f);
 
-      void onSetPhase(float resetPhase);
       virtual void onSow(protocol::Variant &v);
-      virtual void onRemoveBiomass(float removeBiomPheno); // XX arg should be protocol::Variant &v
+      virtual void onRemoveBiomass(float removeBiomPheno);
 
       virtual float get_dlt_tt(void);       // XX remove when leaf number development is finished
    };

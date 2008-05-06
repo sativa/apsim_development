@@ -8,11 +8,11 @@
 class eventObserver : public plantThing {
      string myEvent;
      int myDas, myDate, dasCounter, dayOfYear;
-     Plant *myPlant;
+     plantInterface *myPlant;
      std::string varName1, varName2, desc1, desc2;
 
    public:
-     eventObserver(ScienceAPI& scienceAPI, const string& eventOfInterest, Plant *);
+     eventObserver(ScienceAPI& scienceAPI, const string& eventOfInterest, plantInterface *);
      virtual void onInit1(protocol::Component *);
      virtual void onPlantEvent(const string &);
 

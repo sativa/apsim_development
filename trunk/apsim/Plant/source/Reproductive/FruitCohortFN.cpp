@@ -33,12 +33,6 @@ FruitCohortFN::~FruitCohortFN()
       delete fruitPhenology;
 }
 
-float FruitCohortFN::getStageNumber(void)
-   //===========================================================================
-{
-   return fruitPhenology->stageNumber();
-}
-
 float FruitCohortFN::getDltTT(void)
    //===========================================================================
 {

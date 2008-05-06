@@ -142,7 +142,7 @@ void PlantFruitCohorting::doSiteNumber(void)
 
     float node_no_now =  plant->getNodeNo();
 
-    if (plant->on_day_of ("flowering"))       // initial fruit stage
+    if (plant->phenology().on_day_of ("flowering"))       // initial fruit stage
         {
         node_no_first_flower = node_no_now;
         dlt_node_no = plant->getDltNodeNo();

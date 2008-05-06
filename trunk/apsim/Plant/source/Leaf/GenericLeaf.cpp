@@ -3,6 +3,7 @@
 #include "Leaf.h"
 #include "GenericLeaf.h"
 #include "Environment.h"
+#include "Phenology/Phenology.h"
 using namespace std;
 
 const float  tolerance_lai = 1.0e-4 ;
@@ -23,7 +24,6 @@ void GenericLeaf::readSpeciesParameters (protocol::Component *system, vector<str
    scienceAPI.read("initial_tpla", cInitialTPLA, 0.0f, 100000.0f);
    scienceAPI.read("min_tpla", cMinTPLA, 0.0f, 100000.0f);
    scienceAPI.read("sla_min", cSLAMin, 0.0f, 100000.0f);
-   scienceAPI.read("sen_start_stage", cSenStartStage, 0.0f, 100.0f);
    scienceAPI.read("fr_lf_sen_rate", cFrLeafSenRate, 0.0f, 1.0f);
    scienceAPI.read("node_sen_rate", cNodeSenRate, 0.0f, 1000.0f);
    scienceAPI.read("n_fact_lf_sen_rate", cNFactLeafSenRate, 0.0f, 5.0f);
@@ -60,8 +60,7 @@ void GenericLeaf::readSpeciesParameters (protocol::Component *system, vector<str
    scienceAPI.read("y_extinct_coef", cYExtinctCoef, cNumRowSpacing, 0.0f, 1.0f);
    scienceAPI.read("y_extinct_coef_dead", cYExtinctCoefDead, cNumRowSpacing, 0.0f, 1.0f);
 
-   int   numvals;                                // number of values returned
-   scienceAPI.read("transp_eff_cf", c.transpEffCf, numvals, 0.0f, 1.0f);
+   scienceAPI.read("transp_eff_cf", c.transpEffCf, 0.0f, 1.0f);
 
    Photosynthesis->Read();
 
@@ -391,15 +390,14 @@ void GenericLeaf::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
 
    leaf_death_rate = divide (node_sen_rate, leaf_per_node, 0.0);
 
-   if (plant->inPhase("harvest_ripe"))
+   if (plant->phenology().inPhase("harvest_ripe"))
        {
        // Constrain leaf death to remaining leaves
        //cnh do we really want to do this?;  XXXX
        leaf_no_sen_now = sum_real_array (gLeafNoSen,max_node);
        dltLeafNoSen = l_bound (leaf_no_now - leaf_no_sen_now, 0.0);
        }
-   else if (plant->getStageNumber() > cSenStartStage
-       /*XXXX should be phenology->inPhase("leaf_senescence") !!!!!*/)
+   else if (plant->phenology().inPhase("leaf_senescence"))
        {
        dltLeafNoSen = divide (g_dlt_tt, leaf_death_rate, 0.0);
 
@@ -440,8 +438,8 @@ void GenericLeaf::leaf_no_pot (int option, float stressFactor, float dlt_tt)
         {
         cproc_leaf_no_pot1(cNodeAppRate
                            , cLeavesPerNode
-                           , plant->inPhase("node_formation")
-                           , plant->on_day_of("emergence")
+                           , plant->phenology().inPhase("node_formation")
+                           , plant->phenology().on_day_of("emergence")
                            , gNodeNo
                            , dlt_tt
                            , &dltLeafNoPot
@@ -453,8 +451,8 @@ void GenericLeaf::leaf_no_pot (int option, float stressFactor, float dlt_tt)
         float tiller_no_now =  gNodeNo;
         cproc_leaf_no_pot3  (cNodeAppRate
                              , cLeavesPerNode
-                             , plant->inPhase("tiller_formation")
-                             , plant->on_day_of("emergence")
+                             , plant->phenology().inPhase("tiller_formation")
+                             , plant->phenology().on_day_of("emergence")
                              , tiller_no_now
                              , dlt_tt
                              , stressFactor

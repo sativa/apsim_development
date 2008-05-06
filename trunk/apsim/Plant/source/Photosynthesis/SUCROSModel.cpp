@@ -1,6 +1,7 @@
 #include "StdPlant.h"
 #include "SUCROSModel.h"
 #include "Co2Modifier.h"
+#include "Phenology/Phenology.h"
 using namespace std;
 
 SUCROSModel::SUCROSModel(ScienceAPI& scienceAPI, plantInterface& p)
@@ -16,7 +17,7 @@ float SUCROSModel::Potential (float radiationInterceptedGreen)
    double stress_factor = min(min(min(plant.getTempStressPhoto(), plant.getNfactPhoto())
                                , plant.getOxdefPhoto()), plant.getPfactPhoto());
 
-   return radiationInterceptedGreen  * RUE.value(plant.getStageNumber())* stress_factor * plant.getCo2Modifier()->rue();
+   return radiationInterceptedGreen  * plant.phenology().doInterpolation(RUE) * stress_factor * plant.getCo2Modifier()->rue();
    }
 
 void SUCROSModel::Read(void)

@@ -15,17 +15,16 @@ Zadok::Zadok(ScienceAPI& scienceAPI, plantInterface& p)
 // NB. "5.2" is half way between FI and flag leaf in wheat
 float Zadok::calcZadok()
    {
-   float currentStage = plant.getStageNumber();
-
-   float sowing = 1.0, emerg = 3.0;
+   float fracInCurrent = plant.phenology().fractionInCurrentPhase();
    float zadok_stage = 0.0;
-   if (currentStage >= sowing &&
-        currentStage <= emerg)
-       {
-       zadok_stage = 5.0 * (currentStage - sowing);
-       }
-   else if (currentStage > emerg &&
-             currentStage <= 4.9)
+   if (plant.phenology().inPhase("sowing"))
+       zadok_stage = 5.0 * fracInCurrent;
+   else if (plant.phenology().inPhase("germination"))
+       zadok_stage = 5.0 + 5 * fracInCurrent;
+   else if (plant.phenology().inPhase("emergence"))
+       zadok_stage = 10.0;
+   else if (plant.phenology().inPhase("end_of_juvenile") &&
+            fracInCurrent <= 0.9)
       {
       float leaf_no_now = max(0.0, plant.getLeafNo() - 2.0);
 
@@ -42,7 +41,7 @@ float Zadok::calcZadok()
       else
          zadok_stage = 20.0 + tiller_no_now;
       }
-   else if (currentStage > 4.9 && currentStage < 11)
+   else if (!plant.phenology().inPhase("out"))
       {
       // from senthold's archive:
       //1    2    3         4.5     5       6
@@ -63,11 +62,11 @@ float Zadok::calcZadok()
            {30,   40, 65, 71, 87, 90, 100};
       static float zadok_code_x[] =
            {4.9, 5.4,  6,  7,  8,  9,  10};
+      interpolationFunction zadok;
+      zadok.setXY(vector<float> (zadok_code_x, zadok_code_x + sizeof(zadok_code_x)),
+                  vector<float> (zadok_code_y, zadok_code_y + sizeof(zadok_code_y)));
 
-      zadok_stage = linear_interp_real (currentStage
-                                       , zadok_code_x
-                                       , zadok_code_y
-                                       , sizeof(zadok_code_x)/sizeof(float));
+      zadok_stage = plant.phenology().doInterpolation(zadok);
       }
    return zadok_stage;
    }

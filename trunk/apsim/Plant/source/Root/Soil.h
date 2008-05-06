@@ -5,7 +5,7 @@ class Soil
    {
    public:
       ~Soil(){};
-      Soil(ScienceAPI& scienceAPI);
+      Soil(ScienceAPI& scienceAPI, plantInterface& plant);
       void onInit1(protocol::Component *system);
       void onNewProfile(protocol::NewProfileType &v);
       void ZeroDeltas(void);
@@ -15,7 +15,7 @@ class Soil
       float waterUptake (void);
       float WFPS(int layer);
       void UpdateOtherVariables(string uptake_source);
-      void plant_nit_supply(float stageNumber, float root_depth, float *root_lengt);
+      void plant_nit_supply(float root_depth, float *root_lengt);
       float pesw(int depth);
       float fasw(int depth);
       float peswTotal(float root_depth);
@@ -118,7 +118,6 @@ class Soil
       float knh4;
       float nh4ppm_min;
       float total_n_uptake_max;
-      float n_stress_start_stage;
       string n_supply_preference;                        // preference of n supply
       float no3_diffn_const;                            // time constant for uptake by
                                                         // diffusion (days). H van Keulen &
@@ -134,6 +133,7 @@ class Soil
 
    protected:
       ScienceAPI& scienceAPI;
+      plantInterface& plant;
 
 
 

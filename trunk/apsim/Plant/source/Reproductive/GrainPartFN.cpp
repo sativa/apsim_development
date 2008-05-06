@@ -195,28 +195,15 @@ float fruitGrainPartFN::dltDmYieldPotential(void)
 void fruitGrainPartFN::doDMDemandGrain(void)
    //===========================================================================
    {
-   if (plant->inPhase("postflowering"))
+   if (plant->phenology().inPhase("postflowering"))
       {
       //       Perform grain filling calculations
 
-//      if (plant->inPhase("grainfill"))
-//         gDlt_dm_grain_demand = gGrain_no
-//                              * pPotential_grain_filling_rate
-//                              * rel_grainfill.value(tav);
-//      else
-//         {
-//         // we are in the flowering to grainfill phase
-//         gDlt_dm_grain_demand = gGrain_no
-//                              * pPotential_grain_growth_rate
-//                              * rel_grainfill.value(tav);
-//          }
            if (plant->phenology().inPhase("grainfilling"))
                {
                // we are in grain filling stage
 
                float dlt_dm_yield = dltDmYieldPotential();                        //cohort dm demand - cohort stuff
-////                                  * rel_grainfill.value(plant->environment()->meanT)                                            //cohort dm demand - cohort stuff
-////                                  * myParent->getDltTT();                                   //cohort dm demand - cohort stuff
 
                dlt_dm_yield = bound (dlt_dm_yield, 0.0, myParent->dltDmGrainMax());
                gDlt_dm_grain_demand = oilPart->addEnergy(dlt_dm_yield);   // adding grain energy to potential new grain wt to get grain demand
@@ -247,7 +234,7 @@ void fruitGrainPartFN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
    // default case
    gN_grain_demand = 0.0;
 
-   if (plant->inPhase("reproductive"))
+   if (plant->phenology().inPhase("reproductive"))
       {
       // we are in grain filling stage
       Tav = meanT();
@@ -257,8 +244,7 @@ void fruitGrainPartFN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
                      * rel_grain_n_fill.value(Tav);
       }
 
-   if (plant->inPhase("postflowering"))
-   //if (plant->inPhase("grainfill"))
+   if (plant->phenology().inPhase("postflowering"))
       {
       // during grain C filling period so make sure that C filling is still
       // going on otherwise stop putting N in now

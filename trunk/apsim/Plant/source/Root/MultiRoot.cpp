@@ -80,7 +80,7 @@ float MultiRoot::sw_avail_ratio(int /*layer*/)  //(INPUT) soil profile layer num
 //
 
 
-void MultiRoot::plant_nit_supply(float /*stageNumber*/)
+void MultiRoot::plant_nit_supply()
 //=======================================================================================
 // Calculate Plant Nitrogen Supply
     {
@@ -117,7 +117,7 @@ float MultiRoot::fasw(int /*depth*/)
    }
 
 
-void MultiRoot::doNUptake(float /*sumNMax*/, float sumSoilNDemand, float nDemand, float n_fix_pot)
+void MultiRoot::doNUptake(float /*sumNMax*/, float sumSoilNDemand, float nDemand, float /*n_fix_pot*/)
 //=======================================================================================
 //       Find nitrogen uptake.
     {

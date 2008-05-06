@@ -675,13 +675,12 @@ void plant_leaf_removal_top (float *leaf_area
     ,float  g_root_depth
     ,float  *g_root_length
     ,float  g_bd[]
-    ,float  c_n_stress_start_stage
     ,float  c_total_n_uptake_max
     ,float  c_no3_uptake_max
     ,float  c_no3_conc_half_max
     ,float  *g_sw_avail_pot
     ,float  *g_sw_avail
-    ,float  g_current_stage
+    ,bool   inNStressPhase
     ) ;
 void cproc_n_supply4 (float* g_dlayer  //  ! (INPUT)
                ,float* g_bd                   //
@@ -692,7 +691,6 @@ void cproc_n_supply4 (float* g_dlayer  //  ! (INPUT)
                ,float* g_NH4gsm_min           //  ! (INPUT)
                ,float* G_nH4gsm_uptake_pot    //
                ,float g_root_depth            //  ! (INPUT)
-               ,float c_n_stress_start_stage  //
                ,float c_kno3                   //
                ,float c_no3ppm_min
                ,float c_knh4                   //
@@ -700,8 +698,8 @@ void cproc_n_supply4 (float* g_dlayer  //  ! (INPUT)
                ,float c_total_n_uptake_max    //
                ,float* g_sw_avail_pot         //  ! (INPUT)
                ,float* g_sw_avail             //  ! (INPUT)
-               ,float G_current_stage         //  ! (INPUT)
-);           //   ! (outPUT)
+               ,bool   inNStressPhase
+               );
 void legnew_n_senescence1
     (
      int    num_part

@@ -4,6 +4,7 @@
 #include "Leaf.h"
 #include "CohortingLeaf.h"
 #include "Environment.h"
+#include "Phenology/Phenology.h"
 using namespace std;
 
 
@@ -24,7 +25,6 @@ void CohortingLeaf::readSpeciesParameters (protocol::Component *system, vector<s
    scienceAPI.read("initial_tpla", cInitialTPLA, 0.0f, 100000.0f);
    scienceAPI.read("min_tpla", cMinTPLA, 0.0f, 100000.0f);
    scienceAPI.read("sla_min", cSLAMin, 0.0f, 100000.0f);
-   scienceAPI.read("sen_start_stage", cSenStartStage, 0.0f, 100.0f);
    scienceAPI.read("fr_lf_sen_rate", cFrLeafSenRate, 0.0f, 1.0f);
    scienceAPI.read("node_sen_rate", cNodeSenRate, 0.0f, 1000.0f);
    scienceAPI.read("n_fact_lf_sen_rate", cNFactLeafSenRate, 0.0f, 5.0f);
@@ -77,9 +77,7 @@ void CohortingLeaf::readSpeciesParameters (protocol::Component *system, vector<s
    scienceAPI.read("x_row_spacing", cXRowSpacing, cNumRowSpacing, 0.0f, 2000.0f);
    scienceAPI.read("y_extinct_coef", cYExtinctCoef, cNumRowSpacing, 0.0f, 1.0f);
    scienceAPI.read("y_extinct_coef_dead", cYExtinctCoefDead, cNumRowSpacing, 0.0f, 1.0f);
-
-   int   numvals;                                // number of values returned
-   scienceAPI.read("transp_eff_cf", c.transpEffCf, numvals, 0.0f, 1.0f);
+   scienceAPI.read("transp_eff_cf", c.transpEffCf, 0.0f, 1.0f);
 
    Photosynthesis->Read();
    }
@@ -498,7 +496,7 @@ void CohortingLeaf::leaf_no_pot (float stressFactor, float dlt_tt)
 //=======================================================================================
 //     Calculate leaf number development
     {
-    bool tillering = plant->inPhase("tiller_formation");
+    bool tillering = plant->phenology().inPhase("tiller_formation");
     if (tillering)
        {
        float node_app_rate = cNodeAppRate[gNodeNo];

@@ -15,11 +15,6 @@ void VernalPhase::reset()
    scienceAPI.expose("cumvd", "", "Cumulative Vernal Days", cumvd);
    }
 
-void VernalPhase::GetOutputs(std::vector <Output*> &Outputs)
-//=======================================================================================
-   {
-   pPhase::GetOutputs(Outputs);
-   }
 void VernalPhase::read()
 //=======================================================================================
    {

@@ -290,7 +290,6 @@ void NStress::init(void)
 void NStress::read_n_constants (void)
 {
     scienceAPI.read("n_stress_option", c.n_stress_option, 1, 2);
-//    scienceAPI.read("N_stress_start_stage", c.n_stress_start_stage, 0.0f, 100.0f);
     scienceAPI.read("n_fact_photo", c.nFact.photo, 0.0f, 100.0f);
     scienceAPI.read("n_fact_pheno", c.nFact.pheno, 0.0f, 100.0f);
     scienceAPI.read("n_fact_expansion", c.nFact.expansion, 0.0f, 100.0f);

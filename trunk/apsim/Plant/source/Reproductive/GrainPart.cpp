@@ -2,6 +2,7 @@
 
 #include "GrainPart.h"
 #include "Environment.h"
+#include "Phenology/Phenology.h"
 using namespace std;
 
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
@@ -225,7 +226,7 @@ void fruitGrainPart::update(void)
 
    CompositePart::update();
 
-   if (plant->inPhase("hi_stress_sensitive")) gDm_stress_max.update();
+   if (plant->phenology().inPhase("hi_stress_sensitive")) gDm_stress_max.update();
 }
 
 void fruitGrainPart::display(ostream &os)
@@ -266,7 +267,7 @@ void fruitGrainPart::doNDemandGrain(float nfact_grain_conc      //   (INPUT)
    //    Calculate plant n demand
 
 //   float   n_potential;           // maximum grain N demand (g/m^2)
-   if (plant->inPhase("grainfill"))
+   if (plant->phenology().inPhase("grainfill"))
    {
       doNConcGrainLimits();
 
@@ -368,7 +369,7 @@ void fruitGrainPart::doNConcGrainLimits (void)
    float n_min_grain;                            // minimum mass of grain N (g/m2)
 
    //- Implementation Section ----------------------------------
-   if (plant->inPhase ("grainfill"))
+   if (plant->phenology().inPhase ("grainfill"))
       {
       dm_grain = 0.0;
       vector<plantPart *>::iterator part;

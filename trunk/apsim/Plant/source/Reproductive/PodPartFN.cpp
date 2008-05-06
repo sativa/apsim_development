@@ -64,14 +64,11 @@ void fruitPodPartFN::doDmDemand(float dlt_dm_supply)
    if (dm_grain_demand <= 0.0)
    {
       // we are in flowering phase
-      DMGreenDemand = dlt_dm_supply * fracPod->value(myParent->getStageNumber())  - dlt_dm_supply_by_pod;
+      DMGreenDemand = dlt_dm_supply * plant->phenology().doInterpolation(*fracPod)  - dlt_dm_supply_by_pod;
    }
    else
    {
-      DMGreenDemand = dm_grain_demand * fracPod->value(myParent->getStageNumber())  - dlt_dm_supply_by_pod;
-
-//      float dltDmPodMax = myParent->dltDmGrainMax() * fracPod->value(myParent->getStageNumber();
-//      DMGreenDemand = bound (DMGreenDemand, 0.0, dltDmPodMax);
+      DMGreenDemand = dm_grain_demand * plant->phenology().doInterpolation(*fracPod)  - dlt_dm_supply_by_pod;
    }
 }
 
@@ -122,7 +119,7 @@ void fruitPodPartFN::doTECO2()          // (OUTPUT) transpiration coefficient
    //==========================================================================
 {
    cproc_transp_eff_co2_1(plant->getVpd()
-                          , TECoeff.value(myParent->getStageNumber())
+                          , plant->phenology().doInterpolation(TECoeff)
                           , co2Modifier->te()
                           , &transpEff);
 }

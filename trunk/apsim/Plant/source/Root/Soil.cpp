@@ -1,11 +1,12 @@
 #include "StdPlant.h"
 #include "Soil.h"
 #include <numeric>
+#include "Phenology/Phenology.h"
 using namespace std;
 
 
-Soil::Soil(ScienceAPI& s)
-   : scienceAPI(s)
+Soil::Soil(ScienceAPI& s, plantInterface& p)
+   : scienceAPI(s), plant(p)
 //=======================================================================================
 // Constructor
    {
@@ -13,7 +14,7 @@ Soil::Soil(ScienceAPI& s)
    zero();
    }
 
-void Soil::onInit1(protocol::Component *system)
+void Soil::onInit1(protocol::Component *)
 //=======================================================================================
 // Perform all component initialisation.
    {
@@ -41,7 +42,6 @@ void Soil::Read(void)
    scienceAPI.read("nh4_lb", nh4_lb, 0.0f, 100000.0f);
    scienceAPI.read("n_uptake_option", n_uptake_option, 1, 3);
    scienceAPI.read("n_supply_preference", n_supply_preference);
-   scienceAPI.read("N_stress_start_stage", n_stress_start_stage, 0.0f, 100.0f);
 
    if (n_uptake_option==1)
       scienceAPI.read("no3_diffn_const", no3_diffn_const, 0.0f, 100.0f);
@@ -101,8 +101,6 @@ void Soil::onNewProfile(protocol::NewProfileType &v)
 //=======================================================================================
 // Handler for OnNewProfile event
    {
-    float profile_depth;                          // depth of soil profile (mm)
-
     vector<float> previousLayers;
     for (unsigned layer = 0; layer != max_layer; layer++)
        previousLayers.push_back(dlayer[layer]);
@@ -769,7 +767,7 @@ void Soil::doWaterUptake (string uptake_source, string crop_type, float SWDemand
         }
     }
 
-void Soil::plant_nit_supply(float stageNumber, float root_depth, float *root_length)
+void Soil::plant_nit_supply(float root_depth, float *root_length)
 //=======================================================================================
 // Calculate Plant Nitrogen Supply
     {
@@ -796,13 +794,12 @@ void Soil::plant_nit_supply(float stageNumber, float root_depth, float *root_len
                          , root_depth
                          , root_length
                          , bd
-                         , n_stress_start_stage
                          , total_n_uptake_max
                          , no3_uptake_max
                          , no3_conc_half_max
                          , sw_avail_pot
                          , sw_avail
-                         , stageNumber);
+                         , plant.phenology().inPhase("n_stress"));
 
      else if (n_uptake_option == 3)
         {
@@ -818,7 +815,6 @@ void Soil::plant_nit_supply(float stageNumber, float root_depth, float *root_len
                              , nh4gsm_min
                              , nh4gsm_uptake_pot
                              , root_depth
-                             , n_stress_start_stage
                              , kno3
                              , no3ppm_min
                              , knh4
@@ -826,7 +822,7 @@ void Soil::plant_nit_supply(float stageNumber, float root_depth, float *root_len
                              , total_n_uptake_max
                              , sw_avail_pot
                              , sw_avail
-                             , stageNumber);
+                             , plant.phenology().inPhase("n_stress"));
         }
     else
         {

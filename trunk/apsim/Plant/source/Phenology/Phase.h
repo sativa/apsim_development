@@ -23,7 +23,6 @@ class pPhase
            days;           // Number of days spent in this phase.
      float tt_after;
      float days_after;
-     bool empty;
      ScienceAPI& scienceAPI;
      plantInterface& plant;
 
@@ -48,17 +47,15 @@ class pPhase
      virtual float TT();
      float getTT(void) const       {return tt;};
      float getTTTarget(void) const {return target;};
-     virtual void  reset(void)             {tt = days = days_after = tt_after = 0.0; empty = true;};
-     void  update(void)            {empty = false;};
-     bool  isFirstDay(void) const  {return empty == true;};
-     bool  isEmpty(void)  {return empty;};
+     virtual void  reset(void)             {tt = days = days_after = tt_after = 0.0;}
+     bool  isFirstDay(void) const  {return days <= 1.0;}
+     float daysInPhase() {return days;}
      string name(void) const {return myName;};
      virtual string description(void)  {return "";};
      virtual void read();
      virtual void updateTTTargets(Phenology &parent){};
      virtual void onSow(protocol::ApsimVariant incomingApsimVariant){};
      virtual void setupTTTarget(void){};
-     virtual void GetOutputs(std::vector <Output*> &Outputs){};
    };
 
 bool operator == (const pPhase &a, const pPhase &b);

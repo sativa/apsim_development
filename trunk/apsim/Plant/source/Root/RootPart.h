@@ -57,7 +57,7 @@ class RootPart : public RootBase
       float wet_root_fr (void);
       virtual void write();
 
-      void plant_nit_supply(float stageNumber);
+      void plant_nit_supply();
       void doNUptake(float sumNMax, float sumSoilNDemand, float NDemand, float n_fix_pot);
       void doWaterUptake (int option, float SWDemand);
       float peswTotal();

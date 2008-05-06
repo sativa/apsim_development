@@ -390,9 +390,6 @@ void Plant::onInit1(void)
    id = parent->addRegistration(RegistrationType::respondToSet, "crop_class", stringType);
    IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::set_plant_crop_class));
 
-   id = parent->addRegistration(RegistrationType::respondToSet, "phase", stringType);
-   IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::onSetPhase));
-
    parent->addRegistration(RegistrationType::event, "sowing", nullTypeDDML, "", "");
    parent->addRegistration(RegistrationType::event, "harvesting", nullTypeDDML, "", "");
 
@@ -436,7 +433,9 @@ void Plant::onInit2(void)
 
 
 
-void Plant::doPlantEvent(const string &newStageName, bool phenologyRewound)
+void Plant::doPlantEvent(const string& oldStageName,
+                         const string& newStageName,
+                         bool phenologyRewound)
 //=======================================================================================
    {
    for (vector<plantThing *>::iterator t = myThings.begin();
@@ -444,10 +443,11 @@ void Plant::doPlantEvent(const string &newStageName, bool phenologyRewound)
         t++)
       (*t)->onPlantEvent(newStageName);
    if (phenologyRewound)
-      plant_event();
+      plant_event(newStageName);
    else
       {
-      phenologyEventToday = true;
+      phenologyEventYesterday = oldStageName;
+      phenologyEventToday = newStageName;
       phenologyRewoundToday = phenologyRewound;
       }
    }
@@ -723,18 +723,15 @@ void Plant::plant_cleanup (void)
                 , &g.n_fix_uptake
                 , &g.n_fixed_tops);
 
-    phenology().update();
-
-    if (g.plant_status == alive &&
-        phenology().previousStageName() != phenology().stageName())
+    if (g.plant_status == alive && phenologyEventToday != "")
         {
-        if (phenology().inPhase("stress_reporting")) 
+        if (phenology().inPhase("stress_reporting"))
            {
             char msg[1024];
             sprintf (msg,"%4s%-20s%s%-23s%6.3f%13.3f%13.3f%13.3f\n", " ",
-                      phenology().previousStageName().c_str(),
+                      phenologyEventYesterday.c_str(),
                       " to ",
-                      phenology().stageName().c_str(),
+                      phenologyEventToday.c_str(),
                       g.cswd_photo.getAverage(),
                       g.cswd_expansion.getAverage(),
                       g.cnd_photo.getAverage(),
@@ -827,7 +824,7 @@ void Plant::plant_totals
 //       Report occurence of event and the current status of specific
 //       variables.
 //       Called when a new phase has begun.
-void Plant::plant_event(void)
+void Plant::plant_event(const std::string& newStageName)
     {
 //+  Local Variables
     float biomass;                                // total above ground plant wt (g/m^2)
@@ -838,9 +835,9 @@ void Plant::plant_event(void)
 
     // Tell the system (ie everything outside of plant) about this event.
     // NB. Don't send an "end_crop" to the system - otherwise all the other crops will stop too!
-    if (phenology().stageName() != "end_crop")
+    if (newStageName != "end_crop")
        {
-       sendStageMessage(phenology().stageName().c_str());
+       sendStageMessage(newStageName.c_str());
        }
 
     scienceAPI.write(phenology().description());
@@ -1063,8 +1060,6 @@ void Plant::plant_process ( void )
         // Calculate Potential Photosynthesis
         plant.doDmPotRUE();               // NIH - WHY IS THIS HERE!!!!?????  Not needed I hope.
 
-        if(phenology().on_day_of(phenology().stageName()))
-           fruitPart->onDayOf(phenology().stageName());
         plant.doDmMin();
 
         // Calculate Actual DM increase from photosynthesis
@@ -1092,7 +1087,7 @@ void Plant::plant_process ( void )
         plant.doNDemandGrain(nStress->nFact.grain, swStress->swDef.expansion);
 
         float biomass = tops.Green.DM() + plant.dltDm();
-        rootPart->plant_nit_supply(phenology().stageNumber());
+        rootPart->plant_nit_supply();
         if (fixation!=NULL)
            g.n_fix_pot = fixation->Potential(biomass, swStress->swDef.fixation);
         else
@@ -1143,16 +1138,16 @@ void Plant::plant_process ( void )
 
    // See if we need to output a phenological stage report because
    // we've entered a new phase today.
-   if (phenologyEventToday)
+   if (phenologyEventToday != "")
      {
-     phenologyEventToday = false;
-     phenologyRewoundToday = false;
-     plant_event ();
+     plant_event(phenologyEventToday);
      if (phenologyRewoundToday)
         {
         stageObservers.reset();
         otherObservers.reset();
         }
+     phenologyEventToday = "";
+     phenologyRewoundToday = false;
      }
 
    }
@@ -1501,32 +1496,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     UpdateCanopy();
 
     plant.doNConccentrationLimits( co2Modifier->n_conc() )  ;                  // plant N concentr
-    }
-
-bool Plant::onSetPhase (protocol::QuerySetValueData &v/*(INPUT) message arguments*/)
-    {
-       // FIXME - hack to workaround bug in variant type conversion
-     float phase = 0.0;
-     protocol::TypeConverter* converter = NULL;
-     if (getTypeConverter("phase",
-                                 v.variant.getType().getCode(),
-                                 protocol::DTsingle,
-                                 v.variant.getType().isArray(),
-                                 false,
-                                 converter))
-        {
-        v.variant.setTypeConverter(converter);
-        }
-     v.variant.unpack(phase);
-
-     if (converter) delete converter;
-        // end of FIXME
-
-        bound_check_real_var(scienceAPI,phase, 1.0, 11.0, "phase");
-        if (g.plant_status == alive)
-           phenology().onSetPhase(phase);
-
-    return true;
     }
 
 //NIH up to here
@@ -2148,7 +2117,6 @@ void Plant::plant_read_species_const (void)
     scienceAPI.read("n_senescence_option", c.n_senescence_option, 1, 2);
 
     //    plant_nfact
-    scienceAPI.read("N_stress_start_stage", c.n_stress_start_stage, 0.0f, 100.0f);
     nStress->read_n_constants ();
 
     //    plant_rue_reduction
@@ -2621,7 +2589,6 @@ float Plant::SenescedDM(void) {return plant.Senesced.DM();}
 float Plant::SenescedN(void) {return plant.Senesced.N();}
 float Plant::SenescedP(void) {return plant.Senesced.P();}
 
-float Plant::getStageNumber(void)  {return phenology().stageNumber();}
 float Plant::getPlants(void)  {return population.Density();}
 float Plant::getCo2(void)  {return environment().co2();}
 float Plant::getNodeNo(void)  {return leafPart->getNodeNo();}
@@ -2654,8 +2621,6 @@ float Plant::swAvailablePotential() {return rootPart->swAvailablePotential();}
 float Plant::swAvailable() {return rootPart->swAvailable();}
 
 
-bool  Plant::on_day_of(const string &what) {return (phenology().on_day_of(what));};
-bool  Plant::inPhase(const string &what) {return (phenology().inPhase(what));};
 const std::string & Plant::getCropType(void) {return c.crop_type;};
 protocol::Component *Plant::getComponent(void) {return parent;};
-float Plant::ttInCurrentPhase() {return phenology().ttInCurrentPhase();}
+

@@ -2,6 +2,7 @@
 
 #include "GrainPartHI.h"
 #include "Environment.h"
+#include "Phenology/Phenology.h"
 
 using namespace std;
 
@@ -129,7 +130,7 @@ void fruitGrainPartHI::doDMDemandGrain(void)
 
    //- Implementation Section ----------------------------------
 
-   if (plant->inPhase("grainfill"))
+   if (plant->phenology().inPhase("grainfill"))
       {
 
       hi_max_pot = linear_interp_real(gDm_stress_max.getAverage()

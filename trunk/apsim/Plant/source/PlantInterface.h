@@ -61,7 +61,6 @@ class plantInterface {
       virtual std::string Name() = 0;
       virtual float getPlants (void) = 0;           // Planting density (plants/m^2)
       virtual float getCo2 (void) = 0;              // CO2 level (ppm)
-      virtual float getStageNumber (void) = 0;        // Phenological stage code AAACK DIE YOU BASTARD
       virtual float getDltDMPotRueVeg(void) = 0;
       virtual float getDmTops(void) = 0;
       virtual float getDltDmGreen(void)  = 0;
@@ -86,10 +85,7 @@ class plantInterface {
       virtual float getCumSwdefPhoto(void) = 0;
       virtual bool phosphorusAware(void) = 0;       // Whether P is present in system
       virtual bool removeBiomassReport(void) = 0;
-      virtual void doPlantEvent(const string &, bool phenologyRewound) = 0;      // Something is asking the plant to do something
-      virtual bool on_day_of(const string &) = 0;
-      virtual bool inPhase(const string &) = 0;
-      virtual float ttInCurrentPhase() = 0;
+      virtual void doPlantEvent(const string& oldStageName, const string& newStageName, bool phenologyRewound) = 0;      // Something is asking the plant to do something
       virtual status_t Status() = 0;
       virtual void SetStatus(status_t NewStatus) = 0;
       virtual CompositePart& Tops() = 0;

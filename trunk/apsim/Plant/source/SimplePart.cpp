@@ -1258,15 +1258,6 @@ float SimplePart::pMinPot(void)
    return p_conc_min * Green.DM();
    }
 
-void SimplePart::onDayOf(const string &stage)
-//=======================================================================================
-   {
-   if (stage == "emergence") onEmergence();
-   else if (stage == "flowering") onFlowering();
-   else if (stage == "start_grain_fill") onStartGrainFill();
-   }
-
-
 void SimplePart::onPlantEvent(const string &event)
 //=======================================================================================
    {

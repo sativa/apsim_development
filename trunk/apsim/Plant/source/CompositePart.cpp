@@ -545,14 +545,6 @@ void CompositePart::writeCultivarInfo (protocol::Component *system)
       (*part)->writeCultivarInfo(system);
 }
 
-void CompositePart::onDayOf(const string &stage)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->onDayOf(stage);
-}
-
 void CompositePart::morphology(void)
    //===========================================================================
 {

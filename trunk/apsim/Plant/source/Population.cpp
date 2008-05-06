@@ -3,6 +3,7 @@
 #include "Population.h"
 #include "Environment.h"
 #include "CompositePart.h"
+#include "Phenology/Phenology.h"
 Population::Population(ScienceAPI& api, plantInterface& plant)
    : scienceAPI(api), Plant(plant)
    {
@@ -77,33 +78,33 @@ void Population::PlantDeath()
    //=========================================================================
 
    das++;
-   if (Plant.inPhase("sowing"))
+   if (Plant.phenology().inPhase("sowing"))
       dlt_plants_failure_germ = CropFailureGermination();
 
    else
       dlt_plants_failure_germ = 0.0;
 
-   if (Plant.inPhase("germination"))
+   if (Plant.phenology().inPhase("germination"))
       dlt_plants_failure_emergence = CropFailureEmergence();
    else
       dlt_plants_failure_emergence = 0.0;
 
    dlt_plants_death_seedling = 0.0;
-   if (Plant.on_day_of("emergence"))
+   if (Plant.phenology().on_day_of("emergence"))
       dlt_plants_death_seedling = DeathSeedling();
 
      /*XXXX this needs tou be coupled with dlt_leaf_area_sen, c_sen_start_stage  FIXME*/
-   if (Plant.inPhase("above_ground"))
+   if (Plant.phenology().inPhase("above_ground"))
       dlt_plants_failure_leaf_sen = CropFailureLeafSen();
    else
       dlt_plants_failure_leaf_sen = 0.0;
 
-   if (Plant.inPhase("preflowering"))
+   if (Plant.phenology().inPhase("preflowering"))
       dlt_plants_failure_phen_delay = CropFailurePhenDelay();
    else
       dlt_plants_failure_phen_delay = 0.0;
 
-   if (Plant.inPhase("preflowering"))
+   if (Plant.phenology().inPhase("preflowering"))
       dlt_plants_death_drought = DeathDrought();
    else
       dlt_plants_death_drought = 0.0;
@@ -152,7 +153,7 @@ float Population::CropFailureEmergence()
    //=============================================================================
    // Crop failure from lack of emergence within a specific maximum
    // thermal time sum from germination.
-   if (Plant.ttInCurrentPhase() > tt_emerg_limit)
+   if (Plant.phenology().ttInPhase("germination") > tt_emerg_limit)
       {
       scienceAPI.write(" failed emergence due to deep planting");
       return -1.0 * plants;
