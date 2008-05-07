@@ -51,7 +51,7 @@ void Phenology::onInit1(protocol::Component *)
    scienceAPI.exposeWritable("Phase", "", "Plant stage", FloatSetter(&Phenology::onSetStage));
    scienceAPI.expose("DeltaStage", "", "Change in plant stage", dltStage);
    scienceAPI.exposeFunction("StageName", "", "Plant stage name", StringFunction(&Phenology::stageName));
-   scienceAPI.exposeFunction("TT", "deg. day", "Todays thermal time", FloatFunction(&Phenology::get_dlt_tt));
+   scienceAPI.exposeFunction("TT", "deg. day", "Todays thermal time", FloatFunction(&Phenology::TT));
 
    scienceAPI.subscribe("harvest", NullFunction(&Phenology::onHarvest));
    scienceAPI.subscribe("end_crop", NullFunction(&Phenology::onEndCrop));
@@ -63,7 +63,7 @@ void Phenology::onInit1(protocol::Component *)
 void Phenology::initialise()
    {
    clear();
-   phases.push_back(new pPhase(scienceAPI, plant, "out"));
+   phases.push_back(new Phase(scienceAPI, plant, "out"));
 
    // Read the sequential list of stage names
    vector<string> phase_types;
@@ -73,11 +73,11 @@ void Phenology::initialise()
 
    for (unsigned i=0;i!=phase_names.size();i++)
       {
-      pPhase* newPhase;
+      Phase* newPhase;
       if(phase_types[i]=="sowing")
          newPhase = new SowingPhase(scienceAPI, plant, phase_names[i]);
       else if(phase_types[i]=="generic")
-         newPhase = new pPhase(scienceAPI, plant, phase_names[i]);
+         newPhase = new Phase(scienceAPI, plant, phase_names[i]);
       else if(phase_types[i]=="vernal")
          newPhase = new VernalPhase(scienceAPI, plant, phase_names[i]);
       else if(phase_types[i]=="photo")
@@ -133,7 +133,7 @@ void Phenology::initialise()
                throw runtime_error("A composite phase can only have a fraction on the first or last phase");
             }
 
-         pPhase *phase = find(compositeNames[p]);
+         Phase *phase = find(compositeNames[p]);
          if (phase != NULL)
            composite.add(phase);
          else
@@ -153,7 +153,7 @@ void Phenology::read()
       phases[i]->read();
    }
 
-pPhase* Phenology::find(const string& PhaseName) const
+Phase* Phenology::find(const string& PhaseName) const
    {
    // --------------------------------------------------------------------------
    // Find the specified phase and return a pointer to it. Returns NULL if
@@ -168,22 +168,21 @@ pPhase* Phenology::find(const string& PhaseName) const
    }
 
 void Phenology::setupTTTargets(void)
-//=======================================================================================
-// static TT targets (called at sowing)
    {
+   // --------------------------------------------------------------------------
+   // setup static TT targets
+   // --------------------------------------------------------------------------
    for(unsigned i=0; i!= phases.size();i++)
       {
       phases[i]->setupTTTarget();
       }
    }
 
-string Phenology::description()
-   {
-   return " stage " + ftoa(floor(currentStage), 1) + " " + stageName();
-   }
 void Phenology::writeSummary()
-//=======================================================================================
    {
+   // --------------------------------------------------------------------------
+   // setup static TT targets
+   // --------------------------------------------------------------------------
    string s;
    scienceAPI.write("   Phases:");
    for(unsigned i=0;i!=phases.size();i++)
@@ -196,118 +195,132 @@ void Phenology::writeSummary()
    scienceAPI.write(s);
    }
 
-float Phenology::get_dlt_tt(void)
+float Phenology::TT(void)
    {
+   // --------------------------------------------------------------------------
+   // Return todays TT.
+   // --------------------------------------------------------------------------
    if (das > 0)
       return phases[(int)currentStage]->TT();
    else
       return 0;
    }
 
-
-// Is it the first day of a stage?
-bool Phenology::on_day_of(const string &stageName)
+bool Phenology::onDayOf(const string &stageName)
    {
-   const pPhase *trial = getStage(stageName);
+   // --------------------------------------------------------------------------
+   // Is it the first day of a stage?
+   // --------------------------------------------------------------------------
+   const Phase *trial = find(stageName);
    if (trial == NULL) return false;
 
-   const pPhase *current = phases[(int)currentStage];
+   const Phase *current = phases[(int)currentStage];
    if (*current == *trial)
       return (trial->isFirstDay());
    return false;
    }
 
-// Are we currently in a certain phase?
 bool Phenology::inPhase(const string &phase_name) const
    {
+   // --------------------------------------------------------------------------
+   // Are we currently in a certain phase?
+   // --------------------------------------------------------------------------
+
    // See if it's a composite
    compositePhase phase = composites[phase_name];
    if (!phase.isEmpty())
    	 return phase.contains(*phases[(int)currentStage], fractionInCurrentPhase());
 
    // No, see if the stage is known at all to us
-   pPhase *test = find(phase_name);
+   Phase *test = find(phase_name);
    if (test == NULL)
       return false;
    else
       {
-      const pPhase *current = phases[(int)currentStage];
+      const Phase *current = phases[(int)currentStage];
       return(*current == *test);
       }
    }
 
-pPhase *Phenology::getStage(const string &name)
+float Phenology::TTInPhase(const string &phaseName) const
    {
-	pPhase *pos = find(name);
-   // Do not check in with this commented out - NIH
-	//if (pos == NULL) throw std::runtime_error(string("Can't find stage ") + name);
-   return pos;
+   // --------------------------------------------------------------------------
+   // See if it's a composite
+   // --------------------------------------------------------------------------
+   compositePhase phaseGroup = composites[phaseName];
+   if (!phaseGroup.isEmpty())
+      {
+      return phaseGroup.getTT();
+      }
+   else
+      {
+      // No, see if the stage is known at all to us
+      Phase *phase = find(phaseName);
+      if (phase == NULL)
+         {
+         throw std::runtime_error("unknown phase name " + phaseName);
+         }
+      else
+         {
+         return phase->getTT();
+   	   }
+   	}
    }
 
-float Phenology::ttInPhase(const string &phaseName) const
-   {
-      // See if it's a composite
-      compositePhase phaseGroup = composites[phaseName];
-      if (!phaseGroup.isEmpty())
-      {
-         return phaseGroup.getTT();
-      }
-      else
-      {
-         // No, see if the stage is known at all to us
-         pPhase *phase = find(phaseName);
-         if (phase == NULL)
-         {
-            throw std::runtime_error("unknown phase name " + phaseName);
-         }
-         else
-         {
-   	      return phase->getTT();
-   	   }
-   	}
-   }
 float Phenology::TTTargetInPhase(const string &phaseName) const
    {
-      // See if it's a composite
-      compositePhase phaseGroup = composites[phaseName];
-      if (!phaseGroup.isEmpty())
+   // --------------------------------------------------------------------------
+   // See if it's a composite
+   // --------------------------------------------------------------------------
+   compositePhase phaseGroup = composites[phaseName];
+   if (!phaseGroup.isEmpty())
+      return phaseGroup.getTTTarget();
+
+   else
       {
-         return phaseGroup.getTTTarget();
-      }
+      // No, see if the stage is known at all to us
+      Phase *phase = find(phaseName);
+      if (phase == NULL)
+         throw std::runtime_error("unknown phase name " + phaseName);
+
       else
-      {
-         // No, see if the stage is known at all to us
-         pPhase *phase = find(phaseName);
-         if (phase == NULL)
-         {
-            throw std::runtime_error("unknown phase name " + phaseName);
-         }
-         else
-         {
-   	      return phase->getTTTarget();
-   	   }
+         return phase->getTTTarget();
    	}
    }
+
 string Phenology::stageName(void)
    {
+   // --------------------------------------------------------------------------
+   // Return a stage name to caller.
+   // --------------------------------------------------------------------------
    unsigned int stage_no = (unsigned int) currentStage;
    return string(phases[stage_no]->name());
    }
 
 float Phenology::fractionInCurrentPhase() const
    {
+   // --------------------------------------------------------------------------
+   // Return the fraction (0-1) of the way through the current phase.
+   // --------------------------------------------------------------------------
    return currentStage - int(currentStage);
    }
+
 void Phenology::zeroAll(void)
    {
-   previousStage = currentStage = 0.0;
+   // --------------------------------------------------------------------------
+   // Zero all variables and reset all phases.
+   // --------------------------------------------------------------------------
+   currentStage = 0.0;
    for (unsigned int i=0; i < phases.size(); i++) phases[i]->reset();
-   day_of_year = 0;
    zeroDeltas();
    das = 0;
    }
+
 void Phenology::onSetStage(float resetPhase)
    {
+   // --------------------------------------------------------------------------
+   // Another module wants to set our stage number.
+   // --------------------------------------------------------------------------
    bound_check_real_var(scienceAPI, resetPhase, 1.0, 11.0, "stage");
    if (!inPhase("out"))
       {
@@ -316,10 +329,10 @@ void Phenology::onSetStage(float resetPhase)
       msg << "    Reset Phase  = " << resetPhase << endl;
       msg << "    Old Phase    = " << currentStage << endl;
 
-      vector <pPhase*>::reverse_iterator rphase;
+      vector <Phase*>::reverse_iterator rphase;
       for (rphase = phases.rbegin(); rphase !=  phases.rend(); rphase++)
          {
-         pPhase* phase = *rphase;
+         Phase* phase = *rphase;
          if (phase->daysInPhase() > 0)
             {
             if (floor(currentStage) > floor(resetPhase))
@@ -358,47 +371,50 @@ void Phenology::onSetStage(float resetPhase)
    }
 
 void Phenology::onHarvest()
-//=======================================================================================
    {
+   // --------------------------------------------------------------------------
+   // Respond to a harvest request by resetting phenology.
+   // --------------------------------------------------------------------------
    string existingStage = stageName();
    lookupFunction stage_reduction_harvest;
    stage_reduction_harvest.read(scienceAPI,
                                 "stage_code_list" , "()", 1.0, 100.0,
                                 "stage_stem_reduction_harvest" , "()", 1.0, 100.0);
 
-   previousStage = currentStage;
    currentStage = stage_reduction_harvest[currentStage];
-   
+
    for (unsigned int stage = (int) currentStage; stage != phases.size(); stage++)
       phases[stage]->reset();
    setupTTTargets();
    if (existingStage != stageName())
-      plant.doPlantEvent(existingStage, phases[(int)currentStage]->name(), true);
+      publishStageEvent(existingStage, phases[(int)currentStage]->name(), true);
    }
 
 void Phenology::onKillStem()
-//=======================================================================================
    {
+   // --------------------------------------------------------------------------
+   // Respond to a kill stem request by resetting phenology
+   // --------------------------------------------------------------------------
    string existingStage = stageName();
    lookupFunction stage_reduction_kill_stem;
    stage_reduction_kill_stem.read(scienceAPI,
                                   "stage_code_list" , "()", 1.0, 100.0,
                                   "stage_stem_reduction_kill_stem" , "()", 1.0, 100.0);
 
-   previousStage = currentStage;
    currentStage = stage_reduction_kill_stem[currentStage];
    for (unsigned int stage = (int)currentStage; stage != phases.size(); stage++)
       phases[stage]->reset();
    setupTTTargets();
    if (existingStage != stageName())
-      plant.doPlantEvent(existingStage, phases[(int)currentStage]->name(), true);
+      publishStageEvent(existingStage, phases[(int)currentStage]->name(), true);
    }
 
 void Phenology::onSow(protocol::Variant &v)
-//=======================================================================================
    {
-   //initialise();
-   
+   // --------------------------------------------------------------------------
+   // Respond to a sow request
+   // --------------------------------------------------------------------------
+
    protocol::ApsimVariant incomingApsimVariant(plant.getComponent());
    incomingApsimVariant.aliasTo(v.getMessageData());
 
@@ -411,23 +427,37 @@ void Phenology::onSow(protocol::Variant &v)
    for(unsigned i=0; i!= phases.size();i++)
       phases[i]->OnSow(sowing_depth);
    setupTTTargets();
-   plant.doPlantEvent(phases[0]->name(), phases[(int)currentStage]->name(), false);
+   publishStageEvent(phases[0]->name(), phases[(int)currentStage]->name(), false);
+   }
+
+void Phenology::publishStageEvent(const string& oldName, const string& newName, bool phenologyRewound)
+   {
+   // --------------------------------------------------------------------------
+   // Publish a stage event.
+   // --------------------------------------------------------------------------
+   string msg = " stage " + ftoa(floor(currentStage), 1) + " " + stageName();
+   scienceAPI.write(msg);
+   plant.doPlantEvent(oldName, newName, phenologyRewound);
    }
 
 void Phenology::onEndCrop()
    {
+   // --------------------------------------------------------------------------
+   // In response to an end crop event, zero everything
+   // --------------------------------------------------------------------------
    zeroAll();
    }
 
 void Phenology::process()
    {
+   // --------------------------------------------------------------------------
+   // This is the main process handler - it changes stageNumber
+   // --------------------------------------------------------------------------
    string existingStage = stageName();
    dltStage = 0;
-   dlt_tt = 0.0;
    dlt_tt_phenol  = 0.0;
-   previousStage = currentStage;
    for(unsigned i=0; i!= phases.size();i++)
-      phases[i]->updateTTTargets(*this);
+      phases[i]->updateTTTargets();
 
    float phase_devel, new_stage;
    for(unsigned i=0; i!= phases.size();i++)
@@ -498,22 +528,24 @@ void Phenology::process()
      throw std::runtime_error("stage has gone wild in Phenology::process()..");
 
    if (existingStage != stageName())
-      plant.doPlantEvent(existingStage, phases[(int)currentStage]->name(), false);
+      publishStageEvent(existingStage, phases[(int)currentStage]->name(), false);
 
    das++;
    }
 
-
 void Phenology::onRemoveBiomass(float removeBiomPheno)
    {
+   // --------------------------------------------------------------------------
+   // Respond to a remove biomass event.
+   // --------------------------------------------------------------------------
    string existingStage = stageName();
-   
+
    interpolationFunction y_removeFractPheno;
    y_removeFractPheno.read(scienceAPI,
                "x_removeBiomPheno", "()", 0.0, 1.0,
                "y_removeFractPheno", "()", 0.0, 1.0);
 
-   float ttCritical = ttInPhase("above_ground");
+   float ttCritical = TTInPhase("above_ground");
    float removeFractPheno = y_removeFractPheno[removeBiomPheno];
    float removeTTPheno = ttCritical * removeFractPheno;
 
@@ -525,54 +557,60 @@ void Phenology::onRemoveBiomass(float removeBiomPheno)
    msg << "    Remove TT            = " << removeTTPheno << endl;
 
    float ttRemaining = removeTTPheno;
-   vector <pPhase*>::reverse_iterator rphase;
+   vector <Phase*>::reverse_iterator rphase;
    for (rphase = phases.rbegin(); rphase !=  phases.rend(); rphase++)
-   {
-      pPhase* phase = *rphase;
-      if (phase->daysInPhase() > 0)
       {
+      Phase* phase = *rphase;
+      if (phase->daysInPhase() > 0)
+         {
          float ttCurrentPhase = phase->getTT();
          if (ttRemaining > ttCurrentPhase)
-         {
+            {
             phase->reset();
             ttRemaining -= ttCurrentPhase;
             currentStage -= 1.0;
             if (currentStage < 4.0)  //FIXME - hack to stop onEmergence being fired which initialises biomass parts
-            {
+               {
                currentStage = 4.0;
                break;
+               }
             }
-         }
          else
-         {
+            {
             phase->add(0.0, -ttRemaining);
             // Return fraction of thermal time we are through the current
             // phenological phase (0-1)
-            const pPhase *current = phases[(int) currentStage];
+            const Phase *current = phases[(int) currentStage];
             float frac = divide(current->getTT(), current->getTTTarget(), 0.0);
 
             currentStage = frac + floor(currentStage);
             break;
+            }
+         }
+      else
+         { // phase is empty - not interested in it
          }
       }
-      else
-      { // phase is empty - not interested in it
-      }
-   }
-   msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
+   msg << "New Above ground TT = " << TTInPhase("above_ground") << endl << ends;
    if (plant.removeBiomassReport())
       scienceAPI.warning(msg.str());
    if (existingStage != stageName())
-      plant.doPlantEvent(existingStage, phases[(int)currentStage]->name(), true);
+      publishStageEvent(existingStage, phases[(int)currentStage]->name(), true);
    }
 
 float Phenology::doInterpolation(externalFunction& f)
    {
+   // --------------------------------------------------------------------------
+   // Perform a stage based interpolation of the specified function
+   // --------------------------------------------------------------------------
    return f.value(currentStage);
    }
 
 float Phenology::doLookup(const std::vector<float>& f)
    {
+   // --------------------------------------------------------------------------
+   // Perform a stage based lookup of the specified array of values.
+   // --------------------------------------------------------------------------
    return f[int(currentStage)-1];
    }
 

@@ -98,7 +98,7 @@ plantThing* CompositePart::getOptional(const std::string& name)
                                              PEqualToName<plantThing>(name));
    if (i == things.end())
       return NULL;
-   return *i;
+   return *i;                        
    }
 
 
@@ -113,7 +113,7 @@ void CompositePart::createParts()
    for (unsigned i = 0; i != types.size(); i++)
       {
       vector<string> names;
-      scienceAPI.readFiltered(types[i] + "/name", names);
+      scienceAPI.readFiltered("initdata/options/" + types[i] + "/name", names);
       if (names.size() == 0)
          names.push_back(types[i]);
 

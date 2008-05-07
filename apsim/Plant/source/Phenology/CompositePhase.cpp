@@ -4,7 +4,7 @@
 #include "Phase.h"
 #include "CompositePhase.h"
 
-bool compositePhase::contains(const pPhase &PhaseToLookFor, float fracIntoPhase)
+bool compositePhase::contains(const Phase &PhaseToLookFor, float fracIntoPhase)
 //=======================================================================================
    {
    for (unsigned p = 0; p != phases.size(); p++)
@@ -26,7 +26,7 @@ float compositePhase::getTT(void)
 //=======================================================================================
    {
    float tt = 0.0;
-   for (vector<pPhase *>::const_iterator phase = phases.begin(); phase !=  phases.end(); phase++)
+   for (vector<Phase *>::const_iterator phase = phases.begin(); phase !=  phases.end(); phase++)
       tt += (*phase)->getTT();
 
    return tt;
@@ -36,7 +36,7 @@ float compositePhase::getTTTarget(void)
 //=======================================================================================
    {
    float tttarget = 0.0;
-   for (vector<pPhase *>::const_iterator phase = phases.begin(); phase !=  phases.end(); phase++)
+   for (vector<Phase *>::const_iterator phase = phases.begin(); phase !=  phases.end(); phase++)
       tttarget += (*phase)->getTTTarget();
 
    return tttarget;

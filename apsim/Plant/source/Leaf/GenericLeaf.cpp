@@ -398,6 +398,7 @@ void GenericLeaf::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
        dltLeafNoSen = l_bound (leaf_no_now - leaf_no_sen_now, 0.0);
        }
    else if (plant->phenology().inPhase("leaf_senescence"))
+//   else if (plant->phenology().stageNum() > )
        {
        dltLeafNoSen = divide (g_dlt_tt, leaf_death_rate, 0.0);
 
@@ -439,7 +440,7 @@ void GenericLeaf::leaf_no_pot (int option, float stressFactor, float dlt_tt)
         cproc_leaf_no_pot1(cNodeAppRate
                            , cLeavesPerNode
                            , plant->phenology().inPhase("node_formation")
-                           , plant->phenology().on_day_of("emergence")
+                           , plant->phenology().onDayOf("emergence")
                            , gNodeNo
                            , dlt_tt
                            , &dltLeafNoPot
@@ -452,7 +453,7 @@ void GenericLeaf::leaf_no_pot (int option, float stressFactor, float dlt_tt)
         cproc_leaf_no_pot3  (cNodeAppRate
                              , cLeavesPerNode
                              , plant->phenology().inPhase("tiller_formation")
-                             , plant->phenology().on_day_of("emergence")
+                             , plant->phenology().onDayOf("emergence")
                              , tiller_no_now
                              , dlt_tt
                              , stressFactor

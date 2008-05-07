@@ -62,8 +62,8 @@ private:
 
    Stem  *stemPart;
    Leaf  *leafPart;
-   RootBase  *rootPart;
-   Phenology *_phenology;
+   RootBase*  root;
+   Phenology* _phenology;
    Fixation  *fixation;
    plantPart     *fruitPart;
    Population population;

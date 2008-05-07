@@ -7,7 +7,7 @@
 void PhotoPhase::read()
 //=======================================================================================
    {
-   pPhase::read();
+   Phase::read();
 
    string key1 = "x_pp_"+name();
    string key2 = "y_tt_"+name();
@@ -25,7 +25,7 @@ void PhotoPhase::read()
    }
 
 
-void PhotoPhase::updateTTTargets(Phenology &/* parent*/)
+void PhotoPhase::updateTTTargets()
 //=======================================================================================
    {
    if (cutoff == "start")

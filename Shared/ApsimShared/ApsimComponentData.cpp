@@ -249,6 +249,19 @@ void ApsimComponentData::getProperties(const std::string& sectionName,
          }
       }
    }
+ 
+std::string ApsimComponentData::findProperty(const std::string& name)
+   {
+   // ------------------------------------------------------------------
+   // Go recursively searching for a property. Delimiter = '/'.
+   // Return it's value.
+   // ------------------------------------------------------------------
+   XMLNode foundNode = findNode(node, name, '/');
+   if (foundNode.isValid())
+      return foundNode.getValue();
+
+   return "";      
+   }
 // ------------------------------------------------------------------
 // return a list of variables to caller.
 // ------------------------------------------------------------------

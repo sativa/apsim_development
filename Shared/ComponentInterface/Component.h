@@ -217,6 +217,11 @@ class EXPORT Component
          {
          return componentData->getProperty(a,b);
          }
+      std::string findProperty(const std::string& name)
+         {
+         return componentData->findProperty(name);
+         }
+
       void getProperties(const std::string &section,
                          std::vector<std::string> &names,
                          std::vector<std::string> &values) const

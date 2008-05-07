@@ -9,7 +9,7 @@
 void VernalPhase::reset()
 //=======================================================================================
    {
-   pPhase::reset();
+   Phase::reset();
    cumvd = 0.0;
    dlt_cumvd = 0.0;
    scienceAPI.expose("cumvd", "", "Cumulative Vernal Days", cumvd);
@@ -18,7 +18,7 @@ void VernalPhase::reset()
 void VernalPhase::read()
 //=======================================================================================
    {
-   pPhase::read();
+   Phase::read();
 
    string key1 = "cumvd_"+name();
    string key2 = "tt_"+name();
@@ -32,7 +32,7 @@ void VernalPhase::read()
    }
 
 
-void VernalPhase::updateTTTargets(Phenology &/* parent*/)
+void VernalPhase::updateTTTargets()
 //=======================================================================================
    {
    dlt_cumvd = linint_3hrly_temp (plant.environment().maxt(), plant.environment().mint(), &vernal_days);

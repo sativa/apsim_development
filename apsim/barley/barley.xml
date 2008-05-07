@@ -8,6 +8,7 @@
       <Environment/><Fixation/>
       <Phenology/>
       <Zadok/>
+      <Root/>
    </options>
    <RadiationPartitioningOrder>fruit leaf</RadiationPartitioningOrder>
     
@@ -63,7 +64,7 @@
    <under_ground>sowing germination</under_ground>
    <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
    <vernalisation>germination emergence end_of_juvenile</vernalisation>
-   <leaf_senescence>floral_initiation(0.4) floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</leaf_senescence>
+   <leaf_senescence>end_of_juvenile(0.4) floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</leaf_senescence>
    <tiller_formation>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity</tiller_formation>
    <preflowering>emergence end_of_juvenile floral_initiation</preflowering>
    <postflowering>flowering start_grain_fill</postflowering>

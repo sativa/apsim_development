@@ -5,7 +5,7 @@ class Environment;
 class Output;
 
 #include "Phase.h"
-class VernalPhase : public pPhase
+class VernalPhase : public Phase
    // A phenological phase.
    {
    protected:
@@ -17,8 +17,8 @@ class VernalPhase : public pPhase
    public:
       void read();
       VernalPhase(ScienceAPI& scienceAPI, plantInterface& plant, const string& stage_name)
-         : pPhase (scienceAPI, plant, stage_name){};
-      void updateTTTargets(Phenology &parent);
+         : Phase (scienceAPI, plant, stage_name){};
+      void updateTTTargets();
       virtual void reset();
       virtual string description();
    };

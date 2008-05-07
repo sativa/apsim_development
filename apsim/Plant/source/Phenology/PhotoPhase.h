@@ -3,7 +3,7 @@
 
 class Environment;
 
-class PhotoPhase : public pPhase
+class PhotoPhase : public Phase
    {
    protected:
       interpolationFunction stressFunction;
@@ -17,8 +17,8 @@ class PhotoPhase : public pPhase
    public:
       void read();
       PhotoPhase(ScienceAPI& scienceAPI, plantInterface& p, const string& stage_name)
-         : pPhase (scienceAPI, p, stage_name) {}
-      void updateTTTargets(Phenology &parent);
+         : Phase (scienceAPI, p, stage_name) {}
+      void updateTTTargets();
       virtual string description();
    };
 

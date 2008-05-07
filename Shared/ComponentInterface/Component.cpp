@@ -482,7 +482,6 @@ void Component::getMultipleProperties(const std::string& sectionName,
    // ------------------------------------------------------------------
    // Return multiple values for the specified variable.
    // ------------------------------------------------------------------
-
     std::vector<string> names;
     std::vector<string> values;
     componentData->getProperties(sectionName, names, values);
@@ -492,7 +491,6 @@ void Component::getMultipleProperties(const std::string& sectionName,
           returnValues.push_back(values[i]);
        }
     }
-
 
 // ------------------------------------------------------------------
 //  Short description:

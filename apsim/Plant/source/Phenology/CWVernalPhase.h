@@ -2,7 +2,7 @@
 #define CWVernalPhaseH
 
 #include "Phase.h"
-class CWVernalPhase : public pPhase
+class CWVernalPhase : public Phase
    // A CERES WHEAT vernalisation phase.
    {
    protected:

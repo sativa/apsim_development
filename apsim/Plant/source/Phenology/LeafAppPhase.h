@@ -4,7 +4,7 @@
 class Environment;
 class Output;
 
-class LeafAppPhase : public pPhase
+class LeafAppPhase : public Phase
    // A phenological phase.
    {
    protected:
@@ -21,8 +21,8 @@ class LeafAppPhase : public pPhase
    public:
       void read();
       LeafAppPhase(ScienceAPI& scienceAPI, plantInterface& p, const string& stage_name)
-         : pPhase (scienceAPI, p, stage_name){};
-      void updateTTTargets(Phenology &parent);
+         : Phase (scienceAPI, p, stage_name){};
+      void updateTTTargets();
       virtual string description();
       virtual void reset();
    };

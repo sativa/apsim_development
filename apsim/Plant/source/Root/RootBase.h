@@ -6,8 +6,6 @@ class RootBase : public SimplePart
    {
    public:
       RootBase(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
-      static RootBase* construct(ScienceAPI& scienceAPI, plantInterface *p,
-                                 const std::string &type, const std::string &name);
       ~RootBase(){};
 
       virtual void zeroAllGlobals(void){};

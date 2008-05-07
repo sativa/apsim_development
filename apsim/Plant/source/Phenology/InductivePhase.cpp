@@ -9,7 +9,7 @@ float InductivePhase::stress()
    }
 
 
-void InductivePhase::updateTTTargets(Phenology &/* parent*/)
+void InductivePhase::updateTTTargets()
 //=======================================================================================
    {
    dlt_cumvd = vernal_days.value(plant.environment().meant());

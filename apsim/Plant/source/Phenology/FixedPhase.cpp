@@ -5,7 +5,7 @@
 void FixedPhase::read()
 //=======================================================================================
    {
-   pPhase::read();
+   Phase::read();
    string key = "tt_"+name();
    scienceAPI.read(key, target, 0.0f, 1000000.0f);
 
