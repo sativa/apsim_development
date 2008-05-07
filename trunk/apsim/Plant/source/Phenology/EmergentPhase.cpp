@@ -10,7 +10,7 @@ void EmergentPhase::OnSow(float sowingdepth)
 void EmergentPhase::read()
 //=======================================================================================
    {
-   pPhase::read();
+   Phase::read();
    scienceAPI.read("shoot_lag", shoot_lag, 0.0f, 1000.0f);
    scienceAPI.read("shoot_rate", shoot_rate, 0.0f, 1000.0f);
 

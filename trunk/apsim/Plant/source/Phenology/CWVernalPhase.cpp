@@ -5,14 +5,14 @@
 #include "Phenology.h"
 
 CWVernalPhase::CWVernalPhase(ScienceAPI& scienceAPI, plantInterface& p, const string& stage_name)
-   : pPhase (scienceAPI, p, stage_name)
+   : Phase (scienceAPI, p, stage_name)
    {
    reset();
    }
 
 void CWVernalPhase::reset(void)
    {
-   pPhase::reset();
+   Phase::reset();
    vern_eff = 0.0;
    photop_eff = 0.0;
    cumvd = 0.0;
@@ -20,7 +20,7 @@ void CWVernalPhase::reset(void)
 
 void CWVernalPhase::read()
    {
-   pPhase::read();
+   Phase::read();
    scienceAPI.read("vern_sens", vern_sens, 0.0f, 10.0f);
    scienceAPI.read("photop_sens", photop_sens, 0.0f, 10.0f);
    scienceAPI.read("twilight", twilight, -90.0f, 90.0f);
@@ -32,7 +32,7 @@ void CWVernalPhase::read()
 
 void CWVernalPhase::process()
    {
-   pPhase::process();
+   Phase::process();
    vernalisation();
    }
 

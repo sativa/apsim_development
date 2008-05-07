@@ -121,12 +121,15 @@ Plant::Plant(protocol::Component *P, ScienceAPI& api)
    scienceAPI.setClass2(c.default_crop_class);
 
    plant.createParts();
-   _environment = dynamic_cast<Environment*> (plant.get("environment"));
+   _environment  = dynamic_cast<Environment*> (plant.get("environment"));
    _phenology    = dynamic_cast<Phenology*>   (plant.get("phenology"));
-   myThings.push_back(_phenology);
+   root          = dynamic_cast<RootBase*>   (plant.get("root"));
+   fixation     = dynamic_cast<Fixation*>   (plant.getOptional("fixation"));
 
-   fixation    = dynamic_cast<Fixation*>   (plant.getOptional("fixation"));
-
+    myThings.push_back(_phenology);
+    myThings.push_back(root);
+    myParts.push_back(root);
+    plant.add(root);
 
     nStress = new NStress(scienceAPI, parent);
     pStress = new PStress(scienceAPI, parent);
@@ -167,13 +170,6 @@ void Plant::onInit1(void)
     plant_zero_all_globals();
 
    population.Initialise();
-
-    string rootModel;
-    scienceAPI.readOptional("root_part", rootModel);                     //FIXME belongs in root?
-    rootPart = RootBase::construct(scienceAPI, this, rootModel, "Root");
-    myThings.push_back(rootPart);
-    myParts.push_back(rootPart);
-    plant.add(rootPart);
 
     string leafModel;
     scienceAPI.readOptional("leaf_part", leafModel);                      //FIXME belongs in leaf?
@@ -410,7 +406,7 @@ void Plant::onInit2(void)
 
    nStress->init();
    pStress->init();
-   swStress->init(rootPart);
+   swStress->init(root);
    tempStress->init();
    co2Modifier->init();
 
@@ -500,7 +496,7 @@ void Plant::onProcess(unsigned &, unsigned &, protocol::Variant &)
      plant_get_other_variables ();   // request and receive variables from owner-modules
      plant_process ();               // do crop processes
      plant_update_other_variables ();
-     rootPart->UpdateOtherVariables();
+     root->UpdateOtherVariables();
      }
   else
      {} // plant is out
@@ -754,7 +750,7 @@ void Plant::plant_update(void)
     stemPart->giveNGreen(n_senesced_trans);
 
     leafPart->giveNGreen(-1.0*plant.dltNSenescedRetrans());
-    rootPart->updateOthers();    // send off detached roots before root structure is updated by plant death
+    root->updateOthers();    // send off detached roots before root structure is updated by plant death
 
     plant.update();
 
@@ -805,7 +801,7 @@ void Plant::plant_totals
     ,float  *g_n_fixed_tops                    // (out/INPUT)  fixed N in tops (g/m2)
     )  {
 
-    if (phenology().on_day_of ("sowing"))
+    if (phenology().onDayOf("sowing"))
         {
         *g_n_fixed_tops = tops.dltNGreen()
                               * divide (*g_n_fix_uptake
@@ -840,8 +836,6 @@ void Plant::plant_event(const std::string& newStageName)
        sendStageMessage(newStageName.c_str());
        }
 
-    scienceAPI.write(phenology().description());
-
     biomass = tops.Total.DM();
 
     // note - oil has no N, thus is not included in calculations
@@ -850,7 +844,7 @@ void Plant::plant_event(const std::string& newStageName)
 
     n_green_conc_percent = divide (n_green, dm_green, 0.0) * fract2pcnt;
 
-    pesw_tot = rootPart->peswTotal();
+    pesw_tot = root->peswTotal();
 
     if (phenology().inPhase ("above_ground"))
             {
@@ -880,7 +874,7 @@ void Plant::doNPartition
 
     // find the proportion of uptake to be distributed to
     // each plant part and distribute it.
-    float nUptakeSum = rootPart->nUptake();     // total plant N uptake (g/m^2)
+    float nUptakeSum = root->nUptake();     // total plant N uptake (g/m^2)
     nDemandTotal = plant.nDemand();
 
     plant.doNPartition(nUptakeSum, nDemandTotal, plant.nCapacity());
@@ -1040,13 +1034,13 @@ void Plant::plant_process ( void )
 //- Implementation Section ----------------------------------
     //!!!!!!!! check order dependency of deltas
 
-    rootPart->plant_root_depth ();
-    //rootPart->doWaterSupply();
+    root->plant_root_depth ();
+    //root->doWaterSupply();
 
     if (g.plant_status == alive)
         {
-        rootPart->doWaterUptake(1, tops.SWDemand());
-        rootPart->doPlantWaterStress (tops.SWDemand(), swStress);
+        root->doWaterUptake(1, tops.SWDemand());
+        root->doPlantWaterStress (tops.SWDemand(), swStress);
 
         phenology().process();
         fruitPart->process();
@@ -1055,7 +1049,7 @@ void Plant::plant_process ( void )
 
         leafPart->CanopyExpansion(c.leaf_no_pot_option,
                             min(pow(min(nStress->nFact.expansion, pStress->pFact.expansion),2),swStress->swDef.expansion),
-                            phenology().get_dlt_tt(),min(swStress->swDef.expansion, min(nStress->nFact.expansion, pStress->pFact.expansion)));
+                            phenology().TT(),min(swStress->swDef.expansion, min(nStress->nFact.expansion, pStress->pFact.expansion)));
 
         // Calculate Potential Photosynthesis
         plant.doDmPotRUE();               // NIH - WHY IS THIS HERE!!!!?????  Not needed I hope.
@@ -1076,18 +1070,18 @@ void Plant::plant_process ( void )
         //Note this will fix a bug - the floret area dlt is not currently calculated!!!
         leafPart->actual ();
         fruitPart->calcDlt_pod_area ();
-        rootPart->root_length_growth();
+        root->root_length_growth();
 
-        leafPart->leaf_death( min(nStress->nFact.expansion, pStress->pFact.expansion), phenology().get_dlt_tt());
+        leafPart->leaf_death( min(nStress->nFact.expansion, pStress->pFact.expansion), phenology().TT());
         leafPart->leaf_area_sen( swStress->swDef.photo);
 
         plant.doSenescence(leafPart->senFract());
-        rootPart->sen_length();
+        root->sen_length();
 
         plant.doNDemandGrain(nStress->nFact.grain, swStress->swDef.expansion);
 
         float biomass = tops.Green.DM() + plant.dltDm();
-        rootPart->plant_nit_supply();
+        root->plant_nit_supply();
         if (fixation!=NULL)
            g.n_fix_pot = fixation->Potential(biomass, swStress->swDef.fixation);
         else
@@ -1112,7 +1106,7 @@ void Plant::plant_process ( void )
            PotNFix = fixation->NFixPot();
         else
            PotNFix = 0.0;
-        rootPart->doNUptake(plant.nMax(), plant.soilNDemand(), plant.nDemand(), PotNFix);     // allows preference of N source
+        root->doNUptake(plant.nMax(), plant.soilNDemand(), plant.nDemand(), PotNFix);     // allows preference of N source
         doNPartition ();                  // allows output of n fixed
         doPPartition();
 
@@ -1516,7 +1510,7 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     // Calculate Root Die Back
     float chop_fr_green_leaf = divide(leafPart->dltDmGreenRemoved(), leafPart->Green.DM(), 0.0);
 
-    rootPart->removeBiomass2(chop_fr_green_leaf);
+    root->removeBiomass2(chop_fr_green_leaf);
     float biomassGreenTops    = tops.Green.DM();
     float dmRemovedGreenTops  = tops.dltDmGreenRemoved();
     float dmRemovedTops       = tops.dltDmRemoved() * gm2kg/sm2ha;
@@ -1740,7 +1734,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            plant.writeCultivarInfo(parent);
            parent->writeString ("   ------------------------------------------------\n\n");
 
-           rootPart->write();
+           root->write();
 
            sprintf (msg, "%s%5.1f%s"
               ,"    Crop factor for bounding water use is set to "
@@ -1811,7 +1805,7 @@ void Plant::read(void)
    scienceAPI.readOptional("remove_biomass_report", c.remove_biomass_report);
 
    phenology().read();
-   rootPart->read();
+   root->read();
    }
 
 //+  Purpose
@@ -1850,9 +1844,9 @@ void Plant::plant_end_crop (void)
         n_residue =tops.Total.N();
         p_residue =tops.Total.P();
 
-        dm_root = rootPart->Total.DM();     //FIXME - should be returned from a rootPart method
-        n_root  = rootPart->Total.N();       //FIXME - should be returned from a rootPart method
-        p_root  = rootPart->Total.P();       //FIXME - should be returned from a rootPart method
+        dm_root = root->Total.DM();     //FIXME - should be returned from a root method
+        n_root  = root->Total.N();       //FIXME - should be returned from a root method
+        p_root  = root->Total.P();       //FIXME - should be returned from a root method
 
        if (dm_residue + dm_root > 0.0)
           {
@@ -1939,7 +1933,7 @@ void Plant::plant_get_other_variables (void)
 
     // Soilwat2
     parent->getVariable(id.eo, g.eo, 0.0, 20.0);
-    rootPart->getOtherVariables();
+    root->getOtherVariables();
     co2Modifier->doPlant_Co2Modifier ();
     }
 void Plant::plant_update_other_variables (void)
@@ -2156,8 +2150,8 @@ void Plant::plant_harvest_report (void)
        n_grain = plant.GrainTotal.N() * gm2kg/sm2ha;
 
 
-    float dmRoot = rootPart->Total.DM() * gm2kg / sm2ha;
-    float nRoot = rootPart->Total.N() * gm2kg / sm2ha;
+    float dmRoot = root->Total.DM() * gm2kg / sm2ha;
+    float nRoot = root->Total.N() * gm2kg / sm2ha;
 
     n_grain_conc_percent = fruitPart->GrainTotal.NconcPercent();
 
@@ -2367,12 +2361,12 @@ pheno_stress_t Plant::getPhotoStress(void)
 
 float Plant::getPeswSeed(void)
 {
-   return rootPart->pesw((int)plantSpatial.sowing_depth);
+   return root->pesw((int)plantSpatial.sowing_depth);
 }
 
 float Plant::getFaswSeed(void)
 {
-   return rootPart->fasw((int)plantSpatial.sowing_depth);
+   return root->fasw((int)plantSpatial.sowing_depth);
 }
 
 float Plant::getLeafNo(void)
@@ -2617,8 +2611,8 @@ float Plant::getSwdefPhoto(void)  {return swStress->swDef.photo;}
 float Plant::getSwDefPheno() {return swStress->swDef.pheno;}
 float Plant::getNFactPheno() {return nStress->nFact.pheno;}
 float Plant::getPFactPheno() {return pStress->pFact.pheno;}
-float Plant::swAvailablePotential() {return rootPart->swAvailablePotential();}
-float Plant::swAvailable() {return rootPart->swAvailable();}
+float Plant::swAvailablePotential() {return root->swAvailablePotential();}
+float Plant::swAvailable() {return root->swAvailable();}
 
 
 const std::string & Plant::getCropType(void) {return c.crop_type;};

@@ -4,7 +4,7 @@
 class Environment;
 
 #include "Phase.h"
-class EmergentPhase : public pPhase
+class EmergentPhase : public Phase
    {
    protected:
       float emergent_tt;       // Growing degree days to complete phase as a function of cum vd
@@ -17,7 +17,7 @@ class EmergentPhase : public pPhase
    public:
       void read();
       EmergentPhase(ScienceAPI& scienceAPI, plantInterface& p, const string& stage_name)
-         : pPhase (scienceAPI, p, stage_name){};
+         : Phase (scienceAPI, p, stage_name){};
       void setupTTTarget(void);
       virtual string description();
       float stress();

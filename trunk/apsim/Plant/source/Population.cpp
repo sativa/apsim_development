@@ -90,7 +90,7 @@ void Population::PlantDeath()
       dlt_plants_failure_emergence = 0.0;
 
    dlt_plants_death_seedling = 0.0;
-   if (Plant.phenology().on_day_of("emergence"))
+   if (Plant.phenology().onDayOf("emergence"))
       dlt_plants_death_seedling = DeathSeedling();
 
      /*XXXX this needs tou be coupled with dlt_leaf_area_sen, c_sen_start_stage  FIXME*/
@@ -153,7 +153,7 @@ float Population::CropFailureEmergence()
    //=============================================================================
    // Crop failure from lack of emergence within a specific maximum
    // thermal time sum from germination.
-   if (Plant.phenology().ttInPhase("germination") > tt_emerg_limit)
+   if (Plant.phenology().TTInPhase("germination") > tt_emerg_limit)
       {
       scienceAPI.write(" failed emergence due to deep planting");
       return -1.0 * plants;

@@ -73,12 +73,12 @@ float fruitGrainPartFN::grainNumber (float stem_dm_green
    //       Perform grain number calculations
 {
    float grain_no;
-   if (myParent->on_day_of ("emergence"))
+   if (myParent->onDayOf ("emergence"))
       {
       // seedling has just emerged.
       grain_no = 0.0;
       }
-   else if (myParent->on_day_of ("flowering"))
+   else if (myParent->onDayOf("flowering"))
       {
       // we are at first day of grainfill.
       grain_no = p_grains_per_gram_stem * stem_dm_green;

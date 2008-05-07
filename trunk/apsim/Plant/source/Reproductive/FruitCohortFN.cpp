@@ -36,13 +36,13 @@ FruitCohortFN::~FruitCohortFN()
 float FruitCohortFN::getDltTT(void)
    //===========================================================================
 {
-   return fruitPhenology->get_dlt_tt();
+   return fruitPhenology->TT();
 }
 
-bool  FruitCohortFN::on_day_of(const string &what)
+bool  FruitCohortFN::onDayOf(const string &what)
    //===========================================================================
 {
-   return (fruitPhenology->on_day_of(what));
+   return (fruitPhenology->onDayOf(what));
 }
 
 void FruitCohortFN::onInit1(protocol::Component *system)
@@ -154,7 +154,7 @@ void FruitCohortFN::doFruitNumber(void)
     {
       if (flower_no > 0.0)
          {
-         if (fruitPhenology->ttInPhase("fruiting") >= c.tt_flower_to_start_pod)
+         if (fruitPhenology->TTInPhase("fruiting") >= c.tt_flower_to_start_pod)
              dlt_fruit_no = flower_no;  // flowers become fruit
          else
              dlt_fruit_no = 0.0;
@@ -228,7 +228,7 @@ void FruitCohortFN::doDmDemand (float /*dlt_dm_supply_by_veg*/)
                {                                                            //pod dm demand - pod stuff
                // we are in flowering phase                                 //pod dm demand - pod stuff
                float tt_fruit_age_max = fruitPhenology->TTTargetInPhase("fruiting");
-               float dlt_fruit_age = divide(plant->phenology().get_dlt_tt()                     //pod dm demand - pod stuff
+               float dlt_fruit_age = divide(plant->phenology().TT()                     //pod dm demand - pod stuff
                                            , tt_fruit_age_max, 0.0);               //pod dm demand - pod stuff
                float dm_max = p.dm_fruit_max                                      //pod dm demand - pod stuff
                             * rel_grainfill.value(plant->environment().meant())                                            //pod dm demand - pod stuff

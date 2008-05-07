@@ -3,10 +3,6 @@
 
 #include <string>
 
-class Phenology;
-class Environment;
-class Output;
-
 // Terminology:
 // A "stage" is a point in time.
 // A "phase" is the period between two stages.
@@ -14,7 +10,7 @@ class Output;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // A phenological phase.
-class pPhase
+class Phase
    {
    protected:
      std::string myName;   // The name of the "stage" that the phase starts from.
@@ -32,8 +28,8 @@ class pPhase
      int getDaysAfter(void) {return days_after;}
 
    public:
-     pPhase(ScienceAPI& api, plantInterface& p, const std::string& n);
-     virtual ~pPhase() {};
+     Phase(ScienceAPI& api, plantInterface& p, const std::string& n);
+     virtual ~Phase() {};
 
      virtual void process() {};
      virtual void OnSow(float sowing_depth) {};
@@ -53,12 +49,12 @@ class pPhase
      string name(void) const {return myName;};
      virtual string description(void)  {return "";};
      virtual void read();
-     virtual void updateTTTargets(Phenology &parent){};
+     virtual void updateTTTargets(){};
      virtual void onSow(protocol::ApsimVariant incomingApsimVariant){};
      virtual void setupTTTarget(void){};
    };
 
-bool operator == (const pPhase &a, const pPhase &b);
+bool operator == (const Phase &a, const Phase &b);
 
 
 #endif

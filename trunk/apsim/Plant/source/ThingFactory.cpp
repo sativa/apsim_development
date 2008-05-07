@@ -5,22 +5,35 @@
 #include "Phenology/Zadok.h"
 #include "Phenology/Phenology.h"
 #include "Fixation.h"
+#include "RootGrowthOption1.h"
+#include "RootGrowthOption2.h"
+#include "NoRoot.h"
+#include "MultiRoot.h"
+
 //---------------------------------------------------------------------------
 // This function creates parts.
 //---------------------------------------------------------------------------
-plantThing* createThing(ScienceAPI& api, plantInterface& plant, const std::string& name, std::string& type)
+plantThing* createThing(ScienceAPI& api, plantInterface& plant, const std::string& type, std::string& name)
    {
-   string nameLower = name;
-   To_lower(nameLower);
+   string typeLower = type;
+   To_lower(typeLower);
 
-   if (nameLower == "environment")
+   if (typeLower == "environment")
       return new Environment(api, name);
-   else if (nameLower == "phenology")
+   else if (typeLower == "phenology")
       return new Phenology(api, plant);
-   else if (nameLower == "fixation")
+   else if (typeLower == "fixation")
       return new Fixation(api, plant, name);
-   else if (nameLower == "zadok")
+   else if (typeLower == "zadok")
       return new Zadok(api, plant);
+   else if (typeLower == "root")
+      return new rootGrowthOption1(api, &plant, name);
+   else if (typeLower == "jones+ritchiegrowthpattern")
+      return new rootGrowthOption2(api, &plant, name);
+   else if (typeLower == "noroot")
+      return new NoRoot(api, &plant, name);
+   else if (typeLower == "multiroot")
+      return new MultiRoot(api, &plant, name);
 
    throw runtime_error("Cannot create a thing of type: " + type);
    }

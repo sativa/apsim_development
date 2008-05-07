@@ -3,7 +3,7 @@
 
 #include "Phase.h"
 // A fixed duration phenological phase.
-class FixedPhase : public pPhase
+class FixedPhase : public Phase
    {
    protected:
       interpolationFunction stressFunction;
@@ -12,7 +12,7 @@ class FixedPhase : public pPhase
    public:
       void read();
       FixedPhase(ScienceAPI& scienceAPI, plantInterface& p, const string& stage_name)
-         : pPhase (scienceAPI, p, stage_name){};
+         : Phase (scienceAPI, p, stage_name){};
       virtual string description();
    };
 

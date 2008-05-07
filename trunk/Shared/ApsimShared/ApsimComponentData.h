@@ -47,6 +47,7 @@ class EXPORT ApsimComponentData
                            const std::string& name,
                            const std::string& value);
       void clearProperties(const std::string& propertyType);
+      std::string findProperty(const std::string& name);
 
       void getGroupNames(const std::string& propertyType,
                          std::vector<std::string>& groupNames);

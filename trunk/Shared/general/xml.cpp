@@ -386,7 +386,7 @@ XMLNode findNode(XMLNode node, const std::string& fqn, char delimiter)
       if (posDelimiter == string::npos)
          return XMLNode(*i);
       else
-         return findNode(*i, fqn.substr(posDelimiter+1));
+         return findNode(*i, fqn.substr(posDelimiter+1), delimiter);
       }
    else
       return XMLNode();

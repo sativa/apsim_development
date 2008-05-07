@@ -193,9 +193,12 @@ bool ScienceAPI::read(const std::string& name, std::vector<std::string>& data)
 
 bool ScienceAPI::readFiltered(const std::string& name, std::vector<std::string>& values)
    {
-   unsigned posDelimiter = name.find('/');
-   if (posDelimiter != string::npos)
-      component->getMultipleProperties(name.substr(0, posDelimiter), name.substr(posDelimiter+1), values);
+   if (name.find('/') != string::npos)
+      {
+      string value = component->findProperty(name);
+      if (value != "")
+         values.push_back(value);
+      }
    else
       {
       if (currentClass1 != "")

@@ -31,7 +31,7 @@ public:                                             // member functions
    float fruitNumber(void);
    void doDmDemand (float dlt_dm_supply_by_veg);
    float getDltTT(void);
-   bool  on_day_of(const string &what);
+   bool  onDayOf(const string &what);
    void giveFlowerNo(float dltFlowerNo);
    float potentialCohortGrainFillRate(void);
    float potentialGrainFillRate(void);
