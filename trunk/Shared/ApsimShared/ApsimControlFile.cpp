@@ -671,8 +671,13 @@ int ApsimControlFile::getVersionNumber(const std::string& fileName)
       string version = getKeyValue(line, "version");
       if (version != "")
          {
-         float versionNumber = atof(version.c_str());
-         return (int) (versionNumber*10);
+         if (version.find('.') != string::npos)
+            {
+            replaceAll(version, ".", "");
+            return atoi(version.c_str());
+            }
+         else
+            return atoi(version.c_str()) * 10;
          }
       }
    return 21; // assumes if no version number then it is version 2.1
@@ -1486,15 +1491,26 @@ bool ApsimControlFile::iniToXml(const std::string& section)
          if (fileExtensionEquals(paramFiles[p].fileName, "ini") &&
              stristr(fileDirectory.c_str(), getApsimDirectory().c_str()) != NULL)
             {
-            paramFiles[p].fileName = "%apsuite\\apsim\\" + paramFiles[p].instanceName
-                                   + "\\" + paramFiles[p].instanceName + ".xml";
+            paramFiles[p].fileName = "%apsuite/apsim/" + paramFiles[p].instanceName
+                                   + "/" + paramFiles[p].instanceName + ".xml";
             moduleLines[i] = createModuleLine(paramFiles);
             found = true;
             }
          }
       }
    if (found)
-      ini->write(section, "module", moduleLines);
+      {
+      // Turn all slashes around and try to put %apsuite into the lines.
+      string ApsuiteDir = getApsimDirectory();
+      replaceAll(ApsuiteDir, "\\", "/");
+      for (unsigned m = 0; m != moduleLines.size(); m++)
+         {
+         replaceAll(moduleLines[m], "\\", "/");
+         replaceAll(moduleLines[m], ApsuiteDir, "%apsuite");
+         ini->write(section, "module", moduleLines);
+         }
+
+      }
    return found;
    }
 
