@@ -1128,6 +1128,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   199mm in  1600mm total depth ( 12%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1150,7 +1151,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 25 June 2005(Day of year=176), CanolaOilConc: 
      Manager creating a new local real variable : cum_temp = 0.00000
      Manager creating a new local real variable : cum_swdef = 0.00000
@@ -1199,7 +1199,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         793.49 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   20.08 (mm)
 27 November 2005(Day of year=331), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 148.77617
+     Manager creating a new local real variable : fullprice = 148.77646
 27 November 2005(Day of year=331), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1214,7 +1214,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       senesced above ground biomass (kg/ha) =     1978.3
       number of leaves       =     42.6
       DM Root:Shoot ratio    =     0.18                       Harvest Index          =       0.32
-      Stover C:N ratio       =   106.43                       Root C:N ratio         =      23.97
+      Stover C:N ratio       =   106.43                       Root C:N ratio         =      23.96
       grain N percent        =     2.22                       total N content (kg/ha)=      76.01
       grain N uptake (kg/ha) =    55.59                       senesced N content (kg/ha)=    9.89
       green N content (kg/ha)=    10.53

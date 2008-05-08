@@ -1106,6 +1106,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   180mm in  1500mm total depth ( 12%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1121,7 +1122,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 3 July 2005(Day of year=184), CanolaOilConc: 
      Manager creating a new local real variable : cum_temp = 0.00000
      Manager creating a new local real variable : cum_swdef = 0.00000
@@ -1163,14 +1163,14 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.32 (%)    extractable sw =   35.83 (mm)
 26 November 2005(Day of year=330), Wheat: 
       stage 9.0 maturity
-                     biomass =        1161.02 (g/m^2)   lai          =   0.362 (m^2/m^2)
+                     biomass =        1161.01 (g/m^2)   lai          =   0.362 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   34.25 (mm)
 27 November 2005(Day of year=331), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1161.02 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1161.01 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   33.93 (mm)
 27 November 2005(Day of year=331), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 155.98134
+     Manager creating a new local real variable : fullprice = 155.98116
 27 November 2005(Day of year=331), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1179,8 +1179,8 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4836.3
       grain wt (g)           =    0.036                       grains/m^2             =    11798.4
       grains/plant           =  118.0                         maximum lai            =      6.750
-      total above ground biomass (kg/ha)    =    11610.2
-      live above ground biomass (kg/ha)     =    11610.2
+      total above ground biomass (kg/ha)    =    11610.1
+      live above ground biomass (kg/ha)     =    11610.1
       green above ground biomass (kg/ha)    =     8378.4
       senesced above ground biomass (kg/ha) =     3231.7
       number of leaves       =     48.8

@@ -587,6 +587,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
          -----------------------------------------------
          Extractable SW:   173mm in  2200mm total depth (  8%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -602,7 +603,6 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         33.00 of N as ammonium (nh4_n)
                                               added at depth   30.00 (layer   1)
-      stage 1.0 sowing
 14 May 2002(Day of year=134), manager: 
      Manager creating a new local real variable : start_esw = 121.49859
      Manager creating a new local real variable : sow_day = 134.00000
@@ -640,21 +640,21 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Manager creating a new local real variable : aug_rain = 39.50000
 12 September 2002(Day of year=255), canola: 
       stage 6.0 flowering
-                     biomass =         372.76 (g/m^2)   lai          =   3.469 (m^2/m^2)
+                     biomass =         372.76 (g/m^2)   lai          =   3.467 (m^2/m^2)
                      stover N conc =     4.25 (%)    extractable sw =  101.77 (mm)
 12 September 2002(Day of year=255), manager: 
      Manager creating a new local real variable : pre_flower_rain = 183.50000
      Manager creating a new local real variable : pre_flower_rain_events = 15.00000
-     Manager creating a new local real variable : flower_lai = 3.46878
+     Manager creating a new local real variable : flower_lai = 3.46695
 30 September 2002(Day of year=273), canola: 
       stage 7.0 start_grain_fill
-                     biomass =         722.07 (g/m^2)   lai          =   2.861 (m^2/m^2)
+                     biomass =         722.05 (g/m^2)   lai          =   2.860 (m^2/m^2)
                      stover N conc =     2.84 (%)    extractable sw =   76.74 (mm)
 30 September 2002(Day of year=273), manager: 
      Manager creating a new local real variable : sep_rain = 77.50000
 1 October 2002(Day of year=274), manager: 
      Manager creating a new local real variable : avg_temp = 9.00000
-     Manager creating a new local real variable : avg_swdef = 0.79767
+     Manager creating a new local real variable : avg_swdef = 0.79771
 31 October 2002(Day of year=304), manager: 
      Manager creating a new local real variable : oct_rain = 0.00000
 24 November 2002(Day of year=328), canola: 
@@ -663,15 +663,15 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     1.92 (%)    extractable sw =   11.67 (mm)
 25 November 2002(Day of year=329), canola: 
       stage 9.0 maturity
-                     biomass =         826.03 (g/m^2)   lai          =   0.021 (m^2/m^2)
+                     biomass =         826.02 (g/m^2)   lai          =   0.021 (m^2/m^2)
                      stover N conc =     1.92 (%)    extractable sw =   11.47 (mm)
 26 November 2002(Day of year=330), canola: 
       stage 10.0 harvest_ripe
-                     biomass =         826.03 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         826.02 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.92 (%)    extractable sw =   11.26 (mm)
 26 November 2002(Day of year=330), manager: 
      Manager creating a new local real variable : total_rain_events = 16.00000
-     Manager creating a new local real variable : end_esw = 11.26469
+     Manager creating a new local real variable : end_esw = 11.26477
      Manager sending message :- canola harvest
      
       flowering day          =  255                           stover (kg/ha)         =     5809.4
@@ -679,16 +679,16 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
       grain % water content  =    8.5                         grain yield wet (kg/ha)=     2678.6
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      3.469
-      total above ground biomass (kg/ha)    =     8260.3
-      live above ground biomass (kg/ha)     =     8260.3
-      green above ground biomass (kg/ha)    =     6626.8
+      total above ground biomass (kg/ha)    =     8260.2
+      live above ground biomass (kg/ha)     =     8260.2
+      green above ground biomass (kg/ha)    =     6626.7
       senesced above ground biomass (kg/ha) =     1633.5
       number of leaves       =     22.8
       DM Root:Shoot ratio    =     0.39                       Harvest Index          =       0.30
       Stover C:N ratio       =    22.17                       Root C:N ratio         =      50.94
       grain N percent        =     4.16                       total N content (kg/ha)=     206.81
       grain N uptake (kg/ha) =   101.99                       senesced N content (kg/ha)=   24.50
-      green N content (kg/ha)=    80.31
+      green N content (kg/ha)=    80.32
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.124
@@ -700,7 +700,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                5809.4                     0.0
+                          DM (kg/ha) =                5809.3                     0.0
                           N  (kg/ha) =                 104.82                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots

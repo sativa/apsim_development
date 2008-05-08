@@ -320,6 +320,7 @@ Component    "soybean" = c:\development\apsim\Plant\lib\Plant.dll
          -----------------------------------------------
          Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -329,7 +330,6 @@ Component    "soybean" = c:\development\apsim\Plant\lib\Plant.dll
             330   40.0   25.0  500.0   0.0   0.0 davis
          ------------------------------------------------
      
-      stage 1.0 sowing
 26 November 1988(Day of year=331), soybean: 
       stage 2.0 germination
 30 November 1988(Day of year=335), soybean: 
@@ -346,42 +346,36 @@ Component    "soybean" = c:\development\apsim\Plant\lib\Plant.dll
                      stover N conc =     3.79 (%)    extractable sw =  275.19 (mm)
 15 January 1989(Day of year=15), soybean: 
       stage 6.0 flowering
-                     biomass =         105.81 (g/m^2)   lai          =   1.897 (m^2/m^2)
-                     stover N conc =     3.64 (%)    extractable sw =  309.65 (mm)
+                     biomass =         105.81 (g/m^2)   lai          =   1.896 (m^2/m^2)
+                     stover N conc =     3.65 (%)    extractable sw =  309.65 (mm)
 8 February 1989(Day of year=39), soybean: 
       stage 7.0 start_grain_fill
-                     biomass =         209.30 (g/m^2)   lai          =   2.130 (m^2/m^2)
-                     stover N conc =     3.13 (%)    extractable sw =  288.17 (mm)
-
-     *** N Biomass is negative! -0.000099
-
-
-     *** N Biomass is negative! -0.000099
-
+                     biomass =         209.31 (g/m^2)   lai          =   2.086 (m^2/m^2)
+                     stover N conc =     3.13 (%)    extractable sw =  288.15 (mm)
 13 March 1989(Day of year=72), soybean: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 2924.93 (kg/ha)
+     Plant death. standing above-ground dm = 2898.33 (kg/ha)
 14 March 1989(Day of year=73), manager: 
      Manager sending message :- soybean harvest
 14 March 1989(Day of year=73), soybean: 
      
-      flowering day          =   15                           stover (kg/ha)         =     1909.9
-      maturity day           =    0                           grain yield (kg/ha)    =     1014.6
-      grain % water content  =    8.5                         grain yield wet (kg/ha)=     1108.8
+      flowering day          =   15                           stover (kg/ha)         =     1909.3
+      maturity day           =    0                           grain yield (kg/ha)    =      988.9
+      grain % water content  =    8.5                         grain yield wet (kg/ha)=     1080.7
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      2.329
-      total above ground biomass (kg/ha)    =     2924.5
-      live above ground biomass (kg/ha)     =     2924.5
+      grains/plant           =    0.0                         maximum lai            =      2.289
+      total above ground biomass (kg/ha)    =     2898.2
+      live above ground biomass (kg/ha)     =     2898.2
       green above ground biomass (kg/ha)    =        0.0
-      senesced above ground biomass (kg/ha) =     2924.5
+      senesced above ground biomass (kg/ha) =     2898.2
       number of leaves       =     14.1
-      DM Root:Shoot ratio    =     0.37                       Harvest Index          =       0.35
-      Stover C:N ratio       =    19.53                       Root C:N ratio         =      19.95
-      grain N percent        =     6.50                       total N content (kg/ha)=     105.06
-      grain N uptake (kg/ha) =    65.95                       senesced N content (kg/ha)=   39.12
+      DM Root:Shoot ratio    =     0.37                       Harvest Index          =       0.34
+      Stover C:N ratio       =    19.39                       Root C:N ratio         =      19.93
+      grain N percent        =     6.50                       total N content (kg/ha)=     103.67
+      grain N uptake (kg/ha) =    64.28                       senesced N content (kg/ha)=   39.40
       green N content (kg/ha)=     0.00
       grain P percent        =       0.27                     total P content (kg/ha)=       6.45
-      grain P uptake (kg/ha) =       2.78                     senesced P content (kg/ha)=    3.67
+      grain P uptake (kg/ha) =       2.71                     senesced P content (kg/ha)=    3.74
       green P content (kg/ha)=       0.00                     dead P content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -393,22 +387,22 @@ Component    "soybean" = c:\development\apsim\Plant\lib\Plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                1909.9                     0.0
-                          N  (kg/ha) =                  39.12                    0.00
+                          DM (kg/ha) =                1909.3                     0.0
+                          N  (kg/ha) =                  39.40                    0.00
                           P  (kg/ha) =                   3.7                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1014.6                     0.0
-                          N  (kg/ha) =                  65.95                    0.00
-                          P  (kg/ha) =                  2.78                    0.00
+                          DM (kg/ha) =                 988.9                     0.0
+                          N  (kg/ha) =                  64.28                    0.00
+                          P  (kg/ha) =                  2.71                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- soybean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1074.3
-                          N  (kg/ha) =                   0.00                   21.54
-                          P  (kg/ha) =                  0.00                    1.51
+                          DM (kg/ha) =                   0.0                  1071.2
+                          N  (kg/ha) =                   0.00                   21.50
+                          P  (kg/ha) =                  0.00                    1.52
      
 31 March 1989(Day of year=90), clock: 
      Simulation is terminating due to end criteria being met.

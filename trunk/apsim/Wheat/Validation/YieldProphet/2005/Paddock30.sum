@@ -1019,7 +1019,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 27.20000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 43.45426
+     Manager creating a new local real variable : nitrogen = 43.45427
      Manager creating a new local real variable : availablewater = 21.37012
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1108,6 +1108,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   187mm in  1500mm total depth ( 12%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1131,7 +1132,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 12 June 2005(Day of year=163), GrossMargin: 
      Manager creating a new local real variable : cost = 36.60000
 13 June 2005(Day of year=164), CanolaOilConc: 
@@ -1193,8 +1193,8 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager sending message :- wheat harvest
      
       flowering day          =  288                           stover (kg/ha)         =     6215.6
-      maturity day           =  324                           grain yield (kg/ha)    =     3316.7
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3790.5
+      maturity day           =  324                           grain yield (kg/ha)    =     3316.6
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3790.4
       grain wt (g)           =    0.030                       grains/m^2             =    11083.6
       grains/plant           =  110.8                         maximum lai            =      2.687
       total above ground biomass (kg/ha)    =     9532.2
@@ -1222,7 +1222,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                           N  (kg/ha) =                  21.70                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3316.7                     0.0
+                          DM (kg/ha) =                3316.6                     0.0
                           N  (kg/ha) =                  49.79                    0.00
      
       stage 4.0 end_of_juvenile

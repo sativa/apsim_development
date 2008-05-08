@@ -260,6 +260,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -269,7 +270,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
             150   40.0  200.0  150.0   0.0   0.0 trifecta
          ------------------------------------------------
      
-      stage 1.0 sowing
 30 May 1988(Day of year=151), lucerne: 
       stage 2.0 germination
 7 June 1988(Day of year=159), lucerne: 
@@ -661,7 +661,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       total above ground biomass (kg/ha)    =     1030.2
       live above ground biomass (kg/ha)     =     1030.2
       green above ground biomass (kg/ha)    =     1030.1
-      senesced above ground biomass (kg/ha) =        0.0
+      senesced above ground biomass (kg/ha) =        0.1
       number of leaves       =     20.9
       DM Root:Shoot ratio    =     1.64                       Harvest Index          =       0.00
       Stover C:N ratio       =    11.65                       Root C:N ratio         =      14.61
@@ -716,7 +716,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                1921.8                     0.0
+                          DM (kg/ha) =                1921.7                     0.0
                           N  (kg/ha) =                  60.91                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots

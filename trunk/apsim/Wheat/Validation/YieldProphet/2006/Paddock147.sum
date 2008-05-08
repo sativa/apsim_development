@@ -999,7 +999,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 30.00000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 80.44641
+     Manager creating a new local real variable : nitrogen = 80.44643
      Manager creating a new local real variable : availablewater = 250.70123
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1089,6 +1089,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   238mm in  1800mm total depth ( 13%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1104,7 +1105,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 17 June 2006(Day of year=168), CanolaOilConc: 
      Manager creating a new local real variable : cum_temp = 0.00000
      Manager creating a new local real variable : cum_swdef = 0.00000
@@ -1134,7 +1134,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     2.07 (%)    extractable sw =  124.04 (mm)
 22 September 2006(Day of year=265), Wheat: 
       stage 6.0 flowering
-                     biomass =         586.74 (g/m^2)   lai          =   1.962 (m^2/m^2)
+                     biomass =         586.75 (g/m^2)   lai          =   1.962 (m^2/m^2)
                      stover N conc =     0.85 (%)    extractable sw =  102.29 (mm)
 27 September 2006(Day of year=270), Wheat: 
       stage 7.0 start_grain_fill
@@ -1142,18 +1142,18 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.65 (%)    extractable sw =   86.10 (mm)
 28 September 2006(Day of year=271), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp = 19.50000
-     Manager creating a new local real variable : avg_swdef = 0.82818
+     Manager creating a new local real variable : avg_swdef = 0.82817
 22 October 2006(Day of year=295), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         727.07 (g/m^2)   lai          =   0.245 (m^2/m^2)
+                     biomass =         727.08 (g/m^2)   lai          =   0.245 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   54.02 (mm)
 23 October 2006(Day of year=296), Wheat: 
       stage 9.0 maturity
-                     biomass =         727.07 (g/m^2)   lai          =   0.220 (m^2/m^2)
+                     biomass =         727.08 (g/m^2)   lai          =   0.220 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   53.84 (mm)
 24 October 2006(Day of year=297), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         727.07 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         727.08 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   53.66 (mm)
 24 October 2006(Day of year=297), GrossMargin: 
      Manager creating a new local real variable : fullprice = 140.00000
@@ -1165,8 +1165,8 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2782.4
       grain wt (g)           =    0.029                       grains/m^2             =     8262.2
       grains/plant           =   82.6                         maximum lai            =      3.193
-      total above ground biomass (kg/ha)    =     7270.7
-      live above ground biomass (kg/ha)     =     7270.7
+      total above ground biomass (kg/ha)    =     7270.8
+      live above ground biomass (kg/ha)     =     7270.8
       green above ground biomass (kg/ha)    =     5881.6
       senesced above ground biomass (kg/ha) =     1389.1
       number of leaves       =     44.7

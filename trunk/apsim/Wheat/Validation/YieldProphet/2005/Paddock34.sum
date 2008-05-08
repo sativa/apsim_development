@@ -1078,7 +1078,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 27.75000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 62.58387
+     Manager creating a new local real variable : nitrogen = 62.58388
      Manager creating a new local real variable : availablewater = 39.40277
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1169,6 +1169,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   202mm in  1600mm total depth ( 13%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1192,7 +1193,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 11 July 2005(Day of year=192), GrossMargin: 
      Manager creating a new local real variable : cost = 29.40000
 12 July 2005(Day of year=193), CanolaOilConc: 
@@ -1224,7 +1224,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                                               added at depth   20.00 (layer   1)
 25 September 2005(Day of year=268), Wheat: 
       stage 5.0 floral_initiation
-                     biomass =         256.07 (g/m^2)   lai          =   3.622 (m^2/m^2)
+                     biomass =         256.08 (g/m^2)   lai          =   3.622 (m^2/m^2)
                      stover N conc =     2.40 (%)    extractable sw =   56.98 (mm)
 3 October 2005(Day of year=276), Irrigate: 
      Manager sending message :- irrigation apply  amount = 20 (mm)
@@ -1265,7 +1265,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =        1214.65 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.36 (%)    extractable sw =   40.10 (mm)
 10 December 2005(Day of year=344), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 159.13010
+     Manager creating a new local real variable : fullprice = 159.13000
 10 December 2005(Day of year=344), Harvest: 
      Manager sending message :- wheat harvest
      

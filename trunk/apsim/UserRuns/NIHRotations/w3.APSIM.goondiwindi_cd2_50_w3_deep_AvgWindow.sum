@@ -556,6 +556,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -573,7 +574,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 1 June 1970(Day of year=152), wheat: 
       stage 2.0 germination
 13 June 1970(Day of year=164), wheat: 
@@ -724,6 +724,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -740,7 +741,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 29 July 1971(Day of year=210), chickpea: 
       stage 2.0 germination
 10 August 1971(Day of year=222), chickpea: 
@@ -757,24 +757,24 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.66 (%)    extractable sw =  107.34 (mm)
 2 October 1971(Day of year=275), chickpea: 
       stage 6.0 flowering
-                     biomass =          55.47 (g/m^2)   lai          =   0.970 (m^2/m^2)
+                     biomass =          55.47 (g/m^2)   lai          =   0.968 (m^2/m^2)
                      stover N conc =     3.65 (%)    extractable sw =  102.78 (mm)
 25 October 1971(Day of year=298), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         192.45 (g/m^2)   lai          =   1.422 (m^2/m^2)
-                     stover N conc =     2.00 (%)    extractable sw =   68.24 (mm)
+                     biomass =         192.39 (g/m^2)   lai          =   1.422 (m^2/m^2)
+                     stover N conc =     2.00 (%)    extractable sw =   68.25 (mm)
 28 November 1971(Day of year=332), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         306.34 (g/m^2)   lai          =   0.416 (m^2/m^2)
-                     stover N conc =     1.79 (%)    extractable sw =   34.21 (mm)
+                     biomass =         306.29 (g/m^2)   lai          =   0.416 (m^2/m^2)
+                     stover N conc =     1.79 (%)    extractable sw =   34.22 (mm)
 30 November 1971(Day of year=334), chickpea: 
       stage 9.0 maturity
-                     biomass =         310.71 (g/m^2)   lai          =   0.416 (m^2/m^2)
-                     stover N conc =     1.76 (%)    extractable sw =   45.75 (mm)
+                     biomass =         310.66 (g/m^2)   lai          =   0.416 (m^2/m^2)
+                     stover N conc =     1.76 (%)    extractable sw =   45.76 (mm)
 1 December 1971(Day of year=335), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =         313.54 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.80 (%)    extractable sw =   54.15 (mm)
+                     biomass =         313.49 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.80 (%)    extractable sw =   54.16 (mm)
 2 December 1971(Day of year=336), chickpea: 
       stage 11.0 end_crop
 3 December 1971(Day of year=337), manager: 
@@ -782,20 +782,20 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- chickpea harvest
 3 December 1971(Day of year=337), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     2027.0
-      maturity day           =    0                           grain yield (kg/ha)    =     1108.4
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1259.5
+      flowering day          =    0                           stover (kg/ha)         =     2026.7
+      maturity day           =    0                           grain yield (kg/ha)    =     1108.2
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1259.3
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      1.760
-      total above ground biomass (kg/ha)    =     3135.4
-      live above ground biomass (kg/ha)     =     3135.4
-      green above ground biomass (kg/ha)    =     2257.7
-      senesced above ground biomass (kg/ha) =      877.7
+      grains/plant           =    0.0                         maximum lai            =      1.759
+      total above ground biomass (kg/ha)    =     3134.9
+      live above ground biomass (kg/ha)     =     3134.9
+      green above ground biomass (kg/ha)    =     2257.4
+      senesced above ground biomass (kg/ha) =      877.5
       number of leaves       =    256.3
       DM Root:Shoot ratio    =     0.25                       Harvest Index          =       0.35
       Stover C:N ratio       =    23.93                       Root C:N ratio         =      26.12
-      grain N percent        =     3.60                       total N content (kg/ha)=      73.78
-      grain N uptake (kg/ha) =    39.90                       senesced N content (kg/ha)=   13.17
+      grain N percent        =     3.60                       total N content (kg/ha)=      73.77
+      grain N uptake (kg/ha) =    39.90                       senesced N content (kg/ha)=   13.16
       green N content (kg/ha)=    20.71
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -803,23 +803,23 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.011
          floral_initiation    to flowering               0.000        0.000        0.000        0.011
          flowering            to start_grain_fill        0.061        0.078        0.000        0.008
-         start_grain_fill     to end_grain_fill          0.162        0.196        0.000        0.006
+         start_grain_fill     to end_grain_fill          0.161        0.196        0.000        0.006
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2027.0                     0.0
-                          N  (kg/ha) =                  33.88                    0.00
+                          DM (kg/ha) =                2026.7                     0.0
+                          N  (kg/ha) =                  33.87                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1108.4                     0.0
+                          DM (kg/ha) =                1108.2                     0.0
                           N  (kg/ha) =                  39.90                    0.00
      
      Manager sending message :- chickpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   785.8
-                          N  (kg/ha) =                   0.00                   12.04
+                          DM (kg/ha) =                   0.0                   785.7
+                          N  (kg/ha) =                   0.00                   12.03
      
 8 July 1973(Day of year=189), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
@@ -879,6 +879,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -900,7 +901,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 9 July 1973(Day of year=190), wheat: 
       stage 2.0 germination
 20 July 1973(Day of year=201), wheat: 
@@ -925,34 +925,34 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     1.36 (%)    extractable sw =   48.64 (mm)
 3 November 1973(Day of year=307), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         619.91 (g/m^2)   lai          =   0.446 (m^2/m^2)
+                     biomass =         619.92 (g/m^2)   lai          =   0.446 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   22.89 (mm)
 4 November 1973(Day of year=308), wheat: 
       stage 9.0 maturity
-                     biomass =         619.91 (g/m^2)   lai          =   0.374 (m^2/m^2)
+                     biomass =         619.92 (g/m^2)   lai          =   0.374 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   24.93 (mm)
 5 November 1973(Day of year=309), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         619.91 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         619.92 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   22.77 (mm)
 6 November 1973(Day of year=310), manager: 
      Manager sending message :- wheat harvest
 6 November 1973(Day of year=310), wheat: 
      
       flowering day          =  276                           stover (kg/ha)         =     3960.2
-      maturity day           =  308                           grain yield (kg/ha)    =     2238.9
+      maturity day           =  308                           grain yield (kg/ha)    =     2239.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2558.8
-      grain wt (g)           =    0.033                       grains/m^2             =     6874.3
+      grain wt (g)           =    0.033                       grains/m^2             =     6874.4
       grains/plant           =   68.7                         maximum lai            =      2.902
-      total above ground biomass (kg/ha)    =     6199.1
-      live above ground biomass (kg/ha)     =     6199.1
-      green above ground biomass (kg/ha)    =     4829.4
+      total above ground biomass (kg/ha)    =     6199.2
+      live above ground biomass (kg/ha)     =     6199.2
+      green above ground biomass (kg/ha)    =     4829.5
       senesced above ground biomass (kg/ha) =     1369.7
       number of leaves       =     36.0
       DM Root:Shoot ratio    =     0.18                       Harvest Index          =       0.36
       Stover C:N ratio       =   106.39                       Root C:N ratio         =      17.74
-      grain N percent        =     2.75                       total N content (kg/ha)=      76.51
-      grain N uptake (kg/ha) =    61.62                       senesced N content (kg/ha)=    6.85
+      grain N percent        =     2.75                       total N content (kg/ha)=      76.52
+      grain N uptake (kg/ha) =    61.63                       senesced N content (kg/ha)=    6.85
       green N content (kg/ha)=     8.04
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -969,8 +969,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           N  (kg/ha) =                  14.89                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2238.9                     0.0
-                          N  (kg/ha) =                  61.62                    0.00
+                          DM (kg/ha) =                2239.0                     0.0
+                          N  (kg/ha) =                  61.63                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -1050,6 +1050,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1066,7 +1067,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 22 May 1974(Day of year=142), chickpea: 
       stage 2.0 germination
 3 June 1974(Day of year=154), chickpea: 
@@ -1083,23 +1083,23 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.71 (%)    extractable sw =   48.21 (mm)
 18 August 1974(Day of year=230), chickpea: 
       stage 6.0 flowering
-                     biomass =          66.31 (g/m^2)   lai          =   1.089 (m^2/m^2)
+                     biomass =          66.31 (g/m^2)   lai          =   1.088 (m^2/m^2)
                      stover N conc =     3.24 (%)    extractable sw =   45.88 (mm)
 18 September 1974(Day of year=261), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         225.70 (g/m^2)   lai          =   1.819 (m^2/m^2)
-                     stover N conc =     1.90 (%)    extractable sw =   37.68 (mm)
+                     biomass =         225.63 (g/m^2)   lai          =   1.819 (m^2/m^2)
+                     stover N conc =     1.90 (%)    extractable sw =   37.69 (mm)
 27 October 1974(Day of year=300), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         330.12 (g/m^2)   lai          =   0.351 (m^2/m^2)
+                     biomass =         330.07 (g/m^2)   lai          =   0.351 (m^2/m^2)
                      stover N conc =     1.77 (%)    extractable sw =   10.58 (mm)
 30 October 1974(Day of year=303), chickpea: 
       stage 9.0 maturity
-                     biomass =         332.34 (g/m^2)   lai          =   0.282 (m^2/m^2)
+                     biomass =         332.29 (g/m^2)   lai          =   0.282 (m^2/m^2)
                      stover N conc =     1.76 (%)    extractable sw =    9.50 (mm)
 31 October 1974(Day of year=304), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =         332.71 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         332.66 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.77 (%)    extractable sw =    9.14 (mm)
 1 November 1974(Day of year=305), chickpea: 
       stage 11.0 end_crop
@@ -1107,43 +1107,43 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- chickpea harvest
 2 November 1974(Day of year=306), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     2137.1
-      maturity day           =    0                           grain yield (kg/ha)    =     1190.0
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1352.3
+      flowering day          =    0                           stover (kg/ha)         =     2136.5
+      maturity day           =    0                           grain yield (kg/ha)    =     1190.1
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1352.4
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      2.058
-      total above ground biomass (kg/ha)    =     3327.1
-      live above ground biomass (kg/ha)     =     3327.1
-      green above ground biomass (kg/ha)    =     2380.0
-      senesced above ground biomass (kg/ha) =      947.1
+      grains/plant           =    0.0                         maximum lai            =      2.056
+      total above ground biomass (kg/ha)    =     3326.6
+      live above ground biomass (kg/ha)     =     3326.6
+      green above ground biomass (kg/ha)    =     2379.7
+      senesced above ground biomass (kg/ha) =      946.9
       number of leaves       =    232.0
       DM Root:Shoot ratio    =     0.26                       Harvest Index          =       0.36
       Stover C:N ratio       =    24.21                       Root C:N ratio         =      26.01
       grain N percent        =     3.60                       total N content (kg/ha)=      78.14
-      grain N uptake (kg/ha) =    42.84                       senesced N content (kg/ha)=   14.21
-      green N content (kg/ha)=    21.10
+      grain N uptake (kg/ha) =    42.84                       senesced N content (kg/ha)=   14.20
+      green N content (kg/ha)=    21.09
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.006
          floral_initiation    to flowering               0.000        0.001        0.000        0.006
          flowering            to start_grain_fill        0.033        0.043        0.000        0.005
-         start_grain_fill     to end_grain_fill          0.128        0.155        0.000        0.004
+         start_grain_fill     to end_grain_fill          0.128        0.154        0.000        0.004
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2137.1                     0.0
-                          N  (kg/ha) =                  35.30                    0.00
+                          DM (kg/ha) =                2136.5                     0.0
+                          N  (kg/ha) =                  35.29                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1190.0                     0.0
+                          DM (kg/ha) =                1190.1                     0.0
                           N  (kg/ha) =                  42.84                    0.00
      
      Manager sending message :- chickpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   860.3
+                          DM (kg/ha) =                   0.0                   860.1
                           N  (kg/ha) =                   0.00                   13.23
      
 24 June 1975(Day of year=175), manager: 
@@ -1204,6 +1204,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1225,7 +1226,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 25 June 1975(Day of year=176), wheat: 
       stage 2.0 germination
 9 July 1975(Day of year=190), wheat: 
@@ -1250,7 +1250,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.96 (%)    extractable sw =   44.46 (mm)
 1 November 1975(Day of year=305), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         672.66 (g/m^2)   lai          =   0.367 (m^2/m^2)
+                     biomass =         672.67 (g/m^2)   lai          =   0.367 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =   41.82 (mm)
 3 November 1975(Day of year=307), wheat: 
       stage 9.0 maturity
@@ -1375,6 +1375,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1391,7 +1392,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 27 May 1976(Day of year=148), chickpea: 
       stage 2.0 germination
 7 June 1976(Day of year=159), chickpea: 
@@ -1408,44 +1408,44 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.71 (%)    extractable sw =  103.97 (mm)
 21 August 1976(Day of year=234), chickpea: 
       stage 6.0 flowering
-                     biomass =          60.56 (g/m^2)   lai          =   1.017 (m^2/m^2)
+                     biomass =          60.56 (g/m^2)   lai          =   1.016 (m^2/m^2)
                      stover N conc =     3.36 (%)    extractable sw =  100.49 (mm)
 21 September 1976(Day of year=265), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         263.20 (g/m^2)   lai          =   2.056 (m^2/m^2)
-                     stover N conc =     1.85 (%)    extractable sw =   64.43 (mm)
+                     biomass =         263.06 (g/m^2)   lai          =   2.055 (m^2/m^2)
+                     stover N conc =     1.85 (%)    extractable sw =   64.46 (mm)
 30 October 1976(Day of year=304), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         494.39 (g/m^2)   lai          =   0.896 (m^2/m^2)
-                     stover N conc =     1.79 (%)    extractable sw =   37.24 (mm)
+                     biomass =         494.33 (g/m^2)   lai          =   0.896 (m^2/m^2)
+                     stover N conc =     1.79 (%)    extractable sw =   37.26 (mm)
 1 November 1976(Day of year=306), chickpea: 
       stage 9.0 maturity
-                     biomass =         501.75 (g/m^2)   lai          =   0.865 (m^2/m^2)
-                     stover N conc =     1.79 (%)    extractable sw =   60.17 (mm)
+                     biomass =         501.69 (g/m^2)   lai          =   0.865 (m^2/m^2)
+                     stover N conc =     1.79 (%)    extractable sw =   60.18 (mm)
 2 November 1976(Day of year=307), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =         503.74 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.85 (%)    extractable sw =   55.91 (mm)
+                     biomass =         503.68 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.85 (%)    extractable sw =   55.93 (mm)
 3 November 1976(Day of year=308), chickpea: 
       stage 11.0 end_crop
 4 November 1976(Day of year=309), manager: 
      Manager sending message :- chickpea harvest
 4 November 1976(Day of year=309), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     2998.3
-      maturity day           =    0                           grain yield (kg/ha)    =     2039.1
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2317.2
+      flowering day          =    0                           stover (kg/ha)         =     2997.9
+      maturity day           =    0                           grain yield (kg/ha)    =     2038.9
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2316.9
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      2.158
-      total above ground biomass (kg/ha)    =     5037.4
-      live above ground biomass (kg/ha)     =     5037.4
-      green above ground biomass (kg/ha)    =     3792.3
-      senesced above ground biomass (kg/ha) =     1245.1
+      total above ground biomass (kg/ha)    =     5036.8
+      live above ground biomass (kg/ha)     =     5036.8
+      green above ground biomass (kg/ha)    =     3792.0
+      senesced above ground biomass (kg/ha) =     1244.8
       number of leaves       =    272.5
       DM Root:Shoot ratio    =     0.20                       Harvest Index          =       0.40
       Stover C:N ratio       =    23.44                       Root C:N ratio         =      26.25
-      grain N percent        =     3.60                       total N content (kg/ha)=     124.57
-      grain N uptake (kg/ha) =    73.41                       senesced N content (kg/ha)=   18.68
+      grain N percent        =     3.60                       total N content (kg/ha)=     124.56
+      grain N uptake (kg/ha) =    73.40                       senesced N content (kg/ha)=   18.67
       green N content (kg/ha)=    32.49
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -1453,23 +1453,23 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.004
          floral_initiation    to flowering               0.000        0.000        0.000        0.004
          flowering            to start_grain_fill        0.023        0.032        0.000        0.003
-         start_grain_fill     to end_grain_fill          0.086        0.113        0.000        0.002
+         start_grain_fill     to end_grain_fill          0.085        0.113        0.000        0.002
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2998.3                     0.0
+                          DM (kg/ha) =                2997.9                     0.0
                           N  (kg/ha) =                  51.16                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2039.1                     0.0
-                          N  (kg/ha) =                  73.41                    0.00
+                          DM (kg/ha) =                2038.9                     0.0
+                          N  (kg/ha) =                  73.40                    0.00
      
      Manager sending message :- chickpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1026.3
-                          N  (kg/ha) =                   0.00                   15.64
+                          DM (kg/ha) =                   0.0                  1026.0
+                          N  (kg/ha) =                   0.00                   15.63
      
 20 May 1977(Day of year=140), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
@@ -1529,6 +1529,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1550,7 +1551,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 21 May 1977(Day of year=141), wheat: 
       stage 2.0 germination
 2 June 1977(Day of year=153), wheat: 
@@ -1589,15 +1589,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat harvest
 25 October 1977(Day of year=298), wheat: 
      
-      flowering day          =  263                           stover (kg/ha)         =     3924.3
+      flowering day          =  263                           stover (kg/ha)         =     3924.4
       maturity day           =  296                           grain yield (kg/ha)    =     1586.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1812.9
-      grain wt (g)           =    0.024                       grains/m^2             =     6560.4
+      grain wt (g)           =    0.024                       grains/m^2             =     6560.5
       grains/plant           =   65.6                         maximum lai            =      3.005
       total above ground biomass (kg/ha)    =     5510.6
       live above ground biomass (kg/ha)     =     5510.6
       green above ground biomass (kg/ha)    =     4113.7
-      senesced above ground biomass (kg/ha) =     1396.8
+      senesced above ground biomass (kg/ha) =     1396.9
       number of leaves       =     52.5
       DM Root:Shoot ratio    =     0.20                       Harvest Index          =       0.29
       Stover C:N ratio       =   107.27                       Root C:N ratio         =      33.02
@@ -1615,7 +1615,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3924.3                     0.0
+                          DM (kg/ha) =                3924.4                     0.0
                           N  (kg/ha) =                  14.63                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -1700,6 +1700,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1716,7 +1717,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 24 May 1978(Day of year=144), chickpea: 
       stage 2.0 germination
 4 June 1978(Day of year=155), chickpea: 
@@ -1726,74 +1726,74 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 20 July 1978(Day of year=201), chickpea: 
       stage 4.0 end_of_juvenile
                      biomass =           7.25 (g/m^2)   lai          =   0.042 (m^2/m^2)
-                     stover N conc =     4.98 (%)    extractable sw =  107.68 (mm)
+                     stover N conc =     4.98 (%)    extractable sw =  107.69 (mm)
 19 August 1978(Day of year=231), chickpea: 
       stage 5.0 floral_initiation
                      biomass =          28.17 (g/m^2)   lai          =   0.520 (m^2/m^2)
                      stover N conc =     3.76 (%)    extractable sw =  134.34 (mm)
 22 August 1978(Day of year=234), chickpea: 
       stage 6.0 flowering
-                     biomass =          35.45 (g/m^2)   lai          =   0.659 (m^2/m^2)
+                     biomass =          35.45 (g/m^2)   lai          =   0.658 (m^2/m^2)
                      stover N conc =     3.16 (%)    extractable sw =  128.11 (mm)
 24 September 1978(Day of year=267), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         233.57 (g/m^2)   lai          =   2.376 (m^2/m^2)
-                     stover N conc =     1.80 (%)    extractable sw =  120.56 (mm)
+                     biomass =         233.40 (g/m^2)   lai          =   2.372 (m^2/m^2)
+                     stover N conc =     1.80 (%)    extractable sw =  120.57 (mm)
 31 October 1978(Day of year=304), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         546.02 (g/m^2)   lai          =   1.892 (m^2/m^2)
-                     stover N conc =     1.77 (%)    extractable sw =   73.70 (mm)
+                     biomass =         545.83 (g/m^2)   lai          =   1.892 (m^2/m^2)
+                     stover N conc =     1.77 (%)    extractable sw =   73.71 (mm)
 3 November 1978(Day of year=307), chickpea: 
       stage 9.0 maturity
-                     biomass =         564.76 (g/m^2)   lai          =   1.892 (m^2/m^2)
-                     stover N conc =     1.71 (%)    extractable sw =   81.29 (mm)
+                     biomass =         564.58 (g/m^2)   lai          =   1.892 (m^2/m^2)
+                     stover N conc =     1.71 (%)    extractable sw =   81.31 (mm)
 4 November 1978(Day of year=308), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =         569.67 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.77 (%)    extractable sw =   88.25 (mm)
+                     biomass =         569.49 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.77 (%)    extractable sw =   88.27 (mm)
 5 November 1978(Day of year=309), chickpea: 
       stage 11.0 end_crop
 6 November 1978(Day of year=310), manager: 
      Manager sending message :- chickpea harvest
 6 November 1978(Day of year=310), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     3464.5
-      maturity day           =    0                           grain yield (kg/ha)    =     2232.3
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2536.7
+      flowering day          =    0                           stover (kg/ha)         =     3463.3
+      maturity day           =    0                           grain yield (kg/ha)    =     2231.5
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2535.8
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      2.703
-      total above ground biomass (kg/ha)    =     5696.7
-      live above ground biomass (kg/ha)     =     5696.7
-      green above ground biomass (kg/ha)    =     4427.2
-      senesced above ground biomass (kg/ha) =     1269.5
-      number of leaves       =    272.5
+      grains/plant           =    0.0                         maximum lai            =      2.699
+      total above ground biomass (kg/ha)    =     5694.9
+      live above ground biomass (kg/ha)     =     5694.9
+      green above ground biomass (kg/ha)    =     4425.8
+      senesced above ground biomass (kg/ha) =     1269.0
+      number of leaves       =    272.6
       DM Root:Shoot ratio    =     0.16                       Harvest Index          =       0.39
       Stover C:N ratio       =    23.93                       Root C:N ratio         =      26.29
-      grain N percent        =     3.60                       total N content (kg/ha)=     138.28
-      grain N uptake (kg/ha) =    80.36                       senesced N content (kg/ha)=   19.04
-      green N content (kg/ha)=    38.88
+      grain N percent        =     3.60                       total N content (kg/ha)=     138.24
+      grain N uptake (kg/ha) =    80.34                       senesced N content (kg/ha)=   19.04
+      green N content (kg/ha)=    38.87
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.001
          floral_initiation    to flowering               0.000        0.000        0.000        0.001
          flowering            to start_grain_fill        0.000        0.000        0.000        0.001
-         start_grain_fill     to end_grain_fill          0.032        0.045        0.000        0.001
+         start_grain_fill     to end_grain_fill          0.032        0.044        0.000        0.001
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3464.5                     0.0
-                          N  (kg/ha) =                  57.92                    0.00
+                          DM (kg/ha) =                3463.3                     0.0
+                          N  (kg/ha) =                  57.90                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2232.3                     0.0
-                          N  (kg/ha) =                  80.36                    0.00
+                          DM (kg/ha) =                2231.5                     0.0
+                          N  (kg/ha) =                  80.34                    0.00
      
      Manager sending message :- chickpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   918.5
+                          DM (kg/ha) =                   0.0                   918.1
                           N  (kg/ha) =                   0.00                   13.97
      
 1 June 1980(Day of year=153), manager: 
@@ -1854,6 +1854,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1870,7 +1871,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 2 June 1980(Day of year=154), wheat: 
       stage 2.0 germination
 15 June 1980(Day of year=167), wheat: 
@@ -1921,7 +1921,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       number of leaves       =     49.6
       DM Root:Shoot ratio    =     0.23                       Harvest Index          =       0.27
       Stover C:N ratio       =    52.11                       Root C:N ratio         =      17.57
-      grain N percent        =     2.89                       total N content (kg/ha)=      75.10
+      grain N percent        =     2.89                       total N content (kg/ha)=      75.09
       grain N uptake (kg/ha) =    43.64                       senesced N content (kg/ha)=    9.71
       green N content (kg/ha)=    21.75
      
@@ -1936,7 +1936,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                4097.5                     0.0
-                          N  (kg/ha) =                  31.46                    0.00
+                          N  (kg/ha) =                  31.45                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                1511.5                     0.0
@@ -2020,6 +2020,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2036,7 +2037,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 28 May 1981(Day of year=148), chickpea: 
       stage 2.0 germination
 9 June 1981(Day of year=160), chickpea: 
@@ -2053,23 +2053,23 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.68 (%)    extractable sw =  118.12 (mm)
 23 August 1981(Day of year=235), chickpea: 
       stage 6.0 flowering
-                     biomass =          59.54 (g/m^2)   lai          =   0.989 (m^2/m^2)
+                     biomass =          59.54 (g/m^2)   lai          =   0.988 (m^2/m^2)
                      stover N conc =     3.49 (%)    extractable sw =  116.35 (mm)
 21 September 1981(Day of year=264), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         231.87 (g/m^2)   lai          =   1.682 (m^2/m^2)
-                     stover N conc =     1.94 (%)    extractable sw =   67.07 (mm)
+                     biomass =         231.78 (g/m^2)   lai          =   1.682 (m^2/m^2)
+                     stover N conc =     1.94 (%)    extractable sw =   67.09 (mm)
 26 October 1981(Day of year=299), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         355.48 (g/m^2)   lai          =   0.422 (m^2/m^2)
-                     stover N conc =     1.80 (%)    extractable sw =   20.22 (mm)
+                     biomass =         355.43 (g/m^2)   lai          =   0.422 (m^2/m^2)
+                     stover N conc =     1.80 (%)    extractable sw =   20.23 (mm)
 29 October 1981(Day of year=302), chickpea: 
       stage 9.0 maturity
-                     biomass =         359.42 (g/m^2)   lai          =   0.347 (m^2/m^2)
-                     stover N conc =     1.77 (%)    extractable sw =   18.22 (mm)
+                     biomass =         359.36 (g/m^2)   lai          =   0.347 (m^2/m^2)
+                     stover N conc =     1.77 (%)    extractable sw =   18.23 (mm)
 30 October 1981(Day of year=303), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =         360.32 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         360.27 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.79 (%)    extractable sw =   17.60 (mm)
 31 October 1981(Day of year=304), chickpea: 
       stage 11.0 end_crop
@@ -2077,21 +2077,21 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- chickpea harvest
 1 November 1981(Day of year=305), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     2292.8
-      maturity day           =    0                           grain yield (kg/ha)    =     1310.4
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1489.1
+      flowering day          =    0                           stover (kg/ha)         =     2292.1
+      maturity day           =    0                           grain yield (kg/ha)    =     1310.5
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1489.3
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      1.965
-      total above ground biomass (kg/ha)    =     3603.2
-      live above ground biomass (kg/ha)     =     3603.2
-      green above ground biomass (kg/ha)    =     2581.9
-      senesced above ground biomass (kg/ha) =     1021.3
+      grains/plant           =    0.0                         maximum lai            =      1.963
+      total above ground biomass (kg/ha)    =     3602.7
+      live above ground biomass (kg/ha)     =     3602.7
+      green above ground biomass (kg/ha)    =     2581.6
+      senesced above ground biomass (kg/ha) =     1021.1
       number of leaves       =    239.2
       DM Root:Shoot ratio    =     0.25                       Harvest Index          =       0.36
       Stover C:N ratio       =    24.08                       Root C:N ratio         =      26.20
       grain N percent        =     3.60                       total N content (kg/ha)=      85.26
-      grain N uptake (kg/ha) =    47.17                       senesced N content (kg/ha)=   15.32
-      green N content (kg/ha)=    22.77
+      grain N uptake (kg/ha) =    47.18                       senesced N content (kg/ha)=   15.32
+      green N content (kg/ha)=    22.76
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -2103,18 +2103,18 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2292.8                     0.0
-                          N  (kg/ha) =                  38.09                    0.00
+                          DM (kg/ha) =                2292.1                     0.0
+                          N  (kg/ha) =                  38.08                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1310.4                     0.0
-                          N  (kg/ha) =                  47.17                    0.00
+                          DM (kg/ha) =                1310.5                     0.0
+                          N  (kg/ha) =                  47.18                    0.00
      
      Manager sending message :- chickpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   893.0
-                          N  (kg/ha) =                   0.00                   13.64
+                          DM (kg/ha) =                   0.0                   892.9
+                          N  (kg/ha) =                   0.00                   13.63
      
 23 May 1983(Day of year=143), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
@@ -2174,6 +2174,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2190,7 +2191,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 24 May 1983(Day of year=144), wheat: 
       stage 2.0 germination
 3 June 1983(Day of year=154), wheat: 
@@ -2203,46 +2203,46 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     5.83 (%)    extractable sw =   29.29 (mm)
 11 August 1983(Day of year=223), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         384.65 (g/m^2)   lai          =   5.159 (m^2/m^2)
+                     biomass =         384.63 (g/m^2)   lai          =   5.159 (m^2/m^2)
                      stover N conc =     2.43 (%)    extractable sw =   79.73 (mm)
 17 September 1983(Day of year=260), wheat: 
       stage 6.0 flowering
-                     biomass =         913.62 (g/m^2)   lai          =   2.994 (m^2/m^2)
+                     biomass =         913.60 (g/m^2)   lai          =   2.994 (m^2/m^2)
                      stover N conc =     1.34 (%)    extractable sw =   76.08 (mm)
 23 September 1983(Day of year=266), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         971.63 (g/m^2)   lai          =   2.145 (m^2/m^2)
+                     biomass =         971.61 (g/m^2)   lai          =   2.146 (m^2/m^2)
                      stover N conc =     1.18 (%)    extractable sw =   55.85 (mm)
 20 October 1983(Day of year=293), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1102.27 (g/m^2)   lai          =   0.491 (m^2/m^2)
+                     biomass =        1102.25 (g/m^2)   lai          =   0.491 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   68.80 (mm)
 22 October 1983(Day of year=295), wheat: 
       stage 9.0 maturity
-                     biomass =        1103.25 (g/m^2)   lai          =   0.419 (m^2/m^2)
+                     biomass =        1103.23 (g/m^2)   lai          =   0.419 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   65.40 (mm)
 23 October 1983(Day of year=296), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1103.25 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.32 (%)    extractable sw =   63.94 (mm)
+                     biomass =        1103.23 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =   63.95 (mm)
 24 October 1983(Day of year=297), manager: 
      Manager sending message :- wheat harvest
 24 October 1983(Day of year=297), wheat: 
      
-      flowering day          =  260                           stover (kg/ha)         =     7425.7
+      flowering day          =  260                           stover (kg/ha)         =     7425.5
       maturity day           =  295                           grain yield (kg/ha)    =     3606.8
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4122.1
-      grain wt (g)           =    0.029                       grains/m^2             =    12562.0
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4122.0
+      grain wt (g)           =    0.029                       grains/m^2             =    12561.8
       grains/plant           =  125.6                         maximum lai            =      5.604
-      total above ground biomass (kg/ha)    =    11032.5
-      live above ground biomass (kg/ha)     =    11032.5
-      green above ground biomass (kg/ha)    =     8466.6
-      senesced above ground biomass (kg/ha) =     2565.9
+      total above ground biomass (kg/ha)    =    11032.3
+      live above ground biomass (kg/ha)     =    11032.3
+      green above ground biomass (kg/ha)    =     8466.5
+      senesced above ground biomass (kg/ha) =     2565.8
       number of leaves       =     51.0
       DM Root:Shoot ratio    =     0.18                       Harvest Index          =       0.33
       Stover C:N ratio       =   105.40                       Root C:N ratio         =      23.92
-      grain N percent        =     2.67                       total N content (kg/ha)=     124.58
-      grain N uptake (kg/ha) =    96.40                       senesced N content (kg/ha)=   12.83
+      grain N percent        =     2.67                       total N content (kg/ha)=     124.57
+      grain N uptake (kg/ha) =    96.39                       senesced N content (kg/ha)=   12.83
       green N content (kg/ha)=    15.35
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -2255,16 +2255,16 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                7425.7                     0.0
+                          DM (kg/ha) =                7425.5                     0.0
                           N  (kg/ha) =                  28.18                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                3606.8                     0.0
-                          N  (kg/ha) =                  96.40                    0.00
+                          N  (kg/ha) =                  96.39                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   63.94 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   63.95 (mm)
      Manager sending message :- wheat kill_crop
      Plant kill. 100.00% crop killed because of external action.
      Manager sending message :- wheat end_crop
@@ -2340,6 +2340,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2356,7 +2357,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 22 June 1984(Day of year=174), chickpea: 
       stage 2.0 germination
 8 July 1984(Day of year=190), chickpea: 
@@ -2373,44 +2373,44 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.64 (%)    extractable sw =  103.77 (mm)
 12 September 1984(Day of year=256), chickpea: 
       stage 6.0 flowering
-                     biomass =          51.30 (g/m^2)   lai          =   0.887 (m^2/m^2)
+                     biomass =          51.30 (g/m^2)   lai          =   0.886 (m^2/m^2)
                      stover N conc =     3.38 (%)    extractable sw =  100.74 (mm)
 11 October 1984(Day of year=285), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         267.13 (g/m^2)   lai          =   2.155 (m^2/m^2)
-                     stover N conc =     1.89 (%)    extractable sw =   88.54 (mm)
+                     biomass =         266.97 (g/m^2)   lai          =   2.153 (m^2/m^2)
+                     stover N conc =     1.89 (%)    extractable sw =   88.57 (mm)
 13 November 1984(Day of year=318), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         443.16 (g/m^2)   lai          =   0.884 (m^2/m^2)
-                     stover N conc =     1.76 (%)    extractable sw =   70.73 (mm)
+                     biomass =         443.05 (g/m^2)   lai          =   0.885 (m^2/m^2)
+                     stover N conc =     1.76 (%)    extractable sw =   70.75 (mm)
 16 November 1984(Day of year=321), chickpea: 
       stage 9.0 maturity
-                     biomass =         460.24 (g/m^2)   lai          =   0.833 (m^2/m^2)
-                     stover N conc =     1.72 (%)    extractable sw =   58.63 (mm)
+                     biomass =         460.13 (g/m^2)   lai          =   0.834 (m^2/m^2)
+                     stover N conc =     1.72 (%)    extractable sw =   58.65 (mm)
 17 November 1984(Day of year=322), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =         463.42 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.79 (%)    extractable sw =   54.76 (mm)
+                     biomass =         463.32 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.79 (%)    extractable sw =   54.77 (mm)
 18 November 1984(Day of year=323), chickpea: 
       stage 11.0 end_crop
 19 November 1984(Day of year=324), manager: 
      Manager sending message :- chickpea harvest
 19 November 1984(Day of year=324), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     2997.6
-      maturity day           =    0                           grain yield (kg/ha)    =     1636.6
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1859.8
+      flowering day          =    0                           stover (kg/ha)         =     2996.9
+      maturity day           =    0                           grain yield (kg/ha)    =     1636.2
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1859.4
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      2.323
-      total above ground biomass (kg/ha)    =     4634.2
-      live above ground biomass (kg/ha)     =     4634.2
-      green above ground biomass (kg/ha)    =     3464.6
-      senesced above ground biomass (kg/ha) =     1169.7
-      number of leaves       =    248.1
+      grains/plant           =    0.0                         maximum lai            =      2.320
+      total above ground biomass (kg/ha)    =     4633.2
+      live above ground biomass (kg/ha)     =     4633.2
+      green above ground biomass (kg/ha)    =     3464.0
+      senesced above ground biomass (kg/ha) =     1169.2
+      number of leaves       =    248.2
       DM Root:Shoot ratio    =     0.21                       Harvest Index          =       0.35
       Stover C:N ratio       =    23.88                       Root C:N ratio         =      26.29
-      grain N percent        =     3.60                       total N content (kg/ha)=     109.14
-      grain N uptake (kg/ha) =    58.92                       senesced N content (kg/ha)=   17.54
+      grain N percent        =     3.60                       total N content (kg/ha)=     109.11
+      grain N uptake (kg/ha) =    58.90                       senesced N content (kg/ha)=   17.54
       green N content (kg/ha)=    32.67
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -2423,17 +2423,17 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2997.6                     0.0
-                          N  (kg/ha) =                  50.22                    0.00
+                          DM (kg/ha) =                2996.9                     0.0
+                          N  (kg/ha) =                  50.21                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1636.6                     0.0
-                          N  (kg/ha) =                  58.92                    0.00
+                          DM (kg/ha) =                1636.2                     0.0
+                          N  (kg/ha) =                  58.90                    0.00
      
      Manager sending message :- chickpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   990.0
+                          DM (kg/ha) =                   0.0                   989.7
                           N  (kg/ha) =                   0.00                   15.06
      
 20 May 1985(Day of year=140), manager: 
@@ -2494,6 +2494,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2515,7 +2516,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 21 May 1985(Day of year=141), wheat: 
       stage 2.0 germination
 30 May 1985(Day of year=150), wheat: 
@@ -2528,44 +2528,44 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     5.84 (%)    extractable sw =   22.47 (mm)
 9 August 1985(Day of year=221), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         221.00 (g/m^2)   lai          =   3.057 (m^2/m^2)
-                     stover N conc =     2.03 (%)    extractable sw =   85.47 (mm)
+                     biomass =         221.01 (g/m^2)   lai          =   3.057 (m^2/m^2)
+                     stover N conc =     2.03 (%)    extractable sw =   85.48 (mm)
 17 September 1985(Day of year=260), wheat: 
       stage 6.0 flowering
-                     biomass =         604.25 (g/m^2)   lai          =   1.812 (m^2/m^2)
-                     stover N conc =     0.82 (%)    extractable sw =   53.51 (mm)
+                     biomass =         604.28 (g/m^2)   lai          =   1.812 (m^2/m^2)
+                     stover N conc =     0.82 (%)    extractable sw =   53.52 (mm)
 24 September 1985(Day of year=267), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         659.41 (g/m^2)   lai          =   1.223 (m^2/m^2)
+                     biomass =         659.45 (g/m^2)   lai          =   1.223 (m^2/m^2)
                      stover N conc =     0.59 (%)    extractable sw =   37.06 (mm)
 22 October 1985(Day of year=295), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         730.99 (g/m^2)   lai          =   0.209 (m^2/m^2)
+                     biomass =         731.04 (g/m^2)   lai          =   0.209 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   18.96 (mm)
 24 October 1985(Day of year=297), wheat: 
       stage 9.0 maturity
-                     biomass =         731.06 (g/m^2)   lai          =   0.162 (m^2/m^2)
+                     biomass =         731.11 (g/m^2)   lai          =   0.162 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   18.84 (mm)
 25 October 1985(Day of year=298), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         731.06 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   18.73 (mm)
+                     biomass =         731.11 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =   18.74 (mm)
 26 October 1985(Day of year=299), manager: 
      Manager sending message :- wheat harvest
 26 October 1985(Day of year=299), wheat: 
      
-      flowering day          =  260                           stover (kg/ha)         =     5066.5
+      flowering day          =  260                           stover (kg/ha)         =     5067.0
       maturity day           =  297                           grain yield (kg/ha)    =     2244.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2564.7
-      grain wt (g)           =    0.026                       grains/m^2             =     8530.4
+      grain wt (g)           =    0.026                       grains/m^2             =     8530.9
       grains/plant           =   85.3                         maximum lai            =      3.133
-      total above ground biomass (kg/ha)    =     7310.6
-      live above ground biomass (kg/ha)     =     7310.6
-      green above ground biomass (kg/ha)    =     5873.7
+      total above ground biomass (kg/ha)    =     7311.1
+      live above ground biomass (kg/ha)     =     7311.1
+      green above ground biomass (kg/ha)    =     5874.2
       senesced above ground biomass (kg/ha) =     1436.9
       number of leaves       =     48.8
       DM Root:Shoot ratio    =     0.17                       Harvest Index          =       0.31
-      Stover C:N ratio       =   111.34                       Root C:N ratio         =      39.31
+      Stover C:N ratio       =   111.34                       Root C:N ratio         =      39.32
       grain N percent        =     1.46                       total N content (kg/ha)=      50.94
       grain N uptake (kg/ha) =    32.74                       senesced N content (kg/ha)=    7.18
       green N content (kg/ha)=    11.02
@@ -2580,7 +2580,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                5066.5                     0.0
+                          DM (kg/ha) =                5067.0                     0.0
                           N  (kg/ha) =                  18.20                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -2589,13 +2589,13 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   18.73 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   18.74 (mm)
      Manager sending message :- wheat kill_crop
      Plant kill. 100.00% crop killed because of external action.
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1276.7
+                          DM (kg/ha) =                   0.0                  1276.8
                           N  (kg/ha) =                   0.00                   12.99
      
 20 July 1986(Day of year=201), manager: 
@@ -2665,6 +2665,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2681,7 +2682,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 21 July 1986(Day of year=202), chickpea: 
       stage 2.0 germination
 4 August 1986(Day of year=216), chickpea: 
@@ -2691,30 +2691,30 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 11 September 1986(Day of year=254), chickpea: 
       stage 4.0 end_of_juvenile
                      biomass =          12.47 (g/m^2)   lai          =   0.146 (m^2/m^2)
-                     stover N conc =     4.38 (%)    extractable sw =   76.57 (mm)
+                     stover N conc =     4.38 (%)    extractable sw =   76.59 (mm)
 27 September 1986(Day of year=270), chickpea: 
       stage 5.0 floral_initiation
                      biomass =          61.79 (g/m^2)   lai          =   0.938 (m^2/m^2)
-                     stover N conc =     3.93 (%)    extractable sw =   58.41 (mm)
+                     stover N conc =     3.93 (%)    extractable sw =   58.43 (mm)
 28 September 1986(Day of year=271), chickpea: 
       stage 6.0 flowering
                      biomass =          64.02 (g/m^2)   lai          =   0.983 (m^2/m^2)
-                     stover N conc =     3.79 (%)    extractable sw =   82.34 (mm)
+                     stover N conc =     3.79 (%)    extractable sw =   82.36 (mm)
 21 October 1986(Day of year=294), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         211.24 (g/m^2)   lai          =   1.578 (m^2/m^2)
-                     stover N conc =     1.98 (%)    extractable sw =   42.87 (mm)
+                     biomass =         211.26 (g/m^2)   lai          =   1.578 (m^2/m^2)
+                     stover N conc =     1.98 (%)    extractable sw =   42.88 (mm)
 23 November 1986(Day of year=327), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         315.77 (g/m^2)   lai          =   0.429 (m^2/m^2)
-                     stover N conc =     1.80 (%)    extractable sw =   26.82 (mm)
+                     biomass =         315.81 (g/m^2)   lai          =   0.429 (m^2/m^2)
+                     stover N conc =     1.80 (%)    extractable sw =   26.83 (mm)
 26 November 1986(Day of year=330), chickpea: 
       stage 9.0 maturity
-                     biomass =         320.09 (g/m^2)   lai          =   0.352 (m^2/m^2)
+                     biomass =         320.13 (g/m^2)   lai          =   0.352 (m^2/m^2)
                      stover N conc =     1.80 (%)    extractable sw =   23.12 (mm)
 27 November 1986(Day of year=331), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =         320.78 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         320.82 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.83 (%)    extractable sw =   22.18 (mm)
 28 November 1986(Day of year=332), chickpea: 
       stage 11.0 end_crop
@@ -2722,20 +2722,20 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- chickpea harvest
 29 November 1986(Day of year=333), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     2069.7
-      maturity day           =    0                           grain yield (kg/ha)    =     1138.2
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1293.4
+      flowering day          =    0                           stover (kg/ha)         =     2069.9
+      maturity day           =    0                           grain yield (kg/ha)    =     1138.3
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1293.6
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      1.912
-      total above ground biomass (kg/ha)    =     3207.8
-      live above ground biomass (kg/ha)     =     3207.8
-      green above ground biomass (kg/ha)    =     2297.3
-      senesced above ground biomass (kg/ha) =      910.5
-      number of leaves       =    254.0
+      total above ground biomass (kg/ha)    =     3208.2
+      live above ground biomass (kg/ha)     =     3208.2
+      green above ground biomass (kg/ha)    =     2297.7
+      senesced above ground biomass (kg/ha) =      910.6
+      number of leaves       =    254.1
       DM Root:Shoot ratio    =     0.28                       Harvest Index          =       0.35
       Stover C:N ratio       =    23.77                       Root C:N ratio         =      26.23
-      grain N percent        =     3.60                       total N content (kg/ha)=      75.80
-      grain N uptake (kg/ha) =    40.97                       senesced N content (kg/ha)=   13.66
+      grain N percent        =     3.60                       total N content (kg/ha)=      75.81
+      grain N uptake (kg/ha) =    40.98                       senesced N content (kg/ha)=   13.66
       green N content (kg/ha)=    21.17
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -2748,17 +2748,17 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2069.7                     0.0
+                          DM (kg/ha) =                2069.9                     0.0
                           N  (kg/ha) =                  34.83                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1138.2                     0.0
-                          N  (kg/ha) =                  40.97                    0.00
+                          DM (kg/ha) =                1138.3                     0.0
+                          N  (kg/ha) =                  40.98                    0.00
      
      Manager sending message :- chickpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   885.6
+                          DM (kg/ha) =                   0.0                   885.7
                           N  (kg/ha) =                   0.00                   13.51
      
 24 May 1987(Day of year=144), manager: 
@@ -2819,6 +2819,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2831,7 +2832,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 24 May 1987(Day of year=144), fertiliz: 
      
         - Reading Fertiliser Type Parameters
-         7.27 of N as nitrate (no3_n)
+         7.28 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
      Manager sending message :- surfaceom tillage  type = planter
 24 May 1987(Day of year=144), SurfaceOM: 
@@ -2840,7 +2841,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 25 May 1987(Day of year=145), wheat: 
       stage 2.0 germination
 6 June 1987(Day of year=157), wheat: 
@@ -2857,37 +2857,37 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     2.39 (%)    extractable sw =   27.66 (mm)
 17 September 1987(Day of year=260), wheat: 
       stage 6.0 flowering
-                     biomass =         492.81 (g/m^2)   lai          =   0.906 (m^2/m^2)
+                     biomass =         492.82 (g/m^2)   lai          =   0.906 (m^2/m^2)
                      stover N conc =     1.07 (%)    extractable sw =   19.52 (mm)
 23 September 1987(Day of year=266), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         507.98 (g/m^2)   lai          =   0.579 (m^2/m^2)
+                     biomass =         507.99 (g/m^2)   lai          =   0.579 (m^2/m^2)
                      stover N conc =     0.95 (%)    extractable sw =   15.18 (mm)
 21 October 1987(Day of year=294), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         542.05 (g/m^2)   lai          =   0.284 (m^2/m^2)
+                     biomass =         542.07 (g/m^2)   lai          =   0.284 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   33.23 (mm)
 23 October 1987(Day of year=296), wheat: 
       stage 9.0 maturity
-                     biomass =         542.22 (g/m^2)   lai          =   0.241 (m^2/m^2)
+                     biomass =         542.23 (g/m^2)   lai          =   0.241 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   28.82 (mm)
 24 October 1987(Day of year=297), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         542.22 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         542.23 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   36.88 (mm)
 25 October 1987(Day of year=298), manager: 
      Manager sending message :- wheat harvest
 25 October 1987(Day of year=298), wheat: 
      
-      flowering day          =  260                           stover (kg/ha)         =     3947.6
+      flowering day          =  260                           stover (kg/ha)         =     3947.7
       maturity day           =  296                           grain yield (kg/ha)    =     1474.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1685.3
-      grain wt (g)           =    0.021                       grains/m^2             =     7084.8
-      grains/plant           =   70.8                         maximum lai            =      2.267
-      total above ground biomass (kg/ha)    =     5422.2
-      live above ground biomass (kg/ha)     =     5422.2
-      green above ground biomass (kg/ha)    =     4300.0
-      senesced above ground biomass (kg/ha) =     1122.2
+      grain wt (g)           =    0.021                       grains/m^2             =     7085.1
+      grains/plant           =   70.9                         maximum lai            =      2.268
+      total above ground biomass (kg/ha)    =     5422.3
+      live above ground biomass (kg/ha)     =     5422.3
+      green above ground biomass (kg/ha)    =     4300.2
+      senesced above ground biomass (kg/ha) =     1122.1
       number of leaves       =     46.1
       DM Root:Shoot ratio    =     0.19                       Harvest Index          =       0.27
       Stover C:N ratio       =   110.73                       Root C:N ratio         =      28.77
@@ -2905,7 +2905,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3947.6                     0.0
+                          DM (kg/ha) =                3947.7                     0.0
                           N  (kg/ha) =                  14.26                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -2990,6 +2990,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3006,7 +3007,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 5 July 1988(Day of year=187), chickpea: 
       stage 2.0 germination
 17 July 1988(Day of year=199), chickpea: 
@@ -3023,44 +3023,44 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.72 (%)    extractable sw =  128.14 (mm)
 13 September 1988(Day of year=257), chickpea: 
       stage 6.0 flowering
-                     biomass =          48.32 (g/m^2)   lai          =   0.892 (m^2/m^2)
+                     biomass =          48.32 (g/m^2)   lai          =   0.891 (m^2/m^2)
                      stover N conc =     3.32 (%)    extractable sw =  134.93 (mm)
 7 October 1988(Day of year=281), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         200.37 (g/m^2)   lai          =   1.618 (m^2/m^2)
-                     stover N conc =     1.99 (%)    extractable sw =   77.23 (mm)
+                     biomass =         200.27 (g/m^2)   lai          =   1.617 (m^2/m^2)
+                     stover N conc =     1.99 (%)    extractable sw =   77.25 (mm)
 9 November 1988(Day of year=314), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         306.09 (g/m^2)   lai          =   0.344 (m^2/m^2)
+                     biomass =         306.03 (g/m^2)   lai          =   0.344 (m^2/m^2)
                      stover N conc =     1.80 (%)    extractable sw =   27.15 (mm)
 11 November 1988(Day of year=316), chickpea: 
       stage 9.0 maturity
-                     biomass =         308.58 (g/m^2)   lai          =   0.303 (m^2/m^2)
+                     biomass =         308.51 (g/m^2)   lai          =   0.303 (m^2/m^2)
                      stover N conc =     1.81 (%)    extractable sw =   25.29 (mm)
 12 November 1988(Day of year=317), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =         309.64 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.82 (%)    extractable sw =   24.40 (mm)
+                     biomass =         309.58 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.82 (%)    extractable sw =   24.41 (mm)
 13 November 1988(Day of year=318), chickpea: 
       stage 11.0 end_crop
 14 November 1988(Day of year=319), manager: 
      Manager sending message :- chickpea harvest
 14 November 1988(Day of year=319), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     2020.9
-      maturity day           =    0                           grain yield (kg/ha)    =     1075.5
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1222.2
+      flowering day          =    0                           stover (kg/ha)         =     2020.5
+      maturity day           =    0                           grain yield (kg/ha)    =     1075.3
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1222.0
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      1.839
-      total above ground biomass (kg/ha)    =     3096.4
-      live above ground biomass (kg/ha)     =     3096.4
-      green above ground biomass (kg/ha)    =     2186.3
-      senesced above ground biomass (kg/ha) =      910.2
-      number of leaves       =    248.3
+      grains/plant           =    0.0                         maximum lai            =      1.837
+      total above ground biomass (kg/ha)    =     3095.8
+      live above ground biomass (kg/ha)     =     3095.8
+      green above ground biomass (kg/ha)    =     2185.9
+      senesced above ground biomass (kg/ha) =      909.9
+      number of leaves       =    248.4
       DM Root:Shoot ratio    =     0.25                       Harvest Index          =       0.35
       Stover C:N ratio       =    23.86                       Root C:N ratio         =      26.13
-      grain N percent        =     3.60                       total N content (kg/ha)=      72.60
-      grain N uptake (kg/ha) =    38.72                       senesced N content (kg/ha)=   13.65
+      grain N percent        =     3.60                       total N content (kg/ha)=      72.59
+      grain N uptake (kg/ha) =    38.71                       senesced N content (kg/ha)=   13.65
       green N content (kg/ha)=    20.23
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -3073,17 +3073,17 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2020.9                     0.0
-                          N  (kg/ha) =                  33.88                    0.00
+                          DM (kg/ha) =                2020.5                     0.0
+                          N  (kg/ha) =                  33.87                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1075.5                     0.0
-                          N  (kg/ha) =                  38.72                    0.00
+                          DM (kg/ha) =                1075.3                     0.0
+                          N  (kg/ha) =                  38.71                    0.00
      
      Manager sending message :- chickpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   771.6
+                          DM (kg/ha) =                   0.0                   771.4
                           N  (kg/ha) =                   0.00                   11.81
      
 20 May 1989(Day of year=140), manager: 
@@ -3144,6 +3144,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3165,7 +3166,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 21 May 1989(Day of year=141), wheat: 
       stage 2.0 germination
 30 May 1989(Day of year=150), wheat: 
@@ -3178,46 +3178,46 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     5.83 (%)    extractable sw =   24.89 (mm)
 12 August 1989(Day of year=224), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         181.01 (g/m^2)   lai          =   2.484 (m^2/m^2)
+                     biomass =         181.04 (g/m^2)   lai          =   2.485 (m^2/m^2)
                      stover N conc =     2.01 (%)    extractable sw =   91.19 (mm)
 21 September 1989(Day of year=264), wheat: 
       stage 6.0 flowering
-                     biomass =         499.03 (g/m^2)   lai          =   1.123 (m^2/m^2)
+                     biomass =         499.07 (g/m^2)   lai          =   1.123 (m^2/m^2)
                      stover N conc =     0.82 (%)    extractable sw =   45.77 (mm)
 28 September 1989(Day of year=271), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         542.05 (g/m^2)   lai          =   0.812 (m^2/m^2)
+                     biomass =         542.08 (g/m^2)   lai          =   0.812 (m^2/m^2)
                      stover N conc =     0.61 (%)    extractable sw =   36.49 (mm)
 25 October 1989(Day of year=298), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         595.47 (g/m^2)   lai          =   0.193 (m^2/m^2)
+                     biomass =         595.50 (g/m^2)   lai          =   0.193 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   19.22 (mm)
 26 October 1989(Day of year=299), wheat: 
       stage 9.0 maturity
-                     biomass =         595.47 (g/m^2)   lai          =   0.175 (m^2/m^2)
+                     biomass =         595.50 (g/m^2)   lai          =   0.175 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   19.13 (mm)
 27 October 1989(Day of year=300), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         595.47 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         595.50 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   20.98 (mm)
 28 October 1989(Day of year=301), manager: 
      Manager sending message :- wheat harvest
 28 October 1989(Day of year=301), wheat: 
      
-      flowering day          =  264                           stover (kg/ha)         =     4081.4
-      maturity day           =  299                           grain yield (kg/ha)    =     1873.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2140.8
-      grain wt (g)           =    0.026                       grains/m^2             =     7099.0
+      flowering day          =  264                           stover (kg/ha)         =     4081.6
+      maturity day           =  299                           grain yield (kg/ha)    =     1873.4
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2141.0
+      grain wt (g)           =    0.026                       grains/m^2             =     7099.4
       grains/plant           =   71.0                         maximum lai            =      2.614
-      total above ground biomass (kg/ha)    =     5954.7
-      live above ground biomass (kg/ha)     =     5954.7
-      green above ground biomass (kg/ha)    =     4753.6
-      senesced above ground biomass (kg/ha) =     1201.0
+      total above ground biomass (kg/ha)    =     5955.0
+      live above ground biomass (kg/ha)     =     5955.0
+      green above ground biomass (kg/ha)    =     4753.7
+      senesced above ground biomass (kg/ha) =     1201.2
       number of leaves       =     51.3
       DM Root:Shoot ratio    =     0.18                       Harvest Index          =       0.31
       Stover C:N ratio       =   110.68                       Root C:N ratio         =      38.75
-      grain N percent        =     1.45                       total N content (kg/ha)=      41.91
-      grain N uptake (kg/ha) =    27.16                       senesced N content (kg/ha)=    6.01
+      grain N percent        =     1.45                       total N content (kg/ha)=      41.92
+      grain N uptake (kg/ha) =    27.17                       senesced N content (kg/ha)=    6.01
       green N content (kg/ha)=     8.74
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -3230,12 +3230,12 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4081.4                     0.0
+                          DM (kg/ha) =                4081.6                     0.0
                           N  (kg/ha) =                  14.75                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1873.2                     0.0
-                          N  (kg/ha) =                  27.16                    0.00
+                          DM (kg/ha) =                1873.4                     0.0
+                          N  (kg/ha) =                  27.17                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -3245,8 +3245,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1081.6
-                          N  (kg/ha) =                   0.00                   11.16
+                          DM (kg/ha) =                   0.0                  1081.7
+                          N  (kg/ha) =                   0.00                   11.17
      
 21 May 1990(Day of year=141), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
@@ -3315,6 +3315,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3331,7 +3332,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 22 May 1990(Day of year=142), chickpea: 
       stage 2.0 germination
 2 June 1990(Day of year=153), chickpea: 
@@ -3348,23 +3348,23 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.72 (%)    extractable sw =  113.72 (mm)
 17 August 1990(Day of year=229), chickpea: 
       stage 6.0 flowering
-                     biomass =          46.24 (g/m^2)   lai          =   0.848 (m^2/m^2)
+                     biomass =          46.24 (g/m^2)   lai          =   0.847 (m^2/m^2)
                      stover N conc =     3.25 (%)    extractable sw =  111.41 (mm)
 20 September 1990(Day of year=263), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         252.52 (g/m^2)   lai          =   2.231 (m^2/m^2)
-                     stover N conc =     1.87 (%)    extractable sw =   68.16 (mm)
+                     biomass =         252.41 (g/m^2)   lai          =   2.228 (m^2/m^2)
+                     stover N conc =     1.87 (%)    extractable sw =   68.18 (mm)
 25 October 1990(Day of year=298), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         386.50 (g/m^2)   lai          =   0.515 (m^2/m^2)
-                     stover N conc =     1.79 (%)    extractable sw =   24.97 (mm)
+                     biomass =         386.43 (g/m^2)   lai          =   0.515 (m^2/m^2)
+                     stover N conc =     1.79 (%)    extractable sw =   24.98 (mm)
 27 October 1990(Day of year=300), chickpea: 
       stage 9.0 maturity
-                     biomass =         389.77 (g/m^2)   lai          =   0.453 (m^2/m^2)
-                     stover N conc =     1.81 (%)    extractable sw =   21.85 (mm)
+                     biomass =         389.70 (g/m^2)   lai          =   0.453 (m^2/m^2)
+                     stover N conc =     1.81 (%)    extractable sw =   21.86 (mm)
 28 October 1990(Day of year=301), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =         390.59 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         390.52 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.84 (%)    extractable sw =   21.10 (mm)
 29 October 1990(Day of year=302), chickpea: 
       stage 11.0 end_crop
@@ -3372,20 +3372,20 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- chickpea harvest
 30 October 1990(Day of year=303), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     2472.6
-      maturity day           =    0                           grain yield (kg/ha)    =     1433.3
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1628.8
+      flowering day          =    0                           stover (kg/ha)         =     2472.0
+      maturity day           =    0                           grain yield (kg/ha)    =     1433.2
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1628.6
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      2.315
-      total above ground biomass (kg/ha)    =     3905.9
-      live above ground biomass (kg/ha)     =     3905.9
-      green above ground biomass (kg/ha)    =     2831.5
-      senesced above ground biomass (kg/ha) =     1074.4
-      number of leaves       =    230.2
+      grains/plant           =    0.0                         maximum lai            =      2.312
+      total above ground biomass (kg/ha)    =     3905.2
+      live above ground biomass (kg/ha)     =     3905.2
+      green above ground biomass (kg/ha)    =     2831.1
+      senesced above ground biomass (kg/ha) =     1074.1
+      number of leaves       =    230.3
       DM Root:Shoot ratio    =     0.23                       Harvest Index          =       0.37
       Stover C:N ratio       =    23.65                       Root C:N ratio         =      26.28
-      grain N percent        =     3.60                       total N content (kg/ha)=      93.42
-      grain N uptake (kg/ha) =    51.60                       senesced N content (kg/ha)=   16.12
+      grain N percent        =     3.60                       total N content (kg/ha)=      93.40
+      grain N uptake (kg/ha) =    51.59                       senesced N content (kg/ha)=   16.11
       green N content (kg/ha)=    25.70
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -3398,18 +3398,18 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2472.6                     0.0
-                          N  (kg/ha) =                  41.82                    0.00
+                          DM (kg/ha) =                2472.0                     0.0
+                          N  (kg/ha) =                  41.81                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1433.3                     0.0
-                          N  (kg/ha) =                  51.60                    0.00
+                          DM (kg/ha) =                1433.2                     0.0
+                          N  (kg/ha) =                  51.59                    0.00
      
      Manager sending message :- chickpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   893.3
-                          N  (kg/ha) =                   0.00                   13.60
+                          DM (kg/ha) =                   0.0                   893.1
+                          N  (kg/ha) =                   0.00                   13.59
      
 25 May 1991(Day of year=145), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
@@ -3469,6 +3469,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3485,7 +3486,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 26 May 1991(Day of year=146), wheat: 
       stage 2.0 germination
 3 June 1991(Day of year=154), wheat: 
@@ -3502,36 +3502,36 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     1.99 (%)    extractable sw =   59.47 (mm)
 22 September 1991(Day of year=265), wheat: 
       stage 6.0 flowering
-                     biomass =         494.20 (g/m^2)   lai          =   0.822 (m^2/m^2)
+                     biomass =         494.21 (g/m^2)   lai          =   0.822 (m^2/m^2)
                      stover N conc =     1.25 (%)    extractable sw =   24.21 (mm)
 28 September 1991(Day of year=271), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         508.97 (g/m^2)   lai          =   0.535 (m^2/m^2)
-                     stover N conc =     1.13 (%)    extractable sw =   19.70 (mm)
+                     biomass =         508.99 (g/m^2)   lai          =   0.535 (m^2/m^2)
+                     stover N conc =     1.13 (%)    extractable sw =   19.71 (mm)
 23 October 1991(Day of year=296), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         537.89 (g/m^2)   lai          =   0.220 (m^2/m^2)
+                     biomass =         537.90 (g/m^2)   lai          =   0.220 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =    9.65 (mm)
 25 October 1991(Day of year=298), wheat: 
       stage 9.0 maturity
-                     biomass =         538.02 (g/m^2)   lai          =   0.209 (m^2/m^2)
+                     biomass =         538.04 (g/m^2)   lai          =   0.209 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =    9.43 (mm)
 26 October 1991(Day of year=299), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         538.02 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =    9.27 (mm)
+                     biomass =         538.04 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =    9.28 (mm)
 27 October 1991(Day of year=300), manager: 
      Manager sending message :- wheat harvest
 27 October 1991(Day of year=300), wheat: 
      
-      flowering day          =  265                           stover (kg/ha)         =     4055.5
-      maturity day           =  298                           grain yield (kg/ha)    =     1324.7
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1513.9
-      grain wt (g)           =    0.021                       grains/m^2             =     6408.8
+      flowering day          =  265                           stover (kg/ha)         =     4055.6
+      maturity day           =  298                           grain yield (kg/ha)    =     1324.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1514.0
+      grain wt (g)           =    0.021                       grains/m^2             =     6409.0
       grains/plant           =   64.1                         maximum lai            =      3.924
-      total above ground biomass (kg/ha)    =     5380.2
-      live above ground biomass (kg/ha)     =     5380.2
-      green above ground biomass (kg/ha)    =     3596.2
+      total above ground biomass (kg/ha)    =     5380.4
+      live above ground biomass (kg/ha)     =     5380.4
+      green above ground biomass (kg/ha)    =     3596.4
       senesced above ground biomass (kg/ha) =     1784.0
       number of leaves       =     49.7
       DM Root:Shoot ratio    =     0.22                       Harvest Index          =       0.25
@@ -3542,7 +3542,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.003        0.006        0.159        0.181
+         end_of_juvenile      to floral_initiation       0.003        0.006        0.158        0.181
          floral_initiation    to flowering               0.129        0.153        0.213        0.238
          flowering            to start_grain_fill        0.156        0.183        0.203        0.227
          start_grain_fill     to end_grain_fill          0.187        0.222        0.243        0.281
@@ -3550,16 +3550,16 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4055.5                     0.0
+                          DM (kg/ha) =                4055.6                     0.0
                           N  (kg/ha) =                  15.79                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1324.7                     0.0
+                          DM (kg/ha) =                1324.8                     0.0
                           N  (kg/ha) =                  36.30                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =    9.27 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =    9.28 (mm)
      Manager sending message :- wheat kill_crop
      Plant kill. 100.00% crop killed because of external action.
      Manager sending message :- wheat end_crop
@@ -3635,6 +3635,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3651,7 +3652,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 21 May 1992(Day of year=142), chickpea: 
       stage 2.0 germination
 2 June 1992(Day of year=154), chickpea: 
@@ -3672,19 +3672,19 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.34 (%)    extractable sw =   55.37 (mm)
 23 September 1992(Day of year=267), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         197.14 (g/m^2)   lai          =   0.925 (m^2/m^2)
+                     biomass =         197.13 (g/m^2)   lai          =   0.925 (m^2/m^2)
                      stover N conc =     2.11 (%)    extractable sw =   22.01 (mm)
 31 October 1992(Day of year=305), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         234.34 (g/m^2)   lai          =   0.092 (m^2/m^2)
+                     biomass =         234.33 (g/m^2)   lai          =   0.092 (m^2/m^2)
                      stover N conc =     1.75 (%)    extractable sw =    5.39 (mm)
 2 November 1992(Day of year=307), chickpea: 
       stage 9.0 maturity
-                     biomass =         235.28 (g/m^2)   lai          =   0.087 (m^2/m^2)
+                     biomass =         235.27 (g/m^2)   lai          =   0.087 (m^2/m^2)
                      stover N conc =     1.75 (%)    extractable sw =    4.99 (mm)
 3 November 1992(Day of year=308), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =         235.47 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         235.46 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.75 (%)    extractable sw =    4.80 (mm)
 4 November 1992(Day of year=309), chickpea: 
       stage 11.0 end_crop
@@ -3692,19 +3692,19 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- chickpea harvest
 5 November 1992(Day of year=310), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     1795.2
-      maturity day           =    0                           grain yield (kg/ha)    =      559.4
+      flowering day          =    0                           stover (kg/ha)         =     1795.1
+      maturity day           =    0                           grain yield (kg/ha)    =      559.5
       grain % water content  =   12.0                         grain yield wet (kg/ha)=      635.7
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      1.767
-      total above ground biomass (kg/ha)    =     2354.7
-      live above ground biomass (kg/ha)     =     2354.7
-      green above ground biomass (kg/ha)    =     1535.9
-      senesced above ground biomass (kg/ha) =      818.8
+      grains/plant           =    0.0                         maximum lai            =      1.764
+      total above ground biomass (kg/ha)    =     2354.6
+      live above ground biomass (kg/ha)     =     2354.6
+      green above ground biomass (kg/ha)    =     1535.8
+      senesced above ground biomass (kg/ha) =      818.7
       number of leaves       =    218.9
       DM Root:Shoot ratio    =     0.33                       Harvest Index          =       0.24
       Stover C:N ratio       =    24.43                       Root C:N ratio         =      24.60
-      grain N percent        =     3.60                       total N content (kg/ha)=      49.54
+      grain N percent        =     3.60                       total N content (kg/ha)=      49.53
       grain N uptake (kg/ha) =    20.14                       senesced N content (kg/ha)=   12.28
       green N content (kg/ha)=    17.11
      
@@ -3718,11 +3718,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                1795.2                     0.0
-                          N  (kg/ha) =                  29.40                    0.00
+                          DM (kg/ha) =                1795.1                     0.0
+                          N  (kg/ha) =                  29.39                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                 559.4                     0.0
+                          DM (kg/ha) =                 559.5                     0.0
                           N  (kg/ha) =                  20.14                    0.00
      
      Manager sending message :- chickpea end_crop
@@ -3789,6 +3789,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3810,7 +3811,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 16 July 1993(Day of year=197), wheat: 
       stage 2.0 germination
 27 July 1993(Day of year=208), wheat: 
@@ -3827,40 +3827,40 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     2.96 (%)    extractable sw =   32.80 (mm)
 14 October 1993(Day of year=287), wheat: 
       stage 6.0 flowering
-                     biomass =         221.36 (g/m^2)   lai          =   0.239 (m^2/m^2)
+                     biomass =         221.37 (g/m^2)   lai          =   0.239 (m^2/m^2)
                      stover N conc =     2.05 (%)    extractable sw =    5.91 (mm)
 20 October 1993(Day of year=293), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         226.42 (g/m^2)   lai          =   0.167 (m^2/m^2)
+                     biomass =         226.43 (g/m^2)   lai          =   0.167 (m^2/m^2)
                      stover N conc =     1.97 (%)    extractable sw =    4.56 (mm)
 14 November 1993(Day of year=318), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         237.03 (g/m^2)   lai          =   0.034 (m^2/m^2)
+                     biomass =         237.04 (g/m^2)   lai          =   0.034 (m^2/m^2)
                      stover N conc =     1.45 (%)    extractable sw =    1.51 (mm)
 16 November 1993(Day of year=320), wheat: 
       stage 9.0 maturity
-                     biomass =         237.07 (g/m^2)   lai          =   0.032 (m^2/m^2)
+                     biomass =         237.08 (g/m^2)   lai          =   0.032 (m^2/m^2)
                      stover N conc =     1.45 (%)    extractable sw =    1.34 (mm)
 17 November 1993(Day of year=321), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         237.07 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         237.08 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.46 (%)    extractable sw =    1.28 (mm)
 18 November 1993(Day of year=322), manager: 
      Manager sending message :- wheat harvest
 18 November 1993(Day of year=322), wheat: 
      
-      flowering day          =  287                           stover (kg/ha)         =     1807.1
+      flowering day          =  287                           stover (kg/ha)         =     1807.2
       maturity day           =  320                           grain yield (kg/ha)    =      563.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      644.1
-      grain wt (g)           =    0.019                       grains/m^2             =     2913.0
+      grain wt (g)           =    0.019                       grains/m^2             =     2913.1
       grains/plant           =   29.1                         maximum lai            =      1.555
-      total above ground biomass (kg/ha)    =     2370.7
-      live above ground biomass (kg/ha)     =     2370.7
-      green above ground biomass (kg/ha)    =     1525.1
+      total above ground biomass (kg/ha)    =     2370.8
+      live above ground biomass (kg/ha)     =     2370.8
+      green above ground biomass (kg/ha)    =     1525.2
       senesced above ground biomass (kg/ha) =      845.6
       number of leaves       =     32.5
       DM Root:Shoot ratio    =     0.25                       Harvest Index          =       0.24
-      Stover C:N ratio       =    39.53                       Root C:N ratio         =      17.06
+      Stover C:N ratio       =    39.54                       Root C:N ratio         =      17.06
       grain N percent        =     2.89                       total N content (kg/ha)=      34.54
       grain N uptake (kg/ha) =    16.26                       senesced N content (kg/ha)=    4.23
       green N content (kg/ha)=    14.06
@@ -3875,8 +3875,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                1807.1                     0.0
-                          N  (kg/ha) =                  18.29                    0.00
+                          DM (kg/ha) =                1807.2                     0.0
+                          N  (kg/ha) =                  18.28                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                 563.6                     0.0
@@ -3891,7 +3891,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                   0.0                   596.9
-                          N  (kg/ha) =                   0.00                   13.99
+                          N  (kg/ha) =                   0.00                   14.00
      
 19 June 1995(Day of year=170), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
@@ -3951,6 +3951,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3967,7 +3968,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 20 June 1995(Day of year=171), wheat: 
       stage 2.0 germination
 4 July 1995(Day of year=185), wheat: 
@@ -4017,7 +4017,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       senesced above ground biomass (kg/ha) =     1163.0
       number of leaves       =     40.9
       DM Root:Shoot ratio    =     0.19                       Harvest Index          =       0.38
-      Stover C:N ratio       =    48.30                       Root C:N ratio         =      17.57
+      Stover C:N ratio       =    48.31                       Root C:N ratio         =      17.57
       grain N percent        =     2.89                       total N content (kg/ha)=      79.64
       grain N uptake (kg/ha) =    54.05                       senesced N content (kg/ha)=    5.81
       green N content (kg/ha)=    19.78
@@ -4117,6 +4117,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4133,7 +4134,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 21 May 1996(Day of year=142), chickpea: 
       stage 2.0 germination
 2 June 1996(Day of year=154), chickpea: 
@@ -4150,67 +4150,67 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.71 (%)    extractable sw =  109.88 (mm)
 15 August 1996(Day of year=228), chickpea: 
       stage 6.0 flowering
-                     biomass =          47.72 (g/m^2)   lai          =   0.852 (m^2/m^2)
+                     biomass =          47.72 (g/m^2)   lai          =   0.851 (m^2/m^2)
                      stover N conc =     3.36 (%)    extractable sw =  106.66 (mm)
 16 September 1996(Day of year=260), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         225.71 (g/m^2)   lai          =   1.795 (m^2/m^2)
-                     stover N conc =     1.85 (%)    extractable sw =   59.81 (mm)
+                     biomass =         225.58 (g/m^2)   lai          =   1.793 (m^2/m^2)
+                     stover N conc =     1.85 (%)    extractable sw =   59.84 (mm)
 21 October 1996(Day of year=295), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         351.95 (g/m^2)   lai          =   0.506 (m^2/m^2)
-                     stover N conc =     1.80 (%)    extractable sw =   20.88 (mm)
+                     biomass =         351.86 (g/m^2)   lai          =   0.507 (m^2/m^2)
+                     stover N conc =     1.80 (%)    extractable sw =   20.89 (mm)
 24 October 1996(Day of year=298), chickpea: 
       stage 9.0 maturity
-                     biomass =         356.32 (g/m^2)   lai          =   0.412 (m^2/m^2)
-                     stover N conc =     1.80 (%)    extractable sw =   18.79 (mm)
+                     biomass =         356.24 (g/m^2)   lai          =   0.412 (m^2/m^2)
+                     stover N conc =     1.80 (%)    extractable sw =   18.80 (mm)
 25 October 1996(Day of year=299), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =         357.17 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.83 (%)    extractable sw =   18.13 (mm)
+                     biomass =         357.09 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.83 (%)    extractable sw =   18.15 (mm)
 26 October 1996(Day of year=300), chickpea: 
       stage 11.0 end_crop
 27 October 1996(Day of year=301), manager: 
      Manager sending message :- chickpea harvest
 27 October 1996(Day of year=301), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     2253.3
-      maturity day           =    0                           grain yield (kg/ha)    =     1318.4
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1498.2
+      flowering day          =    0                           stover (kg/ha)         =     2252.3
+      maturity day           =    0                           grain yield (kg/ha)    =     1318.6
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1498.4
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      2.046
-      total above ground biomass (kg/ha)    =     3571.7
-      live above ground biomass (kg/ha)     =     3571.7
-      green above ground biomass (kg/ha)    =     2580.7
-      senesced above ground biomass (kg/ha) =      991.0
-      number of leaves       =    234.1
+      grains/plant           =    0.0                         maximum lai            =      2.042
+      total above ground biomass (kg/ha)    =     3570.9
+      live above ground biomass (kg/ha)     =     3570.9
+      green above ground biomass (kg/ha)    =     2580.3
+      senesced above ground biomass (kg/ha) =      990.6
+      number of leaves       =    234.2
       DM Root:Shoot ratio    =     0.23                       Harvest Index          =       0.37
       Stover C:N ratio       =    23.76                       Root C:N ratio         =      26.13
-      grain N percent        =     3.60                       total N content (kg/ha)=      85.40
-      grain N uptake (kg/ha) =    47.46                       senesced N content (kg/ha)=   14.86
+      grain N percent        =     3.60                       total N content (kg/ha)=      85.39
+      grain N uptake (kg/ha) =    47.47                       senesced N content (kg/ha)=   14.86
       green N content (kg/ha)=    23.07
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.002
          floral_initiation    to flowering               0.000        0.000        0.000        0.003
-         flowering            to start_grain_fill        0.027        0.035        0.000        0.002
-         start_grain_fill     to end_grain_fill          0.111        0.135        0.000        0.001
+         flowering            to start_grain_fill        0.026        0.035        0.000        0.002
+         start_grain_fill     to end_grain_fill          0.110        0.135        0.000        0.001
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2253.3                     0.0
-                          N  (kg/ha) =                  37.94                    0.00
+                          DM (kg/ha) =                2252.3                     0.0
+                          N  (kg/ha) =                  37.92                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1318.4                     0.0
-                          N  (kg/ha) =                  47.46                    0.00
+                          DM (kg/ha) =                1318.6                     0.0
+                          N  (kg/ha) =                  47.47                    0.00
      
      Manager sending message :- chickpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   823.3
+                          DM (kg/ha) =                   0.0                   823.1
                           N  (kg/ha) =                   0.00                   12.60
      
 20 May 1997(Day of year=140), manager: 
@@ -4271,6 +4271,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4292,7 +4293,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 21 May 1997(Day of year=141), wheat: 
       stage 2.0 germination
 31 May 1997(Day of year=151), wheat: 
@@ -4305,11 +4305,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     5.83 (%)    extractable sw =   25.17 (mm)
 8 August 1997(Day of year=220), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         230.73 (g/m^2)   lai          =   3.201 (m^2/m^2)
+                     biomass =         230.74 (g/m^2)   lai          =   3.201 (m^2/m^2)
                      stover N conc =     2.09 (%)    extractable sw =   68.01 (mm)
 16 September 1997(Day of year=259), wheat: 
       stage 6.0 flowering
-                     biomass =         466.71 (g/m^2)   lai          =   0.791 (m^2/m^2)
+                     biomass =         466.72 (g/m^2)   lai          =   0.791 (m^2/m^2)
                      stover N conc =     1.30 (%)    extractable sw =   32.36 (mm)
 22 September 1997(Day of year=265), wheat: 
       stage 7.0 start_grain_fill
@@ -4318,7 +4318,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 19 October 1997(Day of year=292), wheat: 
       stage 8.0 end_grain_fill
                      biomass =         563.98 (g/m^2)   lai          =   0.275 (m^2/m^2)
-                     stover N conc =     0.34 (%)    extractable sw =   60.29 (mm)
+                     stover N conc =     0.34 (%)    extractable sw =   60.30 (mm)
 21 October 1997(Day of year=294), wheat: 
       stage 9.0 maturity
                      biomass =         564.84 (g/m^2)   lai          =   0.236 (m^2/m^2)
@@ -4331,10 +4331,10 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat harvest
 23 October 1997(Day of year=296), wheat: 
      
-      flowering day          =  259                           stover (kg/ha)         =     3835.6
-      maturity day           =  294                           grain yield (kg/ha)    =     1812.8
+      flowering day          =  259                           stover (kg/ha)         =     3835.7
+      maturity day           =  294                           grain yield (kg/ha)    =     1812.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2071.7
-      grain wt (g)           =    0.029                       grains/m^2             =     6230.5
+      grain wt (g)           =    0.029                       grains/m^2             =     6230.6
       grains/plant           =   62.3                         maximum lai            =      3.343
       total above ground biomass (kg/ha)    =     5648.4
       live above ground biomass (kg/ha)     =     5648.4
@@ -4357,11 +4357,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3835.6                     0.0
+                          DM (kg/ha) =                3835.7                     0.0
                           N  (kg/ha) =                  15.36                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1812.8                     0.0
+                          DM (kg/ha) =                1812.7                     0.0
                           N  (kg/ha) =                  49.31                    0.00
      
       stage 4.0 end_of_juvenile
@@ -4442,6 +4442,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4458,7 +4459,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 23 May 1998(Day of year=143), chickpea: 
       stage 2.0 germination
 3 June 1998(Day of year=154), chickpea: 
@@ -4475,45 +4475,45 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.69 (%)    extractable sw =  134.18 (mm)
 16 August 1998(Day of year=228), chickpea: 
       stage 6.0 flowering
-                     biomass =          37.08 (g/m^2)   lai          =   0.718 (m^2/m^2)
+                     biomass =          37.08 (g/m^2)   lai          =   0.716 (m^2/m^2)
                      stover N conc =     3.35 (%)    extractable sw =  154.04 (mm)
 12 September 1998(Day of year=255), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         196.05 (g/m^2)   lai          =   2.357 (m^2/m^2)
+                     biomass =         195.81 (g/m^2)   lai          =   2.351 (m^2/m^2)
                      stover N conc =     1.83 (%)    extractable sw =  162.32 (mm)
 19 October 1998(Day of year=292), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         506.40 (g/m^2)   lai          =   1.450 (m^2/m^2)
-                     stover N conc =     1.80 (%)    extractable sw =   59.23 (mm)
+                     biomass =         506.01 (g/m^2)   lai          =   1.448 (m^2/m^2)
+                     stover N conc =     1.80 (%)    extractable sw =   59.25 (mm)
 22 October 1998(Day of year=295), chickpea: 
       stage 9.0 maturity
-                     biomass =         526.80 (g/m^2)   lai          =   1.373 (m^2/m^2)
-                     stover N conc =     1.71 (%)    extractable sw =   53.51 (mm)
+                     biomass =         526.41 (g/m^2)   lai          =   1.372 (m^2/m^2)
+                     stover N conc =     1.71 (%)    extractable sw =   53.53 (mm)
 23 October 1998(Day of year=296), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =         529.11 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.82 (%)    extractable sw =   51.58 (mm)
+                     biomass =         528.72 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.82 (%)    extractable sw =   51.59 (mm)
 24 October 1998(Day of year=297), chickpea: 
       stage 11.0 end_crop
 25 October 1998(Day of year=298), manager: 
      Manager sending message :- chickpea harvest
 25 October 1998(Day of year=298), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     3214.1
-      maturity day           =    0                           grain yield (kg/ha)    =     2077.0
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2360.2
+      flowering day          =    0                           stover (kg/ha)         =     3211.7
+      maturity day           =    0                           grain yield (kg/ha)    =     2075.4
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2358.5
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      3.034
-      total above ground biomass (kg/ha)    =     5291.1
-      live above ground biomass (kg/ha)     =     5291.1
-      green above ground biomass (kg/ha)    =     4080.1
-      senesced above ground biomass (kg/ha) =     1211.0
-      number of leaves       =    280.2
+      grains/plant           =    0.0                         maximum lai            =      3.029
+      total above ground biomass (kg/ha)    =     5287.2
+      live above ground biomass (kg/ha)     =     5287.2
+      green above ground biomass (kg/ha)    =     4077.3
+      senesced above ground biomass (kg/ha) =     1209.9
+      number of leaves       =    280.3
       DM Root:Shoot ratio    =     0.16                       Harvest Index          =       0.39
       Stover C:N ratio       =    23.56                       Root C:N ratio         =      26.09
-      grain N percent        =     3.60                       total N content (kg/ha)=     129.35
-      grain N uptake (kg/ha) =    74.77                       senesced N content (kg/ha)=   18.16
-      green N content (kg/ha)=    36.41
+      grain N percent        =     3.60                       total N content (kg/ha)=     129.26
+      grain N uptake (kg/ha) =    74.72                       senesced N content (kg/ha)=   18.15
+      green N content (kg/ha)=    36.39
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -4525,18 +4525,18 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3214.1                     0.0
-                          N  (kg/ha) =                  54.58                    0.00
+                          DM (kg/ha) =                3211.7                     0.0
+                          N  (kg/ha) =                  54.54                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2077.0                     0.0
-                          N  (kg/ha) =                  74.77                    0.00
+                          DM (kg/ha) =                2075.4                     0.0
+                          N  (kg/ha) =                  74.72                    0.00
      
      Manager sending message :- chickpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   846.2
-                          N  (kg/ha) =                   0.00                   12.97
+                          DM (kg/ha) =                   0.0                   845.5
+                          N  (kg/ha) =                   0.00                   12.96
      
 11 June 1999(Day of year=162), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
@@ -4596,6 +4596,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          -----------------------------------------------
          Extractable SW:   182mm in  3100mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4617,7 +4618,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 12 June 1999(Day of year=163), wheat: 
       stage 2.0 germination
 27 June 1999(Day of year=178), wheat: 
@@ -4630,11 +4630,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     5.83 (%)    extractable sw =   21.06 (mm)
 20 August 1999(Day of year=232), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         174.48 (g/m^2)   lai          =   2.506 (m^2/m^2)
+                     biomass =         174.47 (g/m^2)   lai          =   2.506 (m^2/m^2)
                      stover N conc =     2.04 (%)    extractable sw =   67.27 (mm)
 23 September 1999(Day of year=266), wheat: 
       stage 6.0 flowering
-                     biomass =         447.15 (g/m^2)   lai          =   1.065 (m^2/m^2)
+                     biomass =         447.14 (g/m^2)   lai          =   1.065 (m^2/m^2)
                      stover N conc =     1.19 (%)    extractable sw =   43.94 (mm)
 29 September 1999(Day of year=272), wheat: 
       stage 7.0 start_grain_fill
@@ -4646,25 +4646,25 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.31 (%)    extractable sw =   29.10 (mm)
 26 October 1999(Day of year=299), wheat: 
       stage 9.0 maturity
-                     biomass =         538.08 (g/m^2)   lai          =   0.183 (m^2/m^2)
+                     biomass =         538.07 (g/m^2)   lai          =   0.183 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   24.57 (mm)
 27 October 1999(Day of year=300), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         538.08 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         538.07 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   32.59 (mm)
 28 October 1999(Day of year=301), manager: 
      Manager sending message :- wheat harvest
 28 October 1999(Day of year=301), wheat: 
      
-      flowering day          =  266                           stover (kg/ha)         =     3611.6
+      flowering day          =  266                           stover (kg/ha)         =     3611.5
       maturity day           =  299                           grain yield (kg/ha)    =     1769.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2022.0
-      grain wt (g)           =    0.028                       grains/m^2             =     6293.8
+      grain wt (g)           =    0.028                       grains/m^2             =     6293.7
       grains/plant           =   62.9                         maximum lai            =      2.626
-      total above ground biomass (kg/ha)    =     5380.8
-      live above ground biomass (kg/ha)     =     5380.8
+      total above ground biomass (kg/ha)    =     5380.7
+      live above ground biomass (kg/ha)     =     5380.7
       green above ground biomass (kg/ha)    =     4253.5
-      senesced above ground biomass (kg/ha) =     1127.3
+      senesced above ground biomass (kg/ha) =     1127.2
       number of leaves       =     41.6
       DM Root:Shoot ratio    =     0.18                       Harvest Index          =       0.33
       Stover C:N ratio       =   109.41                       Root C:N ratio         =      26.14
@@ -4682,7 +4682,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3611.6                     0.0
+                          DM (kg/ha) =                3611.5                     0.0
                           N  (kg/ha) =                  13.20                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots

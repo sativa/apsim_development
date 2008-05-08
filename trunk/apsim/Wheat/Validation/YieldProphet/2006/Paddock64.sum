@@ -1110,6 +1110,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   174mm in  1200mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1132,7 +1133,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 26 May 2006(Day of year=146), CanolaOilConc: 
      Manager creating a new local real variable : cum_temp = 0.00000
      Manager creating a new local real variable : cum_swdef = 0.00000
@@ -1174,14 +1174,14 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         390.93 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.22 (%)    extractable sw =    1.37 (mm)
 17 November 2006(Day of year=321), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 153.35423
+     Manager creating a new local real variable : fullprice = 153.35422
 17 November 2006(Day of year=321), Harvest: 
      Manager sending message :- barley harvest
      
       flowering day          =  272                           stover (kg/ha)         =     2956.1
       maturity day           =  320                           grain yield (kg/ha)    =      953.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1089.4
-      grain wt (g)           =    0.023                       grains/m^2             =     4205.8
+      grain wt (g)           =    0.023                       grains/m^2             =     4205.9
       grains/plant           =   42.1                         maximum lai            =      3.522
       total above ground biomass (kg/ha)    =     3909.3
       live above ground biomass (kg/ha)     =     3909.3

@@ -1023,7 +1023,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 20.25000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 57.47608
+     Manager creating a new local real variable : nitrogen = 57.47604
      Manager creating a new local real variable : availablewater = 38.52618
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1113,6 +1113,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:    68mm in  1500mm total depth (  5%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1136,7 +1137,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 17 May 2005(Day of year=137), GrossMargin: 
      Manager creating a new local real variable : cost = 28.20000
 18 May 2005(Day of year=138), CanolaOilConc: 
@@ -1187,11 +1187,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.32 (%)    extractable sw =   34.79 (mm)
 7 November 2005(Day of year=311), Wheat: 
       stage 9.0 maturity
-                     biomass =         985.41 (g/m^2)   lai          =   0.218 (m^2/m^2)
+                     biomass =         985.42 (g/m^2)   lai          =   0.218 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   34.00 (mm)
 8 November 2005(Day of year=312), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         985.41 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         985.42 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   39.92 (mm)
 8 November 2005(Day of year=312), GrossMargin: 
      Manager creating a new local real variable : fullprice = 140.00000
@@ -1199,12 +1199,12 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager sending message :- wheat harvest
      
       flowering day          =  263                           stover (kg/ha)         =     6357.8
-      maturity day           =  311                           grain yield (kg/ha)    =     3496.3
+      maturity day           =  311                           grain yield (kg/ha)    =     3496.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3995.8
       grain wt (g)           =    0.038                       grains/m^2             =     9254.7
       grains/plant           =   92.5                         maximum lai            =      3.346
-      total above ground biomass (kg/ha)    =     9854.1
-      live above ground biomass (kg/ha)     =     9854.1
+      total above ground biomass (kg/ha)    =     9854.2
+      live above ground biomass (kg/ha)     =     9854.2
       green above ground biomass (kg/ha)    =     8335.3
       senesced above ground biomass (kg/ha) =     1518.9
       number of leaves       =     52.7
@@ -1228,7 +1228,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                           N  (kg/ha) =                  22.92                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3496.3                     0.0
+                          DM (kg/ha) =                3496.4                     0.0
                           N  (kg/ha) =                  58.97                    0.00
      
       stage 4.0 end_of_juvenile

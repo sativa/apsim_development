@@ -1015,7 +1015,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 27.50000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 76.08348
+     Manager creating a new local real variable : nitrogen = 76.08350
      Manager creating a new local real variable : availablewater = 4.90485
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1105,6 +1105,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   179mm in  1600mm total depth ( 11%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1128,7 +1129,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 18 May 2005(Day of year=138), GrossMargin: 
      Manager creating a new local real variable : cost = 18.60000
 19 May 2005(Day of year=139), CanolaOilConc: 
@@ -1172,11 +1172,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.32 (%)    extractable sw =   36.74 (mm)
 5 November 2005(Day of year=309), barley: 
       stage 9.0 maturity
-                     biomass =         549.74 (g/m^2)   lai          =   0.450 (m^2/m^2)
+                     biomass =         549.75 (g/m^2)   lai          =   0.450 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   35.34 (mm)
 6 November 2005(Day of year=310), barley: 
       stage 10.0 harvest_ripe
-                     biomass =         549.74 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         549.75 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   34.47 (mm)
 6 November 2005(Day of year=310), GrossMargin: 
      Manager creating a new local real variable : fullprice = 140.00000

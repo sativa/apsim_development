@@ -1015,7 +1015,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 28.25000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 101.99065
+     Manager creating a new local real variable : nitrogen = 101.99067
      Manager creating a new local real variable : availablewater = 48.31427
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1105,6 +1105,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   199mm in  1600mm total depth ( 12%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1128,7 +1129,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 2 July 2005(Day of year=183), GrossMargin: 
      Manager creating a new local real variable : cost = 18.60000
 3 July 2005(Day of year=184), CanolaOilConc: 
@@ -1153,7 +1153,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                                               added at depth   20.00 (layer   1)
 21 September 2005(Day of year=264), barley: 
       stage 5.0 floral_initiation
-                     biomass =         360.24 (g/m^2)   lai          =   5.448 (m^2/m^2)
+                     biomass =         360.24 (g/m^2)   lai          =   5.449 (m^2/m^2)
                      stover N conc =     2.22 (%)    extractable sw =   60.14 (mm)
 8 October 2005(Day of year=281), barley: 
       stage 6.0 flowering

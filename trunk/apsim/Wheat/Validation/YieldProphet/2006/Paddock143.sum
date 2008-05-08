@@ -1084,6 +1084,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   133mm in  1600mm total depth (  8%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1107,7 +1108,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 5 June 2006(Day of year=156), GrossMargin: 
      Manager creating a new local real variable : cost = 45.00000
 6 June 2006(Day of year=157), CanolaOilConc: 
@@ -1151,7 +1151,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         266.01 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.51 (%)    extractable sw =    0.00 (mm)
 9 November 2006(Day of year=313), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 162.69716
+     Manager creating a new local real variable : fullprice = 162.69719
 9 November 2006(Day of year=313), Harvest: 
      Manager sending message :- wheat harvest
      

@@ -991,7 +991,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 25.75000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 122.23211
+     Manager creating a new local real variable : nitrogen = 122.23212
      Manager creating a new local real variable : availablewater = 101.84686
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1079,6 +1079,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:    93mm in  1500mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1094,7 +1095,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 11 May 2006(Day of year=131), Fertilise: 
      Manager creating a new local string variable : scenarioapplication = no
      Manager sending message :- fertiliser apply  amount = 18 (kg/ha), depth = 20 (mm), type = no3_n
@@ -1146,7 +1146,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         665.69 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.41 (%)    extractable sw =    1.99 (mm)
 15 November 2006(Day of year=319), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 163.44247
+     Manager creating a new local real variable : fullprice = 163.44246
 15 November 2006(Day of year=319), Harvest: 
      Manager sending message :- wheat harvest
      
