@@ -5,10 +5,10 @@
 #include "Phenology/Zadok.h"
 #include "Phenology/Phenology.h"
 #include "Fixation.h"
-#include "RootGrowthOption1.h"
-#include "RootGrowthOption2.h"
-#include "NoRoot.h"
-#include "MultiRoot.h"
+#include "Root/RootGrowthOption1.h"
+#include "Root/RootGrowthOption2.h"
+#include "Root/NoRoot.h"
+#include "Root/MultiRoot.h"
 
 //---------------------------------------------------------------------------
 // This function creates parts.
