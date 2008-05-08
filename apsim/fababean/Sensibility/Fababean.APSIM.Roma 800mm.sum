@@ -289,6 +289,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -298,7 +299,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1957(Day of year=136), Fababean: 
       stage 2.0 germination
 29 May 1957(Day of year=149), Fababean: 
@@ -463,6 +463,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -472,7 +473,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1958(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1958(Day of year=147), Fababean: 
@@ -489,42 +489,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.73 (%)    extractable sw =   89.65 (mm)
 17 July 1958(Day of year=198), Fababean: 
       stage 6.0 flowering
-                     biomass =         251.11 (g/m^2)   lai          =   3.681 (m^2/m^2)
+                     biomass =         251.11 (g/m^2)   lai          =   3.663 (m^2/m^2)
                      stover N conc =     3.81 (%)    extractable sw =   97.41 (mm)
 24 August 1958(Day of year=236), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         572.41 (g/m^2)   lai          =   2.655 (m^2/m^2)
+                     biomass =         572.32 (g/m^2)   lai          =   2.654 (m^2/m^2)
                      stover N conc =     2.64 (%)    extractable sw =   11.48 (mm)
 9 October 1958(Day of year=282), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         528.11 (g/m^2)   lai          =   0.387 (m^2/m^2)
+                     biomass =         528.07 (g/m^2)   lai          =   0.386 (m^2/m^2)
                      stover N conc =     2.42 (%)    extractable sw =   22.81 (mm)
 12 October 1958(Day of year=285), Fababean: 
       stage 9.0 maturity
-                     biomass =         538.47 (g/m^2)   lai          =   0.387 (m^2/m^2)
+                     biomass =         538.43 (g/m^2)   lai          =   0.386 (m^2/m^2)
                      stover N conc =     2.29 (%)    extractable sw =   23.30 (mm)
 13 October 1958(Day of year=286), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         544.75 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         544.71 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.30 (%)    extractable sw =   19.58 (mm)
 13 October 1958(Day of year=286), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  198                           stover (kg/ha)         =     3668.7
+      flowering day          =  198                           stover (kg/ha)         =     3668.3
       maturity day           =  285                           grain yield (kg/ha)    =     1778.8
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2033.0
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2032.9
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      4.647
-      total above ground biomass (kg/ha)    =     5447.5
-      live above ground biomass (kg/ha)     =     5447.5
-      green above ground biomass (kg/ha)    =     5243.1
-      senesced above ground biomass (kg/ha) =      204.4
+      grains/plant           =    0.0                         maximum lai            =      4.645
+      total above ground biomass (kg/ha)    =     5447.1
+      live above ground biomass (kg/ha)     =     5447.1
+      green above ground biomass (kg/ha)    =     5242.7
+      senesced above ground biomass (kg/ha) =      204.3
       number of leaves       =    512.9
       DM Root:Shoot ratio    =     0.37                       Harvest Index          =       0.33
       Stover C:N ratio       =    17.94                       Root C:N ratio         =      14.70
-      grain N percent        =     4.50                       total N content (kg/ha)=     161.86
-      grain N uptake (kg/ha) =    80.05                       senesced N content (kg/ha)=    2.04
-      green N content (kg/ha)=    79.77
+      grain N percent        =     4.50                       total N content (kg/ha)=     161.83
+      grain N uptake (kg/ha) =    80.04                       senesced N content (kg/ha)=    2.04
+      green N content (kg/ha)=    79.74
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.028
@@ -536,19 +536,19 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3668.7                     0.0
-                          N  (kg/ha) =                  81.82                    0.00
+                          DM (kg/ha) =                3668.3                     0.0
+                          N  (kg/ha) =                  81.78                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                1778.8                     0.0
-                          N  (kg/ha) =                  80.05                    0.00
+                          N  (kg/ha) =                  80.04                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  2027.0
-                          N  (kg/ha) =                   0.00                   55.15
+                          DM (kg/ha) =                   0.0                  2026.9
+                          N  (kg/ha) =                   0.00                   55.14
      
 15 May 1959(Day of year=135), soilwat2: 
      
@@ -637,6 +637,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -646,7 +647,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1959(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1959(Day of year=147), Fababean: 
@@ -663,42 +663,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.88 (%)    extractable sw =   63.38 (mm)
 18 July 1959(Day of year=199), Fababean: 
       stage 6.0 flowering
-                     biomass =         261.90 (g/m^2)   lai          =   3.660 (m^2/m^2)
-                     stover N conc =     3.84 (%)    extractable sw =   59.54 (mm)
+                     biomass =         261.90 (g/m^2)   lai          =   3.643 (m^2/m^2)
+                     stover N conc =     3.85 (%)    extractable sw =   59.54 (mm)
 28 August 1959(Day of year=240), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         538.06 (g/m^2)   lai          =   2.059 (m^2/m^2)
-                     stover N conc =     2.74 (%)    extractable sw =    9.18 (mm)
+                     biomass =         537.80 (g/m^2)   lai          =   2.055 (m^2/m^2)
+                     stover N conc =     2.73 (%)    extractable sw =    9.19 (mm)
 9 October 1959(Day of year=282), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         487.44 (g/m^2)   lai          =   0.317 (m^2/m^2)
+                     biomass =         487.35 (g/m^2)   lai          =   0.316 (m^2/m^2)
                      stover N conc =     2.59 (%)    extractable sw =    1.10 (mm)
 13 October 1959(Day of year=286), Fababean: 
       stage 9.0 maturity
-                     biomass =         484.93 (g/m^2)   lai          =   0.260 (m^2/m^2)
-                     stover N conc =     2.60 (%)    extractable sw =    0.86 (mm)
+                     biomass =         484.85 (g/m^2)   lai          =   0.260 (m^2/m^2)
+                     stover N conc =     2.59 (%)    extractable sw =    0.86 (mm)
 14 October 1959(Day of year=287), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         484.34 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         484.26 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.64 (%)    extractable sw =    0.82 (mm)
 14 October 1959(Day of year=287), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  199                           stover (kg/ha)         =     3405.3
-      maturity day           =  286                           grain yield (kg/ha)    =     1438.1
+      flowering day          =  199                           stover (kg/ha)         =     3404.6
+      maturity day           =  286                           grain yield (kg/ha)    =     1438.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1643.5
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      4.952
-      total above ground biomass (kg/ha)    =     4843.4
-      live above ground biomass (kg/ha)     =     4843.4
-      green above ground biomass (kg/ha)    =     4684.7
-      senesced above ground biomass (kg/ha) =      158.7
+      grains/plant           =    0.0                         maximum lai            =      4.942
+      total above ground biomass (kg/ha)    =     4842.6
+      live above ground biomass (kg/ha)     =     4842.6
+      green above ground biomass (kg/ha)    =     4684.2
+      senesced above ground biomass (kg/ha) =      158.5
       number of leaves       =    513.1
       DM Root:Shoot ratio    =     0.39                       Harvest Index          =       0.30
-      Stover C:N ratio       =    15.60                       Root C:N ratio         =      14.39
-      grain N percent        =     4.50                       total N content (kg/ha)=     152.05
-      grain N uptake (kg/ha) =    64.71                       senesced N content (kg/ha)=    1.59
-      green N content (kg/ha)=    85.75
+      Stover C:N ratio       =    15.62                       Root C:N ratio         =      14.39
+      grain N percent        =     4.50                       total N content (kg/ha)=     151.90
+      grain N uptake (kg/ha) =    64.71                       senesced N content (kg/ha)=    1.58
+      green N content (kg/ha)=    85.61
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.021        0.011        0.056
@@ -710,18 +710,18 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3405.3                     0.0
-                          N  (kg/ha) =                  87.34                    0.00
+                          DM (kg/ha) =                3404.6                     0.0
+                          N  (kg/ha) =                  87.19                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1438.1                     0.0
+                          DM (kg/ha) =                1438.0                     0.0
                           N  (kg/ha) =                  64.71                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1885.4
+                          DM (kg/ha) =                   0.0                  1885.2
                           N  (kg/ha) =                   0.00                   52.39
      
 15 May 1960(Day of year=136), soilwat2: 
@@ -811,6 +811,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -820,7 +821,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             136   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1960(Day of year=137), Fababean: 
       stage 2.0 germination
 29 May 1960(Day of year=150), Fababean: 
@@ -985,6 +985,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -994,7 +995,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1961(Day of year=136), Fababean: 
       stage 2.0 germination
 28 May 1961(Day of year=148), Fababean: 
@@ -1011,65 +1011,65 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.88 (%)    extractable sw =   43.60 (mm)
 23 July 1961(Day of year=204), Fababean: 
       stage 6.0 flowering
-                     biomass =         349.79 (g/m^2)   lai          =   4.052 (m^2/m^2)
-                     stover N conc =     3.85 (%)    extractable sw =   58.68 (mm)
+                     biomass =         349.79 (g/m^2)   lai          =   4.049 (m^2/m^2)
+                     stover N conc =     3.86 (%)    extractable sw =   58.68 (mm)
 31 August 1961(Day of year=243), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         777.11 (g/m^2)   lai          =   3.469 (m^2/m^2)
+                     biomass =         777.02 (g/m^2)   lai          =   3.468 (m^2/m^2)
                      stover N conc =     2.63 (%)    extractable sw =    9.70 (mm)
 10 October 1961(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         667.46 (g/m^2)   lai          =   0.641 (m^2/m^2)
+                     biomass =         667.44 (g/m^2)   lai          =   0.640 (m^2/m^2)
                      stover N conc =     2.64 (%)    extractable sw =   53.99 (mm)
 16 October 1961(Day of year=289), Fababean: 
       stage 9.0 maturity
-                     biomass =         687.32 (g/m^2)   lai          =   0.641 (m^2/m^2)
-                     stover N conc =     2.39 (%)    extractable sw =   33.19 (mm)
+                     biomass =         687.29 (g/m^2)   lai          =   0.640 (m^2/m^2)
+                     stover N conc =     2.38 (%)    extractable sw =   33.19 (mm)
 17 October 1961(Day of year=290), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         691.35 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         691.32 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.45 (%)    extractable sw =   34.17 (mm)
 17 October 1961(Day of year=290), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  204                           stover (kg/ha)         =     4731.2
-      maturity day           =  289                           grain yield (kg/ha)    =     2182.3
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2494.1
+      flowering day          =  204                           stover (kg/ha)         =     4731.0
+      maturity day           =  289                           grain yield (kg/ha)    =     2182.2
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2494.0
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      5.584
-      total above ground biomass (kg/ha)    =     6913.5
-      live above ground biomass (kg/ha)     =     6913.5
-      green above ground biomass (kg/ha)    =     6566.8
-      senesced above ground biomass (kg/ha) =      346.7
+      grains/plant           =    0.0                         maximum lai            =      5.582
+      total above ground biomass (kg/ha)    =     6913.2
+      live above ground biomass (kg/ha)     =     6913.2
+      green above ground biomass (kg/ha)    =     6566.6
+      senesced above ground biomass (kg/ha) =      346.6
       number of leaves       =    496.7
       DM Root:Shoot ratio    =     0.39                       Harvest Index          =       0.32
-      Stover C:N ratio       =    17.08                       Root C:N ratio         =      14.54
-      grain N percent        =     4.50                       total N content (kg/ha)=     208.99
+      Stover C:N ratio       =    17.09                       Root C:N ratio         =      14.54
+      grain N percent        =     4.50                       total N content (kg/ha)=     208.95
       grain N uptake (kg/ha) =    98.20                       senesced N content (kg/ha)=    3.47
-      green N content (kg/ha)=   107.32
+      green N content (kg/ha)=   107.28
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.039        0.000        0.036
          end_of_juvenile      to floral_initiation       0.001        0.222        0.005        0.067
          floral_initiation    to flowering               0.001        0.219        0.005        0.066
          flowering            to start_grain_fill        0.095        0.420        0.003        0.043
-         start_grain_fill     to end_grain_fill          0.291        0.549        0.002        0.031
+         start_grain_fill     to end_grain_fill          0.290        0.549        0.002        0.031
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4731.2                     0.0
-                          N  (kg/ha) =                 110.79                    0.00
+                          DM (kg/ha) =                4731.0                     0.0
+                          N  (kg/ha) =                 110.75                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2182.3                     0.0
+                          DM (kg/ha) =                2182.2                     0.0
                           N  (kg/ha) =                  98.20                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  2679.8
+                          DM (kg/ha) =                   0.0                  2679.7
                           N  (kg/ha) =                   0.00                   73.74
      
 15 May 1962(Day of year=135), soilwat2: 
@@ -1159,6 +1159,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1168,7 +1169,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1962(Day of year=136), Fababean: 
       stage 2.0 germination
 28 May 1962(Day of year=148), Fababean: 
@@ -1185,42 +1185,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.88 (%)    extractable sw =   78.44 (mm)
 19 July 1962(Day of year=200), Fababean: 
       stage 6.0 flowering
-                     biomass =         299.78 (g/m^2)   lai          =   3.914 (m^2/m^2)
+                     biomass =         299.78 (g/m^2)   lai          =   3.900 (m^2/m^2)
                      stover N conc =     3.86 (%)    extractable sw =   75.35 (mm)
 27 August 1962(Day of year=239), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         684.65 (g/m^2)   lai          =   3.474 (m^2/m^2)
+                     biomass =         684.54 (g/m^2)   lai          =   3.473 (m^2/m^2)
                      stover N conc =     2.52 (%)    extractable sw =   11.52 (mm)
 10 October 1962(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         578.70 (g/m^2)   lai          =   0.439 (m^2/m^2)
+                     biomass =         578.67 (g/m^2)   lai          =   0.439 (m^2/m^2)
                      stover N conc =     2.80 (%)    extractable sw =    0.87 (mm)
 14 October 1962(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         573.39 (g/m^2)   lai          =   0.360 (m^2/m^2)
+                     biomass =         573.36 (g/m^2)   lai          =   0.360 (m^2/m^2)
                      stover N conc =     2.81 (%)    extractable sw =    0.71 (mm)
 15 October 1962(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         572.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.89 (%)    extractable sw =    0.68 (mm)
+                     biomass =         572.15 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.88 (%)    extractable sw =    0.68 (mm)
 15 October 1962(Day of year=288), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  200                           stover (kg/ha)         =     4084.4
-      maturity day           =  287                           grain yield (kg/ha)    =     1637.4
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1871.3
+      flowering day          =  200                           stover (kg/ha)         =     4084.2
+      maturity day           =  287                           grain yield (kg/ha)    =     1637.3
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1871.2
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      4.957
-      total above ground biomass (kg/ha)    =     5721.8
-      live above ground biomass (kg/ha)     =     5721.8
-      green above ground biomass (kg/ha)    =     5454.6
-      senesced above ground biomass (kg/ha) =      267.2
+      grains/plant           =    0.0                         maximum lai            =      4.953
+      total above ground biomass (kg/ha)    =     5721.5
+      live above ground biomass (kg/ha)     =     5721.5
+      green above ground biomass (kg/ha)    =     5454.4
+      senesced above ground biomass (kg/ha) =      267.1
       number of leaves       =    500.6
       DM Root:Shoot ratio    =     0.40                       Harvest Index          =       0.29
-      Stover C:N ratio       =    14.48                       Root C:N ratio         =      14.13
-      grain N percent        =     4.50                       total N content (kg/ha)=     186.51
+      Stover C:N ratio       =    14.49                       Root C:N ratio         =      14.13
+      grain N percent        =     4.50                       total N content (kg/ha)=     186.46
       grain N uptake (kg/ha) =    73.68                       senesced N content (kg/ha)=    2.67
-      green N content (kg/ha)=   110.15
+      green N content (kg/ha)=   110.11
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.070        0.002        0.047
@@ -1232,11 +1232,11 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4084.4                     0.0
-                          N  (kg/ha) =                 112.83                    0.00
+                          DM (kg/ha) =                4084.2                     0.0
+                          N  (kg/ha) =                 112.78                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1637.4                     0.0
+                          DM (kg/ha) =                1637.3                     0.0
                           N  (kg/ha) =                  73.68                    0.00
      
       stage 11.0 end_crop
@@ -1333,6 +1333,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1342,7 +1343,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1963(Day of year=136), Fababean: 
       stage 2.0 germination
 28 May 1963(Day of year=148), Fababean: 
@@ -1507,6 +1507,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1516,7 +1517,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             136   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1964(Day of year=137), Fababean: 
       stage 2.0 germination
 27 May 1964(Day of year=148), Fababean: 
@@ -1541,34 +1541,34 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     2.74 (%)    extractable sw =   19.51 (mm)
 8 October 1964(Day of year=282), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         582.55 (g/m^2)   lai          =   0.353 (m^2/m^2)
-                     stover N conc =     1.73 (%)    extractable sw =   46.44 (mm)
+                     biomass =         582.02 (g/m^2)   lai          =   0.352 (m^2/m^2)
+                     stover N conc =     1.73 (%)    extractable sw =   46.50 (mm)
 12 October 1964(Day of year=286), Fababean: 
       stage 9.0 maturity
-                     biomass =         600.10 (g/m^2)   lai          =   0.324 (m^2/m^2)
-                     stover N conc =     1.53 (%)    extractable sw =   40.46 (mm)
+                     biomass =         599.52 (g/m^2)   lai          =   0.323 (m^2/m^2)
+                     stover N conc =     1.53 (%)    extractable sw =   40.52 (mm)
 13 October 1964(Day of year=287), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         605.22 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.52 (%)    extractable sw =   35.97 (mm)
+                     biomass =         604.61 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.52 (%)    extractable sw =   36.04 (mm)
 13 October 1964(Day of year=287), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  201                           stover (kg/ha)         =     3616.4
-      maturity day           =  286                           grain yield (kg/ha)    =     2435.9
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2783.8
+      flowering day          =  201                           stover (kg/ha)         =     3614.9
+      maturity day           =  286                           grain yield (kg/ha)    =     2431.2
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2778.5
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      4.482
-      total above ground biomass (kg/ha)    =     6052.2
-      live above ground biomass (kg/ha)     =     6052.2
-      green above ground biomass (kg/ha)    =     5847.5
-      senesced above ground biomass (kg/ha) =      204.7
+      total above ground biomass (kg/ha)    =     6046.1
+      live above ground biomass (kg/ha)     =     6046.1
+      green above ground biomass (kg/ha)    =     5842.2
+      senesced above ground biomass (kg/ha) =      203.9
       number of leaves       =    508.9
       DM Root:Shoot ratio    =     0.37                       Harvest Index          =       0.40
-      Stover C:N ratio       =    26.82                       Root C:N ratio         =      15.95
-      grain N percent        =     4.50                       total N content (kg/ha)=     163.55
-      grain N uptake (kg/ha) =   109.61                       senesced N content (kg/ha)=    2.05
-      green N content (kg/ha)=    51.89
+      Stover C:N ratio       =    26.76                       Root C:N ratio         =      15.95
+      grain N percent        =     4.50                       total N content (kg/ha)=     163.45
+      grain N uptake (kg/ha) =   109.40                       senesced N content (kg/ha)=    2.04
+      green N content (kg/ha)=    52.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.030        0.002        0.049
@@ -1580,19 +1580,19 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3616.4                     0.0
-                          N  (kg/ha) =                  53.94                    0.00
+                          DM (kg/ha) =                3614.9                     0.0
+                          N  (kg/ha) =                  54.04                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2435.9                     0.0
-                          N  (kg/ha) =                 109.61                    0.00
+                          DM (kg/ha) =                2431.2                     0.0
+                          N  (kg/ha) =                 109.40                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  2238.0
-                          N  (kg/ha) =                   0.00                   56.14
+                          DM (kg/ha) =                   0.0                  2236.6
+                          N  (kg/ha) =                   0.00                   56.11
      
 15 May 1965(Day of year=135), soilwat2: 
      
@@ -1681,6 +1681,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1690,7 +1691,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1965(Day of year=136), Fababean: 
       stage 2.0 germination
 29 May 1965(Day of year=149), Fababean: 
@@ -1707,42 +1707,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.90 (%)    extractable sw =   84.03 (mm)
 22 July 1965(Day of year=203), Fababean: 
       stage 6.0 flowering
-                     biomass =         317.42 (g/m^2)   lai          =   4.179 (m^2/m^2)
-                     stover N conc =     3.83 (%)    extractable sw =   82.41 (mm)
+                     biomass =         317.42 (g/m^2)   lai          =   4.164 (m^2/m^2)
+                     stover N conc =     3.84 (%)    extractable sw =   82.41 (mm)
 30 August 1965(Day of year=242), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         662.35 (g/m^2)   lai          =   3.082 (m^2/m^2)
+                     biomass =         662.18 (g/m^2)   lai          =   3.080 (m^2/m^2)
                      stover N conc =     2.61 (%)    extractable sw =    9.90 (mm)
 10 October 1965(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         709.20 (g/m^2)   lai          =   0.663 (m^2/m^2)
+                     biomass =         709.13 (g/m^2)   lai          =   0.662 (m^2/m^2)
                      stover N conc =     2.23 (%)    extractable sw =    6.80 (mm)
 13 October 1965(Day of year=286), Fababean: 
       stage 9.0 maturity
-                     biomass =         706.39 (g/m^2)   lai          =   0.576 (m^2/m^2)
+                     biomass =         706.33 (g/m^2)   lai          =   0.576 (m^2/m^2)
                      stover N conc =     2.22 (%)    extractable sw =    1.07 (mm)
 14 October 1965(Day of year=287), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         705.01 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         704.94 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.29 (%)    extractable sw =    1.00 (mm)
 14 October 1965(Day of year=287), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  203                           stover (kg/ha)         =     4446.7
-      maturity day           =  286                           grain yield (kg/ha)    =     2603.4
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2975.3
+      flowering day          =  203                           stover (kg/ha)         =     4446.2
+      maturity day           =  286                           grain yield (kg/ha)    =     2603.3
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2975.2
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      5.171
-      total above ground biomass (kg/ha)    =     7050.1
-      live above ground biomass (kg/ha)     =     7050.1
-      green above ground biomass (kg/ha)    =     6674.1
-      senesced above ground biomass (kg/ha) =      376.0
+      grains/plant           =    0.0                         maximum lai            =      5.164
+      total above ground biomass (kg/ha)    =     7049.4
+      live above ground biomass (kg/ha)     =     7049.4
+      green above ground biomass (kg/ha)    =     6673.7
+      senesced above ground biomass (kg/ha) =      375.7
       number of leaves       =    501.5
       DM Root:Shoot ratio    =     0.37                       Harvest Index          =       0.37
-      Stover C:N ratio       =    18.37                       Root C:N ratio         =      14.97
-      grain N percent        =     4.50                       total N content (kg/ha)=     213.99
+      Stover C:N ratio       =    18.38                       Root C:N ratio         =      14.97
+      grain N percent        =     4.50                       total N content (kg/ha)=     213.92
       grain N uptake (kg/ha) =   117.15                       senesced N content (kg/ha)=    3.76
-      green N content (kg/ha)=    93.08
+      green N content (kg/ha)=    93.01
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.013        0.004        0.050
@@ -1754,18 +1754,18 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4446.7                     0.0
-                          N  (kg/ha) =                  96.84                    0.00
+                          DM (kg/ha) =                4446.2                     0.0
+                          N  (kg/ha) =                  96.77                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2603.4                     0.0
+                          DM (kg/ha) =                2603.3                     0.0
                           N  (kg/ha) =                 117.15                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  2602.9
+                          DM (kg/ha) =                   0.0                  2602.8
                           N  (kg/ha) =                   0.00                   69.53
      
 15 May 1966(Day of year=135), soilwat2: 
@@ -1855,6 +1855,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1864,7 +1865,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1966(Day of year=136), Fababean: 
       stage 2.0 germination
 29 May 1966(Day of year=149), Fababean: 
@@ -2029,6 +2029,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2038,7 +2039,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1967(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1967(Day of year=147), Fababean: 
@@ -2055,42 +2055,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.72 (%)    extractable sw =   99.88 (mm)
 18 July 1967(Day of year=199), Fababean: 
       stage 6.0 flowering
-                     biomass =         220.85 (g/m^2)   lai          =   3.177 (m^2/m^2)
+                     biomass =         220.85 (g/m^2)   lai          =   3.163 (m^2/m^2)
                      stover N conc =     3.67 (%)    extractable sw =   95.41 (mm)
 26 August 1967(Day of year=238), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         683.09 (g/m^2)   lai          =   3.892 (m^2/m^2)
+                     biomass =         683.02 (g/m^2)   lai          =   3.892 (m^2/m^2)
                      stover N conc =     2.46 (%)    extractable sw =   22.30 (mm)
 11 October 1967(Day of year=284), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         602.79 (g/m^2)   lai          =   0.485 (m^2/m^2)
+                     biomass =         602.77 (g/m^2)   lai          =   0.485 (m^2/m^2)
                      stover N conc =     2.61 (%)    extractable sw =    7.27 (mm)
 15 October 1967(Day of year=288), Fababean: 
       stage 9.0 maturity
-                     biomass =         605.98 (g/m^2)   lai          =   0.441 (m^2/m^2)
+                     biomass =         605.95 (g/m^2)   lai          =   0.441 (m^2/m^2)
                      stover N conc =     2.54 (%)    extractable sw =   70.52 (mm)
 16 October 1967(Day of year=289), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         608.82 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         608.79 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.58 (%)    extractable sw =   67.48 (mm)
 16 October 1967(Day of year=289), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  199                           stover (kg/ha)         =     4177.7
-      maturity day           =  288                           grain yield (kg/ha)    =     1910.4
+      flowering day          =  199                           stover (kg/ha)         =     4177.4
+      maturity day           =  288                           grain yield (kg/ha)    =     1910.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2183.4
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      4.959
-      total above ground biomass (kg/ha)    =     6088.2
-      live above ground biomass (kg/ha)     =     6088.2
-      green above ground biomass (kg/ha)    =     5822.2
+      grains/plant           =    0.0                         maximum lai            =      4.958
+      total above ground biomass (kg/ha)    =     6087.9
+      live above ground biomass (kg/ha)     =     6087.9
+      green above ground biomass (kg/ha)    =     5821.9
       senesced above ground biomass (kg/ha) =      266.0
       number of leaves       =    501.1
       DM Root:Shoot ratio    =     0.37                       Harvest Index          =       0.31
-      Stover C:N ratio       =    16.11                       Root C:N ratio         =      14.37
-      grain N percent        =     4.50                       total N content (kg/ha)=     189.67
+      Stover C:N ratio       =    16.12                       Root C:N ratio         =      14.37
+      grain N percent        =     4.50                       total N content (kg/ha)=     189.65
       grain N uptake (kg/ha) =    85.97                       senesced N content (kg/ha)=    2.66
-      green N content (kg/ha)=   101.04
+      green N content (kg/ha)=   101.01
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.009        0.038
@@ -2102,11 +2102,11 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4177.7                     0.0
-                          N  (kg/ha) =                 103.70                    0.00
+                          DM (kg/ha) =                4177.4                     0.0
+                          N  (kg/ha) =                 103.67                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1910.4                     0.0
+                          DM (kg/ha) =                1910.5                     0.0
                           N  (kg/ha) =                  85.97                    0.00
      
       stage 11.0 end_crop
@@ -2203,6 +2203,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2212,7 +2213,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             136   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1968(Day of year=137), Fababean: 
       stage 2.0 germination
 29 May 1968(Day of year=150), Fababean: 
@@ -2377,6 +2377,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2386,7 +2387,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1969(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1969(Day of year=147), Fababean: 
@@ -2551,6 +2551,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2560,7 +2561,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1970(Day of year=136), Fababean: 
       stage 2.0 germination
 28 May 1970(Day of year=148), Fababean: 
@@ -2585,58 +2585,58 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.37 (%)    extractable sw =    3.97 (mm)
 11 October 1970(Day of year=284), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         446.83 (g/m^2)   lai          =   0.064 (m^2/m^2)
-                     stover N conc =     2.62 (%)    extractable sw =   15.33 (mm)
+                     biomass =         446.04 (g/m^2)   lai          =   0.064 (m^2/m^2)
+                     stover N conc =     2.63 (%)    extractable sw =   15.49 (mm)
 14 October 1970(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         447.10 (g/m^2)   lai          =   0.049 (m^2/m^2)
-                     stover N conc =     2.60 (%)    extractable sw =   23.95 (mm)
+                     biomass =         446.31 (g/m^2)   lai          =   0.048 (m^2/m^2)
+                     stover N conc =     2.61 (%)    extractable sw =   24.12 (mm)
 15 October 1970(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         447.65 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.60 (%)    extractable sw =   22.45 (mm)
+                     biomass =         446.84 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.61 (%)    extractable sw =   22.62 (mm)
 15 October 1970(Day of year=288), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  203                           stover (kg/ha)         =     2808.3
-      maturity day           =  287                           grain yield (kg/ha)    =     1668.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1906.5
+      flowering day          =  203                           stover (kg/ha)         =     2807.4
+      maturity day           =  287                           grain yield (kg/ha)    =     1661.0
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1898.2
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      3.898
-      total above ground biomass (kg/ha)    =     4476.5
-      live above ground biomass (kg/ha)     =     4476.5
-      green above ground biomass (kg/ha)    =     4413.2
-      senesced above ground biomass (kg/ha) =       63.3
+      total above ground biomass (kg/ha)    =     4468.4
+      live above ground biomass (kg/ha)     =     4468.4
+      green above ground biomass (kg/ha)    =     4405.6
+      senesced above ground biomass (kg/ha) =       62.8
       number of leaves       =    496.6
       DM Root:Shoot ratio    =     0.41                       Harvest Index          =       0.37
-      Stover C:N ratio       =    15.59                       Root C:N ratio         =      15.58
-      grain N percent        =     4.50                       total N content (kg/ha)=     147.13
-      grain N uptake (kg/ha) =    75.07                       senesced N content (kg/ha)=    0.63
-      green N content (kg/ha)=    71.43
+      Stover C:N ratio       =    15.52                       Root C:N ratio         =      15.58
+      grain N percent        =     4.50                       total N content (kg/ha)=     147.09
+      grain N uptake (kg/ha) =    74.74                       senesced N content (kg/ha)=    0.63
+      green N content (kg/ha)=    71.72
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.031        0.006        0.063
          end_of_juvenile      to floral_initiation       0.016        0.239        0.011        0.088
          floral_initiation    to flowering               0.017        0.258        0.010        0.085
          flowering            to start_grain_fill        0.284        0.529        0.006        0.054
-         start_grain_fill     to end_grain_fill          0.290        0.522        0.005        0.039
+         start_grain_fill     to end_grain_fill          0.290        0.521        0.005        0.039
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2808.3                     0.0
-                          N  (kg/ha) =                  72.06                    0.00
+                          DM (kg/ha) =                2807.4                     0.0
+                          N  (kg/ha) =                  72.35                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1668.2                     0.0
-                          N  (kg/ha) =                  75.07                    0.00
+                          DM (kg/ha) =                1661.0                     0.0
+                          N  (kg/ha) =                  74.74                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1814.5
-                          N  (kg/ha) =                   0.00                   46.58
+                          DM (kg/ha) =                   0.0                  1812.5
+                          N  (kg/ha) =                   0.00                   46.54
      
 15 May 1971(Day of year=135), soilwat2: 
      
@@ -2725,6 +2725,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2734,7 +2735,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1971(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1971(Day of year=147), Fababean: 
@@ -2751,42 +2751,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.88 (%)    extractable sw =   48.89 (mm)
 23 July 1971(Day of year=204), Fababean: 
       stage 6.0 flowering
-                     biomass =         379.46 (g/m^2)   lai          =   4.270 (m^2/m^2)
+                     biomass =         379.46 (g/m^2)   lai          =   4.264 (m^2/m^2)
                      stover N conc =     3.85 (%)    extractable sw =   56.05 (mm)
 29 August 1971(Day of year=241), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         680.48 (g/m^2)   lai          =   3.441 (m^2/m^2)
+                     biomass =         680.29 (g/m^2)   lai          =   3.439 (m^2/m^2)
                      stover N conc =     2.64 (%)    extractable sw =   17.92 (mm)
 11 October 1971(Day of year=284), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         771.02 (g/m^2)   lai          =   0.914 (m^2/m^2)
+                     biomass =         770.60 (g/m^2)   lai          =   0.905 (m^2/m^2)
                      stover N conc =     2.11 (%)    extractable sw =    3.69 (mm)
 14 October 1971(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         781.62 (g/m^2)   lai          =   0.884 (m^2/m^2)
-                     stover N conc =     1.98 (%)    extractable sw =   21.15 (mm)
+                     biomass =         781.16 (g/m^2)   lai          =   0.877 (m^2/m^2)
+                     stover N conc =     1.98 (%)    extractable sw =   21.14 (mm)
 15 October 1971(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         783.49 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.06 (%)    extractable sw =   18.72 (mm)
+                     biomass =         783.01 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.06 (%)    extractable sw =   18.71 (mm)
 15 October 1971(Day of year=288), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  204                           stover (kg/ha)         =     4697.9
-      maturity day           =  287                           grain yield (kg/ha)    =     3137.0
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3585.2
+      flowering day          =  204                           stover (kg/ha)         =     4693.4
+      maturity day           =  287                           grain yield (kg/ha)    =     3136.7
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3584.8
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      4.729
-      total above ground biomass (kg/ha)    =     7834.9
-      live above ground biomass (kg/ha)     =     7834.9
-      green above ground biomass (kg/ha)    =     7299.0
-      senesced above ground biomass (kg/ha) =      535.9
+      grains/plant           =    0.0                         maximum lai            =      4.723
+      total above ground biomass (kg/ha)    =     7830.1
+      live above ground biomass (kg/ha)     =     7830.1
+      green above ground biomass (kg/ha)    =     7297.7
+      senesced above ground biomass (kg/ha) =      532.4
       number of leaves       =    497.0
       DM Root:Shoot ratio    =     0.36                       Harvest Index          =       0.40
-      Stover C:N ratio       =    20.62                       Root C:N ratio         =      15.47
-      grain N percent        =     4.50                       total N content (kg/ha)=     232.30
-      grain N uptake (kg/ha) =   141.17                       senesced N content (kg/ha)=    5.36
-      green N content (kg/ha)=    85.78
+      Stover C:N ratio       =    20.61                       Root C:N ratio         =      15.47
+      grain N percent        =     4.50                       total N content (kg/ha)=     232.24
+      grain N uptake (kg/ha) =   141.15                       senesced N content (kg/ha)=    5.32
+      green N content (kg/ha)=    85.76
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.074        0.005        0.061
@@ -2798,18 +2798,18 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4697.9                     0.0
-                          N  (kg/ha) =                  91.14                    0.00
+                          DM (kg/ha) =                4693.4                     0.0
+                          N  (kg/ha) =                  91.09                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3137.0                     0.0
-                          N  (kg/ha) =                 141.17                    0.00
+                          DM (kg/ha) =                3136.7                     0.0
+                          N  (kg/ha) =                 141.15                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  2808.3
+                          DM (kg/ha) =                   0.0                  2808.1
                           N  (kg/ha) =                   0.00                   72.62
      
 15 May 1972(Day of year=136), soilwat2: 
@@ -2899,6 +2899,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2908,7 +2909,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             136   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1972(Day of year=137), Fababean: 
       stage 2.0 germination
 28 May 1972(Day of year=149), Fababean: 
@@ -3073,6 +3073,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3082,7 +3083,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1973(Day of year=136), Fababean: 
       stage 2.0 germination
 28 May 1973(Day of year=148), Fababean: 
@@ -3099,42 +3099,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.73 (%)    extractable sw =  132.33 (mm)
 15 July 1973(Day of year=196), Fababean: 
       stage 6.0 flowering
-                     biomass =         224.29 (g/m^2)   lai          =   3.266 (m^2/m^2)
+                     biomass =         224.29 (g/m^2)   lai          =   3.250 (m^2/m^2)
                      stover N conc =     3.70 (%)    extractable sw =  127.53 (mm)
 19 August 1973(Day of year=231), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         693.65 (g/m^2)   lai          =   5.612 (m^2/m^2)
-                     stover N conc =     2.40 (%)    extractable sw =  132.10 (mm)
+                     biomass =         693.20 (g/m^2)   lai          =   5.607 (m^2/m^2)
+                     stover N conc =     2.40 (%)    extractable sw =  132.12 (mm)
 5 October 1973(Day of year=278), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =        1338.07 (g/m^2)   lai          =   2.314 (m^2/m^2)
-                     stover N conc =     2.21 (%)    extractable sw =   16.77 (mm)
+                     biomass =        1336.66 (g/m^2)   lai          =   2.302 (m^2/m^2)
+                     stover N conc =     2.21 (%)    extractable sw =   16.69 (mm)
 8 October 1973(Day of year=281), Fababean: 
       stage 9.0 maturity
-                     biomass =        1351.57 (g/m^2)   lai          =   2.187 (m^2/m^2)
-                     stover N conc =     2.14 (%)    extractable sw =   23.05 (mm)
+                     biomass =        1350.09 (g/m^2)   lai          =   2.175 (m^2/m^2)
+                     stover N conc =     2.14 (%)    extractable sw =   22.97 (mm)
 9 October 1973(Day of year=282), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =        1358.32 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.25 (%)    extractable sw =   21.06 (mm)
+                     biomass =        1356.83 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.24 (%)    extractable sw =   20.99 (mm)
 9 October 1973(Day of year=282), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  196                           stover (kg/ha)         =     7250.2
-      maturity day           =  281                           grain yield (kg/ha)    =     6333.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     7237.8
+      flowering day          =  196                           stover (kg/ha)         =     7242.1
+      maturity day           =  281                           grain yield (kg/ha)    =     6326.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     7229.9
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      5.689
-      total above ground biomass (kg/ha)    =    13583.2
-      live above ground biomass (kg/ha)     =    13583.2
-      green above ground biomass (kg/ha)    =    12605.5
-      senesced above ground biomass (kg/ha) =      977.7
+      grains/plant           =    0.0                         maximum lai            =      5.683
+      total above ground biomass (kg/ha)    =    13568.3
+      live above ground biomass (kg/ha)     =    13568.3
+      green above ground biomass (kg/ha)    =    12595.6
+      senesced above ground biomass (kg/ha) =      972.7
       number of leaves       =    536.1
       DM Root:Shoot ratio    =     0.30                       Harvest Index          =       0.47
-      Stover C:N ratio       =    19.25                       Root C:N ratio         =      15.78
-      grain N percent        =     4.50                       total N content (kg/ha)=     435.63
-      grain N uptake (kg/ha) =   284.99                       senesced N content (kg/ha)=    9.78
-      green N content (kg/ha)=   140.86
+      Stover C:N ratio       =    19.26                       Root C:N ratio         =      15.78
+      grain N percent        =     4.50                       total N content (kg/ha)=     435.09
+      grain N uptake (kg/ha) =   284.68                       senesced N content (kg/ha)=    9.73
+      green N content (kg/ha)=   140.68
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.014        0.006        0.042
@@ -3146,19 +3146,19 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                7250.2                     0.0
-                          N  (kg/ha) =                 150.64                    0.00
+                          DM (kg/ha) =                7242.1                     0.0
+                          N  (kg/ha) =                 150.41                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                6333.1                     0.0
-                          N  (kg/ha) =                 284.99                    0.00
+                          DM (kg/ha) =                6326.1                     0.0
+                          N  (kg/ha) =                 284.68                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  4051.8
-                          N  (kg/ha) =                   0.00                  102.70
+                          DM (kg/ha) =                   0.0                  4049.0
+                          N  (kg/ha) =                   0.00                  102.63
      
 15 May 1974(Day of year=135), soilwat2: 
      
@@ -3247,6 +3247,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3256,7 +3257,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1974(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1974(Day of year=147), Fababean: 
@@ -3421,6 +3421,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3430,7 +3431,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1975(Day of year=136), Fababean: 
       stage 2.0 germination
 29 May 1975(Day of year=149), Fababean: 
@@ -3595,6 +3595,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3604,7 +3605,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             136   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1976(Day of year=137), Fababean: 
       stage 2.0 germination
 27 May 1976(Day of year=148), Fababean: 
@@ -3629,33 +3629,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     2.91 (%)    extractable sw =   14.77 (mm)
 9 October 1976(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         641.85 (g/m^2)   lai          =   0.459 (m^2/m^2)
+                     biomass =         641.74 (g/m^2)   lai          =   0.449 (m^2/m^2)
                      stover N conc =     2.11 (%)    extractable sw =    1.12 (mm)
 13 October 1976(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         635.92 (g/m^2)   lai          =   0.242 (m^2/m^2)
+                     biomass =         635.71 (g/m^2)   lai          =   0.232 (m^2/m^2)
                      stover N conc =     2.13 (%)    extractable sw =    0.77 (mm)
 14 October 1976(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         634.27 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         634.04 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.16 (%)    extractable sw =    0.73 (mm)
 14 October 1976(Day of year=288), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  205                           stover (kg/ha)         =     3777.7
+      flowering day          =  205                           stover (kg/ha)         =     3775.4
       maturity day           =  287                           grain yield (kg/ha)    =     2565.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2931.5
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      4.979
-      total above ground biomass (kg/ha)    =     6342.7
-      live above ground biomass (kg/ha)     =     6342.7
+      total above ground biomass (kg/ha)    =     6340.4
+      live above ground biomass (kg/ha)     =     6340.4
       green above ground biomass (kg/ha)    =     6079.3
-      senesced above ground biomass (kg/ha) =      263.4
+      senesced above ground biomass (kg/ha) =      261.1
       number of leaves       =    498.5
       DM Root:Shoot ratio    =     0.37                       Harvest Index          =       0.40
-      Stover C:N ratio       =    19.23                       Root C:N ratio         =      15.21
-      grain N percent        =     4.50                       total N content (kg/ha)=     194.00
-      grain N uptake (kg/ha) =   115.43                       senesced N content (kg/ha)=    2.63
+      Stover C:N ratio       =    19.22                       Root C:N ratio         =      15.21
+      grain N percent        =     4.50                       total N content (kg/ha)=     193.98
+      grain N uptake (kg/ha) =   115.43                       senesced N content (kg/ha)=    2.61
       green N content (kg/ha)=    75.94
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -3668,8 +3668,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3777.7                     0.0
-                          N  (kg/ha) =                  78.58                    0.00
+                          DM (kg/ha) =                3775.4                     0.0
+                          N  (kg/ha) =                  78.55                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                2565.0                     0.0
@@ -3769,6 +3769,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3778,7 +3779,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1977(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1977(Day of year=147), Fababean: 
@@ -3803,35 +3803,35 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.48 (%)    extractable sw =    4.39 (mm)
 14 October 1977(Day of year=287), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         387.20 (g/m^2)   lai          =   0.127 (m^2/m^2)
-                     stover N conc =     3.66 (%)    extractable sw =    0.62 (mm)
+                     biomass =         387.18 (g/m^2)   lai          =   0.122 (m^2/m^2)
+                     stover N conc =     3.67 (%)    extractable sw =    0.62 (mm)
 18 October 1977(Day of year=291), Fababean: 
       stage 9.0 maturity
-                     biomass =         383.87 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         383.79 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     3.71 (%)    extractable sw =    0.51 (mm)
 19 October 1977(Day of year=292), Fababean: 
-     Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 3838.70 (kg/ha)
       stage 10.0 harvest_ripe
-                     biomass =         382.86 (g/m^2)   lai          =   0.000 (m^2/m^2)
+     Crop failure because of total leaf senescence.
+     Plant death. standing above-ground dm = 3837.91 (kg/ha)
+                     biomass =         382.79 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.00 (%)    extractable sw =    0.49 (mm)
 19 October 1977(Day of year=292), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  206                           stover (kg/ha)         =     2814.8
+      flowering day          =  206                           stover (kg/ha)         =     2814.1
       maturity day           =  291                           grain yield (kg/ha)    =     1013.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1158.6
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      4.574
-      total above ground biomass (kg/ha)    =     3828.6
-      live above ground biomass (kg/ha)     =     3828.6
+      total above ground biomass (kg/ha)    =     3827.9
+      live above ground biomass (kg/ha)     =     3827.9
       green above ground biomass (kg/ha)    =        0.0
-      senesced above ground biomass (kg/ha) =     3828.6
+      senesced above ground biomass (kg/ha) =     3827.9
       number of leaves       =    472.1
       DM Root:Shoot ratio    =     0.44                       Harvest Index          =       0.26
       Stover C:N ratio       =    11.03                       Root C:N ratio         =      13.67
-      grain N percent        =     4.50                       total N content (kg/ha)=     147.69
-      grain N uptake (kg/ha) =    45.62                       senesced N content (kg/ha)=  102.07
+      grain N percent        =     4.50                       total N content (kg/ha)=     147.68
+      grain N uptake (kg/ha) =    45.62                       senesced N content (kg/ha)=  102.06
       green N content (kg/ha)=     0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -3844,8 +3844,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2814.8                     0.0
-                          N  (kg/ha) =                 102.07                    0.00
+                          DM (kg/ha) =                2814.1                     0.0
+                          N  (kg/ha) =                 102.06                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                1013.8                     0.0
@@ -3945,6 +3945,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3954,7 +3955,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1978(Day of year=136), Fababean: 
       stage 2.0 germination
 28 May 1978(Day of year=148), Fababean: 
@@ -3971,42 +3971,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.52 (%)    extractable sw =  113.14 (mm)
 23 July 1978(Day of year=204), Fababean: 
       stage 6.0 flowering
-                     biomass =         245.49 (g/m^2)   lai          =   3.483 (m^2/m^2)
-                     stover N conc =     3.51 (%)    extractable sw =  107.04 (mm)
+                     biomass =         245.49 (g/m^2)   lai          =   3.464 (m^2/m^2)
+                     stover N conc =     3.52 (%)    extractable sw =  107.04 (mm)
 3 September 1978(Day of year=246), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         820.09 (g/m^2)   lai          =   5.902 (m^2/m^2)
-                     stover N conc =     2.37 (%)    extractable sw =   80.35 (mm)
+                     biomass =         819.96 (g/m^2)   lai          =   5.901 (m^2/m^2)
+                     stover N conc =     2.37 (%)    extractable sw =   80.36 (mm)
 11 October 1978(Day of year=284), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =        1263.08 (g/m^2)   lai          =   2.739 (m^2/m^2)
+                     biomass =        1263.04 (g/m^2)   lai          =   2.739 (m^2/m^2)
                      stover N conc =     2.23 (%)    extractable sw =   14.17 (mm)
 16 October 1978(Day of year=289), Fababean: 
       stage 9.0 maturity
-                     biomass =        1256.30 (g/m^2)   lai          =   2.209 (m^2/m^2)
+                     biomass =        1256.26 (g/m^2)   lai          =   2.209 (m^2/m^2)
                      stover N conc =     2.07 (%)    extractable sw =   10.11 (mm)
 17 October 1978(Day of year=290), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =        1261.24 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1261.20 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.19 (%)    extractable sw =    9.48 (mm)
 17 October 1978(Day of year=290), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  204                           stover (kg/ha)         =     6895.2
-      maturity day           =  289                           grain yield (kg/ha)    =     5717.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6533.9
+      flowering day          =  204                           stover (kg/ha)         =     6895.1
+      maturity day           =  289                           grain yield (kg/ha)    =     5716.9
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6533.6
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      5.997
-      total above ground biomass (kg/ha)    =    12612.4
-      live above ground biomass (kg/ha)     =    12612.4
-      green above ground biomass (kg/ha)    =    11472.4
-      senesced above ground biomass (kg/ha) =     1140.0
+      total above ground biomass (kg/ha)    =    12612.0
+      live above ground biomass (kg/ha)     =    12612.0
+      green above ground biomass (kg/ha)    =    11472.1
+      senesced above ground biomass (kg/ha) =     1139.9
       number of leaves       =    490.8
       DM Root:Shoot ratio    =     0.32                       Harvest Index          =       0.45
       Stover C:N ratio       =    20.10                       Root C:N ratio         =      15.58
       grain N percent        =     4.50                       total N content (kg/ha)=     394.47
-      grain N uptake (kg/ha) =   257.27                       senesced N content (kg/ha)=   11.40
-      green N content (kg/ha)=   125.80
+      grain N uptake (kg/ha) =   257.26                       senesced N content (kg/ha)=   11.40
+      green N content (kg/ha)=   125.81
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.001        0.022
@@ -4018,19 +4018,19 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                6895.2                     0.0
-                          N  (kg/ha) =                 137.20                    0.00
+                          DM (kg/ha) =                6895.1                     0.0
+                          N  (kg/ha) =                 137.21                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                5717.2                     0.0
-                          N  (kg/ha) =                 257.27                    0.00
+                          DM (kg/ha) =                5716.9                     0.0
+                          N  (kg/ha) =                 257.26                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  3974.0
-                          N  (kg/ha) =                   0.00                  102.04
+                          DM (kg/ha) =                   0.0                  3973.9
+                          N  (kg/ha) =                   0.00                  102.03
      
 15 May 1979(Day of year=135), soilwat2: 
      
@@ -4119,6 +4119,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4128,7 +4129,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1979(Day of year=136), Fababean: 
       stage 2.0 germination
 28 May 1979(Day of year=148), Fababean: 
@@ -4153,33 +4153,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.14 (%)    extractable sw =    5.20 (mm)
 10 October 1979(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         390.92 (g/m^2)   lai          =   0.158 (m^2/m^2)
+                     biomass =         390.88 (g/m^2)   lai          =   0.154 (m^2/m^2)
                      stover N conc =     3.07 (%)    extractable sw =    1.93 (mm)
 14 October 1979(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         388.92 (g/m^2)   lai          =   0.081 (m^2/m^2)
+                     biomass =         388.83 (g/m^2)   lai          =   0.077 (m^2/m^2)
                      stover N conc =     3.08 (%)    extractable sw =    0.49 (mm)
 15 October 1979(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         388.24 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         388.15 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     3.11 (%)    extractable sw =    0.45 (mm)
 15 October 1979(Day of year=288), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  201                           stover (kg/ha)         =     2763.6
+      flowering day          =  201                           stover (kg/ha)         =     2762.6
       maturity day           =  287                           grain yield (kg/ha)    =     1118.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1278.7
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      3.482
-      total above ground biomass (kg/ha)    =     3882.4
-      live above ground biomass (kg/ha)     =     3882.4
+      total above ground biomass (kg/ha)    =     3881.5
+      live above ground biomass (kg/ha)     =     3881.5
       green above ground biomass (kg/ha)    =     3778.0
-      senesced above ground biomass (kg/ha) =      104.4
+      senesced above ground biomass (kg/ha) =      103.4
       number of leaves       =    501.0
       DM Root:Shoot ratio    =     0.42                       Harvest Index          =       0.29
       Stover C:N ratio       =    13.19                       Root C:N ratio         =      14.20
-      grain N percent        =     4.50                       total N content (kg/ha)=     134.13
-      grain N uptake (kg/ha) =    50.35                       senesced N content (kg/ha)=    1.04
+      grain N percent        =     4.50                       total N content (kg/ha)=     134.12
+      grain N uptake (kg/ha) =    50.35                       senesced N content (kg/ha)=    1.03
       green N content (kg/ha)=    82.74
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -4192,8 +4192,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2763.6                     0.0
-                          N  (kg/ha) =                  83.78                    0.00
+                          DM (kg/ha) =                2762.6                     0.0
+                          N  (kg/ha) =                  83.77                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                1118.8                     0.0
@@ -4293,6 +4293,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4302,7 +4303,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             136   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1980(Day of year=137), Fababean: 
       stage 2.0 germination
 28 May 1980(Day of year=149), Fababean: 
@@ -4467,6 +4467,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4476,7 +4477,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1981(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1981(Day of year=147), Fababean: 
@@ -4493,42 +4493,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.89 (%)    extractable sw =   71.38 (mm)
 22 July 1981(Day of year=203), Fababean: 
       stage 6.0 flowering
-                     biomass =         289.98 (g/m^2)   lai          =   4.245 (m^2/m^2)
+                     biomass =         289.98 (g/m^2)   lai          =   4.235 (m^2/m^2)
                      stover N conc =     3.85 (%)    extractable sw =   96.17 (mm)
 31 August 1981(Day of year=243), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         696.56 (g/m^2)   lai          =   3.511 (m^2/m^2)
-                     stover N conc =     2.53 (%)    extractable sw =   12.43 (mm)
+                     biomass =         696.45 (g/m^2)   lai          =   3.510 (m^2/m^2)
+                     stover N conc =     2.53 (%)    extractable sw =   12.44 (mm)
 11 October 1981(Day of year=284), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         671.90 (g/m^2)   lai          =   0.679 (m^2/m^2)
-                     stover N conc =     2.03 (%)    extractable sw =   13.64 (mm)
+                     biomass =         671.87 (g/m^2)   lai          =   0.679 (m^2/m^2)
+                     stover N conc =     2.02 (%)    extractable sw =   13.65 (mm)
 15 October 1981(Day of year=288), Fababean: 
       stage 9.0 maturity
-                     biomass =         680.95 (g/m^2)   lai          =   0.605 (m^2/m^2)
+                     biomass =         680.92 (g/m^2)   lai          =   0.605 (m^2/m^2)
                      stover N conc =     1.90 (%)    extractable sw =    6.78 (mm)
 16 October 1981(Day of year=289), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         687.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         687.15 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.92 (%)    extractable sw =   15.31 (mm)
 16 October 1981(Day of year=289), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  203                           stover (kg/ha)         =     4427.3
+      flowering day          =  203                           stover (kg/ha)         =     4427.0
       maturity day           =  288                           grain yield (kg/ha)    =     2444.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2793.7
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      5.564
-      total above ground biomass (kg/ha)    =     6871.8
-      live above ground biomass (kg/ha)     =     6871.8
-      green above ground biomass (kg/ha)    =     6557.0
-      senesced above ground biomass (kg/ha) =      314.8
+      grains/plant           =    0.0                         maximum lai            =      5.561
+      total above ground biomass (kg/ha)    =     6871.5
+      live above ground biomass (kg/ha)     =     6871.5
+      green above ground biomass (kg/ha)    =     6556.8
+      senesced above ground biomass (kg/ha) =      314.7
       number of leaves       =    491.6
       DM Root:Shoot ratio    =     0.37                       Harvest Index          =       0.36
-      Stover C:N ratio       =    21.61                       Root C:N ratio         =      15.51
-      grain N percent        =     4.50                       total N content (kg/ha)=     191.95
+      Stover C:N ratio       =    21.62                       Root C:N ratio         =      15.51
+      grain N percent        =     4.50                       total N content (kg/ha)=     191.90
       grain N uptake (kg/ha) =   110.00                       senesced N content (kg/ha)=    3.15
-      green N content (kg/ha)=    78.80
+      green N content (kg/ha)=    78.75
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.017        0.004        0.046
@@ -4540,8 +4540,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4427.3                     0.0
-                          N  (kg/ha) =                  81.95                    0.00
+                          DM (kg/ha) =                4427.0                     0.0
+                          N  (kg/ha) =                  81.90                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                2444.5                     0.0
@@ -4552,7 +4552,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                   0.0                  2562.3
-                          N  (kg/ha) =                   0.00                   66.07
+                          N  (kg/ha) =                   0.00                   66.06
      
 15 May 1982(Day of year=135), soilwat2: 
      
@@ -4641,6 +4641,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4650,7 +4651,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1982(Day of year=136), Fababean: 
       stage 2.0 germination
 28 May 1982(Day of year=148), Fababean: 
@@ -4675,34 +4675,34 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.46 (%)    extractable sw =    5.36 (mm)
 13 October 1982(Day of year=286), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         399.02 (g/m^2)   lai          =   0.043 (m^2/m^2)
-                     stover N conc =     3.58 (%)    extractable sw =   47.47 (mm)
+                     biomass =         398.93 (g/m^2)   lai          =   0.043 (m^2/m^2)
+                     stover N conc =     3.58 (%)    extractable sw =   47.46 (mm)
 17 October 1982(Day of year=290), Fababean: 
       stage 9.0 maturity
-                     biomass =         399.39 (g/m^2)   lai          =   0.043 (m^2/m^2)
-                     stover N conc =     3.53 (%)    extractable sw =   40.03 (mm)
+                     biomass =         399.33 (g/m^2)   lai          =   0.043 (m^2/m^2)
+                     stover N conc =     3.53 (%)    extractable sw =   40.02 (mm)
 18 October 1982(Day of year=291), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         399.72 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     3.54 (%)    extractable sw =   38.98 (mm)
+                     biomass =         399.67 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     3.54 (%)    extractable sw =   38.97 (mm)
 18 October 1982(Day of year=291), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  212                           stover (kg/ha)         =     2859.4
+      flowering day          =  212                           stover (kg/ha)         =     2858.9
       maturity day           =  290                           grain yield (kg/ha)    =     1137.8
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1300.4
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1300.3
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      4.280
-      total above ground biomass (kg/ha)    =     3997.2
-      live above ground biomass (kg/ha)     =     3997.2
-      green above ground biomass (kg/ha)    =     3927.5
-      senesced above ground biomass (kg/ha) =       69.7
+      total above ground biomass (kg/ha)    =     3996.7
+      live above ground biomass (kg/ha)     =     3996.7
+      green above ground biomass (kg/ha)    =     3927.4
+      senesced above ground biomass (kg/ha) =       69.2
       number of leaves       =    472.6
       DM Root:Shoot ratio    =     0.44                       Harvest Index          =       0.28
       Stover C:N ratio       =    11.51                       Root C:N ratio         =      14.02
       grain N percent        =     4.50                       total N content (kg/ha)=     150.58
-      grain N uptake (kg/ha) =    51.20                       senesced N content (kg/ha)=    0.70
-      green N content (kg/ha)=    98.68
+      grain N uptake (kg/ha) =    51.20                       senesced N content (kg/ha)=    0.69
+      green N content (kg/ha)=    98.69
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.092        0.001        0.054
@@ -4714,7 +4714,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2859.4                     0.0
+                          DM (kg/ha) =                2858.9                     0.0
                           N  (kg/ha) =                  99.38                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -4725,7 +4725,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1763.7
+                          DM (kg/ha) =                   0.0                  1763.6
                           N  (kg/ha) =                   0.00                   50.31
      
 15 May 1983(Day of year=135), soilwat2: 
@@ -4815,6 +4815,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4824,7 +4825,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1983(Day of year=136), Fababean: 
       stage 2.0 germination
 25 May 1983(Day of year=145), Fababean: 
@@ -4989,6 +4989,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4998,7 +4999,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             136   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1984(Day of year=137), Fababean: 
       stage 2.0 germination
 27 May 1984(Day of year=148), Fababean: 
@@ -5015,42 +5015,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.89 (%)    extractable sw =  157.46 (mm)
 19 July 1984(Day of year=201), Fababean: 
       stage 6.0 flowering
-                     biomass =         259.22 (g/m^2)   lai          =   3.806 (m^2/m^2)
-                     stover N conc =     3.84 (%)    extractable sw =  153.67 (mm)
+                     biomass =         259.22 (g/m^2)   lai          =   3.793 (m^2/m^2)
+                     stover N conc =     3.85 (%)    extractable sw =  153.67 (mm)
 27 August 1984(Day of year=240), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         856.18 (g/m^2)   lai          =   5.912 (m^2/m^2)
+                     biomass =         855.99 (g/m^2)   lai          =   5.910 (m^2/m^2)
                      stover N conc =     2.34 (%)    extractable sw =   68.55 (mm)
 9 October 1984(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         996.14 (g/m^2)   lai          =   1.332 (m^2/m^2)
+                     biomass =         996.08 (g/m^2)   lai          =   1.332 (m^2/m^2)
                      stover N conc =     2.23 (%)    extractable sw =    3.80 (mm)
 13 October 1984(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         985.12 (g/m^2)   lai          =   1.093 (m^2/m^2)
+                     biomass =         985.07 (g/m^2)   lai          =   1.093 (m^2/m^2)
                      stover N conc =     2.24 (%)    extractable sw =    3.06 (mm)
 14 October 1984(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         982.57 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         982.52 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.34 (%)    extractable sw =    2.91 (mm)
 14 October 1984(Day of year=288), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  201                           stover (kg/ha)         =     5678.2
+      flowering day          =  201                           stover (kg/ha)         =     5677.8
       maturity day           =  287                           grain yield (kg/ha)    =     4147.5
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4740.0
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4739.9
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      6.008
-      total above ground biomass (kg/ha)    =     9825.7
-      live above ground biomass (kg/ha)     =     9825.7
-      green above ground biomass (kg/ha)    =     9149.5
-      senesced above ground biomass (kg/ha) =      676.2
+      grains/plant           =    0.0                         maximum lai            =      6.007
+      total above ground biomass (kg/ha)    =     9825.2
+      live above ground biomass (kg/ha)     =     9825.2
+      green above ground biomass (kg/ha)    =     9149.1
+      senesced above ground biomass (kg/ha) =      676.1
       number of leaves       =    504.8
       DM Root:Shoot ratio    =     0.34                       Harvest Index          =       0.42
       Stover C:N ratio       =    18.37                       Root C:N ratio         =      15.08
-      grain N percent        =     4.50                       total N content (kg/ha)=     310.29
+      grain N percent        =     4.50                       total N content (kg/ha)=     310.27
       grain N uptake (kg/ha) =   186.64                       senesced N content (kg/ha)=    6.76
-      green N content (kg/ha)=   116.89
+      green N content (kg/ha)=   116.87
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.007        0.056
@@ -5062,8 +5062,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                5678.2                     0.0
-                          N  (kg/ha) =                 123.65                    0.00
+                          DM (kg/ha) =                5677.8                     0.0
+                          N  (kg/ha) =                 123.63                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                4147.5                     0.0
@@ -5073,8 +5073,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  3387.6
-                          N  (kg/ha) =                   0.00                   89.86
+                          DM (kg/ha) =                   0.0                  3387.4
+                          N  (kg/ha) =                   0.00                   89.85
      
 15 May 1985(Day of year=135), soilwat2: 
      
@@ -5163,6 +5163,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -5172,7 +5173,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1985(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1985(Day of year=147), Fababean: 
@@ -5337,6 +5337,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -5346,7 +5347,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1986(Day of year=136), Fababean: 
       stage 2.0 germination
 28 May 1986(Day of year=148), Fababean: 
@@ -5363,42 +5363,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.88 (%)    extractable sw =   63.29 (mm)
 19 July 1986(Day of year=200), Fababean: 
       stage 6.0 flowering
-                     biomass =         272.76 (g/m^2)   lai          =   3.908 (m^2/m^2)
+                     biomass =         272.76 (g/m^2)   lai          =   3.897 (m^2/m^2)
                      stover N conc =     3.84 (%)    extractable sw =   60.71 (mm)
 26 August 1986(Day of year=238), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         781.27 (g/m^2)   lai          =   5.038 (m^2/m^2)
-                     stover N conc =     2.43 (%)    extractable sw =   26.21 (mm)
+                     biomass =         781.18 (g/m^2)   lai          =   5.037 (m^2/m^2)
+                     stover N conc =     2.43 (%)    extractable sw =   26.22 (mm)
 9 October 1986(Day of year=282), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         793.25 (g/m^2)   lai          =   1.135 (m^2/m^2)
+                     biomass =         793.21 (g/m^2)   lai          =   1.135 (m^2/m^2)
                      stover N conc =     1.92 (%)    extractable sw =   34.65 (mm)
 13 October 1986(Day of year=286), Fababean: 
       stage 9.0 maturity
-                     biomass =         832.73 (g/m^2)   lai          =   1.083 (m^2/m^2)
+                     biomass =         832.70 (g/m^2)   lai          =   1.083 (m^2/m^2)
                      stover N conc =     1.61 (%)    extractable sw =   25.31 (mm)
 14 October 1986(Day of year=287), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         836.86 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         836.83 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.65 (%)    extractable sw =   21.37 (mm)
 14 October 1986(Day of year=287), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  200                           stover (kg/ha)         =     4940.2
-      maturity day           =  286                           grain yield (kg/ha)    =     3428.4
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3918.1
+      flowering day          =  200                           stover (kg/ha)         =     4940.1
+      maturity day           =  286                           grain yield (kg/ha)    =     3428.2
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3917.9
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      5.397
-      total above ground biomass (kg/ha)    =     8368.6
-      live above ground biomass (kg/ha)     =     8368.6
-      green above ground biomass (kg/ha)    =     7841.5
-      senesced above ground biomass (kg/ha) =      527.1
+      grains/plant           =    0.0                         maximum lai            =      5.396
+      total above ground biomass (kg/ha)    =     8368.3
+      live above ground biomass (kg/ha)     =     8368.3
+      green above ground biomass (kg/ha)    =     7841.3
+      senesced above ground biomass (kg/ha) =      527.0
       number of leaves       =    508.4
       DM Root:Shoot ratio    =     0.35                       Harvest Index          =       0.41
       Stover C:N ratio       =    25.29                       Root C:N ratio         =      15.88
-      grain N percent        =     4.50                       total N content (kg/ha)=     232.43
-      grain N uptake (kg/ha) =   154.28                       senesced N content (kg/ha)=    5.27
-      green N content (kg/ha)=    72.88
+      grain N percent        =     4.50                       total N content (kg/ha)=     232.40
+      grain N uptake (kg/ha) =   154.27                       senesced N content (kg/ha)=    5.27
+      green N content (kg/ha)=    72.86
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.027        0.007        0.050
@@ -5410,18 +5410,18 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4940.2                     0.0
-                          N  (kg/ha) =                  78.15                    0.00
+                          DM (kg/ha) =                4940.1                     0.0
+                          N  (kg/ha) =                  78.13                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3428.4                     0.0
-                          N  (kg/ha) =                 154.28                    0.00
+                          DM (kg/ha) =                3428.2                     0.0
+                          N  (kg/ha) =                 154.27                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  2952.1
+                          DM (kg/ha) =                   0.0                  2952.0
                           N  (kg/ha) =                   0.00                   74.37
      
 15 May 1987(Day of year=135), soilwat2: 
@@ -5511,6 +5511,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -5520,7 +5521,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1987(Day of year=136), Fababean: 
       stage 2.0 germination
 28 May 1987(Day of year=148), Fababean: 
@@ -5541,62 +5541,62 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.81 (%)    extractable sw =   59.39 (mm)
 27 August 1987(Day of year=239), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         625.85 (g/m^2)   lai          =   3.010 (m^2/m^2)
+                     biomass =         625.63 (g/m^2)   lai          =   3.007 (m^2/m^2)
                      stover N conc =     2.56 (%)    extractable sw =   13.59 (mm)
 9 October 1987(Day of year=282), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         550.23 (g/m^2)   lai          =   0.428 (m^2/m^2)
+                     biomass =         550.15 (g/m^2)   lai          =   0.428 (m^2/m^2)
                      stover N conc =     2.60 (%)    extractable sw =    0.87 (mm)
 14 October 1987(Day of year=287), Fababean: 
       stage 9.0 maturity
-                     biomass =         553.81 (g/m^2)   lai          =   0.383 (m^2/m^2)
-                     stover N conc =     2.51 (%)    extractable sw =    5.06 (mm)
+                     biomass =         553.73 (g/m^2)   lai          =   0.383 (m^2/m^2)
+                     stover N conc =     2.50 (%)    extractable sw =    5.06 (mm)
 15 October 1987(Day of year=288), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         554.74 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         554.66 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.56 (%)    extractable sw =    3.29 (mm)
 15 October 1987(Day of year=288), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  200                           stover (kg/ha)         =     3866.2
-      maturity day           =  287                           grain yield (kg/ha)    =     1681.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1921.4
+      flowering day          =  200                           stover (kg/ha)         =     3865.5
+      maturity day           =  287                           grain yield (kg/ha)    =     1681.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1921.3
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      4.402
-      total above ground biomass (kg/ha)    =     5547.4
-      live above ground biomass (kg/ha)     =     5547.4
-      green above ground biomass (kg/ha)    =     5298.9
-      senesced above ground biomass (kg/ha) =      248.5
+      grains/plant           =    0.0                         maximum lai            =      4.395
+      total above ground biomass (kg/ha)    =     5546.6
+      live above ground biomass (kg/ha)     =     5546.6
+      green above ground biomass (kg/ha)    =     5298.4
+      senesced above ground biomass (kg/ha) =      248.2
       number of leaves       =    515.0
       DM Root:Shoot ratio    =     0.39                       Harvest Index          =       0.30
-      Stover C:N ratio       =    16.26                       Root C:N ratio         =      14.29
-      grain N percent        =     4.50                       total N content (kg/ha)=     170.76
+      Stover C:N ratio       =    16.28                       Root C:N ratio         =      14.29
+      grain N percent        =     4.50                       total N content (kg/ha)=     170.65
       grain N uptake (kg/ha) =    75.65                       senesced N content (kg/ha)=    2.48
-      green N content (kg/ha)=    92.62
+      green N content (kg/ha)=    92.52
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.005        0.042
          end_of_juvenile      to floral_initiation       0.002        0.114        0.003        0.040
          floral_initiation    to flowering               0.002        0.126        0.003        0.040
          flowering            to start_grain_fill        0.119        0.405        0.002        0.025
-         start_grain_fill     to end_grain_fill          0.342        0.576        0.001        0.018
+         start_grain_fill     to end_grain_fill          0.341        0.576        0.001        0.018
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3866.2                     0.0
-                          N  (kg/ha) =                  95.11                    0.00
+                          DM (kg/ha) =                3865.5                     0.0
+                          N  (kg/ha) =                  95.00                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1681.2                     0.0
+                          DM (kg/ha) =                1681.1                     0.0
                           N  (kg/ha) =                  75.65                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  2143.8
-                          N  (kg/ha) =                   0.00                   60.01
+                          DM (kg/ha) =                   0.0                  2143.7
+                          N  (kg/ha) =                   0.00                   60.00
      
 15 May 1988(Day of year=136), soilwat2: 
      
@@ -5685,6 +5685,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -5694,7 +5695,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             136   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1988(Day of year=137), Fababean: 
       stage 2.0 germination
 27 May 1988(Day of year=148), Fababean: 
@@ -5859,6 +5859,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -5868,7 +5869,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1989(Day of year=136), Fababean: 
       stage 2.0 germination
 26 May 1989(Day of year=146), Fababean: 
@@ -5885,42 +5885,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.88 (%)    extractable sw =   96.95 (mm)
 23 July 1989(Day of year=204), Fababean: 
       stage 6.0 flowering
-                     biomass =         275.91 (g/m^2)   lai          =   4.069 (m^2/m^2)
-                     stover N conc =     3.75 (%)    extractable sw =   94.57 (mm)
+                     biomass =         275.91 (g/m^2)   lai          =   4.056 (m^2/m^2)
+                     stover N conc =     3.76 (%)    extractable sw =   94.57 (mm)
 3 September 1989(Day of year=246), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         668.02 (g/m^2)   lai          =   3.031 (m^2/m^2)
-                     stover N conc =     2.63 (%)    extractable sw =   11.14 (mm)
+                     biomass =         667.95 (g/m^2)   lai          =   3.030 (m^2/m^2)
+                     stover N conc =     2.62 (%)    extractable sw =   11.14 (mm)
 13 October 1989(Day of year=286), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         565.99 (g/m^2)   lai          =   0.434 (m^2/m^2)
+                     biomass =         565.97 (g/m^2)   lai          =   0.434 (m^2/m^2)
                      stover N conc =     2.83 (%)    extractable sw =    1.35 (mm)
 19 October 1989(Day of year=292), Fababean: 
       stage 9.0 maturity
-                     biomass =         558.98 (g/m^2)   lai          =   0.325 (m^2/m^2)
-                     stover N conc =     2.85 (%)    extractable sw =    1.00 (mm)
+                     biomass =         558.95 (g/m^2)   lai          =   0.325 (m^2/m^2)
+                     stover N conc =     2.84 (%)    extractable sw =    1.00 (mm)
 20 October 1989(Day of year=293), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         558.15 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         558.12 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.90 (%)    extractable sw =    0.95 (mm)
 20 October 1989(Day of year=293), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  204                           stover (kg/ha)         =     4052.7
+      flowering day          =  204                           stover (kg/ha)         =     4052.6
       maturity day           =  292                           grain yield (kg/ha)    =     1528.7
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1747.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1747.0
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      5.377
-      total above ground biomass (kg/ha)    =     5581.5
-      live above ground biomass (kg/ha)     =     5581.5
-      green above ground biomass (kg/ha)    =     5359.5
-      senesced above ground biomass (kg/ha) =      222.0
+      grains/plant           =    0.0                         maximum lai            =      5.375
+      total above ground biomass (kg/ha)    =     5581.2
+      live above ground biomass (kg/ha)     =     5581.2
+      green above ground biomass (kg/ha)    =     5359.3
+      senesced above ground biomass (kg/ha) =      221.9
       number of leaves       =    476.2
       DM Root:Shoot ratio    =     0.39                       Harvest Index          =       0.27
       Stover C:N ratio       =    14.29                       Root C:N ratio         =      13.92
-      grain N percent        =     4.50                       total N content (kg/ha)=     182.23
+      grain N percent        =     4.50                       total N content (kg/ha)=     182.20
       grain N uptake (kg/ha) =    68.79                       senesced N content (kg/ha)=    2.22
-      green N content (kg/ha)=   111.22
+      green N content (kg/ha)=   111.20
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.001        0.028
@@ -5932,8 +5932,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4052.7                     0.0
-                          N  (kg/ha) =                 113.44                    0.00
+                          DM (kg/ha) =                4052.6                     0.0
+                          N  (kg/ha) =                 113.41                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                1528.7                     0.0
@@ -6033,6 +6033,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -6042,7 +6043,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1990(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1990(Day of year=147), Fababean: 
@@ -6207,6 +6207,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -6216,7 +6217,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1991(Day of year=136), Fababean: 
       stage 2.0 germination
 26 May 1991(Day of year=146), Fababean: 
@@ -6233,42 +6233,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.89 (%)    extractable sw =   96.57 (mm)
 15 July 1991(Day of year=196), Fababean: 
       stage 6.0 flowering
-                     biomass =         288.99 (g/m^2)   lai          =   4.148 (m^2/m^2)
-                     stover N conc =     3.72 (%)    extractable sw =   92.05 (mm)
+                     biomass =         288.99 (g/m^2)   lai          =   4.136 (m^2/m^2)
+                     stover N conc =     3.73 (%)    extractable sw =   92.05 (mm)
 24 August 1991(Day of year=236), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         548.51 (g/m^2)   lai          =   2.053 (m^2/m^2)
-                     stover N conc =     2.85 (%)    extractable sw =    8.03 (mm)
+                     biomass =         548.38 (g/m^2)   lai          =   2.051 (m^2/m^2)
+                     stover N conc =     2.84 (%)    extractable sw =    8.03 (mm)
 10 October 1991(Day of year=283), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         472.67 (g/m^2)   lai          =   0.211 (m^2/m^2)
-                     stover N conc =     2.95 (%)    extractable sw =    0.71 (mm)
+                     biomass =         472.64 (g/m^2)   lai          =   0.211 (m^2/m^2)
+                     stover N conc =     2.94 (%)    extractable sw =    0.71 (mm)
 15 October 1991(Day of year=288), Fababean: 
       stage 9.0 maturity
-                     biomass =         469.86 (g/m^2)   lai          =   0.165 (m^2/m^2)
+                     biomass =         469.83 (g/m^2)   lai          =   0.164 (m^2/m^2)
                      stover N conc =     2.95 (%)    extractable sw =    0.55 (mm)
 16 October 1991(Day of year=289), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         469.37 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.99 (%)    extractable sw =    0.52 (mm)
+                     biomass =         469.34 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.98 (%)    extractable sw =    0.52 (mm)
 16 October 1991(Day of year=289), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  196                           stover (kg/ha)         =     3388.2
-      maturity day           =  288                           grain yield (kg/ha)    =     1305.5
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1492.0
+      flowering day          =  196                           stover (kg/ha)         =     3388.0
+      maturity day           =  288                           grain yield (kg/ha)    =     1305.4
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1491.9
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      5.205
-      total above ground biomass (kg/ha)    =     4693.7
-      live above ground biomass (kg/ha)     =     4693.7
-      green above ground biomass (kg/ha)    =     4584.3
-      senesced above ground biomass (kg/ha) =      109.4
+      grains/plant           =    0.0                         maximum lai            =      5.199
+      total above ground biomass (kg/ha)    =     4693.4
+      live above ground biomass (kg/ha)     =     4693.4
+      green above ground biomass (kg/ha)    =     4584.1
+      senesced above ground biomass (kg/ha) =      109.3
       number of leaves       =    506.4
       DM Root:Shoot ratio    =     0.39                       Harvest Index          =       0.28
-      Stover C:N ratio       =    13.69                       Root C:N ratio         =      13.62
-      grain N percent        =     4.50                       total N content (kg/ha)=     157.76
-      grain N uptake (kg/ha) =    58.75                       senesced N content (kg/ha)=    1.09
-      green N content (kg/ha)=    97.92
+      Stover C:N ratio       =    13.70                       Root C:N ratio         =      13.62
+      grain N percent        =     4.50                       total N content (kg/ha)=     157.67
+      grain N uptake (kg/ha) =    58.74                       senesced N content (kg/ha)=    1.09
+      green N content (kg/ha)=    97.84
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.028        0.005        0.048
@@ -6280,19 +6280,19 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3388.2                     0.0
-                          N  (kg/ha) =                  99.01                    0.00
+                          DM (kg/ha) =                3388.0                     0.0
+                          N  (kg/ha) =                  98.93                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1305.5                     0.0
-                          N  (kg/ha) =                  58.75                    0.00
+                          DM (kg/ha) =                1305.4                     0.0
+                          N  (kg/ha) =                  58.74                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                   0.0                  1850.3
-                          N  (kg/ha) =                   0.00                   54.35
+                          N  (kg/ha) =                   0.00                   54.34
      
 15 May 1992(Day of year=136), soilwat2: 
      
@@ -6381,6 +6381,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -6390,7 +6391,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             136   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1992(Day of year=137), Fababean: 
       stage 2.0 germination
 27 May 1992(Day of year=148), Fababean: 
@@ -6555,6 +6555,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -6564,7 +6565,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1993(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1993(Day of year=147), Fababean: 
@@ -6581,42 +6581,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.89 (%)    extractable sw =  109.45 (mm)
 17 July 1993(Day of year=198), Fababean: 
       stage 6.0 flowering
-                     biomass =         285.12 (g/m^2)   lai          =   4.143 (m^2/m^2)
+                     biomass =         285.12 (g/m^2)   lai          =   4.128 (m^2/m^2)
                      stover N conc =     3.83 (%)    extractable sw =  106.57 (mm)
 24 August 1993(Day of year=236), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         627.28 (g/m^2)   lai          =   2.884 (m^2/m^2)
+                     biomass =         627.19 (g/m^2)   lai          =   2.883 (m^2/m^2)
                      stover N conc =     2.67 (%)    extractable sw =   12.83 (mm)
 7 October 1993(Day of year=280), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         701.17 (g/m^2)   lai          =   0.683 (m^2/m^2)
-                     stover N conc =     2.07 (%)    extractable sw =    1.59 (mm)
+                     biomass =         701.13 (g/m^2)   lai          =   0.682 (m^2/m^2)
+                     stover N conc =     2.07 (%)    extractable sw =    1.60 (mm)
 12 October 1993(Day of year=285), Fababean: 
       stage 9.0 maturity
-                     biomass =         695.03 (g/m^2)   lai          =   0.533 (m^2/m^2)
+                     biomass =         695.00 (g/m^2)   lai          =   0.532 (m^2/m^2)
                      stover N conc =     2.07 (%)    extractable sw =    1.14 (mm)
 13 October 1993(Day of year=286), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         693.89 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         693.86 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.13 (%)    extractable sw =    1.08 (mm)
 13 October 1993(Day of year=286), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  198                           stover (kg/ha)         =     4209.7
-      maturity day           =  285                           grain yield (kg/ha)    =     2729.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3119.1
+      flowering day          =  198                           stover (kg/ha)         =     4209.5
+      maturity day           =  285                           grain yield (kg/ha)    =     2729.0
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3118.9
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      5.490
-      total above ground biomass (kg/ha)    =     6938.9
-      live above ground biomass (kg/ha)     =     6938.9
-      green above ground biomass (kg/ha)    =     6623.2
-      senesced above ground biomass (kg/ha) =      315.7
+      grains/plant           =    0.0                         maximum lai            =      5.487
+      total above ground biomass (kg/ha)    =     6938.6
+      live above ground biomass (kg/ha)     =     6938.6
+      green above ground biomass (kg/ha)    =     6623.0
+      senesced above ground biomass (kg/ha) =      315.6
       number of leaves       =    528.9
       DM Root:Shoot ratio    =     0.36                       Harvest Index          =       0.39
-      Stover C:N ratio       =    19.58                       Root C:N ratio         =      15.12
-      grain N percent        =     4.50                       total N content (kg/ha)=     208.81
+      Stover C:N ratio       =    19.59                       Root C:N ratio         =      15.12
+      grain N percent        =     4.50                       total N content (kg/ha)=     208.77
       grain N uptake (kg/ha) =   122.81                       senesced N content (kg/ha)=    3.16
-      green N content (kg/ha)=    82.84
+      green N content (kg/ha)=    82.81
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.014        0.003        0.040
@@ -6628,18 +6628,18 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4209.7                     0.0
-                          N  (kg/ha) =                  85.99                    0.00
+                          DM (kg/ha) =                4209.5                     0.0
+                          N  (kg/ha) =                  85.97                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2729.2                     0.0
+                          DM (kg/ha) =                2729.0                     0.0
                           N  (kg/ha) =                 122.81                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  2486.1
+                          DM (kg/ha) =                   0.0                  2486.0
                           N  (kg/ha) =                   0.00                   65.75
      
 15 May 1994(Day of year=135), soilwat2: 
@@ -6729,6 +6729,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -6738,7 +6739,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1994(Day of year=136), Fababean: 
       stage 2.0 germination
 31 May 1994(Day of year=151), Fababean: 
@@ -6763,33 +6763,33 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.58 (%)    extractable sw =    3.87 (mm)
 16 October 1994(Day of year=289), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         347.98 (g/m^2)   lai          =   0.146 (m^2/m^2)
+                     biomass =         347.98 (g/m^2)   lai          =   0.143 (m^2/m^2)
                      stover N conc =     3.79 (%)    extractable sw =    0.61 (mm)
 21 October 1994(Day of year=294), Fababean: 
       stage 9.0 maturity
-                     biomass =         345.26 (g/m^2)   lai          =   0.072 (m^2/m^2)
+                     biomass =         345.19 (g/m^2)   lai          =   0.068 (m^2/m^2)
                      stover N conc =     3.83 (%)    extractable sw =    0.48 (mm)
 22 October 1994(Day of year=295), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         344.71 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         344.63 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     3.86 (%)    extractable sw =    0.45 (mm)
 22 October 1994(Day of year=295), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  211                           stover (kg/ha)         =     2565.0
+      flowering day          =  211                           stover (kg/ha)         =     2564.2
       maturity day           =  294                           grain yield (kg/ha)    =      882.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1008.1
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      3.958
-      total above ground biomass (kg/ha)    =     3447.1
-      live above ground biomass (kg/ha)     =     3447.1
+      total above ground biomass (kg/ha)    =     3446.3
+      live above ground biomass (kg/ha)     =     3446.3
       green above ground biomass (kg/ha)    =     3360.6
-      senesced above ground biomass (kg/ha) =       86.5
+      senesced above ground biomass (kg/ha) =       85.7
       number of leaves       =    447.7
       DM Root:Shoot ratio    =     0.45                       Harvest Index          =       0.26
-      Stover C:N ratio       =    10.63                       Root C:N ratio         =      13.60
-      grain N percent        =     4.50                       total N content (kg/ha)=     136.25
-      grain N uptake (kg/ha) =    39.70                       senesced N content (kg/ha)=    0.87
+      Stover C:N ratio       =    10.62                       Root C:N ratio         =      13.60
+      grain N percent        =     4.50                       total N content (kg/ha)=     136.24
+      grain N uptake (kg/ha) =    39.70                       senesced N content (kg/ha)=    0.86
       green N content (kg/ha)=    95.69
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -6802,8 +6802,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2565.0                     0.0
-                          N  (kg/ha) =                  96.55                    0.00
+                          DM (kg/ha) =                2564.2                     0.0
+                          N  (kg/ha) =                  96.54                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                 882.1                     0.0
@@ -6903,6 +6903,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -6912,7 +6913,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1995(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1995(Day of year=147), Fababean: 
@@ -7077,6 +7077,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -7086,7 +7087,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             136   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1996(Day of year=137), Fababean: 
       stage 2.0 germination
 29 May 1996(Day of year=150), Fababean: 
@@ -7103,65 +7103,65 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.90 (%)    extractable sw =   59.99 (mm)
 22 July 1996(Day of year=204), Fababean: 
       stage 6.0 flowering
-                     biomass =         270.34 (g/m^2)   lai          =   3.682 (m^2/m^2)
-                     stover N conc =     3.67 (%)    extractable sw =   55.39 (mm)
+                     biomass =         270.34 (g/m^2)   lai          =   3.673 (m^2/m^2)
+                     stover N conc =     3.68 (%)    extractable sw =   55.39 (mm)
 30 August 1996(Day of year=243), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         589.21 (g/m^2)   lai          =   3.084 (m^2/m^2)
+                     biomass =         589.01 (g/m^2)   lai          =   3.081 (m^2/m^2)
                      stover N conc =     2.46 (%)    extractable sw =   22.15 (mm)
 11 October 1996(Day of year=285), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         617.22 (g/m^2)   lai          =   0.656 (m^2/m^2)
+                     biomass =         617.10 (g/m^2)   lai          =   0.656 (m^2/m^2)
                      stover N conc =     2.01 (%)    extractable sw =   14.79 (mm)
 15 October 1996(Day of year=289), Fababean: 
       stage 9.0 maturity
-                     biomass =         623.69 (g/m^2)   lai          =   0.585 (m^2/m^2)
+                     biomass =         623.58 (g/m^2)   lai          =   0.585 (m^2/m^2)
                      stover N conc =     1.90 (%)    extractable sw =    4.75 (mm)
 16 October 1996(Day of year=290), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         623.84 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         623.73 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.95 (%)    extractable sw =    3.51 (mm)
 16 October 1996(Day of year=290), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  204                           stover (kg/ha)         =     3823.3
-      maturity day           =  289                           grain yield (kg/ha)    =     2415.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2760.2
+      flowering day          =  204                           stover (kg/ha)         =     3822.5
+      maturity day           =  289                           grain yield (kg/ha)    =     2414.7
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2759.7
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      4.386
-      total above ground biomass (kg/ha)    =     6238.4
-      live above ground biomass (kg/ha)     =     6238.4
-      green above ground biomass (kg/ha)    =     5925.7
-      senesced above ground biomass (kg/ha) =      312.7
+      grains/plant           =    0.0                         maximum lai            =      4.381
+      total above ground biomass (kg/ha)    =     6237.3
+      live above ground biomass (kg/ha)     =     6237.3
+      green above ground biomass (kg/ha)    =     5924.9
+      senesced above ground biomass (kg/ha) =      312.4
       number of leaves       =    482.3
       DM Root:Shoot ratio    =     0.36                       Harvest Index          =       0.39
-      Stover C:N ratio       =    21.38                       Root C:N ratio         =      15.43
-      grain N percent        =     4.50                       total N content (kg/ha)=     180.20
-      grain N uptake (kg/ha) =   108.68                       senesced N content (kg/ha)=    3.13
-      green N content (kg/ha)=    68.39
+      Stover C:N ratio       =    21.40                       Root C:N ratio         =      15.43
+      grain N percent        =     4.50                       total N content (kg/ha)=     180.13
+      grain N uptake (kg/ha) =   108.66                       senesced N content (kg/ha)=    3.12
+      green N content (kg/ha)=    68.34
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.011        0.004        0.032
          end_of_juvenile      to floral_initiation       0.000        0.105        0.003        0.026
          floral_initiation    to flowering               0.000        0.124        0.003        0.025
          flowering            to start_grain_fill        0.108        0.354        0.002        0.016
-         start_grain_fill     to end_grain_fill          0.280        0.518        0.001        0.011
+         start_grain_fill     to end_grain_fill          0.279        0.518        0.001        0.011
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3823.3                     0.0
-                          N  (kg/ha) =                  71.52                    0.00
+                          DM (kg/ha) =                3822.5                     0.0
+                          N  (kg/ha) =                  71.47                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2415.1                     0.0
-                          N  (kg/ha) =                 108.68                    0.00
+                          DM (kg/ha) =                2414.7                     0.0
+                          N  (kg/ha) =                 108.66                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  2253.1
+                          DM (kg/ha) =                   0.0                  2252.9
                           N  (kg/ha) =                   0.00                   58.40
      
 15 May 1997(Day of year=135), soilwat2: 
@@ -7251,6 +7251,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -7260,7 +7261,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1997(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1997(Day of year=147), Fababean: 
@@ -7285,57 +7285,57 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.17 (%)    extractable sw =   11.07 (mm)
 13 October 1997(Day of year=286), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =         405.29 (g/m^2)   lai          =   0.117 (m^2/m^2)
-                     stover N conc =     2.75 (%)    extractable sw =   31.86 (mm)
+                     biomass =         404.64 (g/m^2)   lai          =   0.112 (m^2/m^2)
+                     stover N conc =     2.76 (%)    extractable sw =   31.99 (mm)
 17 October 1997(Day of year=290), Fababean: 
       stage 9.0 maturity
-                     biomass =         408.25 (g/m^2)   lai          =   0.080 (m^2/m^2)
-                     stover N conc =     2.67 (%)    extractable sw =   26.61 (mm)
+                     biomass =         407.41 (g/m^2)   lai          =   0.078 (m^2/m^2)
+                     stover N conc =     2.68 (%)    extractable sw =   26.82 (mm)
 18 October 1997(Day of year=291), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =         408.88 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.67 (%)    extractable sw =   25.47 (mm)
+                     biomass =         408.03 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.69 (%)    extractable sw =   25.69 (mm)
 18 October 1997(Day of year=291), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  206                           stover (kg/ha)         =     2736.4
-      maturity day           =  290                           grain yield (kg/ha)    =     1352.4
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1545.7
+      flowering day          =  206                           stover (kg/ha)         =     2734.8
+      maturity day           =  290                           grain yield (kg/ha)    =     1345.5
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1537.8
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      4.142
-      total above ground biomass (kg/ha)    =     4088.8
-      live above ground biomass (kg/ha)     =     4088.8
-      green above ground biomass (kg/ha)    =     3996.5
-      senesced above ground biomass (kg/ha) =       92.3
+      total above ground biomass (kg/ha)    =     4080.3
+      live above ground biomass (kg/ha)     =     4080.3
+      green above ground biomass (kg/ha)    =     3989.2
+      senesced above ground biomass (kg/ha) =       91.2
       number of leaves       =    482.6
       DM Root:Shoot ratio    =     0.42                       Harvest Index          =       0.33
-      Stover C:N ratio       =    15.29                       Root C:N ratio         =      14.84
-      grain N percent        =     4.50                       total N content (kg/ha)=     132.47
-      grain N uptake (kg/ha) =    60.86                       senesced N content (kg/ha)=    0.92
-      green N content (kg/ha)=    70.69
+      Stover C:N ratio       =    15.21                       Root C:N ratio         =      14.82
+      grain N percent        =     4.50                       total N content (kg/ha)=     132.46
+      grain N uptake (kg/ha) =    60.55                       senesced N content (kg/ha)=    0.91
+      green N content (kg/ha)=    71.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.012        0.005        0.049
          end_of_juvenile      to floral_initiation       0.000        0.158        0.004        0.042
          floral_initiation    to flowering               0.002        0.179        0.004        0.041
          flowering            to start_grain_fill        0.239        0.468        0.002        0.026
-         start_grain_fill     to end_grain_fill          0.359        0.564        0.002        0.019
+         start_grain_fill     to end_grain_fill          0.359        0.563        0.002        0.019
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2736.4                     0.0
-                          N  (kg/ha) =                  71.61                    0.00
+                          DM (kg/ha) =                2734.8                     0.0
+                          N  (kg/ha) =                  71.91                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1352.4                     0.0
-                          N  (kg/ha) =                  60.86                    0.00
+                          DM (kg/ha) =                1345.5                     0.0
+                          N  (kg/ha) =                  60.55                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1702.6
+                          DM (kg/ha) =                   0.0                  1700.8
                           N  (kg/ha) =                   0.00                   45.89
      
 15 May 1998(Day of year=135), soilwat2: 
@@ -7425,6 +7425,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -7434,7 +7435,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1998(Day of year=136), Fababean: 
       stage 2.0 germination
 28 May 1998(Day of year=148), Fababean: 
@@ -7451,42 +7451,42 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     3.91 (%)    extractable sw =   95.59 (mm)
 22 July 1998(Day of year=203), Fababean: 
       stage 6.0 flowering
-                     biomass =         271.16 (g/m^2)   lai          =   3.966 (m^2/m^2)
+                     biomass =         271.16 (g/m^2)   lai          =   3.955 (m^2/m^2)
                      stover N conc =     3.68 (%)    extractable sw =  101.10 (mm)
 27 August 1998(Day of year=239), Fababean: 
       stage 7.0 start_grain_fill
-                     biomass =         798.35 (g/m^2)   lai          =   5.901 (m^2/m^2)
+                     biomass =         798.24 (g/m^2)   lai          =   5.900 (m^2/m^2)
                      stover N conc =     2.41 (%)    extractable sw =   73.98 (mm)
 8 October 1998(Day of year=281), Fababean: 
       stage 8.0 end_grain_fill
-                     biomass =        1338.41 (g/m^2)   lai          =   2.678 (m^2/m^2)
+                     biomass =        1338.08 (g/m^2)   lai          =   2.674 (m^2/m^2)
                      stover N conc =     2.17 (%)    extractable sw =   17.99 (mm)
 12 October 1998(Day of year=285), Fababean: 
       stage 9.0 maturity
-                     biomass =        1350.69 (g/m^2)   lai          =   2.376 (m^2/m^2)
-                     stover N conc =     2.03 (%)    extractable sw =   11.06 (mm)
+                     biomass =        1350.39 (g/m^2)   lai          =   2.372 (m^2/m^2)
+                     stover N conc =     2.03 (%)    extractable sw =   11.07 (mm)
 13 October 1998(Day of year=286), Fababean: 
       stage 10.0 harvest_ripe
-                     biomass =        1349.33 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1349.03 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.17 (%)    extractable sw =   10.27 (mm)
 13 October 1998(Day of year=286), manager: 
      Manager sending message :- fababean harvest
      
-      flowering day          =  203                           stover (kg/ha)         =     7127.4
-      maturity day           =  285                           grain yield (kg/ha)    =     6365.9
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     7275.3
+      flowering day          =  203                           stover (kg/ha)         =     7125.9
+      maturity day           =  285                           grain yield (kg/ha)    =     6364.4
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     7273.6
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      6.114
-      total above ground biomass (kg/ha)    =    13493.3
-      live above ground biomass (kg/ha)     =    13493.3
-      green above ground biomass (kg/ha)    =    12343.1
-      senesced above ground biomass (kg/ha) =     1150.2
+      grains/plant           =    0.0                         maximum lai            =      6.113
+      total above ground biomass (kg/ha)    =    13490.3
+      live above ground biomass (kg/ha)     =    13490.3
+      green above ground biomass (kg/ha)    =    12342.3
+      senesced above ground biomass (kg/ha) =     1148.1
       number of leaves       =    520.0
       DM Root:Shoot ratio    =     0.31                       Harvest Index          =       0.47
-      Stover C:N ratio       =    20.19                       Root C:N ratio         =      15.78
-      grain N percent        =     4.50                       total N content (kg/ha)=     427.65
-      grain N uptake (kg/ha) =   286.47                       senesced N content (kg/ha)=   11.50
-      green N content (kg/ha)=   129.68
+      Stover C:N ratio       =    20.20                       Root C:N ratio         =      15.78
+      grain N percent        =     4.50                       total N content (kg/ha)=     427.52
+      grain N uptake (kg/ha) =   286.40                       senesced N content (kg/ha)=   11.48
+      green N content (kg/ha)=   129.64
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.006        0.046
@@ -7498,19 +7498,19 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                7127.4                     0.0
-                          N  (kg/ha) =                 141.18                    0.00
+                          DM (kg/ha) =                7125.9                     0.0
+                          N  (kg/ha) =                 141.12                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                6365.9                     0.0
-                          N  (kg/ha) =                 286.47                    0.00
+                          DM (kg/ha) =                6364.4                     0.0
+                          N  (kg/ha) =                 286.40                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fababean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  4232.4
-                          N  (kg/ha) =                   0.00                  107.30
+                          DM (kg/ha) =                   0.0                  4232.2
+                          N  (kg/ha) =                   0.00                  107.29
      
 15 May 1999(Day of year=135), soilwat2: 
      
@@ -7599,6 +7599,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -7608,7 +7609,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 1999(Day of year=136), Fababean: 
       stage 2.0 germination
 27 May 1999(Day of year=147), Fababean: 
@@ -7773,6 +7773,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -7782,7 +7783,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             136   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 2000(Day of year=137), Fababean: 
       stage 2.0 germination
 28 May 2000(Day of year=149), Fababean: 
@@ -7947,6 +7947,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -7956,7 +7957,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 2001(Day of year=136), Fababean: 
       stage 2.0 germination
 29 May 2001(Day of year=149), Fababean: 
@@ -8121,6 +8121,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          -----------------------------------------------
          Extractable SW:   131mm in   800mm total depth ( 16%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -8130,7 +8131,6 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0   25.0  350.0   0.0   0.0 fiord
          ------------------------------------------------
      
-      stage 1.0 sowing
 16 May 2002(Day of year=136), Fababean: 
       stage 2.0 germination
 28 May 2002(Day of year=148), Fababean: 

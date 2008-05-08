@@ -494,6 +494,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -503,8 +504,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
              35   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-5 February 1940(Day of year=36), lucerne: 
-      stage 1.0 sowing
 6 February 1940(Day of year=37), lucerne: 
       stage 2.0 germination
 7 February 1940(Day of year=38), lucerne: 
@@ -534,7 +533,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
 5 January 1942(Day of year=5), lucerne: 
      Crop ended. Yield (dw) =     3.6  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  79.3                   449.3
+                          DM (kg/ha) =                  79.3                   449.4
                           N  (kg/ha) =                   2.50                   12.65
      
 28 May 1942(Day of year=148), wheat: 
@@ -584,6 +583,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -593,8 +593,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             148   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-29 May 1942(Day of year=149), wheat: 
-      stage 1.0 sowing
 30 May 1942(Day of year=150), wheat: 
       stage 2.0 germination
 5 June 1942(Day of year=156), wheat: 
@@ -619,15 +617,15 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     0.72 (%)    extractable sw =   14.17 (mm)
 21 September 1942(Day of year=264), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         388.50 (g/m^2)   lai          =   0.266 (m^2/m^2)
+                     biomass =         388.49 (g/m^2)   lai          =   0.266 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =    3.81 (mm)
 22 September 1942(Day of year=265), wheat: 
       stage 9.0 maturity
-                     biomass =         388.50 (g/m^2)   lai          =   0.259 (m^2/m^2)
+                     biomass =         388.49 (g/m^2)   lai          =   0.259 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =    3.65 (mm)
 23 September 1942(Day of year=266), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         388.50 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         388.49 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    3.49 (mm)
 24 September 1942(Day of year=267), wheat: 
      Crop failure because of total leaf senescence.
@@ -638,10 +636,10 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1389.0
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      1.152
-      total above ground biomass (kg/ha)    =     3885.0
-      live above ground biomass (kg/ha)     =     3885.0
+      total above ground biomass (kg/ha)    =     3884.9
+      live above ground biomass (kg/ha)     =     3884.9
       green above ground biomass (kg/ha)    =        0.0
-      senesced above ground biomass (kg/ha) =     3885.0
+      senesced above ground biomass (kg/ha) =     3884.9
       number of leaves       =     27.4
       DM Root:Shoot ratio    =     0.18                       Harvest Index          =       0.31
       Stover C:N ratio       =   118.47                       Root C:N ratio         =      30.74
@@ -730,6 +728,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -739,8 +738,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             311   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-8 November 1942(Day of year=312), lucerne: 
-      stage 1.0 sowing
 9 November 1942(Day of year=313), lucerne: 
       stage 2.0 germination
 10 November 1942(Day of year=314), lucerne: 
@@ -761,11 +758,11 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     3.02 (%)    extractable sw =  162.11 (mm)
 19 January 1943(Day of year=19), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         208.41 (g/m^2)   lai          =   2.887 (m^2/m^2)
+                     biomass =         208.40 (g/m^2)   lai          =   2.887 (m^2/m^2)
                      stover N conc =     2.75 (%)    extractable sw =  137.91 (mm)
 7 February 1943(Day of year=38), lucerne: 
       stage 4.0 end_of_juvenile
-                     biomass =         213.66 (g/m^2)   lai          =   2.742 (m^2/m^2)
+                     biomass =         213.65 (g/m^2)   lai          =   2.742 (m^2/m^2)
                      stover N conc =     2.60 (%)    extractable sw =  104.51 (mm)
 8 October 1944(Day of year=282), lucerne: 
      Crop ended. Yield (dw) =     4.7  (kg/ha)
@@ -820,6 +817,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -829,8 +827,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             153   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-3 June 1945(Day of year=154), wheat: 
-      stage 1.0 sowing
 4 June 1945(Day of year=155), wheat: 
       stage 2.0 germination
 8 June 1945(Day of year=159), wheat: 
@@ -867,7 +863,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     0.30 (%)    extractable sw =    4.67 (mm)
 30 September 1945(Day of year=273), wheat: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 6072.15 (kg/ha)
+     Plant death. standing above-ground dm = 6072.14 (kg/ha)
      
       flowering day          =  236                           stover (kg/ha)         =     4163.2
       maturity day           =  271                           grain yield (kg/ha)    =     1908.9
@@ -966,6 +962,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -975,8 +972,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             292   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-20 October 1945(Day of year=293), lucerne: 
-      stage 1.0 sowing
 21 October 1945(Day of year=294), lucerne: 
       stage 2.0 germination
 23 October 1945(Day of year=296), lucerne: 
@@ -997,7 +992,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     2.94 (%)    extractable sw =   69.96 (mm)
 31 December 1945(Day of year=365), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         209.63 (g/m^2)   lai          =   2.798 (m^2/m^2)
+                     biomass =         209.62 (g/m^2)   lai          =   2.798 (m^2/m^2)
                      stover N conc =     2.76 (%)    extractable sw =   56.77 (mm)
 19 January 1946(Day of year=19), lucerne: 
       stage 4.0 end_of_juvenile
@@ -1056,6 +1051,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1065,8 +1061,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             167   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-16 June 1948(Day of year=168), wheat: 
-      stage 1.0 sowing
 17 June 1948(Day of year=169), wheat: 
       stage 2.0 germination
 21 June 1948(Day of year=173), wheat: 
@@ -1103,7 +1097,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     1.60 (%)    extractable sw =    2.10 (mm)
 10 October 1948(Day of year=284), wheat: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 4271.49 (kg/ha)
+     Plant death. standing above-ground dm = 4271.48 (kg/ha)
      
       flowering day          =  250                           stover (kg/ha)         =     3233.8
       maturity day           =  282                           grain yield (kg/ha)    =     1037.7
@@ -1202,6 +1196,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1211,8 +1206,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             337   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-3 December 1948(Day of year=338), lucerne: 
-      stage 1.0 sowing
 4 December 1948(Day of year=339), lucerne: 
       stage 2.0 germination
 5 December 1948(Day of year=340), lucerne: 
@@ -1292,6 +1285,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1301,8 +1295,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             191   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-11 July 1951(Day of year=192), wheat: 
-      stage 1.0 sowing
 12 July 1951(Day of year=193), wheat: 
       stage 2.0 germination
 16 July 1951(Day of year=197), wheat: 
@@ -1438,6 +1430,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1447,8 +1440,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
              11   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-12 January 1952(Day of year=12), lucerne: 
-      stage 1.0 sowing
 13 January 1952(Day of year=13), lucerne: 
       stage 2.0 germination
 14 January 1952(Day of year=14), lucerne: 
@@ -1473,7 +1464,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     2.88 (%)    extractable sw =  125.94 (mm)
 12 April 1952(Day of year=103), lucerne: 
       stage 4.0 end_of_juvenile
-                     biomass =         187.39 (g/m^2)   lai          =   2.455 (m^2/m^2)
+                     biomass =         187.38 (g/m^2)   lai          =   2.455 (m^2/m^2)
                      stover N conc =     2.62 (%)    extractable sw =   87.38 (mm)
 12 December 1953(Day of year=346), lucerne: 
      Crop ended. Yield (dw) =     4.2  (kg/ha)
@@ -1528,6 +1519,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1537,8 +1529,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             191   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-11 July 1954(Day of year=192), wheat: 
-      stage 1.0 sowing
 12 July 1954(Day of year=193), wheat: 
       stage 2.0 germination
 16 July 1954(Day of year=197), wheat: 
@@ -1579,7 +1569,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
      
       flowering day          =  268                           stover (kg/ha)         =     5783.3
       maturity day           =  299                           grain yield (kg/ha)    =     2364.5
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2702.2
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2702.3
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      2.563
       total above ground biomass (kg/ha)    =     8147.7
@@ -1674,6 +1664,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1683,8 +1674,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
              24   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-25 January 1955(Day of year=25), lucerne: 
-      stage 1.0 sowing
 26 January 1955(Day of year=26), lucerne: 
       stage 2.0 germination
 27 January 1955(Day of year=27), lucerne: 
@@ -1709,7 +1698,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     2.67 (%)    extractable sw =  196.35 (mm)
 26 April 1955(Day of year=116), lucerne: 
       stage 4.0 end_of_juvenile
-                     biomass =         121.04 (g/m^2)   lai          =   1.779 (m^2/m^2)
+                     biomass =         121.03 (g/m^2)   lai          =   1.779 (m^2/m^2)
                      stover N conc =     2.50 (%)    extractable sw =  144.30 (mm)
 25 December 1956(Day of year=360), lucerne: 
      Crop ended. Yield (dw) =     3.2  (kg/ha)
@@ -1764,6 +1753,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1773,8 +1763,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             154   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-4 June 1957(Day of year=155), wheat: 
-      stage 1.0 sowing
 5 June 1957(Day of year=156), wheat: 
       stage 2.0 germination
 9 June 1957(Day of year=160), wheat: 
@@ -1910,6 +1898,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1919,8 +1908,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             306   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-3 November 1957(Day of year=307), lucerne: 
-      stage 1.0 sowing
 4 November 1957(Day of year=308), lucerne: 
       stage 2.0 germination
 6 November 1957(Day of year=310), lucerne: 
@@ -2000,6 +1987,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2009,8 +1997,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             192   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-11 July 1960(Day of year=193), wheat: 
-      stage 1.0 sowing
 12 July 1960(Day of year=194), wheat: 
       stage 2.0 germination
 18 July 1960(Day of year=200), wheat: 
@@ -2146,6 +2132,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2155,8 +2142,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             323   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-19 November 1960(Day of year=324), lucerne: 
-      stage 1.0 sowing
 20 November 1960(Day of year=325), lucerne: 
       stage 2.0 germination
 21 November 1960(Day of year=326), lucerne: 
@@ -2236,6 +2221,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2245,8 +2231,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             191   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-11 July 1963(Day of year=192), wheat: 
-      stage 1.0 sowing
 12 July 1963(Day of year=193), wheat: 
       stage 2.0 germination
 19 July 1963(Day of year=200), wheat: 
@@ -2283,7 +2267,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     0.30 (%)    extractable sw =   18.56 (mm)
 30 October 1963(Day of year=303), wheat: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 7084.04 (kg/ha)
+     Plant death. standing above-ground dm = 7084.05 (kg/ha)
      
       flowering day          =  270                           stover (kg/ha)         =     5133.8
       maturity day           =  301                           grain yield (kg/ha)    =     1950.3
@@ -2382,6 +2366,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2391,8 +2376,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             344   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-11 December 1963(Day of year=345), lucerne: 
-      stage 1.0 sowing
 12 December 1963(Day of year=346), lucerne: 
       stage 2.0 germination
 13 December 1963(Day of year=347), lucerne: 
@@ -2472,6 +2455,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2481,8 +2465,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             191   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-11 July 1966(Day of year=192), wheat: 
-      stage 1.0 sowing
 12 July 1966(Day of year=193), wheat: 
       stage 2.0 germination
 17 July 1966(Day of year=198), wheat: 
@@ -2499,7 +2481,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     2.36 (%)    extractable sw =  144.15 (mm)
 27 September 1966(Day of year=270), wheat: 
       stage 6.0 flowering
-                     biomass =         544.13 (g/m^2)   lai          =   1.827 (m^2/m^2)
+                     biomass =         544.14 (g/m^2)   lai          =   1.827 (m^2/m^2)
                      stover N conc =     0.80 (%)    extractable sw =   49.38 (mm)
 2 October 1966(Day of year=275), wheat: 
       stage 7.0 start_grain_fill
@@ -2523,7 +2505,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
      
       flowering day          =  270                           stover (kg/ha)         =     4893.6
       maturity day           =  302                           grain yield (kg/ha)    =     2021.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2309.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2309.9
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      2.725
       total above ground biomass (kg/ha)    =     6914.7
@@ -2618,6 +2600,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2627,8 +2610,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             313   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-10 November 1966(Day of year=314), lucerne: 
-      stage 1.0 sowing
 11 November 1966(Day of year=315), lucerne: 
       stage 2.0 germination
 13 November 1966(Day of year=317), lucerne: 
@@ -2708,6 +2689,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2717,8 +2699,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             149   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-30 May 1969(Day of year=150), wheat: 
-      stage 1.0 sowing
 31 May 1969(Day of year=151), wheat: 
       stage 2.0 germination
 5 June 1969(Day of year=156), wheat: 
@@ -2739,7 +2719,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     1.92 (%)    extractable sw =    9.34 (mm)
 26 August 1969(Day of year=238), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         295.74 (g/m^2)   lai          =   0.264 (m^2/m^2)
+                     biomass =         295.74 (g/m^2)   lai          =   0.263 (m^2/m^2)
                      stover N conc =     1.82 (%)    extractable sw =    7.29 (mm)
 23 September 1969(Day of year=266), wheat: 
       stage 8.0 end_grain_fill
@@ -2755,7 +2735,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     1.15 (%)    extractable sw =    2.46 (mm)
 27 September 1969(Day of year=270), wheat: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 3145.93 (kg/ha)
+     Plant death. standing above-ground dm = 3145.92 (kg/ha)
      
       flowering day          =  232                           stover (kg/ha)         =     2352.3
       maturity day           =  268                           grain yield (kg/ha)    =      793.6
@@ -2854,6 +2834,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2863,8 +2844,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             288   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-16 October 1969(Day of year=289), lucerne: 
-      stage 1.0 sowing
 17 October 1969(Day of year=290), lucerne: 
       stage 2.0 germination
 18 October 1969(Day of year=291), lucerne: 
@@ -2944,6 +2923,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2953,8 +2933,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             192   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-11 July 1972(Day of year=193), wheat: 
-      stage 1.0 sowing
 12 July 1972(Day of year=194), wheat: 
       stage 2.0 germination
 17 July 1972(Day of year=199), wheat: 
@@ -3090,6 +3068,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3099,8 +3078,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             334   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-30 November 1972(Day of year=335), lucerne: 
-      stage 1.0 sowing
 1 December 1972(Day of year=336), lucerne: 
       stage 2.0 germination
 2 December 1972(Day of year=337), lucerne: 
@@ -3117,7 +3094,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     4.45 (%)    extractable sw =  120.13 (mm)
 7 February 1973(Day of year=38), lucerne: 
       stage 6.0 flowering
-                     biomass =         181.38 (g/m^2)   lai          =   2.848 (m^2/m^2)
+                     biomass =         181.38 (g/m^2)   lai          =   2.847 (m^2/m^2)
                      stover N conc =     3.08 (%)    extractable sw =   77.78 (mm)
 13 February 1973(Day of year=44), lucerne: 
       stage 7.0 start_grain_fill
@@ -3125,7 +3102,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     2.86 (%)    extractable sw =   79.22 (mm)
 1 March 1973(Day of year=60), lucerne: 
       stage 4.0 end_of_juvenile
-                     biomass =         196.10 (g/m^2)   lai          =   2.709 (m^2/m^2)
+                     biomass =         196.09 (g/m^2)   lai          =   2.709 (m^2/m^2)
                      stover N conc =     2.66 (%)    extractable sw =   53.38 (mm)
 31 October 1974(Day of year=304), lucerne: 
      Crop ended. Yield (dw) =     3.7  (kg/ha)
@@ -3180,6 +3157,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3189,8 +3167,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             172   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-22 June 1975(Day of year=173), wheat: 
-      stage 1.0 sowing
 23 June 1975(Day of year=174), wheat: 
       stage 2.0 germination
 28 June 1975(Day of year=179), wheat: 
@@ -3247,7 +3223,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.125        0.152
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.125        0.151
          floral_initiation    to flowering               0.064        0.085        0.172        0.260
          flowering            to start_grain_fill        0.097        0.124        0.161        0.251
          start_grain_fill     to end_grain_fill          0.131        0.162        0.247        0.365
@@ -3326,6 +3302,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3335,8 +3312,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             294   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-22 October 1975(Day of year=295), lucerne: 
-      stage 1.0 sowing
 23 October 1975(Day of year=296), lucerne: 
       stage 2.0 germination
 24 October 1975(Day of year=297), lucerne: 
@@ -3357,11 +3332,11 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     3.04 (%)    extractable sw =  230.86 (mm)
 5 January 1976(Day of year=5), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         213.60 (g/m^2)   lai          =   2.713 (m^2/m^2)
+                     biomass =         213.59 (g/m^2)   lai          =   2.712 (m^2/m^2)
                      stover N conc =     2.76 (%)    extractable sw =  201.91 (mm)
 21 January 1976(Day of year=21), lucerne: 
       stage 4.0 end_of_juvenile
-                     biomass =         216.97 (g/m^2)   lai          =   2.587 (m^2/m^2)
+                     biomass =         216.96 (g/m^2)   lai          =   2.586 (m^2/m^2)
                      stover N conc =     2.61 (%)    extractable sw =  212.17 (mm)
 21 September 1977(Day of year=264), lucerne: 
      Crop ended. Yield (dw) =     4.1  (kg/ha)
@@ -3416,6 +3391,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3425,8 +3401,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             140   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-21 May 1978(Day of year=141), wheat: 
-      stage 1.0 sowing
 22 May 1978(Day of year=142), wheat: 
       stage 2.0 germination
 27 May 1978(Day of year=147), wheat: 
@@ -3444,7 +3418,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
 16 August 1978(Day of year=228), wheat: 
       stage 6.0 flowering
                      biomass =         667.97 (g/m^2)   lai          =   2.295 (m^2/m^2)
-                     stover N conc =     1.03 (%)    extractable sw =  144.69 (mm)
+                     stover N conc =     1.03 (%)    extractable sw =  144.68 (mm)
 24 August 1978(Day of year=236), wheat: 
       stage 7.0 start_grain_fill
                      biomass =         795.36 (g/m^2)   lai          =   2.122 (m^2/m^2)
@@ -3452,32 +3426,32 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
 23 September 1978(Day of year=266), wheat: 
       stage 8.0 end_grain_fill
                      biomass =        1017.17 (g/m^2)   lai          =   0.583 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =  107.89 (mm)
+                     stover N conc =     0.31 (%)    extractable sw =  107.88 (mm)
 25 September 1978(Day of year=268), wheat: 
       stage 9.0 maturity
-                     biomass =        1018.26 (g/m^2)   lai          =   0.495 (m^2/m^2)
+                     biomass =        1018.27 (g/m^2)   lai          =   0.495 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =  104.88 (mm)
 26 September 1978(Day of year=269), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1018.26 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1018.27 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =  103.70 (mm)
 27 September 1978(Day of year=270), wheat: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 10182.62 (kg/ha)
+     Plant death. standing above-ground dm = 10182.65 (kg/ha)
      
-      flowering day          =  228                           stover (kg/ha)         =     7083.9
-      maturity day           =  268                           grain yield (kg/ha)    =     3098.7
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3541.4
+      flowering day          =  228                           stover (kg/ha)         =     7083.8
+      maturity day           =  268                           grain yield (kg/ha)    =     3098.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3541.5
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      2.878
-      total above ground biomass (kg/ha)    =    10182.6
-      live above ground biomass (kg/ha)     =    10182.6
+      total above ground biomass (kg/ha)    =    10182.7
+      live above ground biomass (kg/ha)     =    10182.7
       green above ground biomass (kg/ha)    =        0.0
-      senesced above ground biomass (kg/ha) =    10182.6
+      senesced above ground biomass (kg/ha) =    10182.7
       number of leaves       =     37.8
       DM Root:Shoot ratio    =     0.13                       Harvest Index          =       0.30
       Stover C:N ratio       =   117.44                       Root C:N ratio         =      30.56
-      grain N percent        =     1.62                       total N content (kg/ha)=      74.43
+      grain N percent        =     1.62                       total N content (kg/ha)=      74.44
       grain N uptake (kg/ha) =    50.31                       senesced N content (kg/ha)=   24.13
       green N content (kg/ha)=     0.00
      
@@ -3491,11 +3465,11 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                7083.9                     0.0
+                          DM (kg/ha) =                7083.8                     0.0
                           N  (kg/ha) =                  24.13                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3098.7                     0.0
+                          DM (kg/ha) =                3098.8                     0.0
                           N  (kg/ha) =                  50.31                    0.00
      
       stage 4.0 end_of_juvenile
@@ -3562,6 +3536,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3571,8 +3546,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             309   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-6 November 1978(Day of year=310), lucerne: 
-      stage 1.0 sowing
 7 November 1978(Day of year=311), lucerne: 
       stage 2.0 germination
 8 November 1978(Day of year=312), lucerne: 
@@ -3589,16 +3562,16 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     4.38 (%)    extractable sw =  145.10 (mm)
 13 January 1979(Day of year=13), lucerne: 
       stage 6.0 flowering
-                     biomass =         203.20 (g/m^2)   lai          =   2.795 (m^2/m^2)
+                     biomass =         203.20 (g/m^2)   lai          =   2.794 (m^2/m^2)
                      stover N conc =     3.05 (%)    extractable sw =  161.38 (mm)
 19 January 1979(Day of year=19), lucerne: 
       stage 7.0 start_grain_fill
                      biomass =         217.87 (g/m^2)   lai          =   2.848 (m^2/m^2)
-                     stover N conc =     2.86 (%)    extractable sw =  141.60 (mm)
+                     stover N conc =     2.86 (%)    extractable sw =  141.59 (mm)
 5 February 1979(Day of year=36), lucerne: 
       stage 4.0 end_of_juvenile
-                     biomass =         219.15 (g/m^2)   lai          =   2.695 (m^2/m^2)
-                     stover N conc =     2.64 (%)    extractable sw =  105.14 (mm)
+                     biomass =         219.14 (g/m^2)   lai          =   2.694 (m^2/m^2)
+                     stover N conc =     2.64 (%)    extractable sw =  105.13 (mm)
 6 October 1980(Day of year=280), lucerne: 
      Crop ended. Yield (dw) =     4.4  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
@@ -3652,6 +3625,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3661,8 +3635,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             142   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-23 May 1981(Day of year=143), wheat: 
-      stage 1.0 sowing
 24 May 1981(Day of year=144), wheat: 
       stage 2.0 germination
 29 May 1981(Day of year=149), wheat: 
@@ -3675,41 +3647,41 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     5.83 (%)    extractable sw =   35.22 (mm)
 15 July 1981(Day of year=196), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         141.43 (g/m^2)   lai          =   2.034 (m^2/m^2)
-                     stover N conc =     2.11 (%)    extractable sw =  156.84 (mm)
+                     biomass =         141.44 (g/m^2)   lai          =   2.034 (m^2/m^2)
+                     stover N conc =     2.11 (%)    extractable sw =  156.83 (mm)
 19 August 1981(Day of year=231), wheat: 
       stage 6.0 flowering
-                     biomass =         473.03 (g/m^2)   lai          =   1.225 (m^2/m^2)
+                     biomass =         473.05 (g/m^2)   lai          =   1.225 (m^2/m^2)
                      stover N conc =     0.76 (%)    extractable sw =   97.86 (mm)
 26 August 1981(Day of year=238), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         537.80 (g/m^2)   lai          =   1.043 (m^2/m^2)
-                     stover N conc =     0.53 (%)    extractable sw =   87.42 (mm)
+                     biomass =         537.82 (g/m^2)   lai          =   1.044 (m^2/m^2)
+                     stover N conc =     0.53 (%)    extractable sw =   87.41 (mm)
 24 September 1981(Day of year=267), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         684.74 (g/m^2)   lai          =   0.152 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   36.53 (mm)
+                     biomass =         684.76 (g/m^2)   lai          =   0.152 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =   36.52 (mm)
 25 September 1981(Day of year=268), wheat: 
       stage 9.0 maturity
-                     biomass =         684.74 (g/m^2)   lai          =   0.140 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   36.06 (mm)
+                     biomass =         684.76 (g/m^2)   lai          =   0.140 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =   36.05 (mm)
 26 September 1981(Day of year=269), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         684.74 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   35.61 (mm)
+                     biomass =         684.76 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =   35.60 (mm)
 27 September 1981(Day of year=270), wheat: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 6847.37 (kg/ha)
+     Plant death. standing above-ground dm = 6847.59 (kg/ha)
      
-      flowering day          =  231                           stover (kg/ha)         =     5455.1
+      flowering day          =  231                           stover (kg/ha)         =     5455.3
       maturity day           =  268                           grain yield (kg/ha)    =     1392.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1591.2
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      2.078
-      total above ground biomass (kg/ha)    =     6847.4
-      live above ground biomass (kg/ha)     =     6847.4
+      grains/plant           =    0.0                         maximum lai            =      2.079
+      total above ground biomass (kg/ha)    =     6847.6
+      live above ground biomass (kg/ha)     =     6847.6
       green above ground biomass (kg/ha)    =        0.0
-      senesced above ground biomass (kg/ha) =     6847.4
+      senesced above ground biomass (kg/ha) =     6847.6
       number of leaves       =     38.7
       DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.20
       Stover C:N ratio       =   119.51                       Root C:N ratio         =      39.18
@@ -3727,7 +3699,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                5455.1                     0.0
+                          DM (kg/ha) =                5455.3                     0.0
                           N  (kg/ha) =                  18.26                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -3736,7 +3708,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.00 (%)    extractable sw =   35.58 (mm)
+                     stover N conc =     0.00 (%)    extractable sw =   35.57 (mm)
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                   0.0                   943.6
@@ -3798,6 +3770,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3807,8 +3780,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             308   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-5 November 1981(Day of year=309), lucerne: 
-      stage 1.0 sowing
 6 November 1981(Day of year=310), lucerne: 
       stage 2.0 germination
 7 November 1981(Day of year=311), lucerne: 
@@ -3825,7 +3796,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     4.39 (%)    extractable sw =  131.40 (mm)
 13 January 1982(Day of year=13), lucerne: 
       stage 6.0 flowering
-                     biomass =         150.08 (g/m^2)   lai          =   2.385 (m^2/m^2)
+                     biomass =         150.07 (g/m^2)   lai          =   2.385 (m^2/m^2)
                      stover N conc =     2.93 (%)    extractable sw =   91.91 (mm)
 19 January 1982(Day of year=19), lucerne: 
       stage 7.0 start_grain_fill
@@ -3833,7 +3804,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     2.67 (%)    extractable sw =  145.12 (mm)
 4 February 1982(Day of year=35), lucerne: 
       stage 4.0 end_of_juvenile
-                     biomass =         171.67 (g/m^2)   lai          =   2.337 (m^2/m^2)
+                     biomass =         171.66 (g/m^2)   lai          =   2.337 (m^2/m^2)
                      stover N conc =     2.58 (%)    extractable sw =  152.84 (mm)
 6 October 1983(Day of year=279), lucerne: 
      Crop ended. Yield (dw) =     3.2  (kg/ha)
@@ -3888,6 +3859,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3897,8 +3869,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             192   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-11 July 1984(Day of year=193), wheat: 
-      stage 1.0 sowing
 12 July 1984(Day of year=194), wheat: 
       stage 2.0 germination
 17 July 1984(Day of year=199), wheat: 
@@ -3935,11 +3905,11 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     0.31 (%)    extractable sw =   90.28 (mm)
 30 October 1984(Day of year=304), wheat: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 10591.79 (kg/ha)
+     Plant death. standing above-ground dm = 10591.78 (kg/ha)
      
       flowering day          =  269                           stover (kg/ha)         =     6998.8
-      maturity day           =  302                           grain yield (kg/ha)    =     3592.9
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4106.2
+      maturity day           =  302                           grain yield (kg/ha)    =     3593.0
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4106.3
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      3.368
       total above ground biomass (kg/ha)    =    10591.8
@@ -3967,7 +3937,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                           N  (kg/ha) =                  24.31                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3592.9                     0.0
+                          DM (kg/ha) =                3593.0                     0.0
                           N  (kg/ha) =                  55.55                    0.00
      
       stage 4.0 end_of_juvenile
@@ -4034,6 +4004,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4043,8 +4014,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             310   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-6 November 1984(Day of year=311), lucerne: 
-      stage 1.0 sowing
 7 November 1984(Day of year=312), lucerne: 
       stage 2.0 germination
 8 November 1984(Day of year=313), lucerne: 
@@ -4061,7 +4030,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     4.42 (%)    extractable sw =  127.65 (mm)
 15 January 1985(Day of year=15), lucerne: 
       stage 6.0 flowering
-                     biomass =         180.04 (g/m^2)   lai          =   2.523 (m^2/m^2)
+                     biomass =         180.05 (g/m^2)   lai          =   2.523 (m^2/m^2)
                      stover N conc =     2.87 (%)    extractable sw =  142.38 (mm)
 21 January 1985(Day of year=21), lucerne: 
       stage 7.0 start_grain_fill
@@ -4124,6 +4093,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   268mm in  1800mm total depth ( 15%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4133,8 +4103,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             170   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-20 June 1987(Day of year=171), wheat: 
-      stage 1.0 sowing
 21 June 1987(Day of year=172), wheat: 
       stage 2.0 germination
 25 June 1987(Day of year=176), wheat: 
@@ -4148,10 +4116,10 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
 11 August 1987(Day of year=223), wheat: 
       stage 5.0 floral_initiation
                      biomass =         233.42 (g/m^2)   lai          =   3.332 (m^2/m^2)
-                     stover N conc =     2.22 (%)    extractable sw =  104.81 (mm)
+                     stover N conc =     2.22 (%)    extractable sw =  104.80 (mm)
 11 September 1987(Day of year=254), wheat: 
       stage 6.0 flowering
-                     biomass =         517.75 (g/m^2)   lai          =   1.392 (m^2/m^2)
+                     biomass =         517.74 (g/m^2)   lai          =   1.392 (m^2/m^2)
                      stover N conc =     1.12 (%)    extractable sw =   29.86 (mm)
 17 September 1987(Day of year=260), wheat: 
       stage 7.0 start_grain_fill
@@ -4159,7 +4127,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     0.97 (%)    extractable sw =   20.59 (mm)
 12 October 1987(Day of year=285), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         577.90 (g/m^2)   lai          =   0.266 (m^2/m^2)
+                     biomass =         577.89 (g/m^2)   lai          =   0.266 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   37.39 (mm)
 14 October 1987(Day of year=287), wheat: 
       stage 9.0 maturity
@@ -4171,10 +4139,10 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                      stover N conc =     0.30 (%)    extractable sw =   39.05 (mm)
 16 October 1987(Day of year=289), wheat: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 5779.82 (kg/ha)
+     Plant death. standing above-ground dm = 5779.79 (kg/ha)
      
-      flowering day          =  254                           stover (kg/ha)         =     4196.8
-      maturity day           =  287                           grain yield (kg/ha)    =     1583.1
+      flowering day          =  254                           stover (kg/ha)         =     4196.7
+      maturity day           =  287                           grain yield (kg/ha)    =     1583.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1809.2
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      3.433
@@ -4186,7 +4154,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
       DM Root:Shoot ratio    =     0.21                       Harvest Index          =       0.27
       Stover C:N ratio       =   107.32                       Root C:N ratio         =      28.82
       grain N percent        =     2.42                       total N content (kg/ha)=      53.98
-      grain N uptake (kg/ha) =    38.33                       senesced N content (kg/ha)=   15.64
+      grain N uptake (kg/ha) =    38.34                       senesced N content (kg/ha)=   15.64
       green N content (kg/ha)=     0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -4203,8 +4171,8 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
                           N  (kg/ha) =                  15.64                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1583.1                     0.0
-                          N  (kg/ha) =                  38.33                    0.00
+                          DM (kg/ha) =                1583.0                     0.0
+                          N  (kg/ha) =                  38.34                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.000 (m^2/m^2)
@@ -4270,6 +4238,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   332mm in  1800mm total depth ( 18%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4279,8 +4248,6 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
             291   10.0  200.0  250.0   0.0   0.0 hunter_river
          ------------------------------------------------
      
-19 October 1987(Day of year=292), lucerne: 
-      stage 1.0 sowing
 20 October 1987(Day of year=293), lucerne: 
       stage 2.0 germination
 22 October 1987(Day of year=295), lucerne: 

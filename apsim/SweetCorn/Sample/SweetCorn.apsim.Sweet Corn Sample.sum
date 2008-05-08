@@ -330,6 +330,7 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
          -----------------------------------------------
          Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -345,7 +346,6 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
         - Reading Fertiliser Type Parameters
        200.00 of N as urea (urea_n)
                                               added at depth   50.00 (layer   1)
-      stage 1.0 sowing
 10 December 1998(Day of year=344), SweetCorn: 
       stage 2.0 germination
 13 December 1998(Day of year=347), SweetCorn: 
@@ -381,9 +381,9 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
                      biomass =        1743.85 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.64 (%)    extractable sw =  196.03 (mm)
 12 April 1999(Day of year=102), SweetCorn: 
+      stage 11.0 harvest_ripe
      Crop failure because of total leaf senescence.
      Plant death. standing above-ground dm = 17438.52 (kg/ha)
-      stage 11.0 harvest_ripe
                      biomass =        1743.85 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.00 (%)    extractable sw =  195.79 (mm)
 12 April 1999(Day of year=102), manager: 

@@ -380,6 +380,7 @@ Component  "sunflower" = c:\development\apsim\cropmod\lib\cropmod.dll
          -----------------------------------------------
          Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -389,7 +390,6 @@ Component  "sunflower" = c:\development\apsim\cropmod\lib\cropmod.dll
              10   40.0   25.0  500.0   0.0   0.0 banjo
          ------------------------------------------------
      
-      stage 1.0 sowing
 11 January 1988(Day of year=11), sunflower: 
       stage    2.0 germination
 11 January 1988(Day of year=11), cowpea: 
@@ -420,55 +420,55 @@ Component  "sunflower" = c:\development\apsim\cropmod\lib\cropmod.dll
                      stover N conc =     3.91 (%)    extractable sw =  151.67 (mm)
 26 February 1988(Day of year=57), cowpea: 
       stage 6.0 flowering
-                     biomass =         103.92 (g/m^2)   lai          =   1.648 (m^2/m^2)
+                     biomass =         103.92 (g/m^2)   lai          =   1.644 (m^2/m^2)
                      stover N conc =     3.87 (%)    extractable sw =  149.99 (mm)
 5 March 1988(Day of year=65), cowpea: 
       stage 7.0 start_grain_fill
-                     biomass =         116.02 (g/m^2)   lai          =   1.704 (m^2/m^2)
-                     stover N conc =     3.50 (%)    extractable sw =  176.19 (mm)
+                     biomass =         115.99 (g/m^2)   lai          =   1.692 (m^2/m^2)
+                     stover N conc =     3.50 (%)    extractable sw =  176.20 (mm)
 27 March 1988(Day of year=87), sunflower: 
       stage    6.0 flag_leaf
-                          biomass =           471.4727       lai =     1.991618
-                          stover N conc =    1.515172       extractable sw =    153.6310
+                          biomass =           471.5016       lai =     1.991643
+                          stover N conc =    1.515406       extractable sw =    153.7331
 28 March 1988(Day of year=88), sunflower: 
       stage    7.0 flowering
-                          biomass =           483.3167       lai =     1.983497
-                          stover N conc =    1.486025       extractable sw =    148.6382
+                          biomass =           483.3497       lai =     1.983518
+                          stover N conc =    1.486327       extractable sw =    148.7682
 30 March 1988(Day of year=90), cowpea: 
       stage 8.0 end_grain_fill
-                     biomass =         150.15 (g/m^2)   lai          =   0.953 (m^2/m^2)
-                     stover N conc =     2.26 (%)    extractable sw =   98.36 (mm)
+                     biomass =         149.64 (g/m^2)   lai          =   0.892 (m^2/m^2)
+                     stover N conc =     2.28 (%)    extractable sw =   98.49 (mm)
 1 April 1988(Day of year=92), cowpea: 
       stage 9.0 maturity
-                     biomass =         150.49 (g/m^2)   lai          =   0.850 (m^2/m^2)
-                     stover N conc =     2.26 (%)    extractable sw =  130.45 (mm)
+                     biomass =         149.97 (g/m^2)   lai          =   0.780 (m^2/m^2)
+                     stover N conc =     2.29 (%)    extractable sw =  130.58 (mm)
 1 April 1988(Day of year=92), sunflower: 
       stage    8.0 start_grain_fill
-                          biomass =           518.1700       lai =     1.922506
-                          stover N conc =    1.424875       extractable sw =    169.7871
+                          biomass =           518.2191       lai =     1.922519
+                          stover N conc =    1.425421       extractable sw =    169.9235
 2 April 1988(Day of year=93), cowpea: 
       stage 10.0 harvest_ripe
-                     biomass =         150.70 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.40 (%)    extractable sw =  144.24 (mm)
+                     biomass =         150.16 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.42 (%)    extractable sw =  144.34 (mm)
 3 April 1988(Day of year=94), manager: 
      Manager sending message :- cowpea harvest
 3 April 1988(Day of year=94), cowpea: 
      
-      flowering day          =   57                           stover (kg/ha)         =     1086.1
-      maturity day           =   92                           grain yield (kg/ha)    =      421.0
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=      478.4
+      flowering day          =   57                           stover (kg/ha)         =     1084.7
+      maturity day           =   92                           grain yield (kg/ha)    =      417.0
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=      473.8
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      1.716
-      total above ground biomass (kg/ha)    =     1507.0
-      live above ground biomass (kg/ha)     =     1507.0
-      green above ground biomass (kg/ha)    =      922.0
+      grains/plant           =    0.0                         maximum lai            =      1.705
+      total above ground biomass (kg/ha)    =     1501.6
+      live above ground biomass (kg/ha)     =     1501.6
+      green above ground biomass (kg/ha)    =      916.7
       senesced above ground biomass (kg/ha) =      585.0
       number of leaves       =      8.2
       DM Root:Shoot ratio    =     0.58                       Harvest Index          =       0.28
-      Stover C:N ratio       =    18.32                       Root C:N ratio         =      26.67
-      grain N percent        =     4.50                       total N content (kg/ha)=      42.66
-      grain N uptake (kg/ha) =    18.94                       senesced N content (kg/ha)=   11.70
-      green N content (kg/ha)=    12.01
+      Stover C:N ratio       =    18.22                       Root C:N ratio         =      26.67
+      grain N percent        =     4.50                       total N content (kg/ha)=      42.58
+      grain N uptake (kg/ha) =    18.76                       senesced N content (kg/ha)=   11.70
+      green N content (kg/ha)=    12.11
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.016
@@ -480,32 +480,32 @@ Component  "sunflower" = c:\development\apsim\cropmod\lib\cropmod.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                1086.1                     0.0
-                          N  (kg/ha) =                  23.71                    0.00
+                          DM (kg/ha) =                1084.7                     0.0
+                          N  (kg/ha) =                  23.81                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                 421.0                     0.0
-                          N  (kg/ha) =                  18.94                    0.00
+                          DM (kg/ha) =                 417.0                     0.0
+                          N  (kg/ha) =                  18.76                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- cowpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                   872.4
-                          N  (kg/ha) =                   0.00                   13.09
+                          DM (kg/ha) =                   0.0                   872.0
+                          N  (kg/ha) =                   0.00                   13.08
      
 30 April 1988(Day of year=121), sunflower: 
       stage    9.0 end_grain_fill
-                          biomass =           700.9313       lai =    0.4130797
-                          stover N conc =    1.315634       extractable sw =    218.3575
+                          biomass =           701.2296       lai =    0.4128979
+                          stover N conc =    1.317239       extractable sw =    218.3141
 2 May 1988(Day of year=123), sunflower: 
       stage   10.0 maturity
-                          biomass =           707.1008       lai =    0.1473235
-                          stover N conc =    1.340790       extractable sw =    213.8913
+                          biomass =           707.3963       lai =    0.1471061
+                          stover N conc =    1.342487       extractable sw =    213.8490
 3 May 1988(Day of year=124), sunflower: 
       stage   11.0 harvest_ripe
-                          biomass =           707.1008       lai =     0.000000
-                          stover N conc =    1.357149       extractable sw =    212.6008
+                          biomass =           707.3963       lai =     0.000000
+                          stover N conc =    1.358855       extractable sw =    212.5589
 4 May 1988(Day of year=125), manager: 
      Manager sending message :- sunflower harvest
 4 May 1988(Day of year=125), sunflower: 
@@ -513,40 +513,40 @@ Component  "sunflower" = c:\development\apsim\cropmod\lib\cropmod.dll
      
      
      flowering (DAS) =   79                                maturity (DAS)  =     114
-      flowering day  =   88                                 stover (kg/ha) =    5190.8
-      maturity day        =  123                            grain yield (kg/ha) =    1880.2
-      grain % water content   =    9.0                      grain yield wet (kg/ha) =    2066.2
+      flowering day  =   88                                 stover (kg/ha) =    5193.0
+      maturity day        =  123                            grain yield (kg/ha) =    1881.0
+      grain % water content   =    9.0                      grain yield wet (kg/ha) =    2067.0
       grain wt (g) =     0.000                              grains/m^2   =     0.000
       grains/head =   0.0                                   maximum lai = 2.000
-      total above ground biomass (kg/ha) =    7071.0
-      live above ground biomass (kg/ha) =    7071.0
-      green above ground biomass (kg/ha) =    5140.3
+      total above ground biomass (kg/ha) =    7074.0
+      live above ground biomass (kg/ha) =    7074.0
+      green above ground biomass (kg/ha) =    5143.2
       senesced above ground biomass (kg/ha) =    1930.7
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  31.8
-      grain N percent =      1.90                           total N content (kg/ha) =     83.28
-      grain N uptake (kg/ha) =     35.81                    senesced N content (kg/ha) =     13.51
-      green N content (kg/ha) =     33.95                   dead N content (kg/ha) =      0.00
+      grain N percent =      1.91                           total N content (kg/ha) =     83.40
+      grain N uptake (kg/ha) =     35.84                    senesced N content (kg/ha) =     13.52
+      green N content (kg/ha) =     34.05                   dead N content (kg/ha) =      0.00
      
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence           to end_of_juvenile         0.000        0.000        0.007        0.185
          end_of_juvenile     to floral_initiation       0.000        0.066        0.040        0.231
          floral_initiation   to flag_leaf               0.000        0.021        0.509        0.607
-         flag_leaf           to flowering               0.000        0.414        0.365        0.492
-         flowering           to start_grain_fill        0.000        0.319        0.353        0.483
-         start_grain_fill    to end_grain_fill          0.000        0.000        0.220        0.376
+         flag_leaf           to flowering               0.000        0.413        0.365        0.492
+         flowering           to start_grain_fill        0.000        0.318        0.353        0.482
+         start_grain_fill    to end_grain_fill          0.000        0.000        0.219        0.375
      
      Crop harvested.
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1880.20                    0.00
-                          N  (kg/ha) =                 35.81                    0.00
+                          DM (kg/ha) =               1880.98                    0.00
+                          N  (kg/ha) =                 35.84                    0.00
      
      Manager sending message :- sunflower end_crop
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
-                          DM (kg/ha) =               5585.65                 2086.41
-                          N  (kg/ha) =                 47.47                   17.21
+                          DM (kg/ha) =               5588.06                 2086.52
+                          N  (kg/ha) =                 47.56                   17.25
                           P  (kg/ha) =                  0.00                    0.00
      
 1 January 1990(Day of year=1), clock: 

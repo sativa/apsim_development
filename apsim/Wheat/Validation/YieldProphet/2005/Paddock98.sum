@@ -1007,7 +1007,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 29.00000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 90.20826
+     Manager creating a new local real variable : nitrogen = 90.20827
      Manager creating a new local real variable : availablewater = 14.17010
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1106,6 +1106,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   180mm in  1500mm total depth ( 12%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1121,7 +1122,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 23 June 2005(Day of year=174), CanolaOilConc: 
      Manager creating a new local real variable : cum_temp = 0.00000
      Manager creating a new local real variable : cum_swdef = 0.00000
@@ -1144,7 +1144,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                                               added at depth   20.00 (layer   1)
 9 September 2005(Day of year=252), Wheat: 
       stage 5.0 floral_initiation
-                     biomass =         316.74 (g/m^2)   lai          =   4.280 (m^2/m^2)
+                     biomass =         316.74 (g/m^2)   lai          =   4.281 (m^2/m^2)
                      stover N conc =     2.32 (%)    extractable sw =   69.57 (mm)
 17 October 2005(Day of year=290), Wheat: 
       stage 6.0 flowering

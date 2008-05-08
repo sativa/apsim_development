@@ -1023,7 +1023,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 29.25000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 234.85869
+     Manager creating a new local real variable : nitrogen = 234.85870
      Manager creating a new local real variable : availablewater = 202.80585
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1130,6 +1130,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   226mm in  1800mm total depth ( 13%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1145,7 +1146,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 20 May 2004(Day of year=141), CanolaOilConc: 
      Manager creating a new local real variable : cum_temp = 0.00000
      Manager creating a new local real variable : cum_swdef = 0.00000
@@ -1194,12 +1194,12 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =        1163.09 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.99 (%)    extractable sw =   51.19 (mm)
 22 October 2004(Day of year=296), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 164.12363
+     Manager creating a new local real variable : fullprice = 164.12366
 22 October 2004(Day of year=296), Harvest: 
      Manager sending message :- wheat harvest
      
       flowering day          =  259                           stover (kg/ha)         =     8166.2
-      maturity day           =  295                           grain yield (kg/ha)    =     3464.6
+      maturity day           =  295                           grain yield (kg/ha)    =     3464.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3959.6
       grain wt (g)           =    0.025                       grains/m^2             =    13642.1
       grains/plant           =  136.4                         maximum lai            =      6.402
@@ -1228,7 +1228,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                           N  (kg/ha) =                  65.60                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3464.6                     0.0
+                          DM (kg/ha) =                3464.7                     0.0
                           N  (kg/ha) =                 100.30                    0.00
      
       stage 4.0 end_of_juvenile

@@ -1015,7 +1015,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 28.00000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 73.02967
+     Manager creating a new local real variable : nitrogen = 73.02968
      Manager creating a new local real variable : availablewater = 52.17014
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1106,6 +1106,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   199mm in  1600mm total depth ( 12%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1129,7 +1130,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 28 May 2004(Day of year=149), GrossMargin: 
      Manager creating a new local real variable : cost = 21.00000
 29 May 2004(Day of year=150), CanolaOilConc: 
@@ -1166,7 +1166,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.77 (%)    extractable sw =   24.40 (mm)
 18 October 2004(Day of year=292), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp = 14.75000
-     Manager creating a new local real variable : avg_swdef = 0.33022
+     Manager creating a new local real variable : avg_swdef = 0.33021
 19 November 2004(Day of year=324), Wheat: 
       stage 8.0 end_grain_fill
                      biomass =         767.24 (g/m^2)   lai          =   0.409 (m^2/m^2)
@@ -1180,7 +1180,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         767.93 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   63.12 (mm)
 22 November 2004(Day of year=327), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 141.84833
+     Manager creating a new local real variable : fullprice = 141.84840
 22 November 2004(Day of year=327), Harvest: 
      Manager sending message :- wheat harvest
      

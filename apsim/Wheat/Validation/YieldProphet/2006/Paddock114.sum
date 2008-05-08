@@ -1048,6 +1048,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:    86mm in  1500mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1063,7 +1064,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 17 May 2006(Day of year=137), Reset: 
      Manager creating a new local string variable : resetwater = yes
      Manager creating a new local string variable : resetnitrogen = yes
@@ -1150,7 +1150,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         473.93 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   12.43 (mm)
 6 November 2006(Day of year=310), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 148.15265
+     Manager creating a new local real variable : fullprice = 148.15266
 6 November 2006(Day of year=310), Harvest: 
      Manager sending message :- barley harvest
      

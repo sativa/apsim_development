@@ -987,7 +987,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 27.50000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 77.49053
+     Manager creating a new local real variable : nitrogen = 77.49054
      Manager creating a new local real variable : availablewater = 140.74640
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1039,6 +1039,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:    97mm in  1000mm total depth ( 10%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1062,7 +1063,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 20 May 2006(Day of year=140), GrossMargin: 
      Manager creating a new local real variable : cost = 27.00000
 21 May 2006(Day of year=141), CanolaOilConc: 
@@ -1141,7 +1141,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         570.64 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   30.22 (mm)
 17 November 2006(Day of year=321), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 142.45819
+     Manager creating a new local real variable : fullprice = 142.45813
 17 November 2006(Day of year=321), Harvest: 
      Manager sending message :- wheat harvest
      

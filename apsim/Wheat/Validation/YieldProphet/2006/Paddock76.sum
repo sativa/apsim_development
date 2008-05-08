@@ -1079,6 +1079,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   249mm in  1300mm total depth ( 19%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1102,7 +1103,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 6 May 2006(Day of year=126), GrossMargin: 
      Manager creating a new local real variable : cost = 39.00000
 7 May 2006(Day of year=127), CanolaOilConc: 
@@ -1146,7 +1146,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         474.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   10.40 (mm)
 3 November 2006(Day of year=307), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 144.30130
+     Manager creating a new local real variable : fullprice = 144.30165
 3 November 2006(Day of year=307), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1176,7 +1176,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3485.0                     0.0
+                          DM (kg/ha) =                3485.1                     0.0
                           N  (kg/ha) =                  12.96                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots

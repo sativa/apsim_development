@@ -305,6 +305,7 @@ Component     "centro" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   174mm in  1800mm total depth ( 10%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -316,7 +317,6 @@ Component     "centro" = c:\development\apsim\plant\lib\plant.dll
      
 23 September 1988(Day of year=267), Sowing fertiliser: 
      Manager sending message :- fertiliser apply  amount = 0 (kg/ha), depth = 50 (mm), type = urea_n
-      stage 1.0 sowing
 24 September 1988(Day of year=268), centro: 
       stage 2.0 germination
 30 September 1988(Day of year=274), centro: 
@@ -341,59 +341,59 @@ Component     "centro" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     3.07 (%)    extractable sw =   35.67 (mm)
 20 January 1989(Day of year=20), centro: 
       stage 8.0 end_grain_fill
-                     biomass =         550.41 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.32 (%)    extractable sw =   28.38 (mm)
+                     biomass =         549.97 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.33 (%)    extractable sw =   28.41 (mm)
 26 January 1989(Day of year=26), centro: 
       stage 9.0 maturity
-                     biomass =         573.10 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.27 (%)    extractable sw =   16.21 (mm)
+                     biomass =         572.68 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.28 (%)    extractable sw =   16.24 (mm)
 27 January 1989(Day of year=27), centro: 
       stage 10.0 harvest_ripe
-                     biomass =         574.41 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.27 (%)    extractable sw =   15.22 (mm)
+                     biomass =         574.00 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.27 (%)    extractable sw =   15.24 (mm)
 27 January 1989(Day of year=27), Harvesting rule: 
      Manager sending message :- centro harvest
      
-      flowering day          =  327                           stover (kg/ha)         =     4031.8
-      maturity day           =   26                           grain yield (kg/ha)    =     1712.3
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1945.8
+      flowering day          =  327                           stover (kg/ha)         =     4028.9
+      maturity day           =   26                           grain yield (kg/ha)    =     1711.1
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1944.4
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      1.125
-      total above ground biomass (kg/ha)    =     5744.1
-      live above ground biomass (kg/ha)     =     5744.1
-      green above ground biomass (kg/ha)    =     5461.5
-      senesced above ground biomass (kg/ha) =      282.6
+      total above ground biomass (kg/ha)    =     5740.0
+      live above ground biomass (kg/ha)     =     5740.0
+      green above ground biomass (kg/ha)    =     5483.1
+      senesced above ground biomass (kg/ha) =      256.9
       number of leaves       =    171.4
       DM Root:Shoot ratio    =     0.68                       Harvest Index          =       0.30
-      Stover C:N ratio       =    18.67                       Root C:N ratio         =      15.24
-      grain N percent        =     1.70                       total N content (kg/ha)=     115.51
-      grain N uptake (kg/ha) =    29.11                       senesced N content (kg/ha)=    1.41
-      green N content (kg/ha)=    84.99
+      Stover C:N ratio       =    18.55                       Root C:N ratio         =      15.24
+      grain N percent        =     1.70                       total N content (kg/ha)=     115.98
+      grain N uptake (kg/ha) =    29.09                       senesced N content (kg/ha)=    1.28
+      green N content (kg/ha)=    85.60
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.077
          end_of_juvenile      to floral_initiation       0.018        0.031        0.000        0.057
          floral_initiation    to flowering               0.022        0.038        0.000        0.054
          flowering            to start_grain_fill        0.127        0.159        0.000        0.042
-         start_grain_fill     to end_grain_fill          0.181        0.229        0.000        0.027
+         start_grain_fill     to end_grain_fill          0.180        0.228        0.000        0.027
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                3624.9                     0.0
-                          N  (kg/ha) =                  77.03                    0.00
+                          DM (kg/ha) =                3622.5                     0.0
+                          N  (kg/ha) =                  77.53                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1712.3                     0.0
-                          N  (kg/ha) =                  29.11                    0.00
+                          DM (kg/ha) =                1711.1                     0.0
+                          N  (kg/ha) =                  29.09                    0.00
      
       stage 3.0 emergence
                      biomass =           1.20 (g/m^2)   lai          =   0.005 (m^2/m^2)
-                     stover N conc =     6.00 (%)    extractable sw =   15.22 (mm)
+                     stover N conc =     6.00 (%)    extractable sw =   15.24 (mm)
      Manager sending message :- centro end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  12.0                   417.6
+                          DM (kg/ha) =                  12.0                   417.2
                           N  (kg/ha) =                   0.72                    3.34
      
 23 September 1989(Day of year=266), Sowing rule: 
@@ -454,6 +454,7 @@ Component     "centro" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   174mm in  1800mm total depth ( 10%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -465,7 +466,6 @@ Component     "centro" = c:\development\apsim\plant\lib\plant.dll
      
 23 September 1989(Day of year=266), Sowing fertiliser: 
      Manager sending message :- fertiliser apply  amount = 0 (kg/ha), depth = 50 (mm), type = urea_n
-      stage 1.0 sowing
 24 September 1989(Day of year=267), centro: 
       stage 2.0 germination
 2 October 1989(Day of year=275), centro: 
@@ -474,75 +474,75 @@ Component     "centro" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     6.00 (%)    extractable sw =   17.22 (mm)
 9 November 1989(Day of year=313), centro: 
       stage 4.0 end_of_juvenile
-                     biomass =          63.24 (g/m^2)   lai          =   0.603 (m^2/m^2)
+                     biomass =          63.25 (g/m^2)   lai          =   0.603 (m^2/m^2)
                      stover N conc =     5.64 (%)    extractable sw =  152.80 (mm)
 28 November 1989(Day of year=332), centro: 
       stage 5.0 floral_initiation
-                     biomass =         192.06 (g/m^2)   lai          =   1.199 (m^2/m^2)
+                     biomass =         192.08 (g/m^2)   lai          =   1.200 (m^2/m^2)
                      stover N conc =     4.41 (%)    extractable sw =  151.61 (mm)
 1 December 1989(Day of year=335), centro: 
       stage 6.0 flowering
-                     biomass =         223.04 (g/m^2)   lai          =   1.283 (m^2/m^2)
+                     biomass =         223.05 (g/m^2)   lai          =   1.281 (m^2/m^2)
                      stover N conc =     3.96 (%)    extractable sw =  141.12 (mm)
 19 December 1989(Day of year=353), centro: 
       stage 7.0 start_grain_fill
-                     biomass =         420.60 (g/m^2)   lai          =   1.507 (m^2/m^2)
-                     stover N conc =     2.73 (%)    extractable sw =  103.96 (mm)
+                     biomass =         419.91 (g/m^2)   lai          =   1.490 (m^2/m^2)
+                     stover N conc =     2.73 (%)    extractable sw =  104.14 (mm)
 29 January 1990(Day of year=29), centro: 
       stage 8.0 end_grain_fill
-                     biomass =         744.02 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.28 (%)    extractable sw =   27.87 (mm)
+                     biomass =         743.43 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.28 (%)    extractable sw =   27.93 (mm)
 4 February 1990(Day of year=35), centro: 
       stage 9.0 maturity
-                     biomass =         781.23 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.22 (%)    extractable sw =   60.40 (mm)
+                     biomass =         780.69 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.22 (%)    extractable sw =   60.45 (mm)
 5 February 1990(Day of year=36), centro: 
       stage 10.0 harvest_ripe
-                     biomass =         784.07 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.22 (%)    extractable sw =   54.87 (mm)
+                     biomass =         783.53 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.22 (%)    extractable sw =   54.92 (mm)
 5 February 1990(Day of year=36), Harvesting rule: 
      Manager sending message :- centro harvest
      
-      flowering day          =  335                           stover (kg/ha)         =     5520.5
-      maturity day           =   35                           grain yield (kg/ha)    =     2320.2
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2636.6
+      flowering day          =  335                           stover (kg/ha)         =     5516.8
+      maturity day           =   35                           grain yield (kg/ha)    =     2318.5
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2634.7
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      1.533
-      total above ground biomass (kg/ha)    =     7840.7
-      live above ground biomass (kg/ha)     =     7840.7
-      green above ground biomass (kg/ha)    =     7446.1
-      senesced above ground biomass (kg/ha) =      394.7
+      grains/plant           =    0.0                         maximum lai            =      1.516
+      total above ground biomass (kg/ha)    =     7835.3
+      live above ground biomass (kg/ha)     =     7835.3
+      green above ground biomass (kg/ha)    =     7433.5
+      senesced above ground biomass (kg/ha) =      401.8
       number of leaves       =    170.9
       DM Root:Shoot ratio    =     0.63                       Harvest Index          =       0.30
-      Stover C:N ratio       =    19.05                       Root C:N ratio         =      15.20
-      grain N percent        =     1.70                       total N content (kg/ha)=     155.38
-      grain N uptake (kg/ha) =    39.44                       senesced N content (kg/ha)=    1.97
-      green N content (kg/ha)=   113.97
+      Stover C:N ratio       =    19.07                       Root C:N ratio         =      15.20
+      grain N percent        =     1.70                       total N content (kg/ha)=     155.13
+      grain N uptake (kg/ha) =    39.41                       senesced N content (kg/ha)=    2.01
+      green N content (kg/ha)=   113.70
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.063
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.048
          floral_initiation    to flowering               0.000        0.000        0.000        0.046
-         flowering            to start_grain_fill        0.007        0.011        0.000        0.036
-         start_grain_fill     to end_grain_fill          0.134        0.165        0.000        0.025
+         flowering            to start_grain_fill        0.006        0.011        0.000        0.036
+         start_grain_fill     to end_grain_fill          0.133        0.164        0.000        0.025
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4951.4                     0.0
-                          N  (kg/ha) =                 103.05                    0.00
+                          DM (kg/ha) =                4947.9                     0.0
+                          N  (kg/ha) =                 102.83                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2320.2                     0.0
-                          N  (kg/ha) =                  39.44                    0.00
+                          DM (kg/ha) =                2318.5                     0.0
+                          N  (kg/ha) =                  39.41                    0.00
      
       stage 3.0 emergence
                      biomass =           1.20 (g/m^2)   lai          =   0.005 (m^2/m^2)
-                     stover N conc =     6.00 (%)    extractable sw =   54.87 (mm)
+                     stover N conc =     6.00 (%)    extractable sw =   54.92 (mm)
      Manager sending message :- centro end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  12.0                   528.1
+                          DM (kg/ha) =                  12.0                   527.9
                           N  (kg/ha) =                   0.72                    4.17
      
 30 April 1990(Day of year=120), clock: 

@@ -1078,6 +1078,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   249mm in  1300mm total depth ( 19%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1096,7 +1097,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 16 May 2006(Day of year=136), GrossMargin: 
      Manager creating a new local real variable : cost = 15.00000
 17 May 2006(Day of year=137), CanolaOilConc: 
@@ -1147,12 +1147,12 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         286.54 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.35 (%)    extractable sw =    4.84 (mm)
 25 October 2006(Day of year=298), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 153.67241
+     Manager creating a new local real variable : fullprice = 153.67258
 25 October 2006(Day of year=298), Harvest: 
      Manager sending message :- barley harvest
      
       flowering day          =  257                           stover (kg/ha)         =     1998.9
-      maturity day           =  297                           grain yield (kg/ha)    =      866.6
+      maturity day           =  297                           grain yield (kg/ha)    =      866.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      990.3
       grain wt (g)           =    0.030                       grains/m^2             =     2932.5
       grains/plant           =   29.3                         maximum lai            =      2.245
@@ -1181,7 +1181,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                           N  (kg/ha) =                   8.43                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                 866.6                     0.0
+                          DM (kg/ha) =                 866.5                     0.0
                           N  (kg/ha) =                  21.12                    0.00
      
       stage 4.0 end_of_juvenile

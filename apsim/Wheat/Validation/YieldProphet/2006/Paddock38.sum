@@ -1094,6 +1094,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   195mm in  1600mm total depth ( 12%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1117,7 +1118,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 17 May 2006(Day of year=137), GrossMargin: 
      Manager creating a new local real variable : cost = 18.60000
 18 May 2006(Day of year=138), CanolaOilConc: 
@@ -1154,11 +1154,11 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.47 (%)    extractable sw =    4.05 (mm)
 10 November 2006(Day of year=314), Wheat: 
       stage 9.0 maturity
-                     biomass =         614.14 (g/m^2)   lai          =   0.064 (m^2/m^2)
+                     biomass =         614.15 (g/m^2)   lai          =   0.064 (m^2/m^2)
                      stover N conc =     0.47 (%)    extractable sw =    3.17 (mm)
 11 November 2006(Day of year=315), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         614.14 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         614.15 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.47 (%)    extractable sw =    7.28 (mm)
 11 November 2006(Day of year=315), GrossMargin: 
      Manager creating a new local real variable : fullprice = 163.77481
@@ -1168,10 +1168,10 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       flowering day          =  273                           stover (kg/ha)         =     4687.2
       maturity day           =  314                           grain yield (kg/ha)    =     1454.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1662.0
-      grain wt (g)           =    0.019                       grains/m^2             =     7731.3
+      grain wt (g)           =    0.019                       grains/m^2             =     7731.4
       grains/plant           =   77.3                         maximum lai            =      4.325
-      total above ground biomass (kg/ha)    =     6141.4
-      live above ground biomass (kg/ha)     =     6141.4
+      total above ground biomass (kg/ha)    =     6141.5
+      live above ground biomass (kg/ha)     =     6141.5
       green above ground biomass (kg/ha)    =     4247.3
       senesced above ground biomass (kg/ha) =     1894.2
       number of leaves       =     46.3

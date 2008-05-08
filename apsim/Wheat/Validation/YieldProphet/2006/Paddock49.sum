@@ -1015,7 +1015,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 27.75000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 80.76352
+     Manager creating a new local real variable : nitrogen = 80.76353
      Manager creating a new local real variable : availablewater = 73.62015
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1116,6 +1116,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   185mm in  1600mm total depth ( 12%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1138,7 +1139,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 24 May 2006(Day of year=144), CanolaOilConc: 
      Manager creating a new local real variable : cum_temp = 0.00000
      Manager creating a new local real variable : cum_swdef = 0.00000
@@ -1180,14 +1180,14 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         608.38 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    3.20 (mm)
 19 November 2006(Day of year=323), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 156.22131
+     Manager creating a new local real variable : fullprice = 156.22154
 19 November 2006(Day of year=323), Harvest: 
      Manager sending message :- wheat harvest
      
       flowering day          =  278                           stover (kg/ha)         =     4484.1
       maturity day           =  322                           grain yield (kg/ha)    =     1599.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1828.2
-      grain wt (g)           =    0.021                       grains/m^2             =     7553.5
+      grain wt (g)           =    0.021                       grains/m^2             =     7553.6
       grains/plant           =   75.5                         maximum lai            =      3.829
       total above ground biomass (kg/ha)    =     6083.8
       live above ground biomass (kg/ha)     =     6083.8

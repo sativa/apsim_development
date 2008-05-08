@@ -1117,6 +1117,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   221mm in  1600mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1140,7 +1141,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 25 June 2005(Day of year=176), GrossMargin: 
      Manager creating a new local real variable : cost = 27.00000
 26 June 2005(Day of year=177), CanolaOilConc: 
@@ -1180,7 +1180,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     1.28 (%)    extractable sw =  110.94 (mm)
 22 October 2005(Day of year=295), barley: 
       stage 7.0 start_grain_fill
-                     biomass =         875.02 (g/m^2)   lai          =   4.165 (m^2/m^2)
+                     biomass =         875.03 (g/m^2)   lai          =   4.165 (m^2/m^2)
                      stover N conc =     0.97 (%)    extractable sw =   87.78 (mm)
 23 October 2005(Day of year=296), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp = 16.75000
@@ -1202,7 +1202,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
 25 November 2005(Day of year=329), Harvest: 
      Manager sending message :- barley harvest
      
-      flowering day          =  287                           stover (kg/ha)         =     6454.7
+      flowering day          =  287                           stover (kg/ha)         =     6454.8
       maturity day           =  328                           grain yield (kg/ha)    =     6046.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     6910.1
       grain wt (g)           =    0.061                       grains/m^2             =     9906.4
@@ -1228,7 +1228,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                6454.7                     0.0
+                          DM (kg/ha) =                6454.8                     0.0
                           N  (kg/ha) =                  23.65                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots

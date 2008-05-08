@@ -1115,6 +1115,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   195mm in  1600mm total depth ( 12%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1139,7 +1140,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 22 May 2006(Day of year=142), CanolaOilConc: 
      Manager creating a new local real variable : cum_temp = 0.00000
      Manager creating a new local real variable : cum_swdef = 0.00000
@@ -1159,7 +1159,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     1.97 (%)    extractable sw =   21.49 (mm)
 8 September 2006(Day of year=251), barley: 
       stage 6.0 flowering
-                     biomass =         266.22 (g/m^2)   lai          =   1.516 (m^2/m^2)
+                     biomass =         266.23 (g/m^2)   lai          =   1.516 (m^2/m^2)
                      stover N conc =     1.43 (%)    extractable sw =   34.30 (mm)
 17 September 2006(Day of year=260), barley: 
       stage 7.0 start_grain_fill
@@ -1181,7 +1181,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         368.66 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.38 (%)    extractable sw =    1.95 (mm)
 19 October 2006(Day of year=292), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 143.57933
+     Manager creating a new local real variable : fullprice = 143.57935
 19 October 2006(Day of year=292), Harvest: 
      Manager sending message :- barley harvest
      

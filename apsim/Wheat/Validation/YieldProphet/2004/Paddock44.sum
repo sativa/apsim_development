@@ -1154,7 +1154,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 27.75000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 85.79879
+     Manager creating a new local real variable : nitrogen = 85.79880
      Manager creating a new local real variable : availablewater = 40.42010
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1250,6 +1250,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
          -----------------------------------------------
          Extractable SW:   202mm in  1600mm total depth ( 13%).
          Crop factor for bounding water use is set to   1.5 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1272,7 +1273,6 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
-      stage 1.0 sowing
 20 May 2004(Day of year=141), CanolaOilConc: 
      Manager creating a new local real variable : cum_temp = 0.00000
      Manager creating a new local real variable : cum_swdef = 0.00000
@@ -1363,7 +1363,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =        1331.98 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.78 (%)    extractable sw =   77.60 (mm)
 24 November 2004(Day of year=329), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 164.40192
+     Manager creating a new local real variable : fullprice = 164.40190
 24 November 2004(Day of year=329), Harvest: 
      Manager sending message :- wheat harvest
      

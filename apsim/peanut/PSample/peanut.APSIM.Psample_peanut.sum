@@ -320,6 +320,7 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
          -----------------------------------------------
          Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to 100.0 times eo.
+      stage 1.0 sowing
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -329,7 +330,6 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
             330   40.0   10.0  500.0   0.0   0.0 early_bunch
          ------------------------------------------------
      
-      stage 1.0 sowing
 26 November 1988(Day of year=331), peanut: 
       stage 2.0 germination
 2 December 1988(Day of year=337), peanut: 
@@ -347,43 +347,43 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
 29 December 1988(Day of year=364), peanut: 
       stage 6.0 flowering
                      biomass =          47.50 (g/m^2)   lai          =   0.780 (m^2/m^2)
-                     stover N conc =     2.65 (%)    extractable sw =  217.39 (mm)
+                     stover N conc =     2.66 (%)    extractable sw =  217.39 (mm)
 19 January 1989(Day of year=19), peanut: 
       stage 7.0 start_grain_fill
-                     biomass =         143.33 (g/m^2)   lai          =   1.497 (m^2/m^2)
-                     stover N conc =     2.36 (%)    extractable sw =  289.44 (mm)
+                     biomass =         143.32 (g/m^2)   lai          =   1.496 (m^2/m^2)
+                     stover N conc =     2.36 (%)    extractable sw =  289.45 (mm)
 4 April 1989(Day of year=94), peanut: 
       stage 8.0 end_grain_fill
-                     biomass =         379.54 (g/m^2)   lai          =   1.101 (m^2/m^2)
+                     biomass =         379.52 (g/m^2)   lai          =   1.099 (m^2/m^2)
                      stover N conc =     2.07 (%)    extractable sw =  301.14 (mm)
 10 April 1989(Day of year=100), peanut: 
       stage 9.0 maturity
-                     biomass =         384.13 (g/m^2)   lai          =   1.013 (m^2/m^2)
-                     stover N conc =     2.01 (%)    extractable sw =  286.94 (mm)
+                     biomass =         384.10 (g/m^2)   lai          =   1.010 (m^2/m^2)
+                     stover N conc =     2.01 (%)    extractable sw =  286.95 (mm)
 11 April 1989(Day of year=101), peanut: 
       stage 10.0 harvest_ripe
-                     biomass =         384.13 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.36 (%)    extractable sw =  284.44 (mm)
+                     biomass =         384.10 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.36 (%)    extractable sw =  284.46 (mm)
 12 April 1989(Day of year=102), manager: 
      Manager sending message :- peanut harvest
 12 April 1989(Day of year=102), peanut: 
      
-      flowering day          =  364                           stover (kg/ha)         =     2112.7
-      maturity day           =  100                           grain yield (kg/ha)    =     1728.6
-      grain % water content  =   13.0                         grain yield wet (kg/ha)=     1986.9
+      flowering day          =  364                           stover (kg/ha)         =     2112.5
+      maturity day           =  100                           grain yield (kg/ha)    =     1728.4
+      grain % water content  =   13.0                         grain yield wet (kg/ha)=     1986.7
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
-      grains/plant           =    0.0                         maximum lai            =      1.756
-      total above ground biomass (kg/ha)    =     3841.3
-      live above ground biomass (kg/ha)     =     3841.3
-      green above ground biomass (kg/ha)    =     2998.7
+      grains/plant           =    0.0                         maximum lai            =      1.755
+      total above ground biomass (kg/ha)    =     3841.0
+      live above ground biomass (kg/ha)     =     3841.0
+      green above ground biomass (kg/ha)    =     2998.4
       senesced above ground biomass (kg/ha) =      842.6
       number of leaves       =    345.7
       DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.45
-      Stover C:N ratio       =    22.01                       Root C:N ratio         =      18.12
-      grain N percent        =     5.00                       total N content (kg/ha)=     124.82
-      grain N uptake (kg/ha) =    86.43                       senesced N content (kg/ha)=    8.43
-      green N content (kg/ha)=    29.97
-      grain P percent        =       0.20                     total P content (kg/ha)=       8.81
+      Stover C:N ratio       =    22.02                       Root C:N ratio         =      18.12
+      grain N percent        =     5.00                       total N content (kg/ha)=     124.79
+      grain N uptake (kg/ha) =    86.42                       senesced N content (kg/ha)=    8.43
+      green N content (kg/ha)=    29.94
+      grain P percent        =       0.20                     total P content (kg/ha)=       8.80
       grain P uptake (kg/ha) =       3.48                     senesced P content (kg/ha)=    1.52
       green P content (kg/ha)=       3.80                     dead P content (kg/ha) =       0.00
      
@@ -397,13 +397,13 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2112.7                     0.0
-                          N  (kg/ha) =                  38.39                    0.00
+                          DM (kg/ha) =                2112.5                     0.0
+                          N  (kg/ha) =                  38.37                    0.00
                           P  (kg/ha) =                   5.3                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1728.6                     0.0
-                          N  (kg/ha) =                  86.43                    0.00
+                          DM (kg/ha) =                1728.4                     0.0
+                          N  (kg/ha) =                  86.42                    0.00
                           P  (kg/ha) =                  3.48                    0.00
      
       stage 11.0 end_crop
