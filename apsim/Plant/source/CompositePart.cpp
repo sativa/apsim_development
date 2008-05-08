@@ -113,11 +113,11 @@ void CompositePart::createParts()
    for (unsigned i = 0; i != types.size(); i++)
       {
       vector<string> names;
-      scienceAPI.readFiltered("initdata/options/" + types[i] + "/name", names);
+      //scienceAPI.readFiltered("initdata/options/" + types[i] + "/name", names);
       if (names.size() == 0)
          names.push_back(types[i]);
 
-      things.push_back(createThing(scienceAPI, *plant, types[i], names[i]));
+      things.push_back(createThing(scienceAPI, *plant, types[i], names[0]));
       }
    }
 void CompositePart::add(plantPart* part)
