@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 6.0
+Version                = 6.1
 Title                  = Sorghum_BW5 GxE_T7
 Component      "clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "met" = c:\development\apsim\input\lib\input.dll
@@ -42,7 +42,7 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
 ------- outputfile Initialisation ---------------------------------------------
      Output variables:
         today format dd/mm/yyyy as Date
-        das
+        DaysAfterSowing
         Stage
         Biomass
         GreenWt
@@ -128,7 +128,7 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if sorghum.stage_name = 'harvest_ripe' or sorghum.plant_status = 'dead' then
+                if sorghum.stagename = 'harvest_ripe' or sorghum.plant_status = 'dead' then
        sorghum  harvest
        sorghum  end_crop
                 endif
@@ -139,7 +139,6 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      Manager rules:
      
      SECTION:- init
-      head_wt = 0
      root_n = 0
      head_n = 0
      leaf_n = 0
@@ -148,7 +147,6 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      SECTION:- start_of_day
      
      SECTION:- end_of_day
-     head_wt = dw_green(4)
      root_n = n_green(1)
      head_n = n_green(4)
      leaf_n = n_green(2)
@@ -162,11 +160,10 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      endif
      END of rules
      
-     Manager creating a new local real variable : head_wt =     0.00000000000000
-     Manager creating a new local real variable : root_n =     0.00000000000000
-     Manager creating a new local real variable : head_n =     0.00000000000000
-     Manager creating a new local real variable : leaf_n =     0.00000000000000
-     Manager creating a new local real variable : sd =     0.00000000000000
+     Manager creating a new local real variable : root_n = 0.00000
+     Manager creating a new local real variable : head_n = 0.00000
+     Manager creating a new local real variable : leaf_n = 0.00000
+     Manager creating a new local real variable : sd = 0.00000
 
 ------- IC_BW5 Water Initialisation -------------------------------------------
      
@@ -314,10 +311,37 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
            Totals   63814.1  4401.0   427.9    53.5   400.0     8.9
           ---------------------------------------------------------
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : dw_green(4) =     0.00000000000000
-     Manager creating a new local real variable : n_green(1) =     0.00000000000000
-     Manager creating a new local real variable : n_green(4) =     0.00000000000000
-     Manager creating a new local real variable : n_green(2) =     0.00000000000000
+26 September 1996(Day of year=270): 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Uninitialised variable "n_green(1)".
+     Variables should have a value before they are used in an expression.
+     Component name: Calculator
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     Manager creating a new local real variable : n_green(1) = 0.00000
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Uninitialised variable "n_green(4)".
+     Variables should have a value before they are used in an expression.
+     Component name: Calculator
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     Manager creating a new local real variable : n_green(4) = 0.00000
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Uninitialised variable "n_green(2)".
+     Variables should have a value before they are used in an expression.
+     Component name: Calculator
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     Manager creating a new local real variable : n_green(2) = 0.00000
 27 September 1996(Day of year=271), operations: 
       Sending apply message to fertiliser
 27 September 1996(Day of year=271), fertiliser: 
@@ -381,13 +405,13 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
          ---------------------------------------------------
      
 11 October 1996(Day of year=285), Sorghum: 
-      stage 2.0 germination
-     		biomass =   0.00 		 lai =   0.00
-     		stover N conc =   0.00 		 extractable sw =   0.00
+     Stage 2 Germination  DAS = 1
+     		Biomass       =   0.00 		 LAI            =   0.00
+     		Stover N Conc =   0.00 		 Extractable SW =   0.00
 14 October 1996(Day of year=288), Sorghum: 
-      stage 3.0 emergence
-     		biomass =   0.00 		 lai =   0.00
-     		stover N conc =   0.00 		 extractable sw =  10.12
+     Stage 3 Emergence  DAS = 4
+     		Biomass       =   0.00 		 LAI            =   0.00
+     		Stover N Conc =   0.00 		 Extractable SW =  10.12
 16 October 1996(Day of year=290), operations: 
       Sending apply message to fertiliser
 16 October 1996(Day of year=290), fertiliser: 
@@ -396,74 +420,72 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
         99.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
 22 October 1996(Day of year=296), Sorghum: 
-      stage 4.0 end_of_juvenile
-     		biomass =   2.20 		 lai =   0.01
-     		stover N conc =   0.07 		 extractable sw =  43.93
+     Stage 4 EndOfJuvenile  DAS = 12
+     		Biomass       =   2.20 		 LAI            =   0.01
+     		Stover N Conc =   0.07 		 Extractable SW =  43.93
 7 November 1996(Day of year=312), Sorghum: 
-      stage 5.0 floral_initiation
-     		biomass =  20.93 		 lai =   0.46
-     		stover N conc =   0.72 		 extractable sw =  93.58
+     Stage 5 FloralInitiation  DAS = 28
+     		Biomass       =  20.87 		 LAI            =   0.46
+     		Stover N Conc =   0.72 		 Extractable SW =  93.56
 7 December 1996(Day of year=342), Sorghum: 
-      stage 6.0 flag_leaf
-     		biomass = 389.44 		 lai =   4.18
-     		stover N conc =   8.67 		 extractable sw = 191.12
+     Stage 6 FlagLeaf  DAS = 58
+     		Biomass       = 385.33 		 LAI            =   4.18
+     		Stover N Conc =   8.67 		 Extractable SW = 191.08
 24 December 1996(Day of year=359), Sorghum: 
-      stage 7.0 flowering
-     		biomass = 627.98 		 lai =   4.20
-     		stover N conc =  10.65 		 extractable sw = 235.64
+     Stage 7 Flowering  DAS = 75
+     		Biomass       = 618.13 		 LAI            =   4.20
+     		Stover N Conc =  10.65 		 Extractable SW = 235.59
 30 December 1996(Day of year=365), Sorghum: 
-      stage 8.0 start_grain_fill
-     		biomass = 728.35 		 lai =   4.20
-     		stover N conc =  11.12 		 extractable sw = 216.04
+     Stage 8 StartGrainFill  DAS = 81
+     		Biomass       = 715.93 		 LAI            =   4.20
+     		Stover N Conc =  11.12 		 Extractable SW = 215.99
 10 February 1997(Day of year=41), Sorghum: 
-      stage 9.0 end_grain_fill
-     		biomass = 1349.36 		 lai =   1.97
-     		stover N conc =   3.53 		 extractable sw = 104.67
+     Stage 9 EndGrainFill  DAS = 123
+     		Biomass       = 1271.99 		 LAI            =   2.09
+     		Stover N Conc =   4.26 		 Extractable SW = 115.74
 12 February 1997(Day of year=43), Sorghum: 
-      stage 10.0 maturity
-     		biomass = 1370.03 		 lai =   1.82
-     		stover N conc =   3.37 		 extractable sw = 100.11
+     Stage 10 Maturity  DAS = 125
+     		Biomass       = 1280.73 		 LAI            =   1.97
+     		Stover N Conc =   4.15 		 Extractable SW = 113.71
 13 February 1997(Day of year=44), Sorghum: 
-      stage 11.0 harvest_ripe
-     		biomass = 1379.67 		 lai =   1.76
-     		stover N conc =   3.30 		 extractable sw =  97.74
+     Stage 11 HarvestRipe  DAS = 126
+     		Biomass       = 1284.36 		 LAI            =   1.93
+     		Stover N Conc =   4.11 		 Extractable SW = 112.77
 13 February 1997(Day of year=44), Harvesting rule: 
      Manager sending message :- sorghum harvest
      
      Harvest
-     flowering (DAS)       = 75 	 maturity (DAS)          = 125
-     flowering day         = 359 	 maturity day            = 43
-     maximum lai           = 4.195 	 number of leaves        = 18.135
-     total above ground biomass    (kg/ha) = 13892.8
-     live above ground biomass     (kg/ha) = 13892.8
-     green above ground biomass    (kg/ha) = 13571.9
-     senesced above ground biomass (kg/ha) = 321.0
-     stover (kg/ha)        = 7291.4 	 grain yield (kg/ha)     = 6601.4
-     grain % water content = 13.0 	 grain yield wet (kg/ha) = 7587.8
-     grain wt (g)          = 31.747 	 1000grains/m^2          = 20793.9
-     grains/head           = 2079.4
-     grain N percent            =   148.722 	 grain N uptake     (kg/ha) =   98.178
-     total N content    (kg/ha) =   131.134 	 senesced N content (kg/ha) =    7.940
-     green N content    (kg/ha) =    29.670
+     Flowering (DAS)       = 75 		 Maturity (DAS)          = 125
+     Flowering day         = 359 		 Maturity day            = 43
+     Maximum LAI           = 4.2 		 Number of leaves        = 18.1
+     Total above ground biomass    (kg/ha) = 12877.5
+     Green above ground biomass    (kg/ha) = 11908.4
+     Senesced above ground biomass (kg/ha) = 969.1
+     Stover (kg/ha)        = 6565.8 	 Grain yield (kg/ha)     = 6311.6
+     Grain % water content = 13.0 		 Grain yield wet (kg/ha) = 7254.8
+     Weight 1000 grains(g) = 30.3 		 Grains/m^2              = 20799.7
+     Grains/head           = 2080.0
+     Grain N percent    (%)     =      1.43 	 Grain N            (kg/ha) =    90.06
+     Total N content    (kg/ha) =    131.15 	 Senesced N content (kg/ha) =    19.28
+     Green N content    (kg/ha) =     26.47
      
-
-     Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-        emergence           to end_of_juvenile           N/A          N/A        N/A          N/A        
-        end_of_juvenile     to floral_initiation         N/A          N/A        N/A          N/A        
-        floral_initiation   to flag_leaf                 N/A          N/A        N/A          N/A        
-        flag_leaf           to flowering                 N/A          N/A        N/A          N/A        
-        flowering           to start_grain_fill          N/A          N/A        N/A          N/A        
-        start_grain_fill    to end_grain_fill            N/A          N/A        N/A          N/A        
+     Average Stress Indices:                          Water Photo  Water Expan  N Photo
+        Emergence           to End of juvenile           1.0          1.0        0.9
+        End of juvenile     to Floral initiation         1.0          1.0        1.0
+        Floral initiation   to Flag leaf                 1.0          1.0        1.0
+        Flag leaf           to Flowering                 1.0          1.0        1.0
+        Flowering           to Start grain fill          1.0          1.0        1.0
+        Start grain fill    to End grain fill            1.0          1.0        0.9
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =               6601.41		    0.00
-                         N  (kg/ha) =                 98.18		    0.00
+                         DM (kg/ha) =               6311.65		    0.00
+                         N  (kg/ha) =                 90.06		    0.00
      Manager sending message :- sorghum end_crop
-     Crop ended. Yield (dw) =     0.0 kg/ha
+     Crop ended.
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               7291.42		 2008.53
-                         N  (kg/ha) =                 21.73		    4.02
+                         DM (kg/ha) =               6565.80		 2331.27
+                         N  (kg/ha) =                 41.09		    4.66
                          P  (kg/ha) =                  0.00		    0.00
 20 February 1997(Day of year=51), clock: 
      Simulation is terminating due to end criteria being met.

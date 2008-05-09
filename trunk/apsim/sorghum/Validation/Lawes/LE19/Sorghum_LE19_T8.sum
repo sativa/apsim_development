@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 6.0
+Version                = 6.1
 Title                  = Sorghum_LE19_T8
 Component      "clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "met" = c:\development\apsim\input\lib\input.dll
@@ -42,7 +42,7 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
 ------- outputfile Initialisation ---------------------------------------------
      Output variables:
         today format dd/mm/yyyy as Date
-        das
+        DaysAfterSowing
         Stage
         Biomass
         GreenWt
@@ -128,7 +128,7 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      Manager rules:
      
      SECTION:- end_of_day
-                if sorghum.stage_name = 'harvest_ripe' or sorghum.plant_status = 'dead' then
+                if sorghum.stagename = 'harvest_ripe' or sorghum.plant_status = 'dead' then
        sorghum  harvest
        sorghum  end_crop
                 endif
@@ -139,7 +139,6 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      Manager rules:
      
      SECTION:- init
-      head_wt = 0
      root_n = 0
      head_n = 0
      leaf_n = 0
@@ -149,7 +148,6 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      SECTION:- start_of_day
      
      SECTION:- end_of_day
-     head_wt = dw_green(4)
      root_n = n_green(1)
      head_n = n_green(4)
      leaf_n = n_green(2)
@@ -166,12 +164,11 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      tlai = lai + slai
      END of rules
      
-     Manager creating a new local real variable : head_wt =     0.00000000000000
-     Manager creating a new local real variable : root_n =     0.00000000000000
-     Manager creating a new local real variable : head_n =     0.00000000000000
-     Manager creating a new local real variable : leaf_n =     0.00000000000000
-     Manager creating a new local real variable : sd =     0.00000000000000
-     Manager creating a new local real variable : nconcgrainpc =     0.00000000000000
+     Manager creating a new local real variable : root_n = 0.00000
+     Manager creating a new local real variable : head_n = 0.00000
+     Manager creating a new local real variable : leaf_n = 0.00000
+     Manager creating a new local real variable : sd = 0.00000
+     Manager creating a new local real variable : nconcgrainpc = 0.00000
 
 ------- CooperLab Water Initialisation ----------------------------------------
      
@@ -295,13 +292,49 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
            Totals   75920.5  6073.6   793.5    99.2   600.0    20.0
           ---------------------------------------------------------
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : dw_green(4) =     0.00000000000000
-     Manager creating a new local real variable : n_green(1) =     0.00000000000000
-     Manager creating a new local real variable : n_green(4) =     0.00000000000000
-     Manager creating a new local real variable : n_green(2) =     0.00000000000000
-     Manager creating a new local real variable : n_conc_grain =     0.00000000000000
-     Manager creating a new local real variable : grainnconc =     0.00000000000000
-     Manager creating a new local real variable : tlai =     0.00000000000000
+9 November 1998(Day of year=313): 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Uninitialised variable "n_green(1)".
+     Variables should have a value before they are used in an expression.
+     Component name: Calculator
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     Manager creating a new local real variable : n_green(1) = 0.00000
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Uninitialised variable "n_green(4)".
+     Variables should have a value before they are used in an expression.
+     Component name: Calculator
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     Manager creating a new local real variable : n_green(4) = 0.00000
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Uninitialised variable "n_green(2)".
+     Variables should have a value before they are used in an expression.
+     Component name: Calculator
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     Manager creating a new local real variable : n_green(2) = 0.00000
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Uninitialised variable "n_conc_grain".
+     Variables should have a value before they are used in an expression.
+     Component name: Calculator
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     Manager creating a new local real variable : n_conc_grain = 0.00000
+     Manager creating a new local real variable : grainnconc = 0.00000
+     Manager creating a new local real variable : tlai = 0.00000
 11 November 1998(Day of year=315), operations: 
       Sending apply message to fertiliser
 11 November 1998(Day of year=315), fertiliser: 
@@ -352,17 +385,17 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
          ---------------------------------------------------
      
 12 November 1998(Day of year=316), Sorghum: 
-      stage 2.0 germination
-     		biomass =   0.00 		 lai =   0.00
-     		stover N conc =   0.00 		 extractable sw =   0.00
+     Stage 2 Germination  DAS = 1
+     		Biomass       =   0.00 		 LAI            =   0.00
+     		Stover N Conc =   0.00 		 Extractable SW =   0.00
 15 November 1998(Day of year=319), Sorghum: 
-      stage 3.0 emergence
-     		biomass =   0.00 		 lai =   0.00
-     		stover N conc =   0.00 		 extractable sw =   7.37
+     Stage 3 Emergence  DAS = 4
+     		Biomass       =   0.00 		 LAI            =   0.00
+     		Stover N Conc =   0.00 		 Extractable SW =   7.37
 25 November 1998(Day of year=329), Sorghum: 
-      stage 4.0 end_of_juvenile
-     		biomass =   5.00 		 lai =   0.05
-     		stover N conc =   0.12 		 extractable sw =  45.03
+     Stage 4 EndOfJuvenile  DAS = 14
+     		Biomass       =   4.97 		 LAI            =   0.05
+     		Stover N Conc =   0.12 		 Extractable SW =  45.03
 17 December 1998(Day of year=351), operations: 
       Sending apply message to fertiliser
 17 December 1998(Day of year=351), fertiliser: 
@@ -371,13 +404,13 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
         55.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
 17 December 1998(Day of year=351), Sorghum: 
-      stage 5.0 floral_initiation
-     		biomass = 139.55 		 lai =   1.65
-     		stover N conc =   2.84 		 extractable sw =  86.54
+     Stage 5 FloralInitiation  DAS = 36
+     		Biomass       = 137.89 		 LAI            =   1.65
+     		Stover N Conc =   2.84 		 Extractable SW =  86.54
 10 January 1999(Day of year=10), Sorghum: 
-      stage 6.0 flag_leaf
-     		biomass = 677.66 		 lai =   5.99
-     		stover N conc =  11.71 		 extractable sw = 159.00
+     Stage 6 FlagLeaf  DAS = 60
+     		Biomass       = 665.23 		 LAI            =   5.99
+     		Stover N Conc =  11.71 		 Extractable SW = 159.02
 23 January 1999(Day of year=23), operations: 
       Sending apply message to fertiliser
 23 January 1999(Day of year=23), fertiliser: 
@@ -386,20 +419,20 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
         55.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
 23 January 1999(Day of year=23), Sorghum: 
-      stage 7.0 flowering
-     		biomass = 1118.41 		 lai =   5.95
-     		stover N conc =  15.23 		 extractable sw = 122.53
+     Stage 7 Flowering  DAS = 73
+     		Biomass       = 1096.30 		 LAI            =   5.94
+     		Stover N Conc =  15.23 		 Extractable SW = 122.55
 27 January 1999(Day of year=27), Sorghum: 
-      stage 8.0 start_grain_fill
-     		biomass = 1231.40 		 lai =   5.95
-     		stover N conc =  16.37 		 extractable sw = 115.09
+     Stage 8 StartGrainFill  DAS = 77
+     		Biomass       = 1205.67 		 LAI            =   5.94
+     		Stover N Conc =  16.38 		 Extractable SW = 115.10
 5 March 1999(Day of year=64), Sorghum: 
-      stage 9.0 end_grain_fill
-     		biomass = 2189.94 		 lai =   5.18
-     		stover N conc =   9.35 		 extractable sw = 112.50
+     Stage 9 EndGrainFill  DAS = 114
+     		Biomass       = 2130.97 		 LAI            =   5.18
+     		Stover N Conc =   9.36 		 Extractable SW = 112.55
 7 March 1999(Day of year=66), Sorghum: 
-      stage 10.0 maturity
-     		biomass = 2254.87 		 lai =   4.70
-     		stover N conc =   8.45 		 extractable sw =  95.20
+     Stage 10 Maturity  DAS = 116
+     		Biomass       = 2193.00 		 LAI            =   4.67
+     		Stover N Conc =   8.50 		 Extractable SW =  95.50
 7 March 1999(Day of year=66), clock: 
      Simulation is terminating due to end criteria being met.
