@@ -296,7 +296,7 @@ else
 
 ! Wheat harvest at stage 10
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' then
       w_mat_day = day
       wheat harvest
       wheat kill_crop
@@ -431,7 +431,7 @@ else
 
 ! Wheat harvest at stage 10
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+   if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
       w_mat_day = day
       wheat harvest
       wheat kill_crop
@@ -566,7 +566,7 @@ else
 
 ! Wheat harvest at stage 10
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' then
       w_mat_day = day
       wheat harvest
       wheat kill_crop
@@ -701,7 +701,7 @@ else
 
 ! Wheat harvest at stage 10
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+   if wheat.stagename = 'harvest_ripe' or wheat.plant_status = 'dead' then
       w_mat_day = day
       wheat harvest
       wheat kill_crop
@@ -836,7 +836,7 @@ else
 
 ! Wheat harvest at stage 10
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' then
       w_mat_day = day
       wheat harvest
       wheat kill_crop
