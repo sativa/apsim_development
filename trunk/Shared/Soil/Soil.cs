@@ -1356,6 +1356,12 @@ namespace Soils
 							          +  " in layer " + RealLayerNumber.ToString() + " is below air dry value of " + airdry[layer].ToString("f3")
 									  + "\r\n";
 
+                    if (ll[layer] < ll15[layer])
+                        errorMessages += "Crop lower limit of " + ll[layer].ToString("f3")
+                                      + " for crop " + Crop
+                                      + " in layer " + RealLayerNumber.ToString() + " is below LL15 value of " + ll15[layer].ToString("f3")
+                                      + "\r\n";
+
 					if (ll[layer] > DUL[layer])
 						errorMessages += "Crop lower limit of " + ll[layer].ToString("f3")
 									  + " for crop " + Crop
