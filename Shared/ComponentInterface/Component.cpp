@@ -1000,21 +1000,15 @@ std::string baseInfo::getXML()
 // Build the xml fragment that describes this variable and publish to system
 std::string Component::getDescription()
    {
-   std::string returnString;
+   typedef std::map<std::string, std::string> StringMap;
+   StringMap properties;
    try
       {
-      returnString = "<describecomp name=\"" + name + "\">\n";
-
-      returnString += string("<executable>") + dllName + "</executable>\n";
-      returnString += string("<class>") + Path(dllName).Get_name_without_ext() + "</class>\n";
-      returnString += "<version>1.0</version>\n";
-      returnString += "<author>APSRU</author>\n";
-
       for (UInt2InfoMap::iterator var = getVarMap.begin();
                                   var != getVarMap.end();
                                   var++)
          {
-         returnString += var->second->getXML() + "\n";
+         properties.insert(make_pair(var->second->name(), var->second->getXML()));
          }
 
       if (getVarMap.size() <= 6)
@@ -1024,27 +1018,30 @@ std::string Component::getDescription()
             RegistrationItem* reg = registrations->get(i);
             if (reg->getKind() == RegistrationType::respondToGet)
                {
-               returnString += "   <property name=\"";
-               returnString += reg->getName();
-               returnString += "\" access=\"read\" init=\"F\">\n";
-               returnString += reg->getType();
-               returnString += "</property>\n";
+               string st = "   <property name=\"";
+               st += reg->getName();
+               st += "\" access=\"read\" init=\"F\">\n";
+               st += reg->getType();
+               st += "</property>\n";
+               properties.insert(make_pair(reg->getName(), st));
                }
             else if (reg->getKind() == RegistrationType::respondToSet)
                {
-               returnString += "   <property name=\"";
-               returnString += reg->getName();
-               returnString += "\" access=\"write\" init=\"F\">\n";
-               returnString += reg->getType();
-               returnString += "</property>\n";
+               string st = "   <property name=\"";
+               st += reg->getName();
+               st += "\" access=\"write\" init=\"F\">\n";
+               st += reg->getType();
+               st += "</property>\n";
+               properties.insert(make_pair(reg->getName(), st));
                }
             else if (reg->getKind() == RegistrationType::respondToGetSet)
                {
-               returnString += "   <property name=\"";
-               returnString += reg->getName();
-               returnString += "\" access=\"both\" init=\"F\">\n";
-               returnString += reg->getType();
-               returnString += "</property>\n";
+               string st = "   <property name=\"";
+               st += reg->getName();
+               st += "\" access=\"both\" init=\"F\">\n";
+               st += reg->getType();
+               st += "</property>\n";
+               properties.insert(make_pair(reg->getName(), st));
                }
             }
          }
@@ -1053,36 +1050,48 @@ std::string Component::getDescription()
          RegistrationItem* reg = registrations->get(i);
          if (reg->getKind() == RegistrationType::respondToEvent)
             {
-            returnString += "   <event name=\"";
-            returnString += reg->getName();
-            returnString += "\" kind=\"subscribed\">";
+            string st = "   <event name=\"";
+            st += reg->getName();
+            st += "\" kind=\"subscribed\">";
             XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
-            returnString += doc->documentElement().innerXML();
+            st += doc->documentElement().innerXML();
             delete doc;
-            returnString += "</event>\n";
+            st += "</event>\n";
+            properties.insert(make_pair(reg->getName(), st));
             }
          else if (reg->getKind() == RegistrationType::event)
             {
-            returnString += "   <event name=\"";
-            returnString += reg->getName();
-            returnString += "\" kind=\"published\">";
+            string st = "   <event name=\"";
+            st += reg->getName();
+            st += "\" kind=\"published\">";
             XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
-            returnString += doc->documentElement().innerXML();
+            st += doc->documentElement().innerXML();
             delete doc;
-            returnString += "</event>\n";
+            st += "</event>\n";
+            properties.insert(make_pair(reg->getName(), st));
             }
          else if (reg->getKind() == RegistrationType::get)
             {
-            returnString += "   <driver name=\"";
-            returnString += reg->getName();
-            returnString += "\">\n";
-            returnString += reg->getType();
-            returnString += "</driver>\n";
+            string st = "   <driver name=\"";
+            st += reg->getName();
+            st += "\">\n";
+            st += reg->getType();
+            st += "</driver>\n";
+            properties.insert(make_pair(reg->getName(), st));
             }
          }
-      returnString += "\n</describecomp>\n";
-      //std::ofstream out("d:\\tmp\\tempplant.xml");
-      //out << returnString;
+
+      string returnString = "<describecomp name=\"" + name + "\">\n";
+      returnString += string("<executable>") + dllName + "</executable>\n";
+      returnString += string("<class>") + Path(dllName).Get_name_without_ext() + "</class>\n";
+      returnString += "<version>1.0</version>\n";
+      returnString += "<author>APSRU</author>\n";
+
+      for (StringMap::iterator i = properties.begin();
+                               i != properties.end();
+                               i++)
+         returnString += i->second + "\n";
+      returnString += "</describecomp>\n";
       return returnString;
       }
    catch (const std::exception& err)

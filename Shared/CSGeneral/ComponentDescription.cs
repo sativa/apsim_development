@@ -73,6 +73,7 @@ namespace CSGeneral
 			string ProtocolToVariablesXSLFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "ProtocolToVariablesFile");
             System.Xml.Xsl.XslCompiledTransform xslt = new System.Xml.Xsl.XslCompiledTransform();  
 			xslt.Load(ProtocolToVariablesXSLFileName);
+            
             MethodInfo mi = moduleBuilder.GetMethod("getDescription");
 
 			// Call the DLL
@@ -80,8 +81,13 @@ namespace CSGeneral
             object[] parameters;
             parameters = new object[] { initScript, description };
 
-            mi.Invoke(null, parameters);
-
+            for (int i = 0; i != 3; i++)
+                {
+                StreamWriter Out = new StreamWriter("c:\\hol353\\desktop\\call" + i.ToString() + ".txt");
+                mi.Invoke(null, parameters);
+                Out.Write(description.ToString());
+                Out.Close();
+                }
 		    // Transform the xml returned from the dll with our xsl.
 		    StringReader ContentsReader = new StringReader(description.ToString());
 		    XPathDocument XmlData = new XPathDocument(ContentsReader);
