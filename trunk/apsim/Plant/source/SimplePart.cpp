@@ -38,7 +38,6 @@ void SimplePart::Initialise()
      c.yield_part = false;
      c.retrans_part = false;
      c.n_deficit_uptake_fraction = 0;
-     tempFlagToShortCircuitInit1 = false;
      };
 
 
@@ -84,9 +83,6 @@ void SimplePart::onInit1(protocol::Component*)
    scienceAPI.exposeFunction(addPartToVar("dlt_p_green"), "g/m^2", addPartToDesc("Delta P in "), FloatFunction(&SimplePart::dltPGreen));
    scienceAPI.exposeFunction(addPartToVar("dlt_p_senesced"), "g/m^2", addPartToDesc("Delta P in senesced "), FloatFunction(&SimplePart::dltPSenesced));
    scienceAPI.exposeFunction(addPartToVar("dlt_p_detached"), "g/m^2", addPartToDesc("Delta P in detached "), FloatFunction(&SimplePart::dltPDetached));
-
-   if (tempFlagToShortCircuitInit1) return;
-
 
    scienceAPI.exposeFunction(addPartToVar("n_conc_crit"), "%", addPartToDesc("Critical N content in "), FloatFunction(&SimplePart::nConcCrit));
    scienceAPI.exposeFunction(addPartToVar("n_conc_min"), "%", addPartToDesc("Minimum N content in "), FloatFunction(&SimplePart::nConcMin));
