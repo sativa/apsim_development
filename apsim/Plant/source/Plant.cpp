@@ -1611,7 +1611,7 @@ void Plant::plant_zero_all_globals (void)
 void Plant::plant_zero_variables (void)
     {
 
-    phenologyEventToday = false;
+    phenologyEventToday = "";
     phenologyRewoundToday = false;
 
 // zero pools etc.
