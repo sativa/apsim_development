@@ -74,6 +74,8 @@ public:
    virtual void  zeroAllGlobals(void);
 
       // plant
+   bool tempFlagToShortCircuitInit1;
+
    virtual void  prepare(void) = 0;
    virtual void  checkBounds(void);
    virtual void  doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);   //???

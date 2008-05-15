@@ -142,6 +142,7 @@ protected:
    virtual void zeroDeltas(void);
    virtual void checkBounds(void) {};
 
+   bool tempFlagToShortCircuitInit1;
    virtual void Detachment(void);
    virtual void doDmMin(void){};
    virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);

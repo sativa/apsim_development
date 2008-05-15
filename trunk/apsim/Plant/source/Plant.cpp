@@ -217,6 +217,7 @@ void Plant::onInit1(void)
     maturityEventObserver = new eventObserver(scienceAPI, "maturity", this);
     myThings.push_back(maturityEventObserver);
 
+   plant.tempFlagToShortCircuitInit1 = true;
    plant.onInit1(parent);
 
     id.eo = parent->addRegistration(RegistrationType::get,
