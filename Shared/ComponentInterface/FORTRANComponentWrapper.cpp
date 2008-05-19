@@ -215,7 +215,7 @@ void FortranWrapper::respondToGet(unsigned int& fromID, protocol::QueryValueData
    FortranWrapper* savedThis = currentInstance;
    swapInstanceIn();
 
-   string name = getRegistration(componentID, qData.ID)->getName();
+   string name = getRegistration(componentID, qData.ID)->getNameWithoutBrackets();
    inApsimGetQuery = false;
    queryData = qData;
    Main("get", name.c_str());

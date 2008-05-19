@@ -694,7 +694,7 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
             }
          }
       // that query message will set on success - no need for any more.
-      return;
+      //return;
       }
 
    vector<ApsimRegistration *> subs;
@@ -708,7 +708,7 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
       }
    else if (subs.size() == 1)
       {
-//      cout <<  "sending newQuerySetValueMessage, n="<<lowerName << ", to " << registry.componentByID(subs[0]->getComponentID()) <<"\n";
+//      cout <<  "sending newQuerySetValueMessage, n="<<reg->getName() << ", to " << registry.componentByID(subs[0]->getComponentID()) <<"\n";
       sendMessage(newQuerySetValueMessage(fromID,
                                           subs[0]->getComponentID(),
                                           subs[0]->getRegID(),

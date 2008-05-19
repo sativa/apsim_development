@@ -116,7 +116,6 @@ class EXPORT ApsimRegistry
       void pruneDuplicates( std::vector<ApsimRegistration*>&subscribers);
 
       void dumpComponentTree(int indent, PTree<Component>* node);
-
    };
 
 
