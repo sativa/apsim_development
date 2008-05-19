@@ -796,7 +796,7 @@ c      end if
 
       !================================================================
       !Days after sowing
-      elseif ((variable_name .eq. 'DaysAfterSowing'    ) .or.
+      elseif ((variable_name .eq. 'daysaftersowing'    ) .or.
      :        (variable_name .eq. 'das_int')) then
 
          das_real = sum_between (sowing, now, g%days_tot)
@@ -814,7 +814,7 @@ c      end if
      :                             , '()'
      :                             , g%plant_status)
 
-      elseif (variable_name .eq. 'StageName') then
+      elseif (variable_name .eq. 'stagename') then
 
          if (g%plant_status.ne.status_out) then
             stage_no = int (g%current_stage)
@@ -853,13 +853,13 @@ c      end if
      :                             , stage_no)
 
 
-      elseif (variable_name .eq. 'DeltaStage') then
+      elseif (variable_name .eq. 'deltastage') then
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , g%dlt_stage)
 
 
-      elseif (variable_name .eq. 'TT') then
+      elseif (variable_name .eq. 'tt') then
          call respond2get_real_var (variable_name
      :                             , '(oCd)'
      :                             , g%dlt_tt)
@@ -1170,7 +1170,7 @@ c      end if
       !----------------------------------------------------------------
       !Biomass in g/m2
 
-      elseif (variable_name .eq. 'LeafGreenWt') then
+      elseif (variable_name .eq. 'leafgreenwt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , g%dm_green(leaf))
@@ -1187,7 +1187,7 @@ c      end if
      :                             , g%dm_green(leaf)
      :                             + g%dm_senesced(leaf))
 
-      elseif (variable_name .eq. 'StemGreenWt') then
+      elseif (variable_name .eq. 'stemgreenwt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , g%dm_green(stem))
@@ -1209,7 +1209,7 @@ c      end if
      :                             , g%dm_green(grain))
 
 
-      elseif (variable_name .eq. 'RootGreenWt') then
+      elseif (variable_name .eq. 'rootgreenwt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , g%dm_green(root))
@@ -1268,12 +1268,12 @@ c      end if
       !----------------------------------------------------
       !Biomass arrays in g/m2
 
-            elseif (variable_name .eq. 'GreenWt') then
+            elseif (variable_name .eq. 'greenwt') then
          call respond2get_real_var (variable_name
      :                       , '(g/m^2)'
      :                       , sum_real_array(g%dm_green, max_part))
 
-      elseif (variable_name .eq. 'SenescedWt') then
+      elseif (variable_name .eq. 'senescedwt') then
          call respond2get_real_var (variable_name
      :                       , '(g/m^2)'
      :                       , sum_real_array(g%dm_senesced, max_part))
@@ -1982,7 +1982,7 @@ c      end if
      :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_name .eq. 'LeafGreenNConc') then
+      elseif (variable_name .eq. 'leafgreennconc') then
          N_conc = divide (g%N_green(leaf)
      :                  , g%dm_green(leaf)
      :                  , 0.0) * 100.
@@ -1991,7 +1991,7 @@ c      end if
      :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_name .eq. 'StemGreenNConc') then
+      elseif (variable_name .eq. 'stemgreennconc') then
          N_conc = divide (g%N_green(stem)
      :                  , g%dm_green(stem)
      :                  , 0.0) * 100.
@@ -2000,7 +2000,7 @@ c      end if
      :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_name .eq. 'RootGreenNConc') then
+      elseif (variable_name .eq. 'rootgreennconc') then
          N_conc = divide (g%N_green(root)
      :                  , g%dm_green(root)
      :                  , 0.0) * 100.

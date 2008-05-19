@@ -22,24 +22,26 @@ class Coordinator : public protocol::Component
       ~Coordinator(void);
 
    private:
-      typedef std::map<unsigned int, ComponentAlias*> Components;
+      typedef std::map<int, ComponentAlias*> Components;
       Components components;
-      Registrations registrations;
-      unsigned int sequencerID;
-      unsigned int runningMessageID;
-      unsigned int childComponentID;
+      int sequencerID;
+      int runningMessageID;
+
+      int childComponentID;
+      std::string  childComponentName;
+
       bool afterInit2;
       string title;
-      unsigned titleID;
-      unsigned componentsID;
-      vector<unsigned> componentOrders;
+      int titleID;
+      int componentsID;
+      vector<int> componentOrders;
       bool doTerminate;
       bool printReport;
       std::string parentName;
-      std::stack<unsigned> previousGetValueCompID;
-      std::stack<unsigned> previousGetValueRegID;
-      std::set<std::string> variablesBeenPolledForGets;
+      std::stack<int> previousGetValueCompID;
+      std::stack<int> previousGetValueRegID;
       std::set<std::string> variablesBeenPolledForSets;
+      std::set<std::string> variablesBeenPolledForGets;
 
       virtual void doInit1(const protocol::Init1Data&);
       virtual void doInit2(void);
@@ -67,37 +69,20 @@ class Coordinator : public protocol::Component
                         const std::string& executable,
                         const std::string& componentInterfaceExecutable,
                         const std::string& sdml);
-      unsigned int getComponentID(const std::string& name);
 
       // ------------------------------------------------------------------
       // Send queryValue messages to all subscribed components.
       // ------------------------------------------------------------------
       void sendQueryValueMessage(unsigned fromID, unsigned regID);
       
-      // ------------------------------------------------------------------
-      // Send a querySetValueMessage
-      // ------------------------------------------------------------------
-      void sendQuerySetValueMessage(unsigned ourComponentID,
-                                    unsigned foreignComponentID,
-                                    unsigned ourRegID,
-                                    unsigned foreignRegID,
-                                    protocol::Variant& variant);
-
-      unsigned componentNameToID(const std::string& name);
-      void pollComponentsForGetVariable(const std::string& variableName,
-                                        unsigned destID);
-      void pollComponentsForSetVariable(const std::string& variableName,
-                                        unsigned destID,
-                                        unsigned fromID,
-                                        unsigned ourRegID,
-                                        protocol::Variant& variant);
-
-      void reorderSubscriptions(Registrations::Subscriptions& subs);
+      void reorderSubscriptions(vector<ApsimRegistration *>& subs);
       void readAllRegistrations(void);
 
-      virtual void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
+      virtual void onApsimGetQuery(unsigned int fromID, protocol::ApsimGetQueryData& apsimGetQueryData);
       void onError(const std::string& fromComponentName, const std::string& msg, bool isFatal);
       void propogateEvent(unsigned int fromID, protocol::PublishEventData& publishEventData);
+
+      void pollComponentsForGetVariable(int fromID, const string& variableName);
 
 
    };

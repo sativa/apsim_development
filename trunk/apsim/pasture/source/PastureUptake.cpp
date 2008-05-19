@@ -40,10 +40,10 @@ void PastureUptake::doInit1(const protocol::Init1Data& initData)
 //===========================================================================
    {
       // get
-   elementUptakeID = system->addRegistration(RegistrationType::get, uptakeName.c_str(), singleArrayTypeDDML);
+   elementUptakeID = system->addRegistration(::get, -1, uptakeName.c_str(), singleArrayTypeDDML);
 
       // set
-   dltElementID = system->addRegistration(RegistrationType::set, deltaName.c_str(), singleArrayTypeDDML);
+   dltElementID = system->addRegistration(::set, -1, deltaName.c_str(), singleArrayTypeDDML);
    }
 // ------------------------------------------------------------------
 // Init2 phase.
@@ -58,10 +58,10 @@ void PastureUptake::doInit2(void)
 void PastureUptake::doUptake(void)
 //===========================================================================
 {
-      protocol::Variant* variantGet;
-      vector <float> elementUptake;
+      protocol::Variant *variantGet;
+      std::vector <float> elementUptake;
 
-      bool ok = system->getVariable(elementUptakeID, variantGet, true);
+      bool ok = system->getVariable(elementUptakeID, &variantGet, true);
       if (ok)
       {
          bool ok = variantGet->unpack(elementUptake);
@@ -99,7 +99,7 @@ void PastureUptake::doUptake(void)
       system->writeString (msg.str().c_str());
    }
 
-   protocol::vector<float> dltElementValues(dltElement, dltElement+numLayers);
+   std::vector<float> dltElementValues(dltElement, dltElement+numLayers);
    system->setVariable(dltElementID, dltElementValues);
 }
 

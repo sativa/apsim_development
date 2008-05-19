@@ -76,14 +76,13 @@ void PlantComponent::doInit1(const protocol::Init1Data& initData)
    {
    protocol::Component::doInit1(initData);
 
-   string crop_type;
-   scienceAPI().read("crop_type", crop_type);
-   if (crop_type == "sorghum")
-     throw std::invalid_argument("Sorghum is not in generic plant framework yet..");
-   else
+//   string crop_type;
+//   scienceAPI().read("crop_type", crop_type);
+//   if (crop_type == "sorghum")
+//     throw std::invalid_argument("Sorghum is not in generic plant framework yet..");
+//   else
      plant = new Plant(this, scienceAPI());
 
-//   if (plant) delete plant; plant= NULL;
    if (plant) plant->onInit1();
    }
 
@@ -101,7 +100,7 @@ bool PlantComponent::respondToSet(unsigned int& /*fromID*/, protocol::QuerySetVa
 // variable name.  If this module owns the variable and does
 // change it's value, return true.
    {
-   if (plant) return (plant->respondToSet(/*fromID, */setValueData.ID, setValueData));
+   if (plant) return (plant->respondToSet(setValueData.ID, setValueData));
    return false;
    }
 
@@ -114,5 +113,5 @@ void PlantComponent::warningError (const char *msg)
 void PlantComponent::writeString (const char *line)
 //=======================================================================================
    {
-   protocol::Component::writeString(FString(line));
+   protocol::Component::writeString(line);
    }

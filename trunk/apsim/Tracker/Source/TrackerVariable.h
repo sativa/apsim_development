@@ -23,7 +23,7 @@ class TrackerVariable
                         protocol::QueryValueData& queryData);
 
    private:
-      std::string name;
+      std::string name; 
       protocol::Component* parent;
       enum Stat {sumStat, averageStat, minimumStat, maximumStat,
                  countStat, dateStat, valueStat};

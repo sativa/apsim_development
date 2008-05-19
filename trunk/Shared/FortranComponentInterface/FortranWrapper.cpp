@@ -310,38 +310,6 @@ extern "C" bool EXPORT STDCALL strings_equal(const char* st1, const char* st2,
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL get_registration_type_string
-   (unsigned int* variableID, char* typeString, unsigned typeStringLength)
-   {
-   FString F(typeString, typeStringLength, FORString);
-   FortranWrapper::currentInstance->get_registration_type_string
-      (*variableID, F);
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    return a type string for the specified registration ID.
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL get_registration_name
-   (unsigned int* variableID, char* nameString, unsigned nameStringLength)
-   {
-   FString F(nameString, nameStringLength, FORString);
-   FortranWrapper::currentInstance->get_registration_name
-      (*variableID, F);
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    return a type string for the specified registration ID.
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
 extern "C" unsigned EXPORT STDCALL get_setVariableSuccess(void)
    {
    return FortranWrapper::currentInstance->get_set_variable_success();
@@ -874,18 +842,9 @@ extern "C" void EXPORT STDCALL delete_postbox( )
 // ------------------------------------------------------------------
 // Module wants to send an event.
 // ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL event_send(const char* eventName, unsigned eventNameLength)
+extern "C" void EXPORT STDCALL event_send(int, *id, const char* eventName, unsigned eventNameLength)
    {
-   FortranWrapper::currentInstance->event_send(FString(eventName, eventNameLength, FORString));
-   }
-// ------------------------------------------------------------------
-// Module wants to send an event
-// ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL event_send_directed(const char* moduleName, const char* eventName,
-                                      unsigned moduleNameLength, unsigned eventNameLength)
-   {
-   FortranWrapper::currentInstance->event_send
-      (FString(eventName, eventNameLength, FORString), FString(moduleName, moduleNameLength, FORString));
+   FortranWrapper::currentInstance->event_send(*id, FString(eventName, eventNameLength, FORString));
    }
 // ------------------------------------------------------------------
 // Module is posting a value into a variant.

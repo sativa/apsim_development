@@ -230,12 +230,6 @@ module ComponentInterface2Module
 !      type(Message), intent(in) :: amessage
 !      end subroutine send_message
 !
-!
-!      subroutine get_registration_type_string(registrationID, typeString)
-!      ml_external get_registration_type_string
-!      integer         , intent(in)  :: registrationID
-!      character(len=*), intent(out) :: typeString
-!      end subroutine get_registration_type_string
 
 
        subroutine new_postbox( )
@@ -271,16 +265,11 @@ module ComponentInterface2Module
        logical                      :: component_name_to_id
        end function component_name_to_id
 
-       subroutine event_send(eventName)
+       subroutine event_send(moduleID, eventName)
        ml_external event_send
+       integer, intent(in)          :: moduleID
        character(len=*), intent(in) :: eventName
        end subroutine event_send
-
-       subroutine event_send_directed(moduleName, actionName)
-       ml_external event_send_directed
-       character(len=*), intent(in) :: moduleName
-       character(len=*), intent(in) :: actionName
-       end subroutine event_send_directed
 
        subroutine set_real_var(componentID, variableName, units, value)
        ml_external set_real_var

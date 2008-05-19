@@ -165,7 +165,7 @@ void GenericLeaf::get_leaf_no_sen(protocol::Component *system, protocol::QueryVa
 
 void GenericLeaf::get_leaf_area(protocol::Component *system, protocol::QueryValueData &qd)
 {
-   system->sendVariable(qd, protocol::vector<float>(gLeafArea, gLeafArea+20/*max_node*/)); // XX system can't handle big arrays..
+   system->sendVariable(qd, std::vector<float>(gLeafArea, gLeafArea+20/*max_node*/)); // XX system can't handle big arrays..
 }
 
 // Clean out yesterday's rate calculations

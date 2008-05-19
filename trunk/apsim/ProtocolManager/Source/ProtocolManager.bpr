@@ -5,7 +5,7 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\Lib\ProtocolManager.dll"/>
     <OBJFILES value="ProtocolManager.obj Coordinator.obj ComponentAlias.obj DebugHook.obj 
-      Registrations.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj"/>
+      ..\..\..\Shared\ComponentInterface\EntryPoints.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -56,7 +56,6 @@
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ComponentInterface\ComponentInterface.lib" FORMNAME="" UNITNAME="ComponentInterface.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\Protocol\Protocol.lib" FORMNAME="" UNITNAME="Protocol.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Registrations.cpp" FORMNAME="" UNITNAME="Registrations" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ComponentInterface\EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
@@ -123,8 +122,9 @@ Item6=C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\Projects\Lib;$(BCB)\li
 Item7=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
-Count=1
-Item0=$(BCB)\source\vcl
+Count=2
+Item0=$(BCB)\source\vcl;C:\development\Shared\ComponentInterface\
+Item1=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
 Count=1
@@ -136,10 +136,10 @@ Item0=..\Lib\
 Item1=..\Lib
 
 [Debugging]
-DebugSourceDirs=$(BCB)\source\vcl
+DebugSourceDirs=$(BCB)\source\vcl;C:\development\Shared\ComponentInterface\
 
 [Parameters]
-RunParams=&quot;C:\development\apsim\tcllink\Sample\Sample Rotation 1.sim&quot;
+RunParams=&quot;C:\development\apsim\apswim\Test\Test.apsim.Test4.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=

@@ -1,11 +1,6 @@
 module ComponentInterfaceModule
    implicit none
 
-   integer ,parameter :: MAX_NAME_SIZE = 100
-   integer ,parameter :: MAX_VARNAME_SIZE = 100
-   integer ,parameter :: MAX_NUM_INSTANCE_NOS = 50
-   integer ,parameter :: MAX_LEVELS_RECURSION = 20
-
    ! get_simulation_information kind parameters.
    integer, parameter :: respondToGetInfo = 2
    integer, parameter :: respondToSetInfo = 3
@@ -23,13 +18,12 @@ module ComponentInterfaceModule
    integer, parameter :: respondToEventReg=6
 
    interface
-      function add_registration(kind, name, typeString, alias, componentNameOrID)
+      function add_registration(kind, name, typeString, alias)
       ml_external add_registration
       integer, intent(in)           :: kind
       character (len=*), intent(in) :: name
       character (len=*), intent(in) :: typeString
       character (len=*), intent(in) :: alias
-      character (len=*), intent(in) :: componentNameOrID
       integer                       :: add_registration
       end function add_registration
 
@@ -172,12 +166,6 @@ module ComponentInterfaceModule
 !      end subroutine send_message
 !
 !
-!      subroutine get_registration_type_string(registrationID, typeString)
-!      ml_external get_registration_type_string
-!      integer         , intent(in)  :: registrationID
-!      character(len=*), intent(out) :: typeString
-!      end subroutine get_registration_type_string
-
 
        subroutine new_postbox( )
        ml_external new_postbox
@@ -212,16 +200,11 @@ module ComponentInterfaceModule
        logical                      :: component_name_to_id
        end function component_name_to_id
 
-       subroutine event_send(eventName)
+       subroutine event_send(moduleID, eventName)
        ml_external event_send
+       integer, intent(in)          :: moduleID
        character(len=*), intent(in) :: eventName
        end subroutine event_send
-
-       subroutine event_send_directed(moduleName, actionName)
-       ml_external event_send_directed
-       character(len=*), intent(in) :: moduleName
-       character(len=*), intent(in) :: actionName
-       end subroutine event_send_directed
 
        subroutine get_integer_var(componentID, variableName, units, value, numvals, lower, upper)
        ml_external get_integer_var

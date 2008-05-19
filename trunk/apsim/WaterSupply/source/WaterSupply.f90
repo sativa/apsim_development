@@ -831,8 +831,10 @@ subroutine WaterSupply_ONgimme_water ()
    real       water_supplied         ! The water which can actually be supplied today by this source
    integer    numvals                ! Number of values returned
    character  water_requester*(Max_module_name_size) ! Module (instance) name sending request for water
+   integer    water_requesterID
    character  water_provider*(Max_module_name_size) ! Module (instance) name of this module
    integer i
+   logical ok
 !- Implementation Section ----------------------------------
 
    call push_routine (my_name)
@@ -899,7 +901,8 @@ subroutine WaterSupply_ONgimme_water ()
    call post_real_var ('water_supplied', '(Ml)', water_supplied)
    call post_real_array ('solute_concentrations_supplied','(ppm)', g%solute_conc, g%num_solutes)
 
-   call Event_send_directed(water_requester,'water_supplied')
+   ok = component_name_to_id(water_requester, water_requesterID)
+   call Event_send(water_requesterID,'water_supplied')
 
    call delete_postbox()
 
@@ -930,6 +933,7 @@ subroutine WaterSupply_ONwater_supplied ()
 !+ Local Variables
    integer    numvals                               ! Number of values returned
    integer i                                        ! simple counter
+   integer id
 
    character  water_provider*(Max_module_name_size) ! name of module providing water for top-up
    character  water_requester*(Max_module_name_size)! the name of this instance which is requesting a top-up from another source
@@ -939,7 +943,8 @@ subroutine WaterSupply_ONwater_supplied ()
    real       water_still_needed                    ! top-up water still required following provision Ml
    real       solute_conc_supplied(max_solutes)     ! array of solute concentrations in supplied water ppm
    real       new_solute_conc                       ! storage solute concentration modified due to added water ppm
-
+   logical ok
+   
 !- Implementation Section ----------------------------------
 
    call push_routine (my_name)
@@ -1010,7 +1015,8 @@ subroutine WaterSupply_ONwater_supplied ()
            ,water_still_needed ,' ML of water'
            call write_string (err_string)
       else
-           call Event_send_directed(g%top_up_source(g%source_counter),'gimme_water')
+           ok = component_name_to_id(g%top_up_source(g%source_counter), id)
+           call Event_send(id, 'gimme_water')
       endif
 
       call delete_postbox()
@@ -1059,8 +1065,10 @@ subroutine WaterSupply_ONtop_up ()
    integer    numvals                ! Number of values returned
    character  water_requester*200    ! the name of this instance which is requesting a top-up from another source
    integer    i                      ! simple counter
+   integer id
    real       top_up_required        ! water amount required for top-up
    integer    counter
+   logical ok
 !- Implementation Section ----------------------------------
 
    call push_routine (my_name)
@@ -1084,7 +1092,8 @@ subroutine WaterSupply_ONtop_up ()
    call post_char_var ('water_requester', '()', water_requester)
    call post_real_var ('amount', '(Ml)', top_up_required)
    g%source_counter = 1
-   call Event_send_directed(g%top_up_source(1),'gimme_water')
+   ok = component_name_to_id(g%top_up_source(g%source_counter), id)
+   call Event_send(id, 'gimme_water')
    call delete_postbox()
 
    call pop_routine (my_name)

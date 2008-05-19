@@ -4,28 +4,9 @@
 #include "message.h"
 #include "Variant.h"
 #include "ProtocolVector.h"
-#include "RegistrationType.h"
+#include <ApsimShared/ApsimRegistration.h>
 #include <ApsimShared/FStringExt.h>
 namespace protocol {
-
-// --------------- RegistrationType streaming ------------
-
-inline MessageData& operator>> (MessageData& messageData, RegistrationType& regType)
-   {
-   unsigned kindId;
-   messageData >> kindId;
-   regType = RegistrationType((RegistrationType::Type) kindId);
-   return messageData;
-   }
-inline MessageData& operator<< (MessageData& messageData, const RegistrationType& regType)
-   {
-   messageData << (unsigned) regType.type();
-   return messageData;
-   }
-inline unsigned int memorySize(const RegistrationType& )
-   {
-   return 4;
-   }
 
 // --------------- NO DATA structure ------------
 struct NoData
@@ -97,7 +78,7 @@ inline Message* newCompleteMessage(unsigned int from,
 // --------------- Deregister ------------
 struct DeregisterData
    {
-   RegistrationType kind;
+   unsigned int kind;
    unsigned int ID;
    };
 inline MessageData& operator>> (MessageData& messageData, DeregisterData& data)
@@ -107,7 +88,7 @@ inline MessageData& operator>> (MessageData& messageData, DeregisterData& data)
    }
 inline Message* newDeregisterMessage(unsigned int from,
                                      unsigned int to,
-                                     RegistrationType kind,
+                                     unsigned int kind,
                                      unsigned int ID)
    {
    Message* msg = constructMessage(Deregister, from, to, false,
@@ -263,7 +244,7 @@ template <class T>
 inline Message* newPublishEventMessage(unsigned int from,
                                        unsigned int to,
                                        unsigned int ID,
-                                       const Type& type,
+                                       const std::string& type,
                                        const T& data)
    {
    Message* msg = constructMessage(PublishEvent, from, to, false,
@@ -276,7 +257,7 @@ template <class T>
 inline Message* newPublishEventMessage(unsigned int from,
                                        unsigned int to,
                                        unsigned int ID,
-                                       const Type& type,
+                                       const std::string& type,
                                        const T data[],
                                        unsigned numValues)
    {
@@ -373,9 +354,9 @@ inline Message* newQueryValueMessage(unsigned int from,
 // -------------- Register -------------
 struct RegisterData
    {
-   RegistrationType kind;
+   unsigned int kind;
    unsigned int ID;
-   unsigned int destID;
+   int destID;
    FString name;
    FString type;
    };
@@ -386,9 +367,9 @@ inline MessageData& operator>> (MessageData& messageData, RegisterData& data)
    }
 inline Message* newRegisterMessage(unsigned int from,
                                    unsigned int to,
-                                   RegistrationType kind,
+                                   unsigned int kind,
                                    unsigned int ID,
-                                   unsigned int destID,
+                                   int destID,
                                    const FString& name,
                                    const Type& type)
    {
@@ -436,7 +417,7 @@ template <class T>
 inline Message* newRequestSetValueMessage(unsigned int from,
                                           unsigned int to,
                                           unsigned int regID,
-                                          const Type& type,
+                                          const std::string& type,
                                           const T& data)
    {
    Message* msg = constructMessage(RequestSetValue, from, to, false,
@@ -548,7 +529,7 @@ template <class T>
 inline Message* newReplyValueMessage(unsigned int from,
                                       unsigned int to,
                                       unsigned int queryID,
-                                      const Type& type,
+                                      const std::string& type,
                                       const T& data)
    {
    Message* msg = constructMessage(ReplyValue, from, to, false,

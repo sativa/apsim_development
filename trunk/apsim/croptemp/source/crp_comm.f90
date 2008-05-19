@@ -128,7 +128,7 @@
 
             call post_char_var('use_default_p','()','false')
 
-            call event_send(ACTION_incorp_fom)
+            call event_send(unknown_module,ACTION_incorp_fom)
 
             call Delete_postbox ()
 
@@ -201,7 +201,7 @@
                         ,'(kg/ha)'          &
                         ,dlt_residue_N * gm2kg /sm2ha)
 
-         call event_send(ACTION_add_residue)
+         call event_send(unknown_module,ACTION_add_residue)
 
          call Delete_postbox ()
 
@@ -288,7 +288,7 @@
                              , fraction_to_Residue    &
                              , max_part)
 
-      call event_send (EVENT_Crop_Chopped)
+      call event_send (unknown_module,EVENT_Crop_Chopped)
 
       call delete_postbox ()
 
@@ -378,7 +378,7 @@
                              , fraction_to_Residue    &
                              , max_part)
 
-      call event_send (EVENT_Crop_Chopped)
+      call event_send (unknown_module,EVENT_Crop_Chopped)
 
       call delete_postbox ()
 

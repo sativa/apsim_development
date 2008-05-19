@@ -635,7 +635,7 @@
      :                     , p%solute_names
      :                     , g%num_solutes)
 
-      call event_send (EVENT_new_solute)
+      call event_send (unknown_module, EVENT_new_solute)
 
       call delete_postbox()
 

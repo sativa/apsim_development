@@ -71,10 +71,10 @@ void FarmwiseSequencer::doInit2(void)
    readConstants (); // Read constants
    for (int SubscribeEvent = 0; SubscribeEvent < numSubscribeEvents; SubscribeEvent++)
    {
-      SubscribeEventsID[SubscribeEvent] = addRegistration(RegistrationType::respondToEvent, SubscribeEvents[SubscribeEvent].c_str(), nullTypeDDML);
+      SubscribeEventsID[SubscribeEvent] = addRegistration(::respondToEvent, -1, SubscribeEvents[SubscribeEvent].c_str(), nullTypeDDML);
       for (int PublishEvent = 0; PublishEvent < numPublishEvents[SubscribeEvent]; PublishEvent++)
       {
-         PublishEventsID[SubscribeEvent][PublishEvent] = addRegistration(RegistrationType::event, PublishEvents[SubscribeEvent][PublishEvent].c_str(), nullTypeDDML);
+         PublishEventsID[SubscribeEvent][PublishEvent] = addRegistration(::event, -1, PublishEvents[SubscribeEvent][PublishEvent].c_str(), nullTypeDDML);
       }
    }
 }

@@ -98,7 +98,7 @@ void LogComponent::doInit1(const protocol::Init1Data& initData)
    {
    protocol::Component::doInit1(initData);
 
-   debug_outputID = addRegistration(RegistrationType::respondToSet, "debug_output", "");
+   debug_outputID = addRegistration(::respondToSet, -1, "debug_output", "");
    string filename = componentData->getProperty("parameters", "logfile");
    if (filename == "")
       filename = "log.xml";
@@ -260,7 +260,7 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          {
          protocol::RegisterData registerData;
          messageData >> registerData;
-         out << " kind=\"" << registerData.kind.asString() << "\"";
+         out << " kind=\"" << registerData.kind << "\"";
          out << " name=\"" << asString(registerData.name) << "\"";
          if (registerData.destID > 0)
             out << " directedToComponent=\"" << registerData.destID << "\"";
@@ -283,7 +283,7 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          }
       case protocol::GetValue:
          {
-         writeRegistrationData(message, RegistrationType::get);
+         writeRegistrationData(message, ::get);
          break;
          }
       case protocol::ReturnValue:
@@ -297,7 +297,7 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          {
          protocol::PublishEventData eventData;
          messageData >> eventData;
-         writeRegistrationData(message,  RegistrationType::event);
+         writeRegistrationData(message,  ::event);
          writeVariant(eventData.variant);
          break;
          }
@@ -340,7 +340,7 @@ void LogComponent::storeRegistration(const Message* message)
    RegisterData registerData;
    messageData >> registerData;
    components[message->from].registrations.insert(
-      LogComponent::Registrations::value_type(make_pair(registerData.ID, (unsigned)registerData.kind.type()), asString(registerData.name)));
+      LogComponent::Registrations::value_type(make_pair(registerData.ID, (unsigned)registerData.kind), asString(registerData.name)));
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -350,13 +350,13 @@ void LogComponent::storeRegistration(const Message* message)
 //    dph 14/5/2001
 
 // ------------------------------------------------------------------
-void LogComponent::writeRegistrationData(const Message* message, RegistrationType kind)
+void LogComponent::writeRegistrationData(const Message* message, EventTypeCode kind)
    {
    MessageData messageData((Message*) message);
    unsigned int ID;
    messageData >> ID;
 
-   out << " regName=\"" << components[message->from].registrations[make_pair(ID, (unsigned)kind.type())] << "\"";
+   out << " regName=\"" << components[message->from].registrations[make_pair(ID, (unsigned)kind)] << "\"";
 //   out << " regID=\"" << ID << "\"";
    }
 // ------------------------------------------------------------------

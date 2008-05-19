@@ -1454,7 +1454,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
      :                   ,'(kg/ha)'
      :                   , dlt_residue_P)
 
-       call event_send(ACTION_add_residue_p)
+       call event_send(unknown_module, ACTION_add_residue_p)
 
 !      call EI_BroadcastAction     (EventInterface
 !     :                            ,ACTION_add_residue_p
@@ -1616,7 +1616,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
      :                   , dlt_fom_P
      :                   , num_layers)
 
-      call event_send(ACTION_incorp_fom)
+      call event_send(unknown_module, ACTION_incorp_fom)
 
       call Delete_postbox ()
 

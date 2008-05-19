@@ -136,7 +136,7 @@ class PlantHerbage : public HerbageBase
       SeedPool dmdSeed;
 ////      SeedPool dQSeed;
 
-         string cHerbageModuleName;
+         int cHerbageModuleID;
          string cDebug;
 
          float cDmdValueVeg[maxDmdPoolsVeg];

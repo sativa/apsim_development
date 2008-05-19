@@ -19,7 +19,7 @@ class TclComponent : public protocol::Component,
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
-      virtual void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
+      virtual void onApsimGetQuery(unsigned int fromID,protocol::ApsimGetQueryData& apsimGetQueryData);
       
       int apsimGet( Tcl_Interp *interp, const string &varname, bool optional);
       bool apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *obj);

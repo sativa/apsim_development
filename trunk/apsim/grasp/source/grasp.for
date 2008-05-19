@@ -5176,7 +5176,7 @@ c     :                    , 0.0, 10000.0)
      :                        , fraction_to_Residue
      :                        , max_part)
 
-      call event_send (EVENT_Crop_Chopped)
+      call event_send (unknown_module,EVENT_Crop_Chopped)
 
       call delete_postbox ()
 

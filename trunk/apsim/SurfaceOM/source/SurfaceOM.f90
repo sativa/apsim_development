@@ -2697,7 +2697,7 @@ subroutine residue2_Send_Res_added_Event(residue_type, dm_type, dlt_residue_wt, 
    call post_real_var   (DATA_dlt_residue_wt,'(kg/ha)', dlt_residue_wt)
    call post_real_var   (DATA_dlt_dm_n,'(kg/ha)', dlt_residue_N_wt)
    call post_real_var   (DATA_dlt_dm_p,'(kg/ha)', dlt_residue_P_wt)
-   call event_send (EVENT_Residue_added)
+   call event_send (unknown_module, EVENT_Residue_added)
 
    call delete_postbox ()
 
@@ -2732,7 +2732,7 @@ subroutine residue2_Send_Res_removed_Event(residue_removed_action, dlt_residue_f
    call post_char_var   (DATA_residue_removed_action,'()', residue_removed_action)
    call post_real_var   (DATA_dlt_residue_fraction,'()', dlt_residue_fraction)
    call post_real_array   (DATA_residue_incorp_fraction,'()', residue_incorp_fraction, deepest_layer)
-   call event_send (EVENT_Residue_removed)
+   call event_send (unknown_module, EVENT_Residue_removed)
 
    call delete_postbox ()
 
@@ -2772,7 +2772,7 @@ subroutine surfom_Send_SOM_removed_Event(residue_type, dm_type, dlt_residue_wt, 
    call post_real_var   (DATA_dlt_SurfaceOM_wt,'(kg/ha)', dlt_residue_wt)
    call post_real_var   (DATA_SurfaceOM_dlt_dm_n,'(kg/ha)', dlt_residue_N_wt)
    call post_real_var   (DATA_SurfaceOM_dlt_dm_p,'(kg/ha)', dlt_residue_P_wt)
-   call event_send (EVENT_surfaceOM_removed)
+   call event_send (unknown_module, EVENT_surfaceOM_removed)
 
    call delete_postbox ()
 

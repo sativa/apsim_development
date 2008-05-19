@@ -565,24 +565,25 @@
                call PublishKillCrop(destination, Line)
 
             else
-
-               call New_postbox ()
-               Data_stored = Store_message_data (Line)
-               if (Data_stored) then
-                  if (destination .eq. All_active_modules) then
-                     regID=Add_Registration (EventReg, Action
-     :                                       , ' ', ' ', ' ')
-                     call Event_Send (Action)
+               if (component_name_to_id(destination, modNameID)) then
+                  call New_postbox ()
+                  Data_stored = Store_message_data (Line)
+                  if (Data_stored) then
+                      call Event_Send (modNameID, Action)
                   else
-                     call Event_Send_directed (destination, Action)
+!                     write(msg, '(2a)' )
+!     :                  'Invalid operations line: ',
+!     :                  Line
+!                     call Fatal_error(err_user, msg)
                   endif
+                  call Delete_postbox ()
                else
-!                  write(msg, '(2a)' )
-!     :               'Invalid operations line: ',
-!     :               Line
-!                  call Fatal_error(err_user, msg)
-               endif
-               call Delete_postbox ()
+                  write(msg, '(3a)' )
+     :               'Cannot send vent to module ',
+     :               destination,
+     :               '.  Module doesnt exist.'
+                  call fatal_error(err_user, msg)
+               endif   
             endif
          else
          endif
@@ -619,8 +620,8 @@
          Kill%KillFraction = 1.0
       endif
       KillCropID = add_registration(eventReg, 
-     .                              'kill_crop',
-     .                              KillCropTypeDDML, '', ModuleName)
+     .                              ModuleName // '.kill_crop',
+     .                              KillCropTypeDDML, '')
       call publish_KillCrop(KillCropID, Kill)
 
       end subroutine

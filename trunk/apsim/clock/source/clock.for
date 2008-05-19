@@ -59,23 +59,23 @@ C     Last change:  E     5 Dec 2000    8:52 am
       call doRegistrations(id)
       g%id_start_simulation = add_registration(eventReg,
      .                                         'start_simulation',
-     .                                         nullTypeDDML, '', '')
+     .                                         nullTypeDDML, '')
       g%id_start_week = add_registration(eventReg, 'start_week',
-     .                                   nullTypeDDML, '', '')
+     .                                   nullTypeDDML, '')
       g%id_start_month = add_registration(eventReg, 'start_month',
-     .                                    nullTypeDDML, '', '')
+     .                                    nullTypeDDML, '')
       g%id_start_year = add_registration(eventReg, 'start_year',
-     .                                   nullTypeDDML, '', '')
+     .                                   nullTypeDDML, '')
       g%id_end_week = add_registration(eventReg, 'end_week',
-     .                                    nullTypeDDML, '', '')
+     .                                    nullTypeDDML, '')
       g%id_end_month = add_registration(eventReg, 'end_month',
-     .                                  nullTypeDDML, '', '')
+     .                                  nullTypeDDML, '')
       g%id_end_year = add_registration(eventReg, 'end_year',
-     .                                 nullTypeDDML, '', '')
+     .                                 nullTypeDDML, '')
       g%id_end_day = add_registration(eventReg, 'end_day',
-     .                                nullTypeDDML, '', '')
+     .                                nullTypeDDML, '')
       g%id_report = add_registration(eventReg, 'report',
-     .                               nullTypeDDML, '', '')
+     .                               nullTypeDDML, '')
       end subroutine
 
 * ====================================================================
@@ -263,7 +263,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       call write_string('Sequencer phases:')
       do i=1, g%numTimestepEvents
          g%timestepEvents(i) = add_registration
-     .         (eventReg, timestepEvents(i), nullTypeDDML, ' ', ' ')
+     .         (eventReg, timestepEvents(i), nullTypeDDML, '')
          call write_string('   ' // timestepEvents(i))
 
       enddo
@@ -698,7 +698,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 10    continue
       if (g%Pause_current_run) then
-         call event_send(ACTION_Idle)
+         call event_send(unknown_module, ACTION_Idle)
          goto 10
       endif
 

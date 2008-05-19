@@ -16,7 +16,22 @@ static const char* doubleArrayType = "<type kind=\"double\" array=\"T\"/>";
 static const char* stringType = "<type kind=\"string\"/>";
 static const char* stringArrayType = "<type kind=\"string\" array=\"T\"/>";
 static const char* logicalType = "<type kind=\"boolean\"/>";
-
+namespace protocol {
+  std::string EXPORT DDML(const protocol::vector<int>& )
+     { return(integerArrayType); }
+  std::string EXPORT DDML(const protocol::vector<float>& )
+     { return(realArrayType); }
+  std::string EXPORT DDML(const protocol::vector<double>& )
+     { return(doubleArrayType); }
+  std::string EXPORT DDML(const FString& ) 
+     { return(stringType); }
+  std::string EXPORT DDML(const protocol::vector<FString>& ) 
+     { return(stringArrayType); }
+  std::string EXPORT DDML(const FStrings& ) 
+     { return(stringArrayType); }
+  std::string EXPORT DDML(const ApsimVariant& ) 
+     { return("<type kind=\"Variant\"/>"); }
+}
 typedef EXPORT STDCALL void (Main_t)(const char* action, const char* data, unsigned actionLength, unsigned dataLength);
 typedef EXPORT STDCALL void (alloc_dealloc_instance_t)(const unsigned int* doAllocate);
 typedef EXPORT STDCALL void (do_init1_t)();
@@ -69,14 +84,6 @@ class FortranWrapper : public protocol::Component
       unsigned get_parentID(void)    {return parentID;}
       unsigned get_componentData(void) {return (unsigned)componentData;}
 
-      void get_registration_type_string(unsigned regID, FString& st)
-         {
-         st = getRegistrationType(regID).getTypeString();
-         }
-      void get_registration_name(unsigned regID, FString& st)
-         {
-         st = FString(getRegistrationName(regID));
-         }
       bool get_set_variable_success(void)
          {
          return getSetVariableSuccess();
@@ -92,36 +99,18 @@ class FortranWrapper : public protocol::Component
          messageWasUsed = false;
          }
       template <class T>
-      void get_var(unsigned componentID,
+      void get_var(int destID,
                    const FString& variableName, const FString& dataTypeString,
                    T& value, unsigned& numvals, bool isOptional = false)
          {
-         int regId;
-         if (componentID == INT_MAX)
-            {
-            char buffer[100];
-            strcpy(buffer, "Invalid component id passed while getting variable. \n"
-                           "VariableName: ");
-            strncat(buffer, variableName.f_str(), variableName.length());
-            error(buffer, true);
-            numvals = 0;
-            return;
-            }
-         if (componentID == 0)
-            regId = FortranWrapper::currentInstance->addRegistration
-               (RegistrationType::get, variableName, dataTypeString);
-         else
-            {
-            FString alias;
-            string componentIDSt;
-            componentIDSt = itoa(componentID);
-            regId = FortranWrapper::currentInstance->addRegistration
-               (RegistrationType::get, variableName, dataTypeString,
-                alias, FString(componentIDSt.c_str()));
-            }
+         int regId = FortranWrapper::currentInstance->
+                             addRegistration(::get,
+                                             destID,
+                                             asString(variableName), 
+                                             asString(dataTypeString));
 
-         protocol::Variant* variant;
-         if (getVariable(regId, variant, isOptional))
+         protocol::Variant *variant;
+         if (getVariable(regId, &variant, isOptional))
             {
             bool ok = variant->unpack(value);
             if (!ok)
@@ -130,7 +119,7 @@ class FortranWrapper : public protocol::Component
                strcpy(buffer, "Cannot use array notation on a scalar variable.\n"
                               "VariableName:");
                strncat(buffer, variableName.f_str(), variableName.length());
-               error(buffer, true);
+               error(FString(buffer), true);
                numvals = 0;
                }
             else
@@ -148,11 +137,13 @@ class FortranWrapper : public protocol::Component
       void get_vars(unsigned requestNo, const FString& variableName,
                     const FString& dataTypeString, T& value, unsigned& numvals)
          {
-         int regId = FortranWrapper::currentInstance->addRegistration
-            (RegistrationType::get, variableName, dataTypeString);
          if (requestNo == 1)
-             getVariables(regId, vars);
-         if (vars != NULL)
+            {
+            int regId = FortranWrapper::currentInstance->addRegistration
+                                 (::get, -1, variableName, dataTypeString);
+            FortranWrapper::currentInstance->getVariables(regId, &vars);
+            } 
+         if (vars != NULL && vars->size() > 0)
             {
             protocol::Variant* var = vars->getVariant(requestNo-1);
             if (var != NULL)
@@ -184,26 +175,25 @@ class FortranWrapper : public protocol::Component
                strncat(buffer, units.f_str(), units.length());
                strcat(buffer, "\"/>");
                }
-            addRegistration(RegistrationType::respondToGet, variableName, buffer);
+            addRegistration(::respondToGet, -1, variableName, buffer);
             }
          else
             sendVariable(queryData, value);
          }
       template <class T>
-      void set_var(unsigned componentID, const FString& variableName,
+      void set_var(int destID, const FString& variableName,
                    const FString& dataTypeString, const T& value)
          {
-         string componentIDString;
-         if (componentID == 0)
-            componentIDString = "0";
-         else
-            componentIDString = itoa(componentID);
-         FString alias;
-         unsigned variableID = addRegistration(RegistrationType::set,
-                                               variableName,
-                                               dataTypeString,
-                                               alias,
-                                               FString(componentIDString.c_str()));
+         string regName;
+         if (destID < 0) 
+           ApsimRegistry::getApsimRegistry().unCrackPath(componentID, asString(variableName), destID, regName);
+         else 
+           regName = asString(variableName);
+           
+         unsigned variableID = addRegistration(::set,
+                                               destID,
+                                               regName,
+                                               asString(dataTypeString));
          setVariable(variableID, value);
          }
       void new_postbox(void)
@@ -244,7 +234,7 @@ class FortranWrapper : public protocol::Component
                strcpy(buffer, "Cannot collect variable from postbox.  Variable doesn't exist.\n"
                               "Variable: ");
                strncat(buffer, variableName.f_str(), variableName.length());
-               error(buffer, true);
+               error(FString(buffer), true);
                }
             numvals = 0;
             }
@@ -258,17 +248,8 @@ class FortranWrapper : public protocol::Component
          outgoingApsimVariant.store(variableName, dataType, isArray, value);
          }
 
-      void event_send(const FString& eventName, const FString& moduleName = "")
-         {
-         unsigned eventID = getRegistrationID(RegistrationType::event, eventName);
-         if (eventID == 0)
-            {
-            FString alias("");
-            eventID = addRegistration(RegistrationType::event, eventName, nullType,
-                                      alias, moduleName);
-            }
-         publish(eventID, outgoingApsimVariant);
-         }
+      void event_send(int id, const FString& eventName);
+
       unsigned getFromID(void)
          {
          return fromID;
@@ -282,7 +263,7 @@ class FortranWrapper : public protocol::Component
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& querySetData);
       virtual void notifyTermination(void);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& var);
-      virtual void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
+      virtual void onApsimGetQuery(unsigned int fromID, protocol::ApsimGetQueryData& apsimGetQueryData);
       virtual bool onApsimSetQuery(protocol::ApsimSetQueryData& apsimSetQueryData);
 
    private:

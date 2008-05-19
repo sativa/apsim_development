@@ -294,6 +294,7 @@ void ReportComponent::onInit2(void)
    string fileName;
    if (!scienceAPI.read("outputfile", "", true, fileName))
       fileName = calcFileName();
+
    file.open(fileName.c_str());
    if (!file)
       throw runtime_error("Cannot open output file (sharing violation?): " + fileName);
@@ -385,11 +386,13 @@ void ReportComponent::createVariable(const string& name)
       format = itoa(precision);
 
    if (matches.size() == 0)
+      {
       fields.push_back(Field(scienceAPI, 
                              variable, 
                              "", 
                              alias,
                              nastring, format, csv, units));
+      }
    else
       {
       for (unsigned i = 0; i != matches.size(); i++)
@@ -400,12 +403,12 @@ void ReportComponent::createVariable(const string& name)
          string matchName = matches[i].name;
          string matchDdml = matches[i].ddml;
          fields.push_back(Field(scienceAPI,
-                                matchName,
+                                variable,
                                 matchDdml,
                                 thisAlias,
                                 nastring, format, csv, units));
          }
-      }
+      } 
    }
 
 // ------------------------------------------------------------------
@@ -415,12 +418,12 @@ string ReportComponent::calcFileName()
    {
    string title, FQName;
 
-   scienceAPI.get("title", "", true, title);
+   scienceAPI.get(".masterpm.title", "", true, title);
    string fileName = title;
 
    FQName = scienceAPI.FQName();   // eg. ".masterpm.paddock.outputfile"
    string parent = FQName.substr(0,FQName.rfind('.'));
-   parent = parent.substr(1+parent.rfind('.'), parent.length());
+   parent = parent.substr(1+parent.rfind('.'));
 
    if (!Str_i_Eq(parent, "paddock") && !Str_i_Eq(parent, "masterpm"))
       {
@@ -436,6 +439,7 @@ string ReportComponent::calcFileName()
       fileName += scienceAPI.name();
       }
    fileName += ".out";
+
    return fileName;
    }
 

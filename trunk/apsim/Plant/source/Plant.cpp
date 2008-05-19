@@ -220,31 +220,31 @@ void Plant::onInit1(void)
    plant.tempFlagToShortCircuitInit1 = true;
    plant.onInit1(parent);
 
-    id.eo = parent->addRegistration(RegistrationType::get,
-                                   "eo", addUnitsToDDML(floatType, "mm").c_str(),
-                                   "", "");
+   id.eo = parent->addRegistration(::get,
+                                   -1, "eo", addUnitsToDDML(floatType, "mm"),
+                                   "");
 
-   id.parasite_c_demand = parent->addRegistration(RegistrationType::get,
-                                   "parasite_dm_demand", addUnitsToDDML(floatType, "g/m2").c_str(),
-                                   "", "");
-   id.parasite_sw_demand = parent->addRegistration(RegistrationType::get,
-                                   "parasite_sw_demand", addUnitsToDDML(floatType, "mm").c_str(),
-                                   "", "");
+   id.parasite_c_demand = parent->addRegistration(::get,
+                                   -1, "parasite_dm_demand", addUnitsToDDML(floatType, "g/m2"),
+                                   "");
+   id.parasite_sw_demand = parent->addRegistration(::get,
+                                   -1, "parasite_sw_demand", addUnitsToDDML(floatType, "mm"),
+                                   "");
 
    // events.
-   id.crop_chopped = parent->addRegistration(RegistrationType::event,
-                                   "crop_chopped", cropChoppedDDML,
-                                   "", "");
+   id.crop_chopped = parent->addRegistration(::event,
+                                   -1, "crop_chopped", string(cropChoppedDDML),
+                                   "");
 
-   setupEvent(parent, "prepare",     RegistrationType::respondToEvent, &Plant::onPrepare, nullTypeDDML);
-   setupEvent(parent, "process",     RegistrationType::respondToEvent, &Plant::onProcess, nullTypeDDML);
-   setupEvent(parent, "sow",         RegistrationType::respondToEvent, &Plant::onSow, sowDDML);
-   setupEvent(parent, "harvest",     RegistrationType::respondToEvent, &Plant::onHarvest, nullTypeDDML);
-   setupEvent(parent, "end_crop",    RegistrationType::respondToEvent, &Plant::onEndCrop, nullTypeDDML);
-   setupEvent(parent, "end_run",     RegistrationType::respondToEvent, &Plant::onEndRun, nullTypeDDML);
-   setupEvent(parent, "kill_stem",   RegistrationType::respondToEvent, &Plant::onKillStem, killStemDDML);
-   setupEvent(parent, "remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::onRemoveCropBiomass, DDML(protocol::RemoveCropDmType()).c_str());
-   setupEvent(parent, "detach_crop_biomass_rate",   RegistrationType::respondToEvent, &Plant::onDetachCropBiomass, doubleType);
+   setupEvent(parent, "prepare",     &Plant::onPrepare, nullTypeDDML);
+   setupEvent(parent, "process",     &Plant::onProcess, nullTypeDDML);
+   setupEvent(parent, "sow",         &Plant::onSow, sowDDML);
+   setupEvent(parent, "harvest",     &Plant::onHarvest, nullTypeDDML);
+   setupEvent(parent, "end_crop",    &Plant::onEndCrop, nullTypeDDML);
+   setupEvent(parent, "end_run",     &Plant::onEndRun, nullTypeDDML);
+   setupEvent(parent, "kill_stem",   &Plant::onKillStem, killStemDDML);
+   setupEvent(parent, "remove_crop_biomass",   &Plant::onRemoveCropBiomass, DDML(protocol::RemoveCropDmType()).c_str());
+   setupEvent(parent, "detach_crop_biomass_rate",   &Plant::onDetachCropBiomass, doubleType);
 
 
    // Send My Variable
@@ -383,11 +383,11 @@ void Plant::onInit1(void)
 
    unsigned int id;
    // Set My Variable
-   id = parent->addRegistration(RegistrationType::respondToSet, "crop_class", stringType);
+   id = parent->addRegistration(::respondToSet, -1, "crop_class", (char*)stringType);
    IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::set_plant_crop_class));
 
-   parent->addRegistration(RegistrationType::event, "sowing", nullTypeDDML, "", "");
-   parent->addRegistration(RegistrationType::event, "harvesting", nullTypeDDML, "", "");
+   parent->addRegistration(::event, -1, string("sowing"), nullTypeDDML);
+   parent->addRegistration(::event, -1, string("harvesting"), nullTypeDDML);
 
    // now go and call onInit1 for all non part things.
    for (vector<plantThing *>::iterator t = myThings.begin();
@@ -460,9 +460,10 @@ bool Plant::respondToSet(unsigned int &id, protocol::QuerySetValueData& qd)
 void Plant::sendStageMessage(const char *what)
 //=======================================================================================
   {
-  unsigned int id = parent->addRegistration(RegistrationType::event,
-                                            what, "<type/>",
-                                            "", "");
+  unsigned int id = parent->addRegistration(::event,
+                                            -1,
+                                            what,
+                                            "<type/>");
   protocol::ApsimVariant outgoingApsimVariant(parent);
   parent->publish (id, outgoingApsimVariant);
   }
@@ -1150,7 +1151,7 @@ void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
 //=======================================================================================
 // Report Harvest info and current status of specific variables
     {
-    FString  report_flag;
+    string  report_flag;
 
     protocol::ApsimVariant incomingApsimVariant(parent);
     incomingApsimVariant.aliasTo(v.getMessageData());
@@ -1250,8 +1251,8 @@ void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message varia
     {
 
 //+  Local Variables
-    FString  dormancy_flag;
-    FString  previous_class;
+    string  dormancy_flag;
+    string  previous_class;
 
 //- Implementation Section ----------------------------------
 
@@ -1269,9 +1270,9 @@ void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message varia
         {
         previous_class = g.crop_class.c_str();
         plant_auto_class_change("dormancy");
-        if (previous_class.f_str() != g.crop_class)
+        if (previous_class != g.crop_class)
             {
-            g.pre_dormancy_crop_class = previous_class.f_str();
+            g.pre_dormancy_crop_class = previous_class;
             }
         else
             {
@@ -1673,7 +1674,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
 
 //+  Local Variables
     char  msg[200];                               // output string
-    FString  dummy;                               // dummy variable
+    string  dummy;                               // dummy variable
 
 //- Implementation Section ----------------------------------
 
@@ -1700,9 +1701,9 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                }
            else
                {
-               g.crop_class = dummy.f_str();
+               g.crop_class = dummy;
                g.crop_class = g.crop_class.substr(0,dummy.length());
-               scienceAPI.setClass2(asString(dummy));
+               scienceAPI.setClass2(dummy);
                }
 
            // get cultivar parameters
@@ -1712,8 +1713,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                }
            else
                {
-               g.cultivar = dummy.substr(0,dummy.length()).f_str();
-               g.cultivar = g.cultivar.substr(0,dummy.length());
+               g.cultivar = dummy;
                scienceAPI.setClass1(g.cultivar);
                }
 
@@ -2053,7 +2053,7 @@ void Plant::registerClassActions(void)
       unsigned int id;
       boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
       fn = boost::bind(&Plant::doAutoClassChange, this, _1, _2, _3);
-      id = parent->addEvent(i->c_str(), RegistrationType::respondToEvent, fn, "");
+      id = parent->addEvent(i->c_str(), fn, "<type/>");
 
       IDtoAction.insert(UInt2StringMap::value_type(id,i->c_str()));
       //printf("registered '%s' as %d\n",i->c_str(),id);
@@ -2299,7 +2299,10 @@ void Plant::plant_send_crop_chopped_event (const string&  crop_type             
     parent->publish (id.crop_chopped, chopped);
 #else
     protocol::ApsimVariant outgoingApsimVariant(parent);
-    outgoingApsimVariant.store("crop_type", protocol::DTstring, false, FString(crop_type.c_str()));
+    outgoingApsimVariant.store("crop_type", 
+                               protocol::DTstring, 
+                               false, 
+                               crop_type);
 
     // Make an FStrings string array and store it..
     unsigned int maxlen = 0;
@@ -2340,9 +2343,9 @@ bool Plant::set_plant_crop_class(protocol::QuerySetValueData&v)
 void Plant::get_plant_status(protocol::Component *system, protocol::QueryValueData &qd)
 {
     switch (g.plant_status) {
-        case out: system->sendVariable(qd, FString("out")); break;
-        case dead: system->sendVariable(qd, FString("dead")); break;
-        case alive: system->sendVariable(qd, FString("alive")); break;
+        case out: system->sendVariable(qd, string("out")); break;
+        case dead: system->sendVariable(qd, string("dead")); break;
+        case alive: system->sendVariable(qd, string("alive")); break;
     }
 }
 

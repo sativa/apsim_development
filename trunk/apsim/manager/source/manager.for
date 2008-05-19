@@ -523,7 +523,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
             g%rule_regIds(rule) = add_registration(respondToEventReg,
      .                                             rule_type,
      .                                             '<type/>',
-     .                                             ' ',
      .                                             ' ')
          else
             g%rule_regIds(rule) = 0
@@ -803,7 +802,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .            trim(Variable_value)
          g%local_variable_regIds(g%num_local_variables)
      .      = Add_Registration (respondToGetSetReg, Variable_name,
-     .                       stringTypeDDML, ' ', ' ')
+     .                       stringTypeDDML, ' ')
       else
          write (str, '(4a)' )
      .        'Manager creating a new local real variable : ',
@@ -812,7 +811,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .         adjustl(g%local_variable_values(g%num_local_variables))
          g%local_variable_regIds(g%num_local_variables)
      .      = Add_Registration (respondToGetSetReg, Variable_name,
-     .                       floatTypeDDML, ' ', ' ')
+     .                       floatTypeDDML, ' ')
       endif
 
       call Write_string (str)
@@ -1448,31 +1447,35 @@ C     Last change:  P    25 Oct 2000    9:26 am
             call fatal_error(err_user, msg)
          endif
       else if (Action .eq. 'kill_crop') then
-         call PublishKillCrop(Module_name, Data_string)
+         call PublishKillCrop(Data_string)
 
       else
          ! some other action
-         call New_postbox ()
-         Data_was_stored = Store_message_data (Data_string)
-
-         if (Data_was_stored) then
-            if (Module_name .eq. All_active_modules) then
-               regID=Add_Registration (EventReg, Action, ' ', ' ', ' ')
-               call Event_Send (Action)
+         if (component_name_to_id(Module_name, modNameID)) then
+            call New_postbox ()
+            Data_was_stored = Store_message_data (Data_string)
+            
+            if (Data_was_stored) then
+               call Event_send (modNameID , Action)
             else
-               call Event_send_directed (Module_name, Action)
+               ! data was not stored
             endif
+            
+            call Delete_postbox ()
          else
-            ! data was not stored
+            write(msg, '(3a)' )
+     :               'Cannot send event to module ',
+     :               Module_name,
+     :               '.  Module does not exist.'
+            call fatal_error(err_user, msg)
+         
          endif
-
-         call Delete_postbox ()
       endif
       return
       end subroutine
 
 * ====================================================================
-      recursive subroutine PublishKillCrop(ModuleName, DataString)
+      recursive subroutine PublishKillCrop(DataString)
 * ====================================================================
       use ConstantsModule
       use ErrorModule
@@ -1483,7 +1486,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
       implicit none
 
       character DataString*(*)        ! (INPUT) Should be blank or have a plants_kill_fraction
-      character ModuleName*(*)        ! (INPUT) Name of module to send event to.
       character Name*(MAX_VARIABLE_NAME_SIZE)
       character Value*(500)
       type(KillCropType) Kill
@@ -1499,7 +1501,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       endif
       KillCropID = add_registration(eventReg,
      .                              'kill_crop',
-     .                              KillCropTypeDDML, '', ModuleName)
+     .                              KillCropTypeDDML, '')
       call publish_KillCrop(KillCropID, Kill)
 
       end subroutine

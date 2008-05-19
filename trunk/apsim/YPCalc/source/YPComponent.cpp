@@ -6,7 +6,6 @@
 #include "YPComponent.h"
 #include <general\math_functions.h>
 #include <general\stl_functions.h>
-#include <variant.h>
 #pragma package(smart_init)
 using namespace std;
 using namespace protocol;
@@ -52,16 +51,16 @@ void YPComponent::doInit1(const protocol::Init1Data& initData)
    static const char* realArrayType = "<type kind=\"double\" array=\"T\"\\>";
    static const char* realType = "<type kind=\"double\"\\>";
 
-   cllID = addRegistration(RegistrationType::respondToGet, "CLLToday", realType);
-   dulID = addRegistration(RegistrationType::respondToGet, "DULToday", realType);
-   swID = addRegistration(RegistrationType::respondToGet, "SWToday", realType);
-   critSwID = addRegistration(RegistrationType::respondToGet, "CritSWToday", realType);
+   cllID = addRegistration(::respondToGet,-1, "CLLToday", realType);
+   dulID = addRegistration(::respondToGet,-1, "DULToday", realType);
+   swID = addRegistration(::respondToGet,-1, "SWToday", realType);
+   critSwID = addRegistration(::respondToGet,-1, "CritSWToday", realType);
 
-   rootDepthID = addRegistration(RegistrationType::get, "root_depth", realType);
-   lldepID = addRegistration(RegistrationType::get, "ll_dep", realArrayType);
-   duldepID = addRegistration(RegistrationType::get, "dul_dep", realArrayType);
-   swdepID = addRegistration(RegistrationType::get, "sw_dep", realArrayType);
-   dlayerID = addRegistration(RegistrationType::get, "dlayer", realArrayType);
+   rootDepthID = addRegistration(::get,-1, "root_depth", realType);
+   lldepID = addRegistration(::get,-1, "ll_dep", realArrayType);
+   duldepID = addRegistration(::get,-1, "dul_dep", realArrayType);
+   swdepID = addRegistration(::get,-1, "sw_dep", realArrayType);
+   dlayerID = addRegistration(::get,-1, "dlayer", realArrayType);
    }
 // ------------------------------------------------------------------
 // return a variable to caller.
@@ -75,8 +74,8 @@ void YPComponent::respondToGet(unsigned int& fromID, QueryValueData& queryData)
       sendVariable(queryData, interpFromArray(dul));
    else if (queryData.ID == swID)
       {
-      protocol::Variant* variant;
-      bool ok = getVariable(swdepID, variant, true);
+      protocol::Variant* variant = NULL;
+      bool ok = getVariable(swdepID, &variant, true);
       std::vector<double> sw;
       if (ok)
          ok = variant->unpack(sw);
@@ -101,8 +100,8 @@ double YPComponent::interpFromArray(std::vector<double>& values)
    {
    getStaticVariables();
 
-   protocol::Variant* variant;
-   bool ok = getVariable(rootDepthID, variant, true);
+   protocol::Variant* variant=NULL;
+   bool ok = getVariable(rootDepthID, &variant, true);
    double rootDepth;
    if (ok)
       ok = variant->unpack(rootDepth);
@@ -126,18 +125,18 @@ void YPComponent::getStaticVariables()
    {
    if (cll.size() == 0)
       {
-      protocol::Variant* variant;
-      bool ok = getVariable(lldepID, variant, true);
+      protocol::Variant* variant = NULL;
+      bool ok = getVariable(lldepID, &variant, true);
       if (ok)
          ok = variant->unpack(cll);
       if (!ok)
          throw runtime_error("Cannot find crop lower limits");
-      ok = getVariable(duldepID, variant, true);
+      ok = getVariable(duldepID, &variant, true);
       if (ok)
          ok = variant->unpack(dul);
       if (!ok)
          throw runtime_error("Cannot find drained upper limits");
-      ok = getVariable(dlayerID, variant, true);
+      ok = getVariable(dlayerID, &variant, true);
       if (ok)
          ok = variant->unpack(Depth);
       if (!ok)

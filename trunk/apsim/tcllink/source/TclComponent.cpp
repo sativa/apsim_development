@@ -10,6 +10,7 @@
 #include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/ApsimVariant.h>
+#include <ComponentInterface/Variants.h>
 #include <Protocol/Transport.h>
 
 #include <tcl.h>
@@ -158,7 +159,7 @@ void TclComponent::doInit2(void)
       {
          string condition, rule;
          componentData->getRule(ruleNames[i], condition, rule);
-         unsigned id = protocol::Component::addRegistration(RegistrationType::respondToEvent, condition.c_str(), "");
+         unsigned id = protocol::Component::addRegistration(::respondToEvent, -1, condition, "");
          rules.insert(UInt2StringMap::value_type(id, rule));
 
          string msg = "--->Section: " + condition;
@@ -210,35 +211,43 @@ void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventI
 // ------------------------------------------------------------------
 // Return a variable to caller.
 // ------------------------------------------------------------------
-void TclComponent::respondToGet(unsigned int& /*fromID*/, protocol::QueryValueData& queryData)
+void TclComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData)
    {
-   const char *variable = getRegistrationName(queryData.ID);
-   if (variable != NULL) 
+   string variableName = getRegistration(fromID, queryData.ID)->getNameWithBrackets();
+cout << variableName << "="; 
+   if (variableName != "") 
       {
-      if (strchr(variable, '(') == NULL) 
+      if (strchr(variableName.c_str(), '(') == NULL) 
          {
          // A scalar variable
-         const char *result = Tcl_GetVar(Interp, variable, TCL_GLOBAL_ONLY);
+         const char *result = Tcl_GetVar(Interp, variableName.c_str(), TCL_GLOBAL_ONLY);
          if (result != NULL)
-            sendVariable(queryData, FString(result));
+            {
+            sendVariable(queryData, result);
+            cout<< result;
+            }
          }
       else 
          {
          // An array variable
          std::vector<string> nv;
-         Split_string (variable, "()", nv);
-         if (nv.size() != 2) {throw std::runtime_error("can't grok array variable called " + string(variable));}
+         Split_string (variableName, "()", nv);
+         if (nv.size() != 2) {throw std::runtime_error("can't grok array variable called " + variableName);}
 
          const char *result = Tcl_GetVar2(Interp, nv[0].c_str(), nv[1].c_str(), TCL_GLOBAL_ONLY);
          if (result != NULL)
-            sendVariable(queryData, FString(result));
+            {
+            sendVariable(queryData, result);
+            cout  << result;
+            }
          }
       }
+cout << endl;
    }
 // ------------------------------------------------------------------
 // Something is asking whether we know about a variable. If we do, register it.
 // ------------------------------------------------------------------
-void TclComponent::onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData)
+void TclComponent::onApsimGetQuery(unsigned int fromID, protocol::ApsimGetQueryData& apsimGetQueryData)
    {
    if (Interp != NULL) 
       {
@@ -248,10 +257,9 @@ void TclComponent::onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryDat
       Var *varPtr = TclVarTraceExists(Interp, varName);
       if ((varPtr != NULL) && !TclIsVarUndefined(varPtr)) 
          {
-            // It exists, so register it as rw..
-            protocol::Component::addRegistration(RegistrationType::respondToGetSet, asString(apsimGetQueryData.name).c_str(), strString);
-            // XX should register type info properly here XX
-            
+         // It exists, so register it as rw..
+         addRegistration(asString(apsimGetQueryData.name));
+         // XX should register type info properly here XX
          }
       }
    }   
@@ -260,13 +268,23 @@ void TclComponent::onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryDat
 // variable name.  If this module owns the variable and does
 // change it's value, return true.
 // ------------------------------------------------------------------
-bool TclComponent::respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValueData& setValueData)
+bool TclComponent::respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData)
    {
    string newValue;
-
    setValueData.variant.unpack(newValue);
 
-   string name = asString(getRegistrationName(setValueData.ID));
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+   ApsimRegistration *reg = registry.find(fromID, setValueData.ID);
+   if (reg == NULL)
+        {
+        string msg = "Invalid registration ID in TclComponent::respondToSet ";
+                     msg += itoa(fromID);
+                     msg += ".";
+                     msg += itoa(setValueData.ID);
+        throw std::runtime_error(msg);
+        }
+
+   string name = reg->getNameWithBrackets();
 
    const char *result = Tcl_SetVar(Interp, name.c_str(), newValue.c_str(), TCL_GLOBAL_ONLY);
    if (result != NULL)
@@ -301,29 +319,19 @@ int apsimGetOptionalProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
 // Get an apsim variable into interp->result. avoid shimmering between strings:floats etc..
 int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname, bool optional)
    {
-   string ModuleName, VariableName;
 
-   unsigned posPeriod = varname.rfind('.');
-   if (posPeriod != string::npos)
-      {
-      ModuleName = varname.substr(0, posPeriod);
-      VariableName = varname.substr(posPeriod+1);
-      }
-   else
-      {
-      ModuleName = string("");
-      VariableName = varname;
-      }
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(componentID, varname, destID, regName);
 
-   unsigned variableID = protocol::Component::addRegistration(
-                             RegistrationType::get,
-                             VariableName.c_str(),
-                             strString,  /* This is misleading? we need to decide what type type later */
-                             "",
-                             ModuleName.c_str());
+   unsigned variableID = protocol::Component::
+             addRegistration(::get,
+                             destID, 
+                             regName,
+                             strString);
 
    protocol::Variants* variants = NULL;
-   getVariables(variableID, variants);
+   getVariables(variableID, &variants);
    
    if (variants->size() > 0) 
       {
@@ -447,20 +455,6 @@ int apsimSetProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST ob
 // Set an apsim variable
 bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *value)
    {
-   string ModuleName, VariableName;
-
-   unsigned posPeriod = varname.rfind('.');
-   if (posPeriod != string::npos)
-      {
-      ModuleName = varname.substr(0, posPeriod);
-      VariableName = varname.substr(posPeriod+1);
-      }
-   else
-      {
-      ModuleName = string("");
-      VariableName = varname;
-      }
-
    Tcl_ObjType *listType = Tcl_GetObjType("list");
 
    // Find what we have. Is it an array?
@@ -470,12 +464,15 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
       isArray = true;
       }
 
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(componentID, varname, destID, regName);
+
    unsigned variableID = protocol::Component::addRegistration(
-                               RegistrationType::set,
-                               VariableName.c_str(), 
-                               isArray?strStringArray:strString, 
-                               "", 
-                               ModuleName.c_str());
+                               ::set,
+                               destID,
+                               regName, 
+                               isArray?strStringArray:strString);
    if (isArray)
        {
        std::vector<string> outValue;
@@ -500,8 +497,8 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
 
 void TclComponent::addRegistration(const string &name)
    {
-   protocol::Component::addRegistration(RegistrationType::set, name.c_str(), strString);
-   protocol::Component::addRegistration(RegistrationType::get, name.c_str(), strString);
+   protocol::Component::addRegistration(::respondToSet, -1, name, strString);
+   protocol::Component::addRegistration(::respondToGet, -1, name, strString);
    }
 
 // Called from TCL script. Tell protoman of something we own
@@ -585,11 +582,11 @@ int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
 void TclComponent::sendMessage(const char *moduleName, const char *actionName,
                                protocol::ApsimVariant &outgoingApsimVariant)
    {
-   unsigned actionID = protocol::Component::addRegistration(RegistrationType::event,
+   int destID = ApsimRegistry::getApsimRegistry().componentByName(moduleName);
+   unsigned actionID = protocol::Component::addRegistration(::event,
+                                                            destID,
                                                             actionName,
-                                                            "<type/>",
-                                                            "",
-                                                            moduleName);
+                                                            "<variant/>");
    publish(actionID, outgoingApsimVariant);
    }
 
@@ -601,8 +598,8 @@ int apsimWriteToSummaryFileProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl
          Tcl_SetResult(interp,"Wrong num args: apsimWriteToSummaryFile <message>", NULL);
          return TCL_ERROR;
          }
-   char *message = Tcl_GetStringFromObj(objv[1], NULL);
-   component->writeString(FString(message));
+   const char *message = Tcl_GetStringFromObj(objv[1], NULL);
+   component->writeString(message);
    return TCL_OK;
 }
 
@@ -652,7 +649,10 @@ int apsimCatchMessages(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CO
 
 unsigned int TclComponent::registerEvent(string &eventName, string &script)
    {
-   unsigned id = protocol::Component::addRegistration(RegistrationType::respondToEvent, eventName.c_str(), "");
+   unsigned id = protocol::Component::addRegistration(::respondToEvent, 
+                                                      -1,
+                                                      eventName, 
+                                                      "<variant/>");
    rules.insert(UInt2StringMap::value_type(id, script));
 
    if (eventName == string("exit")) {terminationRule.append(script);}
@@ -667,10 +667,10 @@ void TclComponent::unRegisterEvent(unsigned int id)
 void TclComponent::catchMessages(string &command)
    {
    messageCallbackCommand = command;
- //  if (command == "")
- //     setMessageHook(NULL);
- //  else
- //     setMessageHook(this);
+   if (command == "")
+      setMessageHook(NULL);
+   else
+      setMessageHook(this);
    }
 
 void TclComponent::callback(const std::string& toName, const protocol::Message* message)
@@ -678,7 +678,7 @@ void TclComponent::callback(const std::string& toName, const protocol::Message* 
    if (messageCallbackCommand != "") 
       {
       int ncmd = 1;
-      Tcl_Obj **cmd = (Tcl_Obj**)malloc(20*sizeof(Tcl_Obj*));
+      Tcl_Obj **cmd = (Tcl_Obj**)malloc(100*sizeof(Tcl_Obj*));
       cmd[0] = Tcl_NewStringObj(messageCallbackCommand.c_str(), -1);
 
       if (toName != "")
@@ -722,9 +722,23 @@ void TclComponent::callback(const std::string& toName, const protocol::Message* 
                protocol::MessageData messageData(message->dataPtr, message->nDataBytes);
                protocol::EventData eventData;
                messageData >> eventData;
+
+               ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+               ApsimRegistration *reg = registry.find(eventData.publishedByID, eventData.ID);
+               if (reg == NULL)
+                    {
+                    string msg = "Invalid registration ID in TclComponent::callback ";
+                                 msg += itoa(eventData.publishedByID);
+                                 msg += ".";
+                                 msg += itoa(eventData.ID);
+                    throw std::runtime_error(msg);
+                    }
+   
+               
+               string name = reg->getNameWithBrackets();
                cmd[ncmd] = Tcl_NewListObj(0, NULL);
                Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("name",-1));
-               Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(getRegistrationName(eventData.ID),-1));
+               Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(name.c_str(),-1));
                ncmd++;
                break;
                }
@@ -733,9 +747,20 @@ void TclComponent::callback(const std::string& toName, const protocol::Message* 
                protocol::MessageData messageData(message->dataPtr, message->nDataBytes);
                protocol::GetValueData getValueData;
                messageData >> getValueData;
+               ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+               ApsimRegistration *reg = registry.find(message->from, getValueData.ID); // fixme!!
+               if (reg == NULL)
+                    {
+                    string msg = "Invalid registration ID in TclComponent::callback ";
+                                 msg += itoa(message->from);
+                                 msg += ".";
+                                 msg += itoa(getValueData.ID);
+                    throw std::runtime_error(msg);
+                    }
+               string name = reg->getNameWithBrackets();
                cmd[ncmd] = Tcl_NewListObj(0, NULL);
                Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("name",-1));
-               Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(getRegistrationName(getValueData.ID),-1));
+               Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(name.c_str(),-1));
                ncmd++;
                break;
                }

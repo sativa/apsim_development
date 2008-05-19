@@ -67,7 +67,7 @@ module ConstantsModule
    integer, parameter :: max_year = 2200
 
    character (len=*), parameter :: All_active_modules ='act_mods'
-   integer, parameter           :: Unknown_module = 0
+   integer, parameter           :: Unknown_module = -1
    character (len=*), parameter :: First_active_module = 'unk_mod'
 
    ! Smallest number considered to be zero

@@ -719,7 +719,7 @@
      :                         ,'(kg/ha)' 
      :                         ,n_root, 1)
 
-         call event_send(ACTION_incorp_fom)
+         call event_send(unknown_module, ACTION_incorp_fom)
          call Delete_postbox ()
 
          ! put stover into surface residue
@@ -750,7 +750,7 @@
      :                           ,'()'
      :                           , fraction_to_Residue, 3)
          
-         call event_send (EVENT_Crop_Chopped)         
+         call event_send (unknown_module, EVENT_Crop_Chopped)         
          call delete_postbox ()
 
          N_residue = sum(dlt_dm_N)
@@ -1360,6 +1360,13 @@
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%wst)         ! variable
+
+      elseif (variable_name .eq. 'wrr') then
+!             Weight of rough rice  (kg/ha)
+         call respond2get_real_var (
+     :               variable_name    ! variable name
+     :              ,'()'          ! variable units
+     :              ,g%wrr)         ! variable
       
       elseif (variable_name .eq. 'ancr') then
 !             Amount of N in crop (live and dead material)(kg N/ha)

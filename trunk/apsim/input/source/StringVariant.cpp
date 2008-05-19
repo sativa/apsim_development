@@ -155,7 +155,7 @@ void StringVariant::determineType(void)
 // ------------------------------------------------------------------
 unsigned StringVariant::doRegistration()
    {
-   return parent->addRegistration(RegistrationType::respondToGetSet, value->name.c_str(), typeString.c_str());
+   return parent->addRegistration(::respondToGetSet, -1, value->name.c_str(), typeString.c_str());
    }
 // ------------------------------------------------------------------
 // return the value of this variable as a float.

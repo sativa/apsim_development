@@ -7076,7 +7076,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !     :                   ,'(kg/ha)'
 !     :                   ,res_N)
 !
-!      call event_send ('add_residue')
+!      call event_send (unknown_module, 'add_residue')
 !
 !      call Delete_postbox ()
 
@@ -7193,7 +7193,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !     :                   ,'(kg/ha)'
 !     :                   ,res_N)
 !
-!      call event_send ('add_residue')
+!      call event_send (unknown_module, 'add_residue')
 !
 !      call Delete_postbox ()
 
@@ -7651,36 +7651,36 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       integer dummy
 
       id%crop_chopped = add_registration(eventReg, 'crop_chopped',
-     :                                   cropchoppedTypeDDML, '', '')
+     :                                   cropchoppedTypeDDML, '')
       id%sowing = add_registration(eventReg, 'sowing',
-     :                             nullTypeDDML, '', '')
+     :                             nullTypeDDML, '')
       id%harvesting = add_registration(eventReg, 'harvesting',
-     :                                 nullTypeDDML, '', '')
+     :                                 nullTypeDDML, '')
 
       id%create = add_registration(respondToEventReg, 'create',
-     :                             nullTypeDDML, '', '')
+     :                             nullTypeDDML, '')
       id%sysinit = add_registration(respondToEventReg, 'sysinit',
-     :                              nullTypeDDML, '', '')
+     :                              nullTypeDDML, '')
       id%end_run = add_registration(respondToEventReg, 'end_run',
-     :                              nullTypeDDML, '', '')
+     :                              nullTypeDDML, '')
       id%sow = add_registration(respondToEventReg, 'sow',
-     :                          nullTypeDDML, '', '')
+     :                          nullTypeDDML, '')
       id%harvest = add_registration(respondToEventReg, 'harvest',
-     :                              nullTypeDDML, '', '')
+     :                              nullTypeDDML, '')
       id%end_crop = add_registration(respondToEventReg, 'end_crop',
-     :                               nullTypeDDML, '', '')
+     :                               nullTypeDDML, '')
       id%kill_crop = add_registration(respondToEventReg, 'kill_crop',
-     :                                nullTypeDDML, '', '')
+     :                                nullTypeDDML, '')
       id%tick = add_registration(respondToEventReg, 'tick',
-     :                           nullTypeDDML, '', '')
+     :                           nullTypeDDML, '')
       id%newmet = add_registration(respondToEventReg, 'newmet',
-     :                             newmetTypeDDML, '', '')
+     :                             newmetTypeDDML, '')
       id%prepare = add_registration(respondToEventReg, 'prepare',
-     :                              nullTypeDDML, '', '')
+     :                              nullTypeDDML, '')
       id%process = add_registration(respondToEventReg, 'process',
-     :                              nullTypeDDML, '', '')
+     :                              nullTypeDDML, '')
       id%post = add_registration(respondToEventReg, 'post',
-     :                           nullTypeDDML, '', '')
+     :                           nullTypeDDML, '')
 
       dummy = add_registration_with_units(getVariableReg, 'dlayer',
      :                                    floatarrayTypeDDML, 'mm')

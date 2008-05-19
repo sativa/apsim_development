@@ -56,6 +56,10 @@ class Variants
          delete typeConverter;
          typeConverter = typeConv;
          }
+      TypeConverter* getTypeConverter(void)
+         {
+         return typeConverter;
+         }
 
    private:
       const Type registeredType;

@@ -125,10 +125,10 @@ class plantThing {
 };
 
 
-#define setupEvent(s,name,type,address, DDML) {\
+#define setupEvent(s,name, address, DDML) {\
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;\
    fn = boost::bind(address, this, _1, _2, _3); \
-   s->addEvent(name, type, fn, DDML);\
+   s->addEvent(name, fn, DDML);\
    }
 
 #define setupGetFunction(s,name,type,length,address,units,desc) {\

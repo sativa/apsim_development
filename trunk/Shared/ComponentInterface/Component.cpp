@@ -11,12 +11,14 @@
 #include <boost/lexical_cast.hpp>
 
 #include <ApsimShared/FStringExt.h>
+#include <ApsimShared/ApsimRegistry.h>
 #include <general/path.h>
 #include <general/date_class.h>
 #include "ScienceAPI.h"
 
 #include "ProtocolVector.h"
 #include "Component.h"
+#include "Variants.h"
 
 using namespace protocol;
 
@@ -45,7 +47,7 @@ Component* component;
 
 // ------------------------------------------------------------------
 Component::Component(void)
-   : completeIDs(MAX_NESTED_COMPLETES),registrations(new Registrations(this))
+   : completeIDs(MAX_NESTED_COMPLETES)
    {
    componentData = NULL;
    beforeInit2 = true;
@@ -54,7 +56,6 @@ Component::Component(void)
    initMessages();
    component = this;
    haveWrittenToStdOutToday = false;
-   sendTickToComponent = false;
    api = new ScienceAPI(this);
    }
 
@@ -77,7 +78,6 @@ Component::~Component(void)
       deleteApsimComponentData(componentData);
 
    clearReturnInfos();
-   delete registrations;
    delete api;
    }
 
@@ -96,6 +96,12 @@ void Component::clearReturnInfos(void)
    for (unsigned int i = 0; i < returnInfos.size(); i++)
       delete returnInfos[i];
    returnInfos.empty();
+
+   for (getVariableResponses::iterator v = myGetVariableResponses.begin();
+        v != myGetVariableResponses.end(); 
+        v++)
+        myGetVariableResponses.erase(v);
+
    }
 // -----------------------------------------------------------------
 //  Short description:
@@ -161,11 +167,8 @@ try {
                                     eventData.params.unpack(tick);
                                     eventData.params.getMessageData().reset();
                                     haveWrittenToStdOutToday = false;
-                                    if (sendTickToComponent)
-                                       respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
                                     }
-                                 else
-                                    respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
+                                 respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
                                  break;}
       case QueryValue:          {QueryValueData queryData(fromID);
                                  messageData >> queryData;
@@ -190,8 +193,7 @@ try {
                                  break;}
       case ReturnValue:         {ReturnValueData returnData;
                                  messageData >> returnData;
-                                 ((RegistrationItem*) returnData.ID)->addReturnValueMessage(message->from,
-                                                                                     returnData);
+                                 addReturnValueMessage(returnData);
                                  break;}
       case ReplyValue:          {ReplyValueData replyData;
                                  messageData >> replyData;
@@ -235,7 +237,7 @@ try {
                                  break;}
       case ApsimGetQuery:       {ApsimGetQueryData apsimGetQueryData;
                                  messageData >> apsimGetQueryData;
-                                 onApsimGetQuery(apsimGetQueryData);
+                                 onApsimGetQuery(message->from, apsimGetQueryData);
                                  break;}
       case ApsimSetQuery:       {ApsimSetQueryData apsimSetQueryData;
                                  messageData >> apsimSetQueryData;
@@ -247,8 +249,9 @@ try {
                                                     apsimSetQueryData.replyToID,
                                                     apsimSetQueryData.replyID,
                                                     ok));
-                                    addRegistration(RegistrationType::respondToSet,
-                                                    apsimSetQueryData.name, " ");
+                                    addRegistration(::respondToSet,
+                                                    -1,
+                                                    apsimSetQueryData.name, "");
                                     }
                                  break;}
       case ApsimChangeOrder:    {onApsimChangeOrderData(messageData);
@@ -261,11 +264,11 @@ try {
    }
 catch (const std::exception &e)
    {
-   this->error(e.what(), true);
+   this->error(string(e.what()), true);
    }
 catch (const std::string& e)
    {
-   this->error(e.c_str(), true);
+   this->error(e, true);
    }
 
 }
@@ -279,6 +282,9 @@ catch (const std::string& e)
 // ------------------------------------------------------------------
 void Component::doInit1(const Init1Data& init1Data)
    {
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+   registry.clearForeignTaint(componentID);
+
    // get instance name from fqn.
    string fqn =  asString(init1Data.fqn);
    unsigned posPeriod = fqn.rfind('.');
@@ -292,7 +298,6 @@ void Component::doInit1(const Init1Data& init1Data)
       name = fqn.substr(posPeriod+1);
       pathName = fqn.substr(0, posPeriod);
       }
-
    type = "?";
    version = "1";
    author = "APSRU";
@@ -309,91 +314,46 @@ void Component::doInit1(const Init1Data& init1Data)
    addGettableVar("active", active, "", "");
    addGettableVar("state", state, "", "");
 
-   errorID = addRegistration(RegistrationType::event,
-                             "error",
+   errorID = addRegistration(::event,
+                             -1,
+                             string("error"),
                              ERROR_TYPE);
-   tickID = addRegistration(RegistrationType::respondToEvent,
-                            "tick",
-                            DDML(TimeType()).c_str());
-   sendTickToComponent = false;
+   tickID = addRegistration(::respondToEvent,
+                            -1,
+                            string("tick"),
+                            DDML(TimeType()));
    }
 
-// ------------------------------------------------------------------
-// add a registration to our internal list of registrations.
-// ------------------------------------------------------------------
-RegistrationItem* Component::addRegistrationToList(RegistrationType kind,
-                                                   const FString& name,
-                                                   const Type& type)
-{
-   return (addRegistrationToList(kind, name, type, FString("")));
-}
-
-RegistrationItem* Component::addRegistrationToList(RegistrationType kind,
-                                                   const FString& name,
-                                                   const Type& type,
-                                                   const FString& componentNameOrID)
-   {
-   RegistrationItem* reg = registrations->find(kind, name, componentNameOrID);
-   if (reg == NULL)
-      reg = registrations->add(kind, name, type, componentNameOrID);
-   return reg;
-   }
 // ------------------------------------------------------------------
 // add a registration
 // ------------------------------------------------------------------
-unsigned Component::addRegistration(RegistrationType kind,
-                                    const FString& name,
-                                    const Type& type)
-{
-   return (addRegistration(kind, name, type, FString(""), FString("")));
-}
 
-unsigned Component::addRegistration(RegistrationType kind,
-                                    const FString& name,
-                                    const Type& type,
-                                    const FString& alias)
-{
-   return (addRegistration(kind, name, type, alias, FString("")));
-}
-unsigned Component::addRegistration(RegistrationType kind,
-                                    const FString& regName,
-                                    const Type& type,
-                                    const FString& alias,
-                                    const FString& componentNameOrID)
+unsigned Component::addRegistration(EventTypeCode kind,
+                                    int destinationComponentID,
+                                    const std::string& regName,
+                                    const std::string& ddml,
+                                    const std::string& alias)
    {
-   RegistrationItem* reg = registrations->find(kind, regName, componentNameOrID);
-   if (reg == NULL)
-      {
-      reg = registrations->add(kind, regName, type, componentNameOrID);
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
 
-      unsigned id = (unsigned) reg;
+   ApsimRegistration *newReg =
+      new NativeRegistration(kind, regName, ddml, destinationComponentID, componentID);
 
-      std::string registrationName = reg->getName();
-      int destID = 0;
-      if (strlen(reg->getComponentName()) > 0)
-         {
-         char* endPtr;
-         destID = strtol(reg->getComponentName(), &endPtr, 10);
-         if (*endPtr != '\0')
-            registrationName = std::string(reg->getComponentName()) + "." + registrationName;
-         }
+   unsigned int regID = registry.add(newReg);
 
-      sendMessage(newRegisterMessage(componentID,
-                                     parentID,
-                                     kind,
-                                     id,
-                                     destID,
-                                     registrationName.c_str(),
-                                     reg->getType()));
-      }
-   if (Str_i_Eq(asString(regName), "tick"))
-      sendTickToComponent = true;
-   return (unsigned) reg;
+   sendMessage(newRegisterMessage(componentID,    // from
+                                  parentID,       // to
+                                  kind,           // kind
+                                  regID,          // regID
+                                  destinationComponentID, // destination ID 
+                                  FString(regName.c_str()),
+                                  FString(ddml.c_str())));
+   return regID;
    }
 // ------------------------------------------------------------------
 // delete the specified registration.
 // ------------------------------------------------------------------
-void Component::deleteRegistration(RegistrationType kind,
+void Component::deleteRegistration(EventTypeCode kind,
                                    unsigned int regID)
    {
    sendMessage(newDeregisterMessage(componentID,
@@ -460,15 +420,14 @@ bool Component::readParameter
       {
       if (!optional)
          {
-         char msg[600];
-         strcpy(msg, "Cannot find a parameter in any of the files/sections\n"
+         string msg= "Cannot find a parameter in any of the files/sections\n"
                      "specified in the control file.\n"
-                     "Parameter name = ");
-         strncat(msg, variableName.f_str(), variableName.length());
-         strcat(msg, "\n");
-         strcat(msg, "Section name = ");
-         strncat(msg, sectionName.f_str(), sectionName.length());
-         error(msg, strlen(msg));
+                     "Parameter name = ";
+         msg += string(variableName.f_str(), variableName.length());
+         msg += "\n";
+         msg += "Section name = ";
+         msg += string(sectionName.f_str(), sectionName.length());
+         error(msg, true);
          }
       return false;
       }
@@ -502,15 +461,15 @@ void Component::getMultipleProperties(const std::string& sectionName,
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-void Component::error(const FString& msg, bool isFatal)
+void Component::error(const char *msg, bool isFatal)
    {
-   string message = asString(msg) + "\nComponent name: " + name;
+   string message = string(msg) + "\nComponent name: " + name;
 
    // create and send a message.
    Message* errorMessage = newPublishEventMessage(componentID,
                                                   parentID,
                                                   errorID,
-                                                  Type(ERROR_TYPE),
+                                                  ERROR_TYPE,
                                                   ErrorData(isFatal, message.c_str()));
    errorMessage->toAcknowledge = true;
    sendMessage(errorMessage);
@@ -542,17 +501,34 @@ void Component::terminateSimulation(void)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-bool Component::getVariables(unsigned int registrationID, Variants*& values)
+bool Component::getVariables(unsigned int registrationID, 
+                             Variants **values)
    {
-   RegistrationItem* regItem = (RegistrationItem*) registrationID;
+   getVariableResponses::iterator v = 
+        myGetVariableResponses.find (registrationID);
+
+   if (v == myGetVariableResponses.end())
+      {
+      // add a new entry for this registration
+      v = myGetVariableResponses.insert(
+         v,
+         getVariableResponses::value_type(
+                registrationID, 
+                new Variants(this, Type("<variant/>"))));
+      }
 
    // clean up old values if necessary.
-   regItem->empty();
+   v->second->empty();
 
-   // send a GetValue message
-   sendMessage(newGetValueMessage(componentID, parentID, registrationID));
-   values = &regItem->getVariants();
-   return (values->size() > 0);
+   // send a GetValue message. Responses will be tucked away 
+   // in the map "v" created above
+   sendMessage(newGetValueMessage(componentID,
+                                  parentID,
+                                  registrationID));
+
+   // return whatever came back
+   *values = v->second;
+   return ((*values)->size() > 0);
    }
 
 // ------------------------------------------------------------------
@@ -566,14 +542,16 @@ bool Component::getVariables(unsigned int registrationID, Variants*& values)
 
 // ------------------------------------------------------------------
 bool Component::getVariable(unsigned int registrationID,
-                            Variant*& value,
+                            Variant **value,
                             bool optional)
    {
-   Variants* variants = NULL;
-   getVariables(registrationID, variants);
-   if (variants->size() > 1)
+   Variants *variants = NULL;
+   getVariables(registrationID, &variants);
+   if (variants != NULL && variants->size() > 1)
       {
-      RegistrationItem* regItem = (RegistrationItem*) registrationID;
+      ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+      ApsimRegistration* regItem = registry.find(componentID, registrationID);   
+      if (regItem == NULL) {throw std::runtime_error("Invalid registration ID in Component::getVariable 1");}
       std::string st;
       st = "The module " + std::string(name) + " has asked for the value of the variable ";
       st += regItem->getName();
@@ -581,34 +559,32 @@ bool Component::getVariable(unsigned int registrationID,
       for (unsigned v = 0; v != variants->size(); v++)
          {
          unsigned fromID = variants->getVariant(v)->getFromId();
-         FString fromName;
-         if (componentIDToName(fromID, fromName))
-            st += "   " + asString(fromName);
-         else
-            st += "   unknown module!!";
+         st += "   " + registry.componentByID(fromID);
          st += "\n";
          }
 
-      error(st.c_str(), true);
+      error(st, true);
       return false;
       }
-   else if (!optional && variants->size() == 0)
+   else if (!optional && variants != NULL && variants->size() == 0)
       {
-      RegistrationItem* regItem = (RegistrationItem*) registrationID;
+      ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+      ApsimRegistration* regItem = registry.find(componentID, registrationID);   
+      if (regItem == NULL) {throw std::runtime_error("Invalid registration ID in Component::getVariable 2");}
       std::string st;
       st = "The module " + std::string(name) + " has asked for the value of the variable ";
       st += regItem->getName();
       st += ".\nIt received no responses.";
-      error(st.c_str(), true);
+      error(st, true);
       return false;
       }
-   else if (variants->size() == 0)
-      return false;
-   else
+   else if (variants != NULL && variants->size() == 1)
       {
-      value = variants->getVariant(0);
+      (*value) = variants->getVariant(0);
       return true;
       }
+   else 
+      return false;
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -629,46 +605,24 @@ void Component::onQueryValueMessage(unsigned int fromID,
 // ------------------------------------------------------------------
 // component name to ID
 // ------------------------------------------------------------------
-bool Component::componentNameToID(const FString& name, unsigned int& compID)
+bool Component::componentNameToID(const std::string& name, int &compID)
    {
-   clearReturnInfos();
-
-   sendMessage(newQueryInfoMessage(componentID, parentID, name, componentInfo));
-   if (returnInfos.size() == 1)
-      {
-      ReturnInfoData* returnInfo = returnInfos[0];
-      compID = returnInfo->componentID;
-      return true;
-      }
-   else
-      {
-      compID = INT_MAX;
-      return false;
-      }
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+   string fqName = name;
+   if (fqName[0] != '.') 
+     fqName = pathName + string(".") + fqName;
+   
+   compID = registry.componentByName(fqName);
+   return compID >= 0;
    }
 // ------------------------------------------------------------------
 // component ID to name
 // ------------------------------------------------------------------
-bool Component::componentIDToName(unsigned int compID, FString& name)
+bool Component::componentIDToName(int compID, std::string& name)
    {
-   clearReturnInfos();
-
-   string idString = itoa(compID);
-
-   sendMessage(newQueryInfoMessage(componentID, parentID, idString.c_str(), componentInfo));
-   if (returnInfos.size() == 1)
-      {
-      ReturnInfoData* returnInfo = returnInfos[0];
-      unsigned posPeriod = returnInfo->name.find(".");
-      if (posPeriod != FString::npos)
-         name = returnInfo->name.substr(posPeriod+1,
-                                        returnInfo->name.length()-posPeriod-1);
-      else
-         name = returnInfo->name;
-      return true;
-      }
-   else
-      return false;
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+   name = registry.componentByID(compID);
+   return (name != "");
    }
 // ------------------------------------------------------------------
 // process the querySetValueMessage.
@@ -676,10 +630,12 @@ bool Component::componentIDToName(unsigned int compID, FString& name)
 void Component::onQuerySetValueMessage(unsigned fromID, QuerySetValueData& querySetData)
    {
    bool ok = respondToSet(fromID, querySetData);
+   unsigned int regID = querySetData.ID;
+//cout << "Component::onQuerySetValueMessage id="<<regID<<endl;
    sendMessage(newReplySetValueSuccessMessage
                   (componentID,
                    fromID,
-                   currentMsgID,
+                   regID,
                    ok));
    }
 // ------------------------------------------------------------------
@@ -717,6 +673,15 @@ void Component::writeString(const FString& lines)
    {
    writeStringToStream(asString(lines), cout, name);
    }
+void Component::writeString(const std::string& st)
+   {
+   writeStringToStream(st, cout, name);   
+   }
+void Component::writeString(const char *st)
+   {
+   writeStringToStream(st, cout, name);   
+   }
+
 void Component::writeStringToStream(const std::string& lines, ostream& out,
                                     const std::string& componentName)
    {
@@ -782,27 +747,13 @@ void Component::writeStringToStream(const std::string& lines, ostream& out,
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-Type Component::getRegistrationType(unsigned int regID)
+EventTypeCode Component::getRegistrationType(unsigned int regID)
    {
-   return ((RegistrationItem*) regID)->getType();
-   }
-// ------------------------------------------------------------------
-// Set the registration type of the specified registration.
-// ------------------------------------------------------------------
-void Component::setRegistrationType(unsigned int regID, const Type& type)
-   {
-   ((RegistrationItem*) regID)->setType(type);
-   }
-// ------------------------------------------------------------------
-// Return a registration id to caller.  Returns 0 if not found
-// ------------------------------------------------------------------
-unsigned Component::getRegistrationID(const RegistrationType& kind, const FString& name)
-   {
-   return (unsigned) registrations->find(kind, name);
+   return (getRegistration(componentID, regID)->getTypeCode());
    }
 // ------------------------------------------------------------------
 //  Short description:
-//     return a reference to a registration type to caller.
+//     return a registration type to caller.
 
 //  Notes:
 
@@ -810,10 +761,23 @@ unsigned Component::getRegistrationID(const RegistrationType& kind, const FStrin
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-const char *Component::getRegistrationName(unsigned int regID)
+ApsimRegistration* Component::getRegistration(int fromID, unsigned int regID)
    {
-   return ((RegistrationItem*) regID)->getName();
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+   ApsimRegistration* reg = registry.find(fromID, regID);
+   if (reg == NULL) {string msg = "Invalid registration ID in Component::getRegistration ";
+                     msg += itoa(fromID);
+                     msg += ".";
+                     msg += itoa(regID);
+                     throw std::runtime_error(msg);}
+   return reg;
    }
+
+void Component::getRegistrationName(int fromID, unsigned int regID, std::string &name)
+   {
+   name = getRegistration(fromID, regID)->getName();
+   }
+
 // ------------------------------------------------------------------
 //  Short description:
 //     display a setvariable error.
@@ -823,10 +787,11 @@ const char *Component::getRegistrationName(unsigned int regID)
 // ------------------------------------------------------------------
 void Component::setVariableError(unsigned int regID)
    {
-   RegistrationItem* regItem = (RegistrationItem*) regID;
-   char buffer[200];
-   strcpy(buffer, "Cannot set value of the specified variable.\nVariable name: ");
-   strcat(buffer, regItem->getName());
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+   ApsimRegistration* regItem = registry.find(componentID, regID);
+   if (regItem == NULL) {throw std::runtime_error("Invalid registration ID in Component::setVariableError");}
+   string buffer= "Cannot set value of the specified variable.\nVariable name: ";
+   buffer += regItem->getName();
    error(buffer, false);
    }
 
@@ -877,7 +842,7 @@ void Component::waitForComplete(void)
 
 void fatalError(const FString& st)
    {
-   component->error(st, true);
+   component->error(asString(st), true);
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -888,8 +853,7 @@ void fatalError(const FString& st)
 // ------------------------------------------------------------------
 void stringInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
    {
-    const char *s = myPtr->c_str();
-    systemInterface->sendVariable(qd, FString(s));
+   systemInterface->sendVariable(qd, *myPtr);
    }
 
 void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
@@ -900,8 +864,10 @@ void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
          if (myLength == 1)
            systemInterface->sendVariable(qd, *(double *)myPtr);
          else if (myLength > 1)
-           systemInterface->sendVariable(qd,
-             protocol::vector<double>((double *)myPtr, (double *)myPtr + myLength));
+           {
+           std::vector<double> v((double *)myPtr, (double *)myPtr + myLength); 
+           systemInterface->sendVariable(qd,v);
+           }  
          else
            throw "Length = 0 in varInfo::sendVariable";
          break;
@@ -909,8 +875,10 @@ void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
          if (myLength == 1)
            systemInterface->sendVariable(qd, *(float *)myPtr);
          else if (myLength > 1)
-           systemInterface->sendVariable(qd,
-             protocol::vector<float>((float *)myPtr, (float *)myPtr + myLength));
+           {
+           std::vector<float> v((float *)myPtr, (float *)myPtr + myLength) ;
+           systemInterface->sendVariable(qd,v);
+           }
          else
            throw "Length = 0 in varInfo::sendVariable";
          break;
@@ -918,14 +886,19 @@ void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
          if (myLength == 1)
            systemInterface->sendVariable(qd, *(int *)myPtr);
          else if (myLength > 1)
-           systemInterface->sendVariable(qd,
-             protocol::vector<int>((int *)myPtr, (int *)myPtr + myLength));
+           {
+           std::vector<int> v((int *)myPtr, (int *)myPtr + myLength) ;
+           systemInterface->sendVariable(qd,v);
+           }
          else
            throw "Length = 0 in varInfo::sendVariable";
          break;
       case DTstring :
-         if (myLength == 1)
-           systemInterface->sendVariable(qd, FString(*(char **)myPtr));
+         if (myLength == 1) 
+           {
+           std::string s(*(char **)myPtr);
+           systemInterface->sendVariable(qd, s);
+           }
          else if (myLength > 1)
            throw  "String Array not yet implemented";
          else
@@ -943,11 +916,10 @@ void varVectorFloatInfo::sendVariable(Component *systemInterface, QueryValueData
    }
 
 unsigned int Component::addEvent(const char *systemName,
-                                 RegistrationType type,
                                  boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr,
                                  const char* DDML)
    {
-   unsigned int id = addRegistration(type, systemName, DDML);
+   unsigned int id = addRegistration(::respondToEvent, -1, string(systemName), DDML);
    eventMap.insert(UInt2EventMap::value_type(id,ptr));
    return id;
    }
@@ -958,28 +930,30 @@ unsigned int Component::getReg(const char *systemName,
                                 bool isArray,
                                 const char *units)
    {
-   char buffer[200];
-   strcpy(buffer, "<type kind=\"");
+   string buffer = "<type kind=\"";
    switch (type)
       {
-   	case DTchar:   {strcat(buffer, "char"); break;}
-   	case DTint4:   {strcat(buffer, "integer4"); break;}
-   	case DTsingle: {strcat(buffer, "single"); break;}
-   	case DTboolean:{strcat(buffer, "boolean"); break;}
-   	case DTstring: {strcat(buffer, "string"); break;}
-    case DTdouble: {strcat(buffer, "double"); break;}
+   	case DTchar:   {buffer += "char"; break;}
+   	case DTint4:   {buffer += "integer4"; break;}
+   	case DTsingle: {buffer += "single"; break;}
+   	case DTboolean:{buffer += "boolean"; break;}
+   	case DTstring: {buffer += "string"; break;}
+      case DTdouble: {buffer += "double"; break;}
    	default: {throw "Undefined gettable var type";}
       }
-   strcat(buffer, "\" array=\"");
+   buffer += "\" array=\"";
    if  (isArray) {
-       strcat(buffer, "T");
+       buffer += "T";
    } else {
-       strcat(buffer, "F");
+       buffer += "F";
    }
-   strcat(buffer, "\" unit=\"(");
-   strcat(buffer, units);
-   strcat(buffer, ")\"/>");
-   return this->addRegistration(RegistrationType::respondToGet, systemName, buffer);
+   buffer += "\" unit=\"(";
+   buffer += units;
+   buffer += ")\"/>";
+   return this->addRegistration(::respondToGet,
+                                -1,
+                                systemName, 
+                                buffer);
    }
 
 
@@ -1000,104 +974,16 @@ std::string baseInfo::getXML()
 // Build the xml fragment that describes this variable and publish to system
 std::string Component::getDescription()
    {
-   typedef std::map<std::string, std::string> StringMap;
-   StringMap properties;
-   try
-      {
-      for (UInt2InfoMap::iterator var = getVarMap.begin();
-                                  var != getVarMap.end();
-                                  var++)
-         {
-         properties.insert(make_pair(var->second->name(), var->second->getXML()));
-         }
-
-      if (getVarMap.size() <= 6)
-         {
-         for (unsigned i = getVarMap.size(); i != registrations->size(); i++)
-            {
-            RegistrationItem* reg = registrations->get(i);
-            if (reg->getKind() == RegistrationType::respondToGet)
-               {
-               string st = "   <property name=\"";
-               st += reg->getName();
-               st += "\" access=\"read\" init=\"F\">\n";
-               st += reg->getType();
-               st += "</property>\n";
-               properties.insert(make_pair(reg->getName(), st));
-               }
-            else if (reg->getKind() == RegistrationType::respondToSet)
-               {
-               string st = "   <property name=\"";
-               st += reg->getName();
-               st += "\" access=\"write\" init=\"F\">\n";
-               st += reg->getType();
-               st += "</property>\n";
-               properties.insert(make_pair(reg->getName(), st));
-               }
-            else if (reg->getKind() == RegistrationType::respondToGetSet)
-               {
-               string st = "   <property name=\"";
-               st += reg->getName();
-               st += "\" access=\"both\" init=\"F\">\n";
-               st += reg->getType();
-               st += "</property>\n";
-               properties.insert(make_pair(reg->getName(), st));
-               }
-            }
-         }
-      for (unsigned i = 0; i != registrations->size(); i++)
-         {
-         RegistrationItem* reg = registrations->get(i);
-         if (reg->getKind() == RegistrationType::respondToEvent)
-            {
-            string st = "   <event name=\"";
-            st += reg->getName();
-            st += "\" kind=\"subscribed\">";
-            XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
-            st += doc->documentElement().innerXML();
-            delete doc;
-            st += "</event>\n";
-            properties.insert(make_pair(reg->getName(), st));
-            }
-         else if (reg->getKind() == RegistrationType::event)
-            {
-            string st = "   <event name=\"";
-            st += reg->getName();
-            st += "\" kind=\"published\">";
-            XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
-            st += doc->documentElement().innerXML();
-            delete doc;
-            st += "</event>\n";
-            properties.insert(make_pair(reg->getName(), st));
-            }
-         else if (reg->getKind() == RegistrationType::get)
-            {
-            string st = "   <driver name=\"";
-            st += reg->getName();
-            st += "\">\n";
-            st += reg->getType();
-            st += "</driver>\n";
-            properties.insert(make_pair(reg->getName(), st));
-            }
-         }
-
       string returnString = "<describecomp name=\"" + name + "\">\n";
       returnString += string("<executable>") + dllName + "</executable>\n";
-      returnString += string("<class>") + Path(dllName).Get_name_without_ext() + "</class>\n";
+      returnString += string("<class>") + fileRoot(fileTail(dllName)) + "</class>\n";
       returnString += "<version>1.0</version>\n";
       returnString += "<author>APSRU</author>\n";
 
-      for (StringMap::iterator i = properties.begin();
-                               i != properties.end();
-                               i++)
-         returnString += i->second + "\n";
+      returnString += ApsimRegistry::getApsimRegistry().getDescription(componentID);
+    
       returnString += "</describecomp>\n";
       return returnString;
-      }
-   catch (const std::exception& err)
-      {
-	  throw runtime_error(err.what());
-      }
    }
 
 void Component::removeGettableVar(const char *systemName)
@@ -1113,4 +999,56 @@ void Component::removeGettableVar(const char *systemName)
          if ((*i).second->name() == systemName) getVarMap.erase(i);  // and should probably deleteReg too..??
       if (i == getVarMap.end()) found = 0;
       }
+   }
+
+// A component has sent us a Variant. Pack it into a registration entry
+void Component::addReturnValueMessage(ReturnValueData &returnValueData)
+   {
+   getVariableResponses::iterator v =
+        myGetVariableResponses.find (returnValueData.ID);
+
+   if (v == myGetVariableResponses.end())
+      {
+      string msg = name;
+      msg += " was sent a ReturnValue message without asking for it!!";
+      throw std::runtime_error(msg);
+      }
+
+   returnValueData.variant.setFromId(returnValueData.fromID);
+
+   // Fix up the type converter and array specifier if not already
+   // there.
+   // What a crock. This is ugly.
+   Variants *myVariants = v->second;
+   if (myVariants->getTypeConverter() == NULL)
+      {
+      ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+      ApsimRegistration* regItem = registry.find(componentID,
+                                                 returnValueData.ID) ;
+      if (regItem == NULL)
+        {
+        string msg = "Invalid registration ID in Component::addReturnValueMessage ";
+                     msg += itoa(componentID);
+                     msg += ".";
+                     msg += itoa(returnValueData.ID);
+        throw std::runtime_error(msg);
+        }
+
+      TypeConverter* converter;
+      bool ok = getTypeConverter(regItem->getName().c_str(),
+                                 returnValueData.variant.getType(),
+                                 FString(regItem->getDDML().c_str()),
+                                 converter);
+      if(!ok)
+         {
+         string msg = "Type conversion error in module " + name;
+         msg += "\nVariable name=" + regItem->getName();
+         msg += "\nsrc ddml=" + string(returnValueData.variant.getType().getTypeString().f_str());
+         msg += "\ndest ddml=" + regItem->getDDML();
+         throw std::runtime_error(msg);
+         }
+      else
+         myVariants->setTypeConverter(converter);
+      }
+   myVariants->addVariant(returnValueData.variant);
    }
