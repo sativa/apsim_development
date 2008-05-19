@@ -29,7 +29,7 @@ class EXPORT  ApsimRegistration
         if (pos != std::string::npos)
            {
            arraySpecifier = registrationName.substr(pos);
-           registrationName = registrationName.substr(0, pos);   
+//           registrationName = registrationName.substr(0, pos);   
            }
         };
 
@@ -62,7 +62,12 @@ class EXPORT  ApsimRegistration
       const std::string getType(void) const {return typeCodeToString(type);}
       EventTypeCode getTypeCode(void) const {return type;}
       const std::string getName(void) const {return registrationName;};
-      const std::string getNameWithBrackets(void) const {return registrationName + arraySpecifier;};
+      const std::string getNameWithoutBrackets(void) const 
+        {
+        unsigned int pos = registrationName.rfind('(');
+        if (pos != std::string::npos) { return registrationName.substr(0, pos); }
+        return registrationName;
+        };
       const std::string getDDML(void) const {return ddml;};
       int getComponentID(void) const {return componentID;};
       int getDestinationID(void) const {return destinationID;};

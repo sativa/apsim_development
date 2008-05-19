@@ -51,8 +51,8 @@ unsigned int ApsimRegistry::add(ApsimRegistration *reg)
       //   with different IDs!!!
       registrations_type::iterator i, a, b;
    
-      a = registrations.lower_bound(reg->getName());
-      b = registrations.upper_bound(reg->getName());
+      a = registrations.lower_bound(reg->getNameWithoutBrackets());
+      b = registrations.upper_bound(reg->getNameWithoutBrackets());
    
       for (i = a; i != b; i++)
          {
@@ -60,18 +60,17 @@ unsigned int ApsimRegistry::add(ApsimRegistration *reg)
              i->second->getComponentID() == reg->getComponentID() &&
              i->second->getDestinationID() == reg->getDestinationID() )
             {
-//          cout << "add (" << reg->getType() << "." << reg->getComponentID() << "." <<
-//               reg->getNameWithBrackets() << "->" << reg->getDestinationID() << ")= " << ((unsigned int)i->second) << " called again\n";
-//xx hmmm. this may throw away bracketing??
+//            cout << "add (" << reg->getType() << "." << reg->getComponentID() << "." <<
+//              reg->getName() << "->" << reg->getDestinationID() << ")= " << ((unsigned int)i->second) << " called again\n";
             delete reg;
             return ((unsigned int)i->second);
             }
          }
       }   
-   registrations.insert(registrations_type::value_type(reg->getName(), reg));
+   registrations.insert(registrations_type::value_type(reg->getNameWithoutBrackets(), reg));
 
 //   cout << "add (" << reg->getType() << "." << reg-> getComponentID() << "." <<
-//        reg->getNameWithBrackets() << "->" << reg->getDestinationID() << ")= " << ((unsigned int)reg) << " called\n";
+//        reg->getName() << "->" << reg->getDestinationID() << ")= " << ((unsigned int)reg) << " called\n";
    return ((unsigned int)reg);
    }
 
@@ -82,7 +81,7 @@ void ApsimRegistry::lookup(ApsimRegistration * reg,
    {
 //   string regName = reg->getName();
 //   cout << "lookup:" << reg->getRegID() << ":subscribers to " << 
-//        reg->getType() << "." << reg->getDestinationID() << "." << reg->getNameWithBrackets() << "=";
+//        reg->getType() << "." << reg->getDestinationID() << "." << reg->getName() << "=";
 
    if (reg->getDestinationID() >= 0) 
       {
@@ -132,8 +131,8 @@ void ApsimRegistry::lookup(ApsimRegistration * reg,
    {
    registrations_type::iterator i, a, b;
 
-   a = registrations.lower_bound(reg->getName());
-   b = registrations.upper_bound(reg->getName());
+   a = registrations.lower_bound(reg->getNameWithoutBrackets());
+   b = registrations.upper_bound(reg->getNameWithoutBrackets());
 
    for (i = a; i != b; i++)
       {
