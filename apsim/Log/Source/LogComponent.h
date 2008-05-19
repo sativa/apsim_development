@@ -41,7 +41,7 @@ class LogComponent : public protocol::Component,
                         const protocol::Message* message,
                         std::ostream& out);
       void writeMessageData(const protocol::Message* message);
-      void writeRegistrationData(const protocol::Message* message, RegistrationType kind);
+      void writeRegistrationData(const protocol::Message* message, EventTypeCode kind);
       void storeRegistration(const protocol::Message* message);
       void writeVariant(const protocol::Variant& variant);
       std::string formatType(std::string RegistrationTypeString);

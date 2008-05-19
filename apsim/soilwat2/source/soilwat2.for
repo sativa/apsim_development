@@ -7413,35 +7413,35 @@ c
 
       ! events published
       id%new_profile = add_registration(eventReg, 'new_profile',
-     .                                  newprofileTypeDDML, '', '')
+     .                                  newprofileTypeDDML, '')
 
       id%ExternalMassFlow = add_registration(eventReg
      .                    , 'ExternalMassFlow', ExternalMassFlowTypeDDML
-     :                    , '', '')
+     :                    , '')
 
       ! events subscribed to
       id%tillage = add_registration(respondToEventReg, 'tillage',
-     .                              nullTypeDDML, '', '')
+     .                              nullTypeDDML, '')
       id%reset = add_registration(respondToEventReg, 'reset',
-     .                            nullTypeDDML, '', '')
+     .                            nullTypeDDML, '')
       id%sum_report = add_registration(respondToEventReg, 'sum_report',
-     .                                 nullTypeDDML, '', '')
+     .                                 nullTypeDDML, '')
       id%evap_init = add_registration(respondToEventReg, 'evap_init',
-     .                                nullTypeDDML, '', '')
+     .                                nullTypeDDML, '')
       id%tick = add_registration(respondToEventReg, 'tick',
-     .                           timeTypeDDML, '', '')
+     .                           timeTypeDDML, '')
       id%newmet = add_registration(respondToEventReg, 'newmet',
-     .                             newmetTypeDDML, '', '')
+     .                             newmetTypeDDML, '')
       id%irrigated = add_registration(respondToEventReg, 'irrigated',
-     .                                IrrigatedTypeDDML, '', '')
+     .                                IrrigatedTypeDDML, '')
       id%new_solute = add_registration(respondToEventReg, 'new_solute',
-     .                                 newsoluteTypeDDML, '', '')
+     .                                 newsoluteTypeDDML, '')
       id%process = add_registration(respondToEventReg, 'process',
-     .                              nullTypeDDML, '', '')
+     .                              nullTypeDDML, '')
       id%prepare = add_registration(respondToEventReg, 'prepare',
-     .                              nullTypeDDML, '', '')
+     .                              nullTypeDDML, '')
       id%post = add_registration(respondToEventReg, 'post',
-     .                           nullTypeDDML, '', '')
+     .                           nullTypeDDML, '')
 
       ! variables we own and make gettable
       dummy = add_registration_with_units(respondToGetReg, 'es',

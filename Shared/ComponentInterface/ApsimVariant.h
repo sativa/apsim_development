@@ -135,6 +135,8 @@ inline unsigned int memorySize(const ApsimVariant& variant)
    return variant.memorySize();
    }
 
+std::string EXPORT DDML(const ApsimVariant& value);
+
 } // namespace protocol
 
 // restore the warnings about "Functions containing for are not expanded inline.

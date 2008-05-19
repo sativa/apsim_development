@@ -107,19 +107,19 @@ void PlantHerbage::doRegister(const int partNo, const string& partName)
    {
    // register interest in plant part parameters.
 
-      dmGreenID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"GreenWt").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      nGreenID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"GreenN").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      pGreenID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"GreenP").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdMaxGreenID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"GreenDigestibilityMax").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdAvgGreenID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"GreenDigestibilityAvg").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdMinGreenID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"GreenDigestibilityMin").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      dmGreenID[partNo] = system->addRegistration(::get, cHerbageModuleID, string( partName+"GreenWt"), singleTypeDDML);   // parameter crop name=lablab
+      nGreenID[partNo] = system->addRegistration(::get, cHerbageModuleID, string( partName+"GreenN"), singleTypeDDML);   // parameter crop name=lablab
+      pGreenID[partNo] = system->addRegistration(::get, cHerbageModuleID, string( partName+"GreenP"), singleTypeDDML);   // parameter crop name=lablab
+      dmdMaxGreenID[partNo] = system->addRegistration(::get, cHerbageModuleID, string(partName+"GreenDigestibilityMax"), singleTypeDDML);   // parameter crop name=lablab
+      dmdAvgGreenID[partNo] = system->addRegistration(::get, cHerbageModuleID, string(partName+"GreenDigestibilityAvg"), singleTypeDDML);   // parameter crop name=lablab
+      dmdMinGreenID[partNo] = system->addRegistration(::get, cHerbageModuleID, string(partName+"GreenDigestibilityMin"), singleTypeDDML);   // parameter crop name=lablab
 
-      dmSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedWt").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      nSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedN").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      pSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedP").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdMaxSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedDigestibilityMax").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdAvgSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedDigestibilityAvg").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdMinSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedDigestibilityMin").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      dmSenescedID[partNo] = system->addRegistration(::get, cHerbageModuleID, string(partName+"SenescedWt"), singleTypeDDML,"");   // parameter crop name=lablab
+      nSenescedID[partNo] = system->addRegistration(::get, cHerbageModuleID, string(partName+"SenescedN"), singleTypeDDML,""  );   // parameter crop name=lablab
+      pSenescedID[partNo] = system->addRegistration(::get, cHerbageModuleID, string(partName+"SenescedP"), singleTypeDDML,""  );   // parameter crop name=lablab
+      dmdMaxSenescedID[partNo] = system->addRegistration(::get, cHerbageModuleID, string(partName+"SenescedDigestibilityMax") , singleTypeDDML,"");   // parameter crop name=lablab
+      dmdAvgSenescedID[partNo] = system->addRegistration(::get, cHerbageModuleID, string(partName+"SenescedDigestibilityAvg") , singleTypeDDML,"");   // parameter crop name=lablab
+      dmdMinSenescedID[partNo] = system->addRegistration(::get, cHerbageModuleID, string(partName+"SenescedDigestibilityMin") , singleTypeDDML,"");   // parameter crop name=lablab
    }
 
 
@@ -135,16 +135,16 @@ void PlantHerbage::doRunTimeReg(void)
    doRegister(MEAL, "meal");
    doRegister(OIL, "oil");
 
-   tramplingID = system->addRegistration(RegistrationType::get, "trampling", singleTypeDDML,"", "");
-   heightID = system->addRegistration(RegistrationType::get, "height", singleTypeDDML,"", herbageModuleName().c_str());
-   stageID = system->addRegistration(RegistrationType::get, "stage", singleTypeDDML,"", herbageModuleName().c_str());
-   stageNameID = system->addRegistration(RegistrationType::get, "stagename", stringTypeDDML,"", herbageModuleName().c_str());
+   tramplingID = system->addRegistration(::get, -1, "trampling", singleTypeDDML);
+   heightID = system->addRegistration(::get, cHerbageModuleID, "height", singleTypeDDML);
+   stageID = system->addRegistration(::get, cHerbageModuleID, "stage", singleTypeDDML);
+   stageNameID = system->addRegistration(::get, cHerbageModuleID,"stagename", stringTypeDDML);
 
-    removeCropBiomassID = system->addRegistration(RegistrationType::event, "remove_crop_biomass", DDML(protocol::RemoveCropDmType()).c_str(),"", herbageModuleName().c_str());
-    detachRateID = system->addRegistration(RegistrationType::event, "detach_crop_biomass_rate", "","", herbageModuleName().c_str());
+    removeCropBiomassID = system->addRegistration(::event, cHerbageModuleID,"remove_crop_biomass", DDML(protocol::RemoveCropDmType()));
+    detachRateID = system->addRegistration(::event, cHerbageModuleID, "detach_crop_biomass_rate", "");
 
-//   dmFeedOnOfferID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_on_offer", singleArrayTypeDDML);
-     dmPartsRemovedID = system->addRegistration(RegistrationType::respondToGet, "dm_parts_removed", singleArrayTypeDDML);
+//   dmFeedOnOfferID = system->addRegistration(::respondToGet, -1, "dm_feed_on_offer", singleArrayTypeDDML);
+     dmPartsRemovedID = system->addRegistration(::respondToGet, -1, "dm_parts_removed", singleArrayTypeDDML);
   }
 
 // ------------------------------------------------------------------
@@ -329,7 +329,7 @@ void PlantHerbage::doDmdPoolsToHerbageParts(protocol::RemoveHerbageType &grazed,
 float PlantHerbage::getPart(unsigned &partID)
 {
       protocol::Variant* variant;
-      bool ok = system->getVariable(partID, variant, true);
+      bool ok = system->getVariable(partID, &variant, true);
       if (ok)
       {
          float partValue;
@@ -361,7 +361,7 @@ void PlantHerbage::getParts(PlantPartType &parts, SeedPartType &seedParts, unsig
 void PlantHerbage::getPGreen(PlantPartType &pGreen, PlantPool &dm, SeedPartType &pGreenSeed, SeedPool &dmSeed, unsigned partsID[])
 {
       protocol::Variant* variant;
-         bool ok = system->getVariable(partsID[STEM], variant, true);
+         bool ok = system->getVariable(partsID[STEM], &variant, true);
          if (ok)
          {
             float P;
@@ -400,7 +400,7 @@ void PlantHerbage::getPGreen(PlantPartType &pGreen, PlantPool &dm, SeedPartType 
 void PlantHerbage::getPSenesced(PlantPartType &pSenesced, PlantPool &dm, SeedPartType &pSenescedSeed, SeedPool &dmSeed, unsigned partsID[])
 {
       protocol::Variant* variant;
-         bool ok = system->getVariable(partsID[LEAF], variant, true);
+         bool ok = system->getVariable(partsID[LEAF], &variant, true);
          if (ok)
          {
             float P;
@@ -439,7 +439,7 @@ void PlantHerbage::getPSenesced(PlantPartType &pSenesced, PlantPool &dm, SeedPar
 void PlantHerbage::getTrampling(void)
 {
       protocol::Variant* variant;
-         bool ok = system->getVariable(tramplingID, variant, true);
+         bool ok = system->getVariable(tramplingID, &variant, true);
          if (ok)
          {
             bool ok = variant->unpack(eTrampling);
@@ -460,7 +460,7 @@ void PlantHerbage::getTrampling(void)
 void PlantHerbage::getHeight(float &height)
 {
       protocol::Variant* variant;
-         bool ok = system->getVariable(heightID, variant, true);
+         bool ok = system->getVariable(heightID, &variant, true);
          if (ok)
          {
             bool ok = variant->unpack(height);
@@ -481,7 +481,7 @@ void PlantHerbage::getHeight(float &height)
 void PlantHerbage::getStage()
 {
       protocol::Variant* variant;
-         bool ok = system->getVariable(stageID, variant, true);
+         bool ok = system->getVariable(stageID, &variant, true);
          if (ok)
          {
             bool ok = variant->unpack(cropStageNo);
@@ -498,7 +498,7 @@ void PlantHerbage::getStage()
             throw std::runtime_error("Couldn't get variable stageID");
          }
 
-         ok = system->getVariable(stageNameID, variant, true);
+         ok = system->getVariable(stageNameID, &variant, true);
          if (ok)
          {
             bool ok = variant->unpack(cropStageName);
@@ -749,7 +749,7 @@ void PlantHerbage::initialiseData ( void )
       PSeed = 0.0;
       dmdSeed = 0.0;
 
-      cHerbageModuleName = "";
+      cHerbageModuleID = -1;
       cDebug = "";
 
       for (int pool = 0; pool < maxDmdPoolsVeg; pool++)
@@ -1287,7 +1287,7 @@ int PlantHerbage::numDmdPoolsSeed ( void )
 
 string PlantHerbage::herbageModuleName(void)
    {
-      return cHerbageModuleName;
+   return (ApsimRegistry::getApsimRegistry().componentByID(cHerbageModuleID));
    }
 
 string PlantHerbage::debug(void)
@@ -1323,12 +1323,14 @@ void PlantHerbage::readParameters ( void )
 
     system->writeString (" - conversion object reading parameters");
 
-    cHerbageModuleName = system->readParameter (section_name, "herbage_module_name");
+    string HerbageModuleName = system->readParameter (section_name, "herbage_module_name");
+    cHerbageModuleID = ApsimRegistry::getApsimRegistry().componentByName(HerbageModuleName) ;
+     
     cDebug = system->readParameter (section_name, "debug");
     system->readParameter (section_name, "dmdValue", cDmdValueVeg, cNumDmdPoolsVeg, 0.0, 1.0);
 
       ostringstream msg;
-      msg << "Herbage module name = " << cHerbageModuleName << endl
+      msg << "Herbage module name = " << HerbageModuleName << endl
           << "Debug = " << cDebug << ends;
       system->writeString (msg.str().c_str());
 }

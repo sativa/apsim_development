@@ -8,6 +8,11 @@
 
 #include "Variant.h"
 
+#include "DataTypes.h"
+#include "MessageData.h"
+#include "Interfaces.h"
+#include "TypeConverter.h"
+
 // UGLY HACK for workarounds. rewrite this asap
 EXPORT STDCALL Variant::Variant() { bufStart = NULL; bufLen = 0;} 
 EXPORT STDCALL Variant::~Variant() { if (bufStart) {free(bufStart); bufLen = 0;}};

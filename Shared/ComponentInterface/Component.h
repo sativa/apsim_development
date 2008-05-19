@@ -15,11 +15,9 @@
 #include <general/platform.h>
 
 #include <ApsimShared/ApsimComponentData.h>
+#include <ApsimShared/ApsimRegistry.h>
 #include <ApsimShared/FApsimComponentData.h>
 
-#include <ComponentInterface/RegistrationType.h>
-#include <ComponentInterface/RegistrationItem.h>
-#include <ComponentInterface/Registrations.h>
 #include <ComponentInterface/Messages.h>
 #include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/ApsimVariant.h>
@@ -31,12 +29,11 @@
 #include <ComponentInterface/Interfaces.h>
 
 class ScienceAPI;
+
 namespace protocol {
 
 // forward declarations of our friends.
 class Component;
-class RegistrationItem;
-class Registrations;
 class Variants;
 class QueryValueData;
 
@@ -193,24 +190,69 @@ class EXPORT Component
 
       std::string getName(void) {return name;};
       std::string getFQName(void) {return (pathName + "." + name);};
+      std::string getFQContainerName(void) {return (pathName);};
       std::string getDllName(void) {return dllName;};
       unsigned int getId(void) {return componentID;};
       ScienceAPI& scienceAPI() {return *api;}
 
       // Add a registration.
-      unsigned addRegistration(RegistrationType kind,
+      unsigned addRegistration(EventTypeCode kind,
+                               int destID,
+                               const char *name,
+                               const char *ddml)
+         {
+         return (addRegistration(kind, destID, name, ddml, string("")));
+         };
+
+      unsigned addRegistration(EventTypeCode kind,
+                               int destID,
+                               char *name,
+                               char *ddml)
+         {
+         return (addRegistration(kind, destID, name, ddml, string("")));
+         };                     
+
+      unsigned addRegistration(EventTypeCode kind,
+                               int destID,
+                               const std::string& name,
+                               const std::string& ddml)
+         {
+         return (addRegistration(kind, destID, name, ddml, string("")));
+         };                     
+
+      unsigned addRegistration(EventTypeCode kind,
+                               int destID,
                                const FString& name,
-                               const Type& type);
-      unsigned addRegistration(RegistrationType kind,
+                               const FString& ddml)
+         {
+         return (addRegistration(kind, 
+                                 destID,
+                                 asString(name),
+                                 asString(ddml),
+                                 string("")));
+         };                     
+
+      unsigned addRegistration(EventTypeCode kind,
+                               int destID,
                                const FString& name,
                                const Type& type,
-                               const FString& alias);
-      unsigned addRegistration(RegistrationType kind,
-                               const FString& name,
-                               const Type& type,
-                               const FString& alias,
-                               const FString& componentNameOrID);
-      void deleteRegistration(RegistrationType kind,
+                               const FString& alias)
+         {
+         return (addRegistration(kind,
+                                 destID,
+                                 asString(name),
+                                 asString(type.getTypeString()),
+                                 asString(alias)));
+         };                     
+
+      unsigned addRegistration(EventTypeCode kind,
+                               int destID,
+                               const std::string& name,
+                               const std::string& ddml,
+                               const std::string& alias);
+
+
+      void deleteRegistration(EventTypeCode kind,
                               unsigned int regID);
 
       std::string getProperty(const std::string &a, const std::string &b) const
@@ -234,7 +276,15 @@ class EXPORT Component
 
 
       // Notify system of an error.
-      void error(const FString& msg, bool isFatal);
+      void error(const char *msg, bool isFatal);
+      void error(const string& msg, bool isFatal)
+         {
+         error(msg.c_str(), isFatal);
+         }
+      void error(const FString& msg, bool isFatal)
+         {
+         error(asString(msg), isFatal);
+         }
 
       // Terminate simulation
       void terminateSimulation(void);
@@ -242,20 +292,21 @@ class EXPORT Component
       // Get the value of a specific variable.  Return true if a value was
       // returned.
       bool getVariable(unsigned int variableID,
-                       Variant*& value,
+                       Variant **value,
                        bool optional = false);
 
       // Get the multiple values of a specific variable.  Return true
       // if some values are returned.
-      bool getVariables(unsigned int variableID, Variants*& values);
+      bool getVariables(unsigned int variableID, Variants **values);
 
       // Set the value of a variable.  Returns true if value was changed.
       template <class T>
       bool setVariable(unsigned int variableID, const T& data)
          {
          setVariableSuccess = false;
-         sendMessage(newRequestSetValueMessage(componentID, parentID, variableID,
-                                               getRegistrationType(variableID),
+         sendMessage(newRequestSetValueMessage(componentID, parentID, 
+                                               variableID,
+                                               DDML(data),
                                                data));
          if (!setVariableSuccess)
             setVariableError(variableID);
@@ -266,21 +317,27 @@ class EXPORT Component
       template <class T>
       void publish(unsigned int eventID, T& data)
          {
-         sendMessage(newPublishEventMessage(componentID, parentID, eventID,
-                                            getRegistrationType(eventID),
+         sendMessage(newPublishEventMessage(componentID, 
+                                            parentID, 
+                                            eventID,
+                                            DDML(data),
                                             data));
          }
       // Publish an event.
       template <class T>
       void publishArray(unsigned int eventID, T data[], unsigned int numValues)
          {
-         sendMessage(newPublishEventMessage(componentID, parentID, eventID,
-                                            getRegistrationType(eventID),
+         sendMessage(newPublishEventMessage(componentID, 
+                                            parentID, 
+                                            eventID,
+                                            DDML(data),
                                             data, numValues));
          }
 
       // Write a line to the summary file.
       void writeString(const FString& st);
+      void writeString(const std::string& st);
+      void writeString(const char *st);
 
       // Send a variable to another component.
       template <class T>
@@ -290,20 +347,30 @@ class EXPORT Component
          sendMessage(newReplyValueMessage(componentID,
                                           queryValueData.fromID,
                                           currentMsgID,
-                                          getRegistrationType(queryValueData.ID),
+                                          DDML(value),
                                           value));
          }
 
+      template <class T>
+      void sendVariable(QueryValueData& queryValueData,
+                        const std::vector<T> &values)
+         {
+         sendMessage(newReplyValueMessage(componentID,
+                                          queryValueData.fromID,
+                                          currentMsgID,
+                                          DDML(values),
+                                          values));
+         }
+
       // convert to and from a compname to an ID.
-      bool componentNameToID(const FString& name, unsigned int& compID);
-      bool componentIDToName(unsigned int compID, FString& name);
+      bool componentNameToID(const std::string& name, int& compID);
+      bool componentIDToName(int compID, std::string& name);
 
       // send a change order message.
       void changeComponentOrder(const FStrings& names)
          {
          sendMessage(newApsimChangeOrderMessage(componentID, parentID, names));
          }
-      void setRegistrationType(unsigned int regID, const Type& type);
       std::string getDescription(void);
 
       // override these methods if necessary.
@@ -323,8 +390,8 @@ class EXPORT Component
                  const unsigned int* callbackarg,
                  void* messagecallback);
    protected:
-      unsigned int componentID;
-      unsigned int parentID;
+      int componentID;
+      int parentID;
       ApsimComponentData* componentData;
       ::ScienceAPI* api;
       bool beforeInit2;
@@ -343,7 +410,7 @@ class EXPORT Component
       virtual void onQueryInfoMessage(unsigned int fromID, unsigned int messageID, QueryInfoData& queryInfo) { }
       virtual void onQueryValueMessage(unsigned int fromID, QueryValueData& queryData);
       virtual void onCompleteMessage(CompleteData& completeData);
-      virtual void onApsimGetQuery(ApsimGetQueryData& apsimGetQueryData) { }
+      virtual void onApsimGetQuery(unsigned int fromID, ApsimGetQueryData& apsimGetQueryData) { }
       virtual bool onApsimSetQuery(ApsimSetQueryData& apsimSetQueryData) {return false;}
       virtual void onApsimChangeOrderData(protocol::MessageData& messageData) { }
       virtual void onQuerySetValueMessage(unsigned fromID, QuerySetValueData& querySetData);
@@ -364,16 +431,9 @@ class EXPORT Component
             waitForComplete();
          deleteMessage(message);
          }
-      RegistrationItem* addRegistrationToList(RegistrationType kind,
-                                              const FString& name,
-                                              const Type& type);
-      RegistrationItem* addRegistrationToList(RegistrationType kind,
-                                              const FString& name,
-                                              const Type& type,
-                                              const FString& componentNameOrID);
-      Type getRegistrationType(unsigned int regID);
-      const char *getRegistrationName(unsigned int regID);
-      unsigned getRegistrationID(const RegistrationType& type, const FString& eventName);
+      ApsimRegistration *getRegistration(int fromID, unsigned int regID);
+      EventTypeCode getRegistrationType(unsigned int regID);
+      void getRegistrationName(int fromID, unsigned int regID, std::string &);
       bool getSetVariableSuccess(void) {return setVariableSuccess;}
       void setVariableError(unsigned int regID);
       void writeStringToStream(const std::string& lines, std::ostream& out,
@@ -389,15 +449,17 @@ class EXPORT Component
       int active;
       std::string state;
 
-      Registrations* registrations;
       vector<ReturnInfoData*> returnInfos;
+
+      typedef std::map<unsigned int, Variants*> getVariableResponses;
+      getVariableResponses myGetVariableResponses;
+
       unsigned int errorID;
       unsigned int tickID;
       bool setVariableSuccess;
       vector<unsigned> completeIDs;
       bool completeFound;
       protocol::TimeType tick;
-      bool sendTickToComponent;
       unsigned currentMsgID;
 
       UInt2InfoMap getVarMap;                  // List of variables we can send to system
@@ -413,6 +475,7 @@ class EXPORT Component
                  const unsigned int* callbackarg,
                  CallbackType messagecallback);
 
+      void addReturnValueMessage(ReturnValueData &returnData);
       void clearReturnInfos(void);
       void waitForComplete(void);
 
@@ -441,28 +504,26 @@ class EXPORT Component
                        double upper,
                        bool isOptional = false)
          {
-         protocol::Variant* variant;
-         if (getVariable(regId, variant, isOptional))
+         protocol::Variant *variant;
+         if (getVariable(regId, &variant, isOptional))
             {
             bool ok = variant->unpack(value);
             if (!ok)
                {
-               char buffer[100];
-               strcpy(buffer, "TypeConverter failed.\n"
-                              "VariableName:");
-               const char *variableName = getRegistrationName(regId);
-               strcat(buffer, variableName);
+               string buffer= "TypeConverter failed.\n"
+                              "VariableName:";
+               buffer += getRegistration(componentID, regId)->getName();
                error(buffer, true);
                return false;
                }
             if (value < lower || value > upper)
                {
-               const char *variableName = getRegistrationName(regId);
+               string variableName = getRegistration(componentID,regId)->getName();
                string msg = string("Bound check warning while getting variable.\n"
                                    "Variable  : ") + variableName + string("\n"
                                    "Condition : ") + ftoa(lower, 2) + string(" <= ") +
                                     boost::lexical_cast<std::string>(value) + string(" <= ") + ftoa(upper, 2);
-               error(msg.c_str(), false);
+               error(msg, false);
                }
             }
          else
@@ -479,17 +540,16 @@ class EXPORT Component
                        bool isOptional = false)
          {
          values.clear();
-         protocol::Variant* variant;
-         if (getVariable(regId, variant, isOptional))
+         protocol::Variant *variant;
+         if (getVariable(regId, &variant, isOptional))
             {
             bool ok = variant->unpack(values);
             if (!ok)
                {
-               char buffer[100];
-               strcpy(buffer, "TypeConverter failed.\n"
-                              "VariableName:");
-               const char *variableName = getRegistrationName(regId);
-               strcat(buffer, variableName);
+               string buffer= "TypeConverter failed.\n"
+                              "VariableName:";
+               string variableName = getRegistration(componentID, regId)->getName();
+               buffer += variableName;
                error(buffer, true);
                return false;
                }
@@ -498,12 +558,12 @@ class EXPORT Component
                {
                if (values[i] < lower || values[i] > upper)
                    {
-                   string variableName = getRegistrationName(regId);
+                   string variableName = getRegistration(componentID,regId)->getName();
                    string msg = string("Bound check warning while getting variable.\n"
                                        "Variable  : ") + variableName + string("(") + itoa(i+1) +  string(")\n"
                                        "Condition : ") + ftoa(lower, 2) + string(" <= ") +
                                 boost::lexical_cast<string>(values[i]) + string(" <= ") + ftoa(upper, 2);
-                   error(msg.c_str(), false);
+                   error(msg, false);
                    }
                }
             }
@@ -566,7 +626,7 @@ class EXPORT Component
                                  "specified in the control file.\n"
                                  "Parameter name = ") + variableName;
              msg += "\nSection name = " + sectionName;
-             error(msg.c_str(), true);
+             error(msg, true);
              }
          return false;
          }
@@ -579,7 +639,7 @@ class EXPORT Component
                              string(typeid(T).name()) + string(" type.\n"
                              "Parameter name = ") + variableName + string("\n"
                              "Value          = '") + datastring + string("'");
-         error(msg.c_str(), true);
+         error(msg, true);
          return false;
          }
 
@@ -591,7 +651,7 @@ class EXPORT Component
                     "Variable  : ") + variableName + string("\n"
                     "Condition : ") + ftoa(lower, 2) + string(" <= ") +
                     datastring + string(" <= ") + ftoa(upper, 2);
-         error(msg.c_str(), false);
+         error(msg, false);
          }
 
       return true;
@@ -617,7 +677,7 @@ class EXPORT Component
                                  "specified in the control file.\n"
                                  "Parameter name = ") + variableName;
              msg += "\nSection name = " + sectionName;
-             error(msg.c_str(), true);
+             error(msg, true);
              }
          return false;
          }
@@ -635,7 +695,7 @@ class EXPORT Component
                                string(typeid(T).name()) + string(" type.\n"
                                "Parameter name = ") + variableName + string("\n"
                                "Value          = '") + value_strings[i] + string("'\n");
-           error(msg.c_str(), true);
+           error(msg, true);
            return false;
            }
         values.push_back(value);
@@ -649,7 +709,7 @@ class EXPORT Component
                     "Variable  : ") + variableName + string("(") + itoa(i+1) +  string(")\n"
                     "Condition : ") + ftoa(lower, 2) + string(" <= ") +
                     value_strings[i] + string(" <= ") + ftoa(upper, 2);
-            error(msg.c_str(), false);
+            error(msg, false);
             }
         }
       return (value_strings.size() > 0);
@@ -688,7 +748,7 @@ class EXPORT Component
                                      "Parameter name = ") + variableName;
             for (unsigned i = 0; i != sections.size(); i++)
                 msg += "\nSection name = " + sections[i];
-            error(msg.c_str(), true);
+            error(msg, true);
             }
          return false;
          };
@@ -711,7 +771,7 @@ class EXPORT Component
                                  "Parameter name = ") + name;
             for (unsigned i = 0; i != sects.size(); i++)
                 msg += "\nSection name = " + sects[i];
-            error(msg.c_str(), true);
+            error(msg, true);
             }
          return false;
          };
@@ -735,7 +795,7 @@ class EXPORT Component
                                  "Parameter name = ") + variableName;
             for (unsigned i = 0; i != sections.size(); i++)
                 msg += "\nSection name = " + sections[i];
-            error(msg.c_str(), true);
+            error(msg, true);
             }
          return false;
          };
@@ -814,7 +874,7 @@ class EXPORT Component
                           const char *units,
                           const char *desc)
           {
-          unsigned int id = addRegistration(RegistrationType::respondToSet, systemName, ddml);
+          unsigned int id = addRegistration(::respondToSet, componentID, systemName, ddml);
           fnSetInfo *fn = new fnSetInfo(systemName, type, false, ptr, units, desc);
           setVarMap.insert(UInt2SetInfoMap::value_type(id, fn));
           };
@@ -824,7 +884,6 @@ class EXPORT Component
 
       // Add a procedure to be called when events occur
       unsigned int addEvent(const char *systemName,
-                            RegistrationType type,
                             boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr,
                             const char* DDML);
 

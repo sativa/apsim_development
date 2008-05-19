@@ -20,19 +20,19 @@
 #include <ApsimShared/ApsimDataTypeData.h>
 #include <ApsimShared/ApsimSystemData.h>
 #include <ApsimShared/ApsimServiceData.h>
-#include <ApsimShared/ApsimRegistrationData.h>
+#include <ApsimShared/ApsimRegistry.h>
+#include <ApsimShared/ApsimRegistration.h>
 #include <ApsimShared/ApsimSimulationFile.h>
 #include <ApsimShared/ApsimVersion.h>
 
 #include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/Component.h>
+#include <ComponentInterface/Variant.h>
 
 #include "ComponentAlias.h"
-#include "Registrations.h"
 #include "Coordinator.h"
 
 using namespace std;
-using namespace protocol;
 
 // ------------------------------------------------------------------
 // Return a blank string when requested to indicate that we don't need a wrapper DLL.
@@ -52,7 +52,7 @@ extern "C" EXPORT void STDCALL wrapperDLL(char* wrapperDll)
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-Component* createComponent(void)
+protocol::Component* createComponent(void)
    {
    return new Coordinator();
    }
@@ -106,7 +106,7 @@ void Coordinator::doInit1(const protocol::Init1Data &init1Data)
    {
    if (componentID == parentID) {cout << "Version                = " + getApsimVersion() << endl;}
 
-   Component::doInit1(init1Data);
+   protocol::Component::doInit1(init1Data);
 
    string sdmlString = string(init1Data.sdml.f_str(), init1Data.sdml.length());
    ApsimSimulationFile simulationData(sdmlString, true);
@@ -116,8 +116,8 @@ void Coordinator::doInit1(const protocol::Init1Data &init1Data)
       {
       title = simulationData.getTitle();
       cout << "Title                  = " + title << endl; 
-      titleID = addRegistration(RegistrationType::respondToGet, "title", "<type kind=\"string\"/>");
-      componentsID = addRegistration(RegistrationType::respondToGet, "components", "<type kind=\"string\" array=\"T\"/>");
+      titleID = addRegistration(::respondToGet, -1,  "title", "<type kind=\"string\"/>");
+      componentsID = addRegistration(::respondToGet, -1, "components", "<type kind=\"string\" array=\"T\"/>");
       }
    else 
       {
@@ -176,7 +176,7 @@ void Coordinator::doInit1(const protocol::Init1Data &init1Data)
 // ------------------------------------------------------------------
 void Coordinator::doInit2(void)
    {
-   Component::doInit2();
+   protocol::Component::doInit2();
 
    // resolve all registrations.
    afterInit2 = true;
@@ -188,7 +188,7 @@ void Coordinator::doInit2(void)
       {
       if (componentI->second->ID != componentID &&
           componentI->second->ID != parentID)
-         sendMessage(newInit2Message(componentID, componentI->second->ID));
+         sendMessage(protocol::newInit2Message(componentID, componentI->second->ID));
       }
    }
 
@@ -209,7 +209,7 @@ void Coordinator::doCommence(void)
    cout << "------- Start of simulation  --------------------------------------------------" << endl;
 
    // send the commence message on to the sequencer.
-   sendMessage(newCommenceMessage(componentID, sequencerID));
+   sendMessage(protocol::newCommenceMessage(componentID, sequencerID));
    }
 
 // ------------------------------------------------------------------
@@ -228,80 +228,69 @@ void Coordinator::addComponent(const string& compName,
                                const string& compSdml)
    {
    // get a unique id for the component we're about to create.
-   unsigned int childID = getComponentID(compName);
+   sendMessage(protocol::newRequestComponentIDMessage(componentID,
+                                                      parentID,
+                                                      componentID,
+                                                      compName.c_str())); 
+
+   /* the system sets childComponentID and name here */
 
    ComponentAlias* componentAlias = NULL;   
    try
       {
-
       componentAlias = new ComponentAlias(compName,
                                           compExecutable,
                                           componentInterfaceExecutable,
-                                          childID,
+                                          childComponentID,
                                           componentID);
           
-      components.insert(Components::value_type(childID, componentAlias));
+      components.insert(Components::value_type(childComponentID, componentAlias));
 
+      // Tell the registry about this component.
+      ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
       string fqn = getFQName();
       fqn += ".";
       fqn += compName;
 
+      // assume it's foreign until we know more about it..
+      registry.addComponent(componentID, childComponentID, fqn);
+      registry.setForeignTaint(childComponentID);
+      
       // send component an init1 message.
-      sendMessage(newInit1Message(componentID,
-                                  childID,
-                                  compSdml.c_str(),
-                                  fqn.c_str(),
-                                  true));
+      sendMessage(protocol::newInit1Message(componentID,
+                                            childComponentID,
+                                            compSdml.c_str(),
+                                            fqn.c_str(),
+                                            true));
 
-      }
+      }                            
    catch (const runtime_error& error)
-      {
+      {                            
       if (componentAlias) delete componentAlias;
-      components.erase(childID);
-      throw;
-      }
-
+      components.erase(childComponentID);
+      /*registry.deleteComponent(childComponentID);*/
+      throw;                        
+      }                             
+                                    
    // dph hack - shouldn't hardwire clock as sequencer.
    if (Str_i_Eq(compName, "clock"))
-      sequencerID = childID;
-
-   }
-
+      sequencerID = childComponentID;
+   
+   }                                 
+                                     
 // ------------------------------------------------------------------
 //  Short description:
-//     method call comming in from another system
-
-//  Notes:
-
-//  Changes:
-//    dph 6/3/2001
-
+//    we have requested a unique ID from the system, and 
+//    a returnComponentID message has come in.  Store ID and name.
 // ------------------------------------------------------------------
-unsigned int Coordinator::getComponentID(const std::string& name)
-   {
-   sendMessage(newRequestComponentIDMessage(componentID,
-                                            parentID,
-                                            componentID,
-                                            name.c_str()));
-   return childComponentID;
-   }
-// ------------------------------------------------------------------
-//  Short description:
-//    a requestComponentID message has come in.  Store ID.
-
-//  Notes:
-
-//  Changes:
-//    dph 6/3/2001
-
-// ------------------------------------------------------------------
-void Coordinator::onReturnComponentIDMessage(ReturnComponentIDData& data)
+void Coordinator::onReturnComponentIDMessage(protocol::ReturnComponentIDData& data)
    {
    childComponentID = data.ID;
+   childComponentName = asString(data.fqdn);
    }
 // ------------------------------------------------------------------
 //  Short description:
-//    handle incoming getValue messages.
+//    A child has asked us for a unique identifier
 
 //  Notes:
 
@@ -310,12 +299,12 @@ void Coordinator::onReturnComponentIDMessage(ReturnComponentIDData& data)
 
 // ------------------------------------------------------------------
 void Coordinator::onRequestComponentIDMessage(unsigned int fromID,
-                                              RequestComponentIDData& data)
+                                              protocol::RequestComponentIDData& data)
    {
    static unsigned newID = 0;
-   sendMessage(newReturnComponentIDMessage(componentID,
+   sendMessage(protocol::newReturnComponentIDMessage(componentID,
                                            fromID,
-                                           "",
+                                           "", // Wrong. This should be the FQ nameof the new component FIXME!!
                                            ++newID));
    }
 
@@ -329,34 +318,58 @@ void Coordinator::onRequestComponentIDMessage(unsigned int fromID,
 //    dph 15/5/2001
 
 // ------------------------------------------------------------------
-void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerData)
+void Coordinator::onRegisterMessage(unsigned int fromID,
+                                    protocol::RegisterData& registerData)
    {
+   // A Component is registering an ID with the system. An "apsim"
+   // component will have already created a global registry entry,
+   // and we can safely ignore this message.
+   // Other components are passing in a unique ID that relates
+   // to some unknown internal mechanism. Create a foreign
+   // entry for these, and mark that component for special
+   // treatment elsewhere.
+
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+
    string regName = asString(registerData.name);
-   unsigned destID = registerData.destID;
-   unsigned posPeriod = regName.find('.');
+   size_t pos = regName.rfind(".");
 
-   if (registerData.kind != RegistrationType::respondToGet
-       && posPeriod != string::npos)
+   if (pos != string::npos)
       {
-      string componentName = regName.substr(0, posPeriod);
-      if (Str_i_Eq(componentName.c_str(), getName()))
-         destID = componentID;
-      else if (Str_i_Eq(componentName.c_str(), parentName))
-         destID = parentID;
-      else if (Is_numerical(componentName.c_str()))
-         destID = atoi(componentName.c_str());
-      else
-         destID = componentNameToID(componentName);
-      if (destID == INT_MAX) 
-         {
-         string msg = "Cannot find component " + regName.substr(0, posPeriod);
-         error(msg.c_str(), true);
-         }   
-      regName.erase(0, posPeriod+1);
-      }
+      // strip off any module name at the start, convert it to an ID
+      string comp = regName.substr(0,pos);
+      if (comp[0] != '.') comp = getFQName() + "." + comp;
 
-   ::Registration newReg(fromID, registerData.ID, regName, asString(registerData.type), registerData.kind);
-   registrations.add(newReg, destID);
+      int id = registry.componentByName(comp);
+      if (id < 0) 
+         throw std::runtime_error(string ("Unknown module \"") + comp + "\"");
+
+      if (registerData.destID >= 0 && id != registerData.destID)
+        {
+        throw std::runtime_error(string ("Mismatched destID in Coordinator::onRegisterMessage (") +
+                                         regName +
+                                         " from " + 
+                                         registry.componentByID(fromID) +
+                                         ")") ;
+        }
+      registerData.destID = id;
+      regName = regName.substr(pos+1);
+      }
+   if (registry.find(fromID, registerData.ID) == NULL)
+      {
+      ApsimRegistration *newReg = new
+         ForeignRegistration((EventTypeCode)registerData.kind,
+                             regName,
+                             asString(registerData.type),
+                             registerData.destID,
+                             fromID,
+                             registerData.ID);
+      registry.add(newReg);
+      }
+    else
+      {
+      /* nothing to do */
+      }
    }
 
 // ------------------------------------------------------------------
@@ -369,20 +382,29 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
 //    dph 15/5/2001
 
 // ------------------------------------------------------------------
-void Coordinator::onDeregisterMessage(unsigned int fromID, DeregisterData& deregisterData)
+void Coordinator::onDeregisterMessage(unsigned int fromID, protocol::DeregisterData& deregisterData)
    {
-   registrations.erase(fromID, deregisterData.ID, deregisterData.kind);
+   ApsimRegistry &r = ApsimRegistry::getApsimRegistry();
+   r.erase( fromID, deregisterData.ID);
    }
 
 // ------------------------------------------------------------------
 // Handle incoming publish event messages.
 // ------------------------------------------------------------------
-void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& publishEventData)
+void Coordinator::onPublishEventMessage(unsigned int fromID, protocol::PublishEventData& publishEventData)
    {
    if (!doTerminate)
       {
-      if (Str_i_Eq(registrations.getName(fromID, publishEventData.ID, RegistrationType::event),
-                   "error"))
+      ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+      ApsimRegistration* regItem = registry.find(fromID, publishEventData.ID);
+      if (regItem == NULL) {
+         string msg = "Invalid registration. offender=";
+          msg += registry.componentByID(fromID); 
+          msg += ",";
+          msg += publishEventData.ID;
+         throw std::runtime_error(msg);
+      }
+      if (Str_i_Eq(regItem->getName(), "error"))
          {
          protocol::ErrorData errorData;
          publishEventData.variant.unpack(errorData);
@@ -400,26 +422,30 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& p
 // ------------------------------------------------------------------
 // Handle incoming publish event messages.
 // ------------------------------------------------------------------
-void Coordinator::propogateEvent(unsigned int fromID, PublishEventData& publishEventData)
+void Coordinator::propogateEvent(unsigned int fromID, protocol::PublishEventData& publishEventData)
    {
-   ::Registrations::Subscriptions subscriptions;
-   registrations.getSubscriptions(fromID, publishEventData.ID, RegistrationType::event, subscriptions);
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+   ApsimRegistration *reg = registry.find(fromID, publishEventData.ID);
+   if (reg == NULL) throw std::runtime_error("NULL in Coordinator::propogateEvent ?");
+
+   vector<ApsimRegistration *> subscriptions;
+   registry.lookup(reg, subscriptions);
 
    if (componentOrders.size() > 0)
       reorderSubscriptions(subscriptions);
 
-   for (::Registrations::Subscriptions::iterator s = subscriptions.begin();
-                                                 s != subscriptions.end() && !doTerminate;
-                                                 s++)
+   for (vector<ApsimRegistration *>::iterator s = subscriptions.begin();
+                                              s != subscriptions.end() && !doTerminate;
+                                              s++)
       {
       // if the event is going to our parent then we need to say that it is
       // coming from us rather than our child.
-      if (s->componentId == parentID)
+      if ((*s)->getComponentID() == parentID)
          fromID = componentID;
-
-      sendMessage(newEventMessage(componentID,
-                                  s->componentId,
-                                  s->id,
+//      cout << "propogate " << reg->getName() << " to " << registry.componentByID((*s)->getComponentID()) << endl;
+      sendMessage(protocol::newEventMessage(componentID,
+                                  (*s)->getComponentID(),
+                                  (*s)->getRegID(),
                                   fromID,
                                   publishEventData.variant));
       }
@@ -438,7 +464,7 @@ void Coordinator::propogateEvent(unsigned int fromID, PublishEventData& publishE
 void Coordinator::onTerminateSimulationMessage(void)
    {
    if (componentID != parentID)
-      sendMessage(newTerminateSimulationMessage(componentID, parentID));
+      sendMessage(protocol::newTerminateSimulationMessage(componentID, parentID));
    else
       notifyTermination();
    doTerminate = true;
@@ -446,47 +472,49 @@ void Coordinator::onTerminateSimulationMessage(void)
 // ------------------------------------------------------------------
 // handle incoming getValue messages.
 // ------------------------------------------------------------------
-void Coordinator::onGetValueMessage(unsigned int fromID, GetValueData& getValueData)
+void Coordinator::onGetValueMessage(unsigned int fromID, protocol::GetValueData& getValueData)
    {
 /*   if (!afterInit2)
       {
       string msg = "Cannot do GET's before the INIT2.\n";
       msg += "Variable name: ";
-      msg += registrations.getName(fromID, getValueData.ID, RegistrationType::get);
-      error(msg.c_str(), true);
+      ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+      ApsimRegistration *reg = registry.find(fromID, getValueData.ID);
+      if (reg) 
+        msg += reg->getName();
+        
+      error(msg, true);
       }
    else
-*/      sendQueryValueMessage(fromID, getValueData.ID);
+      {
+*/
+//    cout << "onGetValueMessage, id=" << getValueData.ID << endl;
+      sendQueryValueMessage(fromID, getValueData.ID);
+/*      }*/
    }
 // ------------------------------------------------------------------
 // Send queryValue messages to all subscribed components.
 // ------------------------------------------------------------------
 void Coordinator::sendQueryValueMessage(unsigned fromID, unsigned regID)
    {
-   ::Registrations::Subscriptions subs;
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+   ApsimRegistration *reg = registry.find(fromID, regID);
 
-   registrations.getSubscriptions(fromID, regID, RegistrationType::get, subs);
+   pollComponentsForGetVariable(fromID, reg->getName());
 
-   // apsim hack to poll modules for variables.  This is because we haven't
-   // yet got all the .interface files up to date.
-   if (subs.size() == 0)
-      {
-      string regName = registrations.getName(fromID, regID, RegistrationType::get);
-      unsigned destID = registrations.getDestId(fromID, regID, RegistrationType::get);
-      pollComponentsForGetVariable(regName, destID);
-      registrations.getSubscriptions(fromID, regID, RegistrationType::get, subs);
-      }
+   vector<ApsimRegistration *> subscriptions;
+   registry.lookup(reg, subscriptions);
 
    previousGetValueCompID.push(fromID);
    previousGetValueRegID.push(regID);
-   for (::Registrations::Subscriptions::iterator s = subs.begin();
-                                                 s != subs.end();
-                                                 s++)
+   for (vector<ApsimRegistration *>::iterator s = subscriptions.begin();
+                                              s != subscriptions.end();
+                                              s++)
       {
-      sendMessage(newQueryValueMessage(componentID,
-                                       s->componentId,
-                                       s->id,
-                                       fromID));
+      sendMessage(protocol::newQueryValueMessage(componentID,
+                                                 (*s)->getComponentID(),
+                                                 (*s)->getRegID(),
+                                                 fromID));
       }
    previousGetValueCompID.pop();
    previousGetValueRegID.pop();
@@ -494,19 +522,22 @@ void Coordinator::sendQueryValueMessage(unsigned fromID, unsigned regID)
 // ------------------------------------------------------------------
 // Send a returnValue message back to originating component.
 // ------------------------------------------------------------------
-void Coordinator::onReplyValueMessage(unsigned fromID, ReplyValueData replyValueData)
+void Coordinator::onReplyValueMessage(unsigned fromID, protocol::ReplyValueData replyValueData)
    {
-   unsigned toID = previousGetValueCompID.top();
+   int toID = previousGetValueCompID.top();
+//cout << "onReplyValueMessage id="<<previousGetValueRegID.top() << endl;
    if (toID == parentID || components[toID]->isSystem())
       {
-      sendMessage(newReplyValueMessage(componentID,
+      sendMessage(protocol::newReplyValueMessage(componentID,
                                        toID,
                                        previousGetValueRegID.top(),
                                        replyValueData.variant));
       }
    else
       {
-      sendMessage(newReturnValueMessage(componentID,
+//      string z; componentIDToName(toID, z);
+//      cout << "onReplyValueMessage to=" << z << endl ;
+      sendMessage(protocol::newReturnValueMessage(componentID,
                                         toID,
                                         fromID,
                                         previousGetValueRegID.top(),
@@ -526,60 +557,67 @@ void Coordinator::onReplyValueMessage(unsigned fromID, ReplyValueData replyValue
 // ------------------------------------------------------------------
 void Coordinator::onQueryInfoMessage(unsigned int fromID,
                                      unsigned int messageID,
-                                     QueryInfoData& queryInfo)
+                                     protocol::QueryInfoData& queryInfo)
    {
-   unsigned componentId = 0;
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+   std::vector<ApsimRegistration *> matches;
 
-   string childName = asString(queryInfo.name);
-   unsigned posPeriod = childName.rfind('.');
-   if (posPeriod != string::npos)
+   int queryComponentID;
+   string queryName;
+   registry.unCrackPath(fromID, asString(queryInfo.name), queryComponentID, queryName);
+//   cout << "Coordinator::onQueryInfoMessage id=" << queryComponentID << "name=" << queryName << endl;
+
+   if (queryInfo.kind == protocol::respondToGetInfo)
       {
-      string componentName = childName.substr(0, posPeriod);
-      childName.erase(0, posPeriod+1);
-      if (componentName != "*")
-         componentId = componentNameToID(componentName);
-      if (componentId == INT_MAX)
-         {
-         string msg = "Component \"" + componentName + "\" is unknown.";
-         error(msg.c_str(), true);
-         return;
-         }
+      NativeRegistration reg(::get,
+                             queryName,
+                             "<undefined/>",
+                             queryComponentID,
+                             fromID);
+
+      pollComponentsForGetVariable(fromID, queryName);
+      registry.lookup(&reg, matches);
       }
-   std::vector< ::Registration> matches;
-   if (queryInfo.kind == respondToGetInfo)
+   else if (queryInfo.kind == protocol::respondToSetInfo)
       {
-      registrations.findMatching(componentId, childName, RegistrationType::respondToGet, matches);
-      if (matches.size() == 0)
-         {
-         pollComponentsForGetVariable(childName, componentId);
-         registrations.findMatching(componentId, childName, RegistrationType::respondToGet, matches);
-         }
+      NativeRegistration reg(::set,
+                             queryName,
+                             "<undefined/>",
+                             queryComponentID,
+                             fromID);
+      registry.lookup(&reg, matches);
       }
-   else if (queryInfo.kind == respondToSetInfo)
-      registrations.findMatching(componentId, childName, RegistrationType::respondToSet, matches);
-   else if (queryInfo.kind == respondToEventInfo)
-      registrations.findMatching(componentId, childName, RegistrationType::respondToEvent, matches);
-   else if (queryInfo.kind == componentInfo)
+   else if (queryInfo.kind == protocol::respondToEventInfo)
       {
-      unsigned childID;
-      if (Is_numerical(childName.c_str()))
+      NativeRegistration reg(::event,
+                             queryName,
+                             "<undefined/>",
+                             queryComponentID,
+                             fromID);
+      registry.lookup(&reg, matches);
+      }
+   else if (queryInfo.kind == protocol::componentInfo)
+      {
+      int childID;
+      if (Is_numerical(queryName.c_str()))
          {
-         childID = atoi(childName.c_str());
+         childID = atoi(queryName.c_str());
          if (components.find(childID) != components.end())
-            childName = components[childID]->getName();
+            queryName = components[childID]->getName();
          if (childID == componentID)
-            childName = getName();
+            queryName = getName();
          }
       else
-         childID = componentNameToID(childName);
+         componentNameToID(queryName.c_str(), childID);
 
-      if (childID == INT_MAX || childName == "") return; // XX Yuck!!
+      if (childID == INT_MAX || queryName == "") return; // XX Yuck!!
 
       string fqn = getName();
       fqn += ".";
-      fqn += childName;
+      fqn += queryName;
 
-      sendMessage(newReturnInfoMessage(componentID,
+      sendMessage(protocol::newReturnInfoMessage(
+                                       componentID,
                                        fromID,
                                        messageID,
                                        childID,
@@ -594,197 +632,137 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
       std::string matchName;
       std::string componentName;
 
-      if (matches[i].componentId == componentID)
+      if (matches[i]->getComponentID() == componentID)
          componentName = getName();
-      else if (components.find(matches[i].componentId) != components.end())
-         componentName = components[matches[i].componentId]->getName();
+      else if (components.find(matches[i]->getComponentID()) != components.end())
+         componentName = components[matches[i]->getComponentID()]->getName();
 
       if (componentName == "")
-         matchName = matches[i].name;
-      else 
-         matchName = componentName + "." + matches[i].name;
+         matchName = matches[i]->getName();
+      else
+         matchName = componentName + "." + matches[i]->getName();
 
-      sendMessage(newReturnInfoMessage(componentID,
+      sendMessage(protocol::newReturnInfoMessage(
+                                       componentID,
                                        fromID,
                                        messageID,
-                                       matches[i].componentId,
-                                       matches[i].id,
+                                       matches[i]->getComponentID(),
+                                       matches[i]->getRegID(),
                                        matchName.c_str(),
-                                       matches[i].ddml.c_str(),
+                                       matches[i]->getDDML().c_str(),
                                        queryInfo.kind));
       }
    }
 
 // ------------------------------------------------------------------
-// Handle the incoming requestSetValue message.
+// Handle the incoming requestSetValue message. This is sent by a component 
+// trying to set the value in another. We decide how it gets routed.
 // ------------------------------------------------------------------
 void Coordinator::onRequestSetValueMessage(unsigned int fromID,
-                                           RequestSetValueData& setValueData)
+                                           protocol::RequestSetValueData& setValueData)
    {
-   sendQuerySetValueMessage(fromID, fromID,
-                            setValueData.ID, setValueData.ID,
-                            setValueData.variant);
-   }
-// ------------------------------------------------------------------
-// Send a querySetValueMessage
-// ------------------------------------------------------------------
-void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
-                                           unsigned foreignComponentID,
-                                           unsigned ourRegID,
-                                           unsigned foreignRegID,
-                                           protocol::Variant& variant)
-   {
-   ::Registrations::Subscriptions subs;
-   bool hasBeenResolved = registrations.isResolved(ourComponentID, ourRegID, RegistrationType::set);
-   registrations.getSubscriptions(ourComponentID, ourRegID, RegistrationType::set, subs);
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+   ApsimRegistration *reg = registry.find(fromID, setValueData.ID);
+
+   if (reg == NULL) throw std::runtime_error("NULL registration in Coordinator::onRequestSetValueMessage ?");
 
    // apsim hack to poll modules for variables.  This is because we haven't
    // yet got all the .interface files up to date.
-   if (!hasBeenResolved && subs.size() == 0)
+   string fqn = itoa(componentID) + string(".*.") + reg->getName();
+   //   cout << "Coordinator::onRequestSetValueMessage - considering polling for " << fqn << endl;
+
+   bool havePolled = (variablesBeenPolledForSets.find(fqn) !=
+                        variablesBeenPolledForSets.end());
+
+   if (!havePolled)
       {
-      string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
-      string fqn = itoa(registrations.getDestId(ourComponentID, ourRegID, RegistrationType::set));
-      fqn += "." + regName;
-      bool havePolled = (variablesBeenPolledForSets.find(fqn)
-         != variablesBeenPolledForSets.end());
-      if (!havePolled)
+      variablesBeenPolledForSets.insert(fqn);
+      vector<int> candidates;
+      registry.getSiblingsAndParents(fromID, candidates);
+      for(unsigned i = 0; i != candidates.size(); i++)
          {
-         variablesBeenPolledForSets.insert(fqn);
-         unsigned destID = registrations.getDestId(ourComponentID, ourRegID, RegistrationType::set);
-         pollComponentsForSetVariable(regName, destID, foreignComponentID, foreignRegID, variant);
-         registrations.getSubscriptions(ourComponentID, ourRegID, RegistrationType::set, subs);
-         return;
+         if (candidates[i] != 0 &&
+             candidates[i] != componentID)
+            {
+//            cout <<  "polling newQuerySetValueMessage, n="<<lowerName << " to " << registry.componentByID(candidates[i]) << "\n";
+            sendMessage(protocol::newApsimSetQueryMessage(componentID,
+                                             candidates[i],
+                                             reg->getName().c_str(),
+                                             fromID,
+                                             reg->getRegID(),
+                                             setValueData.variant));
+            }
          }
+      // that query message will set on success - no need for any more.
+      return;
       }
+
+   vector<ApsimRegistration *> subs;
+   registry.lookup(reg,  subs);
+
    if (subs.size() == 0)
       {
       string msg = "No module allows a set of the variable " + 
-           registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
-      error(msg.c_str(), true);
+           reg->getName();
+      error(msg, true);
       }
-
    else if (subs.size() == 1)
       {
-      if (subs[0].componentId == parentID)
-         {
-         sendMessage(newQuerySetValueMessage(componentID,
-                                             subs[0].componentId,
-                                             subs[0].id,
-                                             variant));
-         sendMessage(newReplySetValueSuccessMessage(componentID,
-                                                    foreignComponentID,
-                                                    subs[0].id,
-                                                    getSetVariableSuccess()));
-         }
-      else
-         sendMessage(newQuerySetValueMessage(foreignComponentID,
-                                             subs[0].componentId,
-                                             subs[0].id,
-                                             variant));
+//      cout <<  "sending newQuerySetValueMessage, n="<<lowerName << ", to " << registry.componentByID(subs[0]->getComponentID()) <<"\n";
+      sendMessage(newQuerySetValueMessage(fromID,
+                                          subs[0]->getComponentID(),
+                                          subs[0]->getRegID(),
+                                          setValueData.variant));
+//         sendMessage(protocol::newApsimSetQueryMessage(componentID,
+//                                             subs[0]->getComponentID(),
+//                                             lowerName.c_str(),
+//                                             fromID,
+//                                             subs[0]->getRegID(),
+//                                             setValueData.variant));
       }
    else if (subs.size() > 1)
       {
       string msg =  "Too many modules allow a set of the variable "+ 
-              registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
-      error(msg.c_str(), true);
+              reg->getName();
+      error(msg, true);
       }
    }
 // ------------------------------------------------------------------
 // process the querySetValueMessage.
 // ------------------------------------------------------------------
-void Coordinator::onQuerySetValueMessage(unsigned fromID, QuerySetValueData& querySetData)
+void Coordinator::onQuerySetValueMessage(unsigned fromID, protocol::QuerySetValueData& querySetData)
    {
-   respondToSet(fromID, querySetData);
+   // nothing
+   cout <<" Coordinator::onQuerySetValueMessage\n";
    }
-// ------------------------------------------------------------------
-//  Short description:
-//    Return a component ID for the specified name.  Returns
-//    INTMAX if not found.
 
-//  Notes:
-
-//  Changes:
-//    dph 15/5/2001
-
-// ------------------------------------------------------------------
-unsigned Coordinator::componentNameToID(const std::string& name)
-   {
-   for (Components::iterator componentI = components.begin();
-                             componentI != components.end();
-                             componentI++)
-      {
-      if (Str_i_Eq(componentI->second->getName(), name))
-         return componentI->first;
-      }
-   return INT_MAX;
-   }
 // ------------------------------------------------------------------
 // apsim hack to poll modules for gettable variables.  This is because we haven't
 // yet got all the .interface files up to date.
 // ------------------------------------------------------------------
-void Coordinator::pollComponentsForGetVariable(const string& variableName,
-                                               unsigned destID)
+void Coordinator::pollComponentsForGetVariable(int fromID, const string& variableName)
    {
-   string fqn = itoa(destID) + string(".") + variableName;
-
-   bool havePolled = (variablesBeenPolledForGets.find(fqn)
-      != variablesBeenPolledForGets.end());
+   string lowerName = variableName;
+   To_lower(lowerName);
+   string fqn = itoa(fromID) + string("*.") + lowerName;
+   bool havePolled = (variablesBeenPolledForGets.find(fqn) !=
+                        variablesBeenPolledForGets.end());
    if (!havePolled)
       {
       variablesBeenPolledForGets.insert(fqn);
 
-      string lowerName = variableName;
-      To_lower(lowerName);
-      if (destID > 0)
+      ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+      vector<int> candidates;
+      registry.getSiblingsAndParents(fromID, candidates);
+
+      for(unsigned i = 0; i != candidates.size(); i++)
          {
-         sendMessage(newApsimGetQueryMessage(componentID, destID,
-                                             lowerName.c_str()));
-         }
-      else
-         {
-         for (Components::iterator i = components.begin();
-                                   i != components.end();
-                                   i++)
+         if (candidates[i] != componentID)
             {
-            sendMessage(newApsimGetQueryMessage(componentID, i->second->ID,
-                                                lowerName.c_str()));
+            sendMessage(protocol::newApsimGetQueryMessage(componentID,
+                                                          candidates[i],
+                                                          lowerName.c_str()));
             }
-         }
-      }
-   }
-
-// ------------------------------------------------------------------
-// apsim hack to poll modules for settable variables.  This is because we haven't
-// yet got all the .interface files up to date.
-// ------------------------------------------------------------------
-void Coordinator::pollComponentsForSetVariable(const string& variableName,
-                                               unsigned destID,
-                                               unsigned fromID,
-                                               unsigned ourRegID,
-                                               protocol::Variant& variant)
-   {
-   string lowerName = variableName;
-   To_lower(lowerName);
-   if (destID > 0)
-      sendMessage(newApsimSetQueryMessage(componentID,
-                                          destID,
-                                          variableName.c_str(),
-                                          fromID,
-                                          ourRegID,
-                                          variant));
-
-   else
-      {
-      for (Components::iterator i = components.begin();
-                                i != components.end();
-                                i++)
-         {
-         sendMessage(newApsimSetQueryMessage(componentID,
-                                             i->second->ID,
-                                             variableName.c_str(),
-                                             fromID,
-                                             ourRegID,
-                                             variant));
          }
       }
    }
@@ -798,7 +776,7 @@ void Coordinator::pollComponentsForSetVariable(const string& variableName,
 //         Then y will replace x, z will replace y, and x will replace z
 //         leaving: y, z, x
 // ------------------------------------------------------------------
-void Coordinator::onApsimChangeOrderData(MessageData& messageData)
+void Coordinator::onApsimChangeOrderData(protocol::MessageData& messageData)
    {
    std::vector<string> componentNames;
    messageData >> componentNames;
@@ -806,16 +784,19 @@ void Coordinator::onApsimChangeOrderData(MessageData& messageData)
       {
       for (unsigned i = 0; i != componentNames.size(); ++i)
          {
-         unsigned componentID = componentNameToID(componentNames[i]);
-         if (componentID == INT_MAX)
+         int id;
+         string fqn = getName();
+         fqn += ".";
+         fqn += componentNames[i];
+         if (!componentNameToID(fqn, id))
             {
             string msg;
-            msg = "The CANOPY module has specified that " + componentNames[i]
-                + " be intercropped\nbut that module doesn't exist in the control file.";
-            error(msg.c_str(), true);
+            msg = "The CANOPY module has specified that " + fqn +
+                  " be intercropped\nbut that module doesn't exist in the simulation.";
+            error(msg, true);
             return;
             }
-         componentOrders.push_back(componentID);
+         componentOrders.push_back(id);
          }
       }
    // move all items up 1 spot.  Move top spot to bottom.
@@ -826,16 +807,16 @@ void Coordinator::onApsimChangeOrderData(MessageData& messageData)
 // Handle incoming publish event message but make sure the order
 // of events is the same as that specified in the componentOrder.
 // ------------------------------------------------------------------
-void Coordinator::reorderSubscriptions(::Registrations::Subscriptions& subs)
+void Coordinator::reorderSubscriptions(std::vector<ApsimRegistration *>& subs)
    {
-   ::Registrations::Subscriptions subsToMove = subs;
-   ::Registrations::Subscriptions newSubs;
+   vector<ApsimRegistration *> subsToMove = subs;
+   vector<ApsimRegistration *> newSubs;
 
    while (subsToMove.size() > 0)
       {
-      ::Registrations::Subscriptions::iterator sub = subsToMove.begin();
+      vector<ApsimRegistration *>::iterator sub = subsToMove.begin();
       if (find(componentOrders.begin(), componentOrders.end(),
-               sub->componentId) == componentOrders.end())
+              (*sub)->getComponentID()) == componentOrders.end())
          {
          newSubs.push_back(*sub);
          subsToMove.erase(subsToMove.begin());
@@ -844,11 +825,11 @@ void Coordinator::reorderSubscriptions(::Registrations::Subscriptions& subs)
          {
          for (unsigned o = 0; o != componentOrders.size(); o++)
             {
-            for (::Registrations::Subscriptions::iterator s = subsToMove.begin();
-                                                          s != subsToMove.end();
-                                                          s++)
+            for (vector<ApsimRegistration *>::iterator s = subsToMove.begin();
+                                                       s != subsToMove.end();
+                                                       s++)
                {
-               if (s->componentId == componentOrders[o])
+               if ((*s)->getComponentID() == componentOrders[o])
                   {
                   newSubs.push_back(*s);
                   subsToMove.erase(s);
@@ -865,12 +846,12 @@ void Coordinator::reorderSubscriptions(::Registrations::Subscriptions& subs)
 // ------------------------------------------------------------------
 void Coordinator::readAllRegistrations(void)
    {
+#if 0
    for (ApsimComponentData::RegIterator reg = componentData->regBegin();
                                         reg != componentData->regEnd();
                                         reg++)
       {
-      RegistrationType regType(reg->getType());
-      RegistrationType oppositeRegType = regType.opposite();
+      EventTypeCode regType = stringToTypeCode(reg->getType());
       string internalName = reg->getInternalName();
       if (internalName == "")
          internalName = reg->getName();
@@ -891,17 +872,24 @@ void Coordinator::readAllRegistrations(void)
       if (units != "")
          addAttributeToXML(ddml, "unit=\"" + units + "\"");
 
-      unsigned regId = addRegistration(regType, reg->getName().c_str(), ddml.c_str());
+      ApsimRegistration *newReg = 
+           new NativeRegistration(opposite(regType), 
+                                  reg->getName(), 
+                                  ddml, 
+                                  componentID);
 
-      registrations.add(::Registration(parentID, regId, internalName, ddml.c_str(), oppositeRegType));
+      ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+      registry.add(newReg);
+//??      ::Registration(parentID, regId, internalName, ddml.c_str(), oppositeRegType));
       }
+#endif
    }
 // ------------------------------------------------------------------
 // respond to a event that has happened.
 // ------------------------------------------------------------------
 void Coordinator::respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
    {
-   PublishEventData publishEventData;
+   protocol::PublishEventData publishEventData;
    publishEventData.ID = eventID;
    publishEventData.variant = variant;
 
@@ -916,11 +904,11 @@ void Coordinator::respondToEvent(unsigned int& fromID, unsigned int& eventID, pr
 // ------------------------------------------------------------------
 // return one of our variables to caller
 // ------------------------------------------------------------------
-void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryValueData)
+void Coordinator::respondToGet(unsigned int& fromID, protocol::QueryValueData& queryValueData)
    {                  
-   if (queryValueData.ID == titleID)
-      sendVariable(queryValueData, FString(title.c_str()));
-   else if (queryValueData.ID == componentsID)
+   if ((int)queryValueData.ID == titleID)
+      sendVariable(queryValueData, title);
+   else if ((int)queryValueData.ID == componentsID)
       {
       std::vector<string> comps;
       for (Components::iterator c = components.begin();
@@ -939,17 +927,18 @@ void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryValueD
 // ------------------------------------------------------------------
 // respond to a method call request
 // ------------------------------------------------------------------
-bool Coordinator::respondToSet(unsigned int& fromID, QuerySetValueData& setValueData)
+bool Coordinator::respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData)
    {
-   if (components.find(fromID) == components.end())
-      sendQuerySetValueMessage(parentID, fromID,
-                               setValueData.ID, setValueData.ID,
-                               setValueData.variant);
-   else
-      sendQuerySetValueMessage(fromID, fromID,
-                               setValueData.ID, setValueData.ID,
-                               setValueData.variant);
-   return getSetVariableSuccess();
+   throw std::runtime_error("Coordinator::respondToSet called??");
+//   if (components.find(fromID) == components.end())
+//      sendQuerySetValueMessage(parentID, fromID,
+//                               setValueData.ID, setValueData.ID,
+//                               setValueData.variant);
+//   else
+//      sendQuerySetValueMessage(fromID, fromID,
+//                               setValueData.ID, setValueData.ID,
+//                               setValueData.variant);
+//   return getSetVariableSuccess();
    }
 // ------------------------------------------------------------------
 // respond to a method call request
@@ -959,40 +948,47 @@ void Coordinator::notifyTermination(void)
    for (Components::iterator componentI = components.begin();
                              componentI != components.end();
                              componentI++)
-      sendMessage(newNotifyTerminationMessage(componentID,
-                                              componentI->second->ID));
+      sendMessage(protocol::newNotifyTerminationMessage(
+                      componentID,
+                      componentI->second->ID));
    }
 // ------------------------------------------------------------------
 // A parent PM has asked us to provide a registration for the
 // specified variable.
 // ------------------------------------------------------------------
-void Coordinator::onApsimGetQuery(ApsimGetQueryData& apsimGetQueryData)
+void Coordinator::onApsimGetQuery(unsigned int fromID, protocol::ApsimGetQueryData& apsimGetQueryData)
    {
-   string fqn = asString(apsimGetQueryData.name);
-   unsigned posPeriod = fqn.find('.');
-   if (posPeriod != string::npos)
-      {
-      string componentName = fqn.substr(0, posPeriod);
-      unsigned childComponentID = componentNameToID(componentName);
-      if (childComponentID != INT_MAX)
-         {
-         string variableName = fqn.substr(posPeriod+1);
-         std::vector< ::Registration> matches;
-         registrations.findMatching(childComponentID, variableName, RegistrationType::respondToGet, matches);
-         if (matches.size() == 0)
-            pollComponentsForGetVariable(variableName, childComponentID);
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
 
-         matches.erase(matches.begin(), matches.end());
-         registrations.findMatching(childComponentID, variableName, RegistrationType::respondToGet, matches);
-         if (matches.size() > 0)
-            {
-            unsigned parentRegId = addRegistration(RegistrationType::respondToGet,
-                                                   fqn.c_str(),
-                                                   "<type/>");
-            registrations.add(::Registration(parentID, parentRegId, matches[0].name, matches[0].ddml, RegistrationType::get));
-            }
-         }
+   int queryComponentID;
+   string queryName;
+
+   registry.unCrackPath(fromID, asString(apsimGetQueryData.name), queryComponentID, queryName);
+
+   ApsimRegistration *reg = new NativeRegistration(::get,  
+                                                queryName, 
+                                                "<undefined/>",
+                                                queryComponentID,
+                                                fromID);
+   //registry.add(reg);
+   pollComponentsForGetVariable(fromID, reg->getName());
+
+   std::vector<ApsimRegistration *> matches;
+   registry.lookup(reg, matches);
+
+   if (matches.size() > 0)
+      {
+// fixme - this shouldn;t be needed as its already there???
+      ApsimRegistration *newReg = new NativeRegistration(
+             ::respondToGet,  
+             matches[0]->getName(), 
+             matches[0]->getDDML(),
+             queryComponentID,
+             matches[0]->getComponentID());
+      registry.add(newReg);
+// fixme?? should send a replyValue message back here???
       }
+   delete reg;
    }
 
 void Coordinator::onError(const std::string& fromComponentName,

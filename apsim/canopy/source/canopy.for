@@ -46,7 +46,7 @@
                                                                     ! swap for
                                                                     ! intercropping
          integer  crop_module(max_crops)        ! list of modules replying
-
+         logical   before_commence          ! Whether initialisation has completed properly
       end type CanopyGlobals
 ! ====================================================================
       ! instance variables.
@@ -218,7 +218,7 @@
 
       g%intercrop_list = blank
       g%crop_module    = 0
-
+      g%before_commence = .true.
 
 
       call pop_routine (my_name)
@@ -457,6 +457,7 @@ c      integer    canopy_crop_number    ! function
 
       call push_routine (my_name)
 
+
       temp_variable_name = variable_name
 
       if (temp_variable_name .eq. fr_intc_radn_name) then
@@ -472,7 +473,10 @@ c      integer    canopy_crop_number    ! function
 
             module = canopy_crop_number (moduleID)
 
-            if (module.gt.0) then
+            if (g%before_commence) then
+               call respond2get_real_var (variable_name, '()'
+     :                                   , 0.0)
+            else if (module.gt.0) then
                call respond2get_real_var (variable_name, '()'
      :                                   , g%intc_light(module))
             else
@@ -1106,6 +1110,7 @@ c      real       canopy_width          ! function
          call canopy_send_my_variable (Data_string)
 
       elseif (Action .eq. ACTION_Prepare) then
+         g%before_commence = .false.
          call canopy_zero_variables ()
          call canopy_find_crops ()
          call canopy_get_other_variables ()
@@ -1114,10 +1119,13 @@ c      real       canopy_width          ! function
       else if (Action .eq. ACTION_Post) then
          call canopy_post ()
 
+      else if (Action .eq. 'start') then
+         g%before_commence = .false.
+
       else if (Action.eq.ACTION_Init) then
          call canopy_zero_all_variables ()
          call canopy_init ()
-         call canopy_find_crops ()
+!         call canopy_find_crops ()
 !         call canopy_get_other_variables ()
 
       else if (Action.eq.ACTION_Create) then

@@ -18,7 +18,6 @@ class Variant
 //  Short description:
 //     Variant class for handling unspecified data types. These
 //     structures are created at run time.
-
 // ------------------------------------------------------------------
 bool EXPORT STDCALL get(Variant&, const std::string& name, std::string &value);
 bool EXPORT STDCALL get(Variant&, const std::string& name, float &value);

@@ -182,50 +182,65 @@ void TrackerVariable::doRegistrations(void)
    static const char* singleArrayDDML = "<type kind=\"single\" array=\"T\"/>";
    string typeString = singleArrayDDML;
 
-   eventID = parent->addRegistration(RegistrationType::respondToEvent,
-                                        eventName.c_str(),
-                                        nullDDML);
+   eventID = parent->addRegistration(::respondToEvent,
+                                     -1,
+                                     eventName.c_str(),
+                                     nullDDML);
    if (variableName != "")
       {
-      variableID = parent->addRegistration(RegistrationType::get,
-                                           variableName.c_str(),
+      int    ownerModuleID;
+      string shortName;
+      ApsimRegistry::getApsimRegistry().unCrackPath(parent->getId(),
+                                                    variableName, 
+                                                    ownerModuleID, 
+                                                    shortName);
+      variableID = parent->addRegistration(::get,
+                                           ownerModuleID,
+                                           shortName,
                                            singleArrayDDML);
-      protocol::Variant* variant;
-      bool ok = parent->getVariable(variableID, variant, true);
-      if (ok)
-         {
-         protocol::Type t = variant->getType();
-         typeString = "<type kind=\"single\" unit=\"" + asString(t.getUnits())
-                    + "\" array=\"T\"/>";
-
-         parent->setRegistrationType(variableID, typeString.c_str());
-         }
+//      protocol::Variant* variant;
+//      bool ok = parent->getVariable(variableID, &variant, true);
+//      if (ok)
+//         {
+//         protocol::Type t = variant->getType();
+//         typeString = "<type kind=\"single\" unit=\"" + asString(t.getUnits())
+//                    + "\" array=\"T\"/>";
+//
+//         variableID = parent->addRegistration(::get,
+//                                              ownerModuleID,
+//                                              variableName,
+//                                              typeString);
+//         }
       }
 
 
    if (startPeriod != "")
-      startPeriodID = parent->addRegistration(RegistrationType::respondToEvent,
-                                              startPeriod.c_str(),
+      startPeriodID = parent->addRegistration(::respondToEvent,
+                                              -1,
+                                              startPeriod,
                                               nullDDML);
    if (endPeriod != "")
-      endPeriodID = parent->addRegistration(RegistrationType::respondToEvent,
-                                            endPeriod.c_str(),
+      endPeriodID = parent->addRegistration(::respondToEvent,
+                                            -1,
+                                            endPeriod,
                                             nullDDML);
    if (stat == dateStat)
       {
-      nameID = parent->addRegistration(RegistrationType::respondToGet,
-                                       name.c_str(),
+      nameID = parent->addRegistration(::respondToGet,
+                                       -1,
+                                       name,
                                        stringDDML);
-      todayID = parent->addRegistration(RegistrationType::get,
-                                       "today",
-                                       doubleDDML);
+      todayID = parent->addRegistration(::get,
+                                        -1,
+                                        "today",
+                                        doubleDDML);
       }
    else
       {
-      nameID = parent->addRegistration(RegistrationType::respondToGet,
-                                       name.c_str(),
-                                       typeString.c_str());
-      parent->setRegistrationType(nameID, typeString.c_str());
+      nameID = parent->addRegistration(::respondToGet,
+                                       -1,
+                                       name,
+                                       typeString);
       }
    }
 // ------------------------------------------------------------------
@@ -233,27 +248,24 @@ void TrackerVariable::doRegistrations(void)
 // ------------------------------------------------------------------
 void TrackerVariable::respondToEvent(unsigned fromID, unsigned evntID)
    {
-   char buffer[1000];
-   FString fromName(buffer, sizeof(buffer), CString);
+   string fromName;
+   parent->componentIDToName(fromID, fromName);
    if (evntID == eventID)
       {
       if (eventNameComponent == ""
-             || (parent->componentIDToName(fromID, fromName)
-                 && fromName == eventNameComponent.c_str()))
+             || Str_i_Eq(fromName, eventNameComponent))
          doSample();
       }
    else if (evntID == startPeriodID)
       {
       if (startPeriodComponent == ""
-             || (parent->componentIDToName(fromID, fromName)
-                 && fromName == startPeriodComponent.c_str()))
+             || Str_i_Eq(fromName, startPeriodComponent))
          onStartPeriod();
       }
    else if (evntID == endPeriodID)
       {
       if (endPeriodComponent == ""
-             || (parent->componentIDToName(fromID, fromName)
-                 && fromName == endPeriodComponent.c_str()))
+             || Str_i_Eq(fromName, endPeriodComponent))
          onEndPeriod();
       }
    }
@@ -288,7 +300,7 @@ void TrackerVariable::doSample(void)
    else if (stat == dateStat)
       {
       protocol::Variant* variant;
-      if (parent->getVariable(todayID, variant))
+      if (parent->getVariable(todayID, &variant))
          {
          double today;
          variant->unpack(today);
@@ -298,7 +310,7 @@ void TrackerVariable::doSample(void)
    else if (inWindow)
       {
       protocol::Variant* variant;
-      bool ok = parent->getVariable(variableID, variant);
+      bool ok = parent->getVariable(variableID, &variant);
       if (ok)
          {
          vector<float> theseValues;

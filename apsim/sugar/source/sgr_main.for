@@ -4782,7 +4782,7 @@ cnh      c%crop_type = ' '
      :                           ,fon
      :                           ,1)
 
-            call event_send(ACTION_incorp_fom)
+            call event_send(unknown_module, ACTION_incorp_fom)
 
             call Delete_postbox ()
 
@@ -4976,7 +4976,7 @@ cnh      c%crop_type = ' '
      :                        , fraction_to_Residue
      :                        , max_part)
 
-      call event_send (EVENT_Crop_Chopped)
+      call event_send (unknown_module, EVENT_Crop_Chopped)
 
       call delete_postbox ()
 

@@ -31,7 +31,7 @@ FortranWrapper* FortranWrapper::currentInstance = NULL;
 FortranWrapper::FortranWrapper(void)
    : outgoingApsimVariant(this), incomingApsimVariant(this), queryData((unsigned)-1)
    {
-   // nothing
+   vars = NULL;
    }
 // ------------------------------------------------------------------
 // destructor
@@ -215,10 +215,10 @@ void FortranWrapper::respondToGet(unsigned int& fromID, protocol::QueryValueData
    FortranWrapper* savedThis = currentInstance;
    swapInstanceIn();
 
-   FString name = getRegistrationName(qData.ID);
+   string name = getRegistration(componentID, qData.ID)->getName();
    inApsimGetQuery = false;
    queryData = qData;
-   Main("get", name);
+   Main("get", name.c_str());
 
    *instance = saved;
    currentInstance = savedThis;
@@ -232,13 +232,13 @@ bool FortranWrapper::respondToSet(unsigned int& fromID, protocol::QuerySetValueD
    FortranWrapper* savedThis = currentInstance;
    swapInstanceIn();
 
-   FString name = getRegistrationName(querySetData.ID);
+   string name = getRegistration(componentID, querySetData.ID)->getName();
 
    incomingVariant.aliasTo(querySetData.variant);
    inRespondToSet = true;
    messageWasUsed = true;
 
-   Main("set", name);
+   Main("set", name.c_str());
 
    *instance = saved;
    currentInstance = savedThis;
@@ -268,17 +268,15 @@ void FortranWrapper::respondToEvent(unsigned int& fromID, unsigned int& eventID,
    FortranWrapper* savedThis = currentInstance;
    swapInstanceIn();
 
-   FString event = getRegistrationName(eventID);
    incomingApsimVariant.aliasTo(var.getMessageData());
    inRespondToSet = false;
-
    messageWasUsed = true;
-   char cevent[80];
-
-   Main(event, " ");
+   int sender = var.getFromId();
+   
+   string eventName = getRegistration(componentID, eventID)->getName();
+   Main(eventName.c_str(), " ");
    if (!messageWasUsed)
-      if (my_respondToEvent) {(*my_respondToEvent)(fromID, eventID, &var);}
-
+      if (my_respondToEvent) {(*my_respondToEvent)(sender, eventID, &var);}
 
    *instance = saved;
    currentInstance = savedThis;
@@ -286,7 +284,7 @@ void FortranWrapper::respondToEvent(unsigned int& fromID, unsigned int& eventID,
 // ------------------------------------------------------------------
 // respond to an onApsimGetQuery message
 // ------------------------------------------------------------------
-void FortranWrapper::onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData)
+void FortranWrapper::onApsimGetQuery(unsigned int fromID, protocol::ApsimGetQueryData& apsimGetQueryData)
    {
    Instance saved = *instance;
    FortranWrapper* savedThis = currentInstance;
@@ -342,6 +340,16 @@ protocol::Component* createComponent(void)
    return new FortranWrapper;
    }
 
+void FortranWrapper::event_send(int destID, const FString& eventName)
+   {
+   unsigned eventID = addRegistration(::event,
+                                      destID,
+                                      asString(eventName),
+                                      nullType);
+   publish(eventID, outgoingApsimVariant);
+   }
+
+
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
 // DLL Exports
@@ -359,16 +367,21 @@ protocol::Component* createComponent(void)
 
 // ------------------------------------------------------------------
 extern "C" unsigned  EXPORT STDCALL add_registration
-   (RegistrationType* kind, const char* name, const char* type,
-    const char* alias, const char* componentNameOrID,
-    unsigned nameLength, unsigned typeLength, unsigned aliasLength,
-    unsigned componentNameOrIDLength)
+   (EventTypeCode* kind, const char* name, const char* type,
+    const char* alias,
+    unsigned nameLength, unsigned typeLength, unsigned aliasLength)
    {
-   return FortranWrapper::currentInstance->addRegistration
-      (*kind, FString(name, nameLength, FORString),
-       protocol::Type(FString(type, typeLength, FORString)),
-       FString(alias, aliasLength, FORString),
-       FString(componentNameOrID, componentNameOrIDLength, FORString));
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(
+      FortranWrapper::currentInstance->getId(),
+      asString(name,nameLength), destID, regName);
+
+   return FortranWrapper::currentInstance->addRegistration(*kind, 
+                                                           destID, 
+                                                           regName,
+                                                           asString(type, typeLength),
+                                                           asString(alias, aliasLength));
    }
 
 string addUnitsToDDML(const string& ddml, const string& units)
@@ -393,17 +406,20 @@ string addUnitsToDDML(const string& ddml, const string& units)
 
 // ------------------------------------------------------------------
 extern "C" unsigned  EXPORT STDCALL add_registration_with_units
-   (RegistrationType* kind, const char* name, const char* type,
+   (EventTypeCode* kind, const char* name, const char* type,
     const char* units,
     unsigned nameLength, unsigned typeLength, unsigned unitsLength)
    {
-   string ddml = addUnitsToDDML(asString(FString(type, typeLength, FORString)),
-                                asString(FString(units, unitsLength, FORString)));
+   string ddml = addUnitsToDDML(asString(type, typeLength),
+                                asString(units, unitsLength));
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(
+       FortranWrapper::currentInstance->getId(),
+       asString(name,nameLength), destID, regName);
+
    return FortranWrapper::currentInstance->addRegistration
-      (*kind, FString(name, nameLength, FORString),
-       protocol::Type(FString(ddml.c_str(), ddml.length(), CString)),
-       FString(""),
-       FString(""));
+      (*kind, destID, regName, ddml);
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -446,12 +462,12 @@ extern "C" void EXPORT STDCALL terminate_simulation(void)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" unsigned EXPORT STDCALL get_variables
-   (unsigned int* registrationID, protocol::Variants** values)
-   {
-   return FortranWrapper::currentInstance->getVariables
-      (*registrationID, *values);
-   }
+//extern "C" unsigned EXPORT STDCALL get_variables
+//   (unsigned int* registrationID, protocol::Variants** values)
+//   {
+//   return FortranWrapper::currentInstance->getVariables
+//      (*registrationID, values);
+//   }
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -465,7 +481,7 @@ extern "C" unsigned EXPORT STDCALL get_variables
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL write_string(const char* msg, unsigned int msgLength)
    {
-   FortranWrapper::currentInstance->writeString(FString(msg, msgLength, FORString));
+   FortranWrapper::currentInstance->writeString(asString(msg, msgLength));
    }
 
 // ------------------------------------------------------------------
@@ -590,37 +606,6 @@ extern "C" bool EXPORT STDCALL strings_equal(const char* st1, const char* st2,
    return (FString(st1, st1Length, FORString) == FString(st2, st2Length, FORString));
    }
 
-// ------------------------------------------------------------------
-//  Short description:
-//    return a type string for the specified registration ID.
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL get_registration_type_string
-   (unsigned int* variableID, char* typeString, unsigned typeStringLength)
-   {
-   FString F(typeString, typeStringLength, FORString);
-   FortranWrapper::currentInstance->get_registration_type_string
-      (*variableID, F);
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    return a type string for the specified registration ID.
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL get_registration_name
-   (unsigned int* variableID, char* nameString, unsigned nameStringLength)
-   {
-   FString F(nameString, nameStringLength, FORString);
-   FortranWrapper::currentInstance->get_registration_name
-      (*variableID, F);
-   }
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -795,7 +780,7 @@ void boundCheckVar(double value, double lower, double upper,
                    "Value: %16.7f\n"
                    "Bounds: %16.7f to %16.7f",
               varName, value, lower, upper);
-      FortranWrapper::currentInstance->error(msg, false);
+      FortranWrapper::currentInstance->error(FString(msg), false);
       }
    }
 // ------------------------------------------------------------------
@@ -820,7 +805,7 @@ void boundCheckDoubleArray(double* values, unsigned numvals, double lower, doubl
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_integer_var
-   (unsigned* componentID, const char* variableName, const char* units,
+   (int* componentID, const char* variableName, const char* units,
     int* value, unsigned* numvals, int* lower, int* upper,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -835,7 +820,7 @@ extern "C" void EXPORT STDCALL get_integer_var
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_integer_vars
-   (unsigned* requestNo, const char* variableName, const char* units,
+   (int* requestNo, const char* variableName, const char* units,
     int* value, unsigned* numvals, int* lower, int* upper,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -851,7 +836,7 @@ extern "C" void EXPORT STDCALL get_integer_vars
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_real_var
-   (unsigned* componentID, const char* variableName, const char* units,
+   (int* componentID, const char* variableName, const char* units,
     float* value, unsigned* numvals, float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -866,7 +851,7 @@ extern "C" void EXPORT STDCALL get_real_var
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_real_array
-   (unsigned* componentID, const char* variableName, unsigned* arraySize, const char* units,
+   (int* componentID, const char* variableName, unsigned* arraySize, const char* units,
     float* value, unsigned* numvals, float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -888,7 +873,7 @@ extern "C" void EXPORT STDCALL get_real_array
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_real_array_optional
-   (unsigned* componentID, const char* variableName, unsigned* arraySize, const char* units,
+   (int* componentID, const char* variableName, unsigned* arraySize, const char* units,
     float* value, unsigned* numvals, float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -910,7 +895,7 @@ extern "C" void EXPORT STDCALL get_real_array_optional
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_real_arrays
-   (unsigned* requestNo, const char* variableName, unsigned* arraySize, const char* units,
+   (int* requestNo, const char* variableName, unsigned* arraySize, const char* units,
     float* value, unsigned* numvals, float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -932,7 +917,7 @@ extern "C" void EXPORT STDCALL get_real_arrays
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_real_var_optional
-   (unsigned* componentID, const char* variableName, const char* units,
+   (int* componentID, const char* variableName, const char* units,
     float* value, unsigned* numvals, float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -947,7 +932,7 @@ extern "C" void EXPORT STDCALL get_real_var_optional
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_real_vars
-   (unsigned* requestNo, const char* variableName, const char* units,
+   (int* requestNo, const char* variableName, const char* units,
     float* value, unsigned* numvals, float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -962,7 +947,7 @@ extern "C" void EXPORT STDCALL get_real_vars
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_double_var
-   (unsigned* componentID, const char* variableName, const char* units,
+   (int* componentID, const char* variableName, const char* units,
     double* value, unsigned* numvals, double* lower, double* upper,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -977,7 +962,7 @@ extern "C" void EXPORT STDCALL get_double_var
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_double_var_optional
-   (unsigned* componentID, const char* variableName, const char* units,
+   (int* componentID, const char* variableName, const char* units,
     double* value, unsigned* numvals, double* lower, double* upper,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -992,7 +977,7 @@ extern "C" void EXPORT STDCALL get_double_var_optional
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_double_vars
-   (unsigned* requestNo, const char* variableName, const char* units,
+   (int* requestNo, const char* variableName, const char* units,
     double* value, unsigned* numvals, double* lower, double* upper,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -1007,7 +992,7 @@ extern "C" void EXPORT STDCALL get_double_vars
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_double_array
-   (unsigned* componentID, const char* variableName, unsigned* arraySize, const char* units,
+   (int* componentID, const char* variableName, unsigned* arraySize, const char* units,
     double* value, unsigned* numvals, double* lower, double* upper,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -1029,7 +1014,7 @@ extern "C" void EXPORT STDCALL get_double_array
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_char_var
-   (unsigned* componentID, const char* variableName, const char* units,
+   (int* componentID, const char* variableName, const char* units,
     char* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength,
     unsigned valueLength)
@@ -1046,7 +1031,7 @@ extern "C" void EXPORT STDCALL get_char_var
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_char_var_optional
-   (unsigned* componentID, const char* variableName, const char* units,
+   (int* componentID, const char* variableName, const char* units,
     char* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
    {
@@ -1062,7 +1047,7 @@ extern "C" void EXPORT STDCALL get_char_var_optional
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL get_char_vars
-   (unsigned* requestNo, const char* variableName, const char* units,
+   (int* requestNo, const char* variableName, const char* units,
     char* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
    {
@@ -1077,7 +1062,7 @@ extern "C" void EXPORT STDCALL get_char_vars
 // ------------------------------------------------------------------
 // Module wants to set the value of a variable in another module.
 // ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL set_real_var(unsigned* componentID, const char* variableName,
+extern "C" void EXPORT STDCALL set_real_var(int* componentID, const char* variableName,
                                        const char* units, const float* value,
                                        unsigned variableNameLength,
                                        unsigned unitsLength )
@@ -1089,7 +1074,7 @@ extern "C" void EXPORT STDCALL set_real_var(unsigned* componentID, const char* v
 // ------------------------------------------------------------------
 // Module wants to set the value of a variable in another module.
 // ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL set_real_array(unsigned* componentID, const char* variableName,
+extern "C" void EXPORT STDCALL set_real_array(int* componentID, const char* variableName,
                                          const char* units, float* value, unsigned* numvals,
                                          unsigned variableNameLength,
                                          unsigned unitsLength)
@@ -1101,7 +1086,7 @@ extern "C" void EXPORT STDCALL set_real_array(unsigned* componentID, const char*
 // ------------------------------------------------------------------
 // Module wants to set the value of a variable in another module.
 // ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL set_double_var(unsigned* componentID, const char* variableName,
+extern "C" void EXPORT STDCALL set_double_var(int* componentID, const char* variableName,
                                          const char* units, const double* value,
                                          unsigned variableNameLength,
                                          unsigned unitsLength )
@@ -1113,7 +1098,7 @@ extern "C" void EXPORT STDCALL set_double_var(unsigned* componentID, const char*
 // ------------------------------------------------------------------
 // Module wants to set the value of a variable in another module.
 // ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL set_double_array(unsigned* componentID, const char* variableName,
+extern "C" void EXPORT STDCALL set_double_array(int* componentID, const char* variableName,
                                            const char* units, double* value, unsigned* numvals,
                                            unsigned variableNameLength,
                                            unsigned unitsLength)
@@ -1125,7 +1110,7 @@ extern "C" void EXPORT STDCALL set_double_array(unsigned* componentID, const cha
 // ------------------------------------------------------------------
 // Module wants to set the value of a variable in another module.
 // ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL set_char_var(unsigned* componentID, const char* variableName,
+extern "C" void EXPORT STDCALL set_char_var(int* componentID, const char* variableName,
                                        const char* units, const char* value,
                                        unsigned variableNameLength,
                                        unsigned unitsLength, unsigned valueLength)
@@ -1137,7 +1122,7 @@ extern "C" void EXPORT STDCALL set_char_var(unsigned* componentID, const char* v
 // ------------------------------------------------------------------
 // Module wants to set the value of a variable in another module.
 // ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL set_char_array(unsigned* componentID, const char* variableName,
+extern "C" void EXPORT STDCALL set_char_array(int* componentID, const char* variableName,
                                          const char* units, char* value, unsigned* numvals,
                                          unsigned variableNameLength, unsigned unitsLength,
                                          unsigned valueLength)
@@ -1162,18 +1147,9 @@ extern "C" void EXPORT STDCALL delete_postbox( )
 // ------------------------------------------------------------------
 // Module wants to send an event.
 // ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL event_send(const char* eventName, unsigned eventNameLength)
+extern "C" void EXPORT STDCALL event_send(int *id, const char* eventName, unsigned eventNameLength)
    {
-   FortranWrapper::currentInstance->event_send(FString(eventName, eventNameLength, FORString));
-   }
-// ------------------------------------------------------------------
-// Module wants to send an event
-// ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL event_send_directed(const char* moduleName, const char* eventName,
-                                      unsigned moduleNameLength, unsigned eventNameLength)
-   {
-   FortranWrapper::currentInstance->event_send
-      (FString(eventName, eventNameLength, FORString), FString(moduleName, moduleNameLength, FORString));
+   FortranWrapper::currentInstance->event_send(*id, FString(eventName, eventNameLength, FORString));
    }
 // ------------------------------------------------------------------
 // Module is posting a value into a variant.
@@ -1495,23 +1471,31 @@ extern "C" int EXPORT STDCALL get_posting_module(void)
 // ------------------------------------------------------------------
 // return the posting module to caller.
 // ------------------------------------------------------------------
-extern "C" unsigned EXPORT STDCALL component_id_to_name(unsigned* id, char* name,
+extern "C" bool EXPORT STDCALL component_id_to_name(unsigned* id, char* name,
                                                    unsigned nameLength)
    {
-   FString nameString;
+   string nameString = asString(name, nameLength);
    bool ok = FortranWrapper::currentInstance->componentIDToName(*id, nameString);
    if (ok)
-      FString(name, nameLength, FORString) = nameString;
+      FString(name, nameLength, FORString) = nameString.c_str();
    return ok;
    }
 // ------------------------------------------------------------------
 // return the posting module to caller.
 // ------------------------------------------------------------------
-extern "C" unsigned EXPORT STDCALL component_name_to_id(char* name, unsigned* id,
+extern "C" bool EXPORT STDCALL component_name_to_id(char* name, unsigned* id,
                                                    unsigned nameLength)
    {
-   return FortranWrapper::currentInstance->componentNameToID
-      (FString(name, nameLength, FORString), *id);
+   int iid = -1;
+   bool ok = FortranWrapper::currentInstance->componentNameToID
+                    (asString(name, nameLength), iid);
+
+   if (ok) 
+     *id = iid;
+   else
+     *id = -1;  
+     
+   return ok;   
    }
 // ------------------------------------------------------------------
 // Module is reading a string from a file.

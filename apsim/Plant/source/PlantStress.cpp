@@ -78,9 +78,7 @@ void PStress::PlantP_set_phosphorus_aware ()
       vector<float> values;               // Scratch area
       bool soilpPresent;
 
-      unsigned int idSoilpVar = parent->addRegistration(RegistrationType::get,
-                                                               "labile_p", floatArrayType,
-                                                               "", "");
+      unsigned int idSoilpVar = parent->addRegistration(::get, -1, "labile_p", floatArrayType);
       parent->getVariable(idSoilpVar, values, 0.0, 1000000.0, true);
       soilpPresent = (values.size() > 0);
 

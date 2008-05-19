@@ -48,7 +48,6 @@
          integer    sysbal_index(max_modules) ! index to sorted sysbal height ()
          real       height(max_modules)       ! sysbal height of modules (mm)
          integer    num_modules               ! number of modules ()
-         integer  module_name(max_modules)        ! list of modules replying
 
          real Nloss_system
          real Ngain_system
@@ -208,65 +207,6 @@
 
 
 
-! ====================================================================
-      subroutine sysbal_find_modules ()
-! ====================================================================
-
-      Use Infrastructure
-      implicit none
-
-!+  Purpose
-!      Find what modules are in system
-
-!+  Changes
-!     090896 jngh - Programmed and Specified
-!     261196 jngh lengthened module_type to 100 from 20 and set it blank before us
-
-!+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'sysbal_find_modules')
-
-!+  Local Variables
-      integer    module                  ! index for modules
-      character  module_type*100         ! type of module
-      integer    numvals               ! number of values in string
-      integer owner_module             ! owner module of variable
-
-!- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-
-      module = 0
-      module_type = blank
-1000  continue
-
-         call get_char_vars(
-     :             module + 1
-     :           , 'module_type'
-     :           , '()'
-     :           , module_type
-     :           , numvals)
-
-         if (numvals.ne.0) then
-            if (module+1.le.max_modules) then
-               module = module + 1
-               Owner_module = get_posting_Module ()
-
-               g%module_name(module) = owner_module
-               goto 1000
-            else
-               call fatal_error (err_user
-     :            , 'Too many modules with module type.')
-            endif
-         else
-         endif
-
-      g%num_modules = module
-
-      call pop_routine (myname)
-      return
-      end subroutine
-
 
 
 !     ===========================================================
@@ -293,7 +233,6 @@
       g%sysbal_index = 0
       g%height       = 0.0
       g%num_modules = 0
-      g%module_name    = 0
 
       g%Nloss_system         = 0.0
       g%Ngain_system         = 0.0
@@ -1155,6 +1094,7 @@
       character  string*400            ! output string
       real        values(maxvals)
       integer    i
+      character * 100 str
 
 !- Implementation Section ----------------------------------
 
@@ -1165,7 +1105,6 @@
       value = 0.0
       name = var_name
       unit = units
-
 1000  continue
          call get_real_arrays (module+1, name, maxvals, unit
      :                              , values, numvals
@@ -1180,8 +1119,6 @@
                   tempsum = tempsum + values(i)
                enddo
 
-               Owner_module = get_posting_Module ()
-               g%module_name(module) = owner_module
                value = value + tempsum
                goto 1000
             else
@@ -1245,7 +1182,7 @@
 
 
       sysbal_get_last_index = count_of_real_vals (array, max_layer)
-
+      
       call pop_routine (my_name)
       return
       end function
@@ -1543,54 +1480,6 @@
       end subroutine
 
 
-
-! ====================================================================
-       integer function sysbal_module_number (module_id)
-! ====================================================================
-
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer  module_id         ! (INPUT) id of module to locate
-
-!+  Purpose
-!     Return the position of the module_name in module_names array
-
-!+  Changes
-!        090896 jngh - Programmed and Specified
-
-!+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'sysbal_module_number')
-
-!+  Local Variables
-      integer    module                  ! module counter
-      integer    module_num              ! position of module in array
-
-!- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-
-      do 1000 module = 1, g%num_modules
-
-         if (module_id.eq.g%module_name(module)) then
-
-            module_num = module
-            goto 1100
-         else
-         endif
-
-1000  continue
-      module_num = 0
-
-1100  continue
-
-      sysbal_module_number = module_num
-
-      call pop_routine (myname)
-      return
-      end function
 
 
 
@@ -2463,7 +2352,6 @@
 
          call sysbal_zero_all_variables ()
          call sysbal_init ()
-         call sysbal_find_modules ()
 
       return
       end subroutine
@@ -2673,20 +2561,17 @@
 
       elseif (Action .eq. ACTION_Prepare) then
          call sysbal_zero_variables ()
-         call sysbal_find_modules ()
 !         call sysbal_get_other_variables ()
 !         call sysbal_prepare ()
           call sysbal_set_phosphorus_aware ()
 
       else if (Action .eq. ACTION_Post) then
-         call sysbal_find_modules ()
 !         call sysbal_get_other_variables ()
          call sysbal_post ()
 
       else if (Action.eq.ACTION_Init) then
          call sysbal_zero_all_variables ()
          call sysbal_init ()
-         call sysbal_find_modules ()
 !         call sysbal_get_other_variables ()
 
       else if (Action.eq.ACTION_Create) then

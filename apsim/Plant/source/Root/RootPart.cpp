@@ -93,9 +93,8 @@ void RootPart::onInit1(protocol::Component *system)
                     &RootPart::get_nh4gsm_uptake_pot,
                     "g/m2", "Pot NH4 uptake");
 
-   incorp_fom_ID = plant->getComponent()->addRegistration(RegistrationType::event,
-                                                          "incorp_fom", IncorpFOMType.c_str(),
-                                                          "", "");
+   incorp_fom_ID = plant->getComponent()->addRegistration(::event, -1, 
+                                                          "incorp_fom", IncorpFOMType);
    // Respond to Get
    setupGetFunction(system, "sw_uptake", protocol::DTsingle, true,
                     &RootPart::get_sw_uptake, "mm", "Plant water uptake per layer");
@@ -615,7 +614,7 @@ void RootPart::get_root_length(protocol::Component *system, protocol::QueryValue
 //=======================================================================================
 // Getter Function for root length
 {
-    system->sendVariable(qd, protocol::vector<float>(root_length,root_length+soil[0].num_layers));
+    system->sendVariable(qd, std::vector<float>(root_length,root_length+soil[0].num_layers));
 }
 
 void RootPart::get_rlv(protocol::Component *system, protocol::QueryValueData &qd)
@@ -627,24 +626,24 @@ void RootPart::get_rlv(protocol::Component *system, protocol::QueryValueData &qd
        {
        rlv[layer] = divide (root_length[layer], soil[0].dlayer[layer], 0.0);
        }
-    system->sendVariable(qd, protocol::vector<float>(rlv,rlv+soil[0].num_layers));
+    system->sendVariable(qd, std::vector<float>(rlv,rlv+soil[0].num_layers));
 }
 
 void RootPart::get_root_length_senesced(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 // Getter Function for dead plant root length
 {
-    system->sendVariable(qd, protocol::vector<float>(root_length_senesced, root_length_senesced+soil[0].num_layers));
+    system->sendVariable(qd, std::vector<float>(root_length_senesced, root_length_senesced+soil[0].num_layers));
 }
 
 void RootPart::get_no3gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)                  //FIXME - belongs in rootPart
    {
-   system->sendVariable(qd, protocol::vector<float>(soil[0].no3gsm_uptake_pot, soil[0].no3gsm_uptake_pot+soil[0].num_layers));
+   system->sendVariable(qd, std::vector<float>(soil[0].no3gsm_uptake_pot, soil[0].no3gsm_uptake_pot+soil[0].num_layers));
    }
 
 void RootPart::get_nh4gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)                  //FIXME - belongs in rootPart
    {
-   system->sendVariable(qd, protocol::vector<float>(soil[0].nh4gsm_uptake_pot, soil[0].nh4gsm_uptake_pot+soil[0].num_layers));
+   system->sendVariable(qd, std::vector<float>(soil[0].nh4gsm_uptake_pot, soil[0].nh4gsm_uptake_pot+soil[0].num_layers));
    }
 
 void RootPart::checkBounds(void)
@@ -750,7 +749,7 @@ void RootPart::get_sw_uptake(protocol::Component *system, protocol::QueryValueDa
         {
         rwu[layer] = fabs(soil[0].dlt_sw_dep[layer]);
         }
-    system->sendVariable(qd, protocol::vector<float>(rwu, rwu+soil[0].num_layers));
+    system->sendVariable(qd, std::vector<float>(rwu, rwu+soil[0].num_layers));
 }
 
 
@@ -767,7 +766,7 @@ void RootPart::get_sw_supply_layr(protocol::Component *system, protocol::QueryVa
 //=======================================================================================
 // Getter function for soil water supply from each layer
 {
-    system->sendVariable(qd, protocol::vector<float>(soil[0].sw_supply, soil[0].sw_supply+soil[0].num_layers));
+    system->sendVariable(qd, std::vector<float>(soil[0].sw_supply, soil[0].sw_supply+soil[0].num_layers));
 }
 
 void RootPart::get_ep(protocol::Component *system, protocol::QueryValueData &qd)
@@ -791,7 +790,7 @@ void RootPart::get_esw_layr(protocol::Component *system, protocol::QueryValueDat
        {
        esw_layr[layer] = l_bound (soil[0].sw_dep[layer] - soil[0].ll_dep[layer], 0.0);
        }
-    system->sendVariable(qd, protocol::vector<float>(esw_layr,esw_layr+soil[0].num_layers));
+    system->sendVariable(qd, std::vector<float>(esw_layr,esw_layr+soil[0].num_layers));
 }
 void RootPart::get_no3_uptake(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
@@ -802,7 +801,7 @@ void RootPart::get_no3_uptake(protocol::Component *system, protocol::QueryValueD
     for (int layer = 0; layer < soil[0].num_layers; layer++) {
        no3_uptake[layer] =  soil[0].dlt_no3gsm[layer] * gm2kg/sm2ha;
     }
-    system->sendVariable(qd, protocol::vector<float>(no3_uptake, no3_uptake+soil[0].num_layers));
+    system->sendVariable(qd, std::vector<float>(no3_uptake, no3_uptake+soil[0].num_layers));
 }
 
 void RootPart::get_nh4_uptake(protocol::Component *system, protocol::QueryValueData &qd)
@@ -814,7 +813,7 @@ void RootPart::get_nh4_uptake(protocol::Component *system, protocol::QueryValueD
     for (int layer = 0; layer <= soil[0].num_layers; layer++) {
        nh4_uptake[layer] =  soil[0].dlt_nh4gsm[layer] * gm2kg/sm2ha;
     }
-    system->sendVariable(qd, protocol::vector<float>(nh4_uptake, nh4_uptake+soil[0].num_layers));
+    system->sendVariable(qd, std::vector<float>(nh4_uptake, nh4_uptake+soil[0].num_layers));
 }
 
 void RootPart::get_no3_tot(protocol::Component *system, protocol::QueryValueData &qd)

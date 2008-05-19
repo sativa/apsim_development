@@ -3145,7 +3145,7 @@ c+!!!! perhaps we should get number of layers at init and keep it
      :                        , fraction_to_Residue
      :                        , max_part)
 
-      call event_send (EVENT_Crop_Chopped)
+      call event_send (unknown_module, EVENT_Crop_Chopped)
 
       call delete_postbox ()
 
@@ -5426,7 +5426,7 @@ cjh special for erik - end
 
          ! WATER
       id = add_registration(respondToGetReg, 'ep'
-     :         , floatTypeDDML, 'mm', 'Plant water uptake')
+     :         , floatTypeDDML, '') ! 'mm')
 
          ! P
 !      id = add_registration(respondToGetReg, 'p_green'
@@ -5438,21 +5438,21 @@ cjh special for erik - end
 
          ! N
       id = add_registration(respondToGetReg, 'n_green'
-     :         , DDML, 'g/m^2', 'N in green')
+     :         , DDML, '') ! 'g/m^2')
       id = add_registration(respondToGetReg, 'n_senesced'
-     :         , DDML, 'g/m^2', 'N in senesced')
+     :         , DDML, '') ! 'g/m^2')
       id = add_registration(respondToGetReg, 'n_dead'
-     :         , DDML, 'g/m^2', 'N in dead')
+     :         , DDML, '') ! 'g/m^2')
 
          ! DM
       id = add_registration(respondToGetReg, 'dm_green'
-     :         , DDML, 'g/m^2', 'Weight of green material')
+     :         , DDML, '') ! 'g/m^2')
       id = add_registration(respondToGetReg, 'dm_senesced'
-     :         , DDML, 'g/m^2', 'Weight of senesced material')
+     :         , DDML, '') ! 'g/m^2')
       id = add_registration(respondToGetReg, 'dm_dead'
-     :         , DDML, 'g/m^2', 'Weight of dead material')
+     :         , DDML, '') ! 'g/m^2')
       id = add_registration(respondToGetReg, 'dlt_dm_green'
-     :         , DDML, 'g/m^2', 'change in green pool weight')
+     :         , DDML, '') ! 'g/m^2'
 
       return
       end subroutine

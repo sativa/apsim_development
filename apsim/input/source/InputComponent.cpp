@@ -91,30 +91,30 @@ void InputComponent::doInit1(const protocol::Init1Data& init1Data)
       static const char* stringDDML = "<type kind=\"string\"/>";
 
       // register a few things.
-      tickID = addRegistration(RegistrationType::respondToEvent, "tick", DDML(protocol::TimeType()).c_str());
-      preNewmetID = addRegistration(RegistrationType::event, "preNewmet", DDML(protocol::NewMetType()).c_str());
-      newmetID = addRegistration(RegistrationType::event, "newmet", DDML(protocol::NewMetType()).c_str());
-      hasDataTodayID = addRegistration(RegistrationType::respondToGet, "hasDataToday", hasDataTodayTypeDDML);
-      getDataMethodID = addRegistration(RegistrationType::respondToEvent, "getData", getDataDDML);
-      haveReadTodaysDataID = addRegistration(RegistrationType::event, "HaveReadTodaysData", nullTypeDDML);
+      tickID = addRegistration(::respondToEvent, -1, "tick", DDML(protocol::TimeType()).c_str());
+      preNewmetID = addRegistration(::event, -1, "preNewmet", DDML(protocol::NewMetType()).c_str());
+      newmetID = addRegistration(::event, -1, "newmet", DDML(protocol::NewMetType()).c_str());
+      hasDataTodayID = addRegistration(::respondToGet, -1, "hasDataToday", hasDataTodayTypeDDML);
+      getDataMethodID = addRegistration(::respondToEvent, -1, "getData", getDataDDML);
+      haveReadTodaysDataID = addRegistration(::event, -1, "HaveReadTodaysData", nullTypeDDML);
 
       iAmMet = (Str_i_Cmp(getName(), "met") == 0);
       if (iAmMet)
-         daylengthID = addRegistration(RegistrationType::respondToGet, "day_length", dayLengthType);
+         daylengthID = addRegistration(::respondToGet, -1, "day_length", dayLengthType);
       else
          daylengthID = 0;
 
       string dateName = getName();
       dateName += "_start_date";
-      startDateID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), startDateType);
+      startDateID = addRegistration(::respondToGet, -1, dateName.c_str(), startDateType);
       dateName = getName();
       dateName += "_end_date";
-      endDateID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), endDateType);
+      endDateID = addRegistration(::respondToGet, -1, dateName.c_str(), endDateType);
 
       dateName = string(getName()) + "_start_date_string";
-      startDateStringID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), stringDDML);
+      startDateStringID = addRegistration(::respondToGet, -1, dateName.c_str(), stringDDML);
       dateName = string(getName()) + "_end_date_string";
-      endDateStringID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), stringDDML);
+      endDateStringID = addRegistration(::respondToGet, -1, dateName.c_str(), stringDDML);
 
       openInputFile();
       registerAllVariables();
@@ -122,7 +122,7 @@ void InputComponent::doInit1(const protocol::Init1Data& init1Data)
       }
    catch (const runtime_error& err)
       {
-      error(err.what(), true);
+      error(string(err.what()), true);
       }
    }
 // ------------------------------------------------------------------
@@ -214,7 +214,7 @@ date InputComponent::advanceToTodaysData(void)
       {
       string msg = err.what();
       msg +=". This error occurred while trying to read from input file " + fileName;
-      error(msg.c_str(), true);
+      error(msg, true);
       return date(pos_infin);
       }
    }
@@ -288,7 +288,7 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
          {
          string msg = "Cannot find data in INPUT file for date ";
          msg += to_simple_string(todaysDate).c_str();
-         error(msg.c_str(), true);
+         error(msg, true);
          }
       else
          publishNewMetEvent();
@@ -296,6 +296,7 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
    else if (eventID == getDataMethodID)
       {
       data.first();
+#if 0
       vector<protocol::NewMetType> newmets;
       vector<string> dataDates;
       variant.unpack(dataDates);
@@ -319,7 +320,7 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
             {
             string msg = "Cannot find patch data in INPUT file for date ";
             msg += to_simple_string(dataDate).c_str();
-            error(msg.c_str(), false);
+            error(msg, false);
             }
          }
 
@@ -333,18 +334,17 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
          "   <field name=\"rain\" kind=\"single\"/>"
          "   <field name=\"vp\" kind=\"single\"/>"
          "</type>";
-      FString fromComponent;
-      componentIDToName(fromID, fromComponent);
-      string returnDataMethodCallString = asString(fromComponent);
-      returnDataMethodCallString += ".returnData";
-      unsigned returnDataMethodID = addRegistration(RegistrationType::event,
-                                                    returnDataMethodCallString.c_str(),
+
+      unsigned returnDataMethodID = addRegistration(::event,
+                                                    fromID,
+                                                    "returnData",
                                                     returnDataDDML);
       publish(returnDataMethodID, newmets);
 
       // reposition the data file to todays date.
       data.first();
       data.gotoDate(todaysDate);
+#endif
       }
    }
 // ------------------------------------------------------------------

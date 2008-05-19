@@ -6865,7 +6865,7 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
      :                        , fraction_to_Residue
      :                        , max_part)
 
-      call event_send (EVENT_Crop_Chopped)
+      call event_send (unknown_module,EVENT_Crop_Chopped)
 
       call delete_postbox ()
 

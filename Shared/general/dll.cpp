@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-#pragma hdrstop
 #include <stdexcept>
 
 #include "dll.h"
@@ -8,6 +7,9 @@
    #include <dir.h>
 #else
    #include <dlfcn.h>
+   #ifndef RTLD_LOCAL
+    #define RTLD_LOCAL 0
+   #endif 
 #endif
 #include <general/path.h>
 

@@ -68,9 +68,10 @@ void Plant::doPInit(protocol::Component* systemInterface)
          pStress->read_p_constants();
 
          string keyword = "uptake_p_" + c.crop_type;
-         id.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
-                                                               keyword.c_str(), floatArrayType,
-                                                               "", "");
+         id.layered_p_uptake = systemInterface->addRegistration(::get,
+                                                               -1,
+                                                               keyword, 
+                                                               floatArrayType);
       }
 
 }

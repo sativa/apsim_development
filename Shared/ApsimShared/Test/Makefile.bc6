@@ -15,7 +15,8 @@ VERSION = BCB.06.00
 # ---------------------------------------------------------------------------
 PROJECT = $(APSROOT)\Bin\TestApsimShared.exe
 OBJFILES = test.obj testSimCreator.obj testApsimControlFile.obj \
-      testControlFileConverter.obj testApsimDataFile.obj  
+      testControlFileConverter.obj testApsimDataFile.obj  \
+      testApsimRegistry.obj
 RESFILES = 
 MAINSOURCE = TestApsimShared.bpf
 RESDEPEN = $(RESFILES)

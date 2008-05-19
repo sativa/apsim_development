@@ -6,20 +6,21 @@ Imports CSGeneral
 
 Public Class TclUI
     Inherits BaseView
+  
     Overrides Sub OnRefresh()
 
         'AxTclControl1.TraceVar("GlobalXMLDoc", TRACE_READS + GLOBAL_ONLY)
-        AxTclControl1.SetVar("GlobalXMLDoc", Me.Controller.ApsimData.RootComponent.Contents, 1)
+        AxTclControl1.SetVar("GlobalXMLDoc", Me.Controller.ApsimData.RootComponent.FullXML, 1)
         AxTclControl1.SetVar("myName", BaseActions.CalcFileName(Controller.ApsimData.Find(NodePath)), 1)
         AxTclControl1.SetVar("XMLDoc", Me.Data.OuterXml(), 1)
-        Dim apsuite As String
-        apsuite = Replace(ApsimDirectory(), "\", "/")
-        AxTclControl1.SetVar("apsuite", apsuite, 1)
+        AxTclControl1.SetVar("apsuite", ApsimDirectory(), 1)
 
         Dim UIScript As String = XmlHelper.Value(Data, "uiscript")
 
         If (AxTclControl1.Eval(UIScript) = False) Then
-            MessageBox.Show(AxTclControl1.Result, "Tcl Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(AxTclControl1.Result, "Tcl Error 1", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'MessageBox.Show(AxTclControl1.GetVar("errorInfo", 1) , "Tcl Error 2", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'MessageBox.Show(AxTclControl1.GetVar("auto_path", 1), "Tcl Error 2", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
         AxTclControl1.Focus()
     End Sub
@@ -110,5 +111,6 @@ Public Class TclUI
     Protected Overrides Function IsInputKey(ByVal keyData As System.Windows.Forms.Keys) As Boolean
         Return True
         'Return MyBase.IsInputKey(keyData)
+
     End Function
 End Class

@@ -8,12 +8,12 @@ class ComponentAlias
    {
    public:
       ComponentAlias(const std::string& name,
-                     unsigned int ComponentAliasId);
+                     int ComponentAliasId);
       ComponentAlias(const std::string& name,
                      const std::string& dllFileName,
                      const std::string& componentInterfaceFileName,
-                     unsigned int ComponentAliasId,
-                     unsigned int parentId);
+                     int ComponentAliasId,
+                     int parentId);
       ~ComponentAlias(void);
 
       std::string getName(void) {return name;}
@@ -25,7 +25,7 @@ class ComponentAlias
             return "";
          }
       bool isSystem(void);
-      unsigned int ID;
+      int ID;
 
    private:
       protocol::IComputation* computation;

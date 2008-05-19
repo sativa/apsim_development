@@ -25,16 +25,16 @@ module Registrations
          type(IDsType) :: id
 
 #for_each pubevent
-         id%pubevent.name = add_registration(eventReg, 'pubevent.name', pubevent.kindTypeDDML, '', '')
+         id%pubevent.name = add_registration(eventReg, 'pubevent.name', pubevent.kindTypeDDML, '')
 #endfor
 #for_each subevent
-         id%subevent.name = add_registration(respondToEventReg, 'subevent.name', subevent.kindTypeDDML, '', '')
+         id%subevent.name = add_registration(respondToEventReg, 'subevent.name', subevent.kindTypeDDML, '')
 #endfor
 #for_each pubmethod
-         id%pubmethod.name_send = add_registration(methodCallReg, 'pubmethod.name', pubmethod.kindTypeDDML, '', '')
+         id%pubmethod.name_send = add_registration(methodCallReg, 'pubmethod.name', pubmethod.kindTypeDDML, '')
 #endfor
 #for_each submethod
-         id%submethod.name_receive = add_registration(respondToMethodCallReg, 'submethod.name', submethod.kindTypeDDML, '', '')
+         id%submethod.name_receive = add_registration(respondToMethodCallReg, 'submethod.name', submethod.kindTypeDDML, '')
 #endfor
       end subroutine
 end module Registrations

@@ -1,12 +1,12 @@
 //---------------------------------------------------------------------------
 #include <stdlib.h>
-#include "math_functions.h"
 #include <math.h>
 #include <assert.h>
 #include <numeric>
-#include <values.h>
 #include <strstream>
 #include <iomanip>
+
+#include "math_functions.h"
 
 #ifndef __WIN32__
    #include <ext/algorithm>

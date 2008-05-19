@@ -3471,7 +3471,8 @@ c      double precision psiold(0:M)
 
 10    continue
 cnh
-      call event_send('swim_timestep_preparation')
+      call event_send(unknown_module,
+     :                'swim_timestep_preparation')
 
 *        calculate next step size_of g%dt
 c         print*,g%t
@@ -3658,7 +3659,8 @@ cnh
             call apswim_check_demand()
 
 cnh
-         call event_send('pre_swim_timestep')
+         call event_send(unknown_module,
+     :                    'pre_swim_timestep')
 ***
 *           integrate for step g%dt
             call apswim_solve(itlim,fail)
@@ -3750,7 +3752,8 @@ cnh
                end if
 
 cnh
-               call event_send('post_swim_timestep')
+               call event_send(unknown_module,
+     :                         'post_swim_timestep')
 
             end if
 
@@ -5523,7 +5526,7 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
             variable_name = 'uptake_'//trim(p%solute_names(solnum))
      :                       //'_'//trim(g%crop_names(vegnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
-     :                       DoubleArrayTypeDDML, ' ', ' ')
+     :                       DoubleArrayTypeDDML, ' ')
 
          end do
       end do
@@ -5562,44 +5565,44 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
      :           //' kind="double" unit="kg/ha"/>'
             variable_name = 'flow_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
-     :                       DDML, ' ', ' ')
+     :                       DDML, ' ')
 
             DDML = '<type name="solute_leach" array="F"'
      :           //' kind="double" unit="kg/ha"/>'
             variable_name = 'leach_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
-     :                       DDML, ' ', ' ')
+     :                       DDML, ' ')
 
             DDML = '<type name="solute_exco" array="T"'
      :           //' kind="double" unit=""/>'
             variable_name = 'exco_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
-     :                       DoubleArrayTypeDDML, ' ', ' ')
+     :                       DoubleArrayTypeDDML, ' ')
 
             DDML = '<type name="solute_dis" array="T"'
      :           //' kind="double" unit=""/>'
             variable_name = 'dis_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
-     :                       DDML, ' ', ' ')
+     :                       DDML, ' ')
 
             DDML = '<type name="conc_water_solute" array="T"'
      :           //' kind="double" unit="ppm"/>'
             variable_name = 'conc_water_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
-     :                       DDML, ' ', ' ')
+     :                       DDML, ' ')
 
             DDML = '<type name="conc_adsorb_solute" array="T"'
      :           //' kind="double" unit="ppm"/>'
             variable_name = 'conc_adsorb_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
-     :                       DDML, ' ', ' ')
+     :                       DDML, ' ')
 
             DDML = '<type name="subsurface_drain_solute" array="F"'
      :           //' kind="double" unit="kg/ha"/>'
             variable_name = 'subsurface_drain_'//
      :                          trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
-     :                       DDML, ' ', ' ')
+     :                       DDML, ' ')
 
       end do
 

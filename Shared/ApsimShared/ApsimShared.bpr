@@ -10,7 +10,8 @@
       ApsimSystemData.obj ApsimVersion.obj ApsimDataFile.obj 
       ApsimDataTypesFile.obj ApsimDataTypeData.obj ApsimRegistrationData.obj 
       ControlFileConverter.obj ApsimMacroFile.obj FStringExt.obj SimCreator.obj 
-      SimCreatorSection.obj phi_functions.obj"/>
+      SimCreatorSection.obj phi_functions.obj ApsimRegistrationType.obj 
+      ApsimRegistration.obj ApsimRegistry.obj"/>
     <RESFILES value="ApsimShared.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -41,8 +42,8 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
-      -tWD -tWM -c"/>
+    <CFLAG1 value="-WD -vGc -vGt -vGd -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- 
+      -k -y -v -vi- -tWD -tWM -c"/>
     <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zi"/>
@@ -52,7 +53,7 @@
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -84,6 +85,9 @@
       <FILE FILENAME="SimCreator.cpp" FORMNAME="" UNITNAME="SimCreator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="SimCreatorSection.cpp" FORMNAME="" UNITNAME="SimCreatorSection" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="phi_functions.cpp" FORMNAME="" UNITNAME="phi_functions" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimRegistrationType.cpp" FORMNAME="" UNITNAME="ApsimRegistrationType" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimRegistration.cpp" FORMNAME="" UNITNAME="ApsimRegistration" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimRegistry.cpp" FORMNAME="" UNITNAME="ApsimRegistry" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -163,11 +167,11 @@ Item0=.
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=C:\Users\hol353\Development\apsim\barley\Sample\barley.con
+RunParams=C:\Development\apsim\clock\Sample\test.apsim.test.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=C:\Users\hol353\Development\Bin\APSRun.exe
+HostApplication=C:\development\Bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
@@ -177,7 +181,12 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-LinkCGLIB=0
+LinkCGLIB=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
 
 [Linker]
 LibPrefix=

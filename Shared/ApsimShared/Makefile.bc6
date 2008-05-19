@@ -12,8 +12,11 @@ OBJFILES = ApsimShared.obj ApsimComponentData.obj ApsimControlFile.obj \
 	ApsimServiceData.obj ApsimSettings.obj ApsimSimulationFile.obj \
 	ApsimSystemData.obj ApsimVersion.obj  \
 	ApsimDataFile.obj ApsimDataTypesFile.obj \
-	ApsimDataTypeData.obj ApsimRegistrationData.obj ControlFileConverter.obj \
-	SimCreator.obj SimCreatorSection.obj ApsimMacroFile.obj FString.obj FStringExt.obj Phi_functions.obj
+	ApsimDataTypeData.obj ApsimRegistry.obj \
+	ApsimRegistration.obj ApsimRegistrationType.obj \
+	ApsimRegistrationData.obj ControlFileConverter.obj \
+	SimCreator.obj SimCreatorSection.obj \
+	ApsimMacroFile.obj FString.obj FStringExt.obj Phi_functions.obj
 
 LIBFILES = $(SYSLIBS) $(APSROOT)\Shared\general\general.lib \
     $(BCB)\Components\Boost\libs\filesystem\filesystem.lib \
@@ -57,5 +60,5 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 # ---------------------------------------------------------------------------
 clean:
-	$(RM) $(OBJECTS) $(TARGET)
+	$(RM) $(OBJFILES) $(TARGET)
 

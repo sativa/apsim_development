@@ -9,33 +9,33 @@
 
       id%externalmassflow = add_registration(eventReg
      :                     , 'externalmassflow'
-     :                     , ExternalMassFlowTypeDDML, '', '')
+     :                     , ExternalMassFlowTypeDDML, '')
       id%incorp_fom = add_registration(eventReg, 'incorp_fom',
-     :                                 nullTypeDDML, '', '')
+     :                                 nullTypeDDML, '')
       id%add_residue_p = add_registration(eventReg, 'add_residue_p',
-     :                                    nullTypeDDML, '', '')
+     :                                    nullTypeDDML, '')
       id%crop_chopped = add_registration(eventReg, 'crop_chopped',
-     :                                   CropChoppedTypeDDML, '', '')
+     :                                   CropChoppedTypeDDML, '')
       id%sowing = add_registration(eventReg, 'sowing',
-     :                             nullTypeDDML, '', '')
+     :                             nullTypeDDML, '')
       id%harvesting = add_registration(eventReg, 'harvesting',
-     :                                 nullTypeDDML, '', '')
+     :                                 nullTypeDDML, '')
       id%create = add_registration(respondToEventReg, 'create',
-     :                             nullTypeDDML, '', '')
+     :                             nullTypeDDML, '')
       id%sysinit = add_registration(respondToEventReg, 'sysinit',
-     :                              nullTypeDDML, '', '')
+     :                              nullTypeDDML, '')
       id%sow = add_registration(respondToEventReg, 'sow',
-     :                          nullTypeDDML, '', '')
+     :                          nullTypeDDML, '')
       id%harvest = add_registration(respondToEventReg, 'harvest',
-     :                              nullTypeDDML, '', '')
+     :                              nullTypeDDML, '')
       id%kill_crop = add_registration(respondToEventReg, 'kill_crop',
-     :                                nullTypeDDML, '', '')
+     :                                nullTypeDDML, '')
       id%end_crop = add_registration(respondToEventReg, 'end_crop',
-     :                               nullTypeDDML, '', '')
+     :                               nullTypeDDML, '')
       id%prepare = add_registration(respondToEventReg, 'prepare',
-     :                              nullTypeDDML, '', '')
+     :                              nullTypeDDML, '')
       id%process = add_registration(respondToEventReg, 'process',
-     :                              nullTypeDDML, '', '')
+     :                              nullTypeDDML, '')
 
       dummy = add_registration_with_units(respondToGetReg, 'crop_type',
      :                                    stringTypeDDML, '')

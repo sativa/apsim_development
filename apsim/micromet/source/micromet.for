@@ -716,9 +716,6 @@
 
       call unpack_newcrop(variant, new_crop)
 
-
-!      print*,'|',new_crop%sender,'|',new_crop%crop_type,'|'
-!      pause
       ! See if we know of it
       alreadyHaveIt = .false.
       do 100 i = 1, g%NumComponents

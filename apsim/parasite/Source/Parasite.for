@@ -1058,7 +1058,7 @@
          call post_real_var ('n',
      :        '(kg/ha)', dlt_residue_n)
 
-         call event_send ('add_surfaceom')
+         call event_send (unknown_module, 'add_surfaceom')
 
          call delete_postbox ()
 

@@ -75,6 +75,7 @@
          real       amount                ! APPLY_variable - amount of irrigation to apply mm
          real       area                  ! APPLY_variable - area to be irrigated
          character  irrig_source(max_sources)*(module_name_size) ! APPLY_variable - array of preferential water sources for irrigation
+         integer    irrig_sourceID(max_sources)                  ! APPLY_variable - array of preferential water sources for irrigation
          integer    tot_num_sources       ! APPLY_variable - number of water sources specified
          integer    source_counter        ! APPLY_variable - counter to keep track of which source is supplying water
 
@@ -149,8 +150,8 @@
       character  water_requester*200   ! the name of this instance which is
 !                                     requesting a water supply for irrigation from a source
       character err_string*200
-
-
+      integer    moduleID
+      logical    ok
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
@@ -241,7 +242,7 @@
 !  Now send out a gimme_water method call to the first specified source
       call new_postbox()
 
-       call get_name(water_requester)
+      call get_name(water_requester)
 
       call post_char_var ('water_requester'
      :                     , '()'
@@ -253,8 +254,9 @@
 
       g%source_counter = 1
 
-
-      call Event_send_directed(g%irrig_source(1),'gimme_water')
+      ok = component_name_to_id(g%irrig_source(1), 
+     :                          moduleID)
+      call Event_send(moduleID, 'gimme_water')
 
 
       call delete_postbox()
@@ -351,7 +353,7 @@
 
 200   continue
 
-      call event_send (EVENT_irrigated)
+      call event_send (unknown_module, EVENT_irrigated)
 
       call delete_postbox ()
 
@@ -399,7 +401,9 @@
       real       solute_conc(max_solutes) ! array of solutes supplied in water_supplied
 
       character err_string*200
-
+      logical    ok
+      integer    moduleID
+      
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -528,9 +532,10 @@
 
 
       else
-
-         call Event_send_directed(g%irrig_source(g%source_counter)
-     :                    ,'gimme_water')
+         ok = component_name_to_id(g%irrig_source(g%source_counter), 
+     :                             moduleID)
+         call Event_send(moduleID ,
+     :                   'gimme_water')
 
       endif
 
@@ -1559,7 +1564,7 @@ c    Check whether to apply default solute concentrations
      :                    , g%irrigation_solutes_shed(solnum, irigno))
 200            continue
 
-               call event_send (EVENT_irrigated)
+               call event_send (unknown_module, EVENT_irrigated)
 
                call delete_postbox ()
 
@@ -1663,7 +1668,7 @@ c    Check whether to apply default solute concentrations
      :                              , solute(solnum))
 200      continue
 
-         call event_send(EVENT_irrigated)
+         call event_send(unknown_module, EVENT_irrigated)
          call delete_postbox ()
 
          g%irrigation_applied = g%irrigation_applied
@@ -1868,7 +1873,7 @@ c    Check whether to apply default solute concentrations
 200   continue
 
 
-         call event_send(EVENT_irrigated)
+         call event_send(unknown_module, EVENT_irrigated)
          call delete_postbox ()
 
          g%irrigation_applied = g%irrigation_applied

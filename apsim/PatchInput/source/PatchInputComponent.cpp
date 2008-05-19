@@ -54,7 +54,7 @@ void PatchInputComponent::doInit1(const protocol::Init1Data& initData)
    InputComponent::doInit1(initData);
 
    haveReadPatchData = false;
-   preNewmetID = addRegistration(RegistrationType::respondToEvent, "preNewmet", DDML(protocol::NewMetType()).c_str());
+   preNewmetID = addRegistration(::respondToEvent, -1, "preNewmet", DDML(protocol::NewMetType()).c_str());
    ApsimDataFile::iterator i = find(data.constantsBegin(),
                                     data.constantsEnd(),
                                     "patch_all_years");
@@ -64,10 +64,10 @@ void PatchInputComponent::doInit1(const protocol::Init1Data& initData)
    if (i != data.constantsEnd())
       patchVariablesLongTerm = i->values;
 
-   unpatchedMaxTID = addRegistration(RegistrationType::respondToGet, "unpatched_maxt", protocol::DDML(newmet.maxt).c_str());
-   unpatchedMinTID = addRegistration(RegistrationType::respondToGet, "unpatched_mint", protocol::DDML(newmet.mint).c_str());
-   unpatchedRadnID = addRegistration(RegistrationType::respondToGet, "unpatched_radn", protocol::DDML(newmet.radn).c_str());
-   unpatchedRainID = addRegistration(RegistrationType::respondToGet, "unpatched_rain", protocol::DDML(newmet.rain).c_str());
+   unpatchedMaxTID = addRegistration(::respondToGet, -1, "unpatched_maxt", protocol::DDML(newmet.maxt).c_str());
+   unpatchedMinTID = addRegistration(::respondToGet, -1, "unpatched_mint", protocol::DDML(newmet.mint).c_str());
+   unpatchedRadnID = addRegistration(::respondToGet, -1, "unpatched_radn", protocol::DDML(newmet.radn).c_str());
+   unpatchedRainID = addRegistration(::respondToGet, -1, "unpatched_rain", protocol::DDML(newmet.rain).c_str());
    }
 // ------------------------------------------------------------------
 // Read all patch dates.
@@ -97,7 +97,7 @@ void PatchInputComponent::readPatchDates(void)
          }
       catch (const exception& err)
          {
-         error(err.what(), true);
+         error(string(err.what()), true);
          }
       }
    haveReadPatchData = true;
@@ -129,14 +129,11 @@ void PatchInputComponent::getDataFromInput(unsigned int fromID)
          date d(i->first);
          dataDates.push_back(to_iso_extended_string(d));
          }
-      FString fromComponent;
-      componentIDToName(fromID, fromComponent);
-      string getDataMethodCallString = asString(fromComponent);
-      getDataMethodCallString += ".getData";
-      getDataMethodID = addRegistration(RegistrationType::event,
-                                        getDataMethodCallString.c_str(),
+      getDataMethodID = addRegistration(::event,
+                                        fromID,
+                                        "getData",
                                         getDataDDML);
-      returnDataMethodID = addRegistration(RegistrationType::respondToEvent, "returnData", returnDataDDML);
+      returnDataMethodID = addRegistration(::respondToEvent, -1, "returnData", returnDataDDML);
       publish(getDataMethodID, dataDates);
       }
    }
@@ -238,16 +235,15 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
                   {
                   string msg = "Invalid patch variable name: " + foreignName
                              + ".  Variable must start with 'patch_'";
-                  error(msg.c_str(), true);
+                  error(msg, true);
                   break;
                   }
                foreignName.erase(0, strlen("patch_"));
 
-               unsigned variableID = addRegistration(RegistrationType::set,
-                                                     foreignName.c_str(),
-                                                     DTsingleString,
-                                                     "",
-                                                     itoa(fromID).c_str());
+               unsigned variableID = addRegistration(::set,
+                                                     fromID,
+                                                     foreignName,
+                                                     DTsingleString);
                setVariable(variableID, var->asFloat());
                }
             }
@@ -300,32 +296,32 @@ void PatchInputComponent::setPatchData()
       {
       string msg = "Cannot find patch data from INPUT component for date ";
       msg += to_iso_extended_string(todaysDate);
-      error(msg.c_str(), false);
+      error(msg, false);
       }
    else
       {
       if (find(patchVariablesLongTerm.begin(), patchVariablesLongTerm.end(),
                "maxt") != patchVariablesLongTerm.end())
          {
-         unsigned maxtID = addRegistration(RegistrationType::set, "maxt", DTsingleString);
+         unsigned maxtID = addRegistration(::set, -1, "maxt", DTsingleString);
          setVariable(maxtID, i->second.maxt);
          }
       if (find(patchVariablesLongTerm.begin(), patchVariablesLongTerm.end(),
                "mint") != patchVariablesLongTerm.end())
          {
-         unsigned mintID = addRegistration(RegistrationType::set, "mint", DTsingleString);
+         unsigned mintID = addRegistration(::set, -1, "mint", DTsingleString);
          setVariable(mintID, i->second.mint);
          }
       if (find(patchVariablesLongTerm.begin(), patchVariablesLongTerm.end(),
                "radn") != patchVariablesLongTerm.end())
          {
-         unsigned radnID = addRegistration(RegistrationType::set, "radn", DTsingleString);
+         unsigned radnID = addRegistration(::set, -1, "radn", DTsingleString);
          setVariable(radnID, i->second.radn);
          }
       if (find(patchVariablesLongTerm.begin(), patchVariablesLongTerm.end(),
                "rain") != patchVariablesLongTerm.end())
          {
-         unsigned rainID = addRegistration(RegistrationType::set, "rain", DTsingleString);
+         unsigned rainID = addRegistration(::set, -1, "rain", DTsingleString);
          setVariable(rainID, i->second.rain);
          }
       }

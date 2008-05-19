@@ -8,7 +8,7 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\ProtocolManager.dll
 
-OBJFILES = ProtocolManager.obj Coordinator.obj ComponentAlias.obj DebugHook.obj Registrations.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+OBJFILES = ProtocolManager.obj Coordinator.obj ComponentAlias.obj DebugHook.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\general\general.lib \
    $(APSROOT)\Shared\general\general_vcl.lib \

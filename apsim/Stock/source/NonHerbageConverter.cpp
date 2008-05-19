@@ -36,30 +36,30 @@ NonHerbageConverter::~NonHerbageConverter(void)
 // ------------------------------------------------------------------
 void NonHerbageConverter::doInit1(const protocol::Init1Data& initData)
    {
-   day_lengthID = system->addRegistration(RegistrationType::get, "day_length", singleTypeDDML);
-//   tramplingID = system->addRegistration(RegistrationType::get, "trampling", singleTypeDDML);
-   ureaID = system->addRegistration(RegistrationType::get, "urea", singleArrayTypeDDML);
-   dltUreaID = system->addRegistration(RegistrationType::set, "dlt_urea", singleArrayTypeDDML);
-   labilePID = system->addRegistration(RegistrationType::get, "labile_p", singleArrayTypeDDML);
-   dltLabilePID = system->addRegistration(RegistrationType::set, "dlt_labile_p", singleArrayTypeDDML);
+   day_lengthID = system->addRegistration(::get, -1, "day_length", singleTypeDDML);
+//   tramplingID = system->addRegistration(::get,-1, "trampling", singleTypeDDML);
+   ureaID = system->addRegistration(::get,-1, "urea", singleArrayTypeDDML);
+   dltUreaID = system->addRegistration(::set, -1, "dlt_urea", singleArrayTypeDDML);
+   labilePID = system->addRegistration(::get, -1, "labile_p", singleArrayTypeDDML);
+   dltLabilePID = system->addRegistration(::set, -1, "dlt_labile_p", singleArrayTypeDDML);
 
-   dayLengthID = system->addRegistration(RegistrationType::respondToGet, "dayLength", singleTypeDDML);
-   addExcretaID = system->addRegistration(RegistrationType::respondToEvent, "add_excreta", protocol::DDML(protocol::AddExcretaType()).c_str());
+   dayLengthID = system->addRegistration(::respondToGet, -1, "dayLength", singleTypeDDML);
+   addExcretaID = system->addRegistration(::respondToEvent, -1, "add_excreta", protocol::DDML(protocol::AddExcretaType()));
 
-   stockBuyID = system->addRegistration(RegistrationType::respondToEvent, "buystock", stringTypeDDML);
-//   buyID = system->addRegistration(RegistrationType::event, "buy", buystockTypeDDML);
+   stockBuyID = system->addRegistration(::respondToEvent, -1, "buystock", stringTypeDDML);
+//   buyID = system->addRegistration(::event, -1, "buy", buystockTypeDDML);
 
-   stockMoveID = system->addRegistration(RegistrationType::respondToEvent, "movestock", stringTypeDDML);
-   moveID = system->addRegistration(RegistrationType::event, "move", DDML(protocol::MoveStockType()).c_str());
+   stockMoveID = system->addRegistration(::respondToEvent, -1, "movestock", stringTypeDDML);
+   moveID = system->addRegistration(::event, -1, "move", DDML(protocol::MoveStockType()));
 
-   stockSellID = system->addRegistration(RegistrationType::respondToEvent, "sellstock", stringTypeDDML);
-   sellID = system->addRegistration(RegistrationType::event, "sell", protocol::DDML(protocol::SellStockType()).c_str());
+   stockSellID = system->addRegistration(::respondToEvent, -1, "sellstock", stringTypeDDML);
+   sellID = system->addRegistration(::event, -1, "sell", protocol::DDML(protocol::SellStockType()));
 
-   addManureID = system->addRegistration(RegistrationType::event, "add_surfaceom", "", "", "");
+   addManureID = system->addRegistration(::event, -1, "add_surfaceom", "");
 
    std::vector<protocol::IntakeType> dummy;
-   intakeGetID = system->addRegistration(RegistrationType::get, "intake", protocol::DDML(dummy).c_str());
-   intakeSendID = system->addRegistration(RegistrationType::respondToGet, "intakestock", singleTypeDDML);
+   intakeGetID = system->addRegistration(::get, -1, "intake", protocol::DDML(dummy));
+   intakeSendID = system->addRegistration(::respondToGet, -1, "intakestock", singleTypeDDML);
    }
 // ------------------------------------------------------------------
 // Init2 phase.
@@ -355,7 +355,7 @@ void NonHerbageConverter::addUrine (protocol::urineType urine)
 
     for (layer = 0; layer != num_layers; layer++) {urea[layer] = 0.0;}
     urea[0] = urine.urea * c.fractionUrineAdded;
-    protocol::vector<float> ureaValues(urea, urea+num_layers);
+    std::vector<float> ureaValues(urea, urea+num_layers);
     system->setVariable (dltUreaID, ureaValues);
 
     values.clear();
@@ -365,7 +365,7 @@ void NonHerbageConverter::addUrine (protocol::urineType urine)
 
        for (layer = 0; layer != num_layers; layer++) {labileP[layer] = 0.0;}
        labileP[0] = urine.pox * c.fractionUrineAdded;
-       protocol::vector<float> labilePValues(labileP, labileP+num_layers);
+       std::vector<float> labilePValues(labileP, labileP+num_layers);
        system->setVariable (dltLabilePID, labilePValues);
     }
 
@@ -390,7 +390,7 @@ void NonHerbageConverter::respondToGet(unsigned int& fromID,
 void NonHerbageConverter::daylengthRelay (protocol::QueryValueData& queryData)
 {
       protocol::Variant* variant;
-      bool ok = system->getVariable(day_lengthID, variant, true);
+      bool ok = system->getVariable(day_lengthID, &variant, true);
       if (ok)
       {
          float dayLength;
@@ -409,7 +409,7 @@ void NonHerbageConverter::daylengthRelay (protocol::QueryValueData& queryData)
 void NonHerbageConverter::intakeRelay (protocol::QueryValueData& queryData)
 {
       protocol::Variant* variant;
-      bool ok = system->getVariable(intakeGetID, variant, true);
+      bool ok = system->getVariable(intakeGetID, &variant, true);
       if (ok)
       {
          protocol::IntakeType intake;
@@ -450,11 +450,7 @@ void NonHerbageConverter::readParameters ( void )
       msg << "Debug = " << c.debug << ends;
       system->writeString (msg.str().c_str());
 
-   string buy;
-   if (stockModuleName == "")
-      buy = "buy";
-   else
-      buy = stockModuleName + ".buy";
-   buyID = system->addRegistration(RegistrationType::event, buy.c_str(), DDML(protocol::BuyStockType()).c_str());
+   int stockModuleID = ApsimRegistry::getApsimRegistry().componentByName(stockModuleName) ;
+   buyID = system->addRegistration(::event, stockModuleID, "buy", DDML(protocol::BuyStockType()));
 
 }

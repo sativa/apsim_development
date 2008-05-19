@@ -2002,7 +2002,7 @@ cjh     :                               , string)
      :                        ,dlt_n_incorp
      :                        ,deepest_layer)
 
-         call event_send ('incorp_fom')
+         call event_send (unknown_module, 'incorp_fom')
 
          call Delete_postbox ()
 
@@ -2343,11 +2343,12 @@ cgol bounds added to tiller number determination
 *+  Local Variables
 !cjh      character  string*200            ! output string
       character  tiller_module*20      ! tiller module name
+      integer    tiller_module_id
       character  module_name*8         ! this module name
       real       dm_tiller_plant       ! dry matter of tiller (g/plant)
       real       N_tiller_plant        ! N content of tiller (g/plant)
       integer    tiller_no             ! number of tillers developed ()
-
+      logical    ok
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -2411,8 +2412,11 @@ cgol bounds added to tiller number determination
      :                        ,'()'
      :                        ,g%cultivar)
 
-            call Event_send_directed (tiller_module
-     :                        , ACTION_initiate_crop)
+            ok = component_name_to_id(tiller_module, 
+     :                                tiller_module_id)
+            
+            call Event_send(tiller_module_id ,
+     :                      ACTION_initiate_crop)
 
             call Delete_postbox ()
 

@@ -83,6 +83,7 @@ inline protocol::MessageData& operator>>(protocol::MessageData& messageData, str
 std::string EXPORT DDML(const std::vector<structure.nameType>& value);
 #else
 std::string EXPORT DDML(const structure.nameType& value);
+std::string EXPORT DDML(const Fstructure.nameType& value);
 #endif
 inline unsigned int memorySize(const structure.nameType& data)
    {
@@ -189,8 +190,17 @@ std::string EXPORT DDML(const structure.nameType& value)
    {
    return structure.cddml;
    }
+#if (structure.Array = T)
+std::string EXPORT DDML(const std::vector<Fstructure.nameType>& value)
+#else
+std::string EXPORT DDML(const Fstructure.nameType& value)
+#endif
+   {
+   return structure.cddml;
+   }
 }; // namespace protocol
 #endfor
+
 #endfile
 ##################################################
 #file ../apsim/infra/source/datatypes.f90
@@ -245,8 +255,8 @@ end module dataTypes
 
 extern "C" void EXPORT STDCALL publish_null(unsigned* id)
    {
-   protocol::NoData pd;
-   FortranWrapper::currentInstance->publish(*id, pd);
+   void *vp = NULL;
+   FortranWrapper::currentInstance->publish(*id, vp);
    }
 #for_each structure
 namespace protocol {
@@ -421,6 +431,7 @@ proc unpack_Variant {data} {
    array set result {}
    set ok [expr [string bytelength $data] > 0]
    while {$ok} {
+      set nchar 0
       binary scan $data i nchar
       if {$nchar > 0} {
          set name [string range $data 4 [expr 4+$nchar-1]]         ;# Name
@@ -457,14 +468,18 @@ proc unpack_MessageData {data} {
    binary scan $data ii result(id) result(publishedByID)  ;# id, publishedByID
    set data [string range $data 8 end]
 
+   set nchar 0
    binary scan $data i nchar                              ;# typeXML
    if {$nchar > 0} {
      set result(typeXML) [string range $data 4 [expr 4+$nchar-1]]
      set data [string range $data [expr 4+$nchar] end]
+   } else {
+     set result(typeXML) ""
    }
 
    set ok [expr [string bytelength $data] > 0]
    while {$ok} {
+      set nchar 0
       binary scan $data i nchar
       if {$nchar > 0} {
          ;##//messageData << variableName << protocol::memorySize(value)+5 << typeCode << isArray << value;

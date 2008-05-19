@@ -4491,7 +4491,7 @@ subroutine soiln2_notification ()
 
    call post_char_array (DATA_new_solute_names, '()', solute_names, numsolutes)
 
-   call event_send (EVENT_new_solute)
+   call event_send (unknown_module, EVENT_new_solute)
 
    call delete_postbox()
 
@@ -4723,7 +4723,7 @@ subroutine soiln2_Send_Nbalance_Event ()
    call post_real_array   (DATA_dlt_nh4_net,'(kg/ha)', g%dlt_NH4_net, num_layers)
    call post_real_array   (DATA_dlt_no3_net,'(kg/ha)', g%dlt_NO3_net, num_layers)
 
-   call event_send (EVENT_N_balance)
+   call event_send (unknown_module, EVENT_N_balance)
 
    call delete_postbox ()
 
@@ -4802,7 +4802,7 @@ subroutine soiln2_Send_Cbalance_Event ()
    call post_real_array   (DATA_dlt_OC,'(kg/ha)', dlt_OC, num_layers)
    call post_real_array   (DATA_dlt_OM,'(kg/ha)', dlt_OM, num_layers)
 
-   call event_send (EVENT_C_balance)
+   call event_send (unknown_module, EVENT_C_balance)
 
    call delete_postbox ()
 
@@ -4967,23 +4967,23 @@ subroutine doInit1()
    integer dummy
 
    ! events published
-   id%ExternalMassFlow = add_registration(eventReg, 'ExternalMassFlow', ExternalMassFlowTypeDDML, '', '')
-   id%new_solute = add_registration(eventReg, 'new_solute', NewSoluteTypeDDML, '', '')
-   id%n_balance = add_registration(eventReg, 'n_balance', nbalanceTypeDDML, '', '')
-   id%c_balance = add_registration(eventReg, 'c_balance', cbalanceTypeDDML, '', '')
-   id%actualresiduedecompositioncalculated = add_registration(eventReg, 'actualresiduedecompositioncalculated', SurfaceOrganicMatterDecompTypeDDML, '', '')
+   id%ExternalMassFlow = add_registration(eventReg, 'ExternalMassFlow', ExternalMassFlowTypeDDML, '')
+   id%new_solute = add_registration(eventReg, 'new_solute', NewSoluteTypeDDML, '')
+   id%n_balance = add_registration(eventReg, 'n_balance', nbalanceTypeDDML, '')
+   id%c_balance = add_registration(eventReg, 'c_balance', cbalanceTypeDDML, '')
+   id%actualresiduedecompositioncalculated = add_registration(eventReg, 'actualresiduedecompositioncalculated', SurfaceOrganicMatterDecompTypeDDML, '')
 
    ! events subscribed to
-   id%process = add_registration(respondToEventReg, 'process', nullTypeDDML, '', '')
-   id%reset = add_registration(respondToEventReg, 'reset', nullTypeDDML, '', '')
-   id%sum_report = add_registration(respondToEventReg, 'sum_report', nullTypeDDML, '', '')
-   id%add_roots = add_registration(respondToEventReg, 'add_roots', incorpfomTypeDDML, '', '')
-   id%incorp_fom = add_registration(respondToEventReg, 'incorp_fom', incorpfomTypeDDML, '', '')
-   id%tick = add_registration(respondToEventReg, 'tick', timeTypeDDML, '', '')
-   id%newmet = add_registration(respondToEventReg, 'newmet', newmetTypeDDML, '', '')
-   id%potentialresiduedecompositioncalculated = add_registration(respondToEventReg, 'potentialresiduedecompositioncalculated', SurfaceOrganicMatterDecompTypeDDML, '', '')
-   id%freshorganicmatterincorporated = add_registration(respondToEventReg, 'freshorganicmatterincorporated', FPoolProfileLayerTypeDDML, '', '')
-   id%new_profile = add_registration(respondToEventReg, 'new_profile', newprofileTypeDDML, '', '')
+   id%process = add_registration(respondToEventReg, 'process', nullTypeDDML, '')
+   id%reset = add_registration(respondToEventReg, 'reset', nullTypeDDML, '')
+   id%sum_report = add_registration(respondToEventReg, 'sum_report', nullTypeDDML, '')
+   id%add_roots = add_registration(respondToEventReg, 'add_roots', incorpfomTypeDDML, '')
+   id%incorp_fom = add_registration(respondToEventReg, 'incorp_fom', incorpfomTypeDDML, '')
+   id%tick = add_registration(respondToEventReg, 'tick', timeTypeDDML, '')
+   id%newmet = add_registration(respondToEventReg, 'newmet', newmetTypeDDML, '')
+   id%potentialresiduedecompositioncalculated = add_registration(respondToEventReg, 'potentialresiduedecompositioncalculated', SurfaceOrganicMatterDecompTypeDDML, '')
+   id%freshorganicmatterincorporated = add_registration(respondToEventReg, 'freshorganicmatterincorporated', FPoolProfileLayerTypeDDML, '')
+   id%new_profile = add_registration(respondToEventReg, 'new_profile', newprofileTypeDDML, '')                                       
 
    ! variables we get from other modules.
    dummy = add_registration_with_units(getVariableReg, 'amp', floatTypeDDML, 'oC')
