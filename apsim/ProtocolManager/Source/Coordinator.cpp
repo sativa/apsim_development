@@ -525,7 +525,7 @@ void Coordinator::sendQueryValueMessage(unsigned fromID, unsigned regID)
 void Coordinator::onReplyValueMessage(unsigned fromID, protocol::ReplyValueData replyValueData)
    {
    int toID = previousGetValueCompID.top();
-//cout << "onReplyValueMessage id="<<previousGetValueRegID.top() << endl;
+
    if (toID == parentID || components[toID]->isSystem())
       {
       sendMessage(protocol::newReplyValueMessage(componentID,
@@ -535,8 +535,6 @@ void Coordinator::onReplyValueMessage(unsigned fromID, protocol::ReplyValueData 
       }
    else
       {
-//      string z; componentIDToName(toID, z);
-//      cout << "onReplyValueMessage to=" << z << endl ;
       sendMessage(protocol::newReturnValueMessage(componentID,
                                         toID,
                                         fromID,
@@ -565,7 +563,6 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
    int queryComponentID;
    string queryName;
    registry.unCrackPath(fromID, asString(queryInfo.name), queryComponentID, queryName);
-//   cout << "Coordinator::onQueryInfoMessage id=" << queryComponentID << "name=" << queryName << endl;
 
    if (queryInfo.kind == protocol::respondToGetInfo)
       {
@@ -958,37 +955,6 @@ void Coordinator::notifyTermination(void)
 // ------------------------------------------------------------------
 void Coordinator::onApsimGetQuery(unsigned int fromID, protocol::ApsimGetQueryData& apsimGetQueryData)
    {
-   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-
-   int queryComponentID;
-   string queryName;
-
-   registry.unCrackPath(fromID, asString(apsimGetQueryData.name), queryComponentID, queryName);
-
-   ApsimRegistration *reg = new NativeRegistration(::get,  
-                                                queryName, 
-                                                "<undefined/>",
-                                                queryComponentID,
-                                                fromID);
-   //registry.add(reg);
-   pollComponentsForGetVariable(fromID, reg->getName());
-
-   std::vector<ApsimRegistration *> matches;
-   registry.lookup(reg, matches);
-
-   if (matches.size() > 0)
-      {
-// fixme - this shouldn;t be needed as its already there???
-      ApsimRegistration *newReg = new NativeRegistration(
-             ::respondToGet,  
-             matches[0]->getName(), 
-             matches[0]->getDDML(),
-             queryComponentID,
-             matches[0]->getComponentID());
-      registry.add(newReg);
-// fixme?? should send a replyValue message back here???
-      }
-   delete reg;
    }
 
 void Coordinator::onError(const std::string& fromComponentName,
