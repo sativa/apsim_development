@@ -79,7 +79,7 @@ VensimComponent::~VensimComponent(void)
 void VensimComponent::doInit1(const protocol::Init1Data& initData)
    {
    Component::doInit1(initData);
-   processID = addRegistration(RegistrationType::respondToEvent, "prepare", "");   // XX Astounding!! XX
+   processID = addRegistration(::respondToEvent, -1, "prepare", "");   // XX Astounding!! XX
    }
 
 // ------------------------------------------------------------------
@@ -187,7 +187,7 @@ void VensimComponent::doInit2(void)
 // ------------------------------------------------------------------
 void VensimComponent::registerModelVariables(void)
    {
-   static const char* floatDDML = "<type kind=\"single\"/>";
+   string floatDDML = "<type kind=\"single\"/>";
 
    writeString("VENSIM model variables:");
    std::vector<string> names;
@@ -198,8 +198,9 @@ void VensimComponent::registerModelVariables(void)
          {
          string nameWithUnderscore = names[variable];
          Replace_all(nameWithUnderscore, " ", "_");
-         unsigned id = addRegistration(RegistrationType::respondToGetSet,
-                                       nameWithUnderscore.c_str(),
+         unsigned id = addRegistration(::respondToGetSet,
+                                       -1,
+                                       nameWithUnderscore,
                                        floatDDML);
          variables.insert(VariableMap::value_type(id, names[variable]));
          writeString(string("   " + names[variable]).c_str());
