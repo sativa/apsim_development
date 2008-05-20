@@ -30,6 +30,7 @@ class TrackerVariable
       Stat stat;
 
       std::string variableName;
+      std::string systemName;
       std::string eventName;
       std::string eventNameComponent;
 
