@@ -1377,6 +1377,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                             Data_string, Blank)
       Action = adjustl(Action)
 
+      ok = component_name_to_id(Module_name, modNameID);
+
       ! Test for case where user has forgotten to put in equals sign in set command.
 
       if (Action .eq. 'set') then
@@ -1434,7 +1436,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Get_next_variable (Data_string
      :                          , Variable_name
      :                          , value)
-         if (component_name_to_id(Module_name, modNameID)) then
+         if (modNameID .ge. 0) then
             call set_variable_in_other_module
      :                     (modNameID
      :                     ,Variable_name
@@ -1447,11 +1449,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
             call fatal_error(err_user, msg)
          endif
       else if (Action .eq. 'kill_crop') then
-         call PublishKillCrop(Data_string)
+         call PublishKillCrop(Module_name, Data_string)
 
       else
          ! some other action
-         if (component_name_to_id(Module_name, modNameID)) then
+         if (modNameID .ge. 0) then
             call New_postbox ()
             Data_was_stored = Store_message_data (Data_string)
             
@@ -1475,7 +1477,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end subroutine
 
 * ====================================================================
-      recursive subroutine PublishKillCrop(DataString)
+      recursive subroutine PublishKillCrop(ModuleNameString, DataString)
 * ====================================================================
       use ConstantsModule
       use ErrorModule
@@ -1486,6 +1488,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       implicit none
 
       character DataString*(*)        ! (INPUT) Should be blank or have a plants_kill_fraction
+      character ModuleNameString*(*)  ! (INPUT)
       character Name*(MAX_VARIABLE_NAME_SIZE)
       character Value*(500)
       type(KillCropType) Kill
@@ -1500,7 +1503,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          Kill%KillFraction = 1.0
       endif
       KillCropID = add_registration(eventReg,
-     .                              'kill_crop',
+     .                        trim(ModuleNameString) // '.kill_crop',
      .                              KillCropTypeDDML, '')
       call publish_KillCrop(KillCropID, Kill)
 
