@@ -213,8 +213,8 @@ void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventI
 // ------------------------------------------------------------------
 void TclComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData)
    {
-   string variableName = getRegistration(fromID, queryData.ID)->getNameWithBrackets();
-cout << variableName << "="; 
+   string variableName = getRegistration(fromID, queryData.ID)->getName();
+
    if (variableName != "") 
       {
       if (strchr(variableName.c_str(), '(') == NULL) 
@@ -242,7 +242,6 @@ cout << variableName << "=";
             }
          }
       }
-cout << endl;
    }
 // ------------------------------------------------------------------
 // Something is asking whether we know about a variable. If we do, register it.
@@ -284,7 +283,7 @@ bool TclComponent::respondToSet(unsigned int& fromID, protocol::QuerySetValueDat
         throw std::runtime_error(msg);
         }
 
-   string name = reg->getNameWithBrackets();
+   string name = reg->getName();
 
    const char *result = Tcl_SetVar(Interp, name.c_str(), newValue.c_str(), TCL_GLOBAL_ONLY);
    if (result != NULL)
@@ -735,7 +734,7 @@ void TclComponent::callback(const std::string& toName, const protocol::Message* 
                     }
    
                
-               string name = reg->getNameWithBrackets();
+               string name = reg->getName();
                cmd[ncmd] = Tcl_NewListObj(0, NULL);
                Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("name",-1));
                Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(name.c_str(),-1));
@@ -757,7 +756,7 @@ void TclComponent::callback(const std::string& toName, const protocol::Message* 
                                  msg += itoa(getValueData.ID);
                     throw std::runtime_error(msg);
                     }
-               string name = reg->getNameWithBrackets();
+               string name = reg->getName();
                cmd[ncmd] = Tcl_NewListObj(0, NULL);
                Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("name",-1));
                Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(name.c_str(),-1));
