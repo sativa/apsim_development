@@ -67,6 +67,12 @@ void TrackerVariable::parse(const string& fullName)
 
    if (Str_i_Eq(keyword, "as"))
       parseAs(tokenizer);
+      
+   unsigned posPeriod = name.rfind('.');
+   if (posPeriod != string::npos)  
+     systemName = name.substr(posPeriod+1);
+   else
+     systemName = name;
    }
 // ------------------------------------------------------------------
 // Parse a 'stat'
