@@ -206,14 +206,6 @@ class EXPORT Component
 
       unsigned addRegistration(EventTypeCode kind,
                                int destID,
-                               char *name,
-                               char *ddml)
-         {
-         return (addRegistration(kind, destID, name, ddml, string("")));
-         };                     
-
-      unsigned addRegistration(EventTypeCode kind,
-                               int destID,
                                const std::string& name,
                                const std::string& ddml)
          {
@@ -251,7 +243,6 @@ class EXPORT Component
                                const std::string& ddml,
                                const std::string& alias);
 
-
       void deleteRegistration(EventTypeCode kind,
                               unsigned int regID);
 
@@ -270,6 +261,7 @@ class EXPORT Component
          {
          componentData->getProperties(section, names, values);
          }
+
       void getMultipleProperties(const std::string& sectionName,
                                  const std::string& variableName,
                                  std::vector<std::string>& values);
