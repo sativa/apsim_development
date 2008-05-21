@@ -17,6 +17,18 @@
 #include "Component.h"
 #include "FORTRANComponentWrapper.h"
 
+static const char* nullType = "<type/>";
+static const char* integerType = "<type kind=\"integer4\"/>";
+static const char* integerArrayType = "<type kind=\"integer4\" array=\"T\"/>";
+static const char* realType = "<type kind=\"single\"/>";
+static const char* realArrayType = "<type kind=\"single\" array=\"T\"/>";
+static const char* doubleType = "<type kind=\"double\"/>";
+static const char* doubleArrayType = "<type kind=\"double\" array=\"T\"/>";
+static const char* stringType = "<type kind=\"string\"/>";
+static const char* stringArrayType = "<type kind=\"string\" array=\"T\"/>";
+static const char* logicalType = "<type kind=\"boolean\"/>";
+
+
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
 
@@ -1528,6 +1540,23 @@ extern "C" void EXPORT STDCALL change_component_order
    FStrings names(moduleList, moduleListLength, *numModules, *numModules);
    FortranWrapper::currentInstance->changeComponentOrder(names);
    }
+
+  std::string EXPORT protocol::DDML(const protocol::vector<int>& )
+     { return(integerArrayType); }
+  std::string EXPORT protocol::DDML(const protocol::vector<float>& )
+     { return(realArrayType); }
+  std::string EXPORT protocol::DDML(const protocol::vector<double>& )
+     { return(doubleArrayType); }
+  std::string EXPORT protocol::DDML(const FString& ) 
+     { return(stringType); }
+  std::string EXPORT protocol::DDML(const protocol::vector<FString>& ) 
+     { return(stringArrayType); }
+  std::string EXPORT protocol::DDML(const FStrings& ) 
+     { return(stringArrayType); }
+  std::string EXPORT protocol::DDML(const ApsimVariant& ) 
+     { return("<type kind=\"Variant\"/>"); }
+
+
 
 // restore the warnings about "Functions containing for are not expanded inline.
 #pragma warn .inl

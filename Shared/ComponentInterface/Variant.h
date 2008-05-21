@@ -5,8 +5,6 @@
 #include "Type.h"
 #include "ArraySpecifier.h"
 
-void fatalError(const FString& st);
-
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
 

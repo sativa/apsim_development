@@ -5,33 +5,16 @@
 
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
-
-static const char* nullType = "<type/>";
-static const char* integerType = "<type kind=\"integer4\"/>";
-static const char* integerArrayType = "<type kind=\"integer4\" array=\"T\"/>";
-static const char* realType = "<type kind=\"single\"/>";
-static const char* realArrayType = "<type kind=\"single\" array=\"T\"/>";
-static const char* doubleType = "<type kind=\"double\"/>";
-static const char* doubleArrayType = "<type kind=\"double\" array=\"T\"/>";
-static const char* stringType = "<type kind=\"string\"/>";
-static const char* stringArrayType = "<type kind=\"string\" array=\"T\"/>";
-static const char* logicalType = "<type kind=\"boolean\"/>";
 namespace protocol {
-  std::string EXPORT DDML(const protocol::vector<int>& )
-     { return(integerArrayType); }
-  std::string EXPORT DDML(const protocol::vector<float>& )
-     { return(realArrayType); }
-  std::string EXPORT DDML(const protocol::vector<double>& )
-     { return(doubleArrayType); }
-  std::string EXPORT DDML(const FString& ) 
-     { return(stringType); }
-  std::string EXPORT DDML(const protocol::vector<FString>& ) 
-     { return(stringArrayType); }
-  std::string EXPORT DDML(const FStrings& ) 
-     { return(stringArrayType); }
-  std::string EXPORT DDML(const ApsimVariant& ) 
-     { return("<type kind=\"Variant\"/>"); }
+  std::string EXPORT DDML(const protocol::vector<int>& );
+  std::string EXPORT DDML(const protocol::vector<float>& );
+  std::string EXPORT DDML(const protocol::vector<double>& );
+  std::string EXPORT DDML(const FString& );
+  std::string EXPORT DDML(const protocol::vector<FString>& ) ;
+  std::string EXPORT DDML(const FStrings& );
+  std::string EXPORT DDML(const ApsimVariant& );
 }
+
 typedef EXPORT STDCALL void (Main_t)(const char* action, const char* data, unsigned actionLength, unsigned dataLength);
 typedef EXPORT STDCALL void (alloc_dealloc_instance_t)(const unsigned int* doAllocate);
 typedef EXPORT STDCALL void (do_init1_t)();
