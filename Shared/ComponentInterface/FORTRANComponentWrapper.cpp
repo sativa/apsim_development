@@ -271,7 +271,7 @@ void FortranWrapper::respondToEvent(unsigned int& fromID, unsigned int& eventID,
    incomingApsimVariant.aliasTo(var.getMessageData());
    inRespondToSet = false;
    messageWasUsed = true;
-   int sender = var.getFromId();
+   unsigned int sender = var.getFromId();
    
    string eventName = getRegistration(componentID, eventID)->getName();
    Main(eventName.c_str(), " ");
@@ -1483,7 +1483,7 @@ extern "C" bool EXPORT STDCALL component_id_to_name(unsigned* id, char* name,
 // ------------------------------------------------------------------
 // return the posting module to caller.
 // ------------------------------------------------------------------
-extern "C" bool EXPORT STDCALL component_name_to_id(char* name, unsigned* id,
+extern "C" bool EXPORT STDCALL component_name_to_id(char* name, int* id,
                                                    unsigned nameLength)
    {
    int iid = -1;

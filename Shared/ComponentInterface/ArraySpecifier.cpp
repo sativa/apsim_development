@@ -1,5 +1,6 @@
 //---------------------------------------------------------------------------
 #pragma hdrstop
+#include <string>
 #include <stdexcept>
 #ifdef __WIN32__
    #include <stdlib>
@@ -77,7 +78,7 @@ void ArraySpecifier::convert(MessageData& messageData, DataTypeCode typeCode)
 //---------------------------------------------------------------------------
 ArraySpecifier* ArraySpecifier::create(ApsimRegistration *reg)
    {
-   string indices;
+   std::string indices;
    bool doSum;
    if (reg->getName().substr(0,4) == "sum(")
       {
@@ -91,7 +92,7 @@ ArraySpecifier* ArraySpecifier::create(ApsimRegistration *reg)
       }
 
    unsigned pos;
-   if ((pos = indices.find('(')) != string::npos)
+   if ((pos = indices.find('(')) != std::string::npos)
         indices = indices.substr(pos+1);
 
    // We potentially have an array specifier. see if it is

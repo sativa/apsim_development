@@ -688,3 +688,4 @@ void ScienceAPI::publish(const std::string& name, protocol::NewPotentialGrowthTy
    unsigned id = component->addRegistration(::event, destID, regName, ddml, "");
    component->publish(id, value);
    }
+
