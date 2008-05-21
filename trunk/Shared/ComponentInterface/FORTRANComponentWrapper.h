@@ -1,6 +1,6 @@
 #ifndef FORTRANComponentWrapperH
 #define FORTRANComponentWrapperH
-
+#include <ComponentInterface/Variants.h>
 #include <ComponentInterface/ApsimVariant.h>
 
 // turn of the warnings about "Functions containing for are not expanded inline.
