@@ -3,8 +3,9 @@
 #ifndef ArraySpecifierH
 #define ArraySpecifierH
 
-#include "Type.h"
+#include <ApsimShared/ApsimRegistration.h>
 #include "ProtocolVector.h"
+#include "Type.h"
 #include <stdexcept>
 namespace protocol {
 
@@ -46,7 +47,7 @@ class EXPORT ArraySpecifier
       // an array specifier.  Name will have the array specification eg. (2-5)
       // removed and registeredType will become and array e.g. array="T"
       //---------------------------------------------------------------------------
-      static ArraySpecifier* create(char* name, char* type);
+      static ArraySpecifier* create(ApsimRegistration *);
 
    private:
       unsigned number1;

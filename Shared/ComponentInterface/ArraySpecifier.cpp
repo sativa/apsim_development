@@ -4,9 +4,8 @@
 #ifdef __WIN32__
    #include <stdlib>
 #endif
-#include "ArraySpecifier.h"
 
-#pragma package(smart_init)
+#include "ArraySpecifier.h"
 using namespace protocol;
 
 //---------------------------------------------------------------------------
@@ -15,7 +14,7 @@ using namespace protocol;
 ArraySpecifier::ArraySpecifier(unsigned number)
    : number1(number), number2(number)
    {
-   doSum = (number == 0);
+   doSum = (number == 0); 
    }
 //---------------------------------------------------------------------------
 // constructor
@@ -76,55 +75,43 @@ void ArraySpecifier::convert(MessageData& messageData, DataTypeCode typeCode)
 // an array specifier.  Name will have the array specification eg. (2-5)
 // removed and registeredType will become and array e.g. array="T"
 //---------------------------------------------------------------------------
-ArraySpecifier* ArraySpecifier::create(char* name, char* type)
+ArraySpecifier* ArraySpecifier::create(ApsimRegistration *reg)
    {
-   static const char* sumString = "sum(";
-   bool doSum = (strncmp(name, sumString, strlen(sumString)) == 0);
-   if (doSum)
+   string indices;
+   bool doSum;
+   if (reg->getName().substr(0,4) == "sum(")
       {
-      strcpy(name, name+strlen(sumString)); // remove the sum(
-      if (name[strlen(name)-1] == ')')
-         name[strlen(name)-1] = 0;          // remove the trailing )
+      indices = reg->getName().substr(5); // remove the sum(
+      doSum = true;
+      }
+   else 
+      {
+      indices = reg->getName();
+      doSum = false;
       }
 
-   ArraySpecifier* arraySpecifier = NULL;
-   char* posOpenBracket = strchr(name, '(');
-   if (posOpenBracket != NULL)
-      {
-      char* posCloseBracket = strchr(name, ')');
-      if (posCloseBracket != NULL && posCloseBracket > posOpenBracket)
-         {
-         posOpenBracket++;
+   unsigned pos;
+   if ((pos = indices.find('(')) != string::npos)
+        indices = indices.substr(pos+1);
 
-         // We potentially have an array specifier. see if it is
-         // 1. blank           e.g. ()
-         // 2. number          e.g. (5)
-         // 3. number-number   e.g. (2-5)
-         // 4. number:number   e.g. (2:5)
-         char* endNumber1;
-         int number1 = strtol(posOpenBracket, &endNumber1, 10);
-         if (*endNumber1 == ')')
-            arraySpecifier = new ArraySpecifier(number1);
-         else if (*endNumber1 == '-' || *endNumber1 == ':')
-            {
-            char* endNumber2;
-            int number2 = strtol(++endNumber1, &endNumber2, 10);
-            if (*endNumber2 == ')')
-               arraySpecifier = new ArraySpecifier(number1, number2, doSum);
-            }
-         }
-      // If we have created an arraySpecifier then remove it from the name passed in
-      // and add array="T" to the type.
-      if (arraySpecifier != NULL)
-         {
-         *--posOpenBracket = 0;  // removes the array specifier.
-//         FString typeString(type, 1000, CString);
-//         Type(typeString).setArray(true);  // assume there is plenty of space!
-         }
-      }
+   // We potentially have an array specifier. see if it is
+   // 1. blank           e.g. ()
+   // 2. number          e.g. (5)
+   // 3. number-number   e.g. (2-5)
+   // 4. number:number   e.g. (2:5)
+   int number1=0, number2=0;
+   if (sscanf(indices.c_str(), "%d:%d", &number1, &number2) == 2)
+      return(new ArraySpecifier(number1, number2, doSum));
+   else if (sscanf(indices.c_str(), "%d-%d", &number1, &number2) == 2)
+      return(new ArraySpecifier(number1, number2, doSum));
+   else if (sscanf(indices.c_str(), "%d", &number1) == 1)
+      return(new ArraySpecifier(number1));
+   else if (indices.size() > 0 && indices[0] == ')')
+      return(new ArraySpecifier(0));
+
    // Need to catch the case: sum(sw) ie. no range specified
-   if (doSum && arraySpecifier == NULL)
-      arraySpecifier = new ArraySpecifier(0);
-   return arraySpecifier;
+   if (doSum) return(new ArraySpecifier(0));
+
+   return NULL;
    }
 
