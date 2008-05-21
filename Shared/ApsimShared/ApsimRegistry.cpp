@@ -536,3 +536,4 @@ void ApsimRegistry::dumpComponentTree(int indent, PTree<Component>* node)
       dumpComponentTree(1+indent, node->children[i]);
       }
    }
+
