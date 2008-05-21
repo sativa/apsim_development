@@ -47,23 +47,26 @@ unsigned int ApsimRegistry::add(ApsimRegistration *reg)
 
    if ( reg->getTypeCode() != ::respondToEvent && !isForeign(reg->getComponentID()))
       {
-      // return old registration if present. NB. foreigns are often "re-registered" 
+      // return old registration if present. NB. foreigns are often "re-registered"
       //   with different IDs!!!
-      registrations_type::iterator i, a, b;
-   
+      registrations_type::iterator i, j, a, b;
+
       a = registrations.lower_bound(reg->getNameWithoutBrackets());
       b = registrations.upper_bound(reg->getNameWithoutBrackets());
-   
+
       for (i = a; i != b; i++)
          {
          if (i->second->getTypeCode() == reg->getTypeCode() &&
              i->second->getComponentID() == reg->getComponentID() &&
              i->second->getDestinationID() == reg->getDestinationID() )
             {
-//            cout << "add (" << reg->getType() << "." << reg->getComponentID() << "." <<
-//              reg->getName() << "->" << reg->getDestinationID() << ")= " << ((unsigned int)i->second) << " called again\n";
-            delete reg;
-            return ((unsigned int)i->second);
+//            cout << "removing (" << i->second->getType() << "." << i->second->getComponentID() << "." <<
+//              i->second->getName() << "->" << i->second->getDestinationID() << ")= " << ((unsigned int)i->second) << " called again - returning " << i->second->getName() << endl;
+//            delete reg;
+//            return ((unsigned int)i->second);
+              delete i->second;
+              registrations.erase(i);
+              break;
             }
          }
       }   

@@ -519,7 +519,7 @@ bool Component::getVariables(unsigned int registrationID,
 
    // clean up old values if necessary.
    v->second->empty();
-
+//cout << "Component::getVariables name=" << ((ApsimRegistration*)registrationID)->getName() << endl;
    // send a GetValue message. Responses will be tucked away 
    // in the map "v" created above
    sendMessage(newGetValueMessage(componentID,
@@ -1014,26 +1014,26 @@ void Component::addReturnValueMessage(ReturnValueData &returnValueData)
       throw std::runtime_error(msg);
       }
 
-   returnValueData.variant.setFromId(returnValueData.fromID);
 
    // Fix up the type converter and array specifier if not already
    // there.
-   // What a crock. This is ugly.
+
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+   ApsimRegistration* regItem = registry.find(componentID,
+                                              returnValueData.ID) ;
+   if (regItem == NULL)
+     {
+     string msg = "Invalid registration ID in Component::addReturnValueMessage ";
+                  msg += itoa(componentID);
+                  msg += ".";
+                  msg += itoa(returnValueData.ID);
+     throw std::runtime_error(msg);
+     }
+
+
    Variants *myVariants = v->second;
    if (myVariants->getTypeConverter() == NULL)
       {
-      ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-      ApsimRegistration* regItem = registry.find(componentID,
-                                                 returnValueData.ID) ;
-      if (regItem == NULL)
-        {
-        string msg = "Invalid registration ID in Component::addReturnValueMessage ";
-                     msg += itoa(componentID);
-                     msg += ".";
-                     msg += itoa(returnValueData.ID);
-        throw std::runtime_error(msg);
-        }
-
       TypeConverter* converter;
       bool ok = getTypeConverter(regItem->getName().c_str(),
                                  returnValueData.variant.getType(),
@@ -1047,8 +1047,12 @@ void Component::addReturnValueMessage(ReturnValueData &returnValueData)
          msg += "\ndest ddml=" + regItem->getDDML();
          throw std::runtime_error(msg);
          }
-      else
-         myVariants->setTypeConverter(converter);
+      
+      myVariants->setTypeConverter(converter);
       }
+   returnValueData.variant.setFromId(returnValueData.fromID);
+
+   returnValueData.variant.setArraySpecifier(
+                             ArraySpecifier::create(regItem));
    myVariants->addVariant(returnValueData.variant);
    }
