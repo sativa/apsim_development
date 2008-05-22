@@ -44,22 +44,21 @@ class TypeConverter
 //  Short description:
 //     Return a data type converter if possible or NULL if none
 //     available.  The returned typeconverter should NEVER be
-//     deleted.  Returns true if all is ok.  If false is returned
-//     then error has already been called.
+//     deleted.  
 
 //  Changes:
 //    DPH 7/6/2001
 // ------------------------------------------------------------------
-bool EXPORT getTypeConverter(const FString& name,
-                      const Type& sourceType,
-                      const Type& destType,
-                      TypeConverter*& converter);
+void EXPORT getTypeConverter(const FString& name,
+                             const Type& sourceType,
+                             const Type& destType,
+                             TypeConverter*& converter);
 
 // ------------------------------------------------------------------
 // Return a data type converter if possible or NULL if none
 // available.
 // ------------------------------------------------------------------
-bool EXPORT getTypeConverter(const FString& name,
+void EXPORT getTypeConverter(const FString& name,
                                 protocol::DataTypeCode sourceTypeCode,
                                 protocol::DataTypeCode destTypeCode,
                                 bool isSourceArray,

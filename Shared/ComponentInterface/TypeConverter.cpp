@@ -385,22 +385,22 @@ static TypeConverter* scalarConversionMatrix[9][9] =  {
 //  Changes:
 //    DPH 7/6/2001
 // ------------------------------------------------------------------
-bool protocol::getTypeConverter(const FString& name,
+void protocol::getTypeConverter(const FString& name,
                                 const Type& sourceType,
                                 const Type& destType,
                                 TypeConverter*& converter)
    {
-   return getTypeConverter(name,
-                           sourceType.getCode(), destType.getCode(),
-                           sourceType.isArray(), destType.isArray(),
-                           converter);
+   getTypeConverter(name,
+                    sourceType.getCode(), destType.getCode(),
+                    sourceType.isArray(), destType.isArray(),
+                    converter);
    }
 
 // ------------------------------------------------------------------
 // Return a data type converter if possible or NULL if none
 // available.
 // ------------------------------------------------------------------
-bool protocol::getTypeConverter(const FString& name,
+void protocol::getTypeConverter(const FString& name,
                                 protocol::DataTypeCode sourceTypeCode,
                                 protocol::DataTypeCode destTypeCode,
                                 bool isSourceArray,
@@ -460,8 +460,10 @@ bool protocol::getTypeConverter(const FString& name,
             FString sourceTypeString = Type::codeToString(sourceTypeCode);
             FString destTypeString = Type::codeToString(destTypeCode);
 
-            char msg[300];
+            char msg[1000];
             strcpy(msg, "Cannot create a type converter.");
+            strcat(msg, "\nVariable name =");
+            strncat(msg, name.f_str(), name.length());
             strcat(msg, "\nSource type: ");
             strncat(msg, sourceTypeString.f_str(), sourceTypeString.length());
             if (isSourceArray)
@@ -472,13 +474,12 @@ bool protocol::getTypeConverter(const FString& name,
                strcat(msg, " array");
             strcat(msg, "\nVariable name: ");
             strncat(msg, name.f_str(), name.length());
-            throw runtime_error(msg);
+            throw std::runtime_error(msg);
             }
          else
             converter = converter->clone();
          }
       }
-   return true;
    }
 
 

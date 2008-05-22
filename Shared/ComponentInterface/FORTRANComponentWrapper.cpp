@@ -2,7 +2,6 @@
 // Wrapper dll for fortran routines.
 // Keeps pointers to fortran entry points (Main(), do_init1() etc..
 // and calls them when reqd.
-#pragma hdrstop
 #ifndef __WIN32__
    #include <dlfcn.h>
 #else
@@ -463,23 +462,6 @@ extern "C" void EXPORT STDCALL terminate_simulation(void)
    {
    FortranWrapper::currentInstance->terminateSimulation();
    }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    get the value(s) of a variable from the system.
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-//extern "C" unsigned EXPORT STDCALL get_variables
-//   (unsigned int* registrationID, protocol::Variants** values)
-//   {
-//   return FortranWrapper::currentInstance->getVariables
-//      (*registrationID, values);
-//   }
 
 // ------------------------------------------------------------------
 //  Short description:

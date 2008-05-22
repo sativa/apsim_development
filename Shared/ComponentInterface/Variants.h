@@ -22,13 +22,11 @@ class TypeConverter;
 class Variants
    {
    public:
-      Variants(Component* parent, const Type& t)
-         : registeredType(t), typeConverter(NULL)
+      Variants(Component* parent)
          {
          }
       ~Variants(void)
          {
-         delete typeConverter;
          empty();
          }
       unsigned int size(void) const {return variants.size();}
@@ -41,7 +39,6 @@ class Variants
       void addVariant(const Variant& variant)
          {
          variants.push_back(new Variant(variant));
-         variants[variants.size()-1]->setTypeConverter(typeConverter);
          }
 
       Variant* getVariant(unsigned int variantIndex)
@@ -51,21 +48,9 @@ class Variants
          else
             return NULL;
          }
-      void setTypeConverter(TypeConverter* typeConv)
-         {
-         delete typeConverter;
-         typeConverter = typeConv;
-         }
-      TypeConverter* getTypeConverter(void)
-         {
-         return typeConverter;
-         }
 
    private:
-      const Type registeredType;
       vector<Variant*> variants;
-      TypeConverter* typeConverter;
-
    };
 #pragma warn .inl
 

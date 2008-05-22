@@ -1,12 +1,10 @@
 //---------------------------------------------------------------------------
-#pragma hdrstop
-
-#include "ScienceAPI.h"
-#include "Component.h"
-#include "datatypes.h"
-#include <ApsimShared/ApsimRegistry.h>
 
 #include <general/string_functions.h>
+#include <ApsimShared/ApsimRegistry.h>
+#include "Component.h"
+#include "ScienceAPI.h"
+
 
 template <class T>
 bool StringConverter(protocol::Component* component, const string& name,
@@ -484,16 +482,13 @@ class CMPSetter : public DeletableThing
       bool CMPFunction(protocol::Component* component, protocol::QuerySetValueData &v)
          {
          protocol::TypeConverter* converter = NULL;
-         if (getTypeConverter(name.c_str(),
-                              v.variant.getType().getCode(),
-                              typeCode,
-                              v.variant.getType().isArray(),
-                              false,
-                              converter))
-           {
-           v.variant.setTypeConverter(converter);
-           }
-         v.variant.unpack(dummy);
+         getTypeConverter(name.c_str(),
+                               v.variant.getType().getCode(),
+                               typeCode,
+                               v.variant.getType().isArray(),
+                               false,
+                               converter);
+         v.variant.unpack(converter, NULL, dummy);
          setter(dummy);
          if (converter) delete converter;
          return true;
@@ -535,7 +530,7 @@ class CMPMethod1 : public DeletableThing
          }
       void invoke(unsigned &, unsigned &, protocol::Variant& variant)
          {
-         variant.unpack(dummy);
+         variant.unpack(NULL, NULL,  dummy);
          setter(dummy);
          }
       const char* DDML() {return ddml.c_str();}

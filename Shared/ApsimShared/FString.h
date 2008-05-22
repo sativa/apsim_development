@@ -217,16 +217,17 @@ class FString
          }
       void error(const FString& msg1, const FString& msg2) const
          {
-         throw std::runtime_error("Internal error in FString");
-#if 0
          char* buffer = new char[msg1.length() + msg2.length() + 1];
          strncpy(buffer, msg1.text, msg1.length());
          buffer[msg1.length()] = 0;
          strncat(buffer, msg2.text, msg2.length());
          buffer[msg1.length() + msg2.length()] = 0;
+
+         throw std::runtime_error(buffer);
+#if 0
          MessageBox(NULL, buffer, "Internal error in FString", MB_ICONERROR | MB_OK);
-         delete [] buffer;
 #endif
+         delete [] buffer;
          }
 
    };

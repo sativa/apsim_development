@@ -420,7 +420,7 @@
      :                     , '()'
      :                     , vp)
 
-      call event_send (EVENT_newmet)
+      call event_send (unknown_module,EVENT_newmet)
 
       call delete_postbox()
 

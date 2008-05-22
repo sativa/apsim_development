@@ -490,58 +490,79 @@ class EXPORT Component
  public:
       // Get a variable from the system (into basic C datatypes)
       template <class T>
-      bool getVariable(int regId,
+      bool getVariable(unsigned int regId,
                        T& value,
                        double lower,
                        double upper,
                        bool isOptional = false)
          {
-         protocol::Variant *variant;
-         if (getVariable(regId, &variant, isOptional))
+         protocol::Variant *variant = NULL;
+         if (!getVariable(regId, &variant, isOptional))
             {
-            bool ok = variant->unpack(value);
+            return false;
+            }
+         else
+            {
+            ApsimRegistration *regItem = (ApsimRegistration *)regId /*getRegistration(componentID, regId)*/;
+            TypeConverter* typeConverter;
+            getTypeConverter(regItem->getName().c_str(),
+                             variant->getType(),
+                             regItem->getDDML().c_str(),
+                             typeConverter);
+            
+            bool ok = variant->unpack(typeConverter, 
+                                      ArraySpecifier::create(regItem), 
+                                      value);
             if (!ok)
                {
-               string buffer= "TypeConverter failed.\n"
-                              "VariableName:";
-               buffer += getRegistration(componentID, regId)->getName();
+               string buffer= "Unpack failed.\n"
+                              "VariableName: ";
+               buffer += regItem->getName();
                error(buffer, true);
                return false;
                }
             if (value < lower || value > upper)
                {
-               string variableName = getRegistration(componentID,regId)->getName();
                string msg = string("Bound check warning while getting variable.\n"
-                                   "Variable  : ") + variableName + string("\n"
+                                   "Variable  : ") + regItem->getName() + string("\n"
                                    "Condition : ") + ftoa(lower, 2) + string(" <= ") +
                                     boost::lexical_cast<std::string>(value) + string(" <= ") + ftoa(upper, 2);
                error(msg, false);
                }
             }
-         else
-            return false;
-
          return true;
          }
 
       template <class T>
-      bool getVariable(int regId,
+      bool getVariable(unsigned int regId,
                        std::vector<T>& values,
                        double lower,
                        double upper,
                        bool isOptional = false)
          {
          values.clear();
-         protocol::Variant *variant;
-         if (getVariable(regId, &variant, isOptional))
+         protocol::Variant *variant = NULL;
+         if (!getVariable(regId, &variant, isOptional))
             {
-            bool ok = variant->unpack(values);
+            return false;
+            }
+         else   
+            {
+            ApsimRegistration *regItem = (ApsimRegistration *)regId /*getRegistration(componentID, regId)*/;
+            TypeConverter* typeConverter;
+            getTypeConverter(regItem->getName().c_str(),
+                             variant->getType(),
+                             regItem->getDDML().c_str(),
+                             typeConverter);
+
+            bool ok = variant->unpack(typeConverter, 
+                                      ArraySpecifier::create(regItem), 
+                                      values);
             if (!ok)
                {
-               string buffer= "TypeConverter failed.\n"
-                              "VariableName:";
-               string variableName = getRegistration(componentID, regId)->getName();
-               buffer += variableName;
+               string buffer= "Unpack failed.\n"
+                              "VariableName: ";
+               buffer += regItem->getName();
                error(buffer, true);
                return false;
                }
@@ -550,19 +571,15 @@ class EXPORT Component
                {
                if (values[i] < lower || values[i] > upper)
                    {
-                   string variableName = getRegistration(componentID,regId)->getName();
                    string msg = string("Bound check warning while getting variable.\n"
-                                       "Variable  : ") + variableName + string("(") + itoa(i+1) +  string(")\n"
+                                       "Variable  : ") + regItem->getName() + string("(") + itoa(i+1) +  string(")\n"
                                        "Condition : ") + ftoa(lower, 2) + string(" <= ") +
                                 boost::lexical_cast<string>(values[i]) + string(" <= ") + ftoa(upper, 2);
                    error(msg, false);
                    }
                }
             }
-         else
-            return false;
-
-         return (values.size()> 0);
+         return (values.size() > 0);
          }
 
    // Read variable permutations

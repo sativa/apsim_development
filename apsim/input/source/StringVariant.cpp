@@ -63,38 +63,37 @@ void StringVariant::sendVariable(QueryValueData& queryData, bool useMainValue)
 void StringVariant::setVariable(QuerySetValueData& setValueData)
    {
    protocol::TypeConverter* converter = NULL;
-   if (getTypeConverter(value->name.c_str(),
+   getTypeConverter(value->name.c_str(),
                         setValueData.variant.getType(),
                         protocol::Type(typeString.c_str()),
-                        converter))
-      setValueData.variant.setTypeConverter(converter);
+                        converter);
 
    value->values.erase(value->values.begin(), value->values.end());
    switch (type)
       {
       case Real:         {float realValue;
-                         setValueData.variant.unpack(realValue);
+                         setValueData.variant.unpack(converter, NULL, realValue);
                          value->values.push_back(ftoa(realValue, 3));
                          break;}
       case Integer:      {int integerValue;
-                         setValueData.variant.unpack(integerValue);
+                         setValueData.variant.unpack(converter, NULL, integerValue);
                          std::string buffer;
                          buffer = itoa(integerValue);
                          value->values.push_back(buffer);
                          break;}
       case String:       {string st;
-                         setValueData.variant.unpack(st);
+                         setValueData.variant.unpack(converter, NULL, st);
                          value->values.push_back(st);
                          break;}
       case RealArray:    {std::vector<float> realArray;
-                         setValueData.variant.unpack(realArray);
+                         setValueData.variant.unpack(converter, NULL, realArray);
                          DoubleContainerToStringContainer(realArray, value->values);
                          break;}
       case IntegerArray: {std::vector<int> integerArray;
-                         setValueData.variant.unpack(integerArray);
+                         setValueData.variant.unpack(converter, NULL, integerArray);
                          IntegerContainerToStringContainer(integerArray, value->values);
                          break;}
-      case StringArray:  {setValueData.variant.unpack(value->values);
+      case StringArray:  {setValueData.variant.unpack(converter, NULL, value->values);
                          break;}
       }
    delete converter;
