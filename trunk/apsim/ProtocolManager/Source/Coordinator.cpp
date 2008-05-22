@@ -407,7 +407,7 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, protocol::PublishEv
       if (Str_i_Eq(regItem->getName(), "error"))
          {
          protocol::ErrorData errorData;
-         publishEventData.variant.unpack(errorData);
+         publishEventData.variant.unpack(NULL, NULL, errorData);
          string fromComponentName;
          if (components.find(fromID) != components.end())
             fromComponentName = components[fromID]->getName();

@@ -17,4 +17,3 @@ extern "C" unsigned EXPORT STDCALL variants_size(const Variants& variants)
    {
    return variants.size();
    }
-

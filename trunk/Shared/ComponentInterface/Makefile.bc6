@@ -12,8 +12,10 @@ PROJECT= ..\..\Bin\ComponentInterface.dll
 OBJFILES = ComponentInterface.obj Component.obj \
       message.obj Type.obj TypeConverter.obj variant.obj Variants.obj \
       MessageData.obj ApsimVariant.obj ArraySpecifier.obj \
-      ProtocolVector.obj  \
-      EntryPoints.obj Variable.obj VariableRef.obj ScienceAPI.obj datatypes.obj FORTRANComponentWrapper.obj FORTRANdatatypes.obj
+      ProtocolVector.obj   \
+      EntryPoints.obj Variable.obj VariableRef.obj \
+      ScienceAPI.obj datatypes.obj \
+      FORTRANComponentWrapper.obj FORTRANdatatypes.obj
 
 LIBFILES = $(SYSLIBS) \
    $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \

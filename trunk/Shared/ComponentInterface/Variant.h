@@ -26,12 +26,12 @@ class Variant
    {
    public:
       Variant(void)
-         : newDataPtr(NULL), typeConverter(NULL), arraySpecifier(NULL) { }
+         : newDataPtr(NULL) { }
 
       // this constructor is needed for storing a copy of a variant in a
       // variants class.
       Variant(const Variant& from)
-         : typeConverter(NULL), fromId(from.fromId), arraySpecifier(NULL)
+         : fromId(from.fromId)
          {
          copyFrom(from);
          }
@@ -52,6 +52,13 @@ class Variant
       template <class T>
       bool unpack(T& obj)
          {
+         messageData >> obj;
+         return true;
+         }
+
+      template <class T>
+      bool unpack(TypeConverter *typeConverter, ArraySpecifier *arraySpecifier, T& obj)
+         {
          if (arraySpecifier != NULL)
             {
             if (!type.isArray())
@@ -66,8 +73,9 @@ class Variant
             messageData >> obj;
          return true;
          }
+
       template <class T>
-      bool unpackArray(T obj[], unsigned& numValues)
+      bool unpackArray(TypeConverter *typeConverter, ArraySpecifier *arraySpecifier, T obj[], unsigned& numValues)
          {
          if (arraySpecifier != NULL)
             {
@@ -80,14 +88,6 @@ class Variant
          for (unsigned i = 0; i != numValues; i++)
             messageData >> obj[i];
          return true;
-         }
-      void setTypeConverter(TypeConverter* typeconv)
-         {
-         typeConverter = typeconv;
-         }
-      void setArraySpecifier(ArraySpecifier* arraySpec)
-         {
-         arraySpecifier = arraySpec;
          }
       void aliasTo(Variant& variant)
          {
@@ -107,13 +107,6 @@ class Variant
          toMessageData << type;
          toMessageData.copyFrom(messageData.start(), messageData.totalBytes());
          }
-      unsigned getLowerBound(void)
-         {
-         if (arraySpecifier == NULL)
-            return 1;
-         else
-            return arraySpecifier->getLowerBound();
-         }
       unsigned size(void) const {return memorySize(type) + messageData.totalBytes();}
       const MessageData& getMessageData(void) const {return messageData;}
 
@@ -121,9 +114,7 @@ class Variant
       char* newDataPtr;
       Type type;
       MessageData messageData;
-      TypeConverter* typeConverter;
       unsigned fromId;
-      ArraySpecifier* arraySpecifier;
 
       void copyFrom(const Variant& from)
          {
@@ -132,8 +123,7 @@ class Variant
          messageData.copyFrom(from.messageData.start(), from.messageData.totalBytes());
          messageData.reset();
          type = from.type;
-         typeConverter = NULL;
-         arraySpecifier = from.arraySpecifier;
+         fromId = from.fromId;
          }
 
    };

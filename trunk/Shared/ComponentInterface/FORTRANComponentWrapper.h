@@ -2,6 +2,8 @@
 #define FORTRANComponentWrapperH
 #include <ComponentInterface/Variants.h>
 #include <ComponentInterface/ApsimVariant.h>
+#include <ComponentInterface/TypeConverter.h>
+#include <ComponentInterface/ArraySpecifier.h>
 
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
@@ -86,24 +88,31 @@ class FortranWrapper : public protocol::Component
                    const FString& variableName, const FString& dataTypeString,
                    T& value, unsigned& numvals, bool isOptional = false)
          {
-         int regId = FortranWrapper::currentInstance->
+         ApsimRegistration *regItem = (ApsimRegistration *)
+                  FortranWrapper::currentInstance->
                              addRegistration(::get,
                                              destID,
                                              asString(variableName), 
                                              asString(dataTypeString));
 
-         protocol::Variant *variant;
-         if (getVariable(regId, &variant, isOptional))
+         protocol::Variant *variant = NULL;
+         if (getVariable((unsigned int)regItem, &variant, isOptional))
             {
-            bool ok = variant->unpack(value);
+            protocol::TypeConverter* typeConverter;
+            getTypeConverter(regItem->getName().c_str(),
+                             variant->getType(),
+                             regItem->getDDML().c_str(),
+                             typeConverter);
+            
+            bool ok = variant->unpack(typeConverter, 
+                                      protocol::ArraySpecifier::create(regItem), 
+                                      value);
             if (!ok)
                {
-               char buffer[100];
-               strcpy(buffer, "Cannot use array notation on a scalar variable.\n"
-                              "VariableName:");
-               strncat(buffer, variableName.f_str(), variableName.length());
-               error(FString(buffer), true);
-               numvals = 0;
+               string msg= "Unpack failed.";
+               msg += "\nVariableName: ";
+               msg += regItem->getName();
+               throw std::runtime_error(msg);
                }
             else
                {
@@ -120,24 +129,39 @@ class FortranWrapper : public protocol::Component
       void get_vars(unsigned requestNo, const FString& variableName,
                     const FString& dataTypeString, T& value, unsigned& numvals)
          {
+         numvals = 0;
+         static ApsimRegistration * regItem;
          if (requestNo == 1)
             {
-            int regId = FortranWrapper::currentInstance->addRegistration
-                                 (::get, -1, variableName, dataTypeString);
-            FortranWrapper::currentInstance->getVariables(regId, &vars);
+            regItem = (ApsimRegistration *)
+                    FortranWrapper::currentInstance->addRegistration
+                             (::get, -1, variableName, dataTypeString);
+            FortranWrapper::currentInstance->getVariables((unsigned int)regItem, &vars);
             } 
          if (vars != NULL && vars->size() > 0)
             {
-            protocol::Variant* var = vars->getVariant(requestNo-1);
-            if (var != NULL)
+            protocol::Variant* variant = vars->getVariant(requestNo-1);
+            if (variant != NULL)
                {
-               var->unpack(value);
+               protocol::TypeConverter* typeConverter;
+               getTypeConverter(regItem->getName().c_str(),
+                                variant->getType(),
+                                regItem->getDDML().c_str(),
+                                typeConverter);
+               bool ok = variant->unpack(typeConverter, 
+                                         protocol::ArraySpecifier::create(regItem), 
+                                         value);
+               if (!ok)
+                  {
+                  string msg= "Unpack failed.\n"
+                              "VariableName: ";
+                  msg += regItem->getName();
+                  throw std::runtime_error(msg);
+                  }
                numvals = 1;
-               fromID = var->getFromId();
-               return;
+               fromID = variant->getFromId();
                }
-            }
-         numvals = 0;
+            }   
          }
 
       template <class T>
@@ -193,18 +217,17 @@ class FortranWrapper : public protocol::Component
          if (inRespondToSet)
             {
             protocol::TypeConverter* converter = NULL;
-            if (getTypeConverter(variableName,
-                                 incomingVariant.getType().getCode(),
-                                 dataType,
-                                 incomingVariant.getType().isArray(),
-                                 isArray,
-                                 converter))
-               {
-               incomingVariant.setTypeConverter(converter);
-               }
-            incomingVariant.unpack(value);
+            getTypeConverter(variableName,
+                                  incomingVariant.getType().getCode(),
+                                  dataType,
+                                  incomingVariant.getType().isArray(),
+                                  isArray,
+                                  converter);
 
-            delete converter;
+            incomingVariant.unpack(converter, 
+                                   NULL /*protocol::ArraySpecifier::create(regItem)*/, 
+                                   value);
+
             ok = true;
             }
          else

@@ -164,7 +164,7 @@ try {
                                  messageData >> eventData;
                                  if (eventData.ID == tickID)
                                     {
-                                    eventData.params.unpack(tick);
+                                    eventData.params.unpack(NULL, NULL, tick);
                                     eventData.params.getMessageData().reset();
                                     haveWrittenToStdOutToday = false;
                                     }
@@ -514,7 +514,7 @@ bool Component::getVariables(unsigned int registrationID,
          v,
          getVariableResponses::value_type(
                 registrationID, 
-                new Variants(this, Type("<variant/>"))));
+                new Variants(this)));
       }
 
    // clean up old values if necessary.
@@ -1032,27 +1032,8 @@ void Component::addReturnValueMessage(ReturnValueData &returnValueData)
 
 
    Variants *myVariants = v->second;
-   if (myVariants->getTypeConverter() == NULL)
-      {
-      TypeConverter* converter;
-      bool ok = getTypeConverter(regItem->getName().c_str(),
-                                 returnValueData.variant.getType(),
-                                 FString(regItem->getDDML().c_str()),
-                                 converter);
-      if(!ok)
-         {
-         string msg = "Type conversion error in module " + name;
-         msg += "\nVariable name=" + regItem->getName();
-         msg += "\nsrc ddml=" + string(returnValueData.variant.getType().getTypeString().f_str());
-         msg += "\ndest ddml=" + regItem->getDDML();
-         throw std::runtime_error(msg);
-         }
-      
-      myVariants->setTypeConverter(converter);
-      }
+
    returnValueData.variant.setFromId(returnValueData.fromID);
 
-   returnValueData.variant.setArraySpecifier(
-                             ArraySpecifier::create(regItem));
    myVariants->addVariant(returnValueData.variant);
    }
