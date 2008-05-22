@@ -75,6 +75,15 @@ class Variant
          }
 
       template <class T>
+      bool unpackArray(T obj[], unsigned& numValues)
+         {
+         messageData >> numValues;
+         for (unsigned i = 0; i != numValues; i++)
+            messageData >> obj[i];
+         return true;
+         }
+
+      template <class T>
       bool unpackArray(TypeConverter *typeConverter, ArraySpecifier *arraySpecifier, T obj[], unsigned& numValues)
          {
          if (arraySpecifier != NULL)
