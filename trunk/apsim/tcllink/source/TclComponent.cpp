@@ -343,7 +343,6 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname, bool optio
          switch (variant->getType().getCode()) {
          	case DTstring:                        /* strings*/
          	   {
-               variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
                if (variant->getType().isArray())
          	       {
                    std::vector<string> scratch; variant->unpack(scratch);
@@ -361,7 +360,6 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname, bool optio
          	case DTboolean:                       /* 4 byte integer */
          	case DTint4:                          /* 4 byte integer */
          	   {
-               variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
                if (variant->getType().isArray())
          	       {
                    std::vector<int> scratch; variant->unpack(scratch);
@@ -378,7 +376,6 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname, bool optio
                }
             case DTsingle:                       /* floats */
          	   {
-               variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
                if (variant->getType().isArray())
          	       {
                    std::vector<float> scratch; variant->unpack(scratch);
@@ -395,7 +392,6 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname, bool optio
                }
             case DTdouble:                       /* floats */
          	   {
-               variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
                if (variant->getType().isArray())
          	       {
                    std::vector<double> scratch; variant->unpack(scratch);
@@ -725,21 +721,22 @@ void TclComponent::callback(const std::string& toName, const protocol::Message* 
                ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
                ApsimRegistration *reg = registry.find(eventData.publishedByID, eventData.ID);
                if (reg == NULL)
-                    {
-                    string msg = "Invalid registration ID in TclComponent::callback ";
-                                 msg += itoa(eventData.publishedByID);
-                                 msg += ".";
-                                 msg += itoa(eventData.ID);
-                    throw std::runtime_error(msg);
-                    }
-   
-               
-               string name = reg->getName();
-               cmd[ncmd] = Tcl_NewListObj(0, NULL);
-               Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("name",-1));
-               Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(name.c_str(),-1));
-               ncmd++;
-               break;
+                  {
+                  string msg = "Invalid registration ID in TclComponent::callback ";
+                               msg += itoa(eventData.publishedByID);
+                               msg += ".";
+                               msg += itoa(eventData.ID);
+                  cout << msg << endl;
+                  }
+               else 
+                  {
+                  string name = reg->getName();
+                  cmd[ncmd] = Tcl_NewListObj(0, NULL);
+                  Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("name",-1));
+                  Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(name.c_str(),-1));
+                  ncmd++;
+                  break;
+                  }
                }
             case protocol::GetValue:
                {
@@ -749,19 +746,22 @@ void TclComponent::callback(const std::string& toName, const protocol::Message* 
                ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
                ApsimRegistration *reg = registry.find(message->from, getValueData.ID); // fixme!!
                if (reg == NULL)
-                    {
-                    string msg = "Invalid registration ID in TclComponent::callback ";
-                                 msg += itoa(message->from);
-                                 msg += ".";
-                                 msg += itoa(getValueData.ID);
-                    throw std::runtime_error(msg);
-                    }
-               string name = reg->getName();
-               cmd[ncmd] = Tcl_NewListObj(0, NULL);
-               Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("name",-1));
-               Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(name.c_str(),-1));
-               ncmd++;
-               break;
+                   {
+                   string msg = "Invalid registration ID in TclComponent::callback ";
+                                msg += itoa(message->from);
+                                msg += ".";
+                                msg += itoa(getValueData.ID);
+                   throw std::runtime_error(msg);
+                   }
+               else
+                   {
+                   string name = reg->getName();
+                   cmd[ncmd] = Tcl_NewListObj(0, NULL);
+                   Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("name",-1));
+                   Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(name.c_str(),-1));
+                   ncmd++;
+                   break;
+                   }
                }
             }
 
