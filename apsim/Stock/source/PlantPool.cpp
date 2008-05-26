@@ -5,7 +5,7 @@
 #define YES 1
 #define NO 0
 #define TEST_PlantPool YES                            // build unit test?
-#include <vcl.h>
+#include <windows.h>
 #include <math.h>
 
 #ifndef PlantPool_H

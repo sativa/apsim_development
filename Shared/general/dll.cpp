@@ -63,7 +63,7 @@ void closeDLL(void* handle)
    // Close the specified dll handle.
    // ------------------------------------------------------------------
    #ifdef __WIN32__
-      FreeLibrary(handle);
+      FreeLibrary((HINSTANCE)handle);
    #else
       dlclose(handle);
    #endif
@@ -75,7 +75,7 @@ void* dllProcAddress(void* dllHandle, const char* name)
    // Return the address of a function in the dll specified by dllHandle.
    // ------------------------------------------------------------------
    #ifdef __WIN32__
-      return GetProcAddress(dllHandle, name);
+      return GetProcAddress((HINSTANCE)dllHandle, name);
    #else
       return dlsym(dllHandle, name);
    #endif

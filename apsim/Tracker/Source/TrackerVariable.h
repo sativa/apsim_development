@@ -18,7 +18,7 @@ class TrackerVariable
       std::string getName(void) const {return name;}
 
       void doRegistrations(void);
-      void respondToEvent(unsigned fromID, unsigned eventID);
+      void respondToEvent(int fromID, unsigned eventID);
       void respondToGet(unsigned int& fromID,
                         protocol::QueryValueData& queryData);
 
@@ -30,25 +30,24 @@ class TrackerVariable
       Stat stat;
 
       std::string variableName;
-      std::string systemName;
       std::string eventName;
-      std::string eventNameComponent;
+      int eventComponentID;
+
+      std::string ownerModuleName;
+      int         ownerModuleID;
 
       std::string startPeriod;
-      std::string startPeriodComponent;
+      int startPeriodComponentID;
       std::string endPeriod;
-      std::string endPeriodComponent;
+      int endPeriodComponentID;
 
       unsigned last;
       std::string sampleDate;
 
-      unsigned variableID;
       unsigned startPeriodID;
       unsigned endPeriodID;
       unsigned nameID;
       unsigned eventID;
-      unsigned todayID;
-
 
       bool inWindow;
       bool isArray;

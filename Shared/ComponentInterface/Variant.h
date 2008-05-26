@@ -31,7 +31,6 @@ class Variant
       // this constructor is needed for storing a copy of a variant in a
       // variants class.
       Variant(const Variant& from)
-         : fromId(from.fromId)
          {
          copyFrom(from);
          }
@@ -124,7 +123,7 @@ class Variant
       Type type;
       MessageData messageData;
       unsigned fromId;
-
+      
       void copyFrom(const Variant& from)
          {
          newDataPtr = new char[from.messageData.totalBytes()+1];

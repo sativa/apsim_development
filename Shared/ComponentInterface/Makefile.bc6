@@ -10,15 +10,14 @@ BCB = $(MAKEDIR)\..
 PROJECT= ..\..\Bin\ComponentInterface.dll
 
 OBJFILES = ComponentInterface.obj Component.obj \
-      message.obj Type.obj TypeConverter.obj variant.obj Variants.obj \
+      message.obj Type.obj TypeConverter.obj Variant.obj Variants.obj \
       MessageData.obj ApsimVariant.obj ArraySpecifier.obj \
       ProtocolVector.obj   \
       EntryPoints.obj Variable.obj VariableRef.obj \
       ScienceAPI.obj datatypes.obj \
       FORTRANComponentWrapper.obj FORTRANdatatypes.obj
 
-LIBFILES = $(SYSLIBS) \
-   $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+LIBFILES = $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
    $(APSROOT)\Shared\general\general.lib \
    $(BCB)\Components\LibXml2\win32\LibXml2.lib
 
@@ -27,20 +26,16 @@ IMPDEF=$(BCB)\Bin\impdef.exe
 # ---------------------------------------------------------------------------
 RESFILES = 
 USERDEFINES =
-SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;
-INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost;
+INCLUDEPATH = $(SYSINCLUDES)
 LIBPATH = $(SYSLIBPATH)
 CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
 CFLAGLF95 =  -x- -RT- -r- -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k -y -v -vi- -tWD -tWM -c
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
-ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib $(OBJFILES)
+ALLOBJ = c0d32.obj Memmgr.Lib $(OBJFILES)
 ALLRES = $(RESFILES)
 ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
-
-CC=$(BCB)\Bin\bcc32.exe
-LD=$(BCB)\Bin\ilink32
 
 source: datatypes.h $(PROJECT) SimpleWrapper.obj 
 

@@ -1,7 +1,5 @@
 #ifdef __WIN32__
-
-#include <general/pch.h>
-#include <vcl.h>
+#include <windows.h>
 
 //extern "C" void TkWinXCleanup(HINSTANCE);
 //extern "C" void TkWinXInit(HINSTANCE);

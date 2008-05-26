@@ -1,5 +1,4 @@
 #include <general\pch.h>
-#include <vcl.h>
 #pragma hdrstop
 
 #include <ComponentInterface\MessageDataExt.h>

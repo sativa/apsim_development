@@ -5,8 +5,6 @@
 #include <stdexcept>
 #include <iosfwd.h>
 
-#include <vcl.h>
-
 #include <general/stringTokenizer.h>
 #include <general/string_functions.h>
 #include <general/path.h>
@@ -188,78 +186,69 @@ bool ControlFileConverter::convert(const string& fileName,
 bool ControlFileConverter::convertSection(const string& sectionName) throw(runtime_error)
    {
    bool ok = false;
-   try
+   vector<string> commands;
+   script->read(sectionName, "command", commands);
+   for (unsigned c = 0; c != commands.size(); ++c)
       {
-      vector<string> commands;
-      script->read(sectionName, "command", commands);
-      for (unsigned c = 0; c != commands.size(); ++c)
-         {
-         // yield control to windows.
-         Application->ProcessMessages();
 
-         // extract the routine name
-         unsigned posOpenBracket = commands[c].find('(');
-         if (posOpenBracket == string::npos)
-            throw runtime_error("Bad control file converter command: " + commands[c]);
-         string routineName = commands[c].substr(0, posOpenBracket);
+      // extract the routine name
+      unsigned posOpenBracket = commands[c].find('(');
+      if (posOpenBracket == string::npos)
+         throw runtime_error("Bad control file converter command: " + commands[c]);
+      string routineName = commands[c].substr(0, posOpenBracket);
 
-         // extract the arguments inside the brackets.
-         unsigned posCloseBracket = commands[c].rfind(')');
-         if (posCloseBracket == string::npos)
-            throw runtime_error("Bad control file converter command: " + commands[c]);
-         string arguments = commands[c].substr(posOpenBracket+1, posCloseBracket-posOpenBracket-1);
-         stripLeadingTrailing(arguments, " ");
+      // extract the arguments inside the brackets.
+      unsigned posCloseBracket = commands[c].rfind(')');
+      if (posCloseBracket == string::npos)
+         throw runtime_error("Bad control file converter command: " + commands[c]);
+      string arguments = commands[c].substr(posOpenBracket+1, posCloseBracket-posOpenBracket-1);
+      stripLeadingTrailing(arguments, " ");
 
-         // call the appropriate routine to do the conversion.
-         if (routineName == "SetParameterValue")
-            ok = executeSetParameterValue(arguments) || ok;
-         else if (routineName == "RenameParameter")
-            ok = executeRenameParameter(arguments) || ok;
-         else if (routineName == "DeleteParameter")
-            ok = executeDeleteParameter(arguments) || ok;
-         else if (routineName == "ChangeInstantiation")
-            ok = executeChangeInstantiation(arguments) || ok;
-         else if (routineName == "RemoveReportOutputSwitch")
-            ok = executeRemoveReportOutputSwitch(arguments) || ok;
-         else if (routineName == "MoveParameter")
-            ok = executeMoveParameter(arguments) || ok;
-         else if (routineName == "NewFormatReportVariables")
-            ok = executeNewFormatReportVariables(arguments) || ok;
-         else if (routineName == "MoveParametersOutOfCon")
-            ok = executeMoveParametersOutOfCon(arguments) || ok;
-         else if (routineName == "RemoveSumAvgToTracker")
-            ok = executeRemoveSumAvgToTracker(arguments) || ok;
-         else if (routineName == "RemoveTrackerDefault")
-            ok = executeRemoveTrackerDefault(arguments) || ok;
-         else if (routineName == "SearchReplaceReportVariables")
-            ok = executeSearchReplaceReportVariables(arguments) || ok;
-         else if (routineName == "AddParamFileToModule")
-            ok = executeAddParamFileToModule(arguments) || ok;
-         else if (routineName == "RemovePeriodsInReportAndTracker")
-            ok = removePeriodsInReportAndTracker(arguments) || ok;
-         else if (routineName == "ReworkTrackerVariables")
-            ok = ReworkTrackerVariables(arguments) || ok;
-         else if (routineName == "RenameModule")
-            ok = executeRenameModule(arguments) || ok;
-         else if (routineName == "SearchReplace")
-            ok = executeSearchReplace(arguments) || ok;
-         else if (routineName == "SetManagerActionParameter")
-            ok = executeSetManagerActionParameter(arguments) || ok;
-         else if (routineName == "DeleteManagerActionParameter")
-            ok = executeDeleteManagerActionParameter(arguments) || ok;
-         else if (routineName == "FindModuleLocalIniFile")
-            ok = executeFindModuleLocalIniFile(arguments) || ok;
-         else if (routineName == "RemoveReportVariable")
-            ok = executeRemoveReportVariable(arguments) || ok;
-         else if (routineName == "DeleteModule")
-            ok = executeDeleteModule(arguments) || ok;
-         else if (routineName == "IniToXml")
-            ok = executeIniToXml(arguments) || ok;
-         }
-      }
-   catch (const exception& err)
-      {
-      ShowMessage(err.what());
+      // call the appropriate routine to do the conversion.
+      if (routineName == "SetParameterValue")
+         ok = executeSetParameterValue(arguments) || ok;
+      else if (routineName == "RenameParameter")
+         ok = executeRenameParameter(arguments) || ok;
+      else if (routineName == "DeleteParameter")
+         ok = executeDeleteParameter(arguments) || ok;
+      else if (routineName == "ChangeInstantiation")
+         ok = executeChangeInstantiation(arguments) || ok;
+      else if (routineName == "RemoveReportOutputSwitch")
+         ok = executeRemoveReportOutputSwitch(arguments) || ok;
+      else if (routineName == "MoveParameter")
+         ok = executeMoveParameter(arguments) || ok;
+      else if (routineName == "NewFormatReportVariables")
+         ok = executeNewFormatReportVariables(arguments) || ok;
+      else if (routineName == "MoveParametersOutOfCon")
+         ok = executeMoveParametersOutOfCon(arguments) || ok;
+      else if (routineName == "RemoveSumAvgToTracker")
+         ok = executeRemoveSumAvgToTracker(arguments) || ok;
+      else if (routineName == "RemoveTrackerDefault")
+         ok = executeRemoveTrackerDefault(arguments) || ok;
+      else if (routineName == "SearchReplaceReportVariables")
+         ok = executeSearchReplaceReportVariables(arguments) || ok;
+      else if (routineName == "AddParamFileToModule")
+         ok = executeAddParamFileToModule(arguments) || ok;
+      else if (routineName == "RemovePeriodsInReportAndTracker")
+         ok = removePeriodsInReportAndTracker(arguments) || ok;
+      else if (routineName == "ReworkTrackerVariables")
+         ok = ReworkTrackerVariables(arguments) || ok;
+      else if (routineName == "RenameModule")
+         ok = executeRenameModule(arguments) || ok;
+      else if (routineName == "SearchReplace")
+         ok = executeSearchReplace(arguments) || ok;
+      else if (routineName == "SetManagerActionParameter")
+         ok = executeSetManagerActionParameter(arguments) || ok;
+      else if (routineName == "DeleteManagerActionParameter")
+         ok = executeDeleteManagerActionParameter(arguments) || ok;
+      else if (routineName == "FindModuleLocalIniFile")
+         ok = executeFindModuleLocalIniFile(arguments) || ok;
+      else if (routineName == "RemoveReportVariable")
+         ok = executeRemoveReportVariable(arguments) || ok;
+      else if (routineName == "DeleteModule")
+         ok = executeDeleteModule(arguments) || ok;
+      else if (routineName == "IniToXml")
+         ok = executeIniToXml(arguments) || ok;
       }
    return ok;
    }

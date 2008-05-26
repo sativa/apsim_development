@@ -509,10 +509,11 @@ class EXPORT Component
                              variant->getType(),
                              regItem->getDDML().c_str(),
                              typeConverter);
-            
+            protocol::ArraySpecifier* arraySpec = protocol::ArraySpecifier::create(regItem);
             bool ok = variant->unpack(typeConverter, 
-                                      ArraySpecifier::create(regItem), 
+                                      arraySpec, 
                                       value);
+            if (arraySpec) delete arraySpec;
             if (!ok)
                {
                string buffer= "Unpack failed.\n"
@@ -554,10 +555,11 @@ class EXPORT Component
                              variant->getType(),
                              regItem->getDDML().c_str(),
                              typeConverter);
-
+            protocol::ArraySpecifier* arraySpec = protocol::ArraySpecifier::create(regItem);
             bool ok = variant->unpack(typeConverter, 
-                                      ArraySpecifier::create(regItem), 
+                                      arraySpec, 
                                       values);
+            if (arraySpec) delete arraySpec;
             if (!ok)
                {
                string buffer= "Unpack failed.\n"

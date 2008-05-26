@@ -2,16 +2,10 @@
 
 #include <string>
 #include <stdexcept>
-#include <vector>
-#include <general/TreeNodeIterator.h>
-#include <general/xml.h>
-#include <general/stl_functions.h>
+#include <general/platform.h>
 #include <general/string_functions.h>
 #include <general/path.h>
-#include "FString.h"
-#include "FStringExt.h"
 #include "ApsimDirectories.h"
-#include <general/platform.h>
 
 using namespace std;
 
@@ -23,8 +17,7 @@ using namespace std;
 
 #ifdef __WIN32__
 
-// Windows specific version:
-#include <vcl.h>
+#include <windows.h>
 extern HINSTANCE hInstance;
 
 string EXPORT getApsimDirectory(void) throw(runtime_error)
@@ -32,14 +25,8 @@ string EXPORT getApsimDirectory(void) throw(runtime_error)
 
    char moduleFileName[MAX_PATH];
    GetModuleFileName(hInstance, moduleFileName, sizeof moduleFileName);
-   Path path(moduleFileName);
-   path.Set_name("apsim.ini");
-   while (path.Back_up_directory() != "" && !path.Exists());
-
-   if (!path.Exists())
-      return Path(moduleFileName).Get_directory();
-  
-   return path.Get_directory();
+   string path = string(moduleFileName);
+   return fileDirName(fileDirName(string(moduleFileName)));
    }
 #else
 
@@ -68,19 +55,8 @@ string EXPORT getApsimDirectory(void) throw(runtime_error)
 
 std::string EXPORT getAppHomeDirectory(void) throw(std::runtime_error)
    {
-   #ifdef __WIN32__
    string apsimDir = getApsimDirectory();
-   string apsimIni = apsimDir + "\\apsim.ini";
-   if (Path(apsimIni.c_str()).Exists())
-      {
-      string applicationName = Path(Application->ExeName.c_str()).Get_name_without_ext();
-      return apsimDir + "\\" + applicationName;
-      }
-   else
-      return apsimDir;
-   #else
-      throw runtime_error("getAppHomeDirectory not implemented");
-   #endif
+   return apsimDir;
    }
 
 

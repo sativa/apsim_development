@@ -1,5 +1,4 @@
 #include <general\pch.h>
-#include <vcl.h>
 #include <boost/function.hpp>
 #include "ConverterBase.h"
 #include "Constants.h"

@@ -95,6 +95,7 @@ class FortranWrapper : public protocol::Component
                                              asString(variableName), 
                                              asString(dataTypeString));
 
+         numvals = 0;
          protocol::Variant *variant = NULL;
          if (getVariable((unsigned int)regItem, &variant, isOptional))
             {
@@ -114,15 +115,8 @@ class FortranWrapper : public protocol::Component
                msg += regItem->getName();
                throw std::runtime_error(msg);
                }
-            else
-               {
-               fromID = variant->getFromId();
-               numvals = 1;
-               }
-            }
-         else
-            {
-            numvals = 0;
+            fromID = variant->getFromId();
+            numvals = 1;
             }
          }
       template <class T>
@@ -148,9 +142,11 @@ class FortranWrapper : public protocol::Component
                                 variant->getType(),
                                 regItem->getDDML().c_str(),
                                 typeConverter);
+               protocol::ArraySpecifier* arraySpec = protocol::ArraySpecifier::create(regItem);
                bool ok = variant->unpack(typeConverter, 
-                                         protocol::ArraySpecifier::create(regItem), 
+                                         arraySpec, 
                                          value);
+               if (arraySpec) delete arraySpec;
                if (!ok)
                   {
                   string msg= "Unpack failed.\n"
@@ -223,11 +219,9 @@ class FortranWrapper : public protocol::Component
                                   incomingVariant.getType().isArray(),
                                   isArray,
                                   converter);
-
             incomingVariant.unpack(converter, 
                                    NULL /*protocol::ArraySpecifier::create(regItem)*/, 
                                    value);
-
             ok = true;
             }
          else

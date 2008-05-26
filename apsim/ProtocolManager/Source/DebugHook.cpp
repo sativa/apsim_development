@@ -2,7 +2,6 @@
 #pragma hdrstop
 
 #ifdef __WIN32__
-#include <vcl.h>
 #include <windows.h>
 #endif
 

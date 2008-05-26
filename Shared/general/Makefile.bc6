@@ -4,7 +4,6 @@
 BCB = $(MAKEDIR)\..
 !endif
 
-CC=$(BCB)\Bin\bcc32.exe
 RANLIB=$(BCB)\Bin\TLib.exe
 
 # APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
@@ -32,8 +31,7 @@ VCLOBJECTS = vcl_functions.obj db_functions.obj
 LIBFILES =
 
 USERDEFINES =
-SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\components\boost;$(BCB)\components\libxml2\include
+INCLUDEPATH = $(SYSINCLUDES);$(BCB)\components\libxml2\include
 LIBPATH = $(SYSLIBPATH)
 
 # ---------------------------------------------------------------------------

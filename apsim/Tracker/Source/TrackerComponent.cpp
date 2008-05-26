@@ -1,14 +1,8 @@
-#include <general/pch.h>
-//#include <vcl.h>
-#pragma hdrstop
-
-#include <string>
+#include <general/platform.h>
 #include <ComponentInterface/Component.h>
 #include "TrackerVariable.h"
 #include "TrackerComponent.h"
-#include <general/platform.h>
 
-#pragma package(smart_init)
 using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
@@ -87,7 +81,7 @@ void TrackerComponent::doInit2(void)
 void TrackerComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
    {
    for (unsigned i = 0; i != variables.size(); i++)
-      variables[i].respondToEvent(fromID, eventID);
+      variables[i].respondToEvent((int)fromID, eventID);
    }
 // ------------------------------------------------------------------
 // return a variable to caller.  Return true if we own variable.
