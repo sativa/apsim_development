@@ -1,6 +1,5 @@
 //---------------------------------------------------------------------------
 #include <general\pch.h>
-#include <vcl.h>
 #pragma hdrstop
 
 #include <general\string_functions.h>

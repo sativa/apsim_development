@@ -1,5 +1,4 @@
-#include <general\pch.h>
-#include <vcl.h>
+#include <windows.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
 //   Important note about DLL memory management when your DLL uses the

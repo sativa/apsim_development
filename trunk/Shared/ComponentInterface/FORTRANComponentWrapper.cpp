@@ -784,7 +784,10 @@ void boundCheckRealArray(float* values, unsigned numvals, float lower, float upp
                          const FString& variableName)
    {
    for (unsigned i = 0; i != numvals; i++)
-      boundCheckVar(values[i], lower, upper, variableName);
+      {
+      string z = asString(variableName) + "(" + itoa(i+1) + ")";
+      boundCheckVar(values[i], lower, upper, z.c_str());
+      }
    }
 // ------------------------------------------------------------------
 // Bound check a double variable and produce an error if out of bound.
@@ -793,7 +796,10 @@ void boundCheckDoubleArray(double* values, unsigned numvals, double lower, doubl
                            const FString& variableName)
    {
    for (unsigned i = 0; i != numvals; i++)
-      boundCheckVar(values[i], lower, upper, variableName);
+      {
+      string z = asString(variableName) + "(" + itoa(i+1) + ")";
+      boundCheckVar(values[i], lower, upper, z.c_str());
+      }
    }
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.

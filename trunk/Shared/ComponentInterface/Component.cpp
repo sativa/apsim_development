@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-#pragma hdrstop
 #include <stdexcept>
 #include <limits.h>
 
@@ -1014,26 +1013,9 @@ void Component::addReturnValueMessage(ReturnValueData &returnValueData)
       throw std::runtime_error(msg);
       }
 
-
-   // Fix up the type converter and array specifier if not already
-   // there.
-
-   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-   ApsimRegistration* regItem = registry.find(componentID,
-                                              returnValueData.ID) ;
-   if (regItem == NULL)
-     {
-     string msg = "Invalid registration ID in Component::addReturnValueMessage ";
-                  msg += itoa(componentID);
-                  msg += ".";
-                  msg += itoa(returnValueData.ID);
-     throw std::runtime_error(msg);
-     }
-
-
-   Variants *myVariants = v->second;
-
+   // unnecessary!!
    returnValueData.variant.setFromId(returnValueData.fromID);
 
+   Variants *myVariants = v->second;
    myVariants->addVariant(returnValueData.variant);
    }

@@ -1,18 +1,15 @@
 //---------------------------------------------------------------------------
-#include <general/pch.h>
-#pragma hdrstop
-
-#include "TrackerVariable.h"
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/Component.h>
+#include <numeric>
 #include <general/StringTokenizer.h>
 #include <general/string_functions.h>
-#include <numeric>
-#include <ApsimShared/FStringExt.h>
-#include <boost/date_time/gregorian/gregorian.hpp>
 #include <general/date_functions.h>
+#include <ComponentInterface/Component.h>
+#include <ComponentInterface/TypeConverter.h>
+#include <ApsimShared/ApsimRegistry.h>
+#include <boost/date_time/gregorian/gregorian.hpp>
 
-#pragma package(smart_init)
+#include "TrackerVariable.h"
+
 using namespace std;
 using namespace boost::gregorian;
 
@@ -20,7 +17,7 @@ using namespace boost::gregorian;
 // constructor
 //---------------------------------------------------------------------------
 TrackerVariable::TrackerVariable(protocol::Component* p, const string& fullName)
-  : name(fullName), parent(p)
+  : parent(p)
    {
    count = 0;
    last = 0;
@@ -67,12 +64,8 @@ void TrackerVariable::parse(const string& fullName)
 
    if (Str_i_Eq(keyword, "as"))
       parseAs(tokenizer);
-      
-   unsigned posPeriod = name.rfind('.');
-   if (posPeriod != string::npos)  
-     systemName = name.substr(posPeriod+1);
-   else
-     systemName = name;
+   else 
+      name = keyword;
    }
 // ------------------------------------------------------------------
 // Parse a 'stat'
@@ -102,13 +95,13 @@ void TrackerVariable::parseStat(StringTokenizer& tokenizer)
 // ------------------------------------------------------------------
 void TrackerVariable::parsePeriod(StringTokenizer& tokenizer)
    {
-   startPeriod = tokenizer.nextToken();
-   unsigned posPeriod = startPeriod.find('.');
-   if (posPeriod != string::npos)
-      {
-      startPeriodComponent = startPeriod.substr(0, posPeriod);
-      startPeriod = startPeriod.substr(posPeriod+1);
-      }
+   string period = tokenizer.nextToken();
+
+   ApsimRegistry::getApsimRegistry().unCrackPath(parent->getId(),
+                                                    period, 
+                                                    startPeriodComponentID, 
+                                                    startPeriod);
+
    if (Str_i_Eq(startPeriod, "reported"))
       inWindow = true;
 
@@ -118,13 +111,13 @@ void TrackerVariable::parsePeriod(StringTokenizer& tokenizer)
    if (!Str_i_Eq(tokenizer.nextToken(), "to"))
       throw runtime_error("Expected a 'to' keyword in tracker variable.");
 
-   endPeriod = tokenizer.nextToken();
-   posPeriod = endPeriod.find('.');
-   if (posPeriod != string::npos)
-      {
-      endPeriodComponent = endPeriod.substr(0, posPeriod);
-      endPeriod = endPeriod.substr(posPeriod+1);
-      }
+   period = tokenizer.nextToken();
+
+   ApsimRegistry::getApsimRegistry().unCrackPath(parent->getId(),
+                                                    period, 
+                                                    endPeriodComponentID, 
+                                                    endPeriod);
+
    if (endPeriod == "")
       throw runtime_error("Expected an end of period after a 'to' keyword in tracker variable");
    if (Str_i_Eq(endPeriod, "now"))
@@ -154,22 +147,20 @@ void TrackerVariable::parseAs(StringTokenizer& tokenizer)
 // ------------------------------------------------------------------
 void TrackerVariable::parseEventName(StringTokenizer& tokenizer)
    {
-   eventName = tokenizer.nextToken();
-   if (Str_i_Eq(eventName, "last"))
+   string evt = tokenizer.nextToken();
+   if (Str_i_Eq(evt, "last"))
       {
       if (stat == countStat || stat == dateStat)
          throw runtime_error("A 'last' keyword cannot be used with a 'count' or a 'date' "
                              "keyword in a tracker variable");
       parseLast(tokenizer);
-      eventName = tokenizer.nextToken();
+      evt = tokenizer.nextToken();
       }
 
-   unsigned posPeriod = eventName.find('.');
-   if (posPeriod != string::npos)
-      {
-      eventNameComponent = eventName.substr(0, posPeriod);
-      eventName = eventName.substr(posPeriod+1);
-      }
+   ApsimRegistry::getApsimRegistry().unCrackPath(parent->getId(),
+                                                    evt, 
+                                                    eventComponentID, 
+                                                    eventName);
    if (eventName == "")
       throw runtime_error("Expected an event name.");
    else if (Str_i_Eq(eventName, "start_of_day"))
@@ -183,7 +174,6 @@ void TrackerVariable::parseEventName(StringTokenizer& tokenizer)
 void TrackerVariable::doRegistrations(void)
    {
    static const char* nullDDML = "<type/>";
-   static const char* doubleDDML = "<type kind=\"double\"/>";
    static const char* stringDDML = "<type kind=\"string\"/>";
    static const char* singleArrayDDML = "<type kind=\"single\" array=\"T\"/>";
    string typeString = singleArrayDDML;
@@ -194,29 +184,37 @@ void TrackerVariable::doRegistrations(void)
                                      nullDDML);
    if (variableName != "")
       {
-      int    ownerModuleID;
-      string shortName;
+      // Find the registration entry of the module that sends this data to us.
+      // Then extract its units etc.
       ApsimRegistry::getApsimRegistry().unCrackPath(parent->getId(),
                                                     variableName, 
                                                     ownerModuleID, 
-                                                    shortName);
-      variableID = parent->addRegistration(::get,
-                                           ownerModuleID,
-                                           shortName,
-                                           singleArrayDDML);
-//      protocol::Variant* variant;
-//      bool ok = parent->getVariable(variableID, &variant, true);
-//      if (ok)
-//         {
-//         protocol::Type t = variant->getType();
-//         typeString = "<type kind=\"single\" unit=\"" + asString(t.getUnits())
-//                    + "\" array=\"T\"/>";
-//
-//         variableID = parent->addRegistration(::get,
-//                                              ownerModuleID,
-//                                              variableName,
-//                                              typeString);
-//         }
+                                                    ownerModuleName);
+
+      ApsimRegistration* reg = (ApsimRegistration*)
+                                  parent->addRegistration(::get,
+                                                          ownerModuleID,
+                                                          ownerModuleName,
+                                                          singleArrayDDML);
+
+      typeString = singleArrayDDML;
+
+      vector<ApsimRegistration *> subscriptions;
+      ApsimRegistry::getApsimRegistry().lookup(reg, subscriptions);
+      if (subscriptions.size() > 0) 
+         {
+         string ddml = subscriptions[0]->getDDML();
+         string unitsEq = "unit=";
+         unsigned posAttr = ddml.find(unitsEq);
+         if (posAttr != string::npos)
+            {
+            posAttr += unitsEq.size();
+            string attrPlusRemainder = ddml.substr(1+posAttr);
+            unsigned posEndQuote = attrPlusRemainder.find("\"");
+            string units = attrPlusRemainder.substr(0, posEndQuote);
+            typeString = "<type kind=\"single\" unit=\"" + units + "\" array=\"T\"/>";
+            }
+         }
       }
 
 
@@ -236,10 +234,6 @@ void TrackerVariable::doRegistrations(void)
                                        -1,
                                        name,
                                        stringDDML);
-      todayID = parent->addRegistration(::get,
-                                        -1,
-                                        "today",
-                                        doubleDDML);
       }
    else
       {
@@ -252,26 +246,21 @@ void TrackerVariable::doRegistrations(void)
 // ------------------------------------------------------------------
 // Incoming events come through here.
 // ------------------------------------------------------------------
-void TrackerVariable::respondToEvent(unsigned fromID, unsigned evntID)
+void TrackerVariable::respondToEvent(int fromID, unsigned evntID)
    {
-   string fromName;
-   parent->componentIDToName(fromID, fromName);
    if (evntID == eventID)
       {
-      if (eventNameComponent == ""
-             || Str_i_Eq(fromName, eventNameComponent))
+      if (eventComponentID < 0 || fromID == eventComponentID)
          doSample();
       }
    else if (evntID == startPeriodID)
       {
-      if (startPeriodComponent == ""
-             || Str_i_Eq(fromName, startPeriodComponent))
+      if (startPeriodComponentID < 0 || fromID == startPeriodComponentID)
          onStartPeriod();
       }
    else if (evntID == endPeriodID)
       {
-      if (endPeriodComponent == ""
-             || Str_i_Eq(fromName, endPeriodComponent))
+      if (endPeriodComponentID < 0 || fromID == endPeriodComponentID)
          onEndPeriod();
       }
    }
@@ -305,22 +294,44 @@ void TrackerVariable::doSample(void)
       }
    else if (stat == dateStat)
       {
-      protocol::Variant* variant;
+      protocol::Variant* variant=NULL;
+      unsigned todayID = parent->addRegistration(::get,
+                                                 -1,
+                                                 "today",
+                                                 "<type kind=\"double\"/>");
       if (parent->getVariable(todayID, &variant))
          {
          double today;
-         variant->unpack(today);
+         protocol::TypeConverter* typeConverter;
+         getTypeConverter(variableName.c_str(),
+                          variant->getType(),
+                          protocol::DDML((double)0.0).c_str(),
+                          typeConverter);
+         variant->unpack(typeConverter, 
+                         NULL, 
+                         today);
          sampleDate = to_dmy(date(today));
          }
       }
    else if (inWindow)
       {
-      protocol::Variant* variant;
+      protocol::Variant* variant=NULL;
+      unsigned variableID = parent->addRegistration(::get,
+                                                    ownerModuleID,
+                                                    ownerModuleName,
+                                                    protocol::DDML(vector<float>()).c_str());
       bool ok = parent->getVariable(variableID, &variant);
       if (ok)
          {
          vector<float> theseValues;
-         variant->unpack(theseValues);
+         protocol::TypeConverter* typeConverter;
+         getTypeConverter(variableName.c_str(),
+                          variant->getType(),
+                          protocol::DDML(vector<float>()).c_str(),
+                          typeConverter);
+         variant->unpack(typeConverter, 
+                         NULL, 
+                         theseValues);
          if (stat == valueStat)
             values.erase(values.begin(), values.end());
 

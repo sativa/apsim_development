@@ -31,6 +31,20 @@ static const char* endDateType =
 static const char* hasDataTodayTypeDDML =
    "<type name=\"hasDataToday\" kind=\"boolean\"/>";
 
+namespace protocol {
+  std::string EXPORT DDML(const std::vector<NewMetType>&)
+     {
+     return (string(
+         "<type name=\"newmet\" array=\"T\">"
+         "   <field name=\"today\" kind=\"double\"/>"
+         "   <field name=\"radn\" kind=\"single\"/>"
+         "   <field name=\"maxt\" kind=\"single\"/>"
+         "   <field name=\"mint\" kind=\"single\"/>"
+         "   <field name=\"rain\" kind=\"single\"/>"
+         "   <field name=\"vp\" kind=\"single\"/>"
+         "</type>"));
+     }
+}
 // ------------------------------------------------------------------
 //  Short description:
 //     Return a blank string when requested to indicate that we
@@ -296,7 +310,7 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
    else if (eventID == getDataMethodID)
       {
       data.first();
-#if 0
+
       vector<protocol::NewMetType> newmets;
       vector<string> dataDates;
       variant.unpack(dataDates);
@@ -325,26 +339,15 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
          }
 
 
-      static const char* returnDataDDML =
-         "<type name=\"newmet\" array=\"T\">"
-         "   <field name=\"today\" kind=\"double\"/>"
-         "   <field name=\"radn\" kind=\"single\"/>"
-         "   <field name=\"maxt\" kind=\"single\"/>"
-         "   <field name=\"mint\" kind=\"single\"/>"
-         "   <field name=\"rain\" kind=\"single\"/>"
-         "   <field name=\"vp\" kind=\"single\"/>"
-         "</type>";
-
       unsigned returnDataMethodID = addRegistration(::event,
                                                     fromID,
                                                     "returnData",
-                                                    returnDataDDML);
+                                                    protocol::DDML(std::vector<protocol::NewMetType>()));
       publish(returnDataMethodID, newmets);
 
       // reposition the data file to todays date.
       data.first();
       data.gotoDate(todaysDate);
-#endif
       }
    }
 // ------------------------------------------------------------------

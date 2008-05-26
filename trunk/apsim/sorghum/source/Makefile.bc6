@@ -17,27 +17,19 @@ Biomass.obj Utilities.obj Dll.obj \
 LIBFILES = $(APSROOT)\Shared\ComponentInterface2\ComponentInterface2.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(APSROOT)\Shared\general\general.lib
-USERDEFINES =
-SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;$(APSROOT)\Shared
-LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface2
 
 # ---------------------------------------------------------------------------
 RESFILES = 
 USERDEFINES =
-SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;
-INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost;
+INCLUDEPATH = $(SYSINCLUDES)
 LIBPATH = $(SYSLIBPATH)
 CFLAG1 = -O2 -TWD -Vx -Ve -X- -a8 -b- -tWM -c -V -w-inl
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
-ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib $(OBJFILES)
+ALLOBJ = c0d32.obj Memmgr.Lib $(OBJFILES)
 ALLRES = $(RESFILES)
 ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
-
-CC=$(BCB)\Bin\bcc32.exe
-LD=$(BCB)\Bin\ilink32
 
 source: $(PROJECT)
 

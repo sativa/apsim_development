@@ -1,6 +1,5 @@
 #include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
+#include <windows.h>
 HINSTANCE instanceNumber;
 //---------------------------------------------------------------------------
 //   Important note about DLL memory management when your DLL uses the

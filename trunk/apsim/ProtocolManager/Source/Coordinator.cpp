@@ -1,5 +1,4 @@
 #include <general/pch.h>
-#pragma hdrstop
 
 #include <assert.h>
 

@@ -27,19 +27,15 @@ IMPDEF=$(BCB)\Bin\impdef.exe
 # ---------------------------------------------------------------------------
 RESFILES = 
 USERDEFINES =
-SYSDEFINES = NO_STRICT;USEPACKAGES;_RTLDLL;
-INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost;
+INCLUDEPATH = $(SYSINCLUDES)
 LIBPATH = $(SYSLIBPATH);$(BCB)\components\Boost\libs\regex\build\bcb6
-CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWM -DBOOST_REGEX_STATIC_LINK
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD -DBOOST_REGEX_STATIC_LINK
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
-ALLOBJ = c0d32.obj vcl.bpi rtl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
+ALLOBJ = c0d32.obj Memmgr.Lib $(OBJFILES)
 ALLRES = $(RESFILES)
-ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib
-
-CC=$(BCB)\Bin\bcc32.exe
-LD=$(BCB)\Bin\ilink32
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
 
 source: $(PROJECT)
 

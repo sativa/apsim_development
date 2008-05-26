@@ -4,7 +4,6 @@
 
 
 #include <general/pch.h>
-#include <vcl.h>
 #include <boost/function.hpp>
 #pragma hdrstop
 

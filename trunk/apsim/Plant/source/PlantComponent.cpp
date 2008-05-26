@@ -1,9 +1,4 @@
 #include "StdPlant.h"
-#ifdef __WIN32__
-   #define  INC_VCLDB_HEADERS
-   #define  INC_VCLEXT_HEADERS
-   #include <vcl.h>
-#endif
 
 #include "Plant.h"
 #include "PlantComponent.h"
@@ -13,6 +8,7 @@ using namespace std;
 extern "C" EXPORT void STDCALL getDescriptionInternal(char* initScript, char* description);
 
 #ifdef WIN32
+#include <windows.h>
 int WINAPI DllEntryPoint(HINSTANCE /*hinst*/, unsigned long /*reason*/, void*)
 //=======================================================================================
 // DLL entry point

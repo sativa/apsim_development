@@ -5,7 +5,6 @@
 #define YES 1
 #define NO 0
 #define TEST_ResiduePool YES					// build unit test?
-#include <vcl.h>
 #include <math.h>
 
 #ifndef ResiduePool_H

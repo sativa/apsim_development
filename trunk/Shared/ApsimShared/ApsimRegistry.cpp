@@ -72,8 +72,10 @@ unsigned int ApsimRegistry::add(ApsimRegistration *reg)
       }   
    registrations.insert(registrations_type::value_type(reg->getNameWithoutBrackets(), reg));
 
-//   cout << "add (" << reg->getType() << "." << reg-> getComponentID() << "." <<
+//   cout << "add (" << reg->getType() << ":" << reg->getComponentID() << "." <<
 //        reg->getName() << "->" << reg->getDestinationID() << ")= " << ((unsigned int)reg) << " called\n";
+//   cout << "add (" << reg->getType() << ":" << reg->getComponentID() << "." <<
+//        reg->getName() << ")=" << reg->getDDML() << " \n";
    return ((unsigned int)reg);
    }
 
@@ -375,13 +377,13 @@ void ApsimRegistry::unCrackPath(int fromID,                 // IN: id of module 
    if (pos != string::npos)
       {
       name = fqName.substr(pos+1);
-      if (fqName[0] == '.') 
+      string componentName = fqName.substr(0,pos);
+      if (componentName[0] == '.') 
         {
-        string componentName = fqName.substr(0,pos);
         id = componentByName(componentName);
         if (id < 0) {throw std::runtime_error("Unknown module name " + componentName);}
         }
-      else if (fqName[0] == '*') 
+      else if (componentName[0] == '*') 
         {
         id = -1;
         }
@@ -390,8 +392,11 @@ void ApsimRegistry::unCrackPath(int fromID,                 // IN: id of module 
         // prepend container name of sending component
         string container = componentByID(fromID) ;
         size_t cpos = container.rfind(".");
-        if (cpos != string::npos) container = container.substr(0,cpos);
-        string componentName = container + "." + fqName.substr(0,pos);
+        if (cpos != string::npos) 
+           container = container.substr(0,cpos);
+
+        componentName = container + "." + componentName;
+
         id = componentByName(componentName);
         if (id < 0) {throw std::runtime_error("Unknown module name " + componentName);}
         }

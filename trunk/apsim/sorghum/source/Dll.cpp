@@ -1,5 +1,5 @@
 #include <general\pch.h>
-#include <vcl.h>
+#include <windows.h>
 //---------------------------------------------------------------------------
 //   Important note about DLL memory management when your DLL uses the
 //   static version of the RunTime Library:
