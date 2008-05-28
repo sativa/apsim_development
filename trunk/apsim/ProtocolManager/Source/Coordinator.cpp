@@ -690,7 +690,7 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
             }
          }
       // that query message will set on success - no need for any more.
-      //return;
+      return;
       }
 
    vector<ApsimRegistration *> subs;
