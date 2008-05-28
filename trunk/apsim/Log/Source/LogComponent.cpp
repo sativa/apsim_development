@@ -260,7 +260,7 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          {
          protocol::RegisterData registerData;
          messageData >> registerData;
-         out << " kind=\"" << registerData.kind << "\"";
+         out << " kind=\"" << typeCodeToString((EventTypeCode)registerData.kind) << "\"";
          out << " name=\"" << asString(registerData.name) << "\"";
          if (registerData.destID > 0)
             out << " directedToComponent=\"" << registerData.destID << "\"";
@@ -321,7 +321,7 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          protocol::QueryInfoData queryInfo;
          messageData >> queryInfo;
          out << " name=\"" << asString(queryInfo.name) << "\"";
-         out << " kind=\"" << queryInfo.kind << "\"";
+         out << " kind=\"" << typeCodeToString((EventTypeCode)queryInfo.kind) << "\"";
          break;
          }
       }
