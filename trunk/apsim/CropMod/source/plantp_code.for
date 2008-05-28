@@ -157,7 +157,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
 
       PlantP_Send_my_variable = .true.
 
-      if (variable_name .eq. 'GreenP') then
+      if (variable_name .eq. 'greenp') then
           call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(g/m^2)'          ! variable units
@@ -306,7 +306,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :                             , g%part_p_green(flower)
      :                               + g%part_p_green(grain))
  
-      elseif (variable_name .eq. 'SenescedP') then
+      elseif (variable_name .eq. 'senescedp') then
          call respond2get_real_var (variable_name
      :                     , '(g/m^2)'
      :                     , sum_real_array (g%part_p_sen, max_part))
@@ -369,7 +369,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :                             , '(%)'
      :                             , p_conc)
 
-      elseif (variable_name .eq. 'LeafGreenPConc') then
+      elseif (variable_name .eq. 'leafgreenpconc') then
          p_conc = divide (g%part_p_green(leaf)
      :                  , g%dm_green(leaf)
      :                  , 0.0) * 100.0
@@ -377,7 +377,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :                             , '(%)'
      :                             , p_conc)
 
-      elseif (variable_name .eq. 'StemGreenPConc') then
+      elseif (variable_name .eq. 'stemgreenpconc') then
          p_conc = divide (g%part_p_green(stem)
      :                  , g%dm_green(stem)
      :                  , 0.0) * 100.0
@@ -385,7 +385,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :                             , '(%)'
      :                             , p_conc)
 
-      elseif (variable_name .eq. 'GrainGreenPConc'
+      elseif (variable_name .eq. 'graingreenpconc'
      :   .or. variable_name .eq. 'p_grain_pcnt') then
          p_conc = divide (g%part_p_green(grain)
      :                  , g%dm_green(grain)
