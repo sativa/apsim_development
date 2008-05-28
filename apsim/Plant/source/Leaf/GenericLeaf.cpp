@@ -278,6 +278,7 @@ void GenericLeaf::onHarvest(float /* cutting_height */, float remove_fr,
    initialiseAreas();
 }
 
+
 // Sanity checks
 void GenericLeaf::checkBounds(void)
 {

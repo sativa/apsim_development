@@ -34,6 +34,16 @@ void Leaf::onInit1(protocol::Component *)
    scienceAPI.subscribe("canopy_water_balance", CanopyWaterBalanceFunction(&Leaf::onCanopyWaterBalance));
    }
 
+void Leaf::onEndCrop(vector<string> &dm_type,
+                     vector<float> &dlt_crop_dm,
+                     vector<float> &dlt_dm_n,
+                     vector<float> &dlt_dm_p,
+                     vector<float> &fraction_to_residue)
+{
+   SimplePart::onEndCrop(dm_type, dlt_crop_dm, dlt_dm_n, dlt_dm_p, fraction_to_residue);
+   zeroAllGlobals();
+}
+
 void Leaf::onCanopyWaterBalance(protocol::CanopyWaterBalanceType &CWB)
 //=======================================================================================
 // Handler for CanopyWaterBalance event
