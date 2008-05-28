@@ -94,20 +94,22 @@ class FortranWrapper : public protocol::Component
                                              destID,
                                              asString(variableName), 
                                              asString(dataTypeString));
-
          numvals = 0;
          protocol::Variant *variant = NULL;
          if (getVariable((unsigned int)regItem, &variant, isOptional))
             {
-            protocol::TypeConverter* typeConverter;
+            protocol::TypeConverter* typeConverter = NULL;
             getTypeConverter(regItem->getName().c_str(),
                              variant->getType(),
                              regItem->getDDML().c_str(),
                              typeConverter);
-            
+
+            protocol::ArraySpecifier* arraySpec = protocol::ArraySpecifier::create(regItem);
             bool ok = variant->unpack(typeConverter, 
-                                      protocol::ArraySpecifier::create(regItem), 
+                                      arraySpec, 
                                       value);
+            if (arraySpec) delete arraySpec;
+
             if (!ok)
                {
                string msg= "Unpack failed.";
@@ -137,16 +139,18 @@ class FortranWrapper : public protocol::Component
             protocol::Variant* variant = vars->getVariant(requestNo-1);
             if (variant != NULL)
                {
-               protocol::TypeConverter* typeConverter;
+               protocol::TypeConverter* typeConverter = NULL;
                getTypeConverter(regItem->getName().c_str(),
                                 variant->getType(),
                                 regItem->getDDML().c_str(),
                                 typeConverter);
+
                protocol::ArraySpecifier* arraySpec = protocol::ArraySpecifier::create(regItem);
                bool ok = variant->unpack(typeConverter, 
                                          arraySpec, 
                                          value);
                if (arraySpec) delete arraySpec;
+
                if (!ok)
                   {
                   string msg= "Unpack failed.\n"
