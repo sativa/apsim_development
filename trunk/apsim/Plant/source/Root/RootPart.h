@@ -6,8 +6,9 @@
 class RootPart : public RootBase
    {
    public:
-      ~RootPart(){};
-      vector<Soil> soil;
+      RootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
+      ~RootPart();
+      vector<Soil*> soil;
       void zeroAllGlobals(void);
       void zeroDeltas(void);
       void onInit1(protocol::Component *system);
@@ -70,8 +71,6 @@ class RootPart : public RootBase
 
 
    protected:
-      RootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
-
 
       vector<float> dltRootLength;
       float root_length[max_layer];                     // root length (mm/mm^2)
