@@ -316,11 +316,12 @@ void TrackerVariable::doSample(void)
    else if (inWindow)
       {
       protocol::Variant* variant=NULL;
-      unsigned variableID = parent->addRegistration(::get,
+      ApsimRegistration* regItem = (ApsimRegistration*)
+                            parent->addRegistration(::get,
                                                     ownerModuleID,
                                                     ownerModuleName,
                                                     protocol::DDML(vector<float>()).c_str());
-      bool ok = parent->getVariable(variableID, &variant);
+      bool ok = parent->getVariable((unsigned int)regItem, &variant);
       if (ok)
          {
          vector<float> theseValues;
@@ -329,9 +330,13 @@ void TrackerVariable::doSample(void)
                           variant->getType(),
                           protocol::DDML(vector<float>()).c_str(),
                           typeConverter);
+
+         protocol::ArraySpecifier* arraySpec = protocol::ArraySpecifier::create(regItem);
          variant->unpack(typeConverter, 
-                         NULL, 
+                         arraySpec, 
                          theseValues);
+         if (arraySpec) delete arraySpec;
+
          if (stat == valueStat)
             values.erase(values.begin(), values.end());
 
