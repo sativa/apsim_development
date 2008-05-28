@@ -589,13 +589,13 @@
       parameter (p_green = 'p_green')
 
       character  GreenP*30
-      parameter (GreenP = 'GreenP')
+      parameter (GreenP = 'greenp')
 
       character  p_senesced*30
       parameter (p_senesced = 'p_senesced')
 
       character  SenescedP*30
-      parameter (SenescedP = 'SenescedP')
+      parameter (SenescedP = 'senescedp')
 
       character  p_dead*30
       parameter (p_dead = 'p_dead')
@@ -723,13 +723,13 @@
       parameter (dm_green = 'dm_green')
 
       character  GreenWt*30
-      parameter (GreenWt = 'GreenWt')
+      parameter (GreenWt = 'greenwt')
 
       character  dm_senesced*30
       parameter (dm_senesced = 'dm_senesced')
 
       character  SenescedWt*30
-      parameter (SenescedWt = 'SenescedWt')
+      parameter (SenescedWt = 'senescedwt')
 
       character  dm_dead*30
       parameter (dm_dead = 'dm_dead')
@@ -762,7 +762,7 @@
       parameter (dlt_dm_green = 'dlt_dm_green')
 
       character  GrowthWt*30
-      parameter (GrowthWt = 'GrowthWt')
+      parameter (GrowthWt = 'growthwt')
 
 
 !+  Local Variables
@@ -870,13 +870,13 @@
       parameter (dm_green = 'dm_green')
 
       character  GreenWt*30
-      parameter (GreenWt = 'GreenWt')
+      parameter (GreenWt = 'greenwt')
 
       character  dm_senesced*30
       parameter (dm_senesced = 'dm_senesced')
 
       character  SenescedWt*30
-      parameter (SenescedWt = 'SenescedWt')
+      parameter (SenescedWt = 'senescedwt')
 
       character  dm_dead*30
       parameter (dm_dead = 'dm_dead')
@@ -909,7 +909,7 @@
       parameter (dlt_dm_green = 'dlt_dm_green')
 
       character  GrowthWt*30
-      parameter (GrowthWt = 'GrowthWt')
+      parameter (GrowthWt = 'growthwt')
 
 !+  Local Variables
       character*200   message          !
