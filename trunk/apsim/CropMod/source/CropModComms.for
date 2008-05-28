@@ -1109,7 +1109,7 @@ c      end if
       elseif (variable_name .eq. 'root_length') then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
          call respond2get_real_array (variable_name
-     :                               , '(mm/mm2)'
+     :                               , '(mm/mm^2)'
      :                               , g%root_length
      :                               , num_layers)
 
@@ -1236,7 +1236,7 @@ c      end if
      :           - g%dm_dead(root) - g%dm_dead(energy)
 
          call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
+     :                             , '(g/m^2)'
      :                             , biomass)
 
 
@@ -1245,7 +1245,7 @@ c      end if
      :           - g%dm_green(root) - g%dm_green(energy)
 
          call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
+     :                             , '(g/m^2)'
      :                             , biomass)
 
       elseif (variable_name .eq. 'stover_wt') then
@@ -1759,7 +1759,7 @@ c      end if
      :             +  sum_real_array (g%n_dead,     max_part))
 
          call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
+     :                             , '(g/m^2)'
      :                             , biomass_n)
 
 
@@ -1840,7 +1840,7 @@ c      end if
      :             - g%n_dead(root) - g%n_dead(energy))
 
          call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
+     :                             , '(g/m^2)'
      :                             , biomass_n)
 
       elseif (variable_name .eq. 'green_biomass_n') then
@@ -1848,7 +1848,7 @@ c      end if
      :                - g%n_green(root) - g%n_green(energy))
 
          call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
+     :                             , '(g/m^2)'
      :                             , biomass_n)
 
       elseif (variable_name .eq. 'stover_n') then
@@ -1858,7 +1858,7 @@ c      end if
      :       +g%N_dead(leaf)+g%n_dead(stem)+g%n_dead(flower)
 
          call respond2get_real_var (variable_name
-     :                             , '(g/m2)'
+     :                             , '(g/m^2)'
      :                             , apt_N_up)
 
       elseif (variable_name .eq. 'grain_n') then
