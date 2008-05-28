@@ -188,6 +188,9 @@ subroutine soilp_reset ()
 
    call push_routine (myname)
 
+   Event_string = 'Initialising'
+   call Write_string (Event_string)
+
    ! Save State
    call soilp_save_state ()
 
@@ -196,9 +199,6 @@ subroutine soilp_reset ()
    call soilp_get_other_variables ()
 
    ! Notify system that we have initialised
-
-!   Event_string = 'Initialising'
-!   call Write_string (Event_string)
 
    ! Get all parameters from parameter file
 
@@ -1752,13 +1752,13 @@ subroutine soilp_get_other_init_variables ()
    call Get_real_array (unknown_module,'biom_c',max_layer,'()',biom_c,numvals,0.0,10000.0)
 
    do layer = 1, max_layer
-      g%biom_p(layer) = biom_c(layer) / c%biom_cp
+      g%biom_p(layer) = divide(biom_c(layer) , c%biom_cp, 0.0)
    end do
 
    call Get_real_array (unknown_module,'hum_c',max_layer,'()',hum_c,numvals,0.0,100000.0)
 
    do layer = 1, max_layer
-      g%hum_p(layer) = hum_c(layer) / c%hum_cp
+      g%hum_p(layer) = divide(hum_c(layer) , c%hum_cp, 0.0)
    end do
 
    call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',fom_c_pool1,numvals,0.0,5000.0)
@@ -1768,9 +1768,9 @@ subroutine soilp_get_other_init_variables ()
    num_layers = count_of_real_vals (g%dlayer, max_layer)
 
    do layer = 1, num_layers
-      g%fom_p_pool(1,layer) = fom_c_pool1(layer) / p%root_cp_pool(1)
-      g%fom_p_pool(2,layer) = fom_c_pool2(layer) / p%root_cp_pool(2)
-      g%fom_p_pool(3,layer) = fom_c_pool3(layer) / p%root_cp_pool(3)
+      g%fom_p_pool(1,layer) = divide(fom_c_pool1(layer), p%root_cp_pool(1),0.0)
+      g%fom_p_pool(2,layer) = divide(fom_c_pool2(layer), p%root_cp_pool(2),0.0)
+      g%fom_p_pool(3,layer) = divide(fom_c_pool3(layer), p%root_cp_pool(3),0.0)
 
    end do
 
@@ -2538,9 +2538,9 @@ subroutine soilp_dlt_fom_p_pools ()
 
    do layer = 1, num_layers
       ! calculate delta p in fom pool
-      g%dlt_fom_P_pool1(layer) = dlt_fom_c_pool1(layer) / fom_cp_pool(1,layer)
-      g%dlt_fom_P_pool2(layer) = dlt_fom_c_pool2(layer) / fom_cp_pool(2,layer)
-      g%dlt_fom_P_pool3(layer) = dlt_fom_c_pool3(layer) / fom_cp_pool(3,layer)
+      g%dlt_fom_P_pool1(layer) = divide(dlt_fom_c_pool1(layer) , fom_cp_pool(1,layer),0.0)
+      g%dlt_fom_P_pool2(layer) = divide(dlt_fom_c_pool2(layer) , fom_cp_pool(2,layer),0.0)
+      g%dlt_fom_P_pool3(layer) = divide(dlt_fom_c_pool3(layer) , fom_cp_pool(3,layer),0.0)
    end do
 
    call pop_routine (myname)
