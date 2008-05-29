@@ -706,7 +706,7 @@ float RootPart::wet_root_fr (void)
       rootDist(1.0, root_fr);
 
       float wet_root_fr = 0.0;
-      for (unsigned layer = 0; layer <= root_fr.size(); layer++)
+      for (unsigned layer = 0; layer != root_fr.size(); layer++)
          {
          wet_root_fr = wet_root_fr + (*soil[0]).WFPS(layer) * root_fr[layer];
          }
