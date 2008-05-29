@@ -1,7 +1,7 @@
 #ifndef SowingPhaseH
 #define SowingPhaseH
 
-#include "phase.h"
+#include "Phase.h"
 class SowingPhase : public Phase
    {
    public:
