@@ -111,7 +111,19 @@ void Field::writeUnits(ostream& out)
 void Field::getValues()
    {
    values.erase(values.begin(), values.end());
-   scienceAPI->get(fqn, "", true, values);
+   try 
+      {
+      scienceAPI->get(fqn, "", true, values);
+      } 
+   catch (const std::exception& err)
+		{
+      string msg = "Error getting value from system.\nVariable=";
+      msg += fqn;
+      msg += "\n";
+      msg += err.what();
+		throw std::runtime_error(msg);
+		}
+
    if (values.size() == 0)
       values.push_back(nastring);
    else
