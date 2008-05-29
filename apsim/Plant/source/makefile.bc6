@@ -103,12 +103,12 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 
 # ---------------------------------------------------------------------------
 RESFILES =
-USERDEFINES =
-INCLUDEPATH =$(SYSINCLUDES) 
-LIBPATH = $(SYSLIBPATH)
-CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
-WARNINGS = -w-par
-LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+USERDEFINES=
+INCLUDEPATH=$(SYSINCLUDES) 
+LIBPATH=$(SYSLIBPATH)
+CFLAG1=$(SYSCFLAGS) -WD -WR -r- -k -vi- -y -v -w
+WARNINGS=-w-par
+LFLAGS=$(SYSLDFLAGS) -D"" -aa -Tpd -x -Gn -Gi -v
 
 ALLOBJ = c0d32.obj Memmgr.Lib $(OBJFILES)
 ALLRES = $(RESFILES)
