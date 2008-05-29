@@ -226,8 +226,8 @@ class FString
          throw std::runtime_error(buffer);
 #if 0
          MessageBox(NULL, buffer, "Internal error in FString", MB_ICONERROR | MB_OK);
-#endif
          delete [] buffer;
+#endif
          }
 
    };
