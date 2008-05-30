@@ -302,7 +302,13 @@ void FortranWrapper::onApsimGetQuery(unsigned int fromID, protocol::ApsimGetQuer
    swapInstanceIn();
 
    inApsimGetQuery = true;
-   Main("get", apsimGetQueryData.name);
+
+   string qualifiedName = asString(apsimGetQueryData.name);
+   unsigned pos = qualifiedName.find("(");
+   if (pos != string::npos)
+      qualifiedName = qualifiedName.substr(0,pos);
+
+   Main("get", qualifiedName.c_str());
 
    *instance = saved;
    currentInstance = savedThis;
