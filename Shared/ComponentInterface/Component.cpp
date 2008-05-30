@@ -572,6 +572,10 @@ bool Component::getVariable(unsigned int registrationID,
       if (regItem == NULL) {throw std::runtime_error("Invalid registration ID in Component::getVariable 2");}
       std::string st;
       st = "The module " + std::string(name) + " has asked for the value of the variable ";
+      if (regItem->getDestinationID() >= 0) {
+         st += registry.componentByID(regItem->getDestinationID());
+         st += ".";
+      }
       st += regItem->getName();
       st += ".\nIt received no responses.";
       error(st, true);
