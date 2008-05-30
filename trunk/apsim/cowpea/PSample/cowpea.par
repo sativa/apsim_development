@@ -24,10 +24,10 @@ variable = cowpea.StemGreenP
 variable = cowpea.RootGreenP
 variable = cowpea.PodGreenP
 variable = cowpea.head_p
-variable = cowpea.dlt_p_green()
-variable = cowpea.dlt_p_retrans()
-variable = cowpea.dlt_p_detached()
-variable = cowpea.dlt_p_sen()
+variable = cowpea.dltLeafGreenP
+variable = cowpea.dltStemGreenP
+variable = cowpea.dltRootGreenP
+variable = cowpea.dltPodGreenP
 variable = cowpea.p_conc_stover
 variable = cowpea.LeafGreenPConc
 variable = cowpea.StemGreenPConc
@@ -74,7 +74,7 @@ if day = 330 and year  = 1988 then
    cowpea sow cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
-if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
+if cowpea.StageName = 'harvest_ripe' or cowpea.plant_status = 'dead' then
    cowpea harvest
    cowpea end_crop
 
