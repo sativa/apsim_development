@@ -3497,6 +3497,8 @@ dev.off()
       <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
       <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
       <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      <irrigation_allocation type="list" listvalues="on,off" description="Allocation limits">off</irrigation_allocation>
+      <allocation description="Allocation in ML">0</allocation>
     </irrigation>
     <bore>
       <max_available_water description="Capacity (ML)">100</max_available_water>
