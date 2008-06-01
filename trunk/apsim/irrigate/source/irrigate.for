@@ -707,6 +707,8 @@
       integer    numvals               ! number of values read from file
       real       allocation_ml         ! annual irrigation allocation in ML
       real       application_area      ! area to which the above allocation is to be applied (ha)
+      character  scratch*80
+
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
@@ -859,8 +861,11 @@
      :           section_name            ! Section header
      :         , 'irrigation_allocation' ! Keyword
      :         , '()'                    ! Units
-     :         , p%irrigation_allocation ! Variable
+     :         , scratch                 ! Variable
      :         , numvals)                ! Number of values returned
+      if (numvals .gt. 0) then
+         p%irrigation_allocation = scratch(1:3)
+      endif
 
       if (p%irrigation_allocation .eq. 'on') then
 
