@@ -1,5 +1,5 @@
 #ifdef __WIN32__
-   #include <windows.h>
+   #include <vcl.h>
    #include <dir.h>
 #endif
 #include <stdio.h>
