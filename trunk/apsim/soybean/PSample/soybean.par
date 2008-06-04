@@ -25,10 +25,9 @@ variable = soybean.StemGreenP
 variable = soybean.RootGreenP
 variable = soybean.PodGreenP
 variable = soybean.head_p
-variable = soybean.dlt_p_green()
+variable = soybean.dlt_p_green
 variable = soybean.dlt_p_retrans()
-variable = soybean.dlt_p_detached()
-variable = soybean.dlt_p_sen()
+variable = soybean.dlt_p_detached
 variable = soybean.p_conc_stover
 variable = soybean.LeafGreenPConc
 variable = soybean.StemGreenPConc
@@ -74,7 +73,7 @@ if day = 330 and year  = 1988 then
    soybean sow cultivar = davis, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
-if soybean.stage_name = 'harvest_ripe' or soybean.plant_status = 'dead' then
+if soybean.StageName = 'harvest_ripe' or soybean.plant_status = 'dead' then
    soybean harvest
    soybean end_crop
 
