@@ -19,6 +19,7 @@ PlantPartArea::PlantPartArea(ScienceAPI& api, plantInterface *p, const string &n
 void PlantPartArea::onInit1(protocol::Component *system)
 //=======================================================================================
 {
+   if (myName.size() == 0) {throw std::runtime_error("..Pod with no name");}
    system->addGettableVar((myName.substr(0, 1) + "ai").c_str(), partAI, "m^2/m^2", (myName + " area index").c_str());
    system->addGettableVar(("dlt_" + myName.substr(0, 1) +"ai").c_str(), dlt_partAI, "m^2/m^2", ("Delta " + myName + " area index").c_str());
 }

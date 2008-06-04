@@ -55,7 +55,7 @@ float fruitGrainPartGN::grainWt(void)
 void fruitGrainPartGN::get_grain_size(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, grainWt());
+   system->sendVariable(qd, grainWt()); //////FIXME!!!!!!!!!
 }
 
 void fruitGrainPartGN::doGrainNumber (void)
