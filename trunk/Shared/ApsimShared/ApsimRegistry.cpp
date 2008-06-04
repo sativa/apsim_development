@@ -61,7 +61,7 @@ unsigned int ApsimRegistry::add(ApsimRegistration *reg)
              i->second->getDestinationID() == reg->getDestinationID() )
             {
 //            cout << "removing (" << i->second->getType() << "." << i->second->getComponentID() << "." <<
-//              i->second->getName() << "->" << i->second->getDestinationID() << ")= " << ((unsigned int)i->second) << " called again - returning " << i->second->getName() << endl;
+//               i->second->getName() << "->" << i->second->getDestinationID() << ")= " << ((unsigned int)i->second) << " called again - returning " << i->second->getRegID() << endl;
 //            delete reg;
 //            return ((unsigned int)i->second);
               delete i->second;
@@ -84,7 +84,7 @@ unsigned int ApsimRegistry::add(ApsimRegistration *reg)
 void ApsimRegistry::lookup(ApsimRegistration * reg, 
                            std::vector<ApsimRegistration*>&subscribers)
    {
-//   string regName = reg->getName();
+   string regName = reg->getName();
 //   cout << "lookup:" << reg->getRegID() << ":subscribers to " << 
 //        reg->getType() << "." << reg->getDestinationID() << "." << reg->getName() << "=";
 
@@ -180,8 +180,24 @@ void ApsimRegistry::erase(int owner, unsigned int regID)
          {
          registrations.erase(i);
          delete reg;
+         return;
          }
    }
+
+ApsimRegistration *ApsimRegistry::find(EventTypeCode type, 
+                                       int ownerID, 
+                                       const std::string &name)
+   {
+   for (registrations_type::iterator i = registrations.begin();
+        i != registrations.end();
+        i++)
+      if (i->second->getTypeCode() == type && 
+          i->second->getComponentID() == ownerID &&
+          Str_i_Eq(i->second->getName(), name))
+         return(i->second);
+
+   return NULL;
+   }                                    
 
 void ApsimRegistry::addComponent(int parentID,
                                  int componentID, 
@@ -427,7 +443,7 @@ std::string ApsimRegistry::getDescription(int componentID)
                string st = "   <property name=\"";
                st += reg->getName();
                st += "\" access=\"read\" init=\"F\">\n";
-               st += reg->getType();
+               st += reg->getDDML();
                st += "</property>\n";
                properties.insert(make_pair(reg->getName(), st));
                }
@@ -436,7 +452,7 @@ std::string ApsimRegistry::getDescription(int componentID)
                string st = "   <property name=\"";
                st += reg->getName();
                st += "\" access=\"write\" init=\"F\">\n";
-               st += reg->getType();
+               st += reg->getDDML();
                st += "</property>\n";
                properties.insert(make_pair(reg->getName(), st));
                }
@@ -445,7 +461,7 @@ std::string ApsimRegistry::getDescription(int componentID)
                string st = "   <property name=\"";
                st += reg->getName();
                st += "\" access=\"both\" init=\"F\">\n";
-               st += reg->getType();
+               st += reg->getDDML();
                st += "</property>\n";
                properties.insert(make_pair(reg->getName(), st));
                }
@@ -454,7 +470,7 @@ std::string ApsimRegistry::getDescription(int componentID)
             string st = "   <event name=\"";
             st += reg->getName();
             st += "\" kind=\"subscribed\">";
-            XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
+            XMLDocument* doc = new XMLDocument(reg->getDDML(), XMLDocument::xmlContents);
             st += doc->documentElement().innerXML();
             delete doc;
             st += "</event>\n";
@@ -465,7 +481,7 @@ std::string ApsimRegistry::getDescription(int componentID)
             string st = "   <event name=\"";
             st += reg->getName();
             st += "\" kind=\"published\">";
-            XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
+            XMLDocument* doc = new XMLDocument(reg->getDDML(), XMLDocument::xmlContents);
             st += doc->documentElement().innerXML();
             delete doc;
             st += "</event>\n";
@@ -476,7 +492,7 @@ std::string ApsimRegistry::getDescription(int componentID)
             string st = "   <driver name=\"";
             st += reg->getName();
             st += "\">\n";
-            st += reg->getType();
+            st += reg->getDDML();
             st += "</driver>\n";
             properties.insert(make_pair(reg->getName(), st));
             }
@@ -520,6 +536,24 @@ void ApsimRegistry::dumpStats(void)
    cout << "event="<<nevent<<endl;
    cout << "respondToEvent="<<nrespondToEvent<<endl;
    cout << "respondToGetSet="<<nrespondToGetSet<<endl;
+   }
+
+void ApsimRegistry::dumpAll(void)
+   {
+   PTree<Component>* root = findComponent(0);
+   if (root == NULL) {throw std::runtime_error("NULL node in dumpComponentTree!");}
+   for (unsigned i = 0; i != root->children.size(); i++)
+      {
+      dumpAll(root->children[i]);
+      }
+   }
+void ApsimRegistry::dumpAll(PTree<Component>* node)
+   {
+   cout << getDescription(node->item.ID);
+   for (unsigned i = 0; i != node->children.size(); i++)
+      {
+      dumpAll(node->children[i]);
+      }
    }
 
 void ApsimRegistry::dumpComponentTree(void)

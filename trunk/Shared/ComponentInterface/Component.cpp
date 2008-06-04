@@ -363,21 +363,21 @@ void Component::deleteRegistration(EventTypeCode kind,
 
 void Component::respondToGet(unsigned int& /*fromID*/, QueryValueData& queryData)
    {
-   if (getVarMap.find(queryData.ID) != getVarMap.end())
+   UInt2InfoMap::iterator i = getVarMap.find(queryData.ID);
+   if (i != getVarMap.end())
       {
-      baseInfo *v = getVarMap[queryData.ID];
-      if (v)
-         v->sendVariable(this, queryData);
+      baseInfo *v = i->second;
+      v->sendVariable(this, queryData);
       }
    }
 
 bool Component::respondToSet(unsigned int& /*fromID*/, QuerySetValueData& setValueData)
    {
-   if (setVarMap.find(setValueData.ID) != setVarMap.end())
+   UInt2SetInfoMap::iterator i = setVarMap.find(setValueData.ID);
+   if (i != setVarMap.end())
       {
-      fnSetInfo *v = setVarMap[setValueData.ID];
-      if (v)
-         return v->callSetter(this, setValueData);
+      fnSetInfo *v = i->second;
+      return v->callSetter(this, setValueData);
       }
    return false;
    }
@@ -518,7 +518,7 @@ bool Component::getVariables(unsigned int registrationID,
 
    // clean up old values if necessary.
    v->second->empty();
-//cout << "Component::getVariables name=" << ((ApsimRegistration*)registrationID)->getName() << endl;
+
    // send a GetValue message. Responses will be tucked away 
    // in the map "v" created above
    sendMessage(newGetValueMessage(componentID,
@@ -933,6 +933,15 @@ unsigned int Component::getReg(const char *systemName,
                                 bool isArray,
                                 const char *units)
    {
+   // It's important that any old registration / function pointers are removed before adding a new one
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
+   ApsimRegistration *reg = registry.find(::respondToGet, componentID, systemName);
+   if (reg != NULL) 
+      {
+      registry.erase(componentID, (unsigned int)reg);
+      removeGettableVar(systemName);
+      }
+
    string buffer = "<type kind=\"";
    switch (type)
       {

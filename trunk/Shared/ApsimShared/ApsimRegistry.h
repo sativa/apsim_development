@@ -44,8 +44,8 @@ class EXPORT ApsimRegistry
 
       // Find a single registration for a component,
       //  returns NULL if not found.
-      ApsimRegistration *find(int ownerID,
-                              unsigned int regnID);
+      ApsimRegistration *find(int ownerID, unsigned int regnID);
+      ApsimRegistration *find(EventTypeCode type, int ownerID, const std::string &name);
 
       // Component routines
       // Add a component to the system
@@ -76,6 +76,7 @@ class EXPORT ApsimRegistry
 
       void dumpStats(void);
       void dumpComponentTree(void);
+      void dumpAll(void);
       
    private:
       typedef multimap<string, ApsimRegistration* , less<string> > registrations_type;
@@ -116,6 +117,7 @@ class EXPORT ApsimRegistry
       void pruneDuplicates( std::vector<ApsimRegistration*>&subscribers);
 
       void dumpComponentTree(int indent, PTree<Component>* node);
+      void dumpAll(PTree<Component>* node);
    };
 
 
