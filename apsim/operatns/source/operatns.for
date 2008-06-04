@@ -620,7 +620,7 @@
          Kill%KillFraction = 1.0
       endif
       KillCropID = add_registration(eventReg, 
-     .                              ModuleName // '.kill_crop',
+     .                              trim(ModuleName) // '.kill_crop',
      .                              KillCropTypeDDML, '')
       call publish_KillCrop(KillCropID, Kill)
 
