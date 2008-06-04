@@ -45,9 +45,8 @@
       ..\..\..\Shared\ApsimShared\ApsimShared.lib 
       ..\..\..\Shared\general\general.lib"/>
     <LIBRARIES value=""/>
-    <SPARELIBS value="rtl.lib vcl.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi 
-      bdertl.bpi bcbsmp.bpi vcldbx.bpi dclocx.bpi qrpt.bpi"/>
+    <SPARELIBS value="rtl.lib"/>
+    <PACKAGES value="rtl.bpi"/>
     <PATHCPP value=".;..\..\..\Shared\ComponentInterface;Phenology;Arbitrators;Reproductive;Root;Utility;Storage;Leaf;Photosynthesis"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -56,16 +55,16 @@
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
-    <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
+    <SYSDEFINES value="_RTLDLL;NO_VCL;NO_STRICT"/>
     <MAINSOURCE value="PlantComponent.cpp"/>
-    <INCLUDEPATH value="..\..\..\..\Desktop;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;Photosynthesis;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared\ComponentInterface;..\..\..\Shared"/>
-    <LIBPATH value="..\..\..\..\Desktop;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;Photosynthesis;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="Photosynthesis;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;Photosynthesis;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;$(BCB)\include;$(BCB)\Components\boost;..\..\..\Shared\ComponentInterface;..\..\..\Shared"/>
+    <LIBPATH value="Photosynthesis;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;Photosynthesis;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-wprc -wstv -wsig -w-par -wnod -w-8027 -w-8026 -wdef -wamb"/>
     <WARNOPTSTR value=""/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hh=SimplePart.h -Hc -w -Vx -Ve -X- -r- 
+    <CFLAG1 value="-WD -Od -H=..\..\..\Bin\vcl60.csm -Hh=SimplePart.h -Hc -w -Vx -Ve -X- -r- 
       -a8 -b- -k -y -v -vi- -c -tWM"/>
     <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
@@ -74,9 +73,9 @@
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -201,53 +200,57 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=20
-Item0=Photosynthesis;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared\ComponentInterface;..\..\..\Shared
-Item1=Photosynthesis;C:\Program Files\Borland\CBuilder6\Bin;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared
-Item2=C:\Program Files\Borland\CBuilder6\Bin;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared
-Item3=Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared
-Item4=Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared
-Item5=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared
-Item6=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;$(SHARED)
-Item7=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;$(SHARED)
-Item8=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item9=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\infra\protocol;..\..\..\shared
-Item10=..\..\Report\source;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\infra\protocol;..\..\..\shared
-Item11=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\infra\protocol
-Item12=k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
-Item13=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
-Item14=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine;..\..\infra\protocol
-Item15=$(BCB)\include;$(BCB)\include\vcl;k:\general;k:\;..\..\infra\engine
-Item16=..\..\..\shared\general;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
-Item17=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
-Item18=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source;..\..\..\shared
-Item19=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source
+Count=22
+Item0=Photosynthesis;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;Photosynthesis;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;$(BCB)\include;$(BCB)\Components\boost;..\..\..\Shared\ComponentInterface;..\..\..\Shared
+Item1=..\..\..\..\Desktop;C:\Program Files\Borland\CBuilder6\Bin;Photosynthesis;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared\ComponentInterface;..\..\..\Shared
+Item2=Photosynthesis;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared\ComponentInterface;..\..\..\Shared
+Item3=Photosynthesis;C:\Program Files\Borland\CBuilder6\Bin;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared
+Item4=C:\Program Files\Borland\CBuilder6\Bin;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared
+Item5=Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared
+Item6=Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared
+Item7=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared
+Item8=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;$(SHARED)
+Item9=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;$(SHARED)
+Item10=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item11=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\infra\protocol;..\..\..\shared
+Item12=..\..\Report\source;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\infra\protocol;..\..\..\shared
+Item13=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\infra\protocol
+Item14=k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item15=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item16=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine;..\..\infra\protocol
+Item17=$(BCB)\include;$(BCB)\include\vcl;k:\general;k:\;..\..\infra\engine
+Item18=..\..\..\shared\general;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
+Item19=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
+Item20=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source;..\..\..\shared
+Item21=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source
 
 [HistoryLists\hlLibraryPath]
-Count=23
-Item0=Photosynthesis;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item1=Photosynthesis;C:\Program Files\Borland\CBuilder6\Bin;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item2=C:\Program Files\Borland\CBuilder6\Bin;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item3=Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item4=Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item5=..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item6=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item7=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;..\..\..\shared\general;..\..\..\shared\aps
-Item8=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;$(BCB)\projects\lib;..\..\..\shared\general;..\..\..\shared\aps
-Item9=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;$(BCB)\projects\lib
-Item10=..\..\Report\source;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;..\..\infra\protocol;..\..\infra\engine
-Item11=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;..\..\infra\protocol;..\..\infra\engine
-Item12=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\
-Item13=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\;k:\aps\
-Item14=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\;k:\aps
-Item15=..\..\infra\protocol;k:\general\;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\engine
-Item16=..\..\infra\protocol;k:\general;k:\general\;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\engine
-Item17=k:\general;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;..\..\infra\engine
-Item18=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general;..\..\infra\engine
-Item19=$(BCB)\lib\debug;..\..\..\shared\general;..\..\infra\engine;$(BCB)\lib\obj;$(BCB)\lib
-Item20=..\..\infra\engine;$(BCB)\lib\obj;$(BCB)\lib
-Item21=..\..\..\shared\general;..\..\infra\cppsource;$(BCB)\lib\obj;$(BCB)\lib
-Item22=$(BCB)\lib\obj;$(BCB)\lib
+Count=25
+Item0=Photosynthesis;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;Photosynthesis;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\..\..\..\Desktop;C:\Program Files\Borland\CBuilder6\Bin;Photosynthesis;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item2=Photosynthesis;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item3=Photosynthesis;C:\Program Files\Borland\CBuilder6\Bin;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item4=C:\Program Files\Borland\CBuilder6\Bin;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item5=Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item6=Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item7=..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item8=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item9=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;..\..\..\shared\general;..\..\..\shared\aps
+Item10=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;$(BCB)\projects\lib;..\..\..\shared\general;..\..\..\shared\aps
+Item11=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;$(BCB)\projects\lib
+Item12=..\..\Report\source;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;..\..\infra\protocol;..\..\infra\engine
+Item13=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;..\..\infra\protocol;..\..\infra\engine
+Item14=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\
+Item15=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\;k:\aps\
+Item16=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\protocol;..\..\infra\engine;k:\general\;k:\aps
+Item17=..\..\infra\protocol;k:\general\;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\engine
+Item18=..\..\infra\protocol;k:\general;k:\general\;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\engine
+Item19=k:\general;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;..\..\infra\engine
+Item20=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general;..\..\infra\engine
+Item21=$(BCB)\lib\debug;..\..\..\shared\general;..\..\infra\engine;$(BCB)\lib\obj;$(BCB)\lib
+Item22=..\..\infra\engine;$(BCB)\lib\obj;$(BCB)\lib
+Item23=..\..\..\shared\general;..\..\infra\cppsource;$(BCB)\lib\obj;$(BCB)\lib
+Item24=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=3
@@ -276,11 +279,11 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=&quot;C:\hol353\Development\apsim\Broccoli\Sample\broccoli.apsim.Broccoli Sample.sim&quot;
+RunParams=&quot;C:\development\apsim\canola\Validation\Files\z.Crocantigh_98_monty.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=C:\hol353\Development\Bin\apsim.exe
+HostApplication=C:\development\Bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
@@ -291,6 +294,11 @@ RemoteDebug=0
 ShowInfoMsgs=0
 LinkDebugVcl=0
 LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
 
 [Linker]
 LibPrefix=
