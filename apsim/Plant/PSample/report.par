@@ -3,7 +3,7 @@ outputfile = navybean.out
 
 [navybean.report.parameters]
 variable = clock.dd/mm/yyyy as date
-variable = navybean.das
+variable = navybean.DaysAfterSowing
 variable = navybean.stage
 variable = navybean.lai
 variable = navybean.biomass_wt as biomass
@@ -37,11 +37,9 @@ variable = navybean.StemGreenP
 variable = navybean.RootGreenP
 variable = navybean.PodGreenP
 variable = navybean.head_p
-variable = navybean.dlt_p_green()
+variable = navybean.dlt_p_green
 variable = navybean.dlt_p_retrans()
-variable = navybean.dlt_p_detached()
-variable = navybean.dlt_p_dead()
-variable = navybean.dlt_p_sen()
+variable = navybean.dlt_p_detached
 variable = navybean.p_conc_stover
 variable = navybean.LeafGreenPConc
 variable = navybean.StemGreenPConc
