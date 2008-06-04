@@ -29,10 +29,9 @@ variable = navybean.PodGreenP
 variable = navybean.head_p
 variable = navybean.SenescedP
 variable = navybean.p_dead()
-variable = navybean.dlt_p_green()
+variable = navybean.dlt_p_green
 variable = navybean.dlt_p_retrans()
-variable = navybean.dlt_p_detached()
-variable = navybean.dlt_p_sen()
+variable = navybean.dlt_p_detached
 variable = navybean.p_conc_stover
 variable = navybean.LeafGreenPConc
 variable = navybean.StemGreenPConc
@@ -79,7 +78,7 @@ if day = 330 and year  = 1988 then
    navybean sow cultivar = rainbird, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
-if navybean.stage_name = 'harvest_ripe' or navybean.plant_status = 'dead' then
+if navybean.StageName = 'harvest_ripe' or navybean.plant_status = 'dead' then
    navybean harvest
    navybean end_crop
 
