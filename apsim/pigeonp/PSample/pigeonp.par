@@ -24,10 +24,9 @@ variable = pigeonp.StemGreenP
 variable = pigeonp.RootGreenP
 variable = pigeonp.PodGreenP
 variable = pigeonp.head_p
-variable = pigeonp.dlt_p_green()
+variable = pigeonp.dlt_p_green
 variable = pigeonp.dlt_p_retrans()
-variable = pigeonp.dlt_p_detached()
-variable = pigeonp.dlt_p_sen()
+variable = pigeonp.dlt_p_detached
 variable = pigeonp.p_conc_stover
 variable = pigeonp.LeafGreenPConc
 variable = pigeonp.StemGreenPConc
@@ -74,7 +73,7 @@ if day = 290 and year  = 1988 then
    pigeonp sow cultivar = short_duration, plants = 10 (/m2), sowing_depth = 40 (mm)
 endif
 
-if pigeonp.stage_name = 'harvest_ripe' or pigeonp.plant_status = 'dead' then
+if pigeonp.StageName = 'harvest_ripe' or pigeonp.plant_status = 'dead' then
    pigeonp harvest
    pigeonp end_crop
 
