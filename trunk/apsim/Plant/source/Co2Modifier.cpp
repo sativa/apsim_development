@@ -21,7 +21,7 @@ Co2Modifier::~Co2Modifier()
 void Co2Modifier::init(void)
    {
    zero_co2_variables();
-   scienceAPI.expose("temp_stress_photo", "", "Temperature Stress in photosynthesis", tFact.photo);
+   scienceAPI.expose("temp_stress_photo_co2", "", "Temperature Stress in photosynthesis via co2Modifier", tFact.photo);
 
    c.photosynthetic_pathway = photosynthetic_pathway_UNDEF;
    }
