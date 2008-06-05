@@ -32,9 +32,9 @@ void ApsimRegistry::reset(void)
         i != registrations.end();
         i++) 
       delete i->second;  
+   registrations.empty();
    components.empty();
    taintedComponents.empty();
-   registrations.empty();
    }
 
 
@@ -84,7 +84,7 @@ unsigned int ApsimRegistry::add(ApsimRegistration *reg)
 void ApsimRegistry::lookup(ApsimRegistration * reg, 
                            std::vector<ApsimRegistration*>&subscribers)
    {
-   string regName = reg->getName();
+//   string regName = reg->getName();
 //   cout << "lookup:" << reg->getRegID() << ":subscribers to " << 
 //        reg->getType() << "." << reg->getDestinationID() << "." << reg->getName() << "=";
 
@@ -172,16 +172,21 @@ void ApsimRegistry::erase(int owner, unsigned int regID)
    {
    ApsimRegistration *reg = find(owner, regID);
    if (reg == NULL) return;
-
-   for (registrations_type::iterator i = registrations.begin();
-        i != registrations.end();
-        i++)
-      if (reg->isMatch(i->second))
-         {
-         registrations.erase(i);
-         delete reg;
-         return;
-         }
+   cout << "ApsimRegistry::erase name="<< reg->getName() << endl;
+   bool found = true;
+   while (found) 
+      {
+      found = false;
+      for (registrations_type::iterator i = registrations.begin();
+           i != registrations.end();
+           i++)
+         if (reg == i->second)
+            {
+            registrations.erase(i);
+            //delete reg;
+            found = true;
+            }
+      }      
    }
 
 ApsimRegistration *ApsimRegistry::find(EventTypeCode type, 
@@ -306,6 +311,8 @@ void ApsimRegistry::getSiblingsAndParents(int componentID, vector<int> &siblings
            siblings.push_back(grandparent->children[i]->item.ID); 
         }
       }
+   // And the masterPM
+   siblings.push_back(0);
    }
 
 void ApsimRegistry::getDescendants(ApsimRegistry::PTree<ApsimRegistry::Component>*node, vector<int> &siblings)
