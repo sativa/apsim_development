@@ -57,7 +57,7 @@ class Coordinator : public protocol::Component
       virtual void onRequestComponentIDMessage(unsigned int fromID, protocol::RequestComponentIDData& data);
       virtual void onQueryInfoMessage(unsigned int fromID, unsigned int messageID, protocol::QueryInfoData& queryInfo);
       virtual void onRequestSetValueMessage(unsigned int fromID, protocol::RequestSetValueData& setValueData);
-      virtual void onApsimChangeOrderData(protocol::MessageData& messageData);
+      virtual void onApsimChangeOrderData(unsigned int fromID, protocol::MessageData& messageData);
       virtual void onQuerySetValueMessage(unsigned fromID, protocol::QuerySetValueData& querySetData);
 
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
