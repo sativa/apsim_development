@@ -430,8 +430,7 @@ void Coordinator::propogateEvent(unsigned int fromID, protocol::PublishEventData
    vector<ApsimRegistration *> subscriptions;
    registry.lookup(reg, subscriptions);
 
-   if (componentOrders.size() > 0)
-      reorderSubscriptions(subscriptions);
+   reorderSubscriptions(subscriptions);
 
    for (vector<ApsimRegistration *>::iterator s = subscriptions.begin();
                                               s != subscriptions.end() && !doTerminate;
@@ -729,7 +728,7 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
 void Coordinator::onQuerySetValueMessage(unsigned fromID, protocol::QuerySetValueData& querySetData)
    {
    // nothing
-   cout <<" Coordinator::onQuerySetValueMessage\n";
+//   cout <<" Coordinator::onQuerySetValueMessage\n";
    }
 
 // ------------------------------------------------------------------
@@ -805,9 +804,13 @@ void Coordinator::onApsimChangeOrderData(protocol::MessageData& messageData)
 // ------------------------------------------------------------------
 void Coordinator::reorderSubscriptions(std::vector<ApsimRegistration *>& subs)
    {
+   if (componentOrders.size() == 0) 
+     {
+     ApsimRegistry::getApsimRegistry().getComponents(componentOrders);
+     } 
    vector<ApsimRegistration *> subsToMove = subs;
    vector<ApsimRegistration *> newSubs;
-
+      
    while (subsToMove.size() > 0)
       {
       vector<ApsimRegistration *>::iterator sub = subsToMove.begin();
