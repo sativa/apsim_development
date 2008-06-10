@@ -771,32 +771,40 @@ void Coordinator::pollComponentsForGetVariable(int fromID, const string& variabl
 //         Then y will replace x, z will replace y, and x will replace z
 //         leaving: y, z, x
 // ------------------------------------------------------------------
-void Coordinator::onApsimChangeOrderData(protocol::MessageData& messageData)
+void Coordinator::onApsimChangeOrderData(unsigned int fromID, protocol::MessageData& messageData)
    {
-   std::vector<string> componentNames;
+   vector<string> componentNames;
+   vector<int> componentIDs;
    messageData >> componentNames;
-   if (componentOrders.size() == 0)
+
+   for (unsigned i = 0; i != componentNames.size(); ++i)
       {
-      for (unsigned i = 0; i != componentNames.size(); ++i)
+      int id = -1; 
+      string junk;
+      ApsimRegistry::getApsimRegistry().
+                       unCrackPath(fromID, 
+                                   componentNames[i] + ".junk", 
+                                   id, junk); // fixme - there should be an easier way to do this!!
+      
+      if (id < 0) 
          {
-         int id;
-         string fqn = getName();
-         fqn += ".";
-         fqn += componentNames[i];
-         if (!componentNameToID(fqn, id))
-            {
-            string msg;
-            msg = "The CANOPY module has specified that " + fqn +
-                  " be intercropped\nbut that module doesn't exist in the simulation.";
-            error(msg, true);
-            return;
-            }
-         componentOrders.push_back(id);
+         string msg = "The CANOPY module has specified that " + componentNames[i] +
+                      " be intercropped\nbut that module doesn't exist in the simulation.";
+         error(msg, true);
+         return;
          }
+      componentIDs.push_back(id);
       }
-   // move all items up 1 spot.  Move top spot to bottom.
-   for (unsigned i = 1; i != componentOrders.size(); i++)
-      swap(componentOrders[i-1], componentOrders[i]);
+
+   // Swap positions of nominated modules.
+   for (unsigned i = 1; i != componentIDs.size(); i++)
+     {
+     vector<int>::iterator a, b;
+     a = find(componentOrders.begin(), componentOrders.end(), componentIDs[i-1]);
+     b = find(componentOrders.begin(), componentOrders.end(), componentIDs[i]);
+     if (a != componentOrders.end() && b != componentOrders.end())
+       swap(*a, *b);
+     }
    }
 // ------------------------------------------------------------------
 // Handle incoming publish event message but make sure the order
