@@ -2033,16 +2033,15 @@ void Plant::plant_prepare (void)
 
 void Plant::registerClassActions(void)
    {
-#ifdef NEED_TO_CALL_DELETEREG_ONCE_ONLY_OR_IT_CRASHES_XXXX
    // Remove old registrations from the system
    for (UInt2StringMap::const_iterator i = IDtoAction.begin();
         i != IDtoAction.end();
         i++)
         {
-        parent->deleteRegistration(RegistrationType::respondToEvent,i->first);
-        parent->deleteRegistration(RegistrationType::respondToEvent,i->first);
+        if (i->second != "harvest" && i->second != "kill_crop" && i->second != "kill_stem")
+           parent->deleteRegistration(::respondToEvent,i->first);
         }
-#endif
+
    IDtoAction.clear();
 
    // Add the new class actions we're interested in
@@ -2050,13 +2049,16 @@ void Plant::registerClassActions(void)
         i != c.class_action.end();
         i++)
       {
-      unsigned int id;
-      boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
-      fn = boost::bind(&Plant::doAutoClassChange, this, _1, _2, _3);
-      id = parent->addEvent(i->c_str(), fn, "<type/>");
-
-      IDtoAction.insert(UInt2StringMap::value_type(id,i->c_str()));
-      //printf("registered '%s' as %d\n",i->c_str(),id);
+      if (*i != "harvest" && *i != "kill_crop" && *i != "kill_stem")
+         {
+         unsigned int id;
+         boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
+         fn = boost::bind(&Plant::doAutoClassChange, this, _1, _2, _3);
+         id = parent->addEvent(i->c_str(), fn, "<type/>");
+         
+         IDtoAction.insert(UInt2StringMap::value_type(id,i->c_str()));
+         //printf("registered '%s' as %d\n",i->c_str(),id);
+         }
       }
    }
 
@@ -2253,18 +2255,22 @@ bool  Plant::plant_auto_class_change (const char *action)
 //=======================================================================================
 // Change the Crop Class in response to a given action
    {
+    string newclass = "unchanged";
     vector<string>::iterator i = find(c.class_action.begin(), c.class_action.end(),
                                       action);
-    if (i == c.class_action.end()
-        || Str_i_Eq(c.class_change[i-c.class_action.begin()],"unchanged"))
+    if (i != c.class_action.end())
+       {
+       newclass = c.class_change[i-c.class_action.begin()];
+       }
+    if (Str_i_Eq(newclass, "unchanged"))
         {
         // then do nothing
         return false;
         }
     else
         {
-        g.crop_class = c.class_change[i-c.class_action.begin()];
-        scienceAPI.setClass2(c.class_change[i-c.class_action.begin()]);
+        g.crop_class = newclass;
+        scienceAPI.setClass2(g.crop_class);
         read();
         return true;
         }
