@@ -394,13 +394,12 @@ void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Vari
   {
   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> pf;
   UInt2EventMap::iterator ipf, ipf1, ipf2;
-ApsimRegistration *reg = ApsimRegistry::getApsimRegistry().find(componentID, eventID);
+
   ipf1 = eventMap.lower_bound(eventID);
   ipf2 = eventMap.upper_bound(eventID);
 
   for (ipf = ipf1; ipf != ipf2; ipf++)
      {
-cout << "Event: " <<name << " " << reg->getName() << endl;
      variant.getMessageData().reset();
      pf = ipf->second;
      (pf)(fromID, eventID, variant);
@@ -931,7 +930,6 @@ unsigned int Component::addEvent(const char *systemName,
                                  boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr,
                                  const char* DDML)
    {
-cout << "Addevent" << name << "." << systemName << endl;
    unsigned int id = addRegistration(::respondToEvent, -1, string(systemName), DDML);
    eventMap.insert(UInt2EventMap::value_type(id,ptr));
    return id;
