@@ -166,8 +166,11 @@ try {
                                     eventData.params.unpack(NULL, NULL, tick);
                                     eventData.params.getMessageData().reset();
                                     haveWrittenToStdOutToday = false;
+                                    if (sendTickToComponent)
+                                      respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
                                     }
-                                 respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
+                                 else 
+                                    respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
                                  break;}
       case QueryValue:          {QueryValueData queryData(fromID);
                                  messageData >> queryData;
@@ -253,7 +256,7 @@ try {
                                                     apsimSetQueryData.name, "");
                                     }
                                  break;}
-      case ApsimChangeOrder:    {onApsimChangeOrderData(messageData);
+      case ApsimChangeOrder:    {onApsimChangeOrderData(fromID, messageData);
                                  break;}
       }
 
@@ -321,6 +324,7 @@ void Component::doInit1(const Init1Data& init1Data)
                             -1,
                             string("tick"),
                             DDML(TimeType()));
+   sendTickToComponent = false;
    }
 
 // ------------------------------------------------------------------
@@ -347,6 +351,10 @@ unsigned Component::addRegistration(EventTypeCode kind,
                                   destinationComponentID, // destination ID 
                                   FString(regName.c_str()),
                                   FString(ddml.c_str())));
+
+   if (Str_i_Eq(regName, "tick"))
+      sendTickToComponent = true;
+
    return regID;
    }
 // ------------------------------------------------------------------
@@ -386,12 +394,13 @@ void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Vari
   {
   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> pf;
   UInt2EventMap::iterator ipf, ipf1, ipf2;
-
+ApsimRegistration *reg = ApsimRegistry::getApsimRegistry().find(componentID, eventID);
   ipf1 = eventMap.lower_bound(eventID);
   ipf2 = eventMap.upper_bound(eventID);
 
   for (ipf = ipf1; ipf != ipf2; ipf++)
      {
+cout << "Event: " <<name << " " << reg->getName() << endl;
      variant.getMessageData().reset();
      pf = ipf->second;
      (pf)(fromID, eventID, variant);
@@ -922,6 +931,7 @@ unsigned int Component::addEvent(const char *systemName,
                                  boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr,
                                  const char* DDML)
    {
+cout << "Addevent" << name << "." << systemName << endl;
    unsigned int id = addRegistration(::respondToEvent, -1, string(systemName), DDML);
    eventMap.insert(UInt2EventMap::value_type(id,ptr));
    return id;
