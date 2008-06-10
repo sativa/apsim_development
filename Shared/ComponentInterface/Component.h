@@ -404,7 +404,7 @@ class EXPORT Component
       virtual void onCompleteMessage(CompleteData& completeData);
       virtual void onApsimGetQuery(unsigned int fromID, ApsimGetQueryData& apsimGetQueryData) { }
       virtual bool onApsimSetQuery(ApsimSetQueryData& apsimSetQueryData) {return false;}
-      virtual void onApsimChangeOrderData(protocol::MessageData& messageData) { }
+      virtual void onApsimChangeOrderData(unsigned int fromID, protocol::MessageData& messageData) { }
       virtual void onQuerySetValueMessage(unsigned fromID, QuerySetValueData& querySetData);
       virtual void onReplyValueMessage(unsigned fromID, ReplyValueData replyValueData) { }
 
@@ -451,6 +451,7 @@ class EXPORT Component
       bool setVariableSuccess;
       vector<unsigned> completeIDs;
       bool completeFound;
+      bool sendTickToComponent;
       protocol::TimeType tick;
       unsigned currentMsgID;
 
