@@ -172,7 +172,7 @@ void ApsimRegistry::erase(int owner, unsigned int regID)
    {
    ApsimRegistration *reg = find(owner, regID);
    if (reg == NULL) return;
-   cout << "ApsimRegistry::erase name="<< reg->getName() << endl;
+//   cout << "ApsimRegistry::erase name="<< reg->getName() << endl;
    bool found = true;
    while (found) 
       {
