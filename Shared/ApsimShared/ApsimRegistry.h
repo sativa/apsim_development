@@ -55,6 +55,7 @@ class EXPORT ApsimRegistry
       int componentByName(const std::string &);
       std::string componentByID(int);
   
+      void getComponents(vector<int> &components);
       void getSiblings(int componentID, vector<int> &siblings);
       void getSiblingsAndDescendants(int componentID, vector<int> &siblings);
       void getSiblingsAndParents(int componentID, vector<int> &siblings);
@@ -100,6 +101,7 @@ class EXPORT ApsimRegistry
       PTree<Component>  paddocks;
       PTree<Component> *findComponent(int componentID);
       PTree<Component> *findComponent(PTree<Component> *node, int componentID);
+      void getComponents(PTree<Component>*node, vector<int> &components);
       void getDescendants(PTree<Component>*node, vector<int> &siblings);
 
       // Test whether a registration is in the scope of a component

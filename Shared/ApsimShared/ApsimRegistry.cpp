@@ -583,3 +583,22 @@ void ApsimRegistry::dumpComponentTree(int indent, PTree<Component>* node)
       }
    }
 
+void ApsimRegistry::getComponents(vector<int> &components)
+   {
+   PTree<Component>* root = findComponent(0);
+   if (root == NULL) {throw std::runtime_error("NULL node in getComponents!");}
+   components.push_back(0);
+   for (unsigned i = 0; i != root->children.size(); i++)
+      {
+      getComponents(root->children[i], components);
+      }
+   }
+
+void ApsimRegistry::getComponents(PTree<Component>* node, vector<int> &components)
+   {
+   components.push_back(node->item.ID);
+   for (unsigned i = 0; i != node->children.size(); i++)
+      {
+      getComponents(node->children[i], components);
+      }
+   }
