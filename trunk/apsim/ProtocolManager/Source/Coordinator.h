@@ -34,7 +34,7 @@ class Coordinator : public protocol::Component
       string title;
       int titleID;
       int componentsID;
-      vector<int> componentOrders;
+      static vector<int> componentOrders;
       bool doTerminate;
       bool printReport;
       std::string parentName;

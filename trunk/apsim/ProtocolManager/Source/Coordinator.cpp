@@ -31,6 +31,8 @@
 #include "ComponentAlias.h"
 #include "Coordinator.h"
 
+vector<int> Coordinator::componentOrders;
+
 using namespace std;
 
 // ------------------------------------------------------------------
@@ -181,6 +183,9 @@ void Coordinator::doInit2(void)
    afterInit2 = true;
 
    // initialise all components.
+   if (componentID == 0)
+      ApsimRegistry::getApsimRegistry().getComponents(componentOrders);
+
    for (Components::iterator componentI = components.begin();
                              componentI != components.end() && !doTerminate;
                              componentI++)
@@ -203,13 +208,16 @@ void Coordinator::doInit2(void)
 // ------------------------------------------------------------------
 void Coordinator::doCommence(void)
    {
-   // should only be called as a top level PM
-   assert (parentID == 0);
-   cout << "------- Start of simulation  --------------------------------------------------" << endl;
+   if (componentID == 0)
+      {
+      // only as top level PM
+      cout << "------- Start of simulation  --------------------------------------------------" << endl;
 
-   // send the commence message on to the sequencer.
-   sendMessage(protocol::newCommenceMessage(componentID, sequencerID));
+      // send the commence message on to the sequencer.
+      sendMessage(protocol::newCommenceMessage(componentID, sequencerID));
+      }
    }
+
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -429,8 +437,16 @@ void Coordinator::propogateEvent(unsigned int fromID, protocol::PublishEventData
 
    vector<ApsimRegistration *> subscriptions;
    registry.lookup(reg, subscriptions);
-
+cout << "\n" << componentID << " - c.order:";
+for (int i = 0 ; i != componentOrders.size(); i++) {cout << " " << componentOrders[i];}
+cout << endl;
+cout << reg->getName() << " before:";
+for (int i = 0 ; i != subscriptions.size(); i++) {cout << " " << subscriptions[i]->getComponentID();}
+cout << endl;
    reorderSubscriptions(subscriptions);
+cout << reg->getName() << " after:";
+for (int i = 0 ; i != subscriptions.size(); i++) {cout << " " << subscriptions[i]->getComponentID();}
+cout << endl;
 
    for (vector<ApsimRegistration *>::iterator s = subscriptions.begin();
                                               s != subscriptions.end() && !doTerminate;
@@ -803,7 +819,9 @@ void Coordinator::onApsimChangeOrderData(unsigned int fromID, protocol::MessageD
      a = find(componentOrders.begin(), componentOrders.end(), componentIDs[i-1]);
      b = find(componentOrders.begin(), componentOrders.end(), componentIDs[i]);
      if (a != componentOrders.end() && b != componentOrders.end())
-       swap(*a, *b);
+        {
+        swap(*a, *b);
+        }
      }
    }
 // ------------------------------------------------------------------
@@ -812,40 +830,29 @@ void Coordinator::onApsimChangeOrderData(unsigned int fromID, protocol::MessageD
 // ------------------------------------------------------------------
 void Coordinator::reorderSubscriptions(std::vector<ApsimRegistration *>& subs)
    {
-   if (componentOrders.size() == 0) 
-     {
-     ApsimRegistry::getApsimRegistry().getComponents(componentOrders);
-     } 
    vector<ApsimRegistration *> subsToMove = subs;
    vector<ApsimRegistration *> newSubs;
-      
-   while (subsToMove.size() > 0)
+   for (unsigned o = 0; o != componentOrders.size(); o++)
       {
-      vector<ApsimRegistration *>::iterator sub = subsToMove.begin();
-      if (find(componentOrders.begin(), componentOrders.end(),
-              (*sub)->getComponentID()) == componentOrders.end())
+      bool more = true;
+      while (more)
          {
-         newSubs.push_back(*sub);
-         subsToMove.erase(subsToMove.begin());
-         }
-      else
-         {
-         for (unsigned o = 0; o != componentOrders.size(); o++)
+         more = false;
+         for (vector<ApsimRegistration *>::iterator s = subsToMove.begin();
+                                                    s != subsToMove.end();
+                                                    s++)
             {
-            for (vector<ApsimRegistration *>::iterator s = subsToMove.begin();
-                                                       s != subsToMove.end();
-                                                       s++)
+            if ((*s)->getComponentID() == componentOrders[o])
                {
-               if ((*s)->getComponentID() == componentOrders[o])
-                  {
-                  newSubs.push_back(*s);
-                  subsToMove.erase(s);
-                  break;
-                  }
+               newSubs.push_back(*s);
+               subsToMove.erase(s);
+               more = true;
+               break;
                }
             }
          }
       }
+   if (subsToMove.size() > 0) throw std::runtime_error("leftover subscription in Coordinator::reorderSubscriptions");
    subs = newSubs;
    }
 // ------------------------------------------------------------------
@@ -988,4 +995,5 @@ void Coordinator::onError(const std::string& fromComponentName,
    else
       writeStringToStream(message, cout, "");
    }
+
 
