@@ -669,15 +669,21 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
 
    if (reg == NULL) throw std::runtime_error("NULL registration in Coordinator::onRequestSetValueMessage ?");
 
+   vector<ApsimRegistration *> subs;
+   registry.lookup(reg,  subs);
+
    // apsim hack to poll modules for variables.  This is because we haven't
    // yet got all the .interface files up to date.
    string fqn = itoa(componentID) + string(".*.") + reg->getName();
-   //   cout << "Coordinator::onRequestSetValueMessage - considering polling for " << fqn << endl;
+   //cout << "Coordinator::onRequestSetValueMessage - considering polling for " << fqn << endl;
 
-   bool havePolled = (variablesBeenPolledForSets.find(fqn) !=
-                        variablesBeenPolledForSets.end());
+   bool needToPoll = 
+     (subs.size() == 0 ||                      /* no prior registrations */
+      reg->getDestinationID() < 0) &&          /* not directed */
+      (variablesBeenPolledForSets.find(fqn) == /* hasn't been seen before */
+       variablesBeenPolledForSets.end());
 
-   if (!havePolled)
+   if (needToPoll)
       {
       variablesBeenPolledForSets.insert(fqn);
       vector<int> candidates;
@@ -687,7 +693,7 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
          if (candidates[i] != 0 &&
              candidates[i] != componentID)
             {
-//            cout <<  "polling newQuerySetValueMessage, n="<<lowerName << " to " << registry.componentByID(candidates[i]) << "\n";
+            //cout <<  "polling newQuerySetValueMessage, n="<<reg->getName().c_str() << " to " << registry.componentByID(candidates[i]) << "\n";
             sendMessage(protocol::newApsimSetQueryMessage(componentID,
                                              candidates[i],
                                              reg->getName().c_str(),
@@ -699,9 +705,6 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
       // that query message will set on success - no need for any more.
       return;
       }
-
-   vector<ApsimRegistration *> subs;
-   registry.lookup(reg,  subs);
 
    if (subs.size() == 0)
       {
