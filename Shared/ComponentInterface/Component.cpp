@@ -1040,3 +1040,10 @@ void Component::addReturnValueMessage(ReturnValueData &returnValueData)
    Variants *myVariants = v->second;
    myVariants->addVariant(returnValueData.variant);
    }
+
+void Component::changeComponentOrder(const FStrings& names)
+   {
+   //int masterPMID = 0;
+   //sendMessage(newApsimChangeOrderMessage(componentID, masterPMID, names));
+   sendMessage(newApsimChangeOrderMessage(componentID, parentID, names));
+   }
