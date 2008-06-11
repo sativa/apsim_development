@@ -359,10 +359,7 @@ class EXPORT Component
       bool componentIDToName(int compID, std::string& name);
 
       // send a change order message.
-      void changeComponentOrder(const FStrings& names)
-         {
-         sendMessage(newApsimChangeOrderMessage(componentID, parentID, names));
-         }
+      void changeComponentOrder(const FStrings& names);
       std::string getDescription(void);
 
       // override these methods if necessary.
