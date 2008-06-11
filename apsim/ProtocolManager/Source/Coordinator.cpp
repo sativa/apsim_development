@@ -437,16 +437,8 @@ void Coordinator::propogateEvent(unsigned int fromID, protocol::PublishEventData
 
    vector<ApsimRegistration *> subscriptions;
    registry.lookup(reg, subscriptions);
-cout << "\n" << componentID << " - c.order:";
-for (int i = 0 ; i != componentOrders.size(); i++) {cout << " " << componentOrders[i];}
-cout << endl;
-cout << reg->getName() << " before:";
-for (int i = 0 ; i != subscriptions.size(); i++) {cout << " " << subscriptions[i]->getComponentID();}
-cout << endl;
+
    reorderSubscriptions(subscriptions);
-cout << reg->getName() << " after:";
-for (int i = 0 ; i != subscriptions.size(); i++) {cout << " " << subscriptions[i]->getComponentID();}
-cout << endl;
 
    for (vector<ApsimRegistration *>::iterator s = subscriptions.begin();
                                               s != subscriptions.end() && !doTerminate;
