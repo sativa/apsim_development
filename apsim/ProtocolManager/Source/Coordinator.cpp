@@ -678,10 +678,12 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
    //cout << "Coordinator::onRequestSetValueMessage - considering polling for " << fqn << endl;
 
    bool needToPoll = 
-     (subs.size() == 0 ||                      /* no prior registrations */
-      reg->getDestinationID() < 0) &&          /* not directed */
-      (variablesBeenPolledForSets.find(fqn) == /* hasn't been seen before */
+     (subs.size() == 0) &&                    /* no prior registrations */
+     (variablesBeenPolledForSets.find(fqn) == /* hasn't been seen before */
        variablesBeenPolledForSets.end());
+
+   if (reg->getDestinationID() < 0)           /* not directed */
+     needToPoll = false;
 
    if (needToPoll)
       {
