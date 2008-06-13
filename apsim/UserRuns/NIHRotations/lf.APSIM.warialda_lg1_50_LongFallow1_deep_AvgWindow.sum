@@ -11,18 +11,18 @@
 
 Version                = 6.1
 Title                  = site=warialda; soil=lg1; treatment=LongFallow1; Nrate=50; RootDepth=deep; Sowing = AvgWindow
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component   "chickpea" = c:\development\apsim\plant\lib\plant.dll
-Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
-Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
-Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component   "chickpea" = C:\development\apsim\plant\lib\plant.dll
+Component      "wheat" = C:\development\apsim\plant\lib\plant.dll
+Component    "sorghum" = C:\development\apsim\sorghum\lib\sorghum.dll
+Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -798,7 +798,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =               3787.95		    0.00
+                         DM (kg/ha) =               3787.96		    0.00
                          N  (kg/ha) =                 47.11		    0.00
      Manager sending message :- sorghum kill_crop
      Kill Crop
@@ -901,7 +901,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     5.83 (%)    extractable sw =   28.05 (mm)
 26 August 1974(Day of year=238), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         207.00 (g/m^2)   lai          =   2.604 (m^2/m^2)
+                     biomass =         206.99 (g/m^2)   lai          =   2.604 (m^2/m^2)
                      stover N conc =     2.22 (%)    extractable sw =  122.82 (mm)
 9 October 1974(Day of year=282), wheat: 
       stage 6.0 flowering
@@ -953,7 +953,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                7832.5                     0.0
+                          DM (kg/ha) =                7832.6                     0.0
                           N  (kg/ha) =                  26.16                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -1704,7 +1704,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Flowering (DAS)       = 70 		 Maturity (DAS)          = 113
      Flowering day         = 5 		 Maturity day            = 48
      Maximum LAI           = 2.7 		 Number of leaves        = 15.0
-     Total above ground biomass    (kg/ha) = 10502.8
+     Total above ground biomass    (kg/ha) = 10502.7
      Green above ground biomass    (kg/ha) = 9285.7
      Senesced above ground biomass (kg/ha) = 1217.1
      Stover (kg/ha)        = 5228.4 	 Grain yield (kg/ha)     = 5274.4
@@ -1725,7 +1725,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =               5274.39		    0.00
+                         DM (kg/ha) =               5274.38		    0.00
                          N  (kg/ha) =                 78.32		    0.00
      Manager sending message :- sorghum kill_crop
      Kill Crop
@@ -2163,8 +2163,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- wheat harvest
 3 December 1986(Day of year=337), wheat: 
      
-      flowering day          =  300                           stover (kg/ha)         =     6067.5
-      maturity day           =  335                           grain yield (kg/ha)    =     2607.8
+      flowering day          =  300                           stover (kg/ha)         =     6067.4
+      maturity day           =  335                           grain yield (kg/ha)    =     2607.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2980.4
       grain wt (g)           =    0.029                       grains/m^2             =     9077.8
       grains/plant           =   90.8                         maximum lai            =      2.716
@@ -2189,11 +2189,11 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                6067.5                     0.0
+                          DM (kg/ha) =                6067.4                     0.0
                           N  (kg/ha) =                  20.88                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                2607.8                     0.0
+                          DM (kg/ha) =                2607.9                     0.0
                           N  (kg/ha) =                  34.74                    0.00
      
       stage 4.0 end_of_juvenile
@@ -2783,7 +2783,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       grains/plant           =  138.4                         maximum lai            =      5.211
       total above ground biomass (kg/ha)    =    12623.0
       live above ground biomass (kg/ha)     =    12623.0
-      green above ground biomass (kg/ha)    =    10203.7
+      green above ground biomass (kg/ha)    =    10203.6
       senesced above ground biomass (kg/ha) =     2419.4
       number of leaves       =     54.0
       DM Root:Shoot ratio    =     0.17                       Harvest Index          =       0.37
@@ -2909,7 +2909,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      		Stover N Conc =   4.14 		 Extractable SW = 155.49
 5 January 1994(Day of year=5), sorghum: 
      Stage 7 Flowering  DAS = 70
-     		Biomass       = 564.43 		 LAI            =   2.64
+     		Biomass       = 564.44 		 LAI            =   2.64
      		Stover N Conc =   5.54 		 Extractable SW = 138.14
 9 January 1994(Day of year=9), sorghum: 
      Stage 8 StartGrainFill  DAS = 74
@@ -3071,7 +3071,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     0.72 (%)    extractable sw =  124.57 (mm)
 11 November 1995(Day of year=315), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         740.24 (g/m^2)   lai          =   0.266 (m^2/m^2)
+                     biomass =         740.25 (g/m^2)   lai          =   0.266 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   78.62 (mm)
 12 November 1995(Day of year=316), wheat: 
       stage 9.0 maturity
@@ -3090,8 +3090,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2682.4
       grain wt (g)           =    0.032                       grains/m^2             =     7362.3
       grains/plant           =   73.6                         maximum lai            =      2.271
-      total above ground biomass (kg/ha)    =     7402.4
-      live above ground biomass (kg/ha)     =     7402.4
+      total above ground biomass (kg/ha)    =     7402.5
+      live above ground biomass (kg/ha)     =     7402.5
       green above ground biomass (kg/ha)    =     6391.1
       senesced above ground biomass (kg/ha) =     1011.4
       number of leaves       =     39.4
@@ -3273,7 +3273,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- sorghum end_crop
      Crop ended.
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               5988.99		 2443.25
+                         DM (kg/ha) =               5988.99		 2443.24
                          N  (kg/ha) =                 31.45		    4.40
                          P  (kg/ha) =                  0.00		    0.00
 20 May 1998(Day of year=140), manager: 

@@ -11,15 +11,15 @@
 
 Version                = 6.1
 Title                  = Constant CO2 levels
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\input\lib\input.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "Met" = C:\development\apsim\input\lib\input.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = C:\development\apsim\Plant\lib\Plant.dll
+Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -41,7 +41,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\goond.met
+     INPUT File name: C:\development\apsim\met\sample\goond.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -441,7 +441,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       flowering day          =  268                           stover (kg/ha)         =     4904.9
       maturity day           =  302                           grain yield (kg/ha)    =     2804.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3204.9
-      grain wt (g)           =    0.036                       grains/m^2             =     7896.1
+      grain wt (g)           =    0.036                       grains/m^2             =     7896.2
       grains/plant           =   65.8                         maximum lai            =      2.293
       total above ground biomass (kg/ha)    =     7709.1
       live above ground biomass (kg/ha)     =     7709.1
@@ -698,7 +698,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.87 (%)    extractable sw =  199.81 (mm)
 7 October 1943(Day of year=280), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         771.98 (g/m^2)   lai          =   1.708 (m^2/m^2)
+                     biomass =         771.97 (g/m^2)   lai          =   1.708 (m^2/m^2)
                      stover N conc =     0.63 (%)    extractable sw =  180.27 (mm)
 2 November 1943(Day of year=306), wheat: 
       stage 8.0 end_grain_fill
@@ -711,7 +711,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 4 November 1943(Day of year=308), wheat: 
       stage 10.0 harvest_ripe
                      biomass =         963.40 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =  119.81 (mm)
+                     stover N conc =     0.31 (%)    extractable sw =  119.80 (mm)
 5 November 1943(Day of year=309), manager: 
      Manager sending message :- wheat harvest
 5 November 1943(Day of year=309), wheat: 
@@ -751,7 +751,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.024 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =  119.81 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =  119.80 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
@@ -1802,7 +1802,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     5.84 (%)    extractable sw =   32.91 (mm)
 23 August 1951(Day of year=235), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         240.04 (g/m^2)   lai          =   3.422 (m^2/m^2)
+                     biomass =         240.03 (g/m^2)   lai          =   3.422 (m^2/m^2)
                      stover N conc =     2.20 (%)    extractable sw =  201.50 (mm)
 28 September 1951(Day of year=271), wheat: 
       stage 6.0 flowering
@@ -1810,7 +1810,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.79 (%)    extractable sw =  182.05 (mm)
 3 October 1951(Day of year=276), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         863.73 (g/m^2)   lai          =   2.202 (m^2/m^2)
+                     biomass =         863.72 (g/m^2)   lai          =   2.202 (m^2/m^2)
                      stover N conc =     0.57 (%)    extractable sw =  147.58 (mm)
 1 November 1951(Day of year=305), wheat: 
       stage 8.0 end_grain_fill
@@ -1830,12 +1830,12 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       flowering day          =  271                           stover (kg/ha)         =     8290.9
       maturity day           =  306                           grain yield (kg/ha)    =     2831.5
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3236.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3236.0
       grain wt (g)           =    0.026                       grains/m^2             =    10769.9
-      grains/plant           =   89.7                         maximum lai            =      3.721
+      grains/plant           =   89.7                         maximum lai            =      3.720
       total above ground biomass (kg/ha)    =    11122.4
       live above ground biomass (kg/ha)     =    11122.4
-      green above ground biomass (kg/ha)    =     9467.8
+      green above ground biomass (kg/ha)    =     9467.7
       senesced above ground biomass (kg/ha) =     1654.7
       number of leaves       =     44.8
       DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.25
@@ -2088,7 +2088,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.75 (%)    extractable sw =  225.74 (mm)
 5 October 1953(Day of year=278), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         651.26 (g/m^2)   lai          =   1.325 (m^2/m^2)
+                     biomass =         651.27 (g/m^2)   lai          =   1.325 (m^2/m^2)
                      stover N conc =     0.52 (%)    extractable sw =  205.13 (mm)
 1 November 1953(Day of year=305), wheat: 
       stage 8.0 end_grain_fill
@@ -2113,7 +2113,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grains/plant           =   69.1                         maximum lai            =      2.322
       total above ground biomass (kg/ha)    =     8451.1
       live above ground biomass (kg/ha)     =     8451.1
-      green above ground biomass (kg/ha)    =     7388.9
+      green above ground biomass (kg/ha)    =     7389.0
       senesced above ground biomass (kg/ha) =     1062.1
       number of leaves       =     38.3
       DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.26
@@ -2523,7 +2523,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat harvest
 12 November 1956(Day of year=317), wheat: 
      
-      flowering day          =  277                           stover (kg/ha)         =     4556.5
+      flowering day          =  277                           stover (kg/ha)         =     4556.6
       maturity day           =  315                           grain yield (kg/ha)    =     2126.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2429.9
       grain wt (g)           =    0.033                       grains/m^2             =     6350.5
@@ -2549,7 +2549,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                4556.5                     0.0
+                          DM (kg/ha) =                4556.6                     0.0
                           N  (kg/ha) =                  16.09                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -2644,7 +2644,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.76 (%)    extractable sw =  141.40 (mm)
 2 October 1957(Day of year=275), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         920.90 (g/m^2)   lai          =   1.829 (m^2/m^2)
+                     biomass =         920.89 (g/m^2)   lai          =   1.829 (m^2/m^2)
                      stover N conc =     0.54 (%)    extractable sw =  110.48 (mm)
 27 October 1957(Day of year=300), wheat: 
       stage 8.0 end_grain_fill
@@ -2665,7 +2665,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       flowering day          =  269                           stover (kg/ha)         =     8721.8
       maturity day           =  302                           grain yield (kg/ha)    =     2490.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2845.8
-      grain wt (g)           =    0.021                       grains/m^2             =    11593.5
+      grain wt (g)           =    0.021                       grains/m^2             =    11593.4
       grains/plant           =   96.6                         maximum lai            =      3.660
       total above ground biomass (kg/ha)    =    11211.9
       live above ground biomass (kg/ha)     =    11211.9
@@ -2801,14 +2801,14 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat harvest
 4 November 1958(Day of year=308), wheat: 
      
-      flowering day          =  269                           stover (kg/ha)         =     5259.1
+      flowering day          =  269                           stover (kg/ha)         =     5259.0
       maturity day           =  306                           grain yield (kg/ha)    =     1750.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2000.9
       grain wt (g)           =    0.025                       grains/m^2             =     7006.7
       grains/plant           =   58.4                         maximum lai            =      1.589
       total above ground biomass (kg/ha)    =     7009.9
       live above ground biomass (kg/ha)     =     7009.9
-      green above ground biomass (kg/ha)    =     6288.0
+      green above ground biomass (kg/ha)    =     6287.9
       senesced above ground biomass (kg/ha) =      721.9
       number of leaves       =     33.8
       DM Root:Shoot ratio    =     0.13                       Harvest Index          =       0.25
@@ -2943,7 +2943,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       flowering day          =  267                           stover (kg/ha)         =     5801.8
       maturity day           =  305                           grain yield (kg/ha)    =     2323.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2655.9
-      grain wt (g)           =    0.031                       grains/m^2             =     7420.0
+      grain wt (g)           =    0.031                       grains/m^2             =     7420.1
       grains/plant           =   61.8                         maximum lai            =      2.528
       total above ground biomass (kg/ha)    =     8125.7
       live above ground biomass (kg/ha)     =     8125.7
@@ -3065,7 +3065,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.52 (%)    extractable sw =  187.06 (mm)
 1 November 1960(Day of year=306), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         859.16 (g/m^2)   lai          =   0.273 (m^2/m^2)
+                     biomass =         859.15 (g/m^2)   lai          =   0.273 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =  132.06 (mm)
 3 November 1960(Day of year=308), wheat: 
       stage 9.0 maturity
@@ -3079,14 +3079,14 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat harvest
 5 November 1960(Day of year=310), wheat: 
      
-      flowering day          =  275                           stover (kg/ha)         =     6400.5
+      flowering day          =  275                           stover (kg/ha)         =     6400.4
       maturity day           =  308                           grain yield (kg/ha)    =     2194.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2507.7
       grain wt (g)           =    0.026                       grains/m^2             =     8400.8
       grains/plant           =   70.0                         maximum lai            =      2.571
       total above ground biomass (kg/ha)    =     8594.7
       live above ground biomass (kg/ha)     =     8594.7
-      green above ground biomass (kg/ha)    =     7462.3
+      green above ground biomass (kg/ha)    =     7462.2
       senesced above ground biomass (kg/ha) =     1132.5
       number of leaves       =     42.3
       DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.26
@@ -3105,7 +3105,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                6400.5                     0.0
+                          DM (kg/ha) =                6400.4                     0.0
                           N  (kg/ha) =                  21.97                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -3479,7 +3479,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 4 October 1963(Day of year=277), wheat: 
       stage 7.0 start_grain_fill
                      biomass =         751.84 (g/m^2)   lai          =   1.390 (m^2/m^2)
-                     stover N conc =     0.51 (%)    extractable sw =  151.37 (mm)
+                     stover N conc =     0.51 (%)    extractable sw =  151.38 (mm)
 31 October 1963(Day of year=304), wheat: 
       stage 8.0 end_grain_fill
                      biomass =         946.59 (g/m^2)   lai          =   0.300 (m^2/m^2)
@@ -3496,14 +3496,14 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat harvest
 3 November 1963(Day of year=307), wheat: 
      
-      flowering day          =  270                           stover (kg/ha)         =     7337.8
+      flowering day          =  270                           stover (kg/ha)         =     7337.7
       maturity day           =  305                           grain yield (kg/ha)    =     2128.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2432.1
-      grain wt (g)           =    0.022                       grains/m^2             =     9510.7
+      grain wt (g)           =    0.022                       grains/m^2             =     9510.6
       grains/plant           =   79.3                         maximum lai            =      2.790
       total above ground biomass (kg/ha)    =     9465.9
       live above ground biomass (kg/ha)     =     9465.9
-      green above ground biomass (kg/ha)    =     8185.9
+      green above ground biomass (kg/ha)    =     8185.8
       senesced above ground biomass (kg/ha) =     1280.0
       number of leaves       =     43.8
       DM Root:Shoot ratio    =     0.15                       Harvest Index          =       0.22
@@ -3522,7 +3522,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                7337.8                     0.0
+                          DM (kg/ha) =                7337.7                     0.0
                           N  (kg/ha) =                  24.82                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -3625,11 +3625,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.32 (%)    extractable sw =  286.33 (mm)
 3 November 1964(Day of year=308), wheat: 
       stage 9.0 maturity
-                     biomass =         574.61 (g/m^2)   lai          =   0.176 (m^2/m^2)
+                     biomass =         574.62 (g/m^2)   lai          =   0.176 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =  281.21 (mm)
 4 November 1964(Day of year=309), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         574.61 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         574.62 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =  280.19 (mm)
 5 November 1964(Day of year=310), manager: 
      Manager sending message :- wheat harvest
@@ -3640,8 +3640,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1833.8
       grain wt (g)           =    0.029                       grains/m^2             =     5471.5
       grains/plant           =   45.6                         maximum lai            =      1.523
-      total above ground biomass (kg/ha)    =     5746.1
-      live above ground biomass (kg/ha)     =     5746.1
+      total above ground biomass (kg/ha)    =     5746.2
+      live above ground biomass (kg/ha)     =     5746.2
       green above ground biomass (kg/ha)    =     5060.3
       senesced above ground biomass (kg/ha) =      685.8
       number of leaves       =     35.6
@@ -3748,7 +3748,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     5.83 (%)    extractable sw =   24.72 (mm)
 22 August 1965(Day of year=234), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         250.24 (g/m^2)   lai          =   3.533 (m^2/m^2)
+                     biomass =         250.23 (g/m^2)   lai          =   3.533 (m^2/m^2)
                      stover N conc =     2.23 (%)    extractable sw =  173.39 (mm)
 25 September 1965(Day of year=268), wheat: 
       stage 6.0 flowering
@@ -4059,7 +4059,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grains/plant           =   58.6                         maximum lai            =      1.990
       total above ground biomass (kg/ha)    =     6585.9
       live above ground biomass (kg/ha)     =     6585.9
-      green above ground biomass (kg/ha)    =     5690.1
+      green above ground biomass (kg/ha)    =     5690.2
       senesced above ground biomass (kg/ha) =      895.7
       number of leaves       =     36.9
       DM Root:Shoot ratio    =     0.16                       Harvest Index          =       0.35
@@ -4191,8 +4191,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat harvest
 6 November 1968(Day of year=311), wheat: 
      
-      flowering day          =  274                           stover (kg/ha)         =     6347.6
-      maturity day           =  309                           grain yield (kg/ha)    =     1794.2
+      flowering day          =  274                           stover (kg/ha)         =     6347.5
+      maturity day           =  309                           grain yield (kg/ha)    =     1794.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2050.5
       grain wt (g)           =    0.023                       grains/m^2             =     7813.5
       grains/plant           =   65.1                         maximum lai            =      2.316
@@ -4221,7 +4221,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           N  (kg/ha) =                  21.55                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1794.2                     0.0
+                          DM (kg/ha) =                1794.1                     0.0
                           N  (kg/ha) =                  23.42                    0.00
      
       stage 4.0 end_of_juvenile
@@ -4747,20 +4747,20 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat harvest
 30 October 1972(Day of year=304), wheat: 
      
-      flowering day          =  268                           stover (kg/ha)         =     6596.1
+      flowering day          =  268                           stover (kg/ha)         =     6596.0
       maturity day           =  302                           grain yield (kg/ha)    =     2235.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2554.9
       grain wt (g)           =    0.024                       grains/m^2             =     9309.4
       grains/plant           =   77.6                         maximum lai            =      3.215
       total above ground biomass (kg/ha)    =     8831.6
       live above ground biomass (kg/ha)     =     8831.6
-      green above ground biomass (kg/ha)    =     7383.9
+      green above ground biomass (kg/ha)    =     7383.8
       senesced above ground biomass (kg/ha) =     1447.7
       number of leaves       =     44.0
       DM Root:Shoot ratio    =     0.17                       Harvest Index          =       0.25
       Stover C:N ratio       =   114.49                       Root C:N ratio         =      41.38
       grain N percent        =     1.39                       total N content (kg/ha)=      54.19
-      grain N uptake (kg/ha) =    31.15                       senesced N content (kg/ha)=    7.24
+      grain N uptake (kg/ha) =    31.14                       senesced N content (kg/ha)=    7.24
       green N content (kg/ha)=    15.81
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -4773,12 +4773,12 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                6596.1                     0.0
+                          DM (kg/ha) =                6596.0                     0.0
                           N  (kg/ha) =                  23.05                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                2235.5                     0.0
-                          N  (kg/ha) =                  31.15                    0.00
+                          N  (kg/ha) =                  31.14                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.024 (m^2/m^2)
@@ -4868,31 +4868,31 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.78 (%)    extractable sw =  291.83 (mm)
 22 September 1973(Day of year=265), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         350.93 (g/m^2)   lai          =   0.681 (m^2/m^2)
+                     biomass =         350.94 (g/m^2)   lai          =   0.681 (m^2/m^2)
                      stover N conc =     0.55 (%)    extractable sw =  274.66 (mm)
 18 October 1973(Day of year=291), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         477.70 (g/m^2)   lai          =   0.191 (m^2/m^2)
+                     biomass =         477.71 (g/m^2)   lai          =   0.191 (m^2/m^2)
                      stover N conc =     0.34 (%)    extractable sw =  249.27 (mm)
 20 October 1973(Day of year=293), wheat: 
       stage 9.0 maturity
-                     biomass =         477.93 (g/m^2)   lai          =   0.160 (m^2/m^2)
+                     biomass =         477.94 (g/m^2)   lai          =   0.160 (m^2/m^2)
                      stover N conc =     0.34 (%)    extractable sw =  246.87 (mm)
 21 October 1973(Day of year=294), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         477.93 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         477.94 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =  246.53 (mm)
 22 October 1973(Day of year=295), manager: 
      Manager sending message :- wheat harvest
 22 October 1973(Day of year=295), wheat: 
      
       flowering day          =  259                           stover (kg/ha)         =     3182.6
-      maturity day           =  293                           grain yield (kg/ha)    =     1596.7
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1824.8
+      maturity day           =  293                           grain yield (kg/ha)    =     1596.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1824.9
       grain wt (g)           =    0.036                       grains/m^2             =     4417.1
       grains/plant           =   36.8                         maximum lai            =      1.194
-      total above ground biomass (kg/ha)    =     4779.3
-      live above ground biomass (kg/ha)     =     4779.3
+      total above ground biomass (kg/ha)    =     4779.4
+      live above ground biomass (kg/ha)     =     4779.4
       green above ground biomass (kg/ha)    =     4253.3
       senesced above ground biomass (kg/ha) =      526.1
       number of leaves       =     32.3
@@ -4916,7 +4916,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           N  (kg/ha) =                  11.50                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1596.7                     0.0
+                          DM (kg/ha) =                1596.8                     0.0
                           N  (kg/ha) =                  19.23                    0.00
      
       stage 4.0 end_of_juvenile
@@ -5424,7 +5424,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.74 (%)    extractable sw =  205.50 (mm)
 2 October 1977(Day of year=275), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         673.19 (g/m^2)   lai          =   1.206 (m^2/m^2)
+                     biomass =         673.18 (g/m^2)   lai          =   1.206 (m^2/m^2)
                      stover N conc =     0.52 (%)    extractable sw =  177.58 (mm)
 29 October 1977(Day of year=302), wheat: 
       stage 8.0 end_grain_fill
@@ -5449,7 +5449,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grains/plant           =   71.7                         maximum lai            =      2.671
       total above ground biomass (kg/ha)    =     8213.3
       live above ground biomass (kg/ha)     =     8213.3
-      green above ground biomass (kg/ha)    =     7021.1
+      green above ground biomass (kg/ha)    =     7021.0
       senesced above ground biomass (kg/ha) =     1192.2
       number of leaves       =     42.3
       DM Root:Shoot ratio    =     0.16                       Harvest Index          =       0.27
@@ -5567,15 +5567,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.44 (%)    extractable sw =  280.14 (mm)
 7 November 1978(Day of year=311), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         494.69 (g/m^2)   lai          =   0.141 (m^2/m^2)
+                     biomass =         494.70 (g/m^2)   lai          =   0.141 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =  331.12 (mm)
 8 November 1978(Day of year=312), wheat: 
       stage 9.0 maturity
-                     biomass =         494.69 (g/m^2)   lai          =   0.129 (m^2/m^2)
+                     biomass =         494.70 (g/m^2)   lai          =   0.129 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =  328.69 (mm)
 9 November 1978(Day of year=313), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         494.69 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         494.70 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =  326.97 (mm)
 10 November 1978(Day of year=314), manager: 
      Manager sending message :- wheat harvest
@@ -5586,8 +5586,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1130.1
       grain wt (g)           =    0.021                       grains/m^2             =     4607.2
       grains/plant           =   38.4                         maximum lai            =      1.150
-      total above ground biomass (kg/ha)    =     4946.9
-      live above ground biomass (kg/ha)     =     4946.9
+      total above ground biomass (kg/ha)    =     4947.0
+      live above ground biomass (kg/ha)     =     4947.0
       green above ground biomass (kg/ha)    =     4438.0
       senesced above ground biomass (kg/ha) =      508.9
       number of leaves       =     29.4
@@ -5702,7 +5702,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.72 (%)    extractable sw =  239.86 (mm)
 29 September 1979(Day of year=272), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         467.88 (g/m^2)   lai          =   0.787 (m^2/m^2)
+                     biomass =         467.87 (g/m^2)   lai          =   0.787 (m^2/m^2)
                      stover N conc =     0.49 (%)    extractable sw =  223.01 (mm)
 27 October 1979(Day of year=300), wheat: 
       stage 8.0 end_grain_fill
@@ -5862,7 +5862,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       flowering day          =  265                           stover (kg/ha)         =     5890.3
       maturity day           =  296                           grain yield (kg/ha)    =     1754.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2005.6
-      grain wt (g)           =    0.021                       grains/m^2             =     8317.9
+      grain wt (g)           =    0.021                       grains/m^2             =     8318.0
       grains/plant           =   69.3                         maximum lai            =      2.408
       total above ground biomass (kg/ha)    =     7645.2
       live above ground biomass (kg/ha)     =     7645.2
@@ -6258,7 +6258,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.83 (%)    extractable sw =  299.36 (mm)
 30 September 1983(Day of year=273), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         287.49 (g/m^2)   lai          =   0.592 (m^2/m^2)
+                     biomass =         287.49 (g/m^2)   lai          =   0.593 (m^2/m^2)
                      stover N conc =     0.62 (%)    extractable sw =  286.79 (mm)
 27 October 1983(Day of year=300), wheat: 
       stage 8.0 end_grain_fill
@@ -6397,7 +6397,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.67 (%)    extractable sw =  267.27 (mm)
 8 October 1984(Day of year=282), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         585.74 (g/m^2)   lai          =   1.082 (m^2/m^2)
+                     biomass =         585.73 (g/m^2)   lai          =   1.082 (m^2/m^2)
                      stover N conc =     0.44 (%)    extractable sw =  255.48 (mm)
 3 November 1984(Day of year=308), wheat: 
       stage 8.0 end_grain_fill
@@ -6405,11 +6405,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.32 (%)    extractable sw =  228.50 (mm)
 5 November 1984(Day of year=310), wheat: 
       stage 9.0 maturity
-                     biomass =         756.84 (g/m^2)   lai          =   0.215 (m^2/m^2)
-                     stover N conc =     0.32 (%)    extractable sw =  233.85 (mm)
+                     biomass =         756.83 (g/m^2)   lai          =   0.215 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =  233.86 (mm)
 6 November 1984(Day of year=311), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         756.84 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         756.83 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =  231.43 (mm)
 7 November 1984(Day of year=312), manager: 
      Manager sending message :- wheat harvest
@@ -6418,11 +6418,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       flowering day          =  274                           stover (kg/ha)         =     6000.9
       maturity day           =  310                           grain yield (kg/ha)    =     1567.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1791.4
-      grain wt (g)           =    0.022                       grains/m^2             =     7235.4
+      grain wt (g)           =    0.022                       grains/m^2             =     7235.3
       grains/plant           =   60.3                         maximum lai            =      1.920
-      total above ground biomass (kg/ha)    =     7568.4
-      live above ground biomass (kg/ha)     =     7568.4
-      green above ground biomass (kg/ha)    =     6725.2
+      total above ground biomass (kg/ha)    =     7568.3
+      live above ground biomass (kg/ha)     =     7568.3
+      green above ground biomass (kg/ha)    =     6725.1
       senesced above ground biomass (kg/ha) =      843.2
       number of leaves       =     39.3
       DM Root:Shoot ratio    =     0.13                       Harvest Index          =       0.21
@@ -6696,7 +6696,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       flowering day          =  270                           stover (kg/ha)         =     4962.6
       maturity day           =  306                           grain yield (kg/ha)    =     1609.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1838.9
-      grain wt (g)           =    0.024                       grains/m^2             =     6660.3
+      grain wt (g)           =    0.024                       grains/m^2             =     6660.4
       grains/plant           =   55.5                         maximum lai            =      2.063
       total above ground biomass (kg/ha)    =     6571.6
       live above ground biomass (kg/ha)     =     6571.6
@@ -6814,7 +6814,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.64 (%)    extractable sw =  276.91 (mm)
 1 October 1987(Day of year=274), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         345.47 (g/m^2)   lai          =   0.570 (m^2/m^2)
+                     biomass =         345.46 (g/m^2)   lai          =   0.570 (m^2/m^2)
                      stover N conc =     0.45 (%)    extractable sw =  263.22 (mm)
 29 October 1987(Day of year=302), wheat: 
       stage 8.0 end_grain_fill

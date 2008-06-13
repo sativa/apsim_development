@@ -11,25 +11,25 @@
 
 Version                = 6.1
 Title                  = Continous Cropping plots
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component    "report1" = c:\development\apsim\report\lib\report.dll
-Component    "report2" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component     "canopy" = c:\development\apsim\canopy\lib\canopy.dll
-Component   "operatns" = c:\development\apsim\operatns\lib\operatns.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component     "canola" = c:\development\apsim\Plant\lib\Plant.dll
-Component    "lucerne" = c:\development\apsim\Plant\lib\Plant.dll
-Component      "lupin" = c:\development\apsim\Plant\lib\Plant.dll
-Component       "weed" = c:\development\apsim\Plant\lib\Plant.dll
-Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
-Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
-Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component    "report1" = C:\development\apsim\report\lib\report.dll
+Component    "report2" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component      "accum" = C:\development\apsim\accum\lib\accum.dll
+Component     "canopy" = C:\development\apsim\canopy\lib\canopy.dll
+Component   "operatns" = C:\development\apsim\operatns\lib\operatns.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component     "canola" = C:\development\apsim\Plant\lib\Plant.dll
+Component    "lucerne" = C:\development\apsim\Plant\lib\Plant.dll
+Component      "lupin" = C:\development\apsim\Plant\lib\Plant.dll
+Component       "weed" = C:\development\apsim\Plant\lib\Plant.dll
+Component      "wheat" = C:\development\apsim\Plant\lib\Plant.dll
+Component   "tracker1" = C:\development\apsim\tracker\lib\tracker.dll
+Component   "tracker2" = C:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -1742,7 +1742,7 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     0.30 (%)    extractable sw =   51.43 (mm)
 1 December 1997(Day of year=335), wheat: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 10236.58 (kg/ha)
+     Plant death. standing above-ground dm = 10236.59 (kg/ha)
 11 December 1997(Day of year=345), operatns: 
       Sending harvest message to wheat
 11 December 1997(Day of year=345), wheat: 
@@ -2000,19 +2000,19 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
 19 November 1998(Day of year=323), weed: 
       stage 3.0 emergence
                      biomass =           0.90 (g/m^2)   lai          =   0.004 (m^2/m^2)
-                     stover N conc =     6.00 (%)    extractable sw =   21.00 (mm)
+                     stover N conc =     6.00 (%)    extractable sw =   21.67 (mm)
 27 November 1998(Day of year=331), wheat: 
       stage 8.0 end_grain_fill
                      biomass =        1260.20 (g/m^2)   lai          =   0.534 (m^2/m^2)
-                     stover N conc =     0.32 (%)    extractable sw =  108.27 (mm)
+                     stover N conc =     0.32 (%)    extractable sw =  108.26 (mm)
 30 November 1998(Day of year=334), wheat: 
       stage 9.0 maturity
                      biomass =        1262.02 (g/m^2)   lai          =   0.373 (m^2/m^2)
-                     stover N conc =     0.32 (%)    extractable sw =  110.01 (mm)
+                     stover N conc =     0.32 (%)    extractable sw =  110.03 (mm)
 1 December 1998(Day of year=335), wheat: 
       stage 10.0 harvest_ripe
                      biomass =        1262.02 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =  108.09 (mm)
+                     stover N conc =     0.31 (%)    extractable sw =  108.07 (mm)
 2 December 1998(Day of year=336), wheat: 
      Crop failure because of total leaf senescence.
      Plant death. standing above-ground dm = 12620.18 (kg/ha)
@@ -2059,7 +2059,7 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.00 (%)    extractable sw =  102.19 (mm)
+                     stover N conc =     0.00 (%)    extractable sw =  101.99 (mm)
       Sending kill_crop message to wheat
      Plant kill. 100.00% crop killed because of external action.
       Sending end_crop message to wheat

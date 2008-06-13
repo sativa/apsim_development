@@ -11,17 +11,17 @@
 
 Version                = 6.1
 Title                  = Vensim
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
 Paddock:
-Component "outputfile" = c:\development\apsim\report\lib\report.dll
-Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component "Fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component      "Logic" = c:\development\apsim\manager\lib\manager.dll
-Component "Jimbour,Waco (#016) Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component "Jimbour,Waco (#016) Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component    "Venlink" = c:\development\apsim\venlink\lib\venlink.dll
+Component "outputfile" = C:\development\apsim\report\lib\report.dll
+Component      "accum" = C:\development\apsim\accum\lib\accum.dll
+Component "Fertiliser" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component      "Logic" = C:\development\apsim\manager\lib\manager.dll
+Component "Jimbour,Waco (#016) Water" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = C:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Jimbour,Waco (#016) Nitrogen" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component    "Venlink" = C:\development\apsim\venlink\lib\venlink.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -34,7 +34,7 @@ Component    "Venlink" = c:\development\apsim\venlink\lib\venlink.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\dalby.met
+     INPUT File name: C:\development\apsim\met\sample\dalby.met
 
 ------- outputfile Initialisation ---------------------------------------------
      Output frequency:
@@ -232,7 +232,7 @@ Component    "Venlink" = c:\development\apsim\venlink\lib\venlink.dll
 
 ------- Venlink Initialisation ------------------------------------------------
      Portions Copyright (c) 1987-1999 Ventana Systems, Inc.
-     DLL filename: c:\development/bin/VenDLM32.dll
+     DLL filename: C:\development/bin/VenDLM32.dll
      Model filename: HTTcalculator.vmf
      VENSIM model variables:
         st1

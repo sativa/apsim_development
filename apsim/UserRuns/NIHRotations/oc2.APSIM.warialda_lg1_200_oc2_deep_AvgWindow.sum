@@ -11,18 +11,18 @@
 
 Version                = 6.1
 Title                  = site=warialda; soil=lg1; treatment=oc2; Nrate=200; RootDepth=deep; Sowing = AvgWindow
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component   "chickpea" = c:\development\apsim\plant\lib\plant.dll
-Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
-Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
-Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component   "chickpea" = C:\development\apsim\plant\lib\plant.dll
+Component      "wheat" = C:\development\apsim\plant\lib\plant.dll
+Component    "sorghum" = C:\development\apsim\sorghum\lib\sorghum.dll
+Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -1059,7 +1059,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     1.78 (%)    extractable sw =   59.02 (mm)
 11 November 1972(Day of year=316), chickpea: 
       stage 9.0 maturity
-                     biomass =         352.61 (g/m^2)   lai          =   0.695 (m^2/m^2)
+                     biomass =         352.60 (g/m^2)   lai          =   0.695 (m^2/m^2)
                      stover N conc =     1.73 (%)    extractable sw =   85.83 (mm)
 12 November 1972(Day of year=317), chickpea: 
       stage 10.0 harvest_ripe
@@ -1073,7 +1073,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 14 November 1972(Day of year=319), chickpea: 
      
       flowering day          =    0                           stover (kg/ha)         =     2161.7
-      maturity day           =    0                           grain yield (kg/ha)    =     1401.7
+      maturity day           =    0                           grain yield (kg/ha)    =     1401.6
       grain % water content  =   12.0                         grain yield wet (kg/ha)=     1592.8
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      1.655
@@ -1102,7 +1102,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                           N  (kg/ha) =                  35.58                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                1401.7                     0.0
+                          DM (kg/ha) =                1401.6                     0.0
                           N  (kg/ha) =                  50.46                    0.00
      
      Manager sending message :- chickpea end_crop
@@ -1996,7 +1996,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 4 October 1978(Day of year=277), chickpea: 
       stage 7.0 start_grain_fill
                      biomass =         224.88 (g/m^2)   lai          =   2.286 (m^2/m^2)
-                     stover N conc =     1.85 (%)    extractable sw =  194.08 (mm)
+                     stover N conc =     1.85 (%)    extractable sw =  194.09 (mm)
 12 November 1978(Day of year=316), chickpea: 
       stage 8.0 end_grain_fill
                      biomass =         598.20 (g/m^2)   lai          =   2.388 (m^2/m^2)
@@ -2773,7 +2773,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      		Stover N Conc =   4.34 		 Extractable SW =  34.49
 13 February 1983(Day of year=44), sorghum: 
      Stage 11 HarvestRipe  DAS = 108
-     		Biomass       = 987.41 		 LAI            =   1.94
+     		Biomass       = 987.40 		 LAI            =   1.94
      		Stover N Conc =   4.20 		 Extractable SW =  33.80
 14 February 1983(Day of year=45), manager: 
      Manager sending message :- sorghum harvest
@@ -2804,7 +2804,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =               5254.87		    0.00
+                         DM (kg/ha) =               5254.86		    0.00
                          N  (kg/ha) =                101.47		    0.00
      Manager sending message :- sorghum kill_crop
      Kill Crop
@@ -2812,7 +2812,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- sorghum end_crop
      Crop ended.
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               4656.22		 1987.20
+                         DM (kg/ha) =               4656.21		 1987.20
                          N  (kg/ha) =                 42.05		    3.97
                          P  (kg/ha) =                  0.00		    0.00
 23 May 1983(Day of year=143), manager: 
@@ -3542,7 +3542,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 24 September 1986(Day of year=267), chickpea: 
       stage 4.0 end_of_juvenile
                      biomass =          14.72 (g/m^2)   lai          =   0.207 (m^2/m^2)
-                     stover N conc =     4.38 (%)    extractable sw =  103.65 (mm)
+                     stover N conc =     4.38 (%)    extractable sw =  103.64 (mm)
 9 October 1986(Day of year=282), chickpea: 
       stage 5.0 floral_initiation
                      biomass =          61.04 (g/m^2)   lai          =   1.046 (m^2/m^2)
@@ -3553,11 +3553,11 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     3.45 (%)    extractable sw =  159.17 (mm)
 6 November 1986(Day of year=310), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         290.32 (g/m^2)   lai          =   1.720 (m^2/m^2)
-                     stover N conc =     2.09 (%)    extractable sw =   69.03 (mm)
+                     biomass =         290.31 (g/m^2)   lai          =   1.720 (m^2/m^2)
+                     stover N conc =     2.09 (%)    extractable sw =   69.02 (mm)
 11 December 1986(Day of year=345), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         448.13 (g/m^2)   lai          =   0.676 (m^2/m^2)
+                     biomass =         448.12 (g/m^2)   lai          =   0.676 (m^2/m^2)
                      stover N conc =     1.80 (%)    extractable sw =   45.23 (mm)
 14 December 1986(Day of year=348), chickpea: 
       stage 9.0 maturity
@@ -4041,15 +4041,15 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     1.76 (%)    extractable sw =   54.24 (mm)
 9 November 1990(Day of year=313), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1306.74 (g/m^2)   lai          =   0.346 (m^2/m^2)
+                     biomass =        1306.73 (g/m^2)   lai          =   0.346 (m^2/m^2)
                      stover N conc =     1.04 (%)    extractable sw =   19.85 (mm)
 10 November 1990(Day of year=314), wheat: 
       stage 9.0 maturity
-                     biomass =        1306.74 (g/m^2)   lai          =   0.323 (m^2/m^2)
+                     biomass =        1306.73 (g/m^2)   lai          =   0.323 (m^2/m^2)
                      stover N conc =     1.04 (%)    extractable sw =   19.23 (mm)
 11 November 1990(Day of year=315), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1306.74 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1306.73 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.06 (%)    extractable sw =   18.63 (mm)
 12 November 1990(Day of year=316), manager: 
      Manager sending message :- wheat harvest
@@ -4060,8 +4060,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4455.5
       grain wt (g)           =    0.025                       grains/m^2             =    15388.2
       grains/plant           =  153.9                         maximum lai            =      7.843
-      total above ground biomass (kg/ha)    =    13067.4
-      live above ground biomass (kg/ha)     =    13067.4
+      total above ground biomass (kg/ha)    =    13067.3
+      live above ground biomass (kg/ha)     =    13067.3
       green above ground biomass (kg/ha)    =     9417.3
       senesced above ground biomass (kg/ha) =     3650.1
       number of leaves       =     52.5
@@ -4548,7 +4548,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- chickpea harvest
 24 November 1994(Day of year=328), chickpea: 
      
-      flowering day          =    0                           stover (kg/ha)         =     2667.6
+      flowering day          =    0                           stover (kg/ha)         =     2667.5
       maturity day           =    0                           grain yield (kg/ha)    =     1120.9
       grain % water content  =   12.0                         grain yield wet (kg/ha)=     1273.8
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
@@ -4574,7 +4574,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                2667.6                     0.0
+                          DM (kg/ha) =                2667.5                     0.0
                           N  (kg/ha) =                  43.89                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -4819,7 +4819,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 25 November 1995(Day of year=329), sorghum: 
      Stage 2 Germination  DAS = 1
      		Biomass       =   0.00 		 LAI            =   0.00
-     		Stover N Conc =   0.00 		 Extractable SW =  88.84
+     		Stover N Conc =   0.00 		 Extractable SW =  88.83
 1 December 1995(Day of year=335), sorghum: 
      Stage 3 Emergence  DAS = 7
      		Biomass       =   0.00 		 LAI            =   0.00
@@ -5682,7 +5682,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =               4454.92		    0.00
+                         DM (kg/ha) =               4454.91		    0.00
                          N  (kg/ha) =                104.39		    0.00
      Manager sending message :- sorghum kill_crop
      Kill Crop
@@ -5690,7 +5690,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- sorghum end_crop
      Crop ended.
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               5528.13		 2332.76
+                         DM (kg/ha) =               5528.12		 2332.75
                          N  (kg/ha) =                 33.93		    4.66
                          P  (kg/ha) =                  0.00		    0.00
 6 November 2000(Day of year=311), manager: 

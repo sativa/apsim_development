@@ -11,19 +11,19 @@
 
 Version                = 6.1
 Title                  = Wheat Winter - weed Simulation
-Component        "Log" = c:\development\apsim\Log\lib\Log.dll
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component     "canopy" = c:\development\apsim\canopy\lib\canopy.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component       "weed" = c:\development\apsim\Plant\lib\Plant.dll
-Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
+Component        "Log" = C:\development\apsim\Log\lib\Log.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component      "accum" = C:\development\apsim\accum\lib\accum.dll
+Component     "canopy" = C:\development\apsim\canopy\lib\canopy.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component       "weed" = C:\development\apsim\Plant\lib\Plant.dll
+Component      "wheat" = C:\development\apsim\Plant\lib\Plant.dll
+Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -50,7 +50,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\dalby.met
+     INPUT File name: C:\development\apsim\met\sample\dalby.met
 
 ------- accum Initialisation --------------------------------------------------
      Initialising
@@ -362,22 +362,22 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
             169   40.0   15.0  350.0   0.0   0.0 late
          ------------------------------------------------
      
-18 June 1988(Day of year=170), wheat: 
-      stage 2.0 germination
 18 June 1988(Day of year=170), weed: 
+      stage 2.0 germination
+18 June 1988(Day of year=170), wheat: 
       stage 2.0 germination
 24 June 1988(Day of year=176), wheat: 
       stage 3.0 emergence
                      biomass =           0.56 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   35.13 (mm)
-25 June 1988(Day of year=177), weed: 
-      stage 3.0 emergence
-                     biomass =           0.90 (g/m^2)   lai          =   0.004 (m^2/m^2)
-                     stover N conc =     6.00 (%)    extractable sw =   30.56 (mm)
 25 June 1988(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
                      stover N conc =     5.83 (%)    extractable sw =   35.06 (mm)
+25 June 1988(Day of year=177), weed: 
+      stage 3.0 emergence
+                     biomass =           0.90 (g/m^2)   lai          =   0.004 (m^2/m^2)
+                     stover N conc =     6.00 (%)    extractable sw =   30.53 (mm)
 12 July 1988(Day of year=194), manager: 
      Manager sending message :- weed kill_crop
 12 July 1988(Day of year=194), weed: 
@@ -390,7 +390,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
 16 August 1988(Day of year=229), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         199.99 (g/m^2)   lai          =   2.881 (m^2/m^2)
+                     biomass =         200.00 (g/m^2)   lai          =   2.881 (m^2/m^2)
                      stover N conc =     2.17 (%)    extractable sw =  112.30 (mm)
 19 September 1988(Day of year=263), wheat: 
       stage 6.0 flowering
@@ -417,7 +417,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 23 October 1988(Day of year=297), wheat: 
      
       flowering day          =  263                           stover (kg/ha)         =     5736.6
-      maturity day           =  295                           grain yield (kg/ha)    =     3236.1
+      maturity day           =  295                           grain yield (kg/ha)    =     3236.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3698.5
       grain wt (g)           =    0.039                       grains/m^2             =     8371.5
       grains/plant           =   68.8                         maximum lai            =      3.052
@@ -446,7 +446,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           N  (kg/ha) =                  20.78                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3236.1                     0.0
+                          DM (kg/ha) =                3236.2                     0.0
                           N  (kg/ha) =                  49.88                    0.00
      
       stage 4.0 end_of_juvenile
@@ -457,7 +457,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1257.2
+                          DM (kg/ha) =                   0.0                  1257.3
                           N  (kg/ha) =                   0.00                   16.38
      
 30 May 1989(Day of year=150), clock: 
