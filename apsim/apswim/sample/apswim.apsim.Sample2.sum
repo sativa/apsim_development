@@ -11,21 +11,21 @@
 
 Version                = 6.1
 Title                  = Sample Simulation with observed evaporation data
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\input\lib\input.dll
-Component     "canopy" = c:\development\apsim\canopy\lib\canopy.dll
-Component   "operatns" = c:\development\apsim\operatns\lib\operatns.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component     "apswim" = c:\development\apsim\apswim\lib\apswim.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component     "solute" = c:\development\apsim\solute\lib\solute.dll
-Component     "cowpea" = c:\development\apsim\Plant\lib\Plant.dll
-Component      "maize" = c:\development\apsim\maize\lib\maize.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "Met" = C:\development\apsim\input\lib\input.dll
+Component     "canopy" = C:\development\apsim\canopy\lib\canopy.dll
+Component   "operatns" = C:\development\apsim\operatns\lib\operatns.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component   "irrigate" = C:\development\apsim\irrigate\lib\irrigate.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component     "apswim" = C:\development\apsim\apswim\lib\apswim.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component     "solute" = C:\development\apsim\solute\lib\solute.dll
+Component     "cowpea" = C:\development\apsim\Plant\lib\Plant.dll
+Component      "maize" = C:\development\apsim\maize\lib\maize.dll
+Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -69,7 +69,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\dalby.met
+     INPUT File name: C:\development\apsim\met\sample\dalby.met
 
 ------- canopy Initialisation -------------------------------------------------
       Initialising
@@ -574,6 +574,10 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       stage 6.0 flowering
                      biomass =          84.33 (g/m^2)   lai          =   1.318 (m^2/m^2)
                      stover N conc =     3.62 (%)    extractable sw =  215.57 (mm)
+31 December 1988(Day of year=366), maize: 
+      stage    7.0 flowering
+                          biomass =           798.3914       lai =     4.076051
+                          stover N conc =    2.021159       extractable sw =    200.1142
 31 December 1988(Day of year=366): 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -583,10 +587,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-31 December 1988(Day of year=366), maize: 
-      stage    7.0 flowering
-                          biomass =           798.3914       lai =     4.076051
-                          stover N conc =    2.021159       extractable sw =    200.1142
 4 January 1989(Day of year=4), cowpea: 
       stage 7.0 start_grain_fill
                      biomass =          96.13 (g/m^2)   lai          =   1.428 (m^2/m^2)
@@ -659,18 +659,20 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           DM (kg/ha) =                   0.0                   732.0
                           N  (kg/ha) =                   0.00                   10.99
      
+24 January 1989(Day of year=24), sysbal: 
+     **** SW balance - unaccounted loss (mm) =     -0.138934
 2 March 1989(Day of year=61), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1812.004       lai =     1.425187
-                          stover N conc =   0.9920838       extractable sw =    136.3350
+                          biomass =           1812.003       lai =     1.425187
+                          stover N conc =   0.9920829       extractable sw =    136.3334
 3 March 1989(Day of year=62), maize: 
       stage   10.0 maturity
-                          biomass =           1816.578       lai =     1.383614
-                          stover N conc =   0.9910342       extractable sw =    135.2458
+                          biomass =           1816.577       lai =     1.383614
+                          stover N conc =   0.9910333       extractable sw =    135.2442
 4 March 1989(Day of year=63), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1816.578       lai =    0.3799915E-02
-                          stover N conc =    1.005407       extractable sw =    134.7012
+                          biomass =           1816.577       lai =    0.3799915E-02
+                          stover N conc =    1.005406       extractable sw =    134.6996
 4 March 1989(Day of year=63), manager: 
      Manager sending message :- maize harvest
      
@@ -703,7 +705,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               9061.86                    0.00
+                          DM (kg/ha) =               9061.85                    0.00
                           N  (kg/ha) =                123.42                    0.00
      
      Manager sending message :- maize end_crop

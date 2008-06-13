@@ -11,15 +11,15 @@
 
 Version                = 6.1
 Title                  = Constant CO2 levels
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\input\lib\input.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "Met" = C:\development\apsim\input\lib\input.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component     "barley" = C:\development\apsim\Plant\lib\Plant.dll
+Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -41,7 +41,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\goond.met
+     INPUT File name: C:\development\apsim\met\sample\goond.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -694,7 +694,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     1.32 (%)    extractable sw =  168.52 (mm)
 26 September 1943(Day of year=269), barley: 
       stage 7.0 start_grain_fill
-                     biomass =         700.27 (g/m^2)   lai          =   2.936 (m^2/m^2)
+                     biomass =         700.26 (g/m^2)   lai          =   2.936 (m^2/m^2)
                      stover N conc =     0.94 (%)    extractable sw =  128.41 (mm)
 21 October 1943(Day of year=294), barley: 
       stage 8.0 end_grain_fill
@@ -702,11 +702,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.34 (%)    extractable sw =   89.59 (mm)
 23 October 1943(Day of year=296), barley: 
       stage 9.0 maturity
-                     biomass =        1046.04 (g/m^2)   lai          =   0.948 (m^2/m^2)
+                     biomass =        1046.03 (g/m^2)   lai          =   0.948 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =   84.07 (mm)
 24 October 1943(Day of year=297), barley: 
       stage 10.0 harvest_ripe
-                     biomass =        1046.04 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1046.03 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   82.57 (mm)
 25 October 1943(Day of year=298), manager: 
      Manager sending message :- barley harvest
@@ -717,8 +717,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     5138.5
       grain wt (g)           =    0.065                       grains/m^2             =     6903.7
       grains/plant           =   57.5                         maximum lai            =      4.455
-      total above ground biomass (kg/ha)    =    10460.4
-      live above ground biomass (kg/ha)     =    10460.4
+      total above ground biomass (kg/ha)    =    10460.3
+      live above ground biomass (kg/ha)     =    10460.3
       green above ground biomass (kg/ha)    =     8634.8
       senesced above ground biomass (kg/ha) =     1825.5
       number of leaves       =     47.9
@@ -995,7 +995,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grains/plant           =   42.7                         maximum lai            =      2.372
       total above ground biomass (kg/ha)    =     8395.6
       live above ground biomass (kg/ha)     =     8395.6
-      green above ground biomass (kg/ha)    =     7416.3
+      green above ground biomass (kg/ha)    =     7416.4
       senesced above ground biomass (kg/ha) =      979.3
       number of leaves       =     39.0
       DM Root:Shoot ratio    =     0.12                       Harvest Index          =       0.35
@@ -1128,7 +1128,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       flowering day          =  257                           stover (kg/ha)         =     6375.7
       maturity day           =  293                           grain yield (kg/ha)    =     5210.7
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     5955.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     5955.0
       grain wt (g)           =    0.065                       grains/m^2             =     8064.9
       grains/plant           =   67.2                         maximum lai            =      5.037
       total above ground biomass (kg/ha)    =    11586.4
@@ -1380,8 +1380,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     2.09 (%)    extractable sw =  200.88 (mm)
 16 September 1948(Day of year=260), barley: 
       stage 6.0 flowering
-                     biomass =         393.68 (g/m^2)   lai          =   2.229 (m^2/m^2)
-                     stover N conc =     1.13 (%)    extractable sw =  204.49 (mm)
+                     biomass =         393.69 (g/m^2)   lai          =   2.229 (m^2/m^2)
+                     stover N conc =     1.13 (%)    extractable sw =  204.48 (mm)
 24 September 1948(Day of year=268), barley: 
       stage 7.0 start_grain_fill
                      biomass =         508.73 (g/m^2)   lai          =   1.903 (m^2/m^2)
@@ -1798,7 +1798,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     1.10 (%)    extractable sw =  163.98 (mm)
 22 September 1951(Day of year=265), barley: 
       stage 7.0 start_grain_fill
-                     biomass =         659.20 (g/m^2)   lai          =   2.735 (m^2/m^2)
+                     biomass =         659.19 (g/m^2)   lai          =   2.735 (m^2/m^2)
                      stover N conc =     0.77 (%)    extractable sw =  167.13 (mm)
 20 October 1951(Day of year=293), barley: 
       stage 8.0 end_grain_fill
@@ -2208,7 +2208,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     2.11 (%)    extractable sw =  196.37 (mm)
 7 September 1954(Day of year=250), barley: 
       stage 6.0 flowering
-                     biomass =         390.54 (g/m^2)   lai          =   2.400 (m^2/m^2)
+                     biomass =         390.53 (g/m^2)   lai          =   2.400 (m^2/m^2)
                      stover N conc =     1.08 (%)    extractable sw =  201.94 (mm)
 15 September 1954(Day of year=258), barley: 
       stage 7.0 start_grain_fill
@@ -2645,7 +2645,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 21 October 1957(Day of year=294), barley: 
      
       flowering day          =  257                           stover (kg/ha)         =     6688.7
-      maturity day           =  292                           grain yield (kg/ha)    =     3490.8
+      maturity day           =  292                           grain yield (kg/ha)    =     3490.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3989.4
       grain wt (g)           =    0.051                       grains/m^2             =     6783.2
       grains/plant           =   56.5                         maximum lai            =      3.699
@@ -2674,7 +2674,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           N  (kg/ha) =                  23.37                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                3490.8                     0.0
+                          DM (kg/ha) =                3490.7                     0.0
                           N  (kg/ha) =                  38.28                    0.00
      
       stage 4.0 end_of_juvenile
@@ -2790,7 +2790,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       total above ground biomass (kg/ha)    =     7965.2
       live above ground biomass (kg/ha)     =     7965.2
       green above ground biomass (kg/ha)    =     7082.6
-      senesced above ground biomass (kg/ha) =      882.5
+      senesced above ground biomass (kg/ha) =      882.6
       number of leaves       =     34.9
       DM Root:Shoot ratio    =     0.11                       Harvest Index          =       0.35
       Stover C:N ratio       =   116.78                       Root C:N ratio         =      39.21
@@ -3037,22 +3037,22 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 18 September 1960(Day of year=262), barley: 
       stage 6.0 flowering
                      biomass =         409.68 (g/m^2)   lai          =   2.490 (m^2/m^2)
-                     stover N conc =     1.04 (%)    extractable sw =  202.97 (mm)
+                     stover N conc =     1.04 (%)    extractable sw =  202.98 (mm)
 25 September 1960(Day of year=269), barley: 
       stage 7.0 start_grain_fill
                      biomass =         507.69 (g/m^2)   lai          =   2.153 (m^2/m^2)
                      stover N conc =     0.75 (%)    extractable sw =  235.91 (mm)
 22 October 1960(Day of year=296), barley: 
       stage 8.0 end_grain_fill
-                     biomass =         862.96 (g/m^2)   lai          =   0.735 (m^2/m^2)
+                     biomass =         862.97 (g/m^2)   lai          =   0.735 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =  136.84 (mm)
 23 October 1960(Day of year=297), barley: 
       stage 9.0 maturity
-                     biomass =         862.96 (g/m^2)   lai          =   0.695 (m^2/m^2)
+                     biomass =         862.97 (g/m^2)   lai          =   0.695 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =  148.56 (mm)
 24 October 1960(Day of year=298), barley: 
       stage 10.0 harvest_ripe
-                     biomass =         862.96 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         862.97 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =  144.89 (mm)
 25 October 1960(Day of year=299), manager: 
      Manager sending message :- barley harvest
@@ -3063,8 +3063,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3414.8
       grain wt (g)           =    0.056                       grains/m^2             =     5332.1
       grains/plant           =   44.4                         maximum lai            =      2.894
-      total above ground biomass (kg/ha)    =     8629.6
-      live above ground biomass (kg/ha)     =     8629.6
+      total above ground biomass (kg/ha)    =     8629.7
+      live above ground biomass (kg/ha)     =     8629.7
       green above ground biomass (kg/ha)    =     7445.3
       senesced above ground biomass (kg/ha) =     1184.4
       number of leaves       =     49.3
@@ -3342,7 +3342,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       total above ground biomass (kg/ha)    =     7204.4
       live above ground biomass (kg/ha)     =     7204.4
       green above ground biomass (kg/ha)    =     6341.1
-      senesced above ground biomass (kg/ha) =      863.4
+      senesced above ground biomass (kg/ha) =      863.3
       number of leaves       =     41.7
       DM Root:Shoot ratio    =     0.11                       Harvest Index          =       0.35
       Stover C:N ratio       =   114.22                       Root C:N ratio         =      41.72
@@ -3458,15 +3458,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.66 (%)    extractable sw =  191.42 (mm)
 20 October 1963(Day of year=293), barley: 
       stage 8.0 end_grain_fill
-                     biomass =         867.25 (g/m^2)   lai          =   0.802 (m^2/m^2)
+                     biomass =         867.26 (g/m^2)   lai          =   0.802 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =  111.78 (mm)
 22 October 1963(Day of year=295), barley: 
       stage 9.0 maturity
-                     biomass =         867.73 (g/m^2)   lai          =   0.726 (m^2/m^2)
+                     biomass =         867.74 (g/m^2)   lai          =   0.726 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =  108.22 (mm)
 23 October 1963(Day of year=296), barley: 
       stage 10.0 harvest_ripe
-                     biomass =         867.73 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         867.74 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =  107.59 (mm)
 24 October 1963(Day of year=297), manager: 
      Manager sending message :- barley harvest
@@ -3477,15 +3477,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3434.3
       grain wt (g)           =    0.051                       grains/m^2             =     5896.9
       grains/plant           =   49.1                         maximum lai            =      2.720
-      total above ground biomass (kg/ha)    =     8677.3
-      live above ground biomass (kg/ha)     =     8677.3
-      green above ground biomass (kg/ha)    =     7504.3
+      total above ground biomass (kg/ha)    =     8677.4
+      live above ground biomass (kg/ha)     =     8677.4
+      green above ground biomass (kg/ha)    =     7504.4
       senesced above ground biomass (kg/ha) =     1173.0
       number of leaves       =     40.9
       DM Root:Shoot ratio    =     0.13                       Harvest Index          =       0.35
       Stover C:N ratio       =   115.51                       Root C:N ratio         =      39.48
       grain N percent        =     1.00                       total N content (kg/ha)=      49.78
-      grain N uptake (kg/ha) =    30.13                       senesced N content (kg/ha)=    5.86
+      grain N uptake (kg/ha) =    30.14                       senesced N content (kg/ha)=    5.86
       green N content (kg/ha)=    13.78
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -3503,7 +3503,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                3005.0                     0.0
-                          N  (kg/ha) =                  30.13                    0.00
+                          N  (kg/ha) =                  30.14                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.024 (m^2/m^2)
@@ -4300,7 +4300,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- barley harvest
 23 October 1969(Day of year=296), barley: 
      
-      flowering day          =  252                           stover (kg/ha)         =     6111.4
+      flowering day          =  252                           stover (kg/ha)         =     6111.5
       maturity day           =  294                           grain yield (kg/ha)    =     2850.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3258.0
       grain wt (g)           =    0.062                       grains/m^2             =     4579.3
@@ -4326,7 +4326,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                6111.4                     0.0
+                          DM (kg/ha) =                6111.5                     0.0
                           N  (kg/ha) =                  21.63                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -4558,7 +4558,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     1.04 (%)    extractable sw =  306.99 (mm)
 24 September 1971(Day of year=267), barley: 
       stage 7.0 start_grain_fill
-                     biomass =         341.62 (g/m^2)   lai          =   1.082 (m^2/m^2)
+                     biomass =         341.61 (g/m^2)   lai          =   1.082 (m^2/m^2)
                      stover N conc =     0.67 (%)    extractable sw =  323.01 (mm)
 20 October 1971(Day of year=293), barley: 
       stage 8.0 end_grain_fill
@@ -4843,7 +4843,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 8 October 1973(Day of year=281), barley: 
       stage 9.0 maturity
                      biomass =         594.69 (g/m^2)   lai          =   0.554 (m^2/m^2)
-                     stover N conc =     0.34 (%)    extractable sw =  230.86 (mm)
+                     stover N conc =     0.34 (%)    extractable sw =  230.87 (mm)
 9 October 1973(Day of year=282), barley: 
       stage 10.0 harvest_ripe
                      biomass =         594.69 (g/m^2)   lai          =   0.000 (m^2/m^2)
@@ -6356,15 +6356,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.67 (%)    extractable sw =  290.22 (mm)
 23 October 1984(Day of year=297), barley: 
       stage 8.0 end_grain_fill
-                     biomass =         717.41 (g/m^2)   lai          =   0.603 (m^2/m^2)
+                     biomass =         717.42 (g/m^2)   lai          =   0.603 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =  217.13 (mm)
 24 October 1984(Day of year=298), barley: 
       stage 9.0 maturity
-                     biomass =         717.41 (g/m^2)   lai          =   0.575 (m^2/m^2)
+                     biomass =         717.42 (g/m^2)   lai          =   0.575 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =  214.44 (mm)
 25 October 1984(Day of year=299), barley: 
       stage 10.0 harvest_ripe
-                     biomass =         717.41 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         717.42 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =  211.94 (mm)
 26 October 1984(Day of year=300), manager: 
      Manager sending message :- barley harvest
@@ -6373,10 +6373,10 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       flowering day          =  259                           stover (kg/ha)         =     5032.8
       maturity day           =  298                           grain yield (kg/ha)    =     2141.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2447.2
-      grain wt (g)           =    0.055                       grains/m^2             =     3895.4
+      grain wt (g)           =    0.055                       grains/m^2             =     3895.5
       grains/plant           =   32.5                         maximum lai            =      2.009
-      total above ground biomass (kg/ha)    =     7174.1
-      live above ground biomass (kg/ha)     =     7174.1
+      total above ground biomass (kg/ha)    =     7174.2
+      live above ground biomass (kg/ha)     =     7174.2
       green above ground biomass (kg/ha)    =     6352.2
       senesced above ground biomass (kg/ha) =      822.0
       number of leaves       =     45.6
@@ -6666,7 +6666,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.000        0.219        0.241
          floral_initiation    to flowering               0.000        0.000        0.235        0.267
-         flowering            to start_grain_fill        0.000        0.000        0.215        0.251
+         flowering            to start_grain_fill        0.000        0.000        0.216        0.251
          start_grain_fill     to end_grain_fill          0.000        0.000        0.186        0.344
      
      
@@ -6796,7 +6796,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       number of leaves       =     32.8
       DM Root:Shoot ratio    =     0.13                       Harvest Index          =       0.42
       Stover C:N ratio       =   109.05                       Root C:N ratio         =      42.11
-      grain N percent        =     0.81                       total N content (kg/ha)=      24.49
+      grain N percent        =     0.81                       total N content (kg/ha)=      24.50
       grain N uptake (kg/ha) =    15.03                       senesced N content (kg/ha)=    2.85
       green N content (kg/ha)=     6.61
      
@@ -6925,7 +6925,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       flowering day          =  252                           stover (kg/ha)         =     2788.5
       maturity day           =  287                           grain yield (kg/ha)    =     1948.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2226.8
-      grain wt (g)           =    0.072                       grains/m^2             =     2711.8
+      grain wt (g)           =    0.072                       grains/m^2             =     2711.7
       grains/plant           =   22.6                         maximum lai            =      1.425
       total above ground biomass (kg/ha)    =     4737.0
       live above ground biomass (kg/ha)     =     4737.0
@@ -6962,7 +6962,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                   0.0                   557.2
-                          N  (kg/ha) =                   0.00                    6.00
+                          N  (kg/ha) =                   0.00                    5.99
      
 18 June 1989(Day of year=169), manager: 
      Manager sending message :- barley sow  cultivar = skiff, plants = 120, sowing_depth = 30 (mm)
