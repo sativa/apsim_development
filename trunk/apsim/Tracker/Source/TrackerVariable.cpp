@@ -201,7 +201,7 @@ void TrackerVariable::doRegistrations(void)
       
       // Do a "get" to tickle the system into probing for the variable. Discard results.
       protocol::Variant *variant = NULL;
-      parent->getVariable((unsigned int)reg, &variant);
+      parent->getVariable((unsigned int)reg, &variant, true);
       
       // Now find the sending modules registration for that variable, and 
       //  extract units
