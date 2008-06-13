@@ -11,17 +11,17 @@
 
 Version                = 6.1
 Title                  = SoilP reset Test
-Component        "log" = c:\development\apsim\log\lib\log.dll
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\Input\lib\Input.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component      "soilp" = c:\development\apsim\soilp\lib\soilp.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
+Component        "log" = C:\development\apsim\log\lib\log.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "Met" = C:\development\apsim\Input\lib\Input.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component      "soilp" = C:\development\apsim\soilp\lib\soilp.dll
+Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -60,7 +60,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\SAMPLE\DALBY.MET
+     INPUT File name: C:\development\apsim\met\SAMPLE\DALBY.MET
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
@@ -218,6 +218,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
           ---------------------------------------------------------
 
 ------- soilp Initialisation --------------------------------------------------
+     Initialising
      
         - Reading Constants
      
@@ -265,6 +266,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
         - Reading Constants
 30 March 1988(Day of year=90), soilp: 
+     Initialising
      
         - Reading Constants
      

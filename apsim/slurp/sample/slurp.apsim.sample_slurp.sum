@@ -11,13 +11,13 @@
 
 Version                = 6.1
 Title                  = Slurp Sample Simulation
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component   "micromet" = c:\development\apsim\micromet\lib\micromet.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component      "slurp" = c:\development\apsim\slurp\lib\slurp.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component   "micromet" = C:\development\apsim\micromet\lib\micromet.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component      "slurp" = C:\development\apsim\slurp\lib\slurp.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -47,7 +47,7 @@ Component      "slurp" = c:\development\apsim\slurp\lib\slurp.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\MET\SAMPLE\DALBY.MET
+     INPUT File name: C:\development\apsim\MET\SAMPLE\DALBY.MET
 
 ------- micromet Initialisation -----------------------------------------------
      Initialising

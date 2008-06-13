@@ -11,17 +11,17 @@
 
 Version                = 6.1
 Title                  = sugar reference run
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component      "sugar" = c:\development\apsim\sugar\lib\sugar.dll
-Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component   "irrigate" = C:\development\apsim\irrigate\lib\irrigate.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component      "sugar" = C:\development\apsim\sugar\lib\sugar.dll
+Component    "Tracker" = C:\development\apsim\Tracker\lib\Tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -47,7 +47,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
         sugar.root_depth
         tracker.avg@oxdef_photo
         sugar.crop_status
-        sugar.dm_dead()
+        sugar.dm_dead
         sugar.lodge_redn_photo
         sugar.lodge_redn_sucrose
         sugar.lodge_redn_green_leaf

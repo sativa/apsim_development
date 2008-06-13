@@ -11,12 +11,12 @@
 
 Version                = 6.1
 Title                  = Step 1. All off.
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component       "tree" = c:\development\apsim\tree\lib\tree.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component       "tree" = C:\development\apsim\tree\lib\tree.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -136,7 +136,7 @@ Component       "tree" = c:\development\apsim\tree\lib\tree.dll
      Initial conditions:
        Basal area :    0.00 %
        Root depth :  1250.0 mm
-       Using Pan evap from met module.
+       Using Pan evap from .MasterPM.met module.
      
      
      

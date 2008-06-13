@@ -27,7 +27,7 @@ outputfile    = MaryFarms.out
 [all.report.parameters]
 variable = clock.dd/mmm/yyyy as Date
 variable = met.rain as rain
-variable = sweetsorghum.das
+variable = sweetsorghum.DaysAfterSowing
 variable = sweetsorghum.zadok_stage
 variable = met.day_length
 variable = sweetsorghum.stage
@@ -43,8 +43,8 @@ variable = sweetsorghum.temp_stress_photo
 variable = met.maxt
 variable = met.mint
 variable = met.radn
-variable = sweetsorghum.tt_tot()
-variable = sweetsorghum.dlt_tt
+variable = sweetsorghum.TTAfterSowing
+variable = sweetsorghum.TT
 variable = sweetsorghum.LeafGreenWt
 variable = sweetsorghum.StemGreenWt
 variable = sweetsorghum.node_no
@@ -175,7 +175,7 @@ asw_depth =   750 (mm)   ! Depth to use for available soil water
         report do_output
      endif
 
-     if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+     if sweetsorghum.StageName = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
         sweetsorghum harvest
         sweetsorghum end_crop
      endif

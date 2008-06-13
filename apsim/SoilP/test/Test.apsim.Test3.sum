@@ -11,15 +11,15 @@
 
 Version                = 6.1
 Title                  = Surface Organic Matter Module Test 3
-Component        "log" = c:\development\apsim\log\lib\log.dll
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\Input\lib\Input.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component      "soilp" = c:\development\apsim\soilp\lib\soilp.dll
+Component        "log" = C:\development\apsim\log\lib\log.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "Met" = C:\development\apsim\Input\lib\Input.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component      "soilp" = C:\development\apsim\soilp\lib\soilp.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -201,6 +201,7 @@ Component      "soilp" = c:\development\apsim\soilp\lib\soilp.dll
           ---------------------------------------------------------
 
 ------- soilp Initialisation --------------------------------------------------
+     Initialising
      
         - Reading Constants
      

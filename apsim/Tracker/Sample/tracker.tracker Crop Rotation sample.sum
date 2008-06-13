@@ -11,16 +11,16 @@
 
 Version                = 6.1
 Title                  = Tracker Sample Rotation Simulation
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\input\lib\input.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
-Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
-Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "Met" = C:\development\apsim\input\lib\input.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component   "chickpea" = C:\development\apsim\Plant\lib\Plant.dll
+Component      "wheat" = C:\development\apsim\Plant\lib\Plant.dll
+Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -48,7 +48,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\goond.met
+     INPUT File name: C:\development\apsim\met\sample\goond.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -450,7 +450,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     2.72 (%)    extractable sw =  142.17 (mm)
 22 September 1961(Day of year=265), wheat: 
       stage 6.0 flowering
-                     biomass =        1053.91 (g/m^2)   lai          =   3.662 (m^2/m^2)
+                     biomass =        1053.92 (g/m^2)   lai          =   3.662 (m^2/m^2)
                      stover N conc =     1.13 (%)    extractable sw =   67.27 (mm)
 28 September 1961(Day of year=271), wheat: 
       stage 7.0 start_grain_fill
@@ -757,9 +757,9 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- wheat harvest
 5 October 1963(Day of year=278), wheat: 
      
-      flowering day          =  234                           stover (kg/ha)         =     9541.5
+      flowering day          =  234                           stover (kg/ha)         =     9541.6
       maturity day           =  276                           grain yield (kg/ha)    =     3082.0
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3522.3
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3522.2
       grain wt (g)           =    0.026                       grains/m^2             =    11833.0
       grains/plant           =  118.3                         maximum lai            =      3.426
       total above ground biomass (kg/ha)    =    12623.5
@@ -783,7 +783,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                9541.5                     0.0
+                          DM (kg/ha) =                9541.6                     0.0
                           N  (kg/ha) =                  31.59                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
