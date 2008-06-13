@@ -45,7 +45,7 @@ outputfile = dailyN09.out
 outputfile = neutN09.out
 
 [bromideN.report6.parameters]
-outputfile  =  bromN09.out /overwrite
+outputfile  =  bromN09.out
 
 !********** MANAGER MODULE **********
 [all.manager.init]
@@ -146,7 +146,7 @@ if ((year = 1993 and day = 121) or
 endif
 
 !Temporary assumption about cut at flowering
-!if (lucerne.stage_name = 'flowering') then
+!if (lucerne.StageName = 'flowering') then
 !   lucerne harvest height = 50 (mm), remove = 0.95
 !endif
 
@@ -269,7 +269,7 @@ if ((crop_in = 0) and (lucerne.plant_status = 'out')) then
       endif
    endif
 endif
-if ((cult = 2) and ((weed.stage_name = 'harvest_ripe') or (today = date('1-may')))) then
+if ((cult = 2) and ((weed.StageName = 'harvest_ripe') or (today = date('1-may')))) then
       weed harvest
       weed end_crop
       crop_in = 0
@@ -521,7 +521,7 @@ bottom_boundary_condition = 0 ! Bottom Flag  - 0) constant gradient
 vapour_conductivity =  on     ! Vapour Conductivity flag (on/off)
                               ! ------------------------
 
-run_solutes =  no3 nh4 urea brA brB brC brD   ! solutes to be moved by SWIM during simulation
+run_solutes =  no3 nh4 urea bra brb brc brd   ! solutes to be moved by SWIM during simulation
 
 extra_solute_supply =  on
 solute_exclusion =  on
@@ -529,7 +529,7 @@ solute_exclusion =  on
 [all.apswim.solute]
                ! Note - Urea is just the same as no3 for now
                ! ----------------------------------------------------
-solute_name =                    no3   nh4  urea  brA  brB  brC  brD
+solute_name =                    no3   nh4  urea  bra  brb  brc  brd
                ! ----------------------------------------------------
 slupf =                          1.0   0    0     0    0    0    0
 slos =                           0.4   1.4  0.0   0.4  0.4  0.4  0.4
@@ -609,7 +609,7 @@ root_conductance =         1.4d-7   1.4d-7   1.4d-7   1.4d-7
 [all.apswim.soil1]
 bulk_density =                      1.38
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD
+solute_name =                       no3 nh4  urea bra brb brc brd
                   ! ---------------------------------------------
 exco =                              0   0.5  0    0   0   0   0
 fip =                               1   1    1    1   1   1   1
@@ -621,7 +621,7 @@ beta =                              0   0    0    0   0   0   0
 [all.apswim.soil2]
 bulk_density =                      1.55
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD
+solute_name =                       no3 nh4  urea bra brb brc brd
                   ! ---------------------------------------------
 exco =                              0   0.5  0    0   0   0   0
 fip =                               1   1    1    1   1   1   1
@@ -633,7 +633,7 @@ beta =                              0   0    0    0   0   0   0
 [all.apswim.soil3]
 bulk_density =                     1.37
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD
+solute_name =                       no3 nh4  urea bra brb brc brd
                   ! ---------------------------------------------
 exco =                              0   0.5  0    0   0   0   0
 fip =                               1   1    1    1   1   1   1
@@ -645,7 +645,7 @@ beta =                              0   0    0    0   0   0   0
 [all.apswim.soil4]
 bulk_density =                      1.5
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD
+solute_name =                       no3 nh4  urea bra brb brc brd
                   ! ---------------------------------------------
 exco =                              0   0.5  0    0   0   0   0
 fip =                               1   1    1    1   1   1   1
@@ -657,7 +657,7 @@ beta =                              0   0    0    0   0   0   0
 [all.apswim.soil5]
 bulk_density =                      1.63
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD
+solute_name =                       no3 nh4  urea bra brb brc brd
                   ! ---------------------------------------------
 exco =                              0   0.5  0    0   0   0   0
 fip =                               1   1    1    1   1   1   1
@@ -669,7 +669,7 @@ beta =                              0   0    0    0   0   0   0
 [all.apswim.soil6]
 bulk_density =                      1.64
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD
+solute_name =                       no3 nh4  urea bra brb brc brd
                   ! ---------------------------------------------
 exco =                              0   0.5  0    0   0   0   0
 fip =                               1   1    1    1   1   1   1
@@ -681,7 +681,7 @@ beta =                              0   0    0    0   0   0   0
 [all.apswim.soil7]
 bulk_density =                      1.49
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD
+solute_name =                       no3 nh4  urea bra brb brc brd
                   ! ---------------------------------------------
 exco =                              0   0.5  0    0   0   0   0
 fip =                               1   1    1    1   1   1   1
@@ -766,13 +766,13 @@ dmod =  1.0 ()   ! weighting factor to adjust the rate of humus mineralization
 
 !******************** Solute module ********************
 [all.solute.parameters]
-solute_names =  brA brB brC brD
+solute_names =  bra brb brc brd
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20
 !x        =        0      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300    2500    2700    2900    3000
-brA       =        0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
-brB       =        0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
-brC       =        0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
-brD       =        0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
+bra       =        0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
+brb       =        0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
+brc       =        0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
+brd       =        0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
 
 
 
