@@ -1378,6 +1378,15 @@ C     Last change:  P    25 Oct 2000    9:26 am
       Action = adjustl(Action)
 
       ok = component_name_to_id(Module_name, modNameID);
+      if (.not.ok) then
+            write (msg, '(50a)' )
+     :         'The module "' // trim(Module_name) //
+     :         '" does not exist.' 
+     :         , new_line
+     :         , 'Command: ', trim(Action_string)
+            call Fatal_error(ERR_user, msg)
+            return
+         endif
 
       ! Test for case where user has forgotten to put in equals sign in set command.
 
