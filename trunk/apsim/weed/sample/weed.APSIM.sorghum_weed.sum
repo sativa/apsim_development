@@ -11,17 +11,17 @@
 
 Version                = 6.1
 Title                  = Sorghum summer-grass Simulation
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component     "canopy" = c:\development\apsim\canopy\lib\canopy.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component       "weed" = c:\development\apsim\Plant\lib\Plant.dll
-Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component      "accum" = C:\development\apsim\accum\lib\accum.dll
+Component     "canopy" = C:\development\apsim\canopy\lib\canopy.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component       "weed" = C:\development\apsim\Plant\lib\Plant.dll
+Component    "sorghum" = C:\development\apsim\sorghum\lib\sorghum.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -49,7 +49,7 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\dalby.met
+     INPUT File name: C:\development\apsim\met\sample\dalby.met
 
 ------- accum Initialisation --------------------------------------------------
      Initialising
@@ -347,12 +347,12 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
             305   40.0   15.0  350.0   0.0   0.0 late
          ------------------------------------------------
      
+1 November 1988(Day of year=306), weed: 
+      stage 2.0 germination
 1 November 1988(Day of year=306), sorghum: 
      Stage 2 Germination  DAS = 1
      		Biomass       =   0.00 		 LAI            =   0.00
      		Stover N Conc =   0.00 		 Extractable SW =   0.00
-1 November 1988(Day of year=306), weed: 
-      stage 2.0 germination
 4 November 1988(Day of year=309), sorghum: 
      Stage 3 Emergence  DAS = 4
      		Biomass       =   0.00 		 LAI            =   0.00
@@ -360,11 +360,11 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
 7 November 1988(Day of year=312), weed: 
       stage 3.0 emergence
                      biomass =           0.90 (g/m^2)   lai          =   0.004 (m^2/m^2)
-                     stover N conc =     6.00 (%)    extractable sw =   29.53 (mm)
+                     stover N conc =     6.00 (%)    extractable sw =   29.54 (mm)
 14 November 1988(Day of year=319), sorghum: 
      Stage 4 EndOfJuvenile  DAS = 14
      		Biomass       =   3.67 		 LAI            =   0.04
-     		Stover N Conc =   0.10 		 Extractable SW = 114.54
+     		Stover N Conc =   0.10 		 Extractable SW = 114.69
 20 November 1988(Day of year=325), manager: 
      Manager sending message :- weed kill_crop
 20 November 1988(Day of year=325), weed: 

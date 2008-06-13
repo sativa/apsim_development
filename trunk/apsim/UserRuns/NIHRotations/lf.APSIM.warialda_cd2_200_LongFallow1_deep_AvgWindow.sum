@@ -11,18 +11,18 @@
 
 Version                = 6.1
 Title                  = site=warialda; soil=cd2; treatment=LongFallow1; Nrate=200; RootDepth=deep; Sowing = AvgWindow
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component   "chickpea" = c:\development\apsim\plant\lib\plant.dll
-Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
-Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
-Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component   "chickpea" = C:\development\apsim\plant\lib\plant.dll
+Component      "wheat" = C:\development\apsim\plant\lib\plant.dll
+Component    "sorghum" = C:\development\apsim\sorghum\lib\sorghum.dll
+Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -782,7 +782,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Senesced above ground biomass (kg/ha) = 514.1
      Stover (kg/ha)        = 2777.7 	 Grain yield (kg/ha)     = 3413.8
      Grain % water content = 13.0 		 Grain yield wet (kg/ha) = 3923.9
-     Weight 1000 grains(g) = 29.8 		 Grains/m^2              = 11463.6
+     Weight 1000 grains(g) = 29.8 		 Grains/m^2              = 11463.7
      Grains/head           = 1763.6
      Grain N percent    (%)     =      1.81 	 Grain N            (kg/ha) =    61.85
      Total N content    (kg/ha) =     82.75 	 Senesced N content (kg/ha) =     9.68
@@ -798,7 +798,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =               3413.83		    0.00
+                         DM (kg/ha) =               3413.84		    0.00
                          N  (kg/ha) =                 61.85		    0.00
      Manager sending message :- sorghum kill_crop
      Kill Crop
@@ -806,7 +806,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- sorghum end_crop
      Crop ended.
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               2777.72		 1232.52
+                         DM (kg/ha) =               2777.73		 1232.52
                          N  (kg/ha) =                 20.90		    2.47
                          P  (kg/ha) =                  0.00		    0.00
 10 July 1974(Day of year=191), manager: 
@@ -3545,7 +3545,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- sorghum end_crop
      Crop ended.
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               5353.08		 2281.71
+                         DM (kg/ha) =               5353.07		 2281.71
                          N  (kg/ha) =                 39.94		    4.56
                          P  (kg/ha) =                  0.00		    0.00
 31 December 2000(Day of year=366), clock: 

@@ -11,18 +11,18 @@
 
 Version                = 6.1
 Title                  = p0N50
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component      "soilp" = c:\development\apsim\soilp\lib\soilp.dll
-Component      "maize" = c:\development\apsim\maize\lib\maize.dll
-Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component      "accum" = C:\development\apsim\accum\lib\accum.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component      "soilp" = C:\development\apsim\soilp\lib\soilp.dll
+Component      "maize" = C:\development\apsim\maize\lib\maize.dll
+Component   "tracker1" = C:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -321,6 +321,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
           ---------------------------------------------------------
 
 ------- soilp Initialisation --------------------------------------------------
+     Initialising
      
         - Reading Constants
      
@@ -557,7 +558,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
-     Variable: labile_p
+     Variable: labile_p(1)
      Value:        0.4753074
      Bounds:        0.5000000 to     1000.0000000
      Component name: SurfaceOM
@@ -569,7 +570,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
-     Variable: labile_p
+     Variable: labile_p(1)
      Value:        0.4279610
      Bounds:        0.5000000 to     1000.0000000
      Component name: SurfaceOM
@@ -581,7 +582,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
-     Variable: labile_p
+     Variable: labile_p(1)
      Value:        0.4107451
      Bounds:        0.5000000 to     1000.0000000
      Component name: SurfaceOM
@@ -593,7 +594,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
-     Variable: labile_p
+     Variable: labile_p(1)
      Value:        0.3505046
      Bounds:        0.5000000 to     1000.0000000
      Component name: SurfaceOM
@@ -605,7 +606,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
-     Variable: labile_p
+     Variable: labile_p(1)
      Value:        0.3034993
      Bounds:        0.5000000 to     1000.0000000
      Component name: SurfaceOM
@@ -617,7 +618,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
-     Variable: labile_p
+     Variable: labile_p(1)
      Value:        0.2934260
      Bounds:        0.5000000 to     1000.0000000
      Component name: SurfaceOM
@@ -629,7 +630,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
-     Variable: labile_p
+     Variable: labile_p(1)
      Value:        0.2904243
      Bounds:        0.5000000 to     1000.0000000
      Component name: SurfaceOM
@@ -641,7 +642,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
-     Variable: labile_p
+     Variable: labile_p(1)
      Value:        0.2895370
      Bounds:        0.5000000 to     1000.0000000
      Component name: SurfaceOM
@@ -653,7 +654,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
-     Variable: labile_p
+     Variable: labile_p(1)
      Value:        0.3056644
      Bounds:        0.5000000 to     1000.0000000
      Component name: SurfaceOM
@@ -665,7 +666,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
-     Variable: labile_p
+     Variable: labile_p(1)
      Value:        0.3248706
      Bounds:        0.5000000 to     1000.0000000
      Component name: SurfaceOM
@@ -677,7 +678,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
-     Variable: labile_p
+     Variable: labile_p(1)
      Value:        0.3464974
      Bounds:        0.5000000 to     1000.0000000
      Component name: SurfaceOM
@@ -689,7 +690,7 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
-     Variable: labile_p
+     Variable: labile_p(1)
      Value:        0.3720355
      Bounds:        0.5000000 to     1000.0000000
      Component name: SurfaceOM

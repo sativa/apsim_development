@@ -11,19 +11,19 @@
 
 Version                = 6.1
 Title                  = site=coonamble; soil=cd2; treatment=w3; Nrate=200; RootDepth=deep; Sowing = AvgWindow
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component   "chickpea" = c:\development\apsim\plant\lib\plant.dll
-Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
-Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
-Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component   "chickpea" = C:\development\apsim\plant\lib\plant.dll
+Component      "wheat" = C:\development\apsim\plant\lib\plant.dll
+Component    "sorghum" = C:\development\apsim\sorghum\lib\sorghum.dll
+Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
+Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -927,7 +927,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     1.81 (%)    extractable sw =   26.99 (mm)
 13 November 1974(Day of year=317), chickpea: 
       stage 9.0 maturity
-                     biomass =         458.73 (g/m^2)   lai          =   0.556 (m^2/m^2)
+                     biomass =         458.74 (g/m^2)   lai          =   0.556 (m^2/m^2)
                      stover N conc =     1.79 (%)    extractable sw =   24.14 (mm)
 14 November 1974(Day of year=318), chickpea: 
       stage 10.0 harvest_ripe
@@ -1570,11 +1570,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.36 (%)    extractable sw =   79.23 (mm)
 3 October 1978(Day of year=276), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         216.38 (g/m^2)   lai          =   1.947 (m^2/m^2)
+                     biomass =         216.39 (g/m^2)   lai          =   1.947 (m^2/m^2)
                      stover N conc =     1.92 (%)    extractable sw =   58.12 (mm)
 10 November 1978(Day of year=314), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         341.63 (g/m^2)   lai          =   0.542 (m^2/m^2)
+                     biomass =         341.64 (g/m^2)   lai          =   0.542 (m^2/m^2)
                      stover N conc =     1.76 (%)    extractable sw =   33.39 (mm)
 13 November 1978(Day of year=317), chickpea: 
       stage 9.0 maturity

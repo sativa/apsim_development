@@ -11,16 +11,16 @@
 
 Version                = 6.1
 Title                  = Walgett 1500mm wet soil
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component      "Wheat" = c:\development\apsim\Plant\lib\Plant.dll
-Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component      "Wheat" = C:\development\apsim\Plant\lib\Plant.dll
+Component    "Tracker" = C:\development\apsim\Tracker\lib\Tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -57,7 +57,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\Common Files\walgett.met
+     INPUT File name: C:\development\apsim\Common Files\walgett.met
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
@@ -85,8 +85,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
         surfaceom reset
         fertiliz apply amount = nrate, type = no3_n, depth = 5 (mm)
         wheat sow cultivar = cultivar, plants = 100 (/m2), sowing_depth = 40 (mm)
-        sowpaw = sw_dep(1) - ll_dep(1) + sw_dep(2) - ll_dep(2) + sw_dep(3) - ll_dep(3) + sw_dep(4) - ll_dep(4) + sw_dep(5) - ll_dep(5) + sw_dep(6) - ll_dep(6)
-        sown = no3(1) + no3(2) + no3(3) + no3(4) + no3(5) + no3(6)
+        sowpaw = sw_dep() - ll_dep()
+        sown = no3()
         sowing_paw2n = sowpaw / sown
         in_crop_rain = 0
         eff_in_crop_rain = 0
@@ -411,9 +411,9 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
             135   40.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-     Manager creating a new local real variable : sowpaw = 179.60001
-     Manager creating a new local real variable : sown = 186.64047
-     Manager creating a new local real variable : sowing_paw2n = 0.96228
+     Manager creating a new local real variable : sowpaw = 149.19983
+     Manager creating a new local real variable : sown = 206.10614
+     Manager creating a new local real variable : sowing_paw2n = 0.72390
 16 May 1957(Day of year=136), Wheat: 
       stage 2.0 germination
 23 May 1957(Day of year=143), Wheat: 
