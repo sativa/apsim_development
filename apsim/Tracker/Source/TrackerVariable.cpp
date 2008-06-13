@@ -181,11 +181,13 @@ void TrackerVariable::doRegistrations(void)
    eventID = parent->addRegistration(::respondToEvent,
                                      -1,
                                      eventName.c_str(),
-                                     nullDDML);
+                                     nullDDML); 
+
    if (variableName != "")
       {
       // Find the registration entry of the module that sends this data to us.
-      // Then extract its units etc.
+
+      // Firstly, convert the name into a id/name pair.
       ApsimRegistry::getApsimRegistry().unCrackPath(parent->getId(),
                                                     variableName, 
                                                     ownerModuleID, 
@@ -196,9 +198,14 @@ void TrackerVariable::doRegistrations(void)
                                                           ownerModuleID,
                                                           ownerModuleName,
                                                           singleArrayDDML);
-
+      
+      // Do a "get" to tickle the system into probing for the variable. Discard results.
+      protocol::Variant *variant = NULL;
+      parent->getVariable((unsigned int)reg, &variant);
+      
+      // Now find the sending modules registration for that variable, and 
+      //  extract units
       typeString = singleArrayDDML;
-
       vector<ApsimRegistration *> subscriptions;
       ApsimRegistry::getApsimRegistry().lookup(reg, subscriptions);
       if (subscriptions.size() > 0) 
@@ -216,7 +223,6 @@ void TrackerVariable::doRegistrations(void)
             }
          }
       }
-
 
    if (startPeriod != "")
       startPeriodID = parent->addRegistration(::respondToEvent,
