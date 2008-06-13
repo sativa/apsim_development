@@ -862,7 +862,7 @@
      :               variable_name     ! variable name
      :              ,'(g/MJ)'           ! variable units
      :              ,g%Frgr*c%RUE)         ! variable
-      elseif (variable_name .eq. 'SLA_senescing') then
+      elseif (variable_name .eq. 'sla_senescing') then
           call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(mm/g)'           ! variable units
@@ -1007,7 +1007,7 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :              ,'()'                ! variable units
      :              ,G%cover_tot)      ! variable
 
-      elseif (variable_name .eq. 'rlv_Growth') then
+      elseif (variable_name .eq. 'rlv_growth') then
          ! really effective RLV!!!! - NIH
          num_layers = count_of_real_vals(g%dlayer, max_layer)
          num_layers = max(1,num_layers)
@@ -2782,7 +2782,6 @@ c     :          ,1.0)                 ! Upper Limit for bound check
      :               ,g%Ft
      :               ,g%Fvpd
      :               ,g%Ff
-     :               ,g%ffasw
      :               ,g%Fage
      :               ,g%Frgr
      :               )
@@ -3822,7 +3821,6 @@ c     :                 , c_num_av_temp)
      :               ,g_Ft
      :               ,g_Fvpd
      :               ,g_Ff
-     :               ,g_Ffasw
      :               ,g_Fage
      :               ,g_Frgr
      :               )
@@ -6476,65 +6474,65 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
       g%vp   = newmet%vp
 
 !      put this back here when met data no longer arrives during initialisation
-!            call Growth_Fvpd
-!     :               (
-!     :                c%svp_fract
-!     :              , c%VPD
-!     :              , c%Fvpd
-!     :              , c%num_vpd
-!     :              , g%maxt
-!     :              , g%mint
-!     :              , g%vp
-!     :              , g%Fvpd
-!     :                )
-!
-!            call Growth_Ft
-!     :               (
-!     :                g%maxt
-!     :              , g%mint
-!     :              , c%av_temp
-!     :              , c%Ft
-!     :              , c%num_av_temp
-!     :              , g%Ft
-!     :                )
-!
-!            call Growth_Ff
-!     :               (
-!     :                g%mint
-!     :              , c%min_temp
-!     :              , c%Ff
-!     :              , c%num_min_temp
-!     :              , g%Ff
-!     :                )
-!
-!            call Growth_Fn
-!     :               (
-!     :                g%foliage_mass
-!     :              , g%foliage_n
-!     :              , c%foliage_n_conc
-!     :              , c%Fn
-!     :              , c%num_foliage_n_conc
-!     :              , g%Fn
-!     :               )
-!
-!            call Growth_Fage
-!     :               (
-!     :                g%age
-!     :              , c%age
-!     :              , c%Fage
-!     :              , c%num_age
-!     :              , g%Fage
-!     :               )
-!
-!            call Growth_Frgr
-!     :               (
-!     :                g%Fn
-!     :               ,g%Ft
-!     :               ,g%Fvpd
-!     :               ,g%Ff
-!     :               ,g%Fage
-!     :               ,g%Frgr
-!     :               )
+            call Growth_Fvpd
+     :               (
+     :                c%svp_fract
+     :              , c%VPD
+     :              , c%Fvpd
+     :              , c%num_vpd
+     :              , g%maxt
+     :              , g%mint
+     :              , g%vp
+     :              , g%Fvpd
+     :                )
+
+            call Growth_Ft
+     :               (
+     :                g%maxt
+     :              , g%mint
+     :              , c%av_temp
+     :              , c%Ft
+     :              , c%num_av_temp
+     :              , g%Ft
+     :                )
+
+            call Growth_Ff
+     :               (
+     :                g%mint
+     :              , c%min_temp
+     :              , c%Ff
+     :              , c%num_min_temp
+     :              , g%Ff
+     :                )
+
+            call Growth_Fn
+     :               (
+     :                g%foliage_mass
+     :              , g%foliage_n
+     :              , c%foliage_n_conc
+     :              , c%Fn
+     :              , c%num_foliage_n_conc
+     :              , g%Fn
+     :               )
+
+            call Growth_Fage
+     :               (
+     :                g%age
+     :              , c%age
+     :              , c%Fage
+     :              , c%num_age
+     :              , g%Fage
+     :               )
+
+            call Growth_Frgr
+     :               (
+     :                g%Fn
+     :               ,g%Ft
+     :               ,g%Fvpd
+     :               ,g%Ff
+     :               ,g%Fage
+     :               ,g%Frgr
+     :               )
 
 
       call pop_routine (myname)
