@@ -11,12 +11,12 @@
 
 Version                = 6.1
 Title                  = Step 3. swim
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component     "apswim" = c:\development\apsim\apswim\lib\apswim.dll
-Component       "tree" = c:\development\apsim\tree\lib\tree.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component     "apswim" = C:\development\apsim\apswim\lib\apswim.dll
+Component       "tree" = C:\development\apsim\tree\lib\tree.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -181,7 +181,7 @@ Component       "tree" = c:\development\apsim\tree\lib\tree.dll
      Initial conditions:
        Basal area :    3.00 %
        Root depth :  1250.0 mm
-       Pan evap approximated by apswim.eo
+       Pan evap approximated by .MasterPM.apswim.eo
      
      
      

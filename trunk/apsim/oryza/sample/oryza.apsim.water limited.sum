@@ -11,16 +11,16 @@
 
 Version                = 6.1
 Title                  = oryza Sample Simulation - water limited
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component   "micromet" = c:\development\apsim\micromet\lib\micromet.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component         "eo" = c:\development\apsim\eo\lib\eo.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component      "oryza" = c:\development\apsim\oryza\lib\oryza.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component   "micromet" = C:\development\apsim\micromet\lib\micromet.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component   "irrigate" = C:\development\apsim\irrigate\lib\irrigate.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component         "eo" = C:\development\apsim\eo\lib\eo.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component      "oryza" = C:\development\apsim\oryza\lib\oryza.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -474,10 +474,10 @@ Component      "oryza" = c:\development\apsim\oryza\lib\oryza.dll
 2 February 1991(Day of year=33), oryza: 
      Maturity
      Manager sending message :- oryza end_crop
-         Crop ended. Rough Rice Yield (dw) =  4032.7 (kg/ha)
-                             straw residue =  3262.5 (kg/ha)
+         Crop ended. Rough Rice Yield (dw) =  9942.4 (kg/ha)
+                             straw residue =  7463.0 (kg/ha)
                              straw N       =     0.0 (kg/ha)
-                             root residue  =   535.3 (kg/ha)
+                             root residue  =  1119.8 (kg/ha)
                              root N        =     0.0 (kg/ha)
      Non - limiting Soil Nitrogen conditions
 15 October 1991(Day of year=288), manager: 
@@ -726,10 +726,10 @@ Component      "oryza" = c:\development\apsim\oryza\lib\oryza.dll
 10 February 1992(Day of year=41), oryza: 
      Maturity
      Manager sending message :- oryza end_crop
-         Crop ended. Rough Rice Yield (dw) =  4947.0 (kg/ha)
-                             straw residue =  3862.8 (kg/ha)
+         Crop ended. Rough Rice Yield (dw) = 11937.2 (kg/ha)
+                             straw residue =  8861.0 (kg/ha)
                              straw N       =     0.0 (kg/ha)
-                             root residue  =   620.3 (kg/ha)
+                             root residue  =  1317.3 (kg/ha)
                              root N        =     0.0 (kg/ha)
      Non - limiting Soil Nitrogen conditions
 14 October 1992(Day of year=288), manager: 
@@ -976,10 +976,10 @@ Component      "oryza" = c:\development\apsim\oryza\lib\oryza.dll
 8 February 1993(Day of year=39), oryza: 
      Maturity
      Manager sending message :- oryza end_crop
-         Crop ended. Rough Rice Yield (dw) =  3952.1 (kg/ha)
-                             straw residue =  3405.8 (kg/ha)
+         Crop ended. Rough Rice Yield (dw) =  9850.8 (kg/ha)
+                             straw residue =  8045.0 (kg/ha)
                              straw N       =     0.0 (kg/ha)
-                             root residue  =   555.9 (kg/ha)
+                             root residue  =  1205.9 (kg/ha)
                              root N        =     0.0 (kg/ha)
      Non - limiting Soil Nitrogen conditions
 15 October 1993(Day of year=288), manager: 
@@ -1230,10 +1230,10 @@ Component      "oryza" = c:\development\apsim\oryza\lib\oryza.dll
 11 February 1994(Day of year=42), oryza: 
      Maturity
      Manager sending message :- oryza end_crop
-         Crop ended. Rough Rice Yield (dw) =  4236.3 (kg/ha)
-                             straw residue =  3672.9 (kg/ha)
+         Crop ended. Rough Rice Yield (dw) = 10440.4 (kg/ha)
+                             straw residue =  8535.9 (kg/ha)
                              straw N       =     0.0 (kg/ha)
-                             root residue  =   576.1 (kg/ha)
+                             root residue  =  1225.6 (kg/ha)
                              root N        =     0.0 (kg/ha)
      Non - limiting Soil Nitrogen conditions
 15 October 1994(Day of year=288), manager: 
