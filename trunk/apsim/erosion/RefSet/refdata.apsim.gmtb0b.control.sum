@@ -11,15 +11,15 @@
 
 Version                = 6.1
 Title                  = Greenmount B0_SOILWAT
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component   "operatns" = c:\development\apsim\operatns\lib\operatns.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component    "erosion" = c:\development\apsim\erosion\lib\erosion.dll
-Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component   "operatns" = C:\development\apsim\operatns\lib\operatns.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component    "erosion" = C:\development\apsim\erosion\lib\erosion.dll
+Component      "grasp" = C:\development\apsim\grasp\lib\grasp.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -205,6 +205,6 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
              +--------+--------+--------+
        Root depth :   350.0 mm
        Using vpd approximated from maxt, mint.
-       NB. Pan evap approximated by soilwat2.eo
+       NB. Pan evap approximated by .MasterPM.soilwat2.eo
 18 March 1992(Day of year=78), clock: 
      Simulation is terminating due to end criteria being met.

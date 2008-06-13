@@ -11,14 +11,14 @@
 
 Version                = 6.1
 Title                  = Map Sample Simulation
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\input\lib\input.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component     "solute" = c:\development\apsim\solute\lib\solute.dll
-Component        "map" = c:\development\apsim\map\lib\map.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "Met" = C:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component     "solute" = C:\development\apsim\solute\lib\solute.dll
+Component        "map" = C:\development\apsim\map\lib\map.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -42,7 +42,7 @@ Component        "map" = c:\development\apsim\map\lib\map.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\dalby.met
+     INPUT File name: C:\development\apsim\met\sample\dalby.met
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising

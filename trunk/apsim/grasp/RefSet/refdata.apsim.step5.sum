@@ -11,15 +11,15 @@
 
 Version                = 6.1
 Title                  = Step 5. growth by regrowth
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component      "grasp" = C:\development\apsim\grasp\lib\grasp.dll
+Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -51,7 +51,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\grasp\RefSet\NARAYEN.MET
+     INPUT File name: C:\development\apsim\grasp\RefSet\NARAYEN.MET
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -243,7 +243,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       dead   |      0.0      0.0      0.0
              +--------+--------+--------+
        Root depth :   750.0 mm
-       Using vpd from met module.
-       Using Pan evap from met module.
+       Using vpd from .MasterPM.met module.
+       Using Pan evap from .MasterPM.met module.
 1 January 1958(Day of year=1), clock: 
      Simulation is terminating due to end criteria being met.

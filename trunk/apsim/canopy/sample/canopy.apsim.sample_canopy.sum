@@ -11,15 +11,15 @@
 
 Version                = 6.1
 Title                  = Canopy Sample Simulation
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component     "canopy" = c:\development\apsim\canopy\lib\canopy.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component     "cowpea" = c:\development\apsim\Plant\lib\Plant.dll
-Component      "maize" = c:\development\apsim\maize\lib\maize.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component     "canopy" = C:\development\apsim\canopy\lib\canopy.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component     "cowpea" = C:\development\apsim\Plant\lib\Plant.dll
+Component      "maize" = C:\development\apsim\maize\lib\maize.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -45,7 +45,7 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\dalby.met
+     INPUT File name: C:\development\apsim\met\sample\dalby.met
 
 ------- canopy Initialisation -------------------------------------------------
       Initialising
@@ -338,10 +338,10 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
              10   40.0   25.0  500.0   0.0   0.0 banjo
          ------------------------------------------------
      
-11 January 1988(Day of year=11), maize: 
-      stage    2.0 germination
 11 January 1988(Day of year=11), cowpea: 
       stage 2.0 germination
+11 January 1988(Day of year=11), maize: 
+      stage    2.0 germination
 12 January 1988(Day of year=12), maize: 
       stage    3.0 emergence
                           biomass =          0.2000000       lai =    0.3800000E-02
@@ -352,52 +352,52 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
                      stover N conc =     6.00 (%)    extractable sw =   57.68 (mm)
 24 January 1988(Day of year=24), maize: 
       stage    4.0 end_of_juvenile
-                          biomass =           2.304651       lai =    0.3821913E-01
-                          stover N conc =    3.413303       extractable sw =    65.31886
+                          biomass =           2.304665       lai =    0.3821895E-01
+                          stover N conc =    3.413594       extractable sw =    65.67035
 29 January 1988(Day of year=29), maize: 
       stage    5.0 floral_initiation
-                          biomass =           6.188637       lai =    0.9065401E-01
-                          stover N conc =    3.185796       extractable sw =    122.6251
+                          biomass =           6.188677       lai =    0.9065511E-01
+                          stover N conc =    3.185585       extractable sw =    122.0810
 23 February 1988(Day of year=54), cowpea: 
       stage 4.0 end_of_juvenile
                      biomass =         287.05 (g/m^2)   lai          =   4.049 (m^2/m^2)
-                     stover N conc =     3.91 (%)    extractable sw =  252.95 (mm)
+                     stover N conc =     3.91 (%)    extractable sw =  252.40 (mm)
 25 February 1988(Day of year=56), cowpea: 
       stage 5.0 floral_initiation
                      biomass =         320.49 (g/m^2)   lai          =   4.471 (m^2/m^2)
-                     stover N conc =     3.75 (%)    extractable sw =  232.40 (mm)
+                     stover N conc =     3.76 (%)    extractable sw =  232.27 (mm)
 26 February 1988(Day of year=57), cowpea: 
       stage 6.0 flowering
                      biomass =         329.26 (g/m^2)   lai          =   4.543 (m^2/m^2)
-                     stover N conc =     3.68 (%)    extractable sw =  229.13 (mm)
+                     stover N conc =     3.68 (%)    extractable sw =  229.18 (mm)
 5 March 1988(Day of year=65), cowpea: 
       stage 7.0 start_grain_fill
                      biomass =         443.31 (g/m^2)   lai          =   5.328 (m^2/m^2)
-                     stover N conc =     2.94 (%)    extractable sw =  283.41 (mm)
+                     stover N conc =     2.94 (%)    extractable sw =  283.54 (mm)
 11 March 1988(Day of year=71), maize: 
       stage    6.0 flag_leaf
-                          biomass =           91.47577       lai =     1.062346
-                          stover N conc =    2.631108       extractable sw =    263.8776
+                          biomass =           91.47584       lai =     1.062328
+                          stover N conc =    2.631105       extractable sw =    250.7054
 19 March 1988(Day of year=79), maize: 
       stage    7.0 flowering
-                          biomass =           97.68451       lai =    0.9352767
-                          stover N conc =    2.569341       extractable sw =    198.5376
+                          biomass =           97.68448       lai =    0.9352584
+                          stover N conc =    2.569347       extractable sw =    192.4054
 30 March 1988(Day of year=90), cowpea: 
       stage 8.0 end_grain_fill
                      biomass =         915.83 (g/m^2)   lai          =   2.724 (m^2/m^2)
-                     stover N conc =     2.12 (%)    extractable sw =  130.91 (mm)
+                     stover N conc =     2.12 (%)    extractable sw =  130.77 (mm)
+1 April 1988(Day of year=92), maize: 
+      stage    8.0 start_grain_fill
+                          biomass =           105.9180       lai =    0.6798294
+                          stover N conc =    2.538359       extractable sw =    161.4493
 1 April 1988(Day of year=92), cowpea: 
       stage 9.0 maturity
                      biomass =         921.98 (g/m^2)   lai          =   2.418 (m^2/m^2)
-                     stover N conc =     2.02 (%)    extractable sw =  161.45 (mm)
-1 April 1988(Day of year=92), maize: 
-      stage    8.0 start_grain_fill
-                          biomass =           105.9181       lai =    0.6798403
-                          stover N conc =    2.538350       extractable sw =    160.5347
+                     stover N conc =     2.02 (%)    extractable sw =  161.39 (mm)
 2 April 1988(Day of year=93), cowpea: 
       stage 10.0 harvest_ripe
                      biomass =         925.88 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.01 (%)    extractable sw =  177.83 (mm)
+                     stover N conc =     2.01 (%)    extractable sw =  177.87 (mm)
 3 April 1988(Day of year=94), manager: 
      Manager sending message :- cowpea harvest
 3 April 1988(Day of year=94), cowpea: 
@@ -444,16 +444,16 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
      
 17 June 1988(Day of year=169), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           236.1490       lai =    0.6910156E-01
-                          stover N conc =    1.552139       extractable sw =    284.1348
+                          biomass =           236.1479       lai =    0.6910101E-01
+                          stover N conc =    1.552176       extractable sw =    284.1337
 18 June 1988(Day of year=170), maize: 
       stage   10.0 maturity
-                          biomass =           236.5779       lai =    0.6910156E-01
-                          stover N conc =    1.548822       extractable sw =    283.6889
+                          biomass =           236.5769       lai =    0.6910101E-01
+                          stover N conc =    1.548859       extractable sw =    283.6878
 19 June 1988(Day of year=171), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           236.5779       lai =    0.4431002E-02
-                          stover N conc =    1.558384       extractable sw =    283.2598
+                          biomass =           236.5769       lai =    0.4430801E-02
+                          stover N conc =    1.558422       extractable sw =    283.2587
 20 June 1988(Day of year=172), manager: 
      Manager sending message :- maize harvest
 20 June 1988(Day of year=172), maize: 
@@ -493,7 +493,7 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
      Manager sending message :- maize end_crop
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
-                          DM (kg/ha) =               2365.78                  281.92
+                          DM (kg/ha) =               2365.77                  281.92
                           N  (kg/ha) =                 32.88                    3.02
                           P  (kg/ha) =                  0.00                    0.00
      
