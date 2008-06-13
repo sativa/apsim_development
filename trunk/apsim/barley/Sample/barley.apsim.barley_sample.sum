@@ -11,15 +11,15 @@
 
 Version                = 6.1
 Title                  = barley SAMPLE Simulation
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\input\lib\input.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "Met" = C:\development\apsim\input\lib\input.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component     "barley" = C:\development\apsim\Plant\lib\Plant.dll
+Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -55,16 +55,10 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         barley.dlt_dm_green_retrans
         barley.SenescedWt
         barley.dm_plant_min
-        barley.dlt_dm_green(1)
-        barley.dlt_dm_green(2)
         barley.dlt_dm_green_leaf
-        barley.dlt_dm_green(3)
         barley.dlt_dm_green_stem
-        barley.dlt_dm_green(4)
         barley.dlt_dm_green_pod
-        barley.dlt_dm_green(5)
         barley.dlt_dm_green_meal
-        barley.dlt_dm_green(6)
         barley.dlt_dm_green_oil
         barley.dlt_dm_green_retrans
         barley.dlt_dm_detached
@@ -91,55 +85,25 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         barley.MealSenescedN
         barley.OilSenescedWt
         barley.FruitSenescedN
-        barley.dlt_n_green(1)
-        barley.dlt_n_green(2)
-        barley.dlt_n_green(3)
-        barley.dlt_n_green(4)
-        barley.dlt_n_green(5)
-        barley.dlt_n_green(6)
         barley.dlt_n_green_fruit
-        barley.dlt_n_retrans(1)
-        barley.dlt_n_retrans(2)
         barley.dlt_n_retrans_leaf
-        barley.dlt_n_retrans(3)
         barley.dlt_n_retrans_stem
-        barley.dlt_n_retrans(4)
         barley.dlt_n_retrans_pod
-        barley.dlt_n_retrans(5)
         barley.dlt_n_retrans_meal
-        barley.dlt_n_retrans(6)
         barley.dlt_n_retrans_oil
         barley.dlt_n_retrans_fruit
-        barley.dlt_n_senesced_trans(1)
-        barley.dlt_n_senesced_trans(2)
         barley.dlt_n_senesced_trans_leaf
-        barley.dlt_n_senesced_trans(3)
         barley.dlt_n_senesced_trans_stem
-        barley.dlt_n_senesced_trans(4)
         barley.dlt_n_senesced_trans_pod
-        barley.dlt_n_senesced_trans(5)
         barley.dlt_n_senesced_trans_meal
-        barley.dlt_n_senesced_trans(6)
         barley.dlt_n_senesced_trans_oil
         barley.dlt_n_senesced_trans_fruit
-        barley.dlt_n_senesced_retrans(1)
-        barley.dlt_n_senesced_retrans(2)
         barley.dlt_n_senesced_retrans_leaf
-        barley.dlt_n_senesced_retrans(3)
         barley.dlt_n_senesced_retrans_stem
-        barley.dlt_n_senesced_retrans(4)
         barley.dlt_n_senesced_retrans_pod
-        barley.dlt_n_senesced_retrans(5)
         barley.dlt_n_senesced_retrans_meal
-        barley.dlt_n_senesced_retrans(6)
         barley.dlt_n_senesced_retrans_oil
         barley.dlt_n_senesced_retrans_fruit
-        barley.dlt_n_senesced(1)
-        barley.dlt_n_senesced(2)
-        barley.dlt_n_senesced(3)
-        barley.dlt_n_senesced(4)
-        barley.dlt_n_senesced(5)
-        barley.dlt_n_senesced(6)
         barley.dlt_n_senesced_fruit
         barley.n_demand
         barley.n_demanded(1)
@@ -155,13 +119,14 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         barley.n_demand_oil
         barley.n_demand_fruit
         barley.nfact_grain
+        barley.grain_n_demand
 
      Output file = barley.out
      Format = normal
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\dalby.met
+     INPUT File name: C:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:

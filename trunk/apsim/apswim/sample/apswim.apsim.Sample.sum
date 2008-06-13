@@ -11,21 +11,21 @@
 
 Version                = 6.1
 Title                  = Sample Simulation
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\input\lib\input.dll
-Component     "canopy" = c:\development\apsim\canopy\lib\canopy.dll
-Component   "operatns" = c:\development\apsim\operatns\lib\operatns.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component     "apswim" = c:\development\apsim\apswim\lib\apswim.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component     "solute" = c:\development\apsim\solute\lib\solute.dll
-Component     "cowpea" = c:\development\apsim\Plant\lib\Plant.dll
-Component      "maize" = c:\development\apsim\maize\lib\maize.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "Met" = C:\development\apsim\input\lib\input.dll
+Component     "canopy" = C:\development\apsim\canopy\lib\canopy.dll
+Component   "operatns" = C:\development\apsim\operatns\lib\operatns.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component   "irrigate" = C:\development\apsim\irrigate\lib\irrigate.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component     "apswim" = C:\development\apsim\apswim\lib\apswim.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component     "solute" = C:\development\apsim\solute\lib\solute.dll
+Component     "cowpea" = C:\development\apsim\Plant\lib\Plant.dll
+Component      "maize" = C:\development\apsim\maize\lib\maize.dll
+Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -69,7 +69,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\dalby.met
+     INPUT File name: C:\development\apsim\met\sample\dalby.met
 
 ------- canopy Initialisation -------------------------------------------------
       Initialising
@@ -639,14 +639,16 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           DM (kg/ha) =                   0.0                   758.0
                           N  (kg/ha) =                   0.00                   11.38
      
+24 January 1989(Day of year=24), sysbal: 
+     **** SW balance - unaccounted loss (mm) =     -0.142523
 2 March 1989(Day of year=61), maize: 
       stage    9.0 end_grain_fill
                           biomass =           1813.110       lai =     1.425129
-                          stover N conc =   0.9973784       extractable sw =    146.1386
+                          stover N conc =   0.9973781       extractable sw =    146.1386
 3 March 1989(Day of year=62), maize: 
       stage   10.0 maturity
                           biomass =           1817.738       lai =     1.383556
-                          stover N conc =   0.9963850       extractable sw =    145.1172
+                          stover N conc =   0.9963845       extractable sw =    145.1172
 4 March 1989(Day of year=63), maize: 
       stage   11.0 harvest_ripe
                           biomass =           1817.738       lai =    0.3801823E-02
