@@ -224,7 +224,6 @@ void TclComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData& 
          if (result != NULL)
             {
             sendVariable(queryData, result);
-            cout<< result;
             }
          }
       else 
@@ -238,7 +237,6 @@ void TclComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData& 
          if (result != NULL)
             {
             sendVariable(queryData, result);
-            cout  << result;
             }
          }
       }
