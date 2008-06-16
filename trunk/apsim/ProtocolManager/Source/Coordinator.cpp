@@ -672,40 +672,51 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
    vector<ApsimRegistration *> subs;
    registry.lookup(reg,  subs);
 
-   // apsim hack to poll modules for variables.  This is because we haven't
-   // yet got all the .interface files up to date.
-   string fqn = itoa(componentID) + string(".*.") + reg->getName();
-   //cout << "Coordinator::onRequestSetValueMessage - considering polling for " << fqn << endl;
+   bool mayNeedToPoll = (subs.size() == 0);      /* no prior registrations */
 
-   bool needToPoll = 
-     (subs.size() == 0) &&                    /* no prior registrations */
-     (variablesBeenPolledForSets.find(fqn) == /* hasn't been seen before */
-       variablesBeenPolledForSets.end());
-
-   if (reg->getDestinationID() < 0)           /* not directed */
-     needToPoll = false;
-
-   if (needToPoll)
+   if (mayNeedToPoll)
       {
-      variablesBeenPolledForSets.insert(fqn);
-      vector<int> candidates;
-      registry.getSiblingsAndParents(fromID, candidates);
-      for(unsigned i = 0; i != candidates.size(); i++)
-         {
-         if (candidates[i] != 0 &&
-             candidates[i] != componentID)
+      // apsim hack to poll modules for variables.  This is because we haven't
+      // yet got all the .interface files up to date.
+      string fqn = itoa(componentID) + string(".*.") + reg->getName();
+      if (variablesBeenPolledForSets.find(fqn) == /* hasn't been seen before */
+          variablesBeenPolledForSets.end()) 
+         { 
+         variablesBeenPolledForSets.insert(fqn);
+         if (reg->getDestinationID() < 0) 
             {
-            //cout <<  "polling newQuerySetValueMessage, n="<<reg->getName().c_str() << " to " << registry.componentByID(candidates[i]) << "\n";
+            /* ask everybody whether it belongs to them */
+            vector<int> candidates;
+            registry.getSiblingsAndParents(fromID, candidates);
+            for(unsigned i = 0; i != candidates.size(); i++)
+               {
+               if (candidates[i] != 0 &&
+                   candidates[i] != componentID)
+                  {
+                  sendMessage(protocol::newApsimSetQueryMessage(componentID,
+                                                   candidates[i],
+                                                   reg->getName().c_str(),
+                                                   fromID,
+                                                   reg->getRegID(),
+                                                   setValueData.variant));
+                  }
+               }
+            }
+         else 
+            {
+            /* send to directed module */
             sendMessage(protocol::newApsimSetQueryMessage(componentID,
-                                             candidates[i],
+                                             reg->getDestinationID(),
                                              reg->getName().c_str(),
                                              fromID,
                                              reg->getRegID(),
                                              setValueData.variant));
             }
+         // that ApsimSetQuery message will set on success - no need for any more here. Next
+         // time through, it will get picked up as a subscription.
+         return;
          }
-      // that query message will set on success - no need for any more.
-      return;
+      // Hmmm. We polled once for this variable and failed. Don't bother any more
       }
 
    if (subs.size() == 0)
@@ -721,12 +732,6 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
                                           subs[0]->getComponentID(),
                                           subs[0]->getRegID(),
                                           setValueData.variant));
-//         sendMessage(protocol::newApsimSetQueryMessage(componentID,
-//                                             subs[0]->getComponentID(),
-//                                             lowerName.c_str(),
-//                                             fromID,
-//                                             subs[0]->getRegID(),
-//                                             setValueData.variant));
       }
    else if (subs.size() > 1)
       {
