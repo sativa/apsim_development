@@ -575,7 +575,8 @@ int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
 void TclComponent::sendMessage(const char *moduleName, const char *actionName,
                                protocol::ApsimVariant &outgoingApsimVariant)
    {
-   int destID = ApsimRegistry::getApsimRegistry().componentByName(moduleName);
+   int destID = -1;
+   componentNameToID(moduleName, destID);
    unsigned actionID = protocol::Component::addRegistration(::event,
                                                             destID,
                                                             actionName,
