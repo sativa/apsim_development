@@ -11,31 +11,31 @@
 
 Version                = 6.1
 Title                  = south plots
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component    "report1" = c:\development\apsim\report\lib\report.dll
-Component    "report2" = c:\development\apsim\report\lib\report.dll
-Component    "report3" = c:\development\apsim\report\lib\report.dll
-Component    "report4" = c:\development\apsim\report\lib\report.dll
-Component    "report5" = c:\development\apsim\report\lib\report.dll
-Component    "report6" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component   "operatns" = c:\development\apsim\operatns\lib\operatns.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component     "apswim" = c:\development\apsim\apswim\lib\apswim.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component     "solute" = c:\development\apsim\solute\lib\solute.dll
-Component     "canola" = c:\development\apsim\Plant\lib\Plant.dll
-Component    "lucerne" = c:\development\apsim\Plant\lib\Plant.dll
-Component       "weed" = c:\development\apsim\Plant\lib\Plant.dll
-Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
-Component   "Tracker1" = c:\development\apsim\Tracker\lib\Tracker.dll
-Component   "Tracker2" = c:\development\apsim\Tracker\lib\Tracker.dll
-Component   "Tracker3" = c:\development\apsim\Tracker\lib\Tracker.dll
-Component   "Tracker4" = c:\development\apsim\Tracker\lib\Tracker.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component    "report1" = C:\development\apsim\report\lib\report.dll
+Component    "report2" = C:\development\apsim\report\lib\report.dll
+Component    "report3" = C:\development\apsim\report\lib\report.dll
+Component    "report4" = C:\development\apsim\report\lib\report.dll
+Component    "report5" = C:\development\apsim\report\lib\report.dll
+Component    "report6" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component      "accum" = C:\development\apsim\accum\lib\accum.dll
+Component   "operatns" = C:\development\apsim\operatns\lib\operatns.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component     "apswim" = C:\development\apsim\apswim\lib\apswim.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component     "solute" = C:\development\apsim\solute\lib\solute.dll
+Component     "canola" = C:\development\apsim\Plant\lib\Plant.dll
+Component    "lucerne" = C:\development\apsim\Plant\lib\Plant.dll
+Component       "weed" = C:\development\apsim\Plant\lib\Plant.dll
+Component      "wheat" = C:\development\apsim\Plant\lib\Plant.dll
+Component   "Tracker1" = C:\development\apsim\Tracker\lib\Tracker.dll
+Component   "Tracker2" = C:\development\apsim\Tracker\lib\Tracker.dll
+Component   "Tracker3" = C:\development\apsim\Tracker\lib\Tracker.dll
+Component   "Tracker4" = C:\development\apsim\Tracker\lib\Tracker.dll
+Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -1302,8 +1302,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Plant death. standing above-ground dm = 4387.26 (kg/ha)
 1 November 1993(Day of year=305), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =     -5.009540
-     **** C balance - unaccounted loss (kg/ha) =   -252.348267
-      ****        equivalent DM as FOM  (kg/ha) =  -630.870667
+     **** C balance - unaccounted loss (kg/ha) =   -252.348251
+      ****        equivalent DM as FOM  (kg/ha) =  -630.870605
 8 November 1993(Day of year=312), operatns: 
       Sending do_end_day_output message to report3
       Sending do_end_day_output message to report6
@@ -1976,11 +1976,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       stage 4.0 end_of_juvenile
                      biomass =          50.47 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.48 (%)    extractable sw =  112.83 (mm)
+30 June 1996(Day of year=182), lucerne: 
+     Plant kill. 0.00% failure because of water stress.
 2 July 1996(Day of year=184), lucerne: 
+     Plant kill. 0.00% failure because of water stress.
+3 July 1996(Day of year=185), lucerne: 
      Plant kill. 0.00% failure because of water stress.
 9 July 1996(Day of year=191), operatns: 
       Sending do_end_day_output message to report3
-9 July 1996(Day of year=191), lucerne: 
+11 July 1996(Day of year=193), lucerne: 
      Plant kill. 0.00% failure because of water stress.
 27 July 1996(Day of year=209), lucerne: 
       stage 5.0 floral_initiation
@@ -2036,8 +2040,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       stage 4.0 end_of_juvenile
                      biomass =          94.70 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.43 (%)    extractable sw =   37.23 (mm)
-6 October 1996(Day of year=280), lucerne: 
-     Plant kill. 0.00% failure because of water stress.
 13 October 1996(Day of year=287), lucerne: 
       stage 5.0 floral_initiation
                      biomass =         122.24 (g/m^2)   lai          =   0.717 (m^2/m^2)
@@ -2094,8 +2096,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     4.64 (%)    extractable sw =   10.90 (mm)
 10 December 1996(Day of year=345), operatns: 
       Sending do_end_day_output message to report3
-12 December 1996(Day of year=347), lucerne: 
-     Plant kill. 0.00% failure because of water stress.
 13 December 1996(Day of year=348), lucerne: 
      Plant kill. 0.00% failure because of water stress.
 19 December 1996(Day of year=354), lucerne: 
@@ -2150,7 +2150,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       stage 4.0 end_of_juvenile
                      biomass =          56.76 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.43 (%)    extractable sw =  104.03 (mm)
-9 March 1997(Day of year=68), lucerne: 
+13 March 1997(Day of year=72), lucerne: 
      Plant kill. 0.00% failure because of water stress.
 15 March 1997(Day of year=74), lucerne: 
      Plant kill. 0.00% failure because of water stress.
@@ -2238,10 +2238,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           DM (kg/ha) =                 169.1                     0.0
                           N  (kg/ha) =                   9.56                    0.00
      
-7 July 1997(Day of year=188), lucerne: 
-     Plant kill. 0.00% failure because of water stress.
-10 July 1997(Day of year=191), lucerne: 
-     Plant kill. 0.00% failure because of water stress.
 18 July 1997(Day of year=199), lucerne: 
      Plant kill. 0.00% failure because of water stress.
 3 August 1997(Day of year=215), lucerne: 
@@ -2294,8 +2290,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       stage 4.0 end_of_juvenile
                      biomass =          32.19 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     5.68 (%)    extractable sw =   11.54 (mm)
-26 September 1997(Day of year=269), lucerne: 
-     Plant kill. 0.00% failure because of water stress.
 27 September 1997(Day of year=270), lucerne: 
      Plant kill. 0.00% failure because of water stress.
 28 September 1997(Day of year=271), lucerne: 
@@ -2344,9 +2338,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       stage 4.0 end_of_juvenile
                      biomass =          27.47 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     3.38 (%)    extractable sw =   55.12 (mm)
-22 October 1997(Day of year=295), lucerne: 
-     Plant kill. 0.00% failure because of water stress.
-26 October 1997(Day of year=299), lucerne: 
+24 October 1997(Day of year=297), lucerne: 
      Plant kill. 0.00% failure because of water stress.
 27 October 1997(Day of year=300), operatns: 
       Sending do_end_day_output message to report3

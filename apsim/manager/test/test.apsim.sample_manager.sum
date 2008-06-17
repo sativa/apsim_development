@@ -43,5 +43,13 @@ Component    "manager" = C:\development\apsim\manager\lib\manager.dll
      END of rules
      
 ------- Start of simulation  --------------------------------------------------
-     Manager sending message :- foo test  x = 1, y = 2, z = 3.14159
-The length of an output list item must not exceed that of a logical record (unit=internal).
+1 January 1988(Day of year=1): 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     The module "foo" does not exist.
+     Command: foo test x=1, y=2, z=3.14159
+     Component name: manager
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     

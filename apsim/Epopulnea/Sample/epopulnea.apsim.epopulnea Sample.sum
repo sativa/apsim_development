@@ -11,16 +11,16 @@
 
 Version                = 6.1
 Title                  = epopulnea Sample Simulation
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\Input\lib\Input.dll
-Component   "micromet" = c:\development\apsim\micromet\lib\micromet.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component  "epopulnea" = c:\development\apsim\growth\lib\growth.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "Met" = C:\development\apsim\Input\lib\Input.dll
+Component   "micromet" = C:\development\apsim\micromet\lib\micromet.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component   "irrigate" = C:\development\apsim\irrigate\lib\irrigate.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component  "epopulnea" = C:\development\apsim\growth\lib\growth.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -45,7 +45,7 @@ Component  "epopulnea" = c:\development\apsim\growth\lib\growth.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\Gatton.met
+     INPUT File name: C:\development\apsim\met\sample\Gatton.met
 
 ------- micromet Initialisation -----------------------------------------------
      Initialising

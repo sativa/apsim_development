@@ -9167,7 +9167,7 @@
                <message5 to=".MasterPM" msgtype="Register" ack="false" kind="event" name="n_balance" type="type"/>
                <message5 to=".MasterPM" msgtype="PublishEvent" ack="false" regName="n_balance" type="type kind='variant'"/>
                <message5 to=".MasterPM" msgtype="Register" ack="false" kind="event" name="c_balance" type="type"/>
-               <message5 to=".MasterPM" msgtype="PublishEvent" ack="false" regName="n_balance" type="type kind='variant'"/>
+               <message5 to=".MasterPM" msgtype="PublishEvent" ack="false" regName="c_balance" type="type kind='variant'"/>
                <message5 to=".MasterPM" msgtype="PublishEvent" ack="false" regName="actualresiduedecompositioncalculated" type="type kind='boolean'">
                   <message6 to="SurfaceOM" msgtype="Event" ack="false"/>
                </message5>
