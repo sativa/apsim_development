@@ -3,7 +3,7 @@ outputfile = maize.out
 
 [maize.report.parameters]
 variable = clock.dd/mm/yyyy as date
-variable = maize.das
+variable = maize.DaysAfterSowing
 variable = maize.stage
 variable = maize.dc_stage as zadok
 variable = maize.lai
@@ -32,7 +32,6 @@ variable = maize.SenescedWt
 variable = maize.dlt_dm_detached
 variable = maize.GreenP
 variable = maize.GreenP
-variable = maize.p_sen()
 variable = maize.p_sen
 variable = maize.p_demand
 variable = maize.pfact_photo
