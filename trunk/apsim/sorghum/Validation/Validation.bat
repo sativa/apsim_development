@@ -1,4 +1,4 @@
-set APSBIN=c:\Program Files\Apsim6\Bin
+set APSBIN=c:\development\Bin
 
 pushd
 cd .\Hermitage\HE1-8
