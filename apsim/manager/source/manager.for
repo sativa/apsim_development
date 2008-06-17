@@ -1403,6 +1403,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :         , new_line
      :         , 'Set command:- ', trim(Action_string)
             call Fatal_error(ERR_user, msg)
+            return
          endif
       endif
 
@@ -1434,6 +1435,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :         , new_line
      :         , 'Action line:- ', trim(action_string)
             call Fatal_error(ERR_user, msg)
+            return
          endif
       endif
 
@@ -1444,47 +1446,31 @@ C     Last change:  P    25 Oct 2000    9:26 am
           ! Init probably won't work via this method. Stop dead.
           call Fatal_error(ERR_user,
      :             'INIT messages do not work anymore. Use RESET')
+          return
       else if (Action .eq. 'set') then
 
          call Get_next_variable (Data_string
      :                          , Variable_name
      :                          , value)
-         if (modNameID .ge. 0) then
-            call set_variable_in_other_module
+         call set_variable_in_other_module
      :                     (modNameID
      :                     ,Variable_name
      :                     ,Value)
-         else
-           write(msg, '(3a)' )
-     :               'Cannot set variable value in module ',
-     :               Module_name,
-     :               '.  Module does not exist.'
-            call fatal_error(err_user, msg)
-         endif
       else if (Action .eq. 'kill_crop') then
          call PublishKillCrop(Module_name, Data_string)
 
       else
          ! some other action
-         if (modNameID .ge. 0) then
-            call New_postbox ()
-            Data_was_stored = Store_message_data (Data_string)
-            
-            if (Data_was_stored) then
-               call Event_send (modNameID , Action)
-            else
-               ! data was not stored
-            endif
-            
-            call Delete_postbox ()
-         else
-            write(msg, '(3a)' )
-     :               'Cannot send event to module ',
-     :               Module_name,
-     :               '.  Module does not exist.'
-            call fatal_error(err_user, msg)
+         call New_postbox ()
+         Data_was_stored = Store_message_data (Data_string)
          
+         if (Data_was_stored) then
+            call Event_send (modNameID , Action)
+         else
+            ! data was not stored
          endif
+         
+         call Delete_postbox ()
       endif
       return
       end subroutine
