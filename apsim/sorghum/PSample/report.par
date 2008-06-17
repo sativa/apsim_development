@@ -3,7 +3,7 @@ outputfile = sorghum.out
 
 [sorghum.report.parameters]
 variable = clock.dd/mm/yyyy as date
-variable = sorghum.das
+variable = sorghum.DaysAfterSowing
 variable = sorghum.stage
 variable = sorghum.dc_stage as zadok
 variable = sorghum.lai
@@ -43,7 +43,6 @@ variable = sorghum.StemGreenP
 variable = sorghum.RootGreenP
 variable = sorghum.flower_p
 variable = sorghum.head_p
-variable = sorghum.p_dead()
 variable = sorghum.dlt_p_green()
 variable = sorghum.dlt_p_retrans()
 variable = sorghum.dlt_p_detached()
