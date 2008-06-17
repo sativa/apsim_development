@@ -11,20 +11,20 @@
 
 Version                = 6.1
 Title                  = MelliodoraW2
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component "ShelterEffects" = c:\development\apsim\manager\lib\manager.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component "ShelterEffects" = C:\development\apsim\manager\lib\manager.dll
 Paddock:
-Component "outputfile" = c:\development\apsim\report\lib\report.dll
-Component   "Micromet" = c:\development\apsim\micromet\lib\micromet.dll
-Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component "operations" = c:\development\apsim\operatns\lib\operatns.dll
-Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component "OutputCalculator" = c:\development\apsim\manager\lib\manager.dll
-Component "WellCamp Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component "WellCamp Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component "Emelliodora" = c:\development\apsim\growth\lib\growth.dll
+Component "outputfile" = C:\development\apsim\report\lib\report.dll
+Component   "Micromet" = C:\development\apsim\micromet\lib\micromet.dll
+Component      "accum" = C:\development\apsim\accum\lib\accum.dll
+Component "operations" = C:\development\apsim\operatns\lib\operatns.dll
+Component "Irrigation" = C:\development\apsim\irrigate\lib\irrigate.dll
+Component "OutputCalculator" = C:\development\apsim\manager\lib\manager.dll
+Component "WellCamp Water" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = C:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "WellCamp Nitrogen" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component "Emelliodora" = C:\development\apsim\growth\lib\growth.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:

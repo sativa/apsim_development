@@ -15069,7 +15069,7 @@
                   <message6 to="soiln2" msgtype="Complete" ack="false"/>
                </message5>
                <message5 to=".MasterPM" msgtype="Register" ack="false" kind="get" name="dlayer" type="type kind='single' array='T'"/>
-               <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="sw_dep">
+               <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="dlayer">
                   <message6 to="soilwat2" msgtype="QueryValue" ack="false">
                      <message7 to=".MasterPM" msgtype="ReplyValue" ack="false">
                         <message8 to="soiln2" msgtype="ReturnValue" ack="false" compid = "6"/>
@@ -16266,7 +16266,7 @@
                         <message8 to="soilp" msgtype="Complete" ack="false"/>
                      </message7>
                      <message7 to=".MasterPM" msgtype="Register" ack="false" kind="get" name="soilp_dlt_org_p" type="type kind='single' array='T'"/>
-                     <message7 to=".MasterPM" msgtype="GetValue" ack="true" regName="soilp_dlt_org_p">
+                     <message7 to=".MasterPM" msgtype="GetValue" ack="true" regName="soilp_dlt_res_c_biom">
                         <message8 to="soiln2" msgtype="QueryValue" ack="false">
                            <message9 to=".MasterPM" msgtype="ReplyValue" ack="false">
                               <message10 to="soilp" msgtype="ReturnValue" ack="false" compid = "8"/>
@@ -16856,7 +16856,7 @@
             </message4>
             <message4 to="soilp" msgtype="Event" ack="false">
                <message5 to=".MasterPM" msgtype="Register" ack="false" kind="get" name="dlayer" type="type kind='single' array='T'"/>
-               <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="dlayer">
+               <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="soilp_dlt_res_c_biom">
                   <message6 to="soilwat2" msgtype="QueryValue" ack="false">
                      <message7 to=".MasterPM" msgtype="ReplyValue" ack="false">
                         <message8 to="soilp" msgtype="ReturnValue" ack="false" compid = "6"/>
@@ -17442,7 +17442,7 @@
                   <message6 to="soilp" msgtype="Complete" ack="false"/>
                </message5>
                <message5 to=".MasterPM" msgtype="Register" ack="false" kind="get" name="st" type="type kind='single' array='T'"/>
-               <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="st">
+               <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="soilp_dlt_res_c_biom">
                   <message6 to="soiln2" msgtype="QueryValue" ack="false">
                      <message7 to=".MasterPM" msgtype="ReplyValue" ack="false">
                         <message8 to="soilp" msgtype="ReturnValue" ack="false" compid = "8"/>
@@ -18030,7 +18030,7 @@
                   <message6 to="soilp" msgtype="Complete" ack="false"/>
                </message5>
                <message5 to=".MasterPM" msgtype="Register" ack="false" kind="get" name="sw_dep" type="type kind='single' array='T'"/>
-               <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="sw_dep">
+               <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="soilp_dlt_res_c_biom">
                   <message6 to="soilwat2" msgtype="QueryValue" ack="false">
                      <message7 to=".MasterPM" msgtype="ReplyValue" ack="false">
                         <message8 to="soilp" msgtype="ReturnValue" ack="false" compid = "6"/>
@@ -18616,7 +18616,7 @@
                   <message6 to="soilp" msgtype="Complete" ack="false"/>
                </message5>
                <message5 to=".MasterPM" msgtype="Register" ack="false" kind="get" name="ll15_dep" type="type kind='single' array='T'"/>
-               <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="dlt_biom_c_atm">
+               <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="soilp_dlt_res_c_biom">
                   <message6 to="soilwat2" msgtype="QueryValue" ack="false">
                      <message7 to=".MasterPM" msgtype="ReplyValue" ack="false">
                         <message8 to="soilp" msgtype="ReturnValue" ack="false" compid = "6"/>
@@ -18634,7 +18634,7 @@
                   <message6 to="soilp" msgtype="Complete" ack="false"/>
                </message5>
                <message5 to=".MasterPM" msgtype="Register" ack="false" kind="get" name="sat_dep" type="type kind='single' array='T'"/>
-               <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="soilp_dlt_res_c_biom">
+               <message5 to=".MasterPM" msgtype="GetValue" ack="true" regName="sat_dep">
                   <message6 to="soilwat2" msgtype="QueryValue" ack="false">
                      <message7 to=".MasterPM" msgtype="ReplyValue" ack="false">
                         <message8 to="soilp" msgtype="ReturnValue" ack="false" compid = "6"/>
