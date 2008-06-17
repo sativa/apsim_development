@@ -1324,7 +1324,7 @@ void PlantHerbage::readParameters ( void )
     system->writeString (" - conversion object reading parameters");
 
     string HerbageModuleName = system->readParameter (section_name, "herbage_module_name");
-    cHerbageModuleID = ApsimRegistry::getApsimRegistry().componentByName(HerbageModuleName) ;
+    componentNameToID(HerbageModuleName, cHerbageModuleID );
      
     cDebug = system->readParameter (section_name, "debug");
     system->readParameter (section_name, "dmdValue", cDmdValueVeg, cNumDmdPoolsVeg, 0.0, 1.0);

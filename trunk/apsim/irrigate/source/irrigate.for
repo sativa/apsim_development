@@ -229,70 +229,66 @@
      :       ,100000.0)            ! Upper Limit for bound checking
 
 
-      if (numvals.gt.0) then
-      else
-         call fatal_error (err_user
-     :   , 'Irrigation area not provided in MANAGER')
-      endif
+         if (numvals.gt.0) then
+         else
+            call fatal_error (err_user
+     :      , 'Irrigation area not provided in MANAGER')
+         endif
 
 ! calculate irrigation volume required in Ml
-        volume = g%amount * g%area /100.0
+         volume = g%amount * g%area /100.0
 
 !         send gimme water
 !  Now send out a gimme_water method call to the first specified source
-      call new_postbox()
-
-      call get_name(water_requester)
-
-      call post_char_var ('water_requester'
-     :                     , '()'
-     :                     , water_requester)
-
-      call post_real_var ('amount'
-     :                   , '(Ml)'
-     :                   , volume)
-
-      g%source_counter = 1
-
-      ok = component_name_to_id(g%irrig_source(1), 
-     :                          moduleID)
-      call Event_send(moduleID, 'gimme_water')
-
-
-      call delete_postbox()
-
-
+         call new_postbox()
+         
+         call get_name(water_requester)
+         
+         call post_char_var ('water_requester'
+     :                        , '()'
+     :                        , water_requester)
+         
+         call post_real_var ('amount'
+     :                      , '(Ml)'
+     :                      , volume)
+         
+         g%source_counter = 1
+         
+         ok = component_name_to_id(g%irrig_source(1), 
+     :                             moduleID)
+         call Event_send(moduleID, 'gimme_water')
+         
+         
+         call delete_postbox()
 
       else
 ! &&&&&& LOOK FOR SOLUTE INFO&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
       ! look for any solute information in the postbox
       ! ----------------------------------------------
-      do 100 solnum = 1, g%num_solutes
-         Call collect_real_var_optional (
-     :                       g%solute_names(solnum)
-     :                     , '(kg/ha)'
-     :                     , g%solute(solnum)
-     :                     , numvals_solute(solnum)
-     :                     , 0.0
-     :                     , 1000.0)
-      if (numvals_solute(solnum).eq.0) then
+         do 100 solnum = 1, g%num_solutes
+            Call collect_real_var_optional (
+     :                          g%solute_names(solnum)
+     :                        , '(kg/ha)'
+     :                        , g%solute(solnum)
+     :                        , numvals_solute(solnum)
+     :                        , 0.0
+     :                        , 1000.0)
+         if (numvals_solute(solnum).eq.0) then
 
 *  if there are no solute quantities supplied, apply
 *  default solute concentrations if they are provided
+           g%solute(solnum)= g%amount*p%default_conc_solute(solnum)/100.0
 
-        g%solute(solnum)= g%amount*p%default_conc_solute(solnum)/100.0
+        else
+        endif
+           
+        g%irrigation_solutes(solnum) = g%irrigation_solutes(solnum) +
+     :     g%solute(solnum)
+           
+           
+  100   continue
 
-      else
-
-      endif
-
-      g%irrigation_solutes(solnum) = g%irrigation_solutes(solnum) +
-     :  g%solute(solnum)
-
-
-  100 continue
-
-       call irrigate_sendirrigated()
+        call irrigate_sendirrigated()
 
 
 !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -865,6 +861,7 @@
      :         , numvals)                ! Number of values returned
       if (numvals .gt. 0) then
          p%irrigation_allocation = scratch(1:3)
+      else
       endif
 
       if (p%irrigation_allocation .eq. 'on') then
@@ -935,6 +932,7 @@
      :         , 1.0)                 ! Upper Limit for bound checking
       if (numvals.eq.0) then
          p%irrigation_efficiency = 1.0
+      else
       endif
 
       call pop_routine (my_name)
@@ -1300,7 +1298,7 @@
 *+  Local Variables
       integer    numvals               ! number of values returned
       real       amount
-
+      character  scratch*80
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
@@ -1308,8 +1306,13 @@
          call collect_char_var (
      :                variable_name        ! variable name
      :              , '()'                 ! units
-     :              , p%manual_irrigation  ! array
+     :              , scratch              ! array
      :              , numvals)             ! number of elements returned
+
+         if (numvals .gt. 0) then
+            p%manual_irrigation = scratch(1:3)
+         else
+         endif
 
          if (p%manual_irrigation .eq. 'on') then
             if (p%day(1) .eq. 0 .or.
@@ -1333,8 +1336,13 @@
          call collect_char_var (
      :                variable_name           ! variable name
      :              , '()'                    ! units
-     :              , p%automatic_irrigation  ! array
+     :              , scratch                 ! array
      :              , numvals)                ! number of elements returned
+
+         if (numvals .gt. 0) then
+            p%automatic_irrigation = scratch(1:3)
+         else
+         endif
 
          if (p%automatic_irrigation .eq. 'on') then
             if (reals_are_equal (p%crit_fr_asw, -1.0)

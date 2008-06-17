@@ -267,8 +267,9 @@ void SupplementConverter::readParameters ( void )
    msg << endl << ends;
    writeString (msg.str().c_str());
 
-   int z = ApsimRegistry::getApsimRegistry().componentByName(supplementModuleName);
-   buyID = addRegistration(::event, z, "buy", protocol::DDML(protocol::SupplementBuyType()).c_str());
+   int moduleID = -1;
+   componentNameToID(supplementModuleName, moduleID);
+   buyID = addRegistration(::event, moduleID, "buy", protocol::DDML(protocol::SupplementBuyType()).c_str());
 }
 
 
