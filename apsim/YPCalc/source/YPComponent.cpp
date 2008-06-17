@@ -73,13 +73,8 @@ void YPComponent::respondToGet(unsigned int& fromID, QueryValueData& queryData)
       sendVariable(queryData, interpFromArray(dul));
    else if (queryData.ID == swID)
       {
-      protocol::Variant* variant = NULL;
-      bool ok = getVariable(swdepID, &variant, true);
       std::vector<double> sw;
-      if (ok)
-         ok = variant->unpack(sw);
-      if (!ok)
-         throw runtime_error("Cannot find sw_dep");
+      getVariable(swdepID, sw, 0.0, 10000.0, false);
       sw = Accum(sw);
       sendVariable(queryData, interpFromArray(sw));
       }
@@ -99,14 +94,8 @@ double YPComponent::interpFromArray(std::vector<double>& values)
    {
    getStaticVariables();
 
-   protocol::Variant* variant=NULL;
-   bool ok = getVariable(rootDepthID, &variant, true);
    double rootDepth;
-   if (ok)
-      ok = variant->unpack(rootDepth);
-
-   if (!ok)
-      throw runtime_error("Cannot find a root_depth variable belonging to any module");
+   getVariable(rootDepthID, rootDepth, 0.0, 10000.0, false);
 
    if (rootDepth == 0)
       return 0.0;
@@ -124,22 +113,9 @@ void YPComponent::getStaticVariables()
    {
    if (cll.size() == 0)
       {
-      protocol::Variant* variant = NULL;
-      bool ok = getVariable(lldepID, &variant, true);
-      if (ok)
-         ok = variant->unpack(cll);
-      if (!ok)
-         throw runtime_error("Cannot find crop lower limits");
-      ok = getVariable(duldepID, &variant, true);
-      if (ok)
-         ok = variant->unpack(dul);
-      if (!ok)
-         throw runtime_error("Cannot find drained upper limits");
-      ok = getVariable(dlayerID, &variant, true);
-      if (ok)
-         ok = variant->unpack(Depth);
-      if (!ok)
-         throw runtime_error("Cannot find dlayer variables");
+      getVariable(lldepID, cll, 0.0, 10000.0, false);
+      getVariable(duldepID, dul, 0.0, 10000.0, false);
+      getVariable(dlayerID, Depth, 0.0, 10000.0, false);
 
       if (cll.size() != dul.size() &&
           cll.size() != Depth.size())
