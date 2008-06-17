@@ -119,7 +119,7 @@ name = wheat
      report do_output
    endif
 
-   if (sorghum.stage = 11 or sorghum.plant_status = 'dead' or sorghum.das > 150) then
+   if (sorghum.stage = 11 or sorghum.plant_status = 'dead' or sorghum.DaysAfterSowing > 150) then
      event = 2
      report do_output
      sorghum harvest 
@@ -165,7 +165,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 2         then
      event = 4
      report do_output
@@ -262,7 +262,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 2         then
      event = 4
      report do_output
@@ -357,7 +357,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 2         then
      event = 4
      report do_output
@@ -452,7 +452,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 2         then
      event = 4
      report do_output
@@ -510,7 +510,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 1         then
      event = 4
      report do_output
@@ -608,7 +608,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 2         then
      event = 4
      report do_output
@@ -702,7 +702,7 @@ name = wheat
      report do_output
    endif
 
-   if (sorghum.stage = 11 or sorghum.plant_status = 'dead' or sorghum.das > 150) then
+   if (sorghum.stage = 11 or sorghum.plant_status = 'dead' or sorghum.DaysAfterSowing > 150) then
      event = 2
      report do_output
      sorghum harvest 
@@ -756,7 +756,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 2         then
      event = 4
      report do_output
@@ -905,7 +905,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 2         then
      event = 4
      report do_output
@@ -1055,7 +1055,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 2         then
      event = 4
      report do_output
@@ -1205,7 +1205,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 2         then
      event = 4
      report do_output
@@ -1312,7 +1312,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 1         then
      event = 4
      report do_output
@@ -1438,7 +1438,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 2         then
      event = 4
      report do_output
@@ -1496,7 +1496,7 @@ name = wheat
      report do_output
    endif
 
-   if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' and
+   if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' and
      crop_flag = 1         then
      event = 4
      report do_output
