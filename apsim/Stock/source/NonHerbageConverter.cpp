@@ -450,7 +450,8 @@ void NonHerbageConverter::readParameters ( void )
       msg << "Debug = " << c.debug << ends;
       system->writeString (msg.str().c_str());
 
-   int stockModuleID = ApsimRegistry::getApsimRegistry().componentByName(stockModuleName) ;
+   int stockModuleID = -1;
+   componentNameToID(stockModuleName, stockModuleID);
    buyID = system->addRegistration(::event, stockModuleID, "buy", DDML(protocol::BuyStockType()));
 
 }

@@ -430,7 +430,7 @@ string ReportComponent::calcFileName()
    {
    string title, FQName;
 
-   scienceAPI.get(".masterpm.title", "", true, title);
+   scienceAPI.get("title", "", true, title);
    string fileName = title;
 
    FQName = scienceAPI.FQName();   // eg. ".masterpm.paddock.outputfile"
