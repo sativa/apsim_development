@@ -73,12 +73,13 @@ proc machinery:operateHandler {args} {
   machinery:operate $tractor $implement $area $paddock $costtype
 }
 
-# The trace variable we use to trigger events when the variable is read
 array set available {}
-trace add variable available {array read} "machinery:maProc"
 
 # Now tell apsim we own it (unnecessary)
 apsimRegisterGetSet available
+
+# The trace variable we use to trigger events when the variable is read
+trace add variable available {array read} "machinery:maProc"
 
 # Now register the event handlers. 
 apsimRegisterEvent operate            "machinery:operateHandler"
