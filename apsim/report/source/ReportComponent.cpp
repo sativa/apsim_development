@@ -415,7 +415,7 @@ void ReportComponent::createVariable(const string& name)
          string matchName = matches[i].name;
          string matchDdml = matches[i].ddml;
          fields.push_back(Field(scienceAPI,
-                                variable,
+                                matchName,
                                 matchDdml,
                                 thisAlias,
                                 nastring, format, csv, units));
