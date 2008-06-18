@@ -24,7 +24,7 @@ class TclComponent : public protocol::Component,
       int apsimGet( Tcl_Interp *interp, const string &varname, bool optional);
       bool apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *obj);
 
-      void addRegistration(const string &name) ;
+      void addRegistration(Tcl_Interp *interp, const string &name) ;
       void sendMessage(const char *moduleName, const char *actionName,
                        protocol::ApsimVariant &outgoingApsimVariant);
       unsigned int registerEvent(string &eventName, string &script);
