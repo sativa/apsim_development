@@ -61,3 +61,4 @@ cd ..\LE21
 "%APSBIN%\apsimreport.exe" LE21_CSH13R.report    ..\..\LE21_CSH13R.gif
 "%APSBIN%\apsimreport.exe" LE21_QL39xQL36.report ..\..\LE21_QL39xQL36.gif
 
+cd ..\..
