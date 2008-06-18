@@ -213,33 +213,15 @@ void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventI
 // ------------------------------------------------------------------
 void TclComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData)
    {
-   string variableName = getRegistration(fromID, queryData.ID)->getName();
+   string getCmd = "set " + getRegistration(fromID, queryData.ID)->getName();
 
-   if (variableName != "") 
-      {
-      if (strchr(variableName.c_str(), '(') == NULL) 
-         {
-         // A scalar variable
-         const char *result = Tcl_GetVar(Interp, variableName.c_str(), TCL_GLOBAL_ONLY);
-         if (result != NULL)
-            {
-            sendVariable(queryData, result);
-            }
-         }
-      else 
-         {
-         // An array variable
-         std::vector<string> nv;
-         Split_string (variableName, "()", nv);
-         if (nv.size() != 2) {throw std::runtime_error("can't grok array variable called " + variableName);}
+   if (Tcl_Eval(Interp, getCmd.c_str()) != TCL_OK)
+       throw std::runtime_error(string(Tcl_GetStringResult(Interp)));
 
-         const char *result = Tcl_GetVar2(Interp, nv[0].c_str(), nv[1].c_str(), TCL_GLOBAL_ONLY);
-         if (result != NULL)
-            {
-            sendVariable(queryData, result);
-            }
-         }
-      }
+   const char *result = Tcl_GetStringFromObj(Tcl_GetObjResult(Interp), NULL);
+
+   if (result != NULL)
+      sendVariable(queryData, string(result));
    }
 // ------------------------------------------------------------------
 // Something is asking whether we know about a variable. If we do, register it.
@@ -248,16 +230,12 @@ void TclComponent::onApsimGetQuery(unsigned int fromID, protocol::ApsimGetQueryD
    {
    if (Interp != NULL) 
       {
-      std::vector<string> vs;
-      Split_string (asString(apsimGetQueryData.name), "()", vs);
-      const char *varName = vs[0].c_str();
-      Var *varPtr = TclVarTraceExists(Interp, varName);
-      if ((varPtr != NULL) && !TclIsVarUndefined(varPtr)) 
-         {
-         // It exists, so register it as rw..
-         addRegistration(asString(apsimGetQueryData.name));
-         // XX should register type info properly here XX
-         }
+      string varCmd = "info exists " + asString(apsimGetQueryData.name);
+
+      int result = Tcl_Eval(Interp, varCmd.c_str());
+      if (result == TCL_OK)
+         if (Str_i_Eq("1", Tcl_GetStringFromObj(Tcl_GetObjResult(Interp), NULL)))
+            addRegistration(Interp, asString(apsimGetQueryData.name));
       }
    }   
 // ------------------------------------------------------------------
@@ -301,6 +279,7 @@ int apsimGetProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST ob
    Tcl_SetResult(interp,"Wrong num args: apsimGet <variableName>", NULL);
    return TCL_ERROR;
    }
+   
 int apsimGetOptionalProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[])
    {
    if (objc >= 2)
@@ -457,10 +436,22 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
    /* notreached*/
    }
 
-void TclComponent::addRegistration(const string &name)
+void TclComponent::addRegistration(Tcl_Interp *interp, const string &name)
    {
-   protocol::Component::addRegistration(::respondToSet, -1, name, strString);
-   protocol::Component::addRegistration(::respondToGet, -1, name, strString);
+   // Find what we have. Is it an array?
+   bool varExists = false;
+
+   string varCmd = "info exists " + name;
+   int result = Tcl_Eval(interp, varCmd.c_str());
+   if (result != TCL_OK) throw std::runtime_error(string(Tcl_GetStringResult(interp)));
+   if (Str_i_Eq("1", Tcl_GetStringFromObj(Tcl_GetObjResult(interp), NULL)))
+       varExists = true;
+
+   if (varExists)
+      {
+      protocol::Component::addRegistration(::respondToSet, -1, name, strString);
+      protocol::Component::addRegistration(::respondToGet, -1, name, strString);
+      }
    }
 
 // Called from TCL script. Tell protoman of something we own
@@ -470,10 +461,10 @@ int apsimRegisterGetSetProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj
       {
       TclComponent *component = (TclComponent *) cd;
       string name(Tcl_GetStringFromObj(objv[1], NULL));
-      component->addRegistration(name);
+      component->addRegistration(interp, name);
       return TCL_OK;
       }
-   Tcl_SetResult(interp, "Couldn't register variable", NULL);
+   Tcl_SetResult(interp, "Wrong num args: apsimRegisterGetSet <variableName>", NULL);
    return TCL_ERROR;
    }
 
