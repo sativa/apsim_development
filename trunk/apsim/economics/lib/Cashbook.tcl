@@ -11,6 +11,7 @@
 ########################## Apsim interface code here
 source [file dirname $tcl_library]/apsimDatatypes.tcl
 
+set balance [expr 0.0]
 apsimRegisterGetSet balance
 apsimRegisterEvent  income      "cashbook:incomeHandler"
 apsimRegisterEvent  expenditure "cashbook:expenditureHandler"
@@ -177,7 +178,7 @@ proc cashbook:processHandler {args} {
 proc cashbook:log {what args} {
    global balance cashbook:outputfilename
    set date [apsimGet dd/mmm/yyyy]
-   
+
    set _names {}
    foreach {_name _value} $args { 
       set ${_name} ${_value} 
@@ -416,8 +417,6 @@ set docroot [$doc documentElement]
 set node [lindex [$docroot selectNodes //balance] 0]
 if {$node != {}} {
    set balance [$node text]
-} else {
-   set balance 0.0
 }
 
 set node [lindex [$docroot selectNodes //outputfilename] 0]
