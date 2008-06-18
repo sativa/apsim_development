@@ -11,40 +11,40 @@
 
 Version                = 6.1
 Title                  = Paddock80
-Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
-Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
-Component "PatchInput" = c:\development\apsim\PatchInput\lib\PatchInput.dll
+Component      "Clock" = C:\development\apsim\clock\lib\clock.dll
+Component        "Met" = C:\development\apsim\siloinput\lib\siloinput.dll
+Component "PatchInput" = C:\development\apsim\PatchInput\lib\PatchInput.dll
 Paddock:
-Component     "Yearly" = c:\development\apsim\report\lib\report.dll
-Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component "Fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component "GrossMargin" = c:\development\apsim\manager\lib\manager.dll
-Component      "Reset" = c:\development\apsim\manager\lib\manager.dll
-Component        "Sow" = c:\development\apsim\manager\lib\manager.dll
-Component "Sowing tillage" = c:\development\apsim\manager\lib\manager.dll
-Component    "Harvest" = c:\development\apsim\manager\lib\manager.dll
-Component "Yield moisture correction" = c:\development\apsim\manager\lib\manager.dll
-Component  "MildFrost" = c:\development\apsim\manager\lib\manager.dll
-Component "ModerateFrost" = c:\development\apsim\manager\lib\manager.dll
-Component "SevereFrost" = c:\development\apsim\manager\lib\manager.dll
-Component "MildHeatShock" = c:\development\apsim\manager\lib\manager.dll
-Component "ModerateHeatShock" = c:\development\apsim\manager\lib\manager.dll
-Component "SevereHeatShock" = c:\development\apsim\manager\lib\manager.dll
-Component  "Fertilise" = c:\development\apsim\manager\lib\manager.dll
-Component   "Irrigate" = c:\development\apsim\manager\lib\manager.dll
-Component    "Tillage" = c:\development\apsim\manager\lib\manager.dll
-Component  "Constants" = c:\development\apsim\manager\lib\manager.dll
-Component     "Script" = c:\development\apsim\manager\lib\manager.dll
-Component "CanolaOilConc" = c:\development\apsim\manager\lib\manager.dll
-Component "StubbleRemoved" = c:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component    "Erosion" = c:\development\apsim\erosion\lib\erosion.dll
-Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component     "barley" = c:\development\apsim\plant\lib\plant.dll
-Component    "Tracker" = c:\development\apsim\tracker\lib\tracker.dll
-Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
+Component     "Yearly" = C:\development\apsim\report\lib\report.dll
+Component      "accum" = C:\development\apsim\accum\lib\accum.dll
+Component "Fertiliser" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = C:\development\apsim\irrigate\lib\irrigate.dll
+Component "GrossMargin" = C:\development\apsim\manager\lib\manager.dll
+Component      "Reset" = C:\development\apsim\manager\lib\manager.dll
+Component        "Sow" = C:\development\apsim\manager\lib\manager.dll
+Component "Sowing tillage" = C:\development\apsim\manager\lib\manager.dll
+Component    "Harvest" = C:\development\apsim\manager\lib\manager.dll
+Component "Yield moisture correction" = C:\development\apsim\manager\lib\manager.dll
+Component  "MildFrost" = C:\development\apsim\manager\lib\manager.dll
+Component "ModerateFrost" = C:\development\apsim\manager\lib\manager.dll
+Component "SevereFrost" = C:\development\apsim\manager\lib\manager.dll
+Component "MildHeatShock" = C:\development\apsim\manager\lib\manager.dll
+Component "ModerateHeatShock" = C:\development\apsim\manager\lib\manager.dll
+Component "SevereHeatShock" = C:\development\apsim\manager\lib\manager.dll
+Component  "Fertilise" = C:\development\apsim\manager\lib\manager.dll
+Component   "Irrigate" = C:\development\apsim\manager\lib\manager.dll
+Component    "Tillage" = C:\development\apsim\manager\lib\manager.dll
+Component  "Constants" = C:\development\apsim\manager\lib\manager.dll
+Component     "Script" = C:\development\apsim\manager\lib\manager.dll
+Component "CanolaOilConc" = C:\development\apsim\manager\lib\manager.dll
+Component "StubbleRemoved" = C:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\surfaceom\lib\surfaceom.dll
+Component    "Erosion" = C:\development\apsim\erosion\lib\erosion.dll
+Component "Soil Nitrogen" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component     "barley" = C:\development\apsim\plant\lib\plant.dll
+Component    "Tracker" = C:\development\apsim\tracker\lib\tracker.dll
+Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
 
 ------- Clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -991,7 +991,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 26.50000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 115.14174
+     Manager creating a new local real variable : nitrogen = 115.14171
      Manager creating a new local real variable : availablewater = 37.98044
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1124,10 +1124,10 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
 23 September 2006(Day of year=266), barley: 
       stage 6.0 flowering
                      biomass =         385.10 (g/m^2)   lai          =   0.776 (m^2/m^2)
-                     stover N conc =     2.30 (%)    extractable sw =    7.52 (mm)
+                     stover N conc =     2.31 (%)    extractable sw =    7.52 (mm)
 1 October 2006(Day of year=274), barley: 
       stage 7.0 start_grain_fill
-                     biomass =         397.58 (g/m^2)   lai          =   0.408 (m^2/m^2)
+                     biomass =         397.59 (g/m^2)   lai          =   0.408 (m^2/m^2)
                      stover N conc =     2.28 (%)    extractable sw =    5.28 (mm)
 2 October 2006(Day of year=275), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp = 14.00000
@@ -1145,7 +1145,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         415.98 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.18 (%)    extractable sw =    1.84 (mm)
 2 November 2006(Day of year=306), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 150.82996
+     Manager creating a new local real variable : fullprice = 150.82994
 2 November 2006(Day of year=306), Harvest: 
      Manager sending message :- barley harvest
      
@@ -1157,7 +1157,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       total above ground biomass (kg/ha)    =     4159.8
       live above ground biomass (kg/ha)     =     4159.8
       green above ground biomass (kg/ha)    =     2159.6
-      senesced above ground biomass (kg/ha) =     2000.2
+      senesced above ground biomass (kg/ha) =     2000.3
       number of leaves       =     63.5
       DM Root:Shoot ratio    =     0.29                       Harvest Index          =       0.21
       Stover C:N ratio       =    34.67                       Root C:N ratio         =      17.26
@@ -1189,7 +1189,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                   0.0                  1202.8
-                          N  (kg/ha) =                   0.00                   27.87
+                          N  (kg/ha) =                   0.00                   27.88
      
 3 November 2006(Day of year=307), GrossMargin: 
      Manager creating a new local real variable : twotimescost = 0.00000
