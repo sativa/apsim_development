@@ -11,41 +11,41 @@
 
 Version                = 6.1
 Title                  = Paddock128
-Component      "Clock" = c:\development\apsim\clock\lib\clock.dll
-Component        "Met" = c:\development\apsim\siloinput\lib\siloinput.dll
-Component "PatchInput" = c:\development\apsim\PatchInput\lib\PatchInput.dll
+Component      "Clock" = C:\development\apsim\clock\lib\clock.dll
+Component        "Met" = C:\development\apsim\siloinput\lib\siloinput.dll
+Component "PatchInput" = C:\development\apsim\PatchInput\lib\PatchInput.dll
 Paddock:
-Component     "Yearly" = c:\development\apsim\report\lib\report.dll
-Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component "Fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component "GrossMargin" = c:\development\apsim\manager\lib\manager.dll
-Component      "Reset" = c:\development\apsim\manager\lib\manager.dll
-Component        "Sow" = c:\development\apsim\manager\lib\manager.dll
-Component "Sowing tillage" = c:\development\apsim\manager\lib\manager.dll
-Component    "Harvest" = c:\development\apsim\manager\lib\manager.dll
-Component "Yield moisture correction" = c:\development\apsim\manager\lib\manager.dll
-Component  "MildFrost" = c:\development\apsim\manager\lib\manager.dll
-Component "ModerateFrost" = c:\development\apsim\manager\lib\manager.dll
-Component "SevereFrost" = c:\development\apsim\manager\lib\manager.dll
-Component "MildHeatShock" = c:\development\apsim\manager\lib\manager.dll
-Component "ModerateHeatShock" = c:\development\apsim\manager\lib\manager.dll
-Component "SevereHeatShock" = c:\development\apsim\manager\lib\manager.dll
-Component  "Fertilise" = c:\development\apsim\manager\lib\manager.dll
-Component   "Irrigate" = c:\development\apsim\manager\lib\manager.dll
-Component    "Tillage" = c:\development\apsim\manager\lib\manager.dll
-Component  "Constants" = c:\development\apsim\manager\lib\manager.dll
-Component     "Script" = c:\development\apsim\manager\lib\manager.dll
-Component "CanolaOilConc" = c:\development\apsim\manager\lib\manager.dll
-Component "StubbleRemoved" = c:\development\apsim\manager\lib\manager.dll
-Component "Fertilise1" = c:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component    "Erosion" = c:\development\apsim\erosion\lib\erosion.dll
-Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component      "Wheat" = c:\development\apsim\plant\lib\plant.dll
-Component    "Tracker" = c:\development\apsim\tracker\lib\tracker.dll
-Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
+Component     "Yearly" = C:\development\apsim\report\lib\report.dll
+Component      "accum" = C:\development\apsim\accum\lib\accum.dll
+Component "Fertiliser" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = C:\development\apsim\irrigate\lib\irrigate.dll
+Component "GrossMargin" = C:\development\apsim\manager\lib\manager.dll
+Component      "Reset" = C:\development\apsim\manager\lib\manager.dll
+Component        "Sow" = C:\development\apsim\manager\lib\manager.dll
+Component "Sowing tillage" = C:\development\apsim\manager\lib\manager.dll
+Component    "Harvest" = C:\development\apsim\manager\lib\manager.dll
+Component "Yield moisture correction" = C:\development\apsim\manager\lib\manager.dll
+Component  "MildFrost" = C:\development\apsim\manager\lib\manager.dll
+Component "ModerateFrost" = C:\development\apsim\manager\lib\manager.dll
+Component "SevereFrost" = C:\development\apsim\manager\lib\manager.dll
+Component "MildHeatShock" = C:\development\apsim\manager\lib\manager.dll
+Component "ModerateHeatShock" = C:\development\apsim\manager\lib\manager.dll
+Component "SevereHeatShock" = C:\development\apsim\manager\lib\manager.dll
+Component  "Fertilise" = C:\development\apsim\manager\lib\manager.dll
+Component   "Irrigate" = C:\development\apsim\manager\lib\manager.dll
+Component    "Tillage" = C:\development\apsim\manager\lib\manager.dll
+Component  "Constants" = C:\development\apsim\manager\lib\manager.dll
+Component     "Script" = C:\development\apsim\manager\lib\manager.dll
+Component "CanolaOilConc" = C:\development\apsim\manager\lib\manager.dll
+Component "StubbleRemoved" = C:\development\apsim\manager\lib\manager.dll
+Component "Fertilise1" = C:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\surfaceom\lib\surfaceom.dll
+Component    "Erosion" = C:\development\apsim\erosion\lib\erosion.dll
+Component "Soil Nitrogen" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component      "Wheat" = C:\development\apsim\plant\lib\plant.dll
+Component    "Tracker" = C:\development\apsim\tracker\lib\tracker.dll
+Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
 
 ------- Clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -1143,7 +1143,7 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     2.35 (%)    extractable sw =   68.19 (mm)
 13 September 2006(Day of year=256), Wheat: 
       stage 6.0 flowering
-                     biomass =         598.62 (g/m^2)   lai          =   1.153 (m^2/m^2)
+                     biomass =         598.63 (g/m^2)   lai          =   1.153 (m^2/m^2)
                      stover N conc =     1.24 (%)    extractable sw =   15.31 (mm)
 20 September 2006(Day of year=263), Wheat: 
       stage 7.0 start_grain_fill
@@ -1158,14 +1158,14 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.31 (%)    extractable sw =    3.84 (mm)
 25 October 2006(Day of year=298), Wheat: 
       stage 9.0 maturity
-                     biomass =         653.93 (g/m^2)   lai          =   0.147 (m^2/m^2)
+                     biomass =         653.94 (g/m^2)   lai          =   0.147 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =    3.79 (mm)
 26 October 2006(Day of year=299), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         653.93 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         653.94 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    3.85 (mm)
 26 October 2006(Day of year=299), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 162.42519
+     Manager creating a new local real variable : fullprice = 162.42546
 26 October 2006(Day of year=299), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1174,8 +1174,8 @@ Component     "YPCalc" = c:\development\apsim\YPCalc\lib\YPCalc.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1992.5
       grain wt (g)           =    0.020                       grains/m^2             =     8523.3
       grains/plant           =   85.2                         maximum lai            =      3.580
-      total above ground biomass (kg/ha)    =     6539.3
-      live above ground biomass (kg/ha)     =     6539.3
+      total above ground biomass (kg/ha)    =     6539.4
+      live above ground biomass (kg/ha)     =     6539.4
       green above ground biomass (kg/ha)    =     4948.4
       senesced above ground biomass (kg/ha) =     1591.0
       number of leaves       =     48.2
