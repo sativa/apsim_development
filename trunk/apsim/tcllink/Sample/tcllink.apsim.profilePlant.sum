@@ -11,14 +11,14 @@
 
 Version                = 6.1
 Title                  = test
-Component      "clock" = C:\development\apsim\clock\lib\clock.dll
-Component     "report" = C:\development\apsim\report\lib\report.dll
-Component        "met" = C:\development\apsim\input\lib\input.dll
-Component    "manager" = C:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
-Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
-Component      "wheat" = C:\development\apsim\Plant\lib\Plant.dll
-Component    "tcllink" = C:\development\apsim\tcllink\lib\tcllink.dll
+Component      "clock" = C:\Development\apsim\clock\lib\clock.dll
+Component     "report" = C:\Development\apsim\report\lib\report.dll
+Component        "met" = C:\Development\apsim\input\lib\input.dll
+Component    "manager" = C:\Development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\Development\apsim\soilwat2\lib\soilwat2.dll
+Component     "soiln2" = C:\Development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = C:\Development\apsim\Plant\lib\Plant.dll
+Component    "tcllink" = C:\Development\apsim\tcllink\lib\tcllink.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -46,7 +46,7 @@ Component    "tcllink" = C:\development\apsim\tcllink\lib\tcllink.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: C:\development\apsim\met\sample\dalby.met
+     INPUT File name: C:\Development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
