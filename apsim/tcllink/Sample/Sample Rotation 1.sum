@@ -11,18 +11,18 @@
 
 Version                = 6.1
 Title                  = Sample Rotation 1
-Component      "clock" = C:\Development\apsim\clock\lib\clock.dll
-Component        "met" = C:\Development\apsim\input\lib\input.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
 Paddock:
-Component "outputfile" = C:\Development\apsim\report\lib\report.dll
-Component      "accum" = C:\Development\apsim\accum\lib\accum.dll
-Component "fertiliser" = C:\Development\apsim\fertiliz\lib\fertiliz.dll
-Component "#009 - Kupunn Water" = C:\Development\apsim\soilwat2\lib\soilwat2.dll
-Component "#009 - Kupunn Nitrogen" = C:\Development\apsim\soiln2\lib\soiln2.dll
-Component      "wheat" = C:\Development\apsim\plant\lib\plant.dll
-Component   "chickpea" = C:\Development\apsim\plant\lib\plant.dll
-Component     "cotton" = C:\Development\apsim\ozcot\lib\ozcot.dll
-Component    "Manager" = C:\Development\apsim\tcllink\lib\tcllink.dll
+Component "outputfile" = C:\development\apsim\report\lib\report.dll
+Component      "accum" = C:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "#009 - Kupunn Water" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "#009 - Kupunn Nitrogen" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = C:\development\apsim\plant\lib\plant.dll
+Component   "chickpea" = C:\development\apsim\plant\lib\plant.dll
+Component     "cotton" = C:\development\apsim\ozcot\lib\ozcot.dll
+Component    "Manager" = C:\development\apsim\tcllink\lib\tcllink.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -35,7 +35,7 @@ Component    "Manager" = C:\Development\apsim\tcllink\lib\tcllink.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: C:\Development\apsim\met\sample\goond.met
+     INPUT File name: C:\development\apsim\met\sample\goond.met
 
 ------- outputfile Initialisation ---------------------------------------------
      Output frequency:
