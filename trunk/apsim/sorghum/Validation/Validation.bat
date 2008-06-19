@@ -1,6 +1,8 @@
 set APSBIN=c:\development\Bin
 
 pushd
+cd %APSROOT%\apsim\Sorghum\Validation
+
 cd .\Hermitage\HE1-8
 
 "%APSBIN%\APSRun.exe" /auto %CD%\HE1.apsim
@@ -62,3 +64,4 @@ cd ..\LE21
 "%APSBIN%\apsimreport.exe" LE21_QL39xQL36.report ..\..\LE21_QL39xQL36.gif
 
 cd ..\..
+popd
