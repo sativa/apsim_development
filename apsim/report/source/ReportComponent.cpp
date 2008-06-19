@@ -414,8 +414,10 @@ void ReportComponent::createVariable(const string& name)
             thisAlias = matches[i].name;
          string matchName = matches[i].name;
          string matchDdml = matches[i].ddml;
+         // The match returned from the system will be lower case -
+         // try to keep it "pretty" as the user described
          fields.push_back(Field(scienceAPI,
-                                matchName,
+                                (matches.size() > 1) ? matchName : variable,
                                 matchDdml,
                                 thisAlias,
                                 nastring, format, csv, units));
