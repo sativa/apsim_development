@@ -6473,7 +6473,8 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
       g%rain = newmet%rain
       g%vp   = newmet%vp
 
-!      put this back here when met data no longer arrives during initialisation
+      if (g%plant_status .eq. status_alive) then
+
             call Growth_Fvpd
      :               (
      :                c%svp_fract
@@ -6533,7 +6534,14 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
      :               ,g%Fage
      :               ,g%Frgr
      :               )
-
+        else
+          g%Fvpd = 0.0
+          g%Ft = 0.0
+          g%Ff = 0.0
+          g%Fn = 0.0
+          g%Fage = 0.0
+          g%Frgr = 0.0
+        endif
 
       call pop_routine (myname)
       return
