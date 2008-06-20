@@ -24,15 +24,6 @@ using namespace protocol;
 #define min(a, b)  (((a) < (b)) ? (a) : (b))
 
 static const unsigned int MAX_NESTED_COMPLETES = 10;
-static const char* ERROR_TYPE = "<type name=\"error\">"
-                                   "<field name=\"fatal\" kind=\"boolean\"/>"
-                                   "<field name=\"message\" kind=\"string\"/>"
-                                   "</type>";
-
-static const char* SUMMARY_FILE_WRITE_TYPE = "<type name=\"SummaryFileWrite\">"
-                                             "   <field name=\"componentName\" kind=\"string\"/>"
-                                             "   <field name=\"lines\" kind=\"string\"/>"
-                                             "</type>";
 
 Component* component;
 // ------------------------------------------------------------------
@@ -169,7 +160,7 @@ try {
                                     if (sendTickToComponent)
                                       respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
                                     }
-                                 else 
+                                 else   
                                     respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
                                  break;}
       case QueryValue:          {QueryValueData queryData(fromID);
@@ -316,10 +307,6 @@ void Component::doInit1(const Init1Data& init1Data)
    addGettableVar("active", active, "", "");
    addGettableVar("state", state, "", "");
 
-   errorID = addRegistration(::event,
-                             -1,
-                             string("error"),
-                             ERROR_TYPE);
    tickID = addRegistration(::respondToEvent,
                             -1,
                             string("tick"),
@@ -473,10 +460,15 @@ void Component::error(const char *msg, bool isFatal)
    string message = string(msg) + "\nComponent name: " + name;
 
    // create and send a message.
+   unsigned id = addRegistration(::event,
+                                 -1,
+                                 string("error"),
+                                 DDML(ErrorType()));
+
    Message* errorMessage = newPublishEventMessage(componentID,
                                                   parentID,
-                                                  errorID,
-                                                  ERROR_TYPE,
+                                                  id,
+                                                  DDML(ErrorType()),
                                                   ErrorData(isFatal, message.c_str()));
    errorMessage->toAcknowledge = true;
    sendMessage(errorMessage);
@@ -974,21 +966,6 @@ unsigned int Component::getReg(const char *systemName,
                                 -1,
                                 systemName, 
                                 buffer);
-   }
-
-
-// Build the xml fragment that describes this variable and publish to system
-std::string baseInfo::getXML()
-   {
-   std::string st = "   <property name=\"" + myName + "\" description=\"" + myDescription + "\" access=\"read\" init=\"F\">\n";
-   st += "      <type kind=\"" + asString(Type::codeToString(myType)) + "\" array=\"";
-   if (myIsArray)
-      st += "T";
-   else
-      st += "F";
-   st += "\" unit=\"" + myUnits + "\"/>\n";
-   st += "   </property>";
-   return st;
    }
 
 // Build the xml fragment that describes this variable and publish to system

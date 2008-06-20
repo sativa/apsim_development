@@ -37,7 +37,6 @@ class Component;
 class Variants;
 class QueryValueData;
 
-
 extern "C" void EXPORT STDCALL messageToLogic (unsigned* instanceNumber,
                                                   Message* message,
                                                   bool* processed);
@@ -72,7 +71,6 @@ class EXPORT baseInfo {
       };
    virtual ~baseInfo() {};
    virtual void sendVariable(Component *, QueryValueData&) {};
-   virtual std::string getXML();
    std::string name(void) {return myName;};
 };
 
@@ -443,7 +441,6 @@ class EXPORT Component
       typedef std::map<unsigned int, Variants*> getVariableResponses;
       getVariableResponses myGetVariableResponses;
 
-      unsigned int errorID;
       unsigned int tickID;
       bool setVariableSuccess;
       vector<unsigned> completeIDs;
