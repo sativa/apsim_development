@@ -308,16 +308,17 @@ void ApsimComponentData::getRule(const std::string& name,
                                  std::string& condition,
                                  std::string& contents) const
    {
+   contents = "";
    XMLNode initData = getInitData();
    XMLNode::iterator rule = find_if(initData.begin(), initData.end(),
                                     NodeEquals<XMLNode>("rule", name));
-   if (rule != initData.end())
+   while (rule != initData.end())
       {
       condition = rule->getAttribute("condition");
-      contents = rule->getValue();
-
-      Replace_all(contents, "[cr]", "\n");
+      contents += rule->getValue();
+      rule = find_if(++rule, initData.end(), NodeEquals<XMLNode>("rule", name));
       }
+   Replace_all(contents, "[cr]", "\n");
    }
 // ------------------------------------------------------------------
 // Return the contents of this service as an xml string.
