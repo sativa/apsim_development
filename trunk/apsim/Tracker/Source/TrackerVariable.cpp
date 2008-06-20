@@ -309,9 +309,9 @@ void TrackerVariable::doSample(void)
          {
          double today;
          protocol::TypeConverter* typeConverter;
-         getTypeConverter(variableName.c_str(),
+         getTypeConverter("today",
                           variant->getType(),
-                          protocol::DDML((double)0.0).c_str(),
+                          protocol::DDML(today).c_str(),
                           typeConverter);
          variant->unpack(typeConverter, 
                          NULL, 
@@ -321,33 +321,23 @@ void TrackerVariable::doSample(void)
       }
    else if (inWindow)
       {
-      protocol::Variant* variant=NULL;
       ApsimRegistration* regItem = (ApsimRegistration*)
                             parent->addRegistration(::get,
                                                     ownerModuleID,
                                                     ownerModuleName,
                                                     protocol::DDML(vector<float>()).c_str());
-      bool ok = parent->getVariable((unsigned int)regItem, &variant);
-      if (ok)
+      vector<float> theseValues;
+
+      bool ok = parent->getVariable((unsigned int)regItem,
+                                    theseValues,
+                                    -1.0E6,
+                                    1.0E6);
+ 
+      if (ok) 
          {
-         vector<float> theseValues;
-         protocol::TypeConverter* typeConverter;
-         getTypeConverter(variableName.c_str(),
-                          variant->getType(),
-                          protocol::DDML(vector<float>()).c_str(),
-                          typeConverter);
-
-         protocol::ArraySpecifier* arraySpec = protocol::ArraySpecifier::create(regItem);
-         variant->unpack(typeConverter, 
-                         arraySpec, 
-                         theseValues);
-         if (arraySpec) delete arraySpec;
-
          if (stat == valueStat)
             values.erase(values.begin(), values.end());
-
          values.push_back(theseValues);
-
          if (last != 0)
             {
             // make sure there are no more than 'last' values in values vector.
