@@ -20,7 +20,7 @@ variable = Egrandis.adm_green(3) as bark_wt
 variable = Egrandis.foliage_mass as LeafGreenWt
 variable = Egrandis.root_mass
 variable = Egrandis.height
-variable = tracker.sum@ep()
+variable = tracker.sum@ep
 variable = tracker.litterfall
 variable = manager.cum_litterfall
 
@@ -158,6 +158,6 @@ variable = average of Egrandis.fn on process from report.reported to now as avg@
 variable = average of Egrandis.fw on process from report.reported to now as avg@fw
 variable = average of Egrandis.fvpd on process from report.reported to now as avg@fvpd
 variable = average of Egrandis.ft on process from report.reported to now as avg@ft
-variable = sum of Egrandis.ep() on process from report.reported to now as sum@ep()
+variable = sum of Egrandis.ep on process from report.reported to now as sum@ep
 variable = sum of Egrandis.dlt_foliage_mass_detached on process from report.reported to now as litterfall
 

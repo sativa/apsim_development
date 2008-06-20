@@ -11,18 +11,18 @@
 
 Version                = 6.1
 Title                  = Wagga Effluent Irrigated E. grandis
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component   "micromet" = c:\development\apsim\micromet\lib\micromet.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
-Component   "Egrandis" = c:\development\apsim\Growth\lib\Growth.dll
+Component      "clock" = C:\Development\apsim\clock\lib\clock.dll
+Component     "report" = C:\Development\apsim\report\lib\report.dll
+Component        "met" = C:\Development\apsim\input\lib\input.dll
+Component   "micromet" = C:\Development\apsim\micromet\lib\micromet.dll
+Component   "fertiliz" = C:\Development\apsim\fertiliz\lib\fertiliz.dll
+Component   "irrigate" = C:\Development\apsim\irrigate\lib\irrigate.dll
+Component    "manager" = C:\Development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\Development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\Development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\Development\apsim\soiln2\lib\soiln2.dll
+Component    "tracker" = C:\Development\apsim\tracker\lib\tracker.dll
+Component   "Egrandis" = C:\Development\apsim\Growth\lib\Growth.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -50,7 +50,7 @@ Component   "Egrandis" = c:\development\apsim\Growth\lib\Growth.dll
         Egrandis.foliage_mass as LeafGreenWt
         Egrandis.root_mass
         Egrandis.height
-        tracker.sum@ep()
+        tracker.sum@ep
         tracker.litterfall
         manager.cum_litterfall
 
@@ -261,7 +261,7 @@ Component   "Egrandis" = c:\development\apsim\Growth\lib\Growth.dll
         average of Egrandis.fw on process from report.reported to now as avg@fw
         average of Egrandis.fvpd on process from report.reported to now as avg@fvpd
         average of Egrandis.ft on process from report.reported to now as avg@ft
-        sum of Egrandis.ep() on process from report.reported to now as sum@ep()
+        sum of Egrandis.ep on process from report.reported to now as sum@ep
         sum of Egrandis.dlt_foliage_mass_detached on process from report.reported to now as litterfall
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- egrandis establish  plants = 1333, init_section = seedling
