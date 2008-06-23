@@ -95,18 +95,22 @@ protocol::Component* createComponent(void)
 TclComponent::TclComponent()
    {
    Interp = NULL;
+   hasFatalError = false;
    }
 // ------------------------------------------------------------------
 // Destructor
 // ------------------------------------------------------------------
 TclComponent::~TclComponent(void)
    {
-   if (!terminationRule.empty()) { Tcl_Eval(Interp, terminationRule.c_str()); }
-
-   if ( Interp != TopLevelInterp ) 
-      Tcl_DeleteInterp(Interp);
-   else 
-      StopTcl(TopLevelInterp);
+   if (!hasFatalError) 
+      {
+      if (!terminationRule.empty()) { Tcl_Eval(Interp, terminationRule.c_str()); }
+      
+      if ( Interp != TopLevelInterp ) 
+         Tcl_DeleteInterp(Interp);
+      else 
+         StopTcl(TopLevelInterp);
+      }   
    }
 // ------------------------------------------------------------------
 // Stage 1 initialisation. We can initialise the TCL world now that we know where we are..
@@ -120,6 +124,12 @@ void TclComponent::doInit1(const protocol::Init1Data& initData)
      initialisationState = 1;
    }
    //MessageBox(0,  Component::componentData->getExecutableFileName().c_str(), "Init", MB_ICONSTOP);
+
+   errorID = protocol::Component::addRegistration(::respondToEvent,
+                                                  -1,
+                                                  string("error"),
+                                                  DDML(ErrorType()));
+
    }
 
 // ------------------------------------------------------------------
@@ -188,6 +198,8 @@ void TclComponent::doInit2(void)
 void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventID, protocol::Variant &variant)
    {
    UInt2StringMap::iterator ip, ip1, ip2;
+
+   if (eventID == errorID) hasFatalError = true;
 
    ip1 = rules.lower_bound(eventID);
    ip2 = rules.upper_bound(eventID);
@@ -300,78 +312,45 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname, bool optio
    string regName;
    ApsimRegistry::getApsimRegistry().unCrackPath(componentID, varname, destID, regName);
 
-   ApsimRegistration *reg = (ApsimRegistration *)
+   ApsimRegistration *regItem = (ApsimRegistration *)
        protocol::Component::addRegistration(::get,
                                             destID, 
                                             regName,
-                                            strString);
+                                            strStringArray);
 
-   protocol::Variants* variants = NULL;
-   getVariables((unsigned) reg, &variants);
+   protocol::Variant* variant = NULL;
    
-   if (variants->size() > 0) 
+   if (getVariable((unsigned int)regItem, &variant, optional)) 
       {
       Tcl_Obj *result = Tcl_GetObjResult(interp);
       Tcl_SetListObj(result, 0, NULL);
-      for (unsigned v = 0; v != variants->size(); v++)
-         {
-         protocol::Variant *variant = variants->getVariant(v);
 
-         bool isArray = variant->getType().isArray();
-            
-         if (isArray) 
-            {
-            std::vector<string> scratch; 
-            TypeConverter* typeConverter = NULL;
-            getTypeConverter(regName.c_str(),
-                             variant->getType(),
-                             strStringArray,
-                             typeConverter);
-            if (variant->unpack(typeConverter, 
-                                NULL, 
-                                scratch)) 
-               for (std::vector<string>::iterator p = scratch.begin(); p != scratch.end(); p++)
-                  Tcl_ListObjAppendElement(interp, result, Tcl_NewStringObj((char *)(*p).c_str(), -1));
-            else
-               {
-               Tcl_Obj *result = Tcl_GetObjResult(interp);
-               Tcl_SetStringObj(result, "UnpackArray failed for", -1);
-               Tcl_AppendToObj(result, varname.c_str(), -1);
-               return TCL_ERROR;
-               }
-            }
-         else
-            {
-            string scratch; 
-            TypeConverter* typeConverter = NULL;
-            getTypeConverter(regName.c_str(),
-                             variant->getType(),
-                             strString,
-                             typeConverter);
-            if (variant->unpack(typeConverter, 
-                                NULL, 
-                                scratch)) 
-               Tcl_ListObjAppendElement(interp, result, Tcl_NewStringObj((char *)scratch.c_str(), -1));
-            else
-               {
-               Tcl_Obj *result = Tcl_GetObjResult(interp);
-               Tcl_SetStringObj(result, "Unpack failed for", -1);
-               Tcl_AppendToObj(result, varname.c_str(), -1);
-               return TCL_ERROR;
-               }
-            }
-         }
-      }
-   else
-      {
-      if (!optional)
+      std::vector<string> scratch; 
+      protocol::TypeConverter* typeConverter = NULL;
+      getTypeConverter(regItem->getName().c_str(),
+                       variant->getType(),
+                       regItem->getDDML().c_str(),
+                       typeConverter);
+
+      protocol::ArraySpecifier* arraySpec = protocol::ArraySpecifier::create(regItem);
+
+      bool ok = variant->unpack(typeConverter, 
+                                arraySpec, 
+                                scratch);
+
+      if (arraySpec) delete arraySpec;
+
+      if (!ok)
          {
-         Tcl_Obj *result = Tcl_GetObjResult(interp);
-         Tcl_SetStringObj(result, "Unknown variable ", -1);
-         Tcl_AppendToObj(result, varname.c_str(), -1);
-         return TCL_ERROR;
+         string msg= "Unpack failed.";
+         msg += "\nVariableName: ";
+         msg += regItem->getName();
+         throw std::runtime_error(msg);
          }
-      }
+
+      for (std::vector<string>::iterator p = scratch.begin(); p != scratch.end(); p++)
+          Tcl_ListObjAppendElement(interp, result, Tcl_NewStringObj((char *)(*p).c_str(), -1));
+      }    
    return TCL_OK;
    }
 
