@@ -81,8 +81,8 @@ class EXPORT CMPComponentInterface
       NameToRegKindMap regKinds;
       Messages messages;
 
-      TimeType tick;
       int tickID;
+      TimeType tick;
       bool haveWrittenToStdOutToday;
 
       void clearMessages();
