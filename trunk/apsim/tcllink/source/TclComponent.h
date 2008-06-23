@@ -42,6 +42,8 @@ class TclComponent : public protocol::Component,
 
       void callback(const std::string& toName, const protocol::Message* message);
       std::string messageCallbackCommand;
-      
+
+      bool hasFatalError;
+      unsigned errorID;
    };
 #endif
