@@ -75,7 +75,7 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
         wetyield
         Grain_protein
         grain_n
-        grain_no
+        grain_no format 0
         oil_conc
         leaf_no
         sw_stress_expan
@@ -1003,7 +1003,7 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 27.25000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 96.14706
+     Manager creating a new local real variable : nitrogen = 96.14708
      Manager creating a new local real variable : availablewater = 59.20001
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1165,7 +1165,7 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         997.01 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   17.46 (mm)
 22 October 2005(Day of year=295), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 148.11937
+     Manager creating a new local real variable : fullprice = 148.11942
 22 October 2005(Day of year=295), Harvest: 
      Manager sending message :- wheat harvest
      

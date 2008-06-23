@@ -76,7 +76,7 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
         wetyield
         Grain_protein
         grain_n
-        grain_no
+        grain_no format 0
         oil_conc
         leaf_no
         sw_stress_expan
@@ -1197,14 +1197,14 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     0.31 (%)    extractable sw =    3.69 (mm)
 5 November 2005(Day of year=309), Wheat: 
       stage 9.0 maturity
-                     biomass =         558.08 (g/m^2)   lai          =   0.139 (m^2/m^2)
+                     biomass =         558.09 (g/m^2)   lai          =   0.139 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =    3.50 (mm)
 6 November 2005(Day of year=310), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         558.08 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         558.09 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    3.50 (mm)
 6 November 2005(Day of year=310), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 160.28294
+     Manager creating a new local real variable : fullprice = 160.28302
 6 November 2005(Day of year=310), Harvest: 
      Manager sending message :- wheat harvest
      
@@ -1213,8 +1213,8 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1901.8
       grain wt (g)           =    0.025                       grains/m^2             =     6762.4
       grains/plant           =   67.6                         maximum lai            =      2.542
-      total above ground biomass (kg/ha)    =     5580.8
-      live above ground biomass (kg/ha)     =     5580.8
+      total above ground biomass (kg/ha)    =     5580.9
+      live above ground biomass (kg/ha)     =     5580.9
       green above ground biomass (kg/ha)    =     4363.4
       senesced above ground biomass (kg/ha) =     1217.4
       number of leaves       =     55.4
