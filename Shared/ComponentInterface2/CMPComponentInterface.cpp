@@ -570,12 +570,12 @@ void CMPComponentInterface::onInit2(const Message& message)
    // Handler for Init2 message.
    // -----------------------------------------------------------------------
    {
-   tickID = nameToRegistrationID("tick", respondToEventReg);
    if (init2 != NULL)
       {
       MessageData Data(message);
       init2->unpack(Data, "", NULL);
       }
+   tickID = nameToRegistrationID("tick", respondToEventReg);
    }
 
 void CMPComponentInterface::onQueryValue(const Message& message)
