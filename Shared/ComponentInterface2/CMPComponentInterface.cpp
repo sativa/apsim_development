@@ -35,7 +35,7 @@ CMPComponentInterface::CMPComponentInterface(unsigned* callbackarg, CallbackType
    simScript = NULL;
    init1 = NULL;
    init2 = NULL;
-   tickID = 0;
+   tick.startday = tick.startsec = 0; tickID = 0;
    haveWrittenToStdOutToday = false;
    }
 
@@ -407,7 +407,7 @@ void CMPComponentInterface::query(const std::string& pattern, std::vector<QueryM
       QueryMatch queryMatch;
       queryMatch.name = returnInfo.name;
       queryMatch.ddml = returnInfo.type;
-
+ 
       if (getAttributeFromXML(queryMatch.ddml, "array") == "T" &&
           arraySpecifier != NULL)
          arraySpecifier->adornVariableName(queryMatch.name);
@@ -426,12 +426,15 @@ void CMPComponentInterface::write(const std::string& msg)
    // -----------------------------------------------------------------------
    if (!haveWrittenToStdOutToday) 
       {
-      GDate gDate;
-      gDate.Set(tick.startday);
-      gDate.Set_write_format("D MMMMMM YYYY");
-      gDate.Write(cout);
-      cout << "(Day of year=" << gDate.Get_day_of_year() << ")";
-      cout << ", " << getName();
+      if (tick.startday != 0) 
+         {
+         GDate gDate;
+         gDate.Set(tick.startday);
+         gDate.Set_write_format("D MMMMMM YYYY");
+         gDate.Write(cout);
+         cout << "(Day of year=" << gDate.Get_day_of_year() << ")" << ", ";
+         }
+      cout << getName();
       cout << ": " << endl;
       haveWrittenToStdOutToday = true;
       }
@@ -503,7 +506,7 @@ int CMPComponentInterface::RegisterWithPM(const string& name, const string& unit
    registerData.ID = ID;
    registerData.destID = -1;
    registerData.name = name;
-   registerData.ddml = data->ddml;
+   registerData.ddml = data->ddml; 
    sendMessage(newMessage(Message::Register, componentID, parentID, false,
                           registerData));
    return ID;
