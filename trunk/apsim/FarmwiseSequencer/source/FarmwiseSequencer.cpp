@@ -84,12 +84,11 @@ void FarmwiseSequencer::doInit2(void)
 void FarmwiseSequencer::respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
 //===========================================================================
 {
-   char* null = "";
    for (int SubscribeEvent = 0; SubscribeEvent < numSubscribeEvents; SubscribeEvent++)
    {
       if (eventID == SubscribeEventsID[SubscribeEvent])
          for (int PublishEvent = 0; PublishEvent < numPublishEvents[SubscribeEvent]; PublishEvent++)
-            publish (PublishEventsID[SubscribeEvent][PublishEvent], null);
+            publishNull (PublishEventsID[SubscribeEvent][PublishEvent]);
       else
       {} //not interested an other events
    }
