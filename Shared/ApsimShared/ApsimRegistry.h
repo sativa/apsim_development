@@ -23,7 +23,7 @@ class EXPORT ApsimRegistry
    public:
       ApsimRegistry(void) 
          {
-         paddocks.item.ID = 0;
+         paddocks.item.ID = 1;
          paddocks.item.Name = ".MasterPM";
          paddocks.parent = &paddocks;
          };
@@ -31,11 +31,11 @@ class EXPORT ApsimRegistry
 
       unsigned int add(ApsimRegistration *);
 
-      void erase(int owner, unsigned int regID);
-      void erase(const std::string& owner, unsigned int regID)
+      void erase(EventTypeCode type, int owner, unsigned int regID);
+      void erase(EventTypeCode type, const std::string& owner, unsigned int regID)
          {
          int componentID = componentByName(owner);
-         erase(componentID, regID);
+         erase(type, componentID, regID);
          }
 
       // Find subscribers to a registration event
@@ -44,7 +44,7 @@ class EXPORT ApsimRegistry
 
       // Find a single registration for a component,
       //  returns NULL if not found.
-      ApsimRegistration *find(int ownerID, unsigned int regnID);
+      ApsimRegistration *find(EventTypeCode type, int ownerID, unsigned int regnID);
       ApsimRegistration *find(EventTypeCode type, int ownerID, const std::string &name);
 
       // Component routines
@@ -55,7 +55,7 @@ class EXPORT ApsimRegistry
       int componentByName(const std::string &);
       std::string componentByID(int);
   
-      void getComponents(vector<int> &components);
+      void getComponents(vector<int> &simulationComponents);
       void getSiblings(int componentID, vector<int> &siblings);
       void getSiblingsAndDescendants(int componentID, vector<int> &siblings);
       void getSiblingsAndParents(int componentID, vector<int> &siblings);

@@ -69,4 +69,4 @@ datatypes.cpp datatypes.h:  $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT
 	# NB. Assumption here that we are always working within the development tree. NB.
 
 clean:
-	$(RM) ComponentInterface.lib $(OBJECTS) datatypes.cpp datatypes.h FORTRANComponentWrapper.obj ComponentInterface.obj ComponentInterface.dll SimpleWrapper.obj
+	$(RM) ComponentInterface.lib $(OBJFILES) datatypes.cpp datatypes.h ComponentInterface.dll SimpleWrapper.obj

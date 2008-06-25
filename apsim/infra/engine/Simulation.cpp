@@ -30,8 +30,8 @@
 using namespace std;
 using namespace protocol;
 
-static const unsigned parentID = 0;
-static const unsigned masterPMID = 0;
+static const unsigned parentID = 1;
+static const unsigned masterPMID = 1;
 
 // ------------------------------------------------------------------
 //  Short description:

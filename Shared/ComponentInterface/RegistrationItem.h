@@ -41,7 +41,7 @@ class RegistrationItem
          }
 
       // ------------------------------------------------------------------
-      // Return the destination component ID or -1 if not found.
+      // Return the destination component ID or 0 if not found.
       // ------------------------------------------------------------------
       char* getComponentName(void) {return componentName;}
 

@@ -72,10 +72,10 @@ unsigned int ApsimRegistry::add(ApsimRegistration *reg)
       }   
    registrations.insert(registrations_type::value_type(reg->getNameWithoutBrackets(), reg));
 
-//   cout << "add (" << reg->getType() << ":" << reg->getComponentID() << "." <<
-//        reg->getName() << "->" << reg->getDestinationID() << ")= " << ((unsigned int)reg) << " called\n";
-//   cout << "add (" << reg->getType() << ":" << reg->getComponentID() << "." <<
-//        reg->getName() << ")=" << reg->getDDML() << " \n";
+//   cout << "add (" << reg->getType() << ":" << componentByID(reg->getComponentID()) << "." <<
+//        reg->getName();
+//   if (reg->getDestinationID()>0) cout<< "->" << componentByID(reg->getDestinationID());
+//   cout << ")= " << ((unsigned int)reg) << " called\n";
    return ((unsigned int)reg);
    }
 
@@ -86,9 +86,12 @@ void ApsimRegistry::lookup(ApsimRegistration * reg,
    {
 //   string regName = reg->getName();
 //   cout << "lookup:" << reg->getRegID() << ":subscribers to " << 
-//        reg->getType() << "." << reg->getDestinationID() << "." << reg->getName() << "=";
+//        reg->getType() << ".";
+//   if (reg->getDestinationID() > 0) 
+//      cout << reg->getDestinationID() << ".";
+//   cout  << reg->getName() << "=";
 
-   if (reg->getDestinationID() >= 0) 
+   if (reg->getDestinationID() > 0) 
       {
       vector<int> destination;
       destination.push_back(reg->getDestinationID());
@@ -168,9 +171,9 @@ void ApsimRegistry::pruneDuplicates( std::vector<ApsimRegistration*>&subscribers
          }
       }
    }
-void ApsimRegistry::erase(int owner, unsigned int regID)
+void ApsimRegistry::erase(EventTypeCode type, int owner, unsigned int regID)
    {
-   ApsimRegistration *reg = find(owner, regID);
+   ApsimRegistration *reg = find(type, owner, regID);
    if (reg == NULL) return;
 //   cout << "ApsimRegistry::erase name="<< reg->getName() << endl;
    bool found = true;
@@ -187,6 +190,28 @@ void ApsimRegistry::erase(int owner, unsigned int regID)
             found = true;
             }
       }      
+   }
+// Find a registration object from a 
+// component & registration ID. "Native" registrations
+// are easy, foreigns need special care.
+ApsimRegistration *ApsimRegistry::find(EventTypeCode type,
+                                       int ownerID,
+                                       unsigned int regnID)
+   {
+   if (isForeign(ownerID)) 
+      {
+      for (registrations_type::iterator i = registrations.begin();
+           i != registrations.end();
+           i++)
+         {
+         if (i->second->getTypeCode() == type && 
+             i->second->getComponentID() == ownerID &&
+             i->second->getRegID() == regnID)
+            return (i->second);
+         }
+      return NULL; 
+      }
+   return ((ApsimRegistration *) regnID);
    }
 
 ApsimRegistration *ApsimRegistry::find(EventTypeCode type, 
@@ -312,7 +337,7 @@ void ApsimRegistry::getSiblingsAndParents(int componentID, vector<int> &siblings
         }
       }
    // And the masterPM
-   siblings.push_back(0);
+   siblings.push_back(1/*masterPMID*/);
    }
 
 void ApsimRegistry::getDescendants(ApsimRegistry::PTree<ApsimRegistry::Component>*node, vector<int> &siblings)
@@ -328,14 +353,14 @@ int ApsimRegistry::componentByName(const std::string &name)
    for (unsigned int i = 0; i < components.size(); i++ )
       if (Str_i_Eq(components[i].Name,name))
          return components[i].ID;
-   return(-1); 
+   return(0); 
    }
 
 std::string ApsimRegistry::componentByID(int id)
    {
    for (unsigned int i = 0; i < components.size(); i++ )
       if (components[i].ID == id)
-         return components[id].Name;
+         return components[i].Name;
 
    string x= "<?undefined?(";
    x += itoa(id);
@@ -365,27 +390,6 @@ bool ApsimRegistry::isForeign(int id)
                     id) != taintedComponents.end());
 }
 
-// Find a registration object from a 
-// component & registration ID. "Native" registrations
-// are easy, foreigns need special care.
-ApsimRegistration *ApsimRegistry::find(int ownerID,
-                                       unsigned int regnID)
-   {
-   if (isForeign(ownerID)) 
-      {
-      for (registrations_type::iterator i = registrations.begin();
-           i != registrations.end();
-           i++)
-         {
-         if (i->second->getComponentID() == ownerID &&
-             i->second->getRegID() == regnID)
-            return (i->second);
-         }
-      return NULL; 
-      }
-   return ((ApsimRegistration *) regnID);
-   }
-
 
 // ".paddock1.wheat.sow"
 // "wheat.sow"
@@ -404,11 +408,11 @@ void ApsimRegistry::unCrackPath(int fromID,                 // IN: id of module 
       if (componentName[0] == '.') 
         {
         id = componentByName(componentName);
-        if (id < 0) {throw std::runtime_error("Unknown module name " + componentName);}
+        if (id <= 0) {throw std::runtime_error("Unknown module name " + componentName);}
         }
       else if (componentName[0] == '*') 
         {
-        id = -1;
+        id = 0;
         }
       else 
         {
@@ -421,12 +425,12 @@ void ApsimRegistry::unCrackPath(int fromID,                 // IN: id of module 
         componentName = container + "." + componentName;
 
         id = componentByName(componentName);
-        if (id < 0) {throw std::runtime_error("Unknown module name " + componentName);}
+        if (id <= 0) {throw std::runtime_error("Unknown module name " + componentName);}
         }
       }
    else
       {
-      id = -1;
+      id = 0;
       name = fqName;
       }
 }
@@ -547,7 +551,7 @@ void ApsimRegistry::dumpStats(void)
 
 void ApsimRegistry::dumpAll(void)
    {
-   PTree<Component>* root = findComponent(0);
+   PTree<Component>* root = findComponent(/*masterPMID*/1);
    if (root == NULL) {throw std::runtime_error("NULL node in dumpComponentTree!");}
    for (unsigned i = 0; i != root->children.size(); i++)
       {
@@ -565,7 +569,7 @@ void ApsimRegistry::dumpAll(PTree<Component>* node)
 
 void ApsimRegistry::dumpComponentTree(void)
    {
-   PTree<Component>* root = findComponent(0);
+   PTree<Component>* root = findComponent(/*masterPMID*/1);
    if (root == NULL) {throw std::runtime_error("NULL node in dumpComponentTree!");}
    int indent = 0;
    for (unsigned i = 0; i != root->children.size(); i++)
@@ -583,21 +587,21 @@ void ApsimRegistry::dumpComponentTree(int indent, PTree<Component>* node)
       }
    }
 
-void ApsimRegistry::getComponents(vector<int> &components)
+void ApsimRegistry::getComponents(vector<int> &simulationComponents)
    {
-   PTree<Component>* root = findComponent(0);
+   PTree<Component>* root = findComponent(/*masterPMID*/1);
    if (root == NULL) {throw std::runtime_error("NULL node in getComponents!");}
    for (unsigned i = 0; i != root->children.size(); i++)
       {
-      getComponents(root->children[i], components);
+      getComponents(root->children[i], simulationComponents);
       }
    }
 
-void ApsimRegistry::getComponents(PTree<Component>* node, vector<int> &components)
+void ApsimRegistry::getComponents(PTree<Component>* node, vector<int> &simulationComponents)
    {
-   components.push_back(node->item.ID);
+   simulationComponents.push_back(node->item.ID);
    for (unsigned i = 0; i != node->children.size(); i++)
       {
-      getComponents(node->children[i], components);
+      getComponents(node->children[i], simulationComponents);
       }
    }
