@@ -183,7 +183,7 @@ void Coordinator::doInit2(void)
    afterInit2 = true;
 
    // initialise all components.
-   if (componentID == 0)
+   if (componentID == parentID)
       ApsimRegistry::getApsimRegistry().getComponents(componentOrders);
 
    for (Components::iterator componentI = components.begin();
@@ -208,7 +208,7 @@ void Coordinator::doInit2(void)
 // ------------------------------------------------------------------
 void Coordinator::doCommence(void)
    {
-   if (componentID == 0)
+   if (componentID == parentID)
       {
       // only as top level PM
       cout << "------- Start of simulation  --------------------------------------------------" << endl;
@@ -262,7 +262,7 @@ void Coordinator::addComponent(const string& compName,
       // assume it's foreign until we know more about it..
       registry.addComponent(componentID, childComponentID, fqn);
       registry.setForeignTaint(childComponentID);
-      
+
       // send component an init1 message.
       sendMessage(protocol::newInit1Message(componentID,
                                             childComponentID,
@@ -308,7 +308,7 @@ void Coordinator::onReturnComponentIDMessage(protocol::ReturnComponentIDData& da
 void Coordinator::onRequestComponentIDMessage(unsigned int fromID,
                                               protocol::RequestComponentIDData& data)
    {
-   static unsigned newID = 0;
+   static unsigned newID = 1/* masterPMID*/;
    sendMessage(protocol::newReturnComponentIDMessage(componentID,
                                            fromID,
                                            "", // Wrong. This should be the FQ nameof the new component FIXME!!
@@ -347,11 +347,13 @@ void Coordinator::onRegisterMessage(unsigned int fromID,
       string comp = regName.substr(0,pos);
       if (comp[0] != '.') comp = getFQName() + "." + comp;
 
-      int id = registry.componentByName(comp);
-      if (id < 0) 
+      int id = -1;
+      componentNameToID(comp, id);
+
+      if (id <= 0) 
          throw std::runtime_error(string ("Unknown module \"") + comp + "\"");
 
-      if (registerData.destID >= 0 && id != registerData.destID)
+      if (registerData.destID > 0 && id != registerData.destID)
         {
         throw std::runtime_error(string ("Mismatched destID in Coordinator::onRegisterMessage (") +
                                          regName +
@@ -362,7 +364,8 @@ void Coordinator::onRegisterMessage(unsigned int fromID,
       registerData.destID = id;
       regName = regName.substr(pos+1);
       }
-   if (registry.find(fromID, registerData.ID) == NULL)
+
+   if (registry.find((EventTypeCode)registerData.kind, fromID, registerData.ID) == NULL)
       {
       ApsimRegistration *newReg = new
          ForeignRegistration((EventTypeCode)registerData.kind,
@@ -392,7 +395,7 @@ void Coordinator::onRegisterMessage(unsigned int fromID,
 void Coordinator::onDeregisterMessage(unsigned int fromID, protocol::DeregisterData& deregisterData)
    {
    ApsimRegistry &r = ApsimRegistry::getApsimRegistry();
-   r.erase( fromID, deregisterData.ID);
+   r.erase((EventTypeCode)deregisterData.kind, fromID, deregisterData.ID);
    }
 
 // ------------------------------------------------------------------
@@ -403,7 +406,7 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, protocol::PublishEv
    if (!doTerminate)
       {
       ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-      ApsimRegistration* regItem = registry.find(fromID, publishEventData.ID);
+      ApsimRegistration* regItem = registry.find(::event, fromID, publishEventData.ID);
       if (regItem == NULL) {
          string msg = "Invalid registration. offender=";
           msg += registry.componentByID(fromID); 
@@ -418,7 +421,6 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, protocol::PublishEv
          string fromComponentName;
          if (components.find(fromID) != components.end())
             fromComponentName = components[fromID]->getName();
-
          onError(fromComponentName,
                  asString(errorData.errorMessage),
                  errorData.isFatal);
@@ -432,7 +434,7 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, protocol::PublishEv
 void Coordinator::propogateEvent(unsigned int fromID, protocol::PublishEventData& publishEventData)
    {
    ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-   ApsimRegistration *reg = registry.find(fromID, publishEventData.ID);
+   ApsimRegistration *reg = registry.find(::event, fromID, publishEventData.ID);
    if (reg == NULL) throw std::runtime_error("NULL in Coordinator::propogateEvent ?");
 
    vector<ApsimRegistration *> subscriptions;
@@ -448,7 +450,7 @@ void Coordinator::propogateEvent(unsigned int fromID, protocol::PublishEventData
       // coming from us rather than our child.
       if ((*s)->getComponentID() == parentID)
          fromID = componentID;
-//      cout << "propogate " << reg->getName() << " to " << registry.componentByID((*s)->getComponentID()) << endl;
+      //cout << "propogate " << reg->getName() << " to " << registry.componentByID((*s)->getComponentID()) << endl;
       sendMessage(protocol::newEventMessage(componentID,
                                   (*s)->getComponentID(),
                                   (*s)->getRegID(),
@@ -504,7 +506,7 @@ void Coordinator::onGetValueMessage(unsigned int fromID, protocol::GetValueData&
 void Coordinator::sendQueryValueMessage(unsigned fromID, unsigned regID)
    {
    ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-   ApsimRegistration *reg = registry.find(fromID, regID);
+   ApsimRegistration *reg = registry.find(::get, fromID, regID);
 
    pollComponentsForGetVariable(fromID, reg->getName());
 
@@ -665,7 +667,7 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
                                            protocol::RequestSetValueData& setValueData)
    {
    ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-   ApsimRegistration *reg = registry.find(fromID, setValueData.ID);
+   ApsimRegistration *reg = registry.find(::set, fromID, setValueData.ID);
 
    if (reg == NULL) throw std::runtime_error("NULL registration in Coordinator::onRequestSetValueMessage ?");
 
@@ -683,14 +685,14 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
           variablesBeenPolledForSets.end()) 
          { 
          variablesBeenPolledForSets.insert(fqn);
-         if (reg->getDestinationID() < 0) 
+         if (reg->getDestinationID() <= 0) 
             {
             /* ask everybody whether it belongs to them */
             vector<int> candidates;
             registry.getSiblingsAndParents(fromID, candidates);
             for(unsigned i = 0; i != candidates.size(); i++)
                {
-               if (candidates[i] != 0 &&
+               if (candidates[i] != 1 /*masterPMID*/ &&
                    candidates[i] != componentID)
                   {
                   sendMessage(protocol::newApsimSetQueryMessage(componentID,
@@ -804,7 +806,7 @@ void Coordinator::onApsimChangeOrderData(unsigned int fromID, protocol::MessageD
                                    componentNames[i] + ".junk", 
                                    id, junk); // fixme - there should be an easier way to do this!!
       
-      if (id < 0) 
+      if (id <= 0) 
          {
          string msg = "The CANOPY module has specified that " + componentNames[i] +
                       " be intercropped\nbut that module doesn't exist in the simulation.";
