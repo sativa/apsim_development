@@ -261,7 +261,7 @@ bool TclComponent::respondToSet(unsigned int& fromID, protocol::QuerySetValueDat
    setValueData.variant.unpack(newValue);
 
    ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-   ApsimRegistration *reg = registry.find(fromID, setValueData.ID);
+   ApsimRegistration *reg = registry.find(::respondToSet, fromID, setValueData.ID);
    if (reg == NULL)
         {
         string msg = "Invalid registration ID in TclComponent::respondToSet ";
@@ -657,7 +657,7 @@ void TclComponent::callback(const std::string& toName, const protocol::Message* 
                messageData >> eventData;
 
                ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-               ApsimRegistration *reg = registry.find(eventData.publishedByID, eventData.ID);
+               ApsimRegistration *reg = registry.find(::event, eventData.publishedByID, eventData.ID);
                if (reg == NULL)
                   {
                   string msg = "Invalid registration ID in TclComponent::callback ";
@@ -682,7 +682,7 @@ void TclComponent::callback(const std::string& toName, const protocol::Message* 
                protocol::GetValueData getValueData;
                messageData >> getValueData;
                ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-               ApsimRegistration *reg = registry.find(message->from, getValueData.ID); // fixme!!
+               ApsimRegistration *reg = registry.find(::get, message->from, getValueData.ID); // fixme!!
                if (reg == NULL)
                    {
                    string msg = "Invalid registration ID in TclComponent::callback ";
