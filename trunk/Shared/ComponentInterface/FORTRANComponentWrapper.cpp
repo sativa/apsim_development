@@ -1550,11 +1550,6 @@ extern "C" void EXPORT STDCALL change_component_order
   std::string EXPORT protocol::DDML(const ApsimVariant& ) 
      { return("<type kind=\"Variant\"/>"); }
 
-extern "C" void EXPORT STDCALL publish_null(unsigned* id)
-   {
-   FortranWrapper::currentInstance->publishNull(*id);
-   }
-
 
 // restore the warnings about "Functions containing for are not expanded inline.
 #pragma warn .inl

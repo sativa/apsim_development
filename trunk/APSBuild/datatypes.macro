@@ -255,8 +255,7 @@ end module dataTypes
 
 extern "C" void EXPORT STDCALL publish_null(unsigned* id)
    {
-   void *vp = NULL;
-   FortranWrapper::currentInstance->publish(*id, vp);
+   FortranWrapper::currentInstance->publishNull(*id);
    }
 #for_each structure
 namespace protocol {
