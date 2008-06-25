@@ -504,7 +504,7 @@ int CMPComponentInterface::RegisterWithPM(const string& name, const string& unit
    RegisterType registerData;
    registerData.kind = regKind;
    registerData.ID = ID;
-   registerData.destID = -1;
+   registerData.destID = 0;
    registerData.name = name;
    registerData.ddml = data->ddml; 
    sendMessage(newMessage(Message::Register, componentID, parentID, false,

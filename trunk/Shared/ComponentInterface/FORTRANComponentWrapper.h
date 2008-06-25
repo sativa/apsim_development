@@ -192,7 +192,7 @@ class FortranWrapper : public protocol::Component
                    const FString& dataTypeString, const T& value)
          {
          string regName;
-         if (destID < 0) 
+         if (destID <= 0) 
            ApsimRegistry::getApsimRegistry().unCrackPath(componentID, asString(variableName), destID, regName);
          else 
            regName = asString(variableName);

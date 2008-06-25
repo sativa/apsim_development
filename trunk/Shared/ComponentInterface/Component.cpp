@@ -317,7 +317,7 @@ void Component::doInit1(const Init1Data& init1Data)
 // ------------------------------------------------------------------
 // add a registration
 // ------------------------------------------------------------------
-
+// new name: RegisterWithPM
 unsigned Component::addRegistration(EventTypeCode kind,
                                     int destinationComponentID,
                                     const std::string& regName,
@@ -549,7 +549,7 @@ bool Component::getVariable(unsigned int registrationID,
    if (variants != NULL && variants->size() > 1)
       {
       ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-      ApsimRegistration* regItem = registry.find(componentID, registrationID);   
+      ApsimRegistration* regItem = registry.find(::get, componentID, registrationID);   
       if (regItem == NULL) {throw std::runtime_error("Invalid registration ID in Component::getVariable 1");}
       std::string st;
       st = "The module " + std::string(name) + " has asked for the value of the variable ";
@@ -568,11 +568,11 @@ bool Component::getVariable(unsigned int registrationID,
    else if (!optional && variants != NULL && variants->size() == 0)
       {
       ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-      ApsimRegistration* regItem = registry.find(componentID, registrationID);   
+      ApsimRegistration* regItem = registry.find(::get, componentID, registrationID);   
       if (regItem == NULL) {throw std::runtime_error("Invalid registration ID in Component::getVariable 2");}
       std::string st;
       st = "The module " + std::string(name) + " has asked for the value of the variable ";
-      if (regItem->getDestinationID() >= 0) {
+      if (regItem->getDestinationID() > 0) {
          st += registry.componentByID(regItem->getDestinationID());
          st += ".";
       }
@@ -616,7 +616,7 @@ bool Component::componentNameToID(const std::string& name, int &compID)
      fqName = pathName + string(".") + fqName;
    
    compID = registry.componentByName(fqName);
-   return compID >= 0;
+   return compID > 0;
    }
 // ------------------------------------------------------------------
 // component ID to name
@@ -766,14 +766,19 @@ EventTypeCode Component::getRegistrationType(unsigned int regID)
 // ------------------------------------------------------------------
 ApsimRegistration* Component::getRegistration(int fromID, unsigned int regID)
    {
-   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-   ApsimRegistration* reg = registry.find(fromID, regID);
-   if (reg == NULL) {string msg = "Invalid registration ID in Component::getRegistration ";
-                     msg += itoa(fromID);
-                     msg += ".";
-                     msg += itoa(regID);
-                     throw std::runtime_error(msg);}
-   return reg;
+   ApsimRegistry &registry = ApsimRegistry::getApsimRegistry(); 
+   EventTypeCode types[] = {::get, ::set, ::respondToGet, ::respondToSet,
+                            ::event, ::respondToEvent, ::respondToGetSet};
+   ApsimRegistration* reg;
+   for (int i = 0; i < 7; i++) 
+     if ((reg = registry.find(types[i], fromID, regID)) != NULL)
+       return reg;
+     
+   string msg = "Invalid registration ID in Component::getRegistration ";
+   msg += itoa(fromID);
+   msg += ".";
+   msg += itoa(regID);
+   throw std::runtime_error(msg);
    }
 
 void Component::getRegistrationName(int fromID, unsigned int regID, std::string &name)
@@ -791,7 +796,7 @@ void Component::getRegistrationName(int fromID, unsigned int regID, std::string 
 void Component::setVariableError(unsigned int regID)
    {
    ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-   ApsimRegistration* regItem = registry.find(componentID, regID);
+   ApsimRegistration* regItem = registry.find(::set, componentID, regID);
    if (regItem == NULL) {throw std::runtime_error("Invalid registration ID in Component::setVariableError");}
    string buffer= "Cannot set value of the specified variable.\nVariable name: ";
    buffer += regItem->getName();
@@ -938,7 +943,7 @@ unsigned int Component::getReg(const char *systemName,
    ApsimRegistration *reg = registry.find(::respondToGet, componentID, systemName);
    if (reg != NULL) 
       {
-      registry.erase(componentID, (unsigned int)reg);
+      registry.erase(::respondToGet, componentID, (unsigned int)reg);
       removeGettableVar(systemName);
       }
 
