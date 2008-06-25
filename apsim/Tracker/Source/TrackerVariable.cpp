@@ -256,17 +256,17 @@ void TrackerVariable::respondToEvent(int fromID, unsigned evntID)
    {
    if (evntID == eventID)
       {
-      if (eventComponentID < 0 || fromID == eventComponentID)
+      if (eventComponentID <= 0 || fromID == eventComponentID)
          doSample();
       }
    else if (evntID == startPeriodID)
       {
-      if (startPeriodComponentID < 0 || fromID == startPeriodComponentID)
+      if (startPeriodComponentID <= 0 || fromID == startPeriodComponentID)
          onStartPeriod();
       }
    else if (evntID == endPeriodID)
       {
-      if (endPeriodComponentID < 0 || fromID == endPeriodComponentID)
+      if (endPeriodComponentID <= 0 || fromID == endPeriodComponentID)
          onEndPeriod();
       }
    }
