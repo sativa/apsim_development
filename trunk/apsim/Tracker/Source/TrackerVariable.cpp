@@ -300,35 +300,23 @@ void TrackerVariable::doSample(void)
       }
    else if (stat == dateStat)
       {
-      protocol::Variant* variant=NULL;
+      double today;
       unsigned todayID = parent->addRegistration(::get,
                                                  -1,
                                                  "today",
-                                                 "<type kind=\"double\"/>");
-      if (parent->getVariable(todayID, &variant))
-         {
-         double today;
-         protocol::TypeConverter* typeConverter;
-         getTypeConverter("today",
-                          variant->getType(),
-                          protocol::DDML(today).c_str(),
-                          typeConverter);
-         variant->unpack(typeConverter, 
-                         NULL, 
-                         today);
-         sampleDate = to_dmy(date(today));
-         }
+                                                 protocol::DDML(today).c_str());
+      parent->getVariable(todayID, today, -1.0E12, 1.0E12);
+      sampleDate = to_dmy(date(today));
       }
    else if (inWindow)
       {
-      ApsimRegistration* regItem = (ApsimRegistration*)
-                            parent->addRegistration(::get,
-                                                    ownerModuleID,
-                                                    ownerModuleName,
-                                                    protocol::DDML(vector<float>()).c_str());
       vector<float> theseValues;
+      unsigned int valueID = parent->addRegistration(::get,
+                                                     ownerModuleID,
+                                                     ownerModuleName,
+                                                     protocol::DDML(theseValues).c_str());
 
-      bool ok = parent->getVariable((unsigned int)regItem,
+      bool ok = parent->getVariable(valueID,
                                     theseValues,
                                     -1.0E6,
                                     1.0E6);
