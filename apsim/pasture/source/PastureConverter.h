@@ -60,8 +60,6 @@ class PastureConverter : public protocol::Component
       void dospraytopPasture(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       double getVariableValue (protocol::Variant& variant, string eventName, string variableName, string unitName);
 
-      void fill_real_array (float *var, float value, int limit);
-
       unsigned prepareID;
       unsigned processID;
       unsigned postID;
@@ -87,7 +85,6 @@ class PastureConverter : public protocol::Component
       unsigned sowPastureID;
 
       string cDebug;
-      int numLayers;
       vector <float> pSandLayer;
 
       float cSVPFract;

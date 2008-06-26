@@ -347,17 +347,13 @@ void PastureConverter::readParameters ( void )
 //===========================================================================
    {
    const char*  section_name = "parameters" ;
-   float sandLayer[100];
 
    writeString (" - reading parameters");
 
-    cDebug = readParameter (section_name, "debug");
-    readParameter (section_name, "sand", sandLayer, numLayers, 0.0, 1.0);
-    readParameter (section_name,"svp_fract", cSVPFract, 0.0, 1.0);
-    readParameter (section_name,"co2_ppm", cCO2ppm, 0.0, 1000.0);
-
-   for (int layer = 0; layer < numLayers; layer++)
-      pSandLayer.push_back(sandLayer[layer]);
+   cDebug = readParameter (section_name, "debug");
+   readParameter (section_name, "sand",      pSandLayer, 0.0, 1.0);
+   readParameter (section_name, "svp_fract", cSVPFract, 0.0, 1.0);
+   readParameter (section_name, "co2_ppm",   cCO2ppm, 0.0, 1000.0);
 
    ostringstream msg;
    msg << "debug = " << cDebug << endl;
@@ -395,26 +391,12 @@ void PastureConverter::sendSand (protocol::QueryValueData& queryData)
 void PastureConverter::sendVPD (protocol::QueryValueData& queryData)
 //==========================================================================
 {
-      protocol::Variant *variantMaxT;
-      bool okMaxt = getVariable(maxtID, &variantMaxT, true);
-      if (okMaxt)
-      {
-         protocol::Variant *variantMinT;
-         bool ok = getVariable(mintID, &variantMinT, true);
-         if (ok)
-         {
-         float maxt;
-         bool ok = variantMaxT->unpack(maxt);  // what happens if this is not ok?
-         float mint;
-         ok = variantMinT->unpack(mint);  // what happens if this is not ok?
-         float VPD = vpd(cSVPFract, maxt, mint);
-
-         sendVariable(queryData, VPD);
-         }
-      }
-      else
-      {   // didn't get the maxT ID ok. Do nothing about it.
-      }
+      float maxt;
+      getVariable(maxtID, maxt, -100.0, 100.0);
+      float mint;
+      getVariable(mintID, mint, -100.0, 100.0);
+      float VPD = vpd(cSVPFract, maxt, mint);
+      sendVariable(queryData, VPD);
 }
 
 void PastureConverter::sendCO2 (protocol::QueryValueData& queryData)
@@ -449,19 +431,4 @@ float PastureConverter::svp(float temp) //(INPUT)  fraction of distance between 
 
    return  (ES0 * exp(TC_B * temp / (TC_C + temp)) * mb2kpa);
    }
-
-//===========================================================================
-void PastureConverter::fill_real_array (float *var  //(OUTPUT) array to set
-                                       , float value //(IN) scalar value to set array to
-                                       , int limit)   //(IN) number of elements
-//===========================================================================
-
-/*Purpose
- *   sets real array var to value up to level limit
- */
-
-{
-   for (int indx = 0; indx < limit; indx++)
-      var[indx] = value;
-}
 
