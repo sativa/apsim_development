@@ -389,20 +389,10 @@ void NonHerbageConverter::respondToGet(unsigned int& fromID,
 
 void NonHerbageConverter::daylengthRelay (protocol::QueryValueData& queryData)
 {
-      protocol::Variant* variant;
-      bool ok = system->getVariable(day_lengthID, &variant, true);
+      float dayLength;
+      bool ok = system->getVariable(day_lengthID, dayLength, 0.0, 24.0, true);
       if (ok)
-      {
-         float dayLength;
-         bool ok = variant->unpack(dayLength);  // what happens if this is not ok?
-         if (ok)
-            system->sendVariable(queryData, dayLength);
-         else
-            throw std::runtime_error("Failed to unpack a float in NonHerbageConverter::daylengthRelay");
-      }
-      else
-      {   // didn't get the day_length ID ok. Do nothing about it.
-      }
+         system->sendVariable(queryData, dayLength);
 }
 
 
