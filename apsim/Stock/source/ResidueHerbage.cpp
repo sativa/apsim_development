@@ -504,21 +504,15 @@ float ResidueHerbage::trampling(void)
 
 void ResidueHerbage::getParts(ResiduePartType &parts, unsigned partsID)
 {
-      protocol::Variant* variant;
-      bool ok = system->getVariable(partsID, &variant, true);
+      vector <float> partsArray;
+      bool ok = system->getVariable(partsID, partsArray, 0.0, 10000.0, true);
       if (ok)
       {
-         vector <float> partsArray;
-         bool ok = variant->unpack(partsArray);
-         if (ok && partsArray.size() >= 2)
+         if (partsArray.size() >= 2)
          {
             parts.cellulose = partsArray[CELLULOSE]*g2kg/sm2ha;
             parts.carbohydrate = partsArray[CARBOHYDRATE]*g2kg/sm2ha;
             parts.lignin = partsArray[LIGNIN]*g2kg/sm2ha;
-         }
-         else
-         {
-            throw std::runtime_error("Couldn't unpack partsArray");
          }
       }
       else
