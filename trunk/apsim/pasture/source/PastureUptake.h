@@ -42,7 +42,6 @@ class PastureUptake : public protocol::Component
    private:
       void readParameters ( void );
 
-      void fill_real_array (float *var, float value, int limit);
       unsigned elementUptakeID;
       unsigned dltElementID;
       string uptakeName;
@@ -50,7 +49,6 @@ class PastureUptake : public protocol::Component
       string unitName;
 
       string cDebug;
-      int numLayers;
 
       protocol::Component *system;
 

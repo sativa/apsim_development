@@ -58,35 +58,18 @@ void PastureUptake::doInit2(void)
 void PastureUptake::doUptake(void)
 //===========================================================================
 {
-      protocol::Variant *variantGet;
       std::vector <float> elementUptake;
-
-      bool ok = system->getVariable(elementUptakeID, &variantGet, true);
-      if (ok)
-      {
-         bool ok = variantGet->unpack(elementUptake);
-         if (ok && elementUptake.size() >= 1)
-         { // ok
-         }
-         else
-            throw std::runtime_error("Couldn't unpack " + uptakeName);
-      }
-      else
-         throw std::runtime_error("Couldn't get variable " + uptakeName);
-
-      float dltElement[max_layer];
-      fill_real_array (dltElement, 0.0, max_layer);
+      system->getVariable(elementUptakeID, elementUptake, -1000.0, 1000.0);
 
       ostringstream msg;
       if (cDebug == "on")
          msg << endl <<  uptakeName + ":-" << endl;
 
-      int numLayers = elementUptake.size();
       float uptakeTotal = 0.0;
-
-      for (int layer = 0; layer < numLayers; layer++)
+      std::vector <float> dltElement;
+      for (unsigned int layer = 0; layer != elementUptake.size(); layer++)
       {
-         dltElement[layer] = -elementUptake[layer];
+         dltElement.push_back(-elementUptake[layer]);
          uptakeTotal +=  elementUptake[layer];
 
          if (cDebug == "on")
@@ -98,9 +81,7 @@ void PastureUptake::doUptake(void)
       msg << "   " << uptakeName << " total = " << uptakeTotal << " " << unitName << endl << ends;
       system->writeString (msg.str().c_str());
    }
-
-   std::vector<float> dltElementValues(dltElement, dltElement+numLayers);
-   system->setVariable(dltElementID, dltElementValues);
+   system->setVariable(dltElementID, dltElement);
 }
 
 
@@ -111,22 +92,5 @@ void PastureUptake::readParameters ( void )
     const char*  section_name = "parameters" ;
     cDebug = system->readParameter (section_name, "debug");
    }
-
-
-//===========================================================================
-void PastureUptake::fill_real_array (float *var  //(OUTPUT) array to set
-                                       , float value //(IN) scalar value to set array to
-                                       , int limit)   //(IN) number of elements
-//===========================================================================
-
-/*Purpose
- *   sets real array var to value up to level limit
- */
-
-   {
-   for (int indx = 0; indx < limit; indx++)
-      var[indx] = value;
-   }
-
 
 
