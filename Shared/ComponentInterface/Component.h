@@ -306,11 +306,12 @@ class EXPORT Component
       // Publish an event.
       void publishNull(unsigned int eventID)
          {
+         int null = 0;
          sendMessage(newPublishEventMessage(componentID, 
                                             parentID, 
                                             eventID,
                                             "<type/>",
-                                            NULL));
+                                            null));
          }
       template <class T>
       void publish(unsigned int eventID, T& data)
