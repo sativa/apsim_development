@@ -16,6 +16,7 @@ class PlantHerbage : public HerbageBase
       PlantHerbage(protocol::Component *system);
       ~PlantHerbage(void);
 
+      void doInit1(const protocol::Init1Data&);
       void doInit2(void);
       void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       void doDmdPoolsToHerbageParts(protocol::RemoveHerbageType &grazed, protocol::RemoveCropDmType &crop);
@@ -56,7 +57,6 @@ class PlantHerbage : public HerbageBase
       float selectionFactor ( void );
 
          // Belongs to base class when implemented
-      void doInit1(const protocol::Init1Data&);
       void doGrazed(protocol::RemoveHerbageType &grazed);
 
       void readParameters ( void );
@@ -137,6 +137,7 @@ class PlantHerbage : public HerbageBase
 ////      SeedPool dQSeed;
 
          int cHerbageModuleID;
+      string cHerbageModuleName;
          string cDebug;
 
          float cDmdValueVeg[maxDmdPoolsVeg];

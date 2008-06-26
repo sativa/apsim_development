@@ -451,7 +451,7 @@ void NonHerbageConverter::readParameters ( void )
       system->writeString (msg.str().c_str());
 
    int stockModuleID = -1;
-   componentNameToID(stockModuleName, stockModuleID);
+   system->componentNameToID(stockModuleName, stockModuleID);
    buyID = system->addRegistration(::event, stockModuleID, "buy", DDML(protocol::BuyStockType()));
 
 }
