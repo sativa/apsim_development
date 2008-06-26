@@ -362,7 +362,7 @@ void FortranWrapper::event_send(int destID, const FString& eventName)
    unsigned eventID = addRegistration(::event,
                                       destID,
                                       asString(eventName),
-                                      nullType);
+                                      DDML(outgoingApsimVariant));
    publish(eventID, outgoingApsimVariant);
    }
 

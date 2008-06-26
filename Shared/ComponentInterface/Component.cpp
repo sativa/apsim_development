@@ -996,10 +996,15 @@ void Component::removeGettableVar(const char *systemName)
    bool found = 1;
    while (found)
       {
+      found = 0;
       UInt2InfoMap::iterator i;
       for (i = getVarMap.begin();i != getVarMap.end();i++)
-         if ((*i).second->name() == systemName) getVarMap.erase(i);  // and should probably deleteReg too..??
-      if (i == getVarMap.end()) found = 0;
+         if ((*i).second->name() == systemName) 
+            {
+            getVarMap.erase(i);  // and should probably deleteReg too..?? fixme
+            found = 1;
+            break;
+            }
       }
    }
 
@@ -1025,7 +1030,7 @@ void Component::addReturnValueMessage(ReturnValueData &returnValueData)
 
 void Component::changeComponentOrder(const FStrings& names)
    {
-   //int masterPMID = 0;
+   //int masterPMID = 1;
    //sendMessage(newApsimChangeOrderMessage(componentID, masterPMID, names));
    sendMessage(newApsimChangeOrderMessage(componentID, parentID, names));
    }

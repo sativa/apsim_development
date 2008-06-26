@@ -362,10 +362,7 @@ std::string ApsimRegistry::componentByID(int id)
       if (components[i].ID == id)
          return components[i].Name;
 
-   string x= "<?undefined?(";
-   x += itoa(id);
-   x += ")>";
-   return x;  
+   return "";  
 }
 void ApsimRegistry::setForeignTaint(int id)
 {

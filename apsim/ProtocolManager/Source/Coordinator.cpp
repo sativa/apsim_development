@@ -817,7 +817,7 @@ void Coordinator::onApsimChangeOrderData(unsigned int fromID, protocol::MessageD
       }
 
    // Swap positions of nominated modules.
-   for (unsigned i = 1; i != componentIDs.size(); i++)
+   for (unsigned i = 1; i < componentIDs.size(); i++)
      {
      vector<int>::iterator a, b;
      a = find(componentOrders.begin(), componentOrders.end(), componentIDs[i-1]);
@@ -864,43 +864,6 @@ void Coordinator::reorderSubscriptions(std::vector<ApsimRegistration *>& subs)
 // ------------------------------------------------------------------
 void Coordinator::readAllRegistrations(void)
    {
-#if 0
-   for (ApsimComponentData::RegIterator reg = componentData->regBegin();
-                                        reg != componentData->regEnd();
-                                        reg++)
-      {
-      EventTypeCode regType = stringToTypeCode(reg->getType());
-      string internalName = reg->getInternalName();
-      if (internalName == "")
-         internalName = reg->getName();
-
-      string ddml;
-      string dataTypeName = reg->getDataTypeName();
-      if (Str_i_Eq(dataTypeName, "integer4") ||
-          Str_i_Eq(dataTypeName, "single") ||
-          Str_i_Eq(dataTypeName, "double") ||
-          Str_i_Eq(dataTypeName, "string"))
-         ddml = "<type kind=\"" + dataTypeName + "\"/>";
-      else
-         {
-         ApsimDataTypeData dataType = componentData->getDataType(reg->getDataTypeName());
-         ddml = dataType.getTypeString();
-         }
-      string units = reg->getUnits();
-      if (units != "")
-         addAttributeToXML(ddml, "unit=\"" + units + "\"");
-
-      ApsimRegistration *newReg = 
-           new NativeRegistration(opposite(regType), 
-                                  reg->getName(), 
-                                  ddml, 
-                                  componentID);
-
-      ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
-      registry.add(newReg);
-//??      ::Registration(parentID, regId, internalName, ddml.c_str(), oppositeRegType));
-      }
-#endif
    }
 // ------------------------------------------------------------------
 // respond to a event that has happened.
