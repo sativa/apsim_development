@@ -11,12 +11,10 @@ XML2_LIBDIR ?=-L/usr/lib
 LIB=	../lib/ProtocolManager.so
 
 SRC=	ComponentAlias.cpp		\
-	Coordinator.cpp			\
-	Registrations.cpp
+	Coordinator.cpp			
 
 OBJ=	ComponentAlias.o		\
 	Coordinator.o			\
-	Registrations.o			\
 	$(APSROOT)/Shared/ComponentInterface/EntryPoints.o
 
 #-----------------------------------------------------------------------
