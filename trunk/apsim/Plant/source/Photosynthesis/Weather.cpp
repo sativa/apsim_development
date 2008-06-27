@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <math.h>
-#include <windows.h>
-#include "Weather.h"
+#include "weather.h"
 using namespace std;
 #define GET_DAYLENGTH	0
 #define GET_PHOTOPERIOD 1
@@ -225,43 +224,6 @@ int CWeather::GetJulianDay()
 }
 
 
-char* CWeather::GetDate(char *string)
-{
-        char  Date[20], sChar[5], Day[5], Month[5], Year[5];
-
-        itoa(m_nDay,   Day,  10);
-        itoa(m_nMonth, Month,10);
-        itoa(m_nYear,  Year, 10);
-
-        if (m_nDay<10)
-           {
-           memset(sChar, 0, 5);
-           strcat(sChar,"0\0");
-           strcat(sChar,Day);
-           strcpy(Day,sChar);
-           }
-
-        if (m_nMonth<10)
-           {
-           memset(sChar, 0, 5);
-           strcat(sChar,"0\0");
-           strcat(sChar,Month);
-           strcpy(Month,sChar);
-           }
-
-        memset(Date, 0, 20);
-
-        strcat(Date, Day);
-        strcat(Date, "/\0");
-        strcat(Date, Month);
-        strcat(Date, "/\0");
-        strcat(Date, Year);
-
-        strcpy(string, Date);
-
-        return string;
-
-}
 
 
 float CWeather::Daylength(float fLatitude)
@@ -1169,113 +1131,3 @@ float SaturatedVapourPressure(float fTemp)
 
 
 
-
-/********************************************************************************************
- 					int FloatToString()
-*********************************************************************************************/
-int FloatToString(float fNumber,int iDecimal,LPSTR lpString)
-	{
-	char  	lpTxt[80];
-	int 	iBefore,iAfter,multiplicator,position;
-    int		iFirstChar	= 1;
-    int 	iMaxDecimal = 4;
-
-    position = 0;
-
-    if (iDecimal > iMaxDecimal)
-    	iDecimal = iMaxDecimal;
-    if(fNumber < 0)
-    	{
-    	iFirstChar= -1;    	position = 1;    	lpTxt[0]='-';
-    	fNumber = fNumber * iFirstChar;
-    	}
-
-    multiplicator = (int)pow (10,iDecimal);
-
-	iBefore = 0;	iAfter  = 0;
-
-	iBefore = (int)floor(fNumber);
-	iAfter  = (int)floor((fNumber - iBefore)* multiplicator +0.5);
-
-	if(iAfter == multiplicator)
-		{
-		iBefore = iBefore + 1;
-		iAfter = 0;
-		}
-
-	if(iDecimal == 0)
-		wsprintf((LPSTR)&lpTxt[position], (LPSTR)"%d", iBefore);
-	if(iDecimal == 1)
-		wsprintf((LPSTR)&lpTxt[position], (LPSTR)"%d.%01d", iBefore,iAfter);
-	if(iDecimal == 2)
-		wsprintf((LPSTR)&lpTxt[position], (LPSTR)"%d.%02d", iBefore,iAfter);
-	if(iDecimal == 3)
-		wsprintf((LPSTR)&lpTxt[position], (LPSTR)"%d.%03d", iBefore,iAfter);
-	if(iDecimal == 4)
-		wsprintf((LPSTR)&lpTxt[position], (LPSTR)"%d.%04d", iBefore,iAfter);
-	if(iDecimal == 5)
-		wsprintf((LPSTR)&lpTxt[position], (LPSTR)"%d.%05d", iBefore,iAfter);
-
-	lstrcpy(lpString,lpTxt);
-
-	return lstrlen(lpTxt);
-	}
-
-
-int FloatToStringEquallLength(float fNumber,int iDecimal,LPSTR lpString,int iLen)
-       {
-
-       int  Len;
-       char cChar[50];
-
-       memset(cChar,0,50);
-
-       FloatToString(fNumber,iDecimal,lpString);
-
-       Len = strlen(lpString);
-
-       if (Len>=iLen)
-         {
-         strcpy(cChar,lpString);
-         cChar[iLen+1]='\0';
-         strcpy(lpString,cChar);
-         }
-       else
-         {
-         for (int i=1; i<=iLen-Len;i++) strcat(cChar," ");
-         strcat(cChar, lpString);
-         strcpy(lpString,cChar);
-         }
-
-       return Len;
-
-       }
-
-
-int ExpandStringEquallLength(LPSTR lpStrDest, LPSTR lpStrSrc, int iLen)
-       {
-
-       int  Len;
-       char cChar[50];
-
-       memset(cChar,0,50);
-
-
-       Len = strlen(lpStrSrc);
-
-       if (Len>=iLen)
-         {
-         strcpy(cChar,lpStrSrc);
-         cChar[iLen+1]='\0';
-         strcpy(lpStrDest,cChar);
-         }
-       else
-         {
-         for (int i=1; i<=iLen-Len;i++) strcat(cChar," ");
-         strcat(cChar, lpStrSrc);
-         strcpy(lpStrDest,cChar);
-         }
-
-       return Len;
-
-       }

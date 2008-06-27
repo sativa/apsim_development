@@ -25,7 +25,6 @@ OBJ=PlantComponent.o \
    Utility/LookupFunction.o \
    Utility/Science.o \
    Utility/Date.o \
-   PlantComms.o \
    PlantP.o \
    Population.o \
    PlantStress.o \
@@ -76,17 +75,25 @@ OBJ=PlantComponent.o \
    Phenology/Phenology.o \
    Phenology/Phase.o \
    Phenology/CompositePhase.o \
-   Phenology/TTTPhenology.o \
-   Phenology/WheatPhenology.o \
    Phenology/FixedPhase.o \
+   Phenology/InductivePhase.o \
    Phenology/VernalPhase.o \
-   Phenology/GenericPhenology.o \
    Phenology/PhotoPhase.o \
    Phenology/EmergentPhase.o \
    Phenology/LeafAppPhase.o \
-   ../../../Shared/ComponentInterface/EntryPoints.o \
+   Phenology/SowingPhase.o \
+   Phenology/WaitingPhase.o \
+   Phenology/CWEmergentPhase.o \
+   Phenology/CWVernalPhase.o \
+   Phenology/CWInductivePhase.o \
+   Phenology/CWSowingPhase.o \
+   Phenology/CWFixedPhase.o \
+   Phenology/Zadok.o \
    Photosynthesis/PhotosynthesisModel.o \
-   Photosynthesis/RUEModel.o
+   Photosynthesis/RUEModel.o \
+   Photosynthesis/Weather.o \
+   Photosynthesis/SUCROSModel.o \
+   ../../../Shared/ComponentInterface/EntryPoints.o 
 
 #-----------------------------------------------------------------------
 # Compiler options
