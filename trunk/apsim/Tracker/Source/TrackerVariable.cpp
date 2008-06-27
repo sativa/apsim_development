@@ -21,12 +21,11 @@ TrackerVariable::TrackerVariable(protocol::Component* p, const string& fullName)
    {
    count = 0;
    last = 0;
+   startPeriodID = endPeriodID = nameID = eventID = 0; 
+   startPeriodComponentID = endPeriodComponentID = eventComponentID = -1;
    inWindow = false;
    parse(fullName);
    sampleDate = "?";
-   eventComponentID = 0;
-   startPeriodID = endPeriodID = nameID = eventID = 0; 
-   startPeriodComponentID = endPeriodComponentID = eventComponentID = 0;
    }
 // ------------------------------------------------------------------
 // Parse the name passed in.
@@ -164,6 +163,7 @@ void TrackerVariable::parseEventName(StringTokenizer& tokenizer)
                                                     evt, 
                                                     eventComponentID, 
                                                     eventName);
+
    if (eventName == "")
       throw runtime_error("Expected an event name.");
    else if (Str_i_Eq(eventName, "start_of_day"))
@@ -182,8 +182,8 @@ void TrackerVariable::doRegistrations(void)
    string typeString = singleArrayDDML;
 
    eventID = parent->addRegistration(::respondToEvent,
-                                     -1,
-                                     eventName.c_str(),
+                                     eventComponentID,
+                                     eventName,
                                      nullDDML); 
 
    if (variableName != "")
@@ -229,12 +229,12 @@ void TrackerVariable::doRegistrations(void)
 
    if (startPeriod != "")
       startPeriodID = parent->addRegistration(::respondToEvent,
-                                              -1,
+                                              startPeriodComponentID,
                                               startPeriod,
                                               nullDDML);
    if (endPeriod != "")
       endPeriodID = parent->addRegistration(::respondToEvent,
-                                            -1,
+                                            endPeriodComponentID,
                                             endPeriod,
                                             nullDDML);
    if (stat == dateStat)
