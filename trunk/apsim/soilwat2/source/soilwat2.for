@@ -2879,6 +2879,7 @@ cjh
      :          new_line//'   - Reading Soil Property Parameters')
 
           ! get runoff source
+      g%obsrunoff_name = blank
       call read_char_var_optional (section_name
      :                   ,'observed_runoff', '()'
      :                   , g%obsrunoff_name
@@ -3013,6 +3014,7 @@ cjh
      :                   , numvals)
 
          else
+            p%winterdate = blank
             call read_char_var_optional (section_name
      :                   ,'winterdate', '(dd-mmm)'
      :                   , p%winterdate
@@ -3031,6 +3033,7 @@ cjh
      :                   , numvals)
 
          else
+            p%summerdate = blank
             call read_char_var_optional (section_name
      :                   ,'summerdate', '(dd-mmm)'
      :                   , p%summerdate
@@ -3086,15 +3089,11 @@ cjh
       else
       endif
 
-
+      g%eo_source = blank
       call read_char_var_optional (section_name
      :                   ,'eo_source', '()'
      :                   , g%eo_source
      :                   , numvals)
-      if (numvals .le. 0) then
-          g%eo_source = blank
-      else
-      endif
 
       call pop_routine (my_name)
       return
