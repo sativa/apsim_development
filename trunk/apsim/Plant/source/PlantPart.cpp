@@ -160,6 +160,7 @@ void plantPart::zeroAllGlobals(void)
    Senesced.Clear();
    g.n_conc_crit=0.0;
    g.n_conc_min=0.0;
+   tempFlagToShortCircuitInit1 = false;
 
    zeroDeltas();
    }
