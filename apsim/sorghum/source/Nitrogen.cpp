@@ -75,7 +75,7 @@ void Nitrogen::initialize(void)
    actualMassFlow =  0.0;
    actualDiffusion = 0.0;
 
-   currentLayer = 0.0;
+   currentLayer = 0;
 
    //Set up reporting vectors
    int nParts = plant->PlantParts.size();
@@ -92,7 +92,7 @@ void Nitrogen::initialize(void)
    fixationSupply.clear();
    dltNo3.clear();
 
-
+   rootDepth = 0.0;
    }
 //------------------------------------------------------------------------------------------------
 //----------- read Nitrogen parameters

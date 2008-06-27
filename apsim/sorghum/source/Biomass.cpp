@@ -49,6 +49,7 @@ void Biomass::doRegistrations(void)
 void Biomass::initialize(void)
    {
    hi =    0.0;
+   stage = 0;
    dltDM = 0.0;
    dltDMPotTE =  0.0;
    dltDMPotRUE = 0.0;
