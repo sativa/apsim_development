@@ -134,7 +134,7 @@ subroutine surfom_zero_all_globals ()
 
 !+  Purpose
 !       Zero all global variables & arrays
-
+   integer pool
 !+  Constant Values
    character  my_name*(*)           ! name of procedure
    parameter (my_name  = 'surfom_zero_all_globals')
@@ -158,6 +158,28 @@ subroutine surfom_zero_all_globals ()
    g%phosphorus_aware    = .false.
    c%fom_types(:)        = blank
    c%num_fom_types       = 0
+
+   g%oldSOMstate%amount = 0.0
+   g%oldSOMstate%C  = 0.0
+   g%oldSOMstate%N  = 0.0
+   g%oldSOMstate%P  = 0.0
+   g%oldSOMstate%AshAlk  = 0.0
+   g%SurfOM(:)%no3 = 0.0
+   g%SurfOM(:)%nh4 = 0.0
+   g%SurfOM(:)%po4 = 0.0
+
+   do pool = 1, MaxFr
+     g%SurfOM(:)%Lying(pool)%amount = 0.0
+     g%SurfOM(:)%Lying(pool)%C = 0.0
+     g%SurfOM(:)%Lying(pool)%N = 0.0
+     g%SurfOM(:)%Lying(pool)%P = 0.0
+     g%SurfOM(:)%Lying(pool)%AshAlk = 0.0
+     g%SurfOM(:)%Standing(pool)%amount = 0.0
+     g%SurfOM(:)%Standing(pool)%C = 0.0
+     g%SurfOM(:)%Standing(pool)%N = 0.0
+     g%SurfOM(:)%Standing(pool)%P = 0.0
+     g%SurfOM(:)%Standing(pool)%AshAlk = 0.0
+   end do
 
       ! Parameters
    p%report_additions    = blank
@@ -224,7 +246,6 @@ subroutine surfom_Reset ()
 
    ! Save State
    call surfom_save_state ()
-   call surfom_zero_variables ()
    call surfom_get_other_variables ()
    call surfom_read_coeff ()
    call surfom_read_param ()
@@ -351,7 +372,7 @@ subroutine surfom_zero_variables ()
    p%report_additions = 'no'
    p%report_removals = 'no'
 
-
+   
    call pop_routine (my_name)
    return
 end subroutine
@@ -2963,6 +2984,7 @@ subroutine Main (action, data_string)
    elseif (Action .eq. ACTION_Create) then
       call doRegistrations(id)
       call surfom_zero_all_globals ()
+      call surfom_zero_variables ()
       call surfom_zero_event_data ()
    else
          ! Don't use message

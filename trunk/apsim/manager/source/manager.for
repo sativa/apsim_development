@@ -1117,6 +1117,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Split_line(variable_name, Mod_name, Var_name, '.')
          ok = component_name_to_id(Mod_name, modNameID)
 
+         Variable_value = ' '
          if (ok) then
             call Get_char_var
      .           (modNameID, trim(Var_name), '()',
@@ -1129,7 +1130,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
             str = 'Cannot find APSIM variable: '
      .             // Trim(variable_name)
             call fortran_error(str, .true.)
-            Variable_value = ' '
          endif
 
       else
@@ -1142,6 +1142,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          ! If not in local variable list then ask APSIM for it.
 
          if (Variable_index .le. 0) then
+            Variable_value = blank
             call Get_char_var_optional
      .           (Unknown_module, variable_name, '()',
      .            Variable_value, Numvals)
