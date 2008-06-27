@@ -11,24 +11,24 @@
 
 Version                = 6.1
 Title                  = pat95_rcbic911
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component     "canopy" = c:\development\apsim\canopy\lib\canopy.dll
-Component   "operatns" = c:\development\apsim\operatns\lib\operatns.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component     "millet" = c:\development\apsim\millet\lib\millet.dll
-Component    "millet1" = c:\development\apsim\millet\lib\millet.dll
-Component    "millet2" = c:\development\apsim\millet\lib\millet.dll
-Component    "millet3" = c:\development\apsim\millet\lib\millet.dll
-Component    "millet4" = c:\development\apsim\millet\lib\millet.dll
-Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component     "report" = C:\development\apsim\report\lib\report.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
+Component     "canopy" = C:\development\apsim\canopy\lib\canopy.dll
+Component   "operatns" = C:\development\apsim\operatns\lib\operatns.dll
+Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component   "irrigate" = C:\development\apsim\irrigate\lib\irrigate.dll
+Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component     "millet" = C:\development\apsim\millet\lib\millet.dll
+Component    "millet1" = C:\development\apsim\millet\lib\millet.dll
+Component    "millet2" = C:\development\apsim\millet\lib\millet.dll
+Component    "millet3" = C:\development\apsim\millet\lib\millet.dll
+Component    "millet4" = C:\development\apsim\millet\lib\millet.dll
+Component    "millet5" = C:\development\apsim\millet\lib\millet.dll
+Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -870,18 +870,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-      stage    3.0 emergence
-                          biomass =          0.6700000E-02   lai =    0.1340000E-02
-                          stover N conc =    4.400000       extractable sw =    4.466921
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-      soil water of     0.227073      in layer   3
-              is below air-dry value of     0.244000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 6 July 1995(Day of year=187): 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -901,6 +889,10 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
+6 July 1995(Day of year=187), millet2: 
+      stage    3.0 emergence
+                          biomass =          0.6700000E-02   lai =    0.1340000E-02
+                          stover N conc =    4.400000       extractable sw =    7.646955
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -1016,7 +1008,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       stage    3.0 emergence
                           biomass =          0.6700000E-02   lai =    0.1340000E-02
-                          stover N conc =    4.400000       extractable sw =    8.707949
+                          stover N conc =    4.400000       extractable sw =    8.708420
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -1036,37 +1028,37 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-      soil water of     0.227587      in layer   3
-              is below air-dry value of     0.244000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-      soil water of     0.227587      in layer   3
-              is below air-dry value of     0.244000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-      soil water of     0.227587      in layer   3
-              is below air-dry value of     0.244000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 8 July 1995(Day of year=189), millet: 
       stage    4.0 end_of_juvenile
-                          biomass =           6.277143       lai =    0.9712543E-01
-                          stover N conc =    5.388712       extractable sw =    28.28311
+                          biomass =           6.277109       lai =    0.9712543E-01
+                          stover N conc =    5.388873       extractable sw =    28.30193
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+      soil water of     0.227587      in layer   3
+              is below air-dry value of     0.244000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+      soil water of     0.227587      in layer   3
+              is below air-dry value of     0.244000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+      soil water of     0.227587      in layer   3
+              is below air-dry value of     0.244000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -1077,24 +1069,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      
 9 July 1995(Day of year=190): 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-      soil water of     0.227932      in layer   3
-              is below air-dry value of     0.244000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-      soil water of     0.227932      in layer   3
-              is below air-dry value of     0.244000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -1180,14 +1154,32 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+      soil water of     0.227932      in layer   3
+              is below air-dry value of     0.244000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+      soil water of     0.227932      in layer   3
+              is below air-dry value of     0.244000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
 10 July 1995(Day of year=191), millet4: 
       stage    3.0 emergence
                           biomass =          0.6700000E-02   lai =    0.1340000E-02
                           stover N conc =    4.400000       extractable sw =    20.39437
 10 July 1995(Day of year=191), millet: 
       stage    5.0 floral_initiation
-                          biomass =           10.07726       lai =    0.1453450
-                          stover N conc =    4.199924       extractable sw =    39.47136
+                          biomass =           10.07722       lai =    0.1453450
+                          stover N conc =    4.200047       extractable sw =    39.46784
 11 July 1995(Day of year=192), operatns: 
       Sending apply message to fertiliz
 11 July 1995(Day of year=192), fertiliz: 
@@ -1255,153 +1247,153 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
 11 July 1995(Day of year=192), millet1: 
       stage    4.0 end_of_juvenile
-                          biomass =          0.9286224       lai =    0.4148972E-01
-                          stover N conc =    5.004930       extractable sw =    34.17922
+                          biomass =          0.9293493       lai =    0.4152137E-01
+                          stover N conc =    5.004936       extractable sw =    34.16013
 12 July 1995(Day of year=193), millet5: 
       stage    3.0 emergence
                           biomass =          0.6700000E-02   lai =    0.1340000E-02
-                          stover N conc =    4.400000       extractable sw =    15.63767
-12 July 1995(Day of year=193), millet2: 
-      stage    4.0 end_of_juvenile
-                          biomass =          0.4292582       lai =    0.1974241E-01
-                          stover N conc =    5.082527       extractable sw =    30.27068
+                          stover N conc =    4.400000       extractable sw =    15.56487
 14 July 1995(Day of year=195), millet1: 
       stage    5.0 floral_initiation
-                          biomass =           3.750134       lai =    0.1354622
-                          stover N conc =    3.283073       extractable sw =    38.31609
+                          biomass =           3.752645       lai =    0.1355118
+                          stover N conc =    3.281576       extractable sw =    37.60889
+14 July 1995(Day of year=195), millet2: 
+      stage    4.0 end_of_juvenile
+                          biomass =          0.6540802       lai =    0.2953340E-01
+                          stover N conc =    5.117905       extractable sw =    27.23705
 14 July 1995(Day of year=195), millet3: 
       stage    4.0 end_of_juvenile
-                          biomass =          0.3562436       lai =    0.1656262E-01
-                          stover N conc =    5.109966       extractable sw =    27.85062
-15 July 1995(Day of year=196), millet2: 
+                          biomass =          0.3575347       lai =    0.1661885E-01
+                          stover N conc =    5.106559       extractable sw =    27.20088
+16 July 1995(Day of year=197), millet2: 
       stage    5.0 floral_initiation
-                          biomass =           1.574109       lai =    0.6960067E-01
-                          stover N conc =    3.718942       extractable sw =    35.74383
-17 July 1995(Day of year=198), millet4: 
-      stage    4.0 end_of_juvenile
-                          biomass =          0.2771471       lai =    0.1311797E-01
-                          stover N conc =    5.089846       extractable sw =    26.48586
+                          biomass =           1.306973       lai =    0.5796687E-01
+                          stover N conc =    3.922217       extractable sw =    39.32114
 17 July 1995(Day of year=198), millet3: 
       stage    5.0 floral_initiation
-                          biomass =           1.093930       lai =    0.4868888E-01
-                          stover N conc =    3.401851       extractable sw =    35.23769
+                          biomass =           1.110294       lai =    0.4940153E-01
+                          stover N conc =    3.398547       extractable sw =    36.45510
+17 July 1995(Day of year=198), millet4: 
+      stage    4.0 end_of_juvenile
+                          biomass =          0.2807497       lai =    0.1327486E-01
+                          stover N conc =    5.085541       extractable sw =    26.32144
 18 July 1995(Day of year=199), millet5: 
       stage    4.0 end_of_juvenile
-                          biomass =          0.1409405       lai =    0.7186175E-02
-                          stover N conc =    5.296349       extractable sw =    24.05692
+                          biomass =          0.1431710       lai =    0.7283311E-02
+                          stover N conc =    5.291167       extractable sw =    23.87394
 19 July 1995(Day of year=200), millet4: 
       stage    5.0 floral_initiation
-                          biomass =          0.4060814       lai =    0.1873306E-01
-                          stover N conc =    4.236787       extractable sw =    26.33681
+                          biomass =          0.4143737       lai =    0.1909419E-01
+                          stover N conc =    4.225171       extractable sw =    26.32816
 21 July 1995(Day of year=202), millet5: 
       stage    5.0 floral_initiation
-                          biomass =          0.2266226       lai =    0.1091763E-01
-                          stover N conc =    4.121899       extractable sw =    41.82261
+                          biomass =          0.2325755       lai =    0.1117688E-01
+                          stover N conc =    4.108235       extractable sw =    41.83972
 31 July 1995(Day of year=212), millet: 
       stage    6.0 flag_leaf
-                          biomass =           180.7920       lai =     1.084964
-                          stover N conc =    1.578714       extractable sw =    94.64687
+                          biomass =           180.7924       lai =     1.085025
+                          stover N conc =    1.579142       extractable sw =    94.69736
 1 August 1995(Day of year=213), millet1: 
       stage    6.0 flag_leaf
-                          biomass =           74.52021       lai =    0.8583273
-                          stover N conc =    1.591849       extractable sw =    89.60532
-1 August 1995(Day of year=213), millet2: 
-      stage    6.0 flag_leaf
-                          biomass =           27.47509       lai =    0.4042556
-                          stover N conc =    1.645039       extractable sw =    88.83186
+                          biomass =           74.59316       lai =    0.8599349
+                          stover N conc =    1.591963       extractable sw =    87.73088
 1 August 1995(Day of year=213), millet3: 
       stage    6.0 flag_leaf
-                          biomass =           9.380581       lai =    0.1540514
-                          stover N conc =    1.714915       extractable sw =    88.56190
+                          biomass =           10.04459       lai =    0.1626053
+                          stover N conc =    1.704394       extractable sw =    86.72658
+2 August 1995(Day of year=214), millet2: 
+      stage    6.0 flag_leaf
+                          biomass =           22.83048       lai =    0.3396227
+                          stover N conc =    1.671469       extractable sw =    81.57515
 3 August 1995(Day of year=215), millet3: 
       stage    7.0 flowering
-                          biomass =           10.93175       lai =    0.1512344
-                          stover N conc =    1.556913       extractable sw =    81.70556
+                          biomass =           11.72498       lai =    0.1597828
+                          stover N conc =    1.546595       extractable sw =    81.80942
 3 August 1995(Day of year=215), millet4: 
       stage    6.0 flag_leaf
-                          biomass =           3.626882       lai =    0.6278624E-01
-                          stover N conc =    1.763388       extractable sw =    51.65324
+                          biomass =           3.901922       lai =    0.6686980E-01
+                          stover N conc =    1.754777       extractable sw =    51.72144
 3 August 1995(Day of year=215), millet: 
       stage    7.0 flowering
-                          biomass =           228.8364       lai =     1.054896
-                          stover N conc =    1.380121       extractable sw =    81.56120
+                          biomass =           228.8376       lai =     1.054957
+                          stover N conc =    1.380508       extractable sw =    81.65275
 3 August 1995(Day of year=215), millet1: 
       stage    7.0 flowering
-                          biomass =           87.80692       lai =    0.8423235
-                          stover N conc =    1.449328       extractable sw =    79.66943
-3 August 1995(Day of year=215), millet2: 
-      stage    7.0 flowering
-                          biomass =           32.10227       lai =    0.3971895
-                          stover N conc =    1.496925       extractable sw =    78.90007
+                          biomass =           87.90216       lai =    0.8439229
+                          stover N conc =    1.449480       extractable sw =    79.76095
 4 August 1995(Day of year=216), millet5: 
       stage    6.0 flag_leaf
-                          biomass =           1.909410       lai =    0.3398104E-01
-                          stover N conc =    1.753080       extractable sw =    52.83548
+                          biomass =           2.058324       lai =    0.3627479E-01
+                          stover N conc =    1.744770       extractable sw =    52.59218
+5 August 1995(Day of year=217), millet2: 
+      stage    7.0 flowering
+                          biomass =           28.33736       lai =    0.3296934
+                          stover N conc =    1.457433       extractable sw =    77.05654
 6 August 1995(Day of year=218), millet4: 
       stage    7.0 flowering
-                          biomass =           4.561428       lai =    0.5912337E-01
-                          stover N conc =    1.532167       extractable sw =    68.22977
+                          biomass =           4.920793       lai =    0.6317363E-01
+                          stover N conc =    1.522570       extractable sw =    68.41258
 7 August 1995(Day of year=219), millet5: 
       stage    7.0 flowering
-                          biomass =           2.451528       lai =    0.3138583E-01
-                          stover N conc =    1.521130       extractable sw =    64.45329
-8 August 1995(Day of year=220), millet2: 
-      stage    8.0 start_grain_fill
-                          biomass =           43.67726       lai =    0.3664361
-                          stover N conc =    1.260154       extractable sw =    69.97600
-8 August 1995(Day of year=220), millet3: 
-      stage    8.0 start_grain_fill
-                          biomass =           14.78030       lai =    0.1378987
-                          stover N conc =    1.310730       extractable sw =    69.65391
+                          biomass =           2.649624       lai =    0.3363406E-01
+                          stover N conc =    1.511908       extractable sw =    66.54279
 8 August 1995(Day of year=220), millet: 
       stage    8.0 start_grain_fill
-                          biomass =           308.7955       lai =    0.9858189
-                          stover N conc =    1.171064       extractable sw =    69.48235
+                          biomass =           308.7983       lai =    0.9858798
+                          stover N conc =    1.172883       extractable sw =    70.08825
 8 August 1995(Day of year=220), millet1: 
       stage    8.0 start_grain_fill
-                          biomass =           120.6190       lai =    0.7813751
-                          stover N conc =    1.219118       extractable sw =    67.28535
+                          biomass =           120.7714       lai =    0.7829568
+                          stover N conc =    1.220564       extractable sw =    67.89122
+8 August 1995(Day of year=220), millet3: 
+      stage    8.0 start_grain_fill
+                          biomass =           15.89983       lai =    0.1463343
+                          stover N conc =    1.301737       extractable sw =    66.69662
+10 August 1995(Day of year=222), millet2: 
+      stage    8.0 start_grain_fill
+                          biomass =           38.12733       lai =    0.3021337
+                          stover N conc =    1.236701       extractable sw =    66.89249
 10 August 1995(Day of year=222), millet4: 
      plant_kill. 100% failure because of barreness.
-         kill. Standing above-ground dm =    54.6 (kg/ha)
+         kill. Standing above-ground dm =    59.1 (kg/ha)
       stage   12.0 end_crop
 10 August 1995(Day of year=222), manager: 
      Manager sending message :- millet4 harvest
      
      
      
-      flowering day  =  218                  stover (kg/ha) =      56.7
+      flowering day  =  218                  stover (kg/ha) =      61.3
       maturity day        =    0             grain yield (kg/ha) =       0.0
       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
       grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 0.064
-      total above ground biomass (kg/ha) =      56.7
+      grains/head =   0.0                    maximum lai = 0.068
+      total above ground biomass (kg/ha) =      61.3
       live above ground biomass (kg/ha) =       0.0
       green above ground biomass (kg/ha) =       0.0
       senesced above ground biomass (kg/ha) =       0.0
-      dead above ground biomass (kg/ha) =      56.7
+      dead above ground biomass (kg/ha) =      61.3
       number of leaves =   9.8
-      grain N percent =      0.00            total N content (kg/ha) =      0.74
+      grain N percent =      0.00            total N content (kg/ha) =      0.80
       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
-      green N content (kg/ha) =      0.00    dead N content (kg/ha) =      0.74
+      green N content (kg/ha) =      0.00    dead N content (kg/ha) =      0.80
      
      
      
       stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3063494
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4148684
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3066241
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4150901
      
      
      
       stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0266208
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0801599
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0269599
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0803945
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0401279
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0424749
      
      
      
@@ -1423,9 +1415,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- millet4 kill_crop
      Manager sending message :- millet4 end_crop
          ended. Yield (dw) =     0.0
-                                               straw residue =   56.7 kg/ha
-                                               straw N =    0.7 kg/ha
-                                               root residue =   17.2 kg/ha
+                                               straw residue =   61.3 kg/ha
+                                               straw N =    0.8 kg/ha
+                                               root residue =   18.4 kg/ha
                                                root N =    0.2 kg/ha
      Manager sending message :- surfaceom tillage  type = burn
 10 August 1995(Day of year=222), SurfaceOM: 
@@ -1436,45 +1428,45 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Incorporated Depth    =     0.00
 11 August 1995(Day of year=223), millet5: 
      plant_kill. 100% failure because of barreness.
-         kill. Standing above-ground dm =    28.9 (kg/ha)
+         kill. Standing above-ground dm =    31.2 (kg/ha)
       stage   12.0 end_crop
 11 August 1995(Day of year=223), manager: 
      Manager sending message :- millet5 harvest
      
      
      
-      flowering day  =  219                  stover (kg/ha) =      29.6
+      flowering day  =  219                  stover (kg/ha) =      32.1
       maturity day        =    0             grain yield (kg/ha) =       0.0
       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
       grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 0.034
-      total above ground biomass (kg/ha) =      29.6
+      grains/head =   0.0                    maximum lai = 0.036
+      total above ground biomass (kg/ha) =      32.1
       live above ground biomass (kg/ha) =       0.0
       green above ground biomass (kg/ha) =       0.0
       senesced above ground biomass (kg/ha) =       0.0
-      dead above ground biomass (kg/ha) =      29.6
+      dead above ground biomass (kg/ha) =      32.1
       number of leaves =   9.3
-      grain N percent =      0.00            total N content (kg/ha) =      0.39
+      grain N percent =      0.00            total N content (kg/ha) =      0.42
       grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.00
-      green N content (kg/ha) =      0.00    dead N content (kg/ha) =      0.39
+      green N content (kg/ha) =      0.00    dead N content (kg/ha) =      0.42
      
      
      
       stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2982576
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4049895
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2986050
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4052674
      
      
      
       stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0193539
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0788747
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0195010
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0795857
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0389663
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0418616
      
      
      
@@ -1496,9 +1488,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- millet5 kill_crop
      Manager sending message :- millet5 end_crop
          ended. Yield (dw) =     0.0
-                                               straw residue =   29.6 kg/ha
+                                               straw residue =   32.1 kg/ha
                                                straw N =    0.4 kg/ha
-                                               root residue =    9.2 kg/ha
+                                               root residue =    9.9 kg/ha
                                                root N =    0.1 kg/ha
      Manager sending message :- surfaceom tillage  type = burn
 11 August 1995(Day of year=223), SurfaceOM: 
@@ -1507,79 +1499,75 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-29 August 1995(Day of year=241), millet: 
-      stage    9.0 end_grain_fill
-                          biomass =           508.1381       lai =    0.4503642
-                          stover N conc =   0.9226280       extractable sw =    109.0832
 29 August 1995(Day of year=241), millet1: 
       stage    9.0 end_grain_fill
-                          biomass =           204.6413       lai =    0.3085970
-                          stover N conc =   0.9920415       extractable sw =    108.3647
-29 August 1995(Day of year=241), millet2: 
+                          biomass =           205.0092       lai =    0.3099058
+                          stover N conc =   0.9925239       extractable sw =    109.0312
+29 August 1995(Day of year=241), millet: 
       stage    9.0 end_grain_fill
-                          biomass =           72.59276       lai =    0.1238431
-                          stover N conc =    1.001373       extractable sw =    108.0505
+                          biomass =           508.1492       lai =    0.4504251
+                          stover N conc =   0.9252706       extractable sw =    108.5730
 30 August 1995(Day of year=242), millet: 
       stage   10.0 maturity
-                          biomass =           509.9483       lai =    0.4248270
-                          stover N conc =   0.9209355       extractable sw =    115.2154
+                          biomass =           509.9595       lai =    0.4248880
+                          stover N conc =   0.9235767       extractable sw =    115.1726
 30 August 1995(Day of year=242), millet3: 
       stage    9.0 end_grain_fill
-                          biomass =           24.27493       lai =    0.3585060E-01
-                          stover N conc =    1.028193       extractable sw =    115.1155
-31 August 1995(Day of year=243), millet1: 
-      stage   10.0 maturity
-                          biomass =           206.7393       lai =    0.2678086
-                          stover N conc =   0.9862799       extractable sw =    108.4919
-31 August 1995(Day of year=243), millet2: 
-      stage   10.0 maturity
-                          biomass =           73.30894       lai =    0.1037309
-                          stover N conc =   0.9964803       extractable sw =    108.4066
-31 August 1995(Day of year=243), millet3: 
-      stage   10.0 maturity
-                          biomass =           24.40457       lai =    0.3121194E-01
-                          stover N conc =    1.026171       extractable sw =    108.3774
+                          biomass =           26.24011       lai =    0.3907977E-01
+                          stover N conc =    1.020241       extractable sw =    115.0728
 31 August 1995(Day of year=243), millet: 
       stage   11.0 harvest_ripe
-                          biomass =           509.9483       lai =    0.1340270E-02
-                          stover N conc =   0.9449513       extractable sw =    108.3689
+                          biomass =           509.9595       lai =    0.1340270E-02
+                          stover N conc =   0.9476713       extractable sw =    108.4737
+31 August 1995(Day of year=243), millet1: 
+      stage   10.0 maturity
+                          biomass =           207.1158       lai =    0.2689315
+                          stover N conc =   0.9867635       extractable sw =    108.4737
+31 August 1995(Day of year=243), millet2: 
+      stage    9.0 end_grain_fill
+                          biomass =           63.03333       lai =    0.1038191
+                          stover N conc =    1.000923       extractable sw =    108.3880
+31 August 1995(Day of year=243), millet3: 
+      stage   10.0 maturity
+                          biomass =           26.38230       lai =    0.3402360E-01
+                          stover N conc =    1.018205       extractable sw =    108.3595
 31 August 1995(Day of year=243), manager: 
      Manager sending message :- millet harvest
      
      
      
-      flowering day  =  215                  stover (kg/ha) =    3432.6
+      flowering day  =  215                  stover (kg/ha) =    3432.7
       maturity day        =  242             grain yield (kg/ha) =    1666.9
       grain % water content   =   15.5       grain yield wet (kg/ha) =    1972.6
-      grain wt (g) =     0.011               grains/m^2   = 14996.595
+      grain wt (g) =     0.011               grains/m^2   = 14996.693
       grains/head =2238.3                    maximum lai = 1.095
-      total above ground biomass (kg/ha) =    5099.5
-      live above ground biomass (kg/ha) =    5099.5
-      green above ground biomass (kg/ha) =    4706.6
+      total above ground biomass (kg/ha) =    5099.6
+      live above ground biomass (kg/ha) =    5099.6
+      green above ground biomass (kg/ha) =    4706.7
       senesced above ground biomass (kg/ha) =     392.9
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  16.3
-      grain N percent =      1.45            total N content (kg/ha) =     44.87
+      grain N percent =      1.45            total N content (kg/ha) =     45.00
       grain N uptake (kg/ha) =     24.19     senesced N content (kg/ha) =      0.39
-      green N content (kg/ha) =     20.28    dead N content (kg/ha) =      0.00
+      green N content (kg/ha) =     20.41    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1377195
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3101756
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1377213
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3101771
      
      
      
       stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0277760
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0890430
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0277730
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0890406
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0299682
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0297876
      
      
      
@@ -1599,11 +1587,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
      Manager sending message :- millet kill_crop
-         kill. Standing above-ground dm =  3432.6 (kg/ha)
+         kill. Standing above-ground dm =  3432.7 (kg/ha)
      Manager sending message :- millet end_crop
          ended. Yield (dw) =     0.0
-                                               straw residue = 3432.6 kg/ha
-                                               straw N =   20.7 kg/ha
+                                               straw residue = 3432.7 kg/ha
+                                               straw N =   20.8 kg/ha
                                                root residue =  831.4 kg/ha
                                                root N =    8.8 kg/ha
      Manager sending message :- surfaceom tillage  type = burn
@@ -1613,55 +1601,51 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-1 September 1995(Day of year=244), millet2: 
-      stage   11.0 harvest_ripe
-                          biomass =           73.30894       lai =    0.1339942E-02
-                          stover N conc =    1.017924       extractable sw =    103.9029
-1 September 1995(Day of year=244), millet3: 
-      stage   11.0 harvest_ripe
-                          biomass =           24.40457       lai =    0.1339972E-02
-                          stover N conc =    1.045744       extractable sw =    103.9029
 1 September 1995(Day of year=244), millet1: 
       stage   11.0 harvest_ripe
-                          biomass =           206.7393       lai =    0.1340300E-02
-                          stover N conc =    1.008702       extractable sw =    103.9029
+                          biomass =           207.1158       lai =    0.1340240E-02
+                          stover N conc =    1.009220       extractable sw =    103.8912
+1 September 1995(Day of year=244), millet3: 
+      stage   11.0 harvest_ripe
+                          biomass =           26.38230       lai =    0.1339972E-02
+                          stover N conc =    1.037753       extractable sw =    103.8397
 1 September 1995(Day of year=244), manager: 
      Manager sending message :- millet1 harvest
      
      
      
-      flowering day  =  215                  stover (kg/ha) =    1115.8
-      maturity day        =  243             grain yield (kg/ha) =     951.6
-      grain % water content   =   15.5       grain yield wet (kg/ha) =    1126.2
-      grain wt (g) =     0.011               grains/m^2   =  8561.480
-      grains/head =1277.8                    maximum lai = 0.866
-      total above ground biomass (kg/ha) =    2067.4
-      live above ground biomass (kg/ha) =    2067.4
-      green above ground biomass (kg/ha) =    1906.9
-      senesced above ground biomass (kg/ha) =     160.5
+      flowering day  =  215                  stover (kg/ha) =    1118.5
+      maturity day        =  243             grain yield (kg/ha) =     952.6
+      grain % water content   =   15.5       grain yield wet (kg/ha) =    1127.4
+      grain wt (g) =     0.011               grains/m^2   =  8570.718
+      grains/head =1279.2                    maximum lai = 0.868
+      total above ground biomass (kg/ha) =    2071.2
+      live above ground biomass (kg/ha) =    2071.2
+      green above ground biomass (kg/ha) =    1910.5
+      senesced above ground biomass (kg/ha) =     160.6
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  12.3
-      grain N percent =      1.32            total N content (kg/ha) =     19.40
-      grain N uptake (kg/ha) =     12.58     senesced N content (kg/ha) =      0.16
-      green N content (kg/ha) =      6.66    dead N content (kg/ha) =      0.00
+      grain N percent =      1.32            total N content (kg/ha) =     19.44
+      grain N uptake (kg/ha) =     12.61     senesced N content (kg/ha) =      0.16
+      green N content (kg/ha) =      6.68    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2963909
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4113714
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2962792
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4112820
      
      
      
       stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0358123
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1620948
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0358146
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1619302
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0750497
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0749079
      
      
      
@@ -1681,83 +1665,15 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
      Manager sending message :- millet1 kill_crop
-         kill. Standing above-ground dm =  1115.8 (kg/ha)
+         kill. Standing above-ground dm =  1118.5 (kg/ha)
      Manager sending message :- millet1 end_crop
          ended. Yield (dw) =     0.0
-                                               straw residue = 1115.8 kg/ha
+                                               straw residue = 1118.5 kg/ha
                                                straw N =    6.8 kg/ha
-                                               root residue =  315.5 kg/ha
+                                               root residue =  315.9 kg/ha
                                                root N =    3.3 kg/ha
      Manager sending message :- surfaceom tillage  type = burn
 1 September 1995(Day of year=244), SurfaceOM: 
-     
-         - Reading residue tillage info
-     Residue removed using burn
-                                             Fraction Incorporated =     1.00
-                                             Incorporated Depth    =     0.00
-     Manager sending message :- millet2 harvest
-     
-     
-     
-      flowering day  =  215                  stover (kg/ha) =     355.8
-      maturity day        =  243             grain yield (kg/ha) =     377.3
-      grain % water content   =   15.5       grain yield wet (kg/ha) =     446.5
-      grain wt (g) =     0.011               grains/m^2   =  3394.148
-      grains/head = 506.6                    maximum lai = 0.409
-      total above ground biomass (kg/ha) =     733.1
-      live above ground biomass (kg/ha) =     733.1
-      green above ground biomass (kg/ha) =     668.3
-      senesced above ground biomass (kg/ha) =      64.8
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  11.3
-      grain N percent =      1.19            total N content (kg/ha) =      6.87
-      grain N uptake (kg/ha) =      4.49     senesced N content (kg/ha) =      0.06
-      green N content (kg/ha) =      2.31    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2982423
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4114604
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0446320
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1432550
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0668273
-     
-     
-     
-      stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     Manager sending message :- millet2 kill_crop
-         kill. Standing above-ground dm =   355.8 (kg/ha)
-     Manager sending message :- millet2 end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue =  355.8 kg/ha
-                                               straw N =    2.4 kg/ha
-                                               root residue =  116.6 kg/ha
-                                               root N =    1.2 kg/ha
-     Manager sending message :- surfaceom tillage  type = burn
      
          - Reading residue tillage info
      Residue removed using burn
@@ -1767,38 +1683,38 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      
      
-      flowering day  =  215                  stover (kg/ha) =     235.2
-      maturity day        =  243             grain yield (kg/ha) =       8.8
-      grain % water content   =   15.5       grain yield wet (kg/ha) =      10.5
-      grain wt (g) =     0.012               grains/m^2   =    76.044
-      grains/head =  11.3                    maximum lai = 0.157
-      total above ground biomass (kg/ha) =     244.0
-      live above ground biomass (kg/ha) =     244.0
-      green above ground biomass (kg/ha) =     219.6
-      senesced above ground biomass (kg/ha) =      24.5
+      flowering day  =  215                  stover (kg/ha) =     235.5
+      maturity day        =  243             grain yield (kg/ha) =      28.3
+      grain % water content   =   15.5       grain yield wet (kg/ha) =      33.5
+      grain wt (g) =     0.012               grains/m^2   =   243.683
+      grains/head =  36.4                    maximum lai = 0.165
+      total above ground biomass (kg/ha) =     263.8
+      live above ground biomass (kg/ha) =     263.8
+      green above ground biomass (kg/ha) =     238.1
+      senesced above ground biomass (kg/ha) =      25.7
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  10.3
-      grain N percent =      1.50            total N content (kg/ha) =      2.32
-      grain N uptake (kg/ha) =      0.13     senesced N content (kg/ha) =      0.02
-      green N content (kg/ha) =      2.16    dead N content (kg/ha) =      0.00
+      grain N percent =      1.50            total N content (kg/ha) =      2.50
+      grain N uptake (kg/ha) =      0.43     senesced N content (kg/ha) =      0.03
+      green N content (kg/ha) =      2.05    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3157142
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4237940
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3159347
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4239704
      
      
      
       stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0244072
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1181194
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0244524
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1195021
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0533592
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0558125
      
      
      
@@ -1818,14 +1734,92 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
      Manager sending message :- millet3 kill_crop
-         kill. Standing above-ground dm =   235.2 (kg/ha)
+         kill. Standing above-ground dm =   235.5 (kg/ha)
      Manager sending message :- millet3 end_crop
          ended. Yield (dw) =     0.0
-                                               straw residue =  235.2 kg/ha
-                                               straw N =    2.2 kg/ha
-                                               root residue =   41.9 kg/ha
-                                               root N =    0.4 kg/ha
+                                               straw residue =  235.5 kg/ha
+                                               straw N =    2.1 kg/ha
+                                               root residue =   44.7 kg/ha
+                                               root N =    0.5 kg/ha
      Manager sending message :- surfaceom tillage  type = burn
+     
+         - Reading residue tillage info
+     Residue removed using burn
+                                             Fraction Incorporated =     1.00
+                                             Incorporated Depth    =     0.00
+2 September 1995(Day of year=245), millet2: 
+      stage   10.0 maturity
+                          biomass =           64.23349       lai =    0.8304870E-01
+                          stover N conc =   0.9897389       extractable sw =    100.3092
+3 September 1995(Day of year=246), millet2: 
+      stage   11.0 harvest_ripe
+                          biomass =           64.23350       lai =    0.1339972E-02
+                          stover N conc =    1.009150       extractable sw =    96.06361
+3 September 1995(Day of year=246), manager: 
+     Manager sending message :- millet2 harvest
+     
+     
+     
+      flowering day  =  217                  stover (kg/ha) =     340.3
+      maturity day        =  245             grain yield (kg/ha) =     302.1
+      grain % water content   =   15.5       grain yield wet (kg/ha) =     357.5
+      grain wt (g) =     0.011               grains/m^2   =  2736.137
+      grains/head = 408.4                    maximum lai = 0.342
+      total above ground biomass (kg/ha) =     642.3
+      live above ground biomass (kg/ha) =     642.3
+      green above ground biomass (kg/ha) =     587.5
+      senesced above ground biomass (kg/ha) =      54.9
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  11.3
+      grain N percent =      1.26            total N content (kg/ha) =      5.98
+      grain N uptake (kg/ha) =      3.80     senesced N content (kg/ha) =      0.05
+      green N content (kg/ha) =      2.13    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3084829
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4205030
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0417072
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1011243
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0686647
+     
+     
+     
+      stress indices for flag_leaf
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     Manager sending message :- millet2 kill_crop
+         kill. Standing above-ground dm =   340.3 (kg/ha)
+     Manager sending message :- millet2 end_crop
+         ended. Yield (dw) =     0.0
+                                               straw residue =  340.3 kg/ha
+                                               straw N =    2.2 kg/ha
+                                               root residue =  102.8 kg/ha
+                                               root N =    1.1 kg/ha
+     Manager sending message :- surfaceom tillage  type = burn
+3 September 1995(Day of year=246), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
