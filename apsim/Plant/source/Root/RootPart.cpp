@@ -966,4 +966,4 @@ float RootPart::sw_avail_ratio(int layer)  //(INPUT) soil profile layer number
    pesw_capacity = (*soil[0]).dul_dep[layer] - (*soil[0]).ll_dep[layer];
    sw_avail_ratio = divide (pesw, pesw_capacity, 10.0);
    return sw_avail_ratio;
-   }   
+   }

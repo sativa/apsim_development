@@ -1,3 +1,5 @@
+#ifndef _WEATHER_H
+#define _WEATHER_H
 
 float DaylengthAndPhotoperiod(float fLatitude, int nJulianDay, int nID);
 float SunshineHours(float fLatitude, int nDay, float fGlbRadDay, float a, float b);
@@ -22,13 +24,6 @@ float DaytimeMeanTemperature(float fTmax,float fTmin, float fLatitude=-99.0, int
 float NighttimeMeanTemperature(float fTmax,float fTmin, float fLatitude=-99.0, int nDay=-99, float fTminPrev=-99.0, float fTmaxPrev=-99.0, float fTminNext=-99.0 );
 
 float SaturatedVapourPressure(float fTemp);
-
-
-
-
-int FloatToString(float fNumber,int iDecimal,LPSTR lpString);
-int FloatToStringEquallLength(float fNumber,int iDecimal,LPSTR lpString,int iLen);
-int ExpandStringEquallLength(LPSTR lpStrDest, LPSTR lpStrSrc, int iLen);
 
 
 
@@ -111,11 +106,6 @@ public:
 	int  DateDay(int nDayOfYear);
 	int  DateMonth(int nDayOfYear);
 
-        char* GetDate(char *string);
-
-
-
-
 
 	float Daylength  (float fLatitude);
 	float Photoperiod(float fLatitude);
@@ -180,5 +170,4 @@ public:
 
 };
 
-
-
+#endif
