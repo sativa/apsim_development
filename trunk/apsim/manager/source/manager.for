@@ -496,6 +496,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !- Implementation Section ----------------------------------
 
       call push_routine (Routine_name)
+      do rule = 1, MAX_RULES
+         Rule_names(rule) = blank
+      end do
 
       ! get a list of all rule names that user has defined.
       call apsimcomponentdata_getrulenames(get_componentData(),
@@ -508,6 +511,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call apsimcomponentdata_loadrule(get_componentData(),
      .                                    Rule_names(rule))
 
+         rule_type = blank
          call apsimcomponentdata_getrulecondition(rule_type)
          rule_type = Lower_case(rule_type)
 
@@ -1216,8 +1220,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
       logical ok
 
 !- Implementation Section ----------------------------------
+      str = blank
       variable_name = lower_case(variable_name)
-
       Is_apsim_variable = (index(variable_name, '.') .gt. 0)
       if (Is_apsim_variable) then
          call Split_line(variable_name, Mod_name, Var_name, '.')
