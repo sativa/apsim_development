@@ -21,7 +21,6 @@ OBJ=PlantComponent.o \
    Utility/Data.o \
    Utility/ExternalFunction.o \
    Utility/InterpolationFunction.o \
-   StageBasedInterpolationFunction.o \
    Utility/LookupFunction.o \
    Utility/Science.o \
    Utility/Date.o \
@@ -29,7 +28,10 @@ OBJ=PlantComponent.o \
    Population.o \
    PlantStress.o \
    Co2Modifier.o \
+   StageBasedInterpolationFunction.o \
+   ../../../Shared/ComponentInterface/EntryPoints.o \
    Environment.o \
+   Fixation.o \
    Utility/Observers.o \
    Leaf/Leaf.o \
    Stem.o \
@@ -52,6 +54,7 @@ OBJ=PlantComponent.o \
    SimplePart.o \
    Root/RootBase.o \
    Root/RootPart.o \
+   Root/Soil.o \
    Root/NoRoot.o \
    Root/MultiRoot.o \
    Root/RootGrowthOption1.o \
@@ -62,10 +65,10 @@ OBJ=PlantComponent.o \
    Leaf/CohortingLeaf.o \
    Arbitrators/arbitrator.o \
    Arbitrators/NullArbitrator.o \
-   Arbitrators/CerealArbitrator.o \
-   Arbitrators/AllometricArbitrator.o \
    Arbitrators/GenericArbitrator.o \
    Arbitrators/GenericArbitratorXY.o \
+   Arbitrators/CerealArbitrator.o \
+   Arbitrators/AllometricArbitrator.o \
    PlantSpatial.o \
    Pool.o \
    CompositePool.o \
@@ -92,8 +95,8 @@ OBJ=PlantComponent.o \
    Photosynthesis/PhotosynthesisModel.o \
    Photosynthesis/RUEModel.o \
    Photosynthesis/Weather.o \
-   Photosynthesis/SUCROSModel.o \
-   ../../../Shared/ComponentInterface/EntryPoints.o 
+   Photosynthesis/SUCROSModel.o
+
 
 #-----------------------------------------------------------------------
 # Compiler options
