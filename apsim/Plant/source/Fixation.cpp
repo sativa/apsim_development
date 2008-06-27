@@ -1,7 +1,7 @@
 #include "StdPlant.h"
 
 #include "Fixation.h"
-#include "phenology/phenology.h"
+#include "Phenology/Phenology.h"
 Fixation::Fixation(ScienceAPI& api, plantInterface& p, const std::string& name)
 //===========================================================================
    : plantThing(api, name), plant(p)
