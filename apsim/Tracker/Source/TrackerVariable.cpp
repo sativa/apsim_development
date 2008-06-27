@@ -24,6 +24,9 @@ TrackerVariable::TrackerVariable(protocol::Component* p, const string& fullName)
    inWindow = false;
    parse(fullName);
    sampleDate = "?";
+   eventComponentID = 0;
+   startPeriodID = endPeriodID = nameID = eventID = 0; 
+   startPeriodComponentID = endPeriodComponentID = eventComponentID = 0;
    }
 // ------------------------------------------------------------------
 // Parse the name passed in.
