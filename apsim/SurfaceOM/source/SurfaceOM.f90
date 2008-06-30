@@ -246,6 +246,7 @@ subroutine surfom_Reset ()
 
    ! Save State
    call surfom_save_state ()
+   call surfom_zero_variables ()
    call surfom_get_other_variables ()
    call surfom_read_coeff ()
    call surfom_read_param ()
