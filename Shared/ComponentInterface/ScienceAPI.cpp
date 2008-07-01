@@ -1,12 +1,10 @@
 //---------------------------------------------------------------------------
-#pragma hdrstop
-
-#include "ScienceAPI.h"
-#include "Component.h"
-#include "datatypes.h"
-#include "RegistrationType.h"
 
 #include <general/string_functions.h>
+#include <ApsimShared/ApsimRegistry.h>
+#include "Component.h"
+#include "ScienceAPI.h"
+
 
 template <class T>
 bool StringConverter(protocol::Component* component, const string& name,
@@ -30,7 +28,7 @@ bool StringConverter(protocol::Component* component, const string& name,
                    "Variable  : " + name + "\n"
                    "Condition : " + ftoa(lower, 2) + " <= " +
                    from + " <= " + ftoa(upper, 2);
-      component->error(msg.c_str(), false);
+      component->error(msg, false);
       return false;
       }
 
@@ -66,7 +64,7 @@ bool StringConverter(protocol::Component* component, const string& name,
                      "Variable  : " + name + "(" + itoa(i+1) + ")\n"
                      "Condition : " + ftoa(lower, 2) + " <= " +
                      strings[i] + " <= " + ftoa(upper, 2);
-        component->error(msg.c_str(), false);
+        component->error(msg, false);
         }
      }
 
@@ -355,14 +353,20 @@ bool ScienceAPI::getOptional(const std::string& name, const std::string& units, 
    {
    string ddml = protocol::DDML(1.0f);
    addUnitsToDDML(ddml, units);
-   unsigned id = component->addRegistration(RegistrationType::get, name.c_str(), ddml.c_str(), "", "");
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(component->getId(), name, destID, regName);
+   unsigned id = component->addRegistration(::get, destID, regName, ddml);
    return component->getVariable(id, data, lower, upper, true);
    }
 bool ScienceAPI::getOptional(const std::string& name, const std::string& units, std::vector<float>& data, float lower, float upper)
    {
    string ddml = protocol::DDML(vector<float>());
    addUnitsToDDML(ddml, units);
-   unsigned id = component->addRegistration(RegistrationType::get, name.c_str(), ddml.c_str(), "", "");
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(component->getId(),name, destID, regName);
+   unsigned id = component->addRegistration(::get, destID, regName, ddml);
    return component->getVariable(id, data, lower, upper, true);
    }
 
@@ -443,9 +447,12 @@ void ScienceAPI::exposeFunction(const std::string& name, const std::string& unit
 // -------------------------------------------------------------
 void ScienceAPI::set(const std::string& name, const std::string& units, std::vector<float>& data)
    {
-   string ddml = protocol::DDML(vector<float>());
+   string ddml = protocol::DDML(std::vector<float>());
    addUnitsToDDML(ddml, units);
-   unsigned id = component->addRegistration(RegistrationType::set, name.c_str(), ddml.c_str(), "", "");
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(component->getId(), name, destID, regName);
+   unsigned id = component->addRegistration(::set, destID, regName, ddml);
    bool ok =  component->setVariable(id, data);
    if (!ok)
       throw runtime_error("Cannot set the value of variable: " + name);
@@ -475,16 +482,13 @@ class CMPSetter : public DeletableThing
       bool CMPFunction(protocol::Component* component, protocol::QuerySetValueData &v)
          {
          protocol::TypeConverter* converter = NULL;
-         if (getTypeConverter(name.c_str(),
+         getTypeConverter(name.c_str(),
                               v.variant.getType().getCode(),
                               typeCode,
                               v.variant.getType().isArray(),
                               false,
-                              converter))
-           {
-           v.variant.setTypeConverter(converter);
-           }
-         v.variant.unpack(dummy);
+                               converter);
+         v.variant.unpack(converter, NULL, dummy);
          setter(dummy);
          if (converter) delete converter;
          return true;
@@ -536,7 +540,7 @@ class CMPMethod1 : public DeletableThing
          }
       void invoke(unsigned &, unsigned &, protocol::Variant& variant)
          {
-         variant.unpack(dummy);
+         variant.unpack(NULL, NULL,  dummy);
          setter(dummy);
          }
       const char* DDML() {return ddml.c_str();}
@@ -628,7 +632,7 @@ void ScienceAPI::subscribe(const std::string& name, NullFunctionType handler)
 
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
    fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
-   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+   component->addEvent(name.c_str(),
                        fn, wrapper->DDML());
    }
 void ScienceAPI::subscribe(const std::string& name, NullFunctionWithNameType handler)
@@ -639,7 +643,7 @@ void ScienceAPI::subscribe(const std::string& name, NullFunctionWithNameType han
 
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
    fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
-   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+   component->addEvent(name.c_str(),
                        fn, wrapper->DDML());
    }
 void ScienceAPI::subscribe(const std::string& name, FloatFunctionType handler)
@@ -650,7 +654,7 @@ void ScienceAPI::subscribe(const std::string& name, FloatFunctionType handler)
 
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
    fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
-   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+   component->addEvent(name.c_str(),
                        fn, wrapper->DDML());
    }
 void ScienceAPI::subscribe(const std::string& name, TimeFunctionType handler)
@@ -661,7 +665,7 @@ void ScienceAPI::subscribe(const std::string& name, TimeFunctionType handler)
 
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
    fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
-   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+   component->addEvent(name.c_str(), 
                        fn, wrapper->DDML());
    }
 
@@ -673,7 +677,7 @@ void ScienceAPI::subscribe(const std::string& name, NewMetFunctionType handler)
 
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
    fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
-   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+   component->addEvent(name.c_str(), 
                        fn, wrapper->DDML());
    }
 
@@ -685,7 +689,7 @@ void ScienceAPI::subscribe(const std::string& name, KillCropFunctionType handler
 
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
    fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
-   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+   component->addEvent(name.c_str(), 
                        fn, wrapper->DDML());
    }
 
@@ -697,7 +701,7 @@ void ScienceAPI::subscribe(const std::string& name, NewProfileFunctionType handl
 
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
    fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
-   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+   component->addEvent(name.c_str(), 
                        fn, wrapper->DDML());
    }
 
@@ -709,7 +713,7 @@ void ScienceAPI::subscribe(const std::string& name, CanopyWaterBalanceFunctionTy
 
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
    fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
-   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+   component->addEvent(name.c_str(), 
                        fn, wrapper->DDML());
    }
 void ScienceAPI::subscribe(const std::string& name, RemoveCropDmFunctionType handler)
@@ -720,7 +724,7 @@ void ScienceAPI::subscribe(const std::string& name, RemoveCropDmFunctionType han
 
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
    fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
-   component->addEvent(name.c_str(), RegistrationType::respondToEvent, fn, wrapper->DDML());
+   component->addEvent(name.c_str(), fn, wrapper->DDML());
    }
 void ScienceAPI::subscribe(const std::string& name, ApsimVariantFunctionType handler)
    {
@@ -731,7 +735,7 @@ void ScienceAPI::subscribe(const std::string& name, ApsimVariantFunctionType han
    fn = boost::bind(&ApsimVariantWrapper::invoke, wrapper, _1, _2, _3);
    protocol::ApsimVariantType dummy;
    string ddml = protocol::DDML(dummy);
-   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+   component->addEvent(name.c_str(),
                        fn, ddml.c_str());
    }
    
@@ -742,39 +746,56 @@ void ScienceAPI::subscribe(const std::string& name, ApsimVariantFunctionType han
 void ScienceAPI::publish(const std::string& name)
    {
    string ddml = nullTypeDDML;
-   unsigned id = component->addRegistration(RegistrationType::event, name.c_str(), ddml.c_str(), "", "");
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(component->getId(), name, destID, regName);
+   unsigned id = component->addRegistration(::event, destID, regName, ddml);
    int dummy;
    component->publish(id, dummy);
    }
 void ScienceAPI::publish(const std::string& name, protocol::ExternalMassFlowType& value)
    {
    string ddml = protocol::DDML(value);
-   unsigned id = component->addRegistration(RegistrationType::event, name.c_str(), ddml.c_str(), "", "");
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(component->getId(), name, destID, regName);
+   unsigned id = component->addRegistration(::event, destID, regName, ddml);
    component->publish(id, value);
    }
 void ScienceAPI::publish(const std::string& name, protocol::NewCanopyType& value)
    {
    string ddml = protocol::DDML(value);
-   unsigned id = component->addRegistration(RegistrationType::event, name.c_str(), ddml.c_str(), "", "");
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(component->getId(), name, destID, regName);
+   unsigned id = component->addRegistration(::event, destID, regName, ddml, "");
    component->publish(id, value);
    }
 void ScienceAPI::publish(const std::string& name, protocol::NewCropType& value)
    {
    string ddml = protocol::DDML(value);
-   unsigned id = component->addRegistration(RegistrationType::event, name.c_str(), ddml.c_str(), "", "");
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(component->getId(), name, destID, regName);
+   unsigned id = component->addRegistration(::event, destID, regName, ddml, "");
    component->publish(id, value);
    }
 void ScienceAPI::publish(const std::string& name, protocol::NewPotentialGrowthType& value)
    {
    string ddml = protocol::DDML(value);
-   unsigned id = component->addRegistration(RegistrationType::event, name.c_str(), ddml.c_str(), "", "");
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(component->getId(), name, destID, regName);
+   unsigned id = component->addRegistration(::event, destID, regName, ddml, "");
    component->publish(id, value);
    }
 void ScienceAPI::publish(const std::string& name, protocol::ApsimVariant& value)
    {
-   protocol::ApsimVariantType dummy;
-   string ddml = protocol::DDML(dummy);
-   unsigned id = component->addRegistration(RegistrationType::event, name.c_str(), ddml.c_str(), "", "");
+   string ddml = protocol::DDML(value);
+   int destID;
+   string regName;
+   ApsimRegistry::getApsimRegistry().unCrackPath(component->getId(), name, destID, regName);
+   unsigned id = component->addRegistration(::event, destID, regName, ddml, "");
    component->publish(id, value);
    }
       
