@@ -2,7 +2,8 @@
 
 #include "GrainPartGN.h"
 #include "Phenology/Phenology.h"
-
+#include "Population.h"
+#include "Stem.h"
 using namespace std;
 
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
@@ -62,7 +63,7 @@ void fruitGrainPartGN::doGrainNumber (void)
    //===========================================================================
    //       Calculate Grain Number
 {
-      gGrain_no = grainNumber (plant->getDmGreenStem()
+      gGrain_no = grainNumber (plant->stem().Green.DM()
                               , pGrains_per_gram_stem);
 }
 
@@ -156,7 +157,7 @@ void fruitGrainPartGN::update(void)
 {
    fruitGrainPart::update();
    // transfer plant grain no.
-   float dlt_grain_no_lost  = gGrain_no * plant->getDyingFractionPlants();
+   float dlt_grain_no_lost  = gGrain_no * plant->population().DyingFractionPlants();
    gGrain_no -= dlt_grain_no_lost;
 
 }

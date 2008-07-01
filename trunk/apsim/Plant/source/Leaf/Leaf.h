@@ -1,5 +1,5 @@
-#ifndef LeafPartH
-#define LeafPartH
+#ifndef LeafH
+#define LeafH
 #include "SimplePart.h"
 #include "Co2Modifier.h"
 #include "Photosynthesis/PhotosynthesisModel.h"
@@ -53,7 +53,7 @@ class Leaf : public SimplePart {
    virtual float dmRetransSupply(void);
    virtual void  doNConccentrationLimits(float modifier);
    virtual void doSWDemand(float SWDemandMaxFactor);
-   virtual void doBioActual (void);
+   virtual float DMSupply(void);
 
    virtual float coverTotal(void)  ;
    virtual float coverGreen(void)  ;

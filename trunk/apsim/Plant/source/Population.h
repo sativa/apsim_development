@@ -1,7 +1,7 @@
 #ifndef PopulationH
 #define PopulationH
 
-class Population
+class Population : public plantThing
    {
    private:
 
@@ -36,7 +36,6 @@ class Population
                                                         // DAY BEFORE YESTERDAY (index 2)
 
       plantInterface& Plant;
-      ScienceAPI& scienceAPI;
       int das;
 
       float DeathDrought();
@@ -57,7 +56,7 @@ class Population
    public:
       Population(ScienceAPI& api, plantInterface& plant);
 
-      void Initialise();      
+      virtual void onInit1(protocol::Component *);
       void Update();
       void PlantDeath();
       void SetPlants(float Density);

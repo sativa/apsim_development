@@ -21,10 +21,6 @@ using namespace std;
 #include "Reproductive/PlantFruit.h"
 #include "Phenology/Phenology.h"
 
-
-static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
-
-
 // ===============================
 
 void Plant::prepare_p(void)
@@ -45,15 +41,15 @@ void Plant::doPPartition (void)
       vector<float> values;               // Scratch area
       float p_uptake;
 
-      if (id.layered_p_uptake != 0)
-      {
-          parent->getVariable(id.layered_p_uptake, values, 0.0, 100.0);
-          float sumValue = 0.0;
-          for (unsigned int i = 0; i < values.size(); i++)
+      if (pStress->isPhosphorusAware())
+         {
+         scienceAPI.get("uptake_p_" + c.crop_type, "", values, 0.0, 100.0);
+         float sumValue = 0.0;
+         for (unsigned int i = 0; i < values.size(); i++)
             sumValue += values[i];
 
-          p_uptake = sumValue * kg2gm/ha2sm;
-      }
+         p_uptake = sumValue * kg2gm/ha2sm;
+         }
       else
           p_uptake = plant.pDemand();
 
@@ -61,17 +57,12 @@ void Plant::doPPartition (void)
   }
 }
 // ====================================================================
-void Plant::doPInit(protocol::Component* systemInterface)
+void Plant::doPInit()
 {
       if (pStress->isPhosphorusAware())
       {
          pStress->read_p_constants();
 
-         string keyword = "uptake_p_" + c.crop_type;
-         id.layered_p_uptake = systemInterface->addRegistration(::get,
-                                                               -1,
-                                                               keyword, 
-                                                               floatArrayType);
       }
 
 }
@@ -98,7 +89,7 @@ void Plant::summary_p (void)
 
    if (pStress->isPhosphorusAware())
    {
-       P_grain_conc_percent = fruitPart->GrainTotal.PconcPercent();
+       P_grain_conc_percent = fruit().GrainTotal.PconcPercent();
 
        P_grain = tops.GrainTotal.P() * gm2kg/sm2ha;  // why not graintotal??
 

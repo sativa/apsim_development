@@ -2,6 +2,9 @@
 
 #include "PlantFruitCohorting.h"
 #include "Environment.h"
+#include "Arbitrators/Arbitrator.h"
+#include "Leaf/Leaf.h"
+#include "Population.h"
 using namespace std;
 
 void push_routine (const char *) {};
@@ -61,7 +64,7 @@ void PlantFruitCohorting::process (void)
    for (part =  myParts.begin(); part != myParts.end(); part++)
       (*part)->process ();
 
-   dltDM.storeValue(plant->getDltDm());
+   dltDM.storeValue(plant->arbitrator().DMSupply());
    }
 
 void PlantFruitCohorting::onInit1(protocol::Component *system)
@@ -140,20 +143,20 @@ void PlantFruitCohorting::doSiteNumber(void)
 {
     float dlt_node_no;
 
-    float node_no_now =  plant->getNodeNo();
+    float node_no_now =  plant->leaf().getNodeNo();
 
     if (plant->phenology().onDayOf("flowering"))       // initial fruit stage
         {
         node_no_first_flower = node_no_now;
-        dlt_node_no = plant->getDltNodeNo();
+        dlt_node_no = plant->leaf().getDltNodeNo();
         }
     else if (node_no_first_flower > 0.0)
-        dlt_node_no = plant->getDltNodeNo();
+        dlt_node_no = plant->leaf().getDltNodeNo();
     else
         dlt_node_no = 0.0;
 
     // C3
-    float dlt_site_no_pot = dlt_node_no * plant->getPlants() * fruit_sites_per_node.value(node_no_now);
+    float dlt_site_no_pot = dlt_node_no * plant->population().Density() * fruit_sites_per_node.value(node_no_now);
 
     float fruit_tt_target = plant->phenology().TTTargetInPhase("fruiting") * p.cutout_fract;
     float fruit_tt_cum = plant->phenology().TTInPhase("fruiting");

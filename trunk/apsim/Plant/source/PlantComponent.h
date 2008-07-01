@@ -17,7 +17,6 @@ class PlantComponent : public protocol::Component
       ~PlantComponent(void);
       void doInit1(const protocol::Init1Data&);
       void doInit2(void);
-      bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
 
       void writeString (const char *msg);
       void warningError (const char *msg);

@@ -6,6 +6,7 @@
 #include "Environment.h"
 #include "Soil.h"
 #include "Phenology/Phenology.h"
+#include "Population.h"
 #include <numeric>
 using namespace std;
 
@@ -18,7 +19,6 @@ RootPart::RootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name
 //=======================================================================================
 // Constructor
    {
-   incorp_fom_ID = 0;
    Soil *s = new Soil(scienceAPI, *p);
    soil.push_back(s);
 
@@ -99,8 +99,6 @@ void RootPart::onInit1(protocol::Component *system)
                     &RootPart::get_nh4gsm_uptake_pot,
                     "g/m2", "Pot NH4 uptake");
 
-   incorp_fom_ID = plant->getComponent()->addRegistration(::event, -1, 
-                                                          "incorp_fom", IncorpFOMType);
    // Respond to Get
    setupGetFunction(system, "sw_uptake", protocol::DTsingle, true,
                     &RootPart::get_sw_uptake, "mm", "Plant water uptake per layer");
@@ -363,7 +361,7 @@ void RootPart::update(void)
     // Note that this is not entirely accurate.  It links live root
     // weight with root length and so thereafter dead(and detaching)
     // root is assumed to have the same distribution as live roots.
-    float dying_fract_plants = plant->getDyingFractionPlants();
+    float dying_fract_plants = plant->population().DyingFractionPlants();
     for (int layer = 0; layer < (*soil[0]).num_layers; layer++)
         {
         dltRootLengthDead[layer] = root_length[layer] * dying_fract_plants;
@@ -477,7 +475,8 @@ void RootPart::root_incorp (float  dlt_dm_root,                  // (INPUT) root
       outgoingApsimVariant.store("dlt_fom_wt", protocol::DTsingle, true, dlt_dm_incorp);
       outgoingApsimVariant.store("dlt_fom_n", protocol::DTsingle, true, dlt_N_incorp);
       outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true, dlt_P_incorp);
-      plant->getComponent()->publish (incorp_fom_ID, outgoingApsimVariant);
+
+      scienceAPI.publish("incorp_fom", outgoingApsimVariant);
       }
    else
       {
@@ -512,7 +511,7 @@ void RootPart::root_incorp_dead (float  dlt_dm_root,                  // (INPUT)
       outgoingApsimVariant.store("dlt_fom_wt", protocol::DTsingle, true, dlt_dm_incorp);
       outgoingApsimVariant.store("dlt_fom_n", protocol::DTsingle, true, dlt_N_incorp);
       outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true, dlt_P_incorp);
-      plant->getComponent()->publish (incorp_fom_ID, outgoingApsimVariant);
+      scienceAPI.publish("incorp_fom", outgoingApsimVariant);
       }
    else
       {

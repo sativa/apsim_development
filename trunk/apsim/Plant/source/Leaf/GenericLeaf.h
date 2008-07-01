@@ -4,6 +4,8 @@
 #define max_node 1000                         // maximum number of plant nodes
 #define max_table 30
 
+#include "Leaf/Leaf.h"
+#include "Population.h"
 class GenericLeaf : public Leaf {
   private:
    void leaf_no_pot (int option, float, float);
@@ -51,7 +53,7 @@ class GenericLeaf : public Leaf {
      { return(divide (dltSLAI, gLAI + dltLAI, 0.0)); };             // fraction of canopy senescing
    float dmGreenDemand(void)
      { return(divide (dltLAI_stressed, cSLAMin * smm2sm, 0.0));};   // Maximum DM this part can take today
-   float dltLeafAreaPot(void) {return (divide(dltLAI_stressed, plant->getPlants(), 0.0) * sm2smm);};
+   float dltLeafAreaPot(void) {return (divide(dltLAI_stressed, plant->population().Density(), 0.0) * sm2smm);};
 
    void CanopyExpansion (int option, float, float, float);
    void leaf_area_stressed(float);

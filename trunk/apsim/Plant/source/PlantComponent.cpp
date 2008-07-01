@@ -90,16 +90,6 @@ void PlantComponent::doInit2(void)
    if (plant) plant->onInit2();
    }
 
-bool PlantComponent::respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValueData& setValueData)
-//=======================================================================================
-// Set the value of a variable for the specified
-// variable name.  If this module owns the variable and does
-// change it's value, return true.
-   {
-   if (plant) return (plant->respondToSet(setValueData.ID, setValueData));
-   return false;
-   }
-
 void PlantComponent::warningError (const char *msg)
 //=======================================================================================
    {

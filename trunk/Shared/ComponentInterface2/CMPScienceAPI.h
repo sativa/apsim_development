@@ -212,6 +212,9 @@ class EXPORT CMPScienceAPI : public ScienceAPI
       virtual void subscribe(const std::string& name, boost::function1<void, QuerySetValueType&> handler);
       virtual void publish(const std::string& name, QuerySetValueType& data);
 
+      virtual void subscribe(const std::string& name, boost::function1<void, ApsimVariantType&> handler);
+      virtual void publish(const std::string& name, ApsimVariantType& data);
+
       virtual void subscribe(const std::string& name, boost::function1<void, LayeredType&> handler);
       virtual void publish(const std::string& name, LayeredType& data);
 

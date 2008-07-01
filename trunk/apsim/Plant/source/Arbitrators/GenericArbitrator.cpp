@@ -1,23 +1,12 @@
 #include "StdPlant.h"
 
-#include "Leaf/Leaf.h"
-#include "arbitrator.h"
 #include "GenericArbitrator.h"
 #include "Phenology/Phenology.h"
-void genericArbitrator::zeroAllGlobals(void)
-//=======================================================================================
-   {
-   fill_real_array (frac_leaf,0.0,max_table);
-   }
 
-void genericArbitrator::readSpeciesParameters(protocol::Component *, vector<string> &)
-//=======================================================================================
+GenericArbitrator::GenericArbitrator(ScienceAPI& scienceAPI, plantInterface& p)
+   : Arbitrator(scienceAPI, p)
    {
-   int numvals;
-   scienceAPI.read("frac_leaf", frac_leaf, numvals, 0.0f, 1.0f);
    scienceAPI.read("ratio_root_shoot", ratio_root_shoot, 0.0f, 1000.0f);
-   scienceAPI.read("partitionparts", PartitionParts);
-   scienceAPI.read("partitionrules", PartitionRules);
 
    for (unsigned i = 0; i != PartitionRules.size(); i++)
       {
@@ -33,71 +22,13 @@ void genericArbitrator::readSpeciesParameters(protocol::Component *, vector<stri
       }
    }
 
-void genericArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts, string FruitName)
-//=======================================================================================
-   //  Partitions new dm (assimilate) between plant components (g/m^2)
-   // Root must be satisfied. The roots don't take any of the
-   // carbohydrate produced - that is for tops only.  Here we assume
-   // that enough extra was produced to meet demand. Thus the root
-   // growth is not removed from the carbo produced by the model.
+float GenericArbitrator::ratioRootShoot()
    {
-   for (vector<plantPart *>::const_iterator part = Parts.begin(); part != Parts.end(); part++)
-      (*part)->zeroDltDmGreen();
-
-   float dm_remaining = dlt_dm;
-   float dlt_dm_green_tot = 0.0;
-
-   for (unsigned i = 0; i != PartitionParts.size(); i++)
-      {
-
-      plantPart *Part = FindPart(Parts, PartitionParts[i]);
-      if (Part == NULL)
-         throw runtime_error("Unknown Part "+PartitionParts[i]);
-
-      Part->zeroDltDmGreen();
-      if (PartitionRules[i] == "magic")
-         {
-         // root:shoot ratio of new dm
-         float  c_ratio_root_shoot = plant->phenology().doLookup(ratio_root_shoot);
-         Part->giveDmGreen(c_ratio_root_shoot * dlt_dm);
-         }
-      else
-         {
-         float uptake;
-         if (PartitionRules[i] == "demand")
-            uptake = min(Part->dmGreenDemand(), dm_remaining);
-         else if (PartitionRules[i] == "frac")
-            {
-            // fraction of remaining dm allocated to this part
-            float frac = plant->phenology().doLookup(Fracs[i]);
-            uptake = min(frac * dm_remaining,Part->dmGreenDemand());
-            }
-         else if (PartitionRules[i] == "remainder")
-            uptake = dm_remaining;
-         else
-            throw runtime_error("Unknown Partition Rule "+PartitionRules[i]);
-
-         Part->giveDmGreen(uptake);
-         dm_remaining = dm_remaining - uptake;
-         dlt_dm_green_tot = dlt_dm_green_tot + Part->dltDmUptake();
-         }
-      }
-
-
-   if (!reals_are_equal(dlt_dm_green_tot, dlt_dm, 1.0E-4))
-       {
-       string msg = "dlt_dm_green_tot mass balance is off: "
-                    + ftoa(dlt_dm_green_tot, ".6")
-                    + " vs "
-                    + ftoa(dlt_dm, ".6");
-       scienceAPI.warning(msg);
-       }
+   return plant.phenology().doLookup(ratio_root_shoot);
    }
 
-float genericArbitrator::dltDMWhole(float dlt_dm)
-//=======================================================================================
+float GenericArbitrator::fracDMRemainingInPart(int partNumber)
    {
-   return ((1.0 + plant->phenology().doLookup(ratio_root_shoot)) * dlt_dm);
+   return plant.phenology().doLookup(Fracs[partNumber]);
    }
 
-////////////////End generic parts

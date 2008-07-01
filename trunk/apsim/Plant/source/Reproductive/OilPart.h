@@ -30,7 +30,6 @@ class fruitOilPart : public SimplePart {
    float giveDmGreen(float delta);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    float dltDmGreen(void) ;
-   float dltDmUptake(void) ;
    float dltDmGreenRetransUptake(void);
    float dmDemandDifferential(void) ;
 
@@ -43,7 +42,6 @@ class fruitOilPart : public SimplePart {
 
 
    float cGrain_oil_conc;                            // fractional oil content of grain (0-1)
-   float gDlt_dm_oil_conv;
    float dmOil_conv_retranslocate;
    float cCarbo_oil_conv_ratio;
    float gGrain_energy;                 // multiplier of grain weight to account for seed energy content

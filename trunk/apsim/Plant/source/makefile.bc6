@@ -62,11 +62,8 @@ OBJFILES=PlantComponent.obj \
    Leaf\GenericLeaf.obj \
    Leaf\CohortingLeaf.obj \
    Arbitrators\Arbitrator.obj \
-   Arbitrators\NullArbitrator.obj \
    Arbitrators\GenericArbitrator.obj \
    Arbitrators\GenericArbitratorXY.obj \
-   Arbitrators\CerealArbitrator.obj \
-   Arbitrators\AllometricArbitrator.obj \
    PlantSpatial.obj \
    Pool.obj \
    CompositePool.obj \
@@ -213,8 +210,6 @@ Photosynthesis\PhotosynthesisModel.obj:    Photosynthesis\PhotosynthesisModel.cp
 Photosynthesis\RUEModel.obj: Photosynthesis\RUEModel.cpp Photosynthesis\RUEModel.h
 Photosynthesis\Weather.obj: Photosynthesis\Weather.cpp Photosynthesis\Weather.h
 Photosynthesis\SUCROSModel.obj: Photosynthesis\SUCROSModel.cpp Photosynthesis\SUCROSModel.h
-Arbitrators\NullArbitrator.obj:  Arbitrators\NullArbitrator.cpp Arbitrators\NullArbitrator.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
 Arbitrators\GenericArbitrator.obj: Arbitrators\GenericArbitrator.cpp Arbitrators\GenericArbitrator.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
 Arbitrators\GenericArbitratorXY.obj: Arbitrators\GenericArbitratorXY.cpp Arbitrators\GenericArbitratorXY.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
-Arbitrators\CerealArbitrator.obj: Arbitrators\CerealArbitrator.cpp Arbitrators\CerealArbitrator.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
-Arbitrators\AllometricArbitrator.obj: Arbitrators\AllometricArbitrator.cpp Arbitrators\AllometricArbitrator.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
+

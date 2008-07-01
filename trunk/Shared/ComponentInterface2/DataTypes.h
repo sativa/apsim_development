@@ -207,6 +207,51 @@
    unsigned EXPORT memorySize(const QuerySetValueType& data);
    std::string EXPORT DDML(const QuerySetValueType& data);
 
+   //------ ApsimVariant ------
+   struct ApsimVariantType
+      {
+      std::string param1_name;
+      int param1_numbytes;
+      int param1_code;
+      bool param1_isarray;
+      std::string param1_value;
+      std::string param2_name;
+      int param2_numbytes;
+      int param2_code;
+      bool param2_isarray;
+      std::string param2_value;
+      std::string param3_name;
+      int param3_numbytes;
+      int param3_code;
+      bool param3_isarray;
+      std::string param3_value;
+      std::string param4_name;
+      int param4_numbytes;
+      int param4_code;
+      bool param4_isarray;
+      std::string param4_value;
+      std::string param5_name;
+      int param5_numbytes;
+      int param5_code;
+      bool param5_isarray;
+      std::string param5_value;
+      std::string param6_name;
+      int param6_numbytes;
+      int param6_code;
+      bool param6_isarray;
+      std::string param6_value;
+      std::string param7_name;
+      int param7_numbytes;
+      int param7_code;
+      bool param7_isarray;
+      std::string param7_value;
+      };
+
+   void EXPORT pack(MessageData& messageData, const ApsimVariantType& data);
+   void EXPORT unpack(MessageData& messageData, ApsimVariantType& data);
+   unsigned EXPORT memorySize(const ApsimVariantType& data);
+   std::string EXPORT DDML(const ApsimVariantType& data);
+
    //------ Layered ------
    struct LayeredType
       {

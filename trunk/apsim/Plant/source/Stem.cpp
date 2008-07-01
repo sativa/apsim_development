@@ -1,6 +1,7 @@
 #include "StdPlant.h"
 
 #include "Stem.h"
+#include "Population.h"
 using namespace std;
 
 void Stem::onHarvest(float cutting_height, float remove_fr,
@@ -53,7 +54,7 @@ void Stem::removeBiomass2(float )
 //=======================================================================================
    {
    float dm_plant;               // dry matter of part (g/plant)
-   dm_plant = divide (Green.DM(), plant->getPlants(), 0.0);
+   dm_plant = divide (Green.DM(), plant->population().Density(), 0.0);
 
    if (c.height.isInitialised())
       Height = c.height.value(dm_plant);       // new plant height (mm)

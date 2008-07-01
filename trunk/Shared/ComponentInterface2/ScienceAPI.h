@@ -258,6 +258,11 @@ class EXPORT ScienceAPI
       virtual void subscribe(const std::string& name, boost::function1<void, QuerySetValueType&> handler) = 0;
       virtual void publish(const std::string& name, QuerySetValueType& data) = 0;
 
+      // ApsimVariant
+      #define ApsimVariantFunction(address) boost::function1<void, ApsimVariantType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, ApsimVariantType&> handler) = 0;
+      virtual void publish(const std::string& name, ApsimVariantType& data) = 0;
+
       // Layered
       #define LayeredFunction(address) boost::function1<void, LayeredType& >(boost::bind(address, this, _1))
       virtual void subscribe(const std::string& name, boost::function1<void, LayeredType&> handler) = 0;

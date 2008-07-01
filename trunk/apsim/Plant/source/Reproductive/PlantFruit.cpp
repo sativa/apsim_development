@@ -14,20 +14,6 @@ PlantFruit::PlantFruit(ScienceAPI& scienceAPI, plantInterface *p, const string &
    cohortNum = 0;
 }
 
-plantPart* PlantFruit::construct(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-//=======================================================================================
-// Setup correct fruit part model for user-defined type
-   {
-   string type;
-   scienceAPI.readOptional("fruit_part", type);
-   if (type == "floret")
-      return new FloretPart(scienceAPI, p, "Floret");
-   else if (type == "cohorting")
-      return new PlantFruitCohorting(scienceAPI, p, name);
-   else
-      return new PlantFruit(scienceAPI, p, name);
-   }
-
 // destructor
 PlantFruit::~PlantFruit()
 {

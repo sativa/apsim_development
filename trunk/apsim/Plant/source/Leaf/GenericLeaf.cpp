@@ -4,6 +4,7 @@
 #include "GenericLeaf.h"
 #include "Environment.h"
 #include "Phenology/Phenology.h"
+#include "Population.h"
 using namespace std;
 
 const float  tolerance_lai = 1.0e-4 ;
@@ -258,11 +259,11 @@ void GenericLeaf::initialiseAreas(void)
    float avg_leaf_area = divide (cInitialTPLA, cLeafNumberAtEmerg, 0.0);
    for (int leaf = 0; leaf < leaf_no_emerged; leaf++)
       {
-      gLeafArea[leaf] = avg_leaf_area * plant->getPlants();
+      gLeafArea[leaf] = avg_leaf_area * plant->population().Density();
       }
-   gLeafArea[leaf_no_emerged] = leaf_emerging_fract * avg_leaf_area * plant->getPlants();
+   gLeafArea[leaf_no_emerged] = leaf_emerging_fract * avg_leaf_area * plant->population().Density();
 
-   gLAI = cInitialTPLA * smm2sm * plant->getPlants();
+   gLAI = cInitialTPLA * smm2sm * plant->population().Density();
    gSLAI = 0.0;
    }
 
@@ -305,7 +306,7 @@ void GenericLeaf::checkBounds(void)
 //      leaf_area_tot +=
 //                  divide (gLeafNoDead[node], gLeafNo[node], 0.0)
 //                     * gLeafArea[node]
-//                     * plant->getPlants() * smm2sm;
+//                     * plant->population().Density() * smm2sm;
 //      }
 //
 //    if (! reals_are_equal (leaf_area_tot, gLAI + gSLAI + gTLAI_dead, tolerance_lai))
@@ -405,7 +406,7 @@ void GenericLeaf::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
 
        // Ensure minimum leaf area remains
        tpla_now = sum_real_array (gLeafArea, max_node) ;
-       max_sen_area = l_bound (tpla_now - cMinTPLA, 0.0) * plant->getPlants();
+       max_sen_area = l_bound (tpla_now - cMinTPLA, 0.0) * plant->population().Density();
        max_sleaf_no_now = legnew_leaf_no_from_area (gLeafArea
                                                     , gLeafNo
                                                     , max_node
@@ -478,7 +479,7 @@ void GenericLeaf::leaf_area_potential ()
 
    float leaf_size = cLeafSize.value (node_no_now);
 
-   dltLAI_pot =  dltLeafNoPot * leaf_size * smm2sm * plant->getPlants();
+   dltLAI_pot =  dltLeafNoPot * leaf_size * smm2sm * plant->population().Density();
    }
 
 
@@ -509,7 +510,7 @@ void GenericLeaf::Detachment (void)
 //   Calculate todays leaf area senescence
 void GenericLeaf::leaf_area_sen(float swdef_photo)
 {
-    float plants = plant->getPlants();
+    float plants = plant->population().Density();
 
     dltSLAI_age = legopt_leaf_area_sen_age1( gLeafNo
                               , gLeafNoSen
@@ -554,7 +555,7 @@ void GenericLeaf::update(void)
     // plant size as far as the leaf size record is concerned.
 
     // NIH - Don't think this is needed anymore because death goes into SLAI not TLAI_dead now
-    //if ((plant->getPlants() /*+ g_dlt_plants*/)<=0.0)   //XXXX FIXME!!
+    //if ((plant->population().Density() /*+ g_dlt_plants*/)<=0.0)   //XXXX FIXME!!
     //    {
     //    fill_real_array(gLeafArea, 0.0, max_node);
     //    }
@@ -583,7 +584,7 @@ void GenericLeaf::update(void)
     gSLAI += dltSLAI - dltSLAI_detached;
 
     // Transfer dead leaf areas
-    float dying_fract_plants = plant->getDyingFractionPlants();
+    float dying_fract_plants = plant->population().DyingFractionPlants();
 
     float dlt_lai_dead  = gLAI  * dying_fract_plants;
     gLAI -=  dlt_lai_dead;
@@ -657,7 +658,7 @@ void GenericLeaf::removeBiomass(void)
     float dlt_slai = gSLAI * chop_fr_sen;
 
     // keep leaf area above a minimum
-    float lai_init = cInitialTPLA * smm2sm * plant->getPlants();
+    float lai_init = cInitialTPLA * smm2sm * plant->population().Density();
     float dlt_lai_max = gLAI - lai_init;
     dlt_lai = u_bound (dlt_lai, dlt_lai_max);
 
@@ -668,7 +669,7 @@ void GenericLeaf::removeBiomass(void)
      SimplePart::removeBiomass();
 
    // keep dm above a minimum
-    float dm_init = c.dm_init * plant->getPlants();
+    float dm_init = c.dm_init * plant->population().Density();
     float n_init = dm_init * c.n_init_conc;
 
     Green = Biomass(l_bound (Green.DM(), dm_init),

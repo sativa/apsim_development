@@ -17,7 +17,6 @@ void fruitOilPart::onInit1(protocol::Component *system)
 //===========================================================================
    {
    SimplePart::onInit1(system);
-   system->addGettableVar("dlt_dm_oil_conv",gDlt_dm_oil_conv,"g/m^2", "change in oil via ??");
    system->addGettableVar("dlt_dm_oil_conv_retrans", dmOil_conv_retranslocate, "g/m^2", "change in oil via retranslocation");
    system->addGettableVar("grain_oil_conc", cGrain_oil_conc, "%", "??");
    }
@@ -41,7 +40,6 @@ void fruitOilPart::zeroDeltas(void)
 // Zero daily deltas
    {
    SimplePart::zeroDeltas();
-   gDlt_dm_oil_conv = 0.0;
    }
 
 
@@ -114,12 +112,6 @@ float fruitOilPart::dltDmGreen(void)
    return Growth.DM() ;
    }
 
-float fruitOilPart::dltDmUptake(void)
-//=======================================================================================
-   {
-   return (Growth.DM() + gDlt_dm_oil_conv);
-   }
-
 float fruitOilPart::dltDmGreenRetransUptake(void)
 //=======================================================================================
    {
@@ -145,7 +137,6 @@ float fruitOilPart::giveDmGreen(float delta)
    {
    float d = divide (delta, cCarbo_oil_conv_ratio, 0.0);
    Growth = Growth + Biomass(d, 0, 0);
-   gDlt_dm_oil_conv = delta - d;
    return delta;
    }
 
@@ -161,7 +152,7 @@ void fruitOilPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTo
 float fruitOilPart::dmDemandDifferential(void)
 //=======================================================================================
    {
-   return dmGreenDemand() - dltDmUptake();
+   return dmGreenDemand() - (Growth.DM() * cCarbo_oil_conv_ratio);
    }
 
 void fruitOilPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)

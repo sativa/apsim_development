@@ -32,16 +32,21 @@
     -->
     
    <options>
-      <Environment/><Fixation/>
+      <Environment/>
+      <Population/>
+      <Fixation/>
       <Phenology/>
       <Root/>
+      <GenericArbitrator/>
+      <GenericLeaf/>
+      <Stem/>
+      <Fruit/>
    </options>
    <RadiationPartitioningOrder>fruit leaf</RadiationPartitioningOrder>
     
    <crop_type>chickpea</crop_type>
    <default_crop_class>plant</default_crop_class>
    <default_cultivar>amethyst</default_cultivar>
-   <leaf_part>generic_leaf</leaf_part>
    <grain_part_type>harvest_index</grain_part_type>
    <stress_determinants>leaf stem meal</stress_determinants>
    <yield_parts>meal</yield_parts>

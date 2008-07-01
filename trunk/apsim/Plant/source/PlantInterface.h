@@ -21,6 +21,12 @@ class Phenology;
 class Co2Modifier;
 class CompositePart;
 class Phenology;
+class RootBase;
+class Arbitrator;
+class Population;
+class Fixation;
+class Leaf;
+class Stem;
 
 class pheno_stress_t {
    public:
@@ -37,7 +43,6 @@ class IPlant {
    virtual ~IPlant() {};
    virtual void onInit1() = 0;
    virtual void onInit2() = 0;
-   virtual bool respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValueData& /*setValueData*/) = 0;
 };
 
 //      crop status names
@@ -50,30 +55,19 @@ class plantInterface {
 
       virtual Phenology& phenology() = 0;
       virtual Environment& environment() = 0;
+      virtual RootBase& root() = 0;
+      virtual Arbitrator& arbitrator() = 0;
+      virtual Population& population() = 0;
+      virtual Fixation& fixation() = 0;
+      virtual Leaf& leaf() = 0;
+      virtual Stem& stem() = 0;
+      virtual CompositePart& All() = 0;
+      virtual CompositePart& Tops() = 0;
 
-      virtual pheno_stress_t getPhotoStress(void) = 0;
       virtual float getPeswSeed(void) = 0;
       virtual float getFaswSeed(void) = 0;
-      virtual float getNodeNo (void) = 0;           // Node number
-      virtual float getDltNodeNo(void) = 0;         // The change in number of nodes
       virtual float getLeafNo (void) = 0;           // Leaf number (leaves/m^2)
-      virtual float getLAI(void) = 0;
       virtual std::string Name() = 0;
-      virtual float getPlants (void) = 0;           // Planting density (plants/m^2)
-      virtual float getCo2 (void) = 0;              // CO2 level (ppm)
-      virtual float getDltDMPotRueVeg(void) = 0;
-      virtual float getDmTops(void) = 0;
-      virtual float getDltDmGreen(void)  = 0;
-      virtual float getDltDm(void) = 0;
-      virtual float getDmVeg(void) = 0;
-      virtual float getDmGreenStem(void) = 0;
-      virtual float getDmGreenTot(void) = 0;
-        // FIXME - remove next line after P demand corrections activated
-      virtual float getRelativeGrowthRate(void) = 0;
-      virtual float getTotalPotentialGrowthRate(void) = 0;
-      // temporary
-      virtual float getDyingFractionPlants(void) = 0;
-      virtual float getVpd(void) = 0;
 
       virtual float getTempStressPhoto(void) = 0;
       virtual float getNfactPhoto(void) = 0;
@@ -88,7 +82,6 @@ class plantInterface {
       virtual void doPlantEvent(const string& oldStageName, const string& newStageName, bool phenologyRewound) = 0;      // Something is asking the plant to do something
       virtual status_t Status() = 0;
       virtual void SetStatus(status_t NewStatus) = 0;
-      virtual CompositePart& Tops() = 0;
 
       virtual const Co2Modifier *getCo2Modifier(void) = 0;
       virtual const string & getCropType(void) = 0;
@@ -96,8 +89,6 @@ class plantInterface {
       virtual float getSwDefPheno() = 0;
       virtual float getNFactPheno() = 0;
       virtual float getPFactPheno() = 0;
-      virtual float swAvailablePotential() = 0;
-      virtual float swAvailable() = 0;
 
 };
 
@@ -128,7 +119,7 @@ class plantThing {
 #define setupEvent(s,name, address, DDML) {\
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;\
    fn = boost::bind(address, this, _1, _2, _3); \
-   s->addEvent(name, fn, DDML);\
+   s->addEvent(name, RegistrationType::respondToEvent, fn, DDML);\
    }
 
 #define setupGetFunction(s,name,type,length,address,units,desc) {\

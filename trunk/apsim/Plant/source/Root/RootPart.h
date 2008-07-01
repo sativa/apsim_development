@@ -94,14 +94,7 @@ class RootPart : public RootBase
       float n_conc_min, n_conc_crit, n_conc_max;
       float rootDieBackFraction;                      // fraction of roots dying at harvest or kill_stem
 
-      unsigned int incorp_fom_ID;
-
-
       string crop_type;
-
-
-
-
 
       // External Getters and Setters etc
       void get_sw_uptake(protocol::Component *system, protocol::QueryValueData &qd);

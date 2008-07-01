@@ -4,18 +4,22 @@
    ***********************************************************************************************************
     -->
    <options>
-      <Environment/><Fixation/>
+      <Environment/>
+      <Population/>
+      <Fixation/>
       <Phenology/>
       <Root/>
+      <GenericArbitratorXY/>
+      <CohortingLeaf/>
+      <Stem/>
+      <Fruit/>
    </options>
    <RadiationPartitioningOrder>floret leaf</RadiationPartitioningOrder>
     
    <crop_type>Lettuce</crop_type>
    <default_crop_class>plant</default_crop_class>
    <default_cultivar>greenbelt</default_cultivar>
-   <leaf_part>cohorting</leaf_part>
    <grain_part_type>harvest_index</grain_part_type>
-   <fruit_part>floret</fruit_part>
    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    SECTION - VALUE LIMITS - MAX AND MINS
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
