@@ -11,20 +11,20 @@
 
 Version                = 6.1
 Title                  = Sorghum_HE2_T3
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
+Component      "clock" = C:\Development\apsim\clock\lib\clock.dll
+Component        "met" = C:\Development\apsim\input\lib\input.dll
 Paddock:
-Component "outputfile" = c:\development\apsim\report\lib\report.dll
-Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component "operations" = c:\development\apsim\operatns\lib\operatns.dll
-Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component "Sow SkipRow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
-Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
-Component "Calculator" = c:\development\apsim\manager\lib\manager.dll
-Component  "HRS Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component "HRS Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
+Component "outputfile" = C:\Development\apsim\report\lib\report.dll
+Component      "accum" = C:\Development\apsim\accum\lib\accum.dll
+Component "operations" = C:\Development\apsim\operatns\lib\operatns.dll
+Component "fertiliser" = C:\Development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = C:\Development\apsim\irrigate\lib\irrigate.dll
+Component "Sow SkipRow on a fixed date" = C:\Development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = C:\Development\apsim\manager\lib\manager.dll
+Component "Calculator" = C:\Development\apsim\manager\lib\manager.dll
+Component  "HRS Water" = C:\Development\apsim\soilwat2\lib\soilwat2.dll
+Component "HRS Nitrogen" = C:\Development\apsim\soiln2\lib\soiln2.dll
+Component    "Sorghum" = C:\Development\apsim\sorghum\lib\sorghum.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
