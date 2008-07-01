@@ -11,8 +11,8 @@
 
 Version                = 6.1
 Title                  = Sorghum_HE1_T3
-Component      "clock" = C:\Development\apsim\clock\lib\clock.dll
-Component        "met" = C:\Development\apsim\input\lib\input.dll
+Component      "clock" = C:\development\apsim\clock\lib\clock.dll
+Component        "met" = C:\development\apsim\input\lib\input.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM  Fatal  Error
                       -------------------
@@ -22,15 +22,15 @@ Component        "met" = C:\Development\apsim\input\lib\input.dll
      
      
 Paddock:
-Component "outputfile" = C:\Development\apsim\report\lib\report.dll
-Component      "accum" = C:\Development\apsim\accum\lib\accum.dll
-Component "operations" = C:\Development\apsim\operatns\lib\operatns.dll
-Component "fertiliser" = C:\Development\apsim\fertiliz\lib\fertiliz.dll
-Component "Irrigation" = C:\Development\apsim\irrigate\lib\irrigate.dll
-Component "Sow SkipRow on a fixed date" = C:\Development\apsim\manager\lib\manager.dll
-Component "Harvesting rule" = C:\Development\apsim\manager\lib\manager.dll
-Component "Calculator" = C:\Development\apsim\manager\lib\manager.dll
-Component  "HRS Water" = C:\Development\apsim\soilwat2\lib\soilwat2.dll
-Component "HRS Nitrogen" = C:\Development\apsim\soiln2\lib\soiln2.dll
-Component    "Sorghum" = C:\Development\apsim\sorghum\lib\sorghum.dll
+Component "outputfile" = C:\development\apsim\report\lib\report.dll
+Component      "accum" = C:\development\apsim\accum\lib\accum.dll
+Component "operations" = C:\development\apsim\operatns\lib\operatns.dll
+Component "fertiliser" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = C:\development\apsim\irrigate\lib\irrigate.dll
+Component "Sow SkipRow on a fixed date" = C:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = C:\development\apsim\manager\lib\manager.dll
+Component "Calculator" = C:\development\apsim\manager\lib\manager.dll
+Component  "HRS Water" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "HRS Nitrogen" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component    "Sorghum" = C:\development\apsim\sorghum\lib\sorghum.dll
 ------- Start of simulation  --------------------------------------------------
