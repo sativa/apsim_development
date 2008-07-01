@@ -6,6 +6,8 @@
 
 class SimplePart : public plantPart
    {
+   private:
+
  protected:
 //1) Need to make Senesced() method in SimplePart
 //2) Make a Total() method = Green+Senesced
@@ -32,7 +34,7 @@ class SimplePart : public plantPart
    // deltas
    struct {
       float dm_pot_rue;
-      float dm;
+      //float dm;
       float dm_green_removed;                     // green biomass removed (g/m^2)
       float dm_senesced_removed;                  // senesced biomass removed (g/m^2)
       float n_senesced_retrans;           // plant N retranslocated to/from (+/-) senesced part to/from <<somewhere else??>> (g/m^2)
@@ -134,7 +136,6 @@ public:
    virtual float dltLeafAreaPot(void) {throw std::runtime_error("SimplePart::dltLeafAreaPot() called");};
    virtual float giveDmGreen(float) ;           // Arbitrator gives this part dm; return amount used
    virtual float dltDmGreen(void) ;
-   virtual float dltDmUptake(void) ;
 
 protected:
    virtual void zeroDltNSenescedTrans(void);
@@ -279,7 +280,6 @@ protected:
    virtual float coverSen(void) ;
    virtual float coverTotal(void) ;
    virtual float dltDmGrainDemand(void);
-   virtual float dltDm(void);
    virtual float grainWaterContent(void);
    virtual float dmGrainWetTotal(void);
    virtual float grainNo(void);
@@ -291,7 +291,7 @@ protected:
    virtual void doSWDemand(float SWDemandMaxFactor);
    virtual float SWDemandTE(void);
    virtual void calcDlt_pod_area (void);   //FIXME
-   virtual void doBioActual (void);
+   virtual float DMSupply(void) {return 0;}
    virtual void doDmDemand (float dlt_dm_supply_by_veg);
    virtual void doDmPotRUE (void );                      // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    virtual void doGrainNumber (void);

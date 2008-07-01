@@ -8,6 +8,7 @@
 #include <general/platform.h>
 #include <boost/function.hpp>
 #include <ComponentInterface/datatypes.h>
+#include <ComponentInterface/ApsimVariant.h>
 
 namespace protocol {
    class Component;
@@ -66,12 +67,12 @@ class EXPORT ScienceAPI
       bool getOptional(const std::string& name, const std::string& units, std::vector<float>& data, float lower, float upper);
 
       // expose variables
-      #define IntFunctionType boost::function0<int>
-      #define IntFunction(address) boost::function0<int>(boost::bind(address, this))
-      #define FloatFunctionType boost::function0<float>
-      #define FloatFunction(address) boost::function0<float>(boost::bind(address, this))
-      #define StringFunctionType boost::function0<std::string>
-      #define StringFunction(address) boost::function0<std::string>(boost::bind(address, this))
+      #define IntGetterType boost::function0<int>
+      #define IntGetter(address) boost::function0<int>(boost::bind(address, this))
+      #define FloatGetterType boost::function0<float>
+      #define FloatGetter(address) boost::function0<float>(boost::bind(address, this))
+      #define StringGetterType boost::function0<std::string>
+      #define StringGetter(address) boost::function0<std::string>(boost::bind(address, this))
       void expose(const std::string& name, const std::string& units, const std::string& description, int& variable);
       void expose(const std::string& name, const std::string& units, const std::string& description, float& variable);
       void expose(const std::string& name, const std::string& units, const std::string& description, string& variable);
@@ -86,12 +87,23 @@ class EXPORT ScienceAPI
       #define FloatSetter(address) boost::function1<void, float>(boost::bind(address, this, _1))
       void exposeWritable(const std::string& name, const std::string& units, const std::string& description, boost::function1<void, float> fn);
 
+      #define StringSetter(address) boost::function1<void, const std::string&>(boost::bind(address, this, _1))
+      void exposeWritable(const std::string& name, const std::string& units, const std::string& description, boost::function1<void, const std::string&> fn);
 
       // event handlers
       #define NullFunctionType boost::function0<void>
       #define NullFunction(address) NullFunctionType(boost::bind(address, this))
       void subscribe(const std::string& name, NullFunctionType handler);
       void publish(const std::string& name);
+
+      
+      #define FloatFunctionType boost::function1<void, float>
+      #define FloatFunction(address) boost::function1<void, float>(boost::bind(address, this, _1))
+      void subscribe(const std::string& name, FloatFunctionType handler);
+
+      #define NullFunctionWithNameType boost::function1<void, const std::string&>
+      #define NullFunctionWithName(address) NullFunctionWithNameType(boost::bind(address, this, _1))
+      void subscribe(const std::string& name, NullFunctionWithNameType handler);
 
       #define TimeFunctionType boost::function1<void, protocol::TimeType& >
       #define TimeFunction(address) TimeFunctionType(boost::bind(address, this, _1))
@@ -128,6 +140,15 @@ class EXPORT ScienceAPI
       #define CanopyWaterBalanceFunctionType boost::function1<void, protocol::CanopyWaterBalanceType&>
       #define CanopyWaterBalanceFunction(address) CanopyWaterBalanceFunctionType(boost::bind(address, this, _1))
       void subscribe(const std::string& name, CanopyWaterBalanceFunctionType handler);
+
+      #define RemoveCropDmFunctionType boost::function1<void, protocol::RemoveCropDmType&>
+      #define RemoveCropDmFunction(address) RemoveCropDmFunctionType(boost::bind(address, this, _1))
+      void subscribe(const std::string& name, RemoveCropDmFunctionType handler);
+
+      #define ApsimVariantFunctionType boost::function1<void, protocol::ApsimVariant&>
+      #define ApsimVariantFunction(address) ApsimVariantFunctionType(boost::bind(address, this, _1))
+      void publish(const std::string& name, protocol::ApsimVariant& value);
+      void subscribe(const std::string& name, ApsimVariantFunctionType handler);
 
    private:
       std::string currentClass1;

@@ -4,6 +4,8 @@
 #include "Co2Modifier.h"
 #include "FruitCohortFN.h"
 #include "PodPartFN.h"
+#include "Population.h"
+#include "Environment.h"
 using namespace std;
 
 fruitPodPartFN::fruitPodPartFN(ScienceAPI& scienceAPI, plantInterface *p, FruitCohort *g, const string &name)
@@ -48,7 +50,7 @@ void fruitPodPartFN::onStartGrainFill(void)
 void fruitPodPartFN::doDmMin(void)
 //=======================================================================================
 {
-   float dm_plant = divide (Green.DM(), plant->getPlants(), 0.0);
+   float dm_plant = divide (Green.DM(), plant->population().Density(), 0.0);
    DMPlantMin = max (dm_plant * (1.0 - c.trans_frac), DMPlantMin);
 }
 
@@ -83,7 +85,7 @@ float fruitPodPartFN::dltDmRetranslocateSupply(float DemandDifferential)
 //=======================================================================================
    {
    float DMPartPot = Green.DM() + Retranslocation.DM();
-   float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
+   float DMPartAvail = DMPartPot - DMPlantMin * plant->population().Density();
    DMPartAvail = l_bound (DMPartAvail, 0.0);
    float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
    Retranslocation = Retranslocation - Biomass(DltDmRetransPart, 0, 0);   //XXXX this is a bad thing..
@@ -118,7 +120,7 @@ void fruitPodPartFN::doProcessBioDemand(void)
 void fruitPodPartFN::doTECO2()          // (OUTPUT) transpiration coefficient
    //==========================================================================
 {
-   cproc_transp_eff_co2_1(plant->getVpd()
+   cproc_transp_eff_co2_1(plant->environment().vpdEstimate()
                           , plant->phenology().doInterpolation(TECoeff)
                           , co2Modifier->te()
                           , &transpEff);

@@ -21,95 +21,15 @@ using namespace std;
 
 Plant *currentInstance = NULL;
 
-static const char* floatType =        "<type kind=\"single\"/>";
-static const char* doubleType =       "<type kind=\"double\"/>";
-static const char* stringType =       "<type kind=\"string\"/>";
-static const char* sowDDML =          "<type name = \"sow\">" \
-                                      "   <field name=\"crop_class_name\" kind=\"string\"/>" \
-                                      "   <field name=\"crop_class_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"crop_class_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"crop_class_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"crop_class_value\" kind=\"string\"/>" \
-
-                                      "   <field name=\"cultivar_name\" kind=\"string\"/>" \
-                                      "   <field name=\"cultivar_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"cultivar_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"cultivar_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"cultivar_value\" kind=\"string\"/>" \
-
-                                      "   <field name=\"plants_name\" kind=\"string\"/>" \
-                                      "   <field name=\"plants_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"plants_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"plants_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"plants_value\" kind=\"single\"/>" \
-
-                                      "   <field name=\"sowing_depth_name\" kind=\"string\"/>" \
-                                      "   <field name=\"sowing_depth_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"sowing_depth_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"sowing_depth_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"sowing_depth_value\" kind=\"single\"/>" \
-
-                                      "   <field name=\"row_spacing_name\" kind=\"string\"/>" \
-                                      "   <field name=\"row_spacing_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"row_spacing_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"row_spacing_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"row_spacing_value\" kind=\"single\"/>" \
-                                      "</type>";
-
-static const char* killStemDDML =     "<type name = \"KillStem\">" \
-                                      "   <field name=\"plants_name\" kind=\"string\"/>" \
-                                      "   <field name=\"plants_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"plants_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"plants_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"plants_value\" kind=\"single\"/>" \
-                                      "</type>";
-
-static const char* cropChoppedDDML =  "<type name = \"CropChopped\">" \
-                                      "   <field name=\"croptype_name\" kind=\"string\"/>" \
-                                      "   <field name=\"croptype_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"croptype_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"croptype_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"croptype_value\" kind=\"string\"/>" \
-
-                                      "   <field name=\"dm_type_name\" kind=\"string\"/>" \
-                                      "   <field name=\"dm_type_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dm_type_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dm_type_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"dm_type_value\" kind=\"string\" array=\"T\"/>" \
-
-                                      "   <field name=\"dlt_crop_dm_name\" kind=\"string\"/>" \
-                                      "   <field name=\"dlt_crop_dm_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_crop_dm_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_crop_dm_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"dlt_crop_dm_value\" kind=\"single\" array=\"T\"/>" \
-
-                                      "   <field name=\"dlt_dm_n_name\" kind=\"string\"/>" \
-                                      "   <field name=\"dlt_dm_n_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_dm_n_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_dm_n_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"dlt_dm_n_value\" kind=\"single\" array=\"T\"/>" \
-
-                                      "   <field name=\"dlt_dm_p_name\" kind=\"string\"/>" \
-                                      "   <field name=\"dlt_dm_p_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_dm_p_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_dm_p_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"dlt_dm_p_value\" kind=\"single\" array=\"T\"/>" \
-
-                                      "   <field name=\"fraction_to_residue_name\" kind=\"string\"/>" \
-                                      "   <field name=\"fraction_to_residue_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"fraction_to_residue_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"fraction_to_residue_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"fraction_to_residue_value\" kind=\"single\" array=\"T\"/>" \
-                                      "</type>";
-
 Plant::Plant(protocol::Component *P, ScienceAPI& api)
-//=======================================================================================
    : scienceAPI(api),
      plant(scienceAPI, this, ""),
      tops(scienceAPI, this, "Tops"),
-     population(scienceAPI, *this),
      plantSpatial(scienceAPI)
    {
+   // --------------------------------------------------------------------------
+   // Constructor
+   // --------------------------------------------------------------------------
    parent = P;
 
    // Read the default crop class and cultivar and setup the
@@ -122,14 +42,41 @@ Plant::Plant(protocol::Component *P, ScienceAPI& api)
 
    plant.createParts();
    _environment  = dynamic_cast<Environment*> (plant.get("environment"));
+   _population   = dynamic_cast<Population*>  (plant.get("population"));
    _phenology    = dynamic_cast<Phenology*>   (plant.get("phenology"));
-   root          = dynamic_cast<RootBase*>   (plant.get("root"));
-   fixation     = dynamic_cast<Fixation*>   (plant.getOptional("fixation"));
+   _root         = dynamic_cast<RootBase*>    (plant.get("root"));
+   _fixation     = dynamic_cast<Fixation*>    (plant.getOptional("fixation"));
+   _arbitrator   = dynamic_cast<Arbitrator*>  (plant.get("arbitrator"));
+   _leaf         = dynamic_cast<Leaf*>        (plant.get("leaf"));
+   _stem         = dynamic_cast<Stem*>        (plant.get("stem"));
+   _fruit        = dynamic_cast<plantPart*>   (plant.get("fruit"));
 
+    myThings.push_back(_population);
     myThings.push_back(_phenology);
-    myThings.push_back(root);
-    myParts.push_back(root);
-    plant.add(root);
+    myThings.push_back(_root);
+    myThings.push_back(_arbitrator);
+    myThings.push_back(_leaf);
+    myThings.push_back(_stem);
+    myThings.push_back(_fruit);
+    myParts.push_back(_root);
+    myParts.push_back(_leaf);
+    myParts.push_back(_stem);
+    myParts.push_back(_fruit);
+    plant.add(_root);
+    plant.add(_leaf);
+    plant.add(_stem);
+    plant.add(_fruit);
+    tops.add(_leaf);
+    tops.add(_stem);
+    tops.add(_fruit);
+
+    plantPart* storage = dynamic_cast<plantPart*> (plant.getOptional("storage"));
+    if (storage != NULL)
+       {
+       myThings.push_back(storage);
+       myParts.push_back(storage);
+       plant.add(storage);
+       }
 
     nStress = new NStress(scienceAPI, parent);
     pStress = new PStress(scienceAPI, parent);
@@ -153,54 +100,23 @@ Plant::Plant(protocol::Component *P, ScienceAPI& api)
     }
 
 Plant::~Plant(void)
-//=======================================================================================
-    {
-    for (vector<plantThing *>::iterator t = myThings.begin();
-         t != myThings.end();
-         t++)
-       delete (*t);
-    }
-
+   {
+   // --------------------------------------------------------------------------
+   // Destructor
+   // --------------------------------------------------------------------------
+   for (vector<plantThing *>::iterator t = myThings.begin();
+        t != myThings.end();
+        t++)
+      delete (*t);
+   }
 
 void Plant::onInit1(void)
-//=======================================================================================
-// Init1. Set up plant structure
-    {
-    plant_zero_variables ();    // Zero global states
-    plant_zero_all_globals();
-
-   population.Initialise();
-
-    string leafModel;
-    scienceAPI.readOptional("leaf_part", leafModel);                      //FIXME belongs in leaf?
-    leafPart = constructLeafPart(scienceAPI, this, leafModel, "Leaf");
-    myThings.push_back(leafPart);
-    myParts.push_back(leafPart);
-    plant.add(leafPart);
-    tops.add(leafPart);
-
-    stemPart = new Stem(scienceAPI, this, "Stem");
-    myThings.push_back(stemPart);
-    myParts.push_back(stemPart);
-    plant.add(stemPart);
-    tops.add(stemPart);
-
-    fruitPart = PlantFruit::construct(scienceAPI, this, "Fruit");
-    myThings.push_back(fruitPart);
-    myParts.push_back(fruitPart);
-    plant.add(fruitPart);
-    tops.add(fruitPart);
-
-    StoragePart* storagePart = StoragePart::construct(scienceAPI, this, "Tuber");
-    if (storagePart != NULL)
-       {
-       myThings.push_back(storagePart);
-       myParts.push_back(storagePart);
-       plant.add(storagePart);
-       }
-
-    arbitrator = constructArbitrator(scienceAPI, this, "");       // Make a null arbitrator until we call readSpecies...
-    myThings.push_back(arbitrator);
+   {
+   // --------------------------------------------------------------------------
+   // Init1. Set up plant structure
+   // --------------------------------------------------------------------------
+   plant_zero_variables ();    // Zero global states
+   plant_zero_all_globals();
 
     sowingEventObserver = new eventObserver(scienceAPI, "sowing", this);
     myThings.push_back(sowingEventObserver);
@@ -220,32 +136,15 @@ void Plant::onInit1(void)
    plant.tempFlagToShortCircuitInit1 = true;
    plant.onInit1(parent);
 
-   id.eo = parent->addRegistration(::get,
-                                   -1, "eo", addUnitsToDDML(floatType, "mm"),
-                                   "");
-
-   id.parasite_c_demand = parent->addRegistration(::get,
-                                   -1, "parasite_dm_demand", addUnitsToDDML(floatType, "g/m2"),
-                                   "");
-   id.parasite_sw_demand = parent->addRegistration(::get,
-                                   -1, "parasite_sw_demand", addUnitsToDDML(floatType, "mm"),
-                                   "");
-
-   // events.
-   id.crop_chopped = parent->addRegistration(::event,
-                                   -1, "crop_chopped", string(cropChoppedDDML),
-                                   "");
-
-   setupEvent(parent, "prepare",     &Plant::onPrepare, nullTypeDDML);
-   setupEvent(parent, "process",     &Plant::onProcess, nullTypeDDML);
-   setupEvent(parent, "sow",         &Plant::onSow, sowDDML);
-   setupEvent(parent, "harvest",     &Plant::onHarvest, nullTypeDDML);
-   setupEvent(parent, "end_crop",    &Plant::onEndCrop, nullTypeDDML);
-   setupEvent(parent, "end_run",     &Plant::onEndRun, nullTypeDDML);
-   setupEvent(parent, "kill_stem",   &Plant::onKillStem, killStemDDML);
-   setupEvent(parent, "remove_crop_biomass",   &Plant::onRemoveCropBiomass, DDML(protocol::RemoveCropDmType()).c_str());
-   setupEvent(parent, "detach_crop_biomass_rate",   &Plant::onDetachCropBiomass, doubleType);
-
+   scienceAPI.subscribe("prepare",    NullFunction(&Plant::onPrepare));
+   scienceAPI.subscribe("process",    NullFunction(&Plant::onProcess));
+   scienceAPI.subscribe("sow",        ApsimVariantFunction(&Plant::onSow));
+   scienceAPI.subscribe("harvest",    ApsimVariantFunction(&Plant::onHarvest));
+   scienceAPI.subscribe("end_crop",   NullFunction(&Plant::onEndCrop));
+   scienceAPI.subscribe("end_run",    NullFunction(&Plant::onEndRun));
+   scienceAPI.subscribe("kill_stem",  ApsimVariantFunction(&Plant::onKillStem));
+   scienceAPI.subscribe("remove_crop_biomass",    RemoveCropDmFunction(&Plant::onRemoveCropBiomass));
+   scienceAPI.subscribe("detach_crop_biomass_rate", FloatFunction(&Plant::onDetachCropBiomass));
 
    // Send My Variable
 
@@ -381,13 +280,7 @@ void Plant::onInit1(void)
 #undef setupGetVar
 #undef setupGetFunction
 
-   unsigned int id;
-   // Set My Variable
-   id = parent->addRegistration(::respondToSet, -1, "crop_class", (char*)stringType);
-   IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::set_plant_crop_class));
-
-   parent->addRegistration(::event, -1, string("sowing"), nullTypeDDML);
-   parent->addRegistration(::event, -1, string("harvesting"), nullTypeDDML);
+   scienceAPI.exposeWritable("crop_class", "", "Crop class", StringSetter(&Plant::onSetCropClass));
 
    // now go and call onInit1 for all non part things.
    for (vector<plantThing *>::iterator t = myThings.begin();
@@ -400,13 +293,14 @@ void Plant::onInit1(void)
    }
 
 void Plant::onInit2(void)
-//=======================================================================================
-// Init2. The rest of the system is here now..
    {
+   // --------------------------------------------------------------------------
+   // Init2. The rest of the system is here now..
+   // --------------------------------------------------------------------------
 
    nStress->init();
    pStress->init();
-   swStress->init(root);
+   swStress->init(_root);
    tempStress->init();
    co2Modifier->init();
 
@@ -417,7 +311,7 @@ void Plant::onInit2(void)
 
    g.plant_status = out;
    g.module_name = parent->getName();
-   doPInit(parent);
+   doPInit();
 
    plant_get_other_variables (); // sw etc..
 
@@ -427,13 +321,13 @@ void Plant::onInit2(void)
    scienceAPI.publish ("newcrop",NewCrop);
    }
 
-
-
 void Plant::doPlantEvent(const string& oldStageName,
                          const string& newStageName,
                          bool phenologyRewound)
-//=======================================================================================
    {
+   // --------------------------------------------------------------------------
+   // Called by Phenology when the phase changes.
+   // --------------------------------------------------------------------------
    for (vector<plantThing *>::iterator t = myThings.begin();
         t != myThings.end();
         t++)
@@ -448,78 +342,179 @@ void Plant::doPlantEvent(const string& oldStageName,
       }
    }
 
-bool Plant::respondToSet(unsigned int &id, protocol::QuerySetValueData& qd)
-//=======================================================================================
-// Set a variable from the system.
-  {
-    ptr2setFn pf = IDtoSetFn[id];
-    if (pf) {return((this->*pf)(qd));}
-    return false;
-  }
+void Plant::onPrepare()
+   {
+   // --------------------------------------------------------------------------
+   // Event Handler for Prepare Event
+   // --------------------------------------------------------------------------
+   plant_zero_daily_variables ();
+   plant_get_other_variables ();        // request and receive variables from owner-modules
+   if (g.plant_status == out)
+      {
+      plant_zero_variables ();
+      UpdateCanopy();
+      }
+   else
+      {
+      plant.prepare();
 
-void Plant::sendStageMessage(const char *what)
-//=======================================================================================
-  {
-  unsigned int id = parent->addRegistration(::event,
-                                            -1,
-                                            what,
-                                            "<type/>");
-  protocol::ApsimVariant outgoingApsimVariant(parent);
-  parent->publish (id, outgoingApsimVariant);
-  }
-/////////////////////////These routines are portions of the fortran "main" routine.
+      nStress->doPlantNStress (&leaf(), &stem());
+      tempStress->doPlantTempStress (environment());
+      plant.doRadnPartition();
 
-// Field a Prepare message
-void Plant::onPrepare(unsigned &, unsigned &, protocol::Variant &)
-//=======================================================================================
-// Event Handler for Prepare Event
-  {
-  plant_zero_daily_variables ();
+      // Calculate Potential Photosynthesis
+      plant.doDmPotRUE();
 
-  plant_get_other_variables ();     // request and receive variables from owner-modules
-  if (g.plant_status == out)
-     {
-     plant_zero_variables ();
-     UpdateCanopy();
-     }
-  else
-     {
-     plant_prepare ();                 // do crop preparation
-     }
-  }
+      // Calculate Plant Water Demand
+      float SWDemandMaxFactor = p.eo_crop_factor * g.eo ;
+      plant.doSWDemand(SWDemandMaxFactor);
+      doNDemandEstimate(1);
 
-void Plant::onProcess(unsigned &, unsigned &, protocol::Variant &)
-//=======================================================================================
-// Event Handler for Process Event
-  {
-  if (g.plant_status != out)
-     {
-     plant_get_other_variables ();   // request and receive variables from owner-modules
-     plant_process ();               // do crop processes
-     plant_update_other_variables ();
-     root->UpdateOtherVariables();
-     }
-  else
-     {} // plant is out
-  }
-
-void Plant::onSow(unsigned &, unsigned &, protocol::Variant &v)
-//=======================================================================================
-// Event Handler for Sowing Event
-  {
-  plant_get_other_variables (); // request and receive variables from owner-modules
-  plant_start_crop (v);          // start crop and do  more initialisations
-  }
+      protocol::NewPotentialGrowthType NewPotentialGrowth;
+      NewPotentialGrowth.frgr = min(min(getTempStressPhoto(),getNfactPhoto()),min(getOxdefPhoto(),getPfactPhoto()));
+      NewPotentialGrowth.sender = Name();
+      scienceAPI.publish ("newpotentialgrowth",NewPotentialGrowth);
 
 
-void Plant::onHarvest(unsigned &, unsigned &, protocol::Variant &v)
-//=======================================================================================
-// Event Handler for a Harvest Event
-  {
-  plant_harvest (v);             // harvest crop - turn into residue
-  }
+      // Note actually should send total plant
+      // potential growth rather than just tops - NIH
+      prepare_p();
+      }
+   }
 
-void Plant::onEndCrop(unsigned &, unsigned &, protocol::Variant &)
+void Plant::onProcess()
+   {
+   // --------------------------------------------------------------------------
+   // Event Handler for Process Event
+   // --------------------------------------------------------------------------
+   if (g.plant_status != out)
+      {
+      plant_get_other_variables ();   // request and receive variables from owner-modules
+
+      root().plant_root_depth ();
+      if (g.plant_status == alive)
+         {
+         root().doWaterUptake(1, tops.SWDemand());
+         root().doPlantWaterStress (tops.SWDemand(), swStress);
+
+         phenology().process();
+         fruit().process();
+
+         plant.morphology();
+
+         leaf().CanopyExpansion(c.leaf_no_pot_option,
+                            min(pow(min(nStress->nFact.expansion, pStress->pFact.expansion),2),swStress->swDef.expansion),
+                            phenology().TT(),min(swStress->swDef.expansion, min(nStress->nFact.expansion, pStress->pFact.expansion)));
+
+         // Calculate Potential Photosynthesis
+         plant.doDmPotRUE();               // NIH - WHY IS THIS HERE!!!!?????  Not needed I hope.
+
+         plant.doDmMin();
+
+         arbitrator().partitionDM();
+
+         arbitrator().doDmRetranslocate(&stem(), &leaf(), &fruit());
+
+         //Combine these 3 calls into a AreaOrLengthGrowth call
+         //Note this will fix a bug - the floret area dlt is not currently calculated!!!
+         leaf().actual ();
+         fruit().calcDlt_pod_area ();
+         root().root_length_growth();
+
+         leaf().leaf_death( min(nStress->nFact.expansion, pStress->pFact.expansion), phenology().TT());
+         leaf().leaf_area_sen( swStress->swDef.photo);
+
+         plant.doSenescence(leaf().senFract());
+         root().sen_length();
+
+         plant.doNDemandGrain(nStress->nFact.grain, swStress->swDef.expansion);
+
+         float biomass = tops.Green.DM() + plant.DMSupply();
+         root().plant_nit_supply();
+         if (_fixation!=NULL)
+           g.n_fix_pot = _fixation->Potential(biomass, swStress->swDef.fixation);
+         else
+           g.n_fix_pot = 0.0;
+
+         if (c.n_retrans_option==1)
+            {
+            // this option requires retrans to happen before working out n demand from soil
+            // NOTE: two processes are linked.
+            arbitrator().doNRetranslocate(myParts, &fruit());
+            doNDemand (c.n_retrans_option);
+            }
+         else
+            doNDemand (c.n_retrans_option);
+
+         doNSenescence (c.n_senescence_option);
+         plant.doSoilNDemand ();
+         float PotNFix;
+         if (_fixation != NULL)
+            PotNFix = _fixation->NFixPot();
+         else
+            PotNFix = 0.0;
+         root().doNUptake(plant.nMax(), plant.soilNDemand(), plant.nDemand(), PotNFix);     // allows preference of N source
+         arbitrator().doNPartition(g.n_fix_pot, plant.nDemand(), g.n_fix_uptake);
+         doPPartition();
+
+         if (c.n_retrans_option==2)  // this option requires soil uptake to satisfy grain n before retranslocation
+            arbitrator().doNRetranslocate(myParts, &fruit());
+
+         doPRetranslocate();
+         population().PlantDeath();
+         }
+      plant.Detachment();
+      plant_cleanup();
+
+      swStress->doPlantWaterStress (tops.SWDemand());
+      nStress->doPlantNStress (&leaf(), &stem());
+
+      // See if we need to output a phenological stage report because
+      // we've entered a new phase today.
+      if (phenologyEventToday != "")
+         {
+         plant_event(phenologyEventToday);
+         if (phenologyRewoundToday)
+            {
+            stageObservers.reset();
+            otherObservers.reset();
+            }
+         phenologyEventToday = "";
+         phenologyRewoundToday = false;
+         }
+      plant_update_other_variables ();
+      root().UpdateOtherVariables();
+      }
+   }
+
+void Plant::onSow(protocol::ApsimVariant& variant)
+   {
+   //=======================================================================================
+   // Event Handler for Sowing Event
+   plant_get_other_variables (); // request and receive variables from owner-modules
+   plant_start_crop(variant);    // start crop and do  more initialisations
+   }
+
+void Plant::onHarvest(protocol::ApsimVariant &variant)
+   {
+   // =======================================================================================
+   // Event Handler for a Harvest Event
+   string  report_flag;
+
+   if (g.plant_status != out)
+      {
+      // crop harvested. Report status
+      if (variant.get("report", protocol::DTstring, false, report_flag) == false ||
+          report_flag == "yes")
+         plant_harvest_report();
+      plant_auto_class_change("harvest");
+      plant_harvest_update(variant);
+      }
+    else
+      scienceAPI.warning(g.module_name + " is not in the ground - unable to harvest.");
+   }
+
+void Plant::onEndCrop()
 //=======================================================================================
 // Event Handler for End of Crop Event
   {
@@ -527,14 +522,30 @@ void Plant::onEndCrop(unsigned &, unsigned &, protocol::Variant &)
   }
 
 
-void Plant::onKillStem(unsigned &, unsigned &, protocol::Variant &v)
+void Plant::onKillStem(protocol::ApsimVariant &variant)
 //=======================================================================================
 // Event Handler for a Kill Stem Event
    {
    if (g.plant_status != out)
       {
       plant_auto_class_change("kill_stem");
-      plant_kill_stem_update(v);
+
+      // determine the new stem density
+      // ==============================
+      float temp;
+      if (variant.get("plants", protocol::DTsingle, false, temp) == true)
+        population().SetPlants(temp);
+
+      // Update biomass and N pools.
+      plant.onKillStem();
+
+      // now update new canopy covers
+      plantSpatial.setPlants(population().Density());
+      plantSpatial.setCanopyWidth(leaf().width());
+      plant.doCover(plantSpatial);
+      UpdateCanopy();
+
+      plant.doNConccentrationLimits( co2Modifier->n_conc() )  ;                  // plant N concentr
       }
    else
       {
@@ -547,96 +558,123 @@ void Plant::onKillStem(unsigned &, unsigned &, protocol::Variant &v)
       }
    }
 
-void Plant::onEndRun(unsigned &, unsigned &,protocol::Variant &/*v*/)
+void Plant::onEndRun()
 //=======================================================================================
 // Event Handler for the end of run event
    {
    plant_zero_variables ();
    }
 
-void Plant::onRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
+void Plant::onRemoveCropBiomass(protocol::RemoveCropDmType& dmRemoved)
 //=======================================================================================
 // Event Handler for a RemoveCropBiomass Event
    {
-    protocol::RemoveCropDmType dmRemoved;
-    v.unpack(dmRemoved);
+   if (c.remove_biomass_report == "on")
+      {
+      ostringstream msg;
+      msg << "Remove Crop Biomass:-" << endl;
+      float dmTotal = 0.0;
 
-    if (c.remove_biomass_report == "on")
-       {
-       ostringstream msg;
-       msg << "Remove Crop Biomass:-" << endl;
-       float dmTotal = 0.0;
+      for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
+         {
+         for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
+            {
+            msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
+            dmTotal +=  dmRemoved.dm[pool].dlt[part];
+            }
+         }
+      msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
+      scienceAPI.write(msg.str());
+      }
 
-       for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
-          {
-          for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
-             {
-             msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
-             dmTotal +=  dmRemoved.dm[pool].dlt[part];
-             }
-          }
-       msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
-
-       parent->writeString (msg.str().c_str());
-       }
-
-    plant_remove_biomass_update(dmRemoved);
+   plant_remove_biomass_update(dmRemoved);
    }
 
-void Plant::onDetachCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
-//=======================================================================================
-// Event Handler for a DetachCropBiomass Event
+void Plant::onDetachCropBiomass(float detachRate)
    {
-   plant_detach_crop_biomass (v);
+   //=======================================================================================
+   // Event Handler for a DetachCropBiomass Event
+   protocol::RemoveCropDmType dmRemoved;
+   protocol::dmType dm;
+
+   dm.pool = "green";
+
+   vector<float>  dmParts;
+   tops.get_name(dm.part);
+   tops.get_dm_senesced(dmParts);
+
+   for (unsigned int pool=0; pool < dmParts.size(); pool++)
+      dm.dlt.push_back(double(dmParts[pool] * 0.0));
+
+   dmRemoved.dm.push_back(dm);
+
+   dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
+   dm.part.erase(dm.part.begin(), dm.part.end());
+   dmParts.clear();
+
+   dm.pool = "senesced";
+
+   tops.get_name(dm.part);
+   tops.get_dm_senesced(dmParts);
+
+   for (unsigned int pool=0; pool < dmParts.size(); pool++)
+      dm.dlt.push_back(double(dmParts[pool] * detachRate));
+
+   dmRemoved.dm.push_back(dm);
+
+   dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
+   dm.part.erase(dm.part.begin(), dm.part.end());
+   dmParts.clear();
+
+   if (c.remove_biomass_report == "on")
+      {
+      ostringstream msg;
+      msg << "Detach Crop Biomass:-" << endl;
+      float dmTotal = 0.0;
+
+      for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
+         {
+         for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
+            {
+            msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
+            dmTotal +=  dmRemoved.dm[pool].dlt[part];
+            }
+          }
+      msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
+
+      parent->writeString (msg.str().c_str());
+      }
+   plant_remove_biomass_update(dmRemoved);
    }
 
-void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol::Variant &)
-//=======================================================================================
-// Change crop class due to given event
-  {
-  string ps = IDtoAction[eventId];
-  plant_auto_class_change(ps.c_str());
-  }
+void Plant::onAction(const string& eventName)
+   {
+   //=======================================================================================
+   // Change crop class due to given event - usually from manager.
+   plant_auto_class_change(eventName.c_str());
+   }
 
-void Plant::doNRetranslocate (int option/* (INPUT) option number*/)
-//=======================================================================================
-// Do Plant Nitrogen Retranslocation
-    {
-    if (option == 1)
-        {
-        doNRetranslocate(fruitPart->nDemandGrain());
-        }
-    else if (option == 2)
-        {
-        doNRetranslocate(fruitPart->nDemandGrain2());  //FIXME
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid n retrans option");
-        }
-    }
+void Plant::onSetCropClass(const string& crop_class)
+   {
+   //=======================================================================================
+   // Someone is changing our class - usually via manager.
+   g.crop_class = crop_class;
+   scienceAPI.setClass2(g.crop_class);
+   read();
+   }
 
 void Plant::doNDemand (int option /* (INPUT) option number*/)
 //=======================================================================================
 //       Find nitrogen demand.
     {
     if (option == 1)
-        plant.doNDemand1(tops.dltDm(), tops.dltDmPotRue());        //FIXME Should be able to do away with the arguments someday
+        plant.doNDemand1(tops.DMSupply(), tops.dltDmPotRue());        //FIXME Should be able to do away with the arguments someday
 
     else if (option == 2)
-         plant.doNDemand2(tops.dltDm(), tops.dltDmPotRue());      //FIXME Should be able to do away with the arguments someday
+         plant.doNDemand2(tops.DMSupply(), tops.dltDmPotRue());      //FIXME Should be able to do away with the arguments someday
 
     else
         throw std::invalid_argument ("invalid n demand option");
-    }
-
-void Plant::doNPartition (void)                                     //FIXME - another candidate for rootPart??
-//=======================================================================================
-//     Calculate the nitrogen and phosporous partitioning in the plant
-    {
-    doNPartition(g.n_fix_pot
-                , g.n_fix_uptake);
-
     }
 
 void Plant::doNDemandEstimate (int option)
@@ -693,7 +731,7 @@ void Plant::doNSenescence (int   option/*(INPUT) option number*/)
         plant.doNSenescence();
 
         //! now get N to retranslocate out of senescing leaves
-        doNSenescedRetrans();
+        arbitrator().doNSenescedRetrans(&leaf());
         }
     else
         {
@@ -705,20 +743,26 @@ void Plant::doNSenescence (int   option/*(INPUT) option number*/)
     }
 
 void Plant::plant_cleanup (void)
-//=======================================================================================
-//       cleanup after crop processes
     {
+   // --------------------------------------------------------------------------
+   // cleanup after crop processes
+   // --------------------------------------------------------------------------
 
     g.remove_biom_pheno = 1.0;
 
     plant_update();
 
-    plant_check_bounds(plant.coverGreen()
-                       , plant.coverSen());
+    bound_check_real_var(scienceAPI, plant.coverGreen(), 0.0, 1.0, "cover_green");
+    bound_check_real_var(scienceAPI, plant.coverSen(), 0.0, 1.0, "cover_sen");
 
-    plant_totals(&g.lai_max
-                , &g.n_fix_uptake
-                , &g.n_fixed_tops);
+    plant.checkBounds();
+
+    if (phenology().onDayOf("sowing"))
+        g.n_fixed_tops = tops.dltNGreen() * divide (g.n_fix_uptake,plant.dltNGreen(),0.0);
+
+    else
+        g.n_fixed_tops = g.n_fixed_tops + tops.dltNGreen() * divide (g.n_fix_uptake, plant.dltNGreen() ,0.0);
+    g.lai_max = max(g.lai_max, leaf().getLAI());             //FIXME - should be returned from leafPart method
 
     if (g.plant_status == alive && phenologyEventToday != "")
         {
@@ -738,511 +782,63 @@ void Plant::plant_cleanup (void)
         }
     }
 
-
-
 void Plant::plant_update(void)
    {
-   // Update states
+   // --------------------------------------------------------------------------
+   // Update all plant states
+   // --------------------------------------------------------------------------
 
-    // Let me register my surprise at how this is done on the next few lines
-    // - why intrinsically limit processes to leaf etc right here!!! - NIH
-    float n_senesced_trans = leafPart->dltNSenescedTrans();
-    leafPart->giveNGreen(-1.0*n_senesced_trans);
-    stemPart->giveNGreen(n_senesced_trans);
+   // Let me register my surprise at how this is done on the next few lines
+   // - why intrinsically limit processes to leaf etc right here!!! - NIH
+   float n_senesced_trans = leaf().dltNSenescedTrans();
+   leaf().giveNGreen(-1.0*n_senesced_trans);
+   stem().giveNGreen(n_senesced_trans);
 
-    leafPart->giveNGreen(-1.0*plant.dltNSenescedRetrans());
-    root->updateOthers();    // send off detached roots before root structure is updated by plant death
+   leaf().giveNGreen(-1.0*plant.dltNSenescedRetrans());
+   root().updateOthers();    // send off detached roots before root structure is updated by plant death
 
-    plant.update();
+   plant.update();
 
-    // now update new canopy covers
-    plantSpatial.setPlants(getPlants());
-    plantSpatial.setCanopyWidth(stemPart->width());
+   // now update new canopy covers
+   plantSpatial.setPlants(population().Density());
+   plantSpatial.setCanopyWidth(stem().width());
 
-    plant.doCover(plantSpatial);
+   plant.doCover(plantSpatial);
 
-    // plant stress observers
-    stageObservers.update();
-    if (phenology().inPhase("preflowering")) g.cswd_pheno.update();
+   // plant stress observers
+   stageObservers.update();
+   if (phenology().inPhase("preflowering")) g.cswd_pheno.update();
 
-    population.Update();
-    UpdateCanopy();
-    plant.doNConccentrationLimits(co2Modifier->n_conc());
+   population().Update();
+   UpdateCanopy();
+   plant.doNConccentrationLimits(co2Modifier->n_conc());
+   }
 
-    }
-
-void Plant::plant_check_bounds
-    (float  g_cover_green                       // (INPUT)  fraction of radiation reaching
-    ,float  g_cover_sen                         // (INPUT)  fraction of radiation reaching
-    )
-//=======================================================================================
-// Check bounds of internal plant data
-
-    {
-    bound_check_real_var(scienceAPI,g_cover_green
-                         , 0.0
-                         , 1.0
-                         , "cover_green");
-
-    bound_check_real_var(scienceAPI,g_cover_sen
-                         , 0.0
-                         , 1.0
-                         , "cover_sen");
-
-    plant.checkBounds();
-
-    }
-
-
-//+  Purpose
-//         Collect totals of crop variables for output
-void Plant::plant_totals
-    (float *g_lai_max                    // (INPUT)  maximum lai - occurs at flowering
-    ,float  *g_n_fix_uptake                    // (INPUT)  daily fixed N (g/m^2)
-    ,float  *g_n_fixed_tops                    // (out/INPUT)  fixed N in tops (g/m2)
-    )  {
-
-    if (phenology().onDayOf("sowing"))
-        {
-        *g_n_fixed_tops = tops.dltNGreen()
-                              * divide (*g_n_fix_uptake
-                                        ,plant.dltNGreen()
-                                        ,0.0);
-        }
-    else
-        {
-        *g_n_fixed_tops = *g_n_fixed_tops + tops.dltNGreen() * divide (*g_n_fix_uptake ,plant.dltNGreen() ,0.0);
-        }
-
-    *g_lai_max = max (*g_lai_max, leafPart->getLAI());             //FIXME - should be returned from leafPart method
-    }
-
-//+  Purpose
-//       Report occurence of event and the current status of specific
-//       variables.
-//       Called when a new phase has begun.
 void Plant::plant_event(const std::string& newStageName)
-    {
-//+  Local Variables
-    float biomass;                                // total above ground plant wt (g/m^2)
-    float pesw_tot;                               // total plant extractable sw (mm)
-    float n_green;                                // plant nitrogen of tops (g/m^2) less pod
-    float dm_green;                               // plant wt of tops (g/m^2) less pod
-    float n_green_conc_percent;                   // n% of tops less pod (incl grain)
-
-    // Tell the system (ie everything outside of plant) about this event.
-    // NB. Don't send an "end_crop" to the system - otherwise all the other crops will stop too!
-    if (newStageName != "end_crop")
-       {
-       sendStageMessage(newStageName.c_str());
-       }
-
-    biomass = tops.Total.DM();
-
-    // note - oil has no N, thus is not included in calculations
-    dm_green = tops.Vegetative.DM();
-    n_green = tops.Vegetative.N();
-
-    n_green_conc_percent = divide (n_green, dm_green, 0.0) * fract2pcnt;
-
-    pesw_tot = root->peswTotal();
-
-    if (phenology().inPhase ("above_ground"))
-            {
-            char msg[256];
-            sprintf(msg,
-"                biomass =       %8.2f (g/m^2)   lai          = %7.3f (m^2/m^2)\n"
-"                stover N conc = %8.2f (%%)    extractable sw = %7.2f (mm)",
-                biomass, leafPart->getLAI(), n_green_conc_percent, pesw_tot);
-            parent->writeString (msg);
-            }
-    }
-
-
-
-//+  Purpose
-//       Return actual plant nitrogen uptake to each plant part.
-
-void Plant::doNPartition
-                         (float  g_n_fix_pot         // (INPUT)  N fixation potential (g/m^2)
-                         ,float  &nFixUptake        // (OUTPUT) actual N fixation (g/m^2)
-                         ) {
-
-//+  Local Variables
-
-    float nDemandTotal;                               // total nitrogen demand (g/m^2)
-    float nFixDemandTotal;                       // total demand for N fixation (g/m^2)
-
-    // find the proportion of uptake to be distributed to
-    // each plant part and distribute it.
-    float nUptakeSum = root->nUptake();     // total plant N uptake (g/m^2)
-    nDemandTotal = plant.nDemand();
-
-    plant.doNPartition(nUptakeSum, nDemandTotal, plant.nCapacity());
-
-      // Check Mass Balance
-    if (!reals_are_equal(plant.dltNGreen() - nUptakeSum, 0.0))
-        {
-        string msg ="Crop dlt_n_green mass balance is off: dlt_n_green_sum ="
-                    + ftoa(plant.dltNGreen(), ".6")
-                    + " vs n_uptake_sum ="
-                    + ftoa(nUptakeSum, ".6");
-        scienceAPI.warning(msg);
-        }
-
-      // Retranslocate N Fixed
-    nFixDemandTotal = l_bound (nDemandTotal - nUptakeSum, 0.0);
-    nFixUptake = bound (g_n_fix_pot, 0.0, nFixDemandTotal);
-
-    plant.doNFixRetranslocate (nFixUptake, nFixDemandTotal);
-    }
-
-
-
-//     ===========================================================
-void Plant::doDmRetranslocate (void)
-{
-
-//+  Purpose
-//     Calculate plant dry matter delta's due to retranslocation
-//     to grain, pod and energy (g/m^2)
-
-    vector<plantPart *>::iterator part;
-
-    float dlt_dm_retrans_part;                    // carbohydrate removed from part (g/m^2)
-    float dm_part_avail;                          // carbohydrate avail from part(g/m^2)
-    float dm_retranslocate = 0.0;
-
-//- Implementation Section ----------------------------------
-   vector<plantPart *> supplyPoolsByVeg;
-   supplyPoolsByVeg.push_back(stemPart);
-   supplyPoolsByVeg.push_back(leafPart);
-
-
-// now translocate carbohydrate between plant components
-// this is different for each stage
-
-    plant.dlt_dm_green_retrans_hack( 0.0 );
-
-    float demand_differential_begin = fruitPart->dmDemandDifferential ();   //FIXME - should be returned from a fruitPart method
-    float demand_differential = demand_differential_begin;
-
-    // get available carbohydrate from supply pools
-    for (part = supplyPoolsByVeg.begin(); part != supplyPoolsByVeg.end(); part++)
-        {
-           dm_part_avail = (*part)->dmRetransSupply();
-
-           dlt_dm_retrans_part = min (demand_differential, dm_part_avail);
-
-           //assign and accumulate
-
-           dm_retranslocate += (*part)->dlt_dm_green_retrans_hack( - dlt_dm_retrans_part);
-
-           demand_differential = demand_differential - dlt_dm_retrans_part;
-        }
-
-    float dlt_dm_retrans_to_fruit = - dm_retranslocate;
-
-    fruitPart->doDmRetranslocate (dlt_dm_retrans_to_fruit, demand_differential_begin);
-
-   // Finally, a mass balance check
-//   float mbSum = 0.0;                                                    //FIXME - need to reinstate this check
-//   for (vector<plantPart *>::iterator part = myParts.begin();
-//        part != myParts.end();
-//        part++)
-//       mbSum += (*part)->dlt_dm_green_retrans();
-//
-//   if (fabs(mbSum) > 0.001)
-//      {
-//      string msg ="Crop dm retranslocate mass balance is off: error="
-//              + ftoa(mbSum, ".6")
-//              + "\n";
-//      string msg;
-//      for (vector<plantPart *>::iterator part = myParts.begin();
-//           part != myParts.end();
-//           part++)
-//         msg += (*part)->name() + "=" +
-//                  ftoa((*part)->dltDmGreenRetransUptake(), ".6") +"\n";
-//
-//      msg += "dlt_dm_retrans_to_fruit = " + ftoa(dlt_dm_retrans_to_fruit, ".6") + "\n";
-//            fprintf(stdout,"%s",msg.c_str()) ;
-//
-//      parent->warningError(msg.c_str());
-//      }
-}
-
-
-//+  Purpose
-//     Calculate the nitrogen retranslocation from the various plant parts
-//     to the grain.
-
-void Plant::doNRetranslocate (float g_grain_n_demand)
-{
-//+  Constant Values
-    const float  tolerence = 0.001 ;
-
-
-    vector<plantPart*>::iterator part;            // plant part
-
-//- Implementation Section ----------------------------------
-
-          //! available N does not include roots or grain
-          //! this should not presume roots and grain are 0.
-          // grain N potential (supply)
-    tops.doNRetranslocate(tops.availableRetranslocateN(), g_grain_n_demand);
-
-          // check that we got (some of) the maths right.
-    for (part = myParts.begin(); part != myParts.end(); part++)
-        {
-        bound_check_real_var (scienceAPI,fabs((*part)->dltNRetransOut())
-                              , 0.0, (*part)->availableRetranslocateN() + tolerence
-                              , (string("dlt_N_retrans(") + (*part)->name() + string(")")).c_str() );
-        }
-
-    }
-
-
-
-
-void Plant::doNSenescedRetrans (void)
-//=====================================================================
-//      Derives seneseced plant nitrogen (g N/m^2)
    {
-   float    dlt_n_in_senescing_leaf;
-   float    navail;
-   float    n_demand_tot;
+   // --------------------------------------------------------------------------
+   // Report occurence of event and the current status of specific variables.
+   // Called when a new phase has begun.
+   // --------------------------------------------------------------------------
 
-   //! now get N to retranslocate out of senescing leaves
-   plant.zeroDltNSenescedTrans();
+   // Tell the system (ie everything outside of plant) about this event.
+   // NB. Don't send an "end_crop" to the system - otherwise all the other crops will stop too!
+   if (newStageName != "end_crop")
+      scienceAPI.publish(newStageName.c_str());
 
-   dlt_n_in_senescing_leaf = leafPart->dltDmSenesced() * leafPart->Green.Nconc();
-
-   n_demand_tot = plant.nDemand();
-
-   navail = dlt_n_in_senescing_leaf - leafPart->dltNSenesced();
-   navail = bound(navail, 0.0, n_demand_tot);
-
-   plant.doNSenescedRetrans(navail, n_demand_tot);
+   if (phenology().inPhase("above_ground"))
+      {
+      char msg[256];
+      sprintf(msg,
+         "                biomass =       %8.2f (g/m^2)   lai          = %7.3f (m^2/m^2)\n"
+         "                stover N conc = %8.2f (%%)    extractable sw = %7.2f (mm)",
+         tops.Total.DM(),
+         leaf().getLAI(),
+         divide(tops.Vegetative.N(), tops.Vegetative.DM(), 0.0) * fract2pcnt,
+         root().peswTotal());
+      scienceAPI.write(msg);
+      }
    }
-
-//+  Purpose
-//       Simulate crop processes.  These include biomass production,
-//       phenological stages, plant component development,
-//       water uptake and nitrogen uptake, and plant senescense.
-void Plant::plant_process ( void )
-    {
-
-//- Implementation Section ----------------------------------
-    //!!!!!!!! check order dependency of deltas
-
-    root->plant_root_depth ();
-    //root->doWaterSupply();
-
-    if (g.plant_status == alive)
-        {
-        root->doWaterUptake(1, tops.SWDemand());
-        root->doPlantWaterStress (tops.SWDemand(), swStress);
-
-        phenology().process();
-        fruitPart->process();
-
-        plant.morphology();
-
-        leafPart->CanopyExpansion(c.leaf_no_pot_option,
-                            min(pow(min(nStress->nFact.expansion, pStress->pFact.expansion),2),swStress->swDef.expansion),
-                            phenology().TT(),min(swStress->swDef.expansion, min(nStress->nFact.expansion, pStress->pFact.expansion)));
-
-        // Calculate Potential Photosynthesis
-        plant.doDmPotRUE();               // NIH - WHY IS THIS HERE!!!!?????  Not needed I hope.
-
-        plant.doDmMin();
-
-        // Calculate Actual DM increase from photosynthesis
-        plant.doBioActual();
-
-        // Now calculate DM demands
-        plant.doDmDemand (plant.dltDm());
-
-        arbitrator->partitionDM(plant.dltDm(), myParts, fruitPart->name());
-
-        doDmRetranslocate ();
-
-        //Combine these 3 calls into a AreaOrLengthGrowth call
-        //Note this will fix a bug - the floret area dlt is not currently calculated!!!
-        leafPart->actual ();
-        fruitPart->calcDlt_pod_area ();
-        root->root_length_growth();
-
-        leafPart->leaf_death( min(nStress->nFact.expansion, pStress->pFact.expansion), phenology().TT());
-        leafPart->leaf_area_sen( swStress->swDef.photo);
-
-        plant.doSenescence(leafPart->senFract());
-        root->sen_length();
-
-        plant.doNDemandGrain(nStress->nFact.grain, swStress->swDef.expansion);
-
-        float biomass = tops.Green.DM() + plant.dltDm();
-        root->plant_nit_supply();
-        if (fixation!=NULL)
-           g.n_fix_pot = fixation->Potential(biomass, swStress->swDef.fixation);
-        else
-           g.n_fix_pot = 0.0;
-
-        if (c.n_retrans_option==1)
-           {
-           // this option requires retrans to happen before working out n demand from soil
-           // NOTE: two processes are linked.
-           doNRetranslocate (c.n_retrans_option);
-           doNDemand (c.n_retrans_option);
-           }
-         else
-           {
-           doNDemand (c.n_retrans_option);
-           }
-
-        doNSenescence (c.n_senescence_option);
-        plant.doSoilNDemand ();
-        float PotNFix;
-        if (fixation != NULL)
-           PotNFix = fixation->NFixPot();
-        else
-           PotNFix = 0.0;
-        root->doNUptake(plant.nMax(), plant.soilNDemand(), plant.nDemand(), PotNFix);     // allows preference of N source
-        doNPartition ();                  // allows output of n fixed
-        doPPartition();
-
-        if (c.n_retrans_option==2)  // this option requires soil uptake to satisfy grain n before retranslocation
-           doNRetranslocate (c.n_retrans_option);
-
-        doPRetranslocate();
-
-        population.PlantDeath();
-        }
-    else
-        {
-        // crop is dead
-        }
-
-
-    plant.Detachment();
-
-    plant_cleanup();
-
-    swStress->doPlantWaterStress (tops.SWDemand());
-    nStress->doPlantNStress (leafPart, stemPart);
-
-   // See if we need to output a phenological stage report because
-   // we've entered a new phase today.
-   if (phenologyEventToday != "")
-     {
-     plant_event(phenologyEventToday);
-     if (phenologyRewoundToday)
-        {
-        stageObservers.reset();
-        otherObservers.reset();
-        }
-     phenologyEventToday = "";
-     phenologyRewoundToday = false;
-     }
-
-   }
-
-void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
-//=======================================================================================
-// Report Harvest info and current status of specific variables
-    {
-    string  report_flag;
-
-    protocol::ApsimVariant incomingApsimVariant(parent);
-    incomingApsimVariant.aliasTo(v.getMessageData());
-
-    if (g.plant_status != out)
-        {
-        // crop harvested. Report status
-        if (incomingApsimVariant.get("report", protocol::DTstring, false, report_flag) == false ||
-            report_flag == "yes")
-            {
-            plant_harvest_report();
-            }
-        else
-            {
-            }
-        plant_auto_class_change("harvest");
-        plant_harvest_update(v);
-        }
-    else
-        {
-        char msg[80];
-        sprintf(msg, "%s%s"
-                , g.module_name.c_str()
-                , " is not in the ground - unable to harvest.");
-        scienceAPI.warning(msg);
-        }
-    }
-
-//       Detach crop biomass.
-void Plant::plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/)
-    {
-    float detachRate;
-    v.unpack(detachRate);
-
-    protocol::RemoveCropDmType dmRemoved;
-
-      protocol::dmType dm;
-
-      dm.pool = "green";
-
-      vector<float>  dmParts;
-      tops.get_name(dm.part);
-      tops.get_dm_senesced(dmParts);
-
-      for (unsigned int pool=0; pool < dmParts.size(); pool++)
-         dm.dlt.push_back(double(dmParts[pool] * 0.0));
-
-      dmRemoved.dm.push_back(dm);
-
-      dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
-      dm.part.erase(dm.part.begin(), dm.part.end());
-      dmParts.clear();
-
-      dm.pool = "senesced";
-
-      tops.get_name(dm.part);
-      tops.get_dm_senesced(dmParts);
-
-      for (unsigned int pool=0; pool < dmParts.size(); pool++)
-         dm.dlt.push_back(double(dmParts[pool] * detachRate));
-
-      dmRemoved.dm.push_back(dm);
-
-      dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
-      dm.part.erase(dm.part.begin(), dm.part.end());
-      dmParts.clear();
-
-    if (c.remove_biomass_report == "on")
-    {
-       ostringstream msg;
-       msg << "Detach Crop Biomass:-" << endl;
-       float dmTotal = 0.0;
-
-       for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
-       {
-          for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
-          {
-             msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
-             dmTotal +=  dmRemoved.dm[pool].dlt[part];
-          }
-       }
-       msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
-
-       parent->writeString (msg.str().c_str());
-    }
-
-    plant_remove_biomass_update(dmRemoved);
-
-
-    }
-
 
 //+  Purpose
 //       Report occurence of harvest and the current status of specific
@@ -1289,262 +885,207 @@ void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message varia
         // unknown dormancy_flag
         throw std::invalid_argument ("dormancy state is unknown - neither on nor off");
         }
-
-
     }
 
+void Plant::plant_harvest_update(protocol::ApsimVariant& incomingApsimVariant)
+   {
+   // Update states after a harvest
+   float dm_chopped;                             // dry matter added to chopped pool (kg/ha)
+   float n_chopped;                              // nitrogen added to chopped pool(kg/ha)
+   float p_chopped;                              // phosphorus added to chopped pool(g/m^2)
+   float dm_root_chopped;                             // dry matter added to chopped pool(kg/ha)
+   float n_root_chopped;                              // nitrogen added to chopped pool(kg/ha)
+   float p_root_chopped;                              // phosp added to chopped pool(kg/ha)
+   float dm_tops_chopped;                             // dry matter added to chopped pool(kg/ha)
+   float n_tops_chopped;                              // nitrogen added to chopped pool(kg/ha)
+   float p_tops_chopped;                              // phosp added to chopped pool(kg/ha)
 
-//+  Purpose
-//       Update states after a harvest
+   float dm_residue;                             // dry matter added to residue (kg/ha)
+   float n_residue;                              // nitrogen added to residue (kg/ha)
+   float p_residue;                              // phosphorus added to residue (g/m^2)
+   float dm_root_residue;                             // dry matter added to residue (kg/ha)
+   float n_root_residue;                              // nitrogen added to residue (kg/ha)
+   float p_root_residue;                              // phosp added to residue (kg/ha)
+   float dm_tops_residue;                             // dry matter added to residue (kg/ha)
+   float n_tops_residue;                              // nitrogen added to residue (kg/ha)
+   float p_tops_residue;                              // phosp added to residue (kg/ha)
 
-void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments*/)
-    {
+   float remove_fr;
+   float height;                                 // cutting height
+   float temp;
 
-//+  Local Variables
-    float dm_chopped;                             // dry matter added to chopped pool (kg/ha)
-    float n_chopped;                              // nitrogen added to chopped pool(kg/ha)
-    float p_chopped;                              // phosphorus added to chopped pool(g/m^2)
-    float dm_root_chopped;                             // dry matter added to chopped pool(kg/ha)
-    float n_root_chopped;                              // nitrogen added to chopped pool(kg/ha)
-    float p_root_chopped;                              // phosp added to chopped pool(kg/ha)
-    float dm_tops_chopped;                             // dry matter added to chopped pool(kg/ha)
-    float n_tops_chopped;                              // nitrogen added to chopped pool(kg/ha)
-    float p_tops_chopped;                              // phosp added to chopped pool(kg/ha)
+   // Tell the rest of the system we are about to harvest
+   scienceAPI.publish("harvesting");
 
-    float dm_residue;                             // dry matter added to residue (kg/ha)
-    float n_residue;                              // nitrogen added to residue (kg/ha)
-    float p_residue;                              // phosphorus added to residue (g/m^2)
-    float dm_root_residue;                             // dry matter added to residue (kg/ha)
-    float n_root_residue;                              // nitrogen added to residue (kg/ha)
-    float p_root_residue;                              // phosp added to residue (kg/ha)
-    float dm_tops_residue;                             // dry matter added to residue (kg/ha)
-    float n_tops_residue;                              // nitrogen added to residue (kg/ha)
-    float p_tops_residue;                              // phosp added to residue (kg/ha)
+   // determine the new stem density
+   // ==============================
+   if (incomingApsimVariant.get("plants", protocol::DTsingle, false, temp) == true)
+       population().SetPlants(temp);
 
-    float remove_fr;
-    float height;                                 // cutting height
-    float temp;
+   if (incomingApsimVariant.get("remove", protocol::DTsingle, false, remove_fr) == false)
+      remove_fr = 0.0;
 
-//- Implementation Section ----------------------------------
+   bound_check_real_var(scienceAPI,remove_fr, 0.0, 1.0, "remove");
 
-    // Tell the rest of the system we are about to harvest
-    sendStageMessage("harvesting");
+   // determine the cutting height
+   if (incomingApsimVariant.get("height", protocol::DTsingle, false, height) == false)
+      {
+      height = 0.0;
+      }
+   bound_check_real_var(scienceAPI,height, 0.0, 1000.0, "height");
 
-    protocol::ApsimVariant incomingApsimVariant(parent);
-    incomingApsimVariant.aliasTo(v.getMessageData());
+   vector<string> dm_type;
+   vector<float>  fraction_to_residue;
+   vector<float>  dlt_crop_dm;
+   vector<float>  dlt_dm_n;
+   vector<float>  dlt_dm_p;
 
-    // determine the new stem density
-    // ==============================
-    if (incomingApsimVariant.get("plants", protocol::DTsingle, false, temp) == true)
-        population.SetPlants(temp);
-
-    if (incomingApsimVariant.get("remove", protocol::DTsingle, false, remove_fr) == false)
-        {
-        remove_fr = 0.0;
-        }
-    bound_check_real_var(scienceAPI,remove_fr, 0.0, 1.0, "remove");
-
-    // determine the cutting height
-    if (incomingApsimVariant.get("height", protocol::DTsingle, false, height) == false)
-       {
-       height = 0.0;
-       }
-    bound_check_real_var(scienceAPI,height, 0.0, 1000.0, "height");
-
-    vector<string> dm_type;
-    vector<float>  fraction_to_residue;
-    vector<float>  dlt_crop_dm;
-    vector<float>  dlt_dm_n;
-    vector<float>  dlt_dm_p;
-
-    // Update biomass and N pools.
-    // Calculate return of biomass to surface residues
-    plant.onHarvest(height, remove_fr,
+   // Update biomass and N pools.
+   // Calculate return of biomass to surface residues
+   plant.onHarvest(height, remove_fr,
                         dm_type,
                         dlt_crop_dm,
                         dlt_dm_n,
                         dlt_dm_p,
                         fraction_to_residue);
 
-    if (sum(dlt_crop_dm) > 0.0)
-        plant_send_crop_chopped_event (c.crop_type
+   if (sum(dlt_crop_dm) > 0.0)
+       plant_send_crop_chopped_event (c.crop_type
                                      , dm_type
                                      , dlt_crop_dm
                                      , dlt_dm_n
                                      , dlt_dm_p
                                      , fraction_to_residue);
 
-    dm_residue = 0.0; dm_root_residue = 0.0;
-    n_residue = 0.0; n_root_residue = 0.0;
-    p_residue = 0.0; p_root_residue = 0.0;
-    dm_chopped = 0.0; dm_root_chopped = 0.0;
-    n_chopped = 0.0; n_root_chopped = 0.0;
-    p_chopped = 0.0; p_root_chopped = 0.0;
+   dm_residue = 0.0; dm_root_residue = 0.0;
+   n_residue = 0.0; n_root_residue = 0.0;
+   p_residue = 0.0; p_root_residue = 0.0;
+   dm_chopped = 0.0; dm_root_chopped = 0.0;
+   n_chopped = 0.0; n_root_chopped = 0.0;
+   p_chopped = 0.0; p_root_chopped = 0.0;
 
-    for (unsigned int part=0; part < dm_type.size(); part++)
-       {
-       dm_chopped += dlt_crop_dm[part];
-       n_chopped += dlt_dm_n[part];
-       p_chopped += dlt_dm_p[part];
-       dm_residue += dlt_crop_dm[part] * fraction_to_residue[part];
-       n_residue += dlt_dm_n[part] * fraction_to_residue[part];
-       p_residue += dlt_dm_p[part] * fraction_to_residue[part];
-       if (dm_type[part] == "root")
-          {
-          dm_root_residue += dlt_crop_dm[part] * fraction_to_residue[part];
-          n_root_residue += dlt_dm_n[part] * fraction_to_residue[part];
-          p_root_residue += dlt_dm_p[part] * fraction_to_residue[part];
-          dm_root_chopped += dlt_crop_dm[part];
-          n_root_chopped += dlt_dm_n[part];
-          p_root_chopped += dlt_dm_p[part];
-          }
-       }
+   for (unsigned int part=0; part < dm_type.size(); part++)
+      {
+      dm_chopped += dlt_crop_dm[part];
+      n_chopped += dlt_dm_n[part];
+      p_chopped += dlt_dm_p[part];
+      dm_residue += dlt_crop_dm[part] * fraction_to_residue[part];
+      n_residue += dlt_dm_n[part] * fraction_to_residue[part];
+      p_residue += dlt_dm_p[part] * fraction_to_residue[part];
+      if (dm_type[part] == "root")
+         {
+         dm_root_residue += dlt_crop_dm[part] * fraction_to_residue[part];
+         n_root_residue += dlt_dm_n[part] * fraction_to_residue[part];
+         p_root_residue += dlt_dm_p[part] * fraction_to_residue[part];
+         dm_root_chopped += dlt_crop_dm[part];
+         n_root_chopped += dlt_dm_n[part];
+         p_root_chopped += dlt_dm_p[part];
+         }
+      }
 
-    dm_tops_chopped = dm_chopped - dm_root_chopped;
-    n_tops_chopped = n_chopped - n_root_chopped;
-    p_tops_chopped = p_chopped - p_root_chopped;
+   dm_tops_chopped = dm_chopped - dm_root_chopped;
+   n_tops_chopped = n_chopped - n_root_chopped;
+   p_tops_chopped = p_chopped - p_root_chopped;
 
-    dm_tops_residue = dm_residue - dm_root_residue;
-    n_tops_residue = n_residue - n_root_residue;
-    p_tops_residue = p_residue - p_root_residue;
+   dm_tops_residue = dm_residue - dm_root_residue;
+   n_tops_residue = n_residue - n_root_residue;
+   p_tops_residue = p_residue - p_root_residue;
 
-    parent->writeString ("\nCrop harvested.");
-    char  msg[400];
+   parent->writeString ("\nCrop harvested.");
+   char  msg[400];
 
-    parent->writeString ("    Organic matter from crop:-      Tops to surface residue      Roots to soil FOM");
+   parent->writeString ("    Organic matter from crop:-      Tops to surface residue      Roots to soil FOM");
 
-    sprintf (msg, "%48s%7.1f%24.1f", "DM (kg/ha) =               ", dm_tops_residue, dm_root_residue);
-    parent->writeString (msg);
+   sprintf (msg, "%48s%7.1f%24.1f", "DM (kg/ha) =               ", dm_tops_residue, dm_root_residue);
+   parent->writeString (msg);
 
-    sprintf (msg, "%48s%8.2f%24.2f", "N  (kg/ha) =               ", n_tops_residue, n_root_residue);
-    parent->writeString (msg);
-    if (pStress->isPhosphorusAware())
-       {
-       sprintf (msg, "%48s%7.1f%24.2f",
-                                     "P  (kg/ha) =               ", p_tops_residue, p_root_residue);
-       parent->writeString (msg);
-       }
-    parent->writeString (" ");
+   sprintf (msg, "%48s%8.2f%24.2f", "N  (kg/ha) =               ", n_tops_residue, n_root_residue);
+   parent->writeString (msg);
+   if (pStress->isPhosphorusAware())
+      {
+      sprintf (msg, "%48s%7.1f%24.2f",
+                                    "P  (kg/ha) =               ", p_tops_residue, p_root_residue);
+      parent->writeString (msg);
+      }
+   parent->writeString (" ");
 
-    float dm_removed_tops = dm_tops_chopped - dm_tops_residue;
-    float dm_removed_root = dm_root_chopped - dm_root_residue;
-    float n_removed_tops = n_tops_chopped - n_tops_residue;
-    float n_removed_root = n_root_chopped - n_root_residue;
-    float p_removed_tops = p_tops_chopped - p_tops_residue;
-    float p_removed_root = p_root_chopped - p_root_residue;
+   float dm_removed_tops = dm_tops_chopped - dm_tops_residue;
+   float dm_removed_root = dm_root_chopped - dm_root_residue;
+   float n_removed_tops = n_tops_chopped - n_tops_residue;
+   float n_removed_root = n_root_chopped - n_root_residue;
+   float p_removed_tops = p_tops_chopped - p_tops_residue;
+   float p_removed_root = p_root_chopped - p_root_residue;
 
-    parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
+   parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
 
-    sprintf (msg, "%48s%7.1f%24.1f", "DM (kg/ha) =               ", dm_removed_tops, dm_removed_root);
-    parent->writeString (msg);
+   sprintf (msg, "%48s%7.1f%24.1f", "DM (kg/ha) =               ", dm_removed_tops, dm_removed_root);
+   parent->writeString (msg);
 
-    sprintf (msg, "%48s%8.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
-    parent->writeString (msg);
-    if (pStress->isPhosphorusAware())
-       {
-       sprintf (msg, "%48s%7.2f%24.2f",
-                                     "P  (kg/ha) =               ", p_removed_tops, p_removed_root);
-       parent->writeString (msg);
-       }
-    parent->writeString (" ");
+   sprintf (msg, "%48s%8.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
+   parent->writeString (msg);
+   if (pStress->isPhosphorusAware())
+      {
+      sprintf (msg, "%48s%7.2f%24.2f",
+                                    "P  (kg/ha) =               ", p_removed_tops, p_removed_root);
+      parent->writeString (msg);
+      }
+   parent->writeString (" ");
 
-// now update new canopy covers
+   // now update new canopy covers
 
-    plantSpatial.setPlants(getPlants());
-    plantSpatial.setCanopyWidth(leafPart->width());
+   plantSpatial.setPlants(population().Density());
+   plantSpatial.setCanopyWidth(leaf().width());
 
-    plant.doCover(plantSpatial);
-    UpdateCanopy();
+   plant.doCover(plantSpatial);
+   UpdateCanopy();
 
-// other plant states
-    plant.doNConccentrationLimits(co2Modifier->n_conc());
-    }
-
-
-//+  Purpose
-//       Update states after a kill stem event
-void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message arguments*/)
-    {
-
-//+  Local Variables
-    float temp;
-
-//- Implementation Section ----------------------------------
-
-    protocol::ApsimVariant aV(parent);
-    aV.aliasTo(v.getMessageData());
-
-    // determine the new stem density
-    // ==============================
-    if (aV.get("plants", protocol::DTsingle, false, temp) == true)
-        population.SetPlants(temp);
-
-    // Update biomass and N pools.
-    plant.onKillStem();
-
-    // now update new canopy covers
-
-    plantSpatial.setPlants(getPlants());
-    plantSpatial.setCanopyWidth(leafPart->width());
-
-    plant.doCover(plantSpatial);
-    UpdateCanopy();
-
-    plant.doNConccentrationLimits( co2Modifier->n_conc() )  ;                  // plant N concentr
-    }
-
-//NIH up to here
-
-//+  Purpose
-//       Zero crop variables & arrays
+   // other plant states
+   plant.doNConccentrationLimits(co2Modifier->n_conc());
+   }
 
 void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     {
+   // Unpack the DmRemoved structure
+   tops.doRemoveBiomass(dmRemoved, c.remove_biomass_report);
 
-//- Implementation Section ----------------------------------
+   // Update biomass and N pools.  Different types of plant pools are affected in different ways.
+   // Calculate Root Die Back
+   float chop_fr_green_leaf = divide(leaf().dltDmGreenRemoved(), leaf().Green.DM(), 0.0);
 
+   root().removeBiomass2(chop_fr_green_leaf);
+   float biomassGreenTops    = tops.Green.DM();
+   float dmRemovedGreenTops  = tops.dltDmGreenRemoved();
+   float dmRemovedTops       = tops.dltDmRemoved() * gm2kg/sm2ha;
+   float nRemovedTops        = tops.dltNRemoved() * gm2kg/sm2ha;
 
-    // Unpack the DmRemoved structure
-     tops.doRemoveBiomass(dmRemoved, c.remove_biomass_report);
+   tops.removeBiomass();
 
-    // Update biomass and N pools.  Different types of plant pools are affected in different ways.
-    // Calculate Root Die Back
-    float chop_fr_green_leaf = divide(leafPart->dltDmGreenRemoved(), leafPart->Green.DM(), 0.0);
+   g.remove_biom_pheno = divide (dmRemovedGreenTops, biomassGreenTops, 0.0);
 
-    root->removeBiomass2(chop_fr_green_leaf);
-    float biomassGreenTops    = tops.Green.DM();
-    float dmRemovedGreenTops  = tops.dltDmGreenRemoved();
-    float dmRemovedTops       = tops.dltDmRemoved() * gm2kg/sm2ha;
-    float nRemovedTops        = tops.dltNRemoved() * gm2kg/sm2ha;
+   if (c.remove_biomass_report == "on")
+      {
+      parent->writeString ("\nCrop biomass removed.");
+      char  msgrmv[400];
 
-    tops.removeBiomass();
+      parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
 
-    g.remove_biom_pheno = divide (dmRemovedGreenTops, biomassGreenTops, 0.0);
+      sprintf (msgrmv, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dmRemovedTops, 0.0);
+      parent->writeString (msgrmv);
 
-    if (c.remove_biomass_report == "on")
-    {
-       parent->writeString ("\nCrop biomass removed.");
-       char  msgrmv[400];
+      sprintf (msgrmv, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", nRemovedTops, 0.0);
+      parent->writeString (msgrmv);
 
-       parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
+      sprintf (msgrmv, "%30s%7.2f", "Remove biomass phenology factor = ", g.remove_biom_pheno);
+      parent->writeString (msgrmv);
 
-       sprintf (msgrmv, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dmRemovedTops, 0.0);
-       parent->writeString (msgrmv);
+      parent->writeString (" ");
+      }
 
-       sprintf (msgrmv, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", nRemovedTops, 0.0);
-       parent->writeString (msgrmv);
-
-       sprintf (msgrmv, "%30s%7.2f", "Remove biomass phenology factor = ", g.remove_biom_pheno);
-       parent->writeString (msgrmv);
-
-       parent->writeString (" ");
-    }
-
-    stemPart->removeBiomass2(-1.0); // the values calculated here are overwritten in plantPart::morphology(void)
+    stem().removeBiomass2(-1.0); // the values calculated here are overwritten in plantPart::morphology(void)
 
     // now update new canopy covers
-    plantSpatial.setPlants(getPlants());
-    plantSpatial.setCanopyWidth(leafPart->width());
+    plantSpatial.setPlants(population().Density());
+    plantSpatial.setCanopyWidth(leaf().width());
 
     plant.doCover(plantSpatial);
     UpdateCanopy();
@@ -1554,14 +1095,8 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     plant.doNConccentrationLimits(co2Modifier->n_conc() );
     }
 
-
-//+  Purpose
-//       Zero crop variables & arrays
 void Plant::plant_zero_all_globals (void)
     {
-
-//- Implementation Section ----------------------------------
-
       g.plant_status_out_today = false;
       g.module_name = "";
       g.crop_class = "";
@@ -1604,19 +1139,12 @@ void Plant::plant_zero_all_globals (void)
       g.dlt_sw_parasite_demand = 0.0;
       g.dm_parasite_retranslocate = 0.0;
       g.dlt_dm_parasite = 0.0;
-
     }
 
-
-//+  Purpose
-//       Zero crop variables & arrays
 void Plant::plant_zero_variables (void)
     {
-
     phenologyEventToday = "";
     phenologyRewoundToday = false;
-
-// zero pools etc.
 
     plant_zero_daily_variables ();
 
@@ -1643,33 +1171,20 @@ void Plant::plant_zero_variables (void)
     g.n_fixed_tops = 0.0;
 
     g.dm_parasite_retranslocate   = 0.0;
-
-
     }
 
-
-//+  Purpose
-//       Zero crop daily variables & arrays
 void Plant::plant_zero_daily_variables (void)
     {
-
-//- Implementation Section ----------------------------------
-
-
-// zero pools etc.
-
    for (vector<plantThing *>::iterator t = myThings.begin();
         t != myThings.end();
         t++)
        (*t)->zeroDeltas();
-
-
     g.ext_n_demand             = 0.0;
     }
 
 //+  Purpose
 //       Start crop using parameters specified in passed record
-void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
+void Plant::plant_start_crop(protocol::ApsimVariant& incomingApsimVariant)
     {
 
 //+  Local Variables
@@ -1682,8 +1197,6 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
     {
          if (g.plant_status_out_today == false)
          {
-           protocol::ApsimVariant incomingApsimVariant(parent);
-           incomingApsimVariant.aliasTo(v.getMessageData());
            parent->writeString ( "Crop Sow");
 
            // Check anachronisms
@@ -1725,7 +1238,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                {
                throw std::invalid_argument("plant density ('plants') not specified");
                }
-           population.SetPlants(temp);
+           population().SetPlants(temp);
 
            parent->writeString ("   ------------------------------------------------");
            sprintf (msg, "   %s%s",  "cultivar                   = ", g.cultivar.c_str());
@@ -1734,7 +1247,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            plant.writeCultivarInfo(parent);
            parent->writeString ("   ------------------------------------------------\n\n");
 
-           root->write();
+           root().write();
 
            sprintf (msg, "%s%5.1f%s"
               ,"    Crop factor for bounding water use is set to "
@@ -1742,13 +1255,12 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                 , " times eo.");
            parent->writeString (msg);
 
-           plantSpatial.startCrop (parent, v);
-           phenology().onSow(v);
+           plantSpatial.startCrop(incomingApsimVariant);
+           phenology().onSow(incomingApsimVariant);
            UpdateCanopy();
 
            // Bang.
            g.plant_status = alive;
-           //sendStageMessage("sowing");
            for (vector<plantThing *>::iterator t = myThings.begin(); t != myThings.end(); t++)
              (*t)->onPlantEvent("sowing");
 
@@ -1761,7 +1273,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
 
            sprintf(msg, "   %7d%7.1f%7.1f%7.1f%6.1f%6.1f %s"
                   , environment().dayOfYear(), plantSpatial.sowing_depth
-                  , getPlants(), plantSpatial.row_spacing
+                  , population().Density(), plantSpatial.row_spacing
                   , plantSpatial.skip_row, plantSpatial.skip_plant, g.cultivar.c_str());
            parent->writeString (msg);
 
@@ -1783,9 +1295,6 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
          msg << g.module_name << " is still in the ground -" << endl;
          msg << " Unable to sow until it is taken out by \"end_crop\" action." << endl << ends;
          throw std::runtime_error (msg.str().c_str());
-
-//        string m = string(g.module_name + " is still in the ground -\n unable to sow until it is\n taken out by \"end_crop\" action.");
-//        throw std::runtime_error (m.c_str());
     }
 
     }
@@ -1805,15 +1314,11 @@ void Plant::read(void)
    scienceAPI.readOptional("remove_biomass_report", c.remove_biomass_report);
 
    phenology().read();
-   root->read();
+   root().read();
    }
-
-//+  Purpose
-//       End crop
 
 void Plant::plant_end_crop (void)
     {
-
     float dm_residue;                             // dry matter added to residue (g/m^2)
     float n_residue;                              // nitrogen added to residue (g/m^2)
     float p_residue;                              // phosphorus added to residue (g/m^2)
@@ -1844,9 +1349,9 @@ void Plant::plant_end_crop (void)
         n_residue =tops.Total.N();
         p_residue =tops.Total.P();
 
-        dm_root = root->Total.DM();     //FIXME - should be returned from a root method
-        n_root  = root->Total.N();       //FIXME - should be returned from a root method
-        p_root  = root->Total.P();       //FIXME - should be returned from a root method
+        dm_root = root().Total.DM();     //FIXME - should be returned from a root method
+        n_root  = root().Total.N();       //FIXME - should be returned from a root method
+        p_root  = root().Total.P();       //FIXME - should be returned from a root method
 
        if (dm_residue + dm_root > 0.0)
           {
@@ -1911,29 +1416,11 @@ void Plant::plant_get_other_variables (void)
     {
     std::vector<float> values;               // Scratch area
 
-    // Parasite assimilate demand
-    if (id.parasite_c_demand != 0)
-       {
-       parent->getVariable(id.parasite_c_demand, g.dlt_dm_parasite_demand, 0.0, 10000.0, true);
-       }
-    else
-       {
-       g.dlt_dm_parasite_demand = 0.0;
-       }
+    scienceAPI.getOptional("parasite_dm_demand", "g/m2", g.dlt_dm_parasite_demand, 0.0, 10000.0);
+    scienceAPI.getOptional("parasite_sw_demand", "mm", g.dlt_sw_parasite_demand, 0.0, 10000.0);
 
-    if (id.parasite_sw_demand != 0)
-       {
-       parent->getVariable(id.parasite_sw_demand, g.dlt_sw_parasite_demand, 0.0, 10000.0, true);
-       }
-    else
-       {
-       g.dlt_sw_parasite_demand = 0.0;
-       }
-
-
-    // Soilwat2
-    parent->getVariable(id.eo, g.eo, 0.0, 20.0);
-    root->getOtherVariables();
+    scienceAPI.get("eo", "mm", g.eo, 0.0, 20.0);
+    root().getOtherVariables();
     co2Modifier->doPlant_Co2Modifier ();
     }
 void Plant::plant_update_other_variables (void)
@@ -1975,10 +1462,10 @@ void Plant::UpdateCanopy()
         * (1.0 - plant.coverSen());
 
    protocol::NewCanopyType NewCanopy;
-   NewCanopy.height = stemPart->height();
-   NewCanopy.depth = stemPart->height();
-   NewCanopy.lai = leafPart->getLAI();
-   NewCanopy.lai_tot = leafPart->getLAI() + leafPart->getSLAI();
+   NewCanopy.height = stem().height();
+   NewCanopy.depth = stem().height();
+   NewCanopy.lai = leaf().getLAI();
+   NewCanopy.lai_tot = leaf().getLAI() + leaf().getSLAI();
    NewCanopy.cover = plant.coverGreen();
    NewCanopy.cover_tot = cover_tot;
    NewCanopy.sender = Name();
@@ -2001,67 +1488,6 @@ void Plant::plant_read_constants ( void )
     }
 
 
-void Plant::plant_prepare (void)
-//=======================================================================================
-// Event Handler for the Prepare Event
-   {
-
-   plant.prepare();
-
-   nStress->doPlantNStress (leafPart, stemPart);
-   tempStress->doPlantTempStress (environment());
-   plant.doRadnPartition();
-
-   // Calculate Potential Photosynthesis
-   plant.doDmPotRUE();
-
-   // Calculate Plant Water Demand
-   float SWDemandMaxFactor = p.eo_crop_factor * g.eo ;
-   plant.doSWDemand(SWDemandMaxFactor);
-   doNDemandEstimate(1);
-
-   protocol::NewPotentialGrowthType NewPotentialGrowth;
-   NewPotentialGrowth.frgr = min(min(getTempStressPhoto(),getNfactPhoto()),min(getOxdefPhoto(),getPfactPhoto()));
-   NewPotentialGrowth.sender = Name();
-   scienceAPI.publish ("newpotentialgrowth",NewPotentialGrowth);
-
-
-   // Note actually should send total plant
-   // potential growth rather than just tops - NIH
-   prepare_p();
-   }
-
-void Plant::registerClassActions(void)
-   {
-   // Remove old registrations from the system
-   for (UInt2StringMap::const_iterator i = IDtoAction.begin();
-        i != IDtoAction.end();
-        i++)
-        {
-        if (i->second != "harvest" && i->second != "kill_crop" && i->second != "kill_stem")
-           parent->deleteRegistration(::respondToEvent,i->first);
-        }
-
-   IDtoAction.clear();
-
-   // Add the new class actions we're interested in
-   for (vector<string>::const_iterator i = c.class_action.begin();
-        i != c.class_action.end();
-        i++)
-      {
-      if (*i != "harvest" && *i != "kill_crop" && *i != "kill_stem")
-         {
-         unsigned int id;
-         boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
-         fn = boost::bind(&Plant::doAutoClassChange, this, _1, _2, _3);
-         id = parent->addEvent(i->c_str(), fn, "<type/>");
-         
-         IDtoAction.insert(UInt2StringMap::value_type(id,i->c_str()));
-         //printf("registered '%s' as %d\n",i->c_str(),id);
-         }
-      }
-   }
-
 //+  Purpose
 //       Species initialisation - reads constants from constants file
 void Plant::plant_read_species_const (void)
@@ -2077,21 +1503,13 @@ void Plant::plant_read_species_const (void)
 
     scienceAPI.read("class_action", scratch);
     Split_string(scratch, " ", c.class_action);
-    registerClassActions();
+
+    // Add the new class actions we're interested in
+    for (unsigned i = 0; i != c.class_action.size(); i++)
+      scienceAPI.subscribe(c.class_action[i], NullFunctionWithName(&Plant::onAction));
 
     scienceAPI.read("class_change", scratch);
     Split_string(scratch, " ", c.class_change);
-
-    // Kill off last arbitrator, and get a new one
-    arbitrator->undoRegistrations(parent);
-    myThings.erase(remove(myThings.begin(), myThings.end(), arbitrator),myThings.end());
-    delete arbitrator;
-
-    string partitionOption;
-    scienceAPI.read("partition_option", partitionOption);
-    arbitrator = constructArbitrator(scienceAPI, this, partitionOption);
-    arbitrator->onInit1(parent);
-    myThings.push_back(arbitrator);
 
     for (vector<plantThing *>::iterator t = myThings.begin();
         t != myThings.end();
@@ -2148,14 +1566,14 @@ void Plant::plant_harvest_report (void)
        yield = plant.GrainTotal.DM() * gm2kg / sm2ha;
        yield_wet = plant.dmGrainWetTotal() * gm2kg / sm2ha;
        grain_wt = plant.grainWt();
-       plant_grain_no = divide (plant.grainNo(), getPlants(), 0.0);
+       plant_grain_no = divide (plant.grainNo(), population().Density(), 0.0);
        n_grain = plant.GrainTotal.N() * gm2kg/sm2ha;
 
 
-    float dmRoot = root->Total.DM() * gm2kg / sm2ha;
-    float nRoot = root->Total.N() * gm2kg / sm2ha;
+    float dmRoot = root().Total.DM() * gm2kg / sm2ha;
+    float nRoot = root().Total.N() * gm2kg / sm2ha;
 
-    n_grain_conc_percent = fruitPart->GrainTotal.NconcPercent();
+    n_grain_conc_percent = fruit().GrainTotal.NconcPercent();
 
     n_stover = tops.VegetativeTotal.N() * gm2kg / sm2ha;
     n_green = tops.Vegetative.N() * gm2kg / sm2ha;
@@ -2180,13 +1598,13 @@ void Plant::plant_harvest_report (void)
     parent->writeString (msg);
 
     sprintf (msg, "%s%6.1f%24s%s%10.1f"
-             , " grain % water content  = ", fruitPart->grainWaterContent() * fract2pcnt, " "
+             , " grain % water content  = ", fruit().grainWaterContent() * fract2pcnt, " "
              , " grain yield wet (kg/ha)= ", yield_wet);
     parent->writeString (msg);
 
     sprintf (msg, "%s%8.3f%22s%s%10.1f"
              , " grain wt (g)           = ", grain_wt, " "
-             , " grains/m^2             = ", fruitPart->grainNo());
+             , " grains/m^2             = ", fruit().grainNo());
     parent->writeString (msg);
 
     sprintf (msg, "%s%6.1f%24s%s%10.3f"
@@ -2212,7 +1630,7 @@ void Plant::plant_harvest_report (void)
     parent->writeString (msg);
 
     sprintf (msg, "%s%8.1f"
-             , " number of leaves       = ", leafPart->getLeafNo());
+             , " number of leaves       = ", leaf().getLeafNo());
     parent->writeString (msg);
 
     sprintf (msg, "%s%8.2f%22s%s%10.2f"
@@ -2302,12 +1720,12 @@ void Plant::plant_send_crop_chopped_event (const string&  crop_type             
        chopped.dlt_dm_p.push_back(dlt_dm_p[i]);
        chopped.fraction_to_residue.push_back(fraction_to_residue[i]);
        }
-    parent->publish (id.crop_chopped, chopped);
+    scienceAPI.publish("crop_chopped", chopped);
 #else
     protocol::ApsimVariant outgoingApsimVariant(parent);
-    outgoingApsimVariant.store("crop_type", 
-                               protocol::DTstring, 
-                               false, 
+    outgoingApsimVariant.store("crop_type",
+                               protocol::DTstring,
+                               false,
                                crop_type);
 
     // Make an FStrings string array and store it..
@@ -2330,20 +1748,9 @@ void Plant::plant_send_crop_chopped_event (const string&  crop_type             
     outgoingApsimVariant.store("dlt_dm_n", protocol::DTsingle, true, dlt_dm_n);
     outgoingApsimVariant.store("dlt_dm_p", protocol::DTsingle, true, dlt_dm_p);
     outgoingApsimVariant.store("fraction_to_residue", protocol::DTsingle, true, fraction_to_residue);
-    parent->publish (id.crop_chopped, outgoingApsimVariant);
+    scienceAPI.publish("crop_chopped", outgoingApsimVariant);
 #endif
 
-    }
-
-/////////////////////////////Get&Set Interface code
-bool Plant::set_plant_crop_class(protocol::QuerySetValueData&v)
-    {
-    FString crop_class;
-    v.variant.unpack(crop_class);
-    g.crop_class = crop_class.f_str();
-    scienceAPI.setClass2(asString(crop_class));
-    read();
-    return true;
     }
 
 void Plant::get_plant_status(protocol::Component *system, protocol::QueryValueData &qd)
@@ -2355,44 +1762,30 @@ void Plant::get_plant_status(protocol::Component *system, protocol::QueryValueDa
     }
 }
 
-
-
-pheno_stress_t Plant::getPhotoStress(void)
-{
-        pheno_stress_t *ps = new pheno_stress_t;
-        ps->swdef = swStress->swDef.pheno;
-        ps->nfact = min(nStress->nFact.pheno, pStress->pFact.pheno);
-        ps->swdef_flower = swStress->swDef.pheno_flower;
-        ps->swdef_grainfill = swStress->swDef.pheno_grainfill;
-        ps->remove_biom_pheno = g.remove_biom_pheno;
-        return *ps;
-}
-
 float Plant::getPeswSeed(void)
 {
-   return root->pesw((int)plantSpatial.sowing_depth);
+   return root().pesw((int)plantSpatial.sowing_depth);
 }
 
 float Plant::getFaswSeed(void)
 {
-   return root->fasw((int)plantSpatial.sowing_depth);
+   return root().fasw((int)plantSpatial.sowing_depth);
 }
 
 float Plant::getLeafNo(void)
 {
-   return leafPart->getLeafNo();
+   return leaf().getLeafNo();
 }
 
 void Plant::get_height(protocol::Component *system, protocol::QueryValueData &qd)
 {
-   system->sendVariable(qd, stemPart->height());
+   system->sendVariable(qd, stem().height());
 }
 
 void Plant::get_width(protocol::Component *system, protocol::QueryValueData &qd)
 {
-   system->sendVariable(qd, leafPart->width());
+   system->sendVariable(qd, leaf().width());
 }
-
 
 void Plant::get_cover_tot(protocol::Component *system, protocol::QueryValueData &qd)
 {
@@ -2403,18 +1796,15 @@ void Plant::get_cover_tot(protocol::Component *system, protocol::QueryValueData 
     system->sendVariable(qd, cover_tot);
 }
 
-//NIH up to here
 void Plant::get_biomass(protocol::Component *system, protocol::QueryValueData &qd)
 {
     system->sendVariable(qd, tops.Total.DM() * gm2kg / sm2ha);
 }
 
-
 void Plant::get_green_biomass(protocol::Component *system, protocol::QueryValueData &qd)
 {
     system->sendVariable(qd, tops.Green.DM() * gm2kg / sm2ha);
 }
-
 
 void Plant::get_biomass_wt(protocol::Component *system, protocol::QueryValueData &qd)
 {
@@ -2442,18 +1832,15 @@ void Plant::get_dm_plant_min(protocol::Component *system, protocol::QueryValueDa
    system->sendVariable(qd, dm_min);
 }
 
-
 void Plant::get_biomass_n(protocol::Component *system, protocol::QueryValueData &qd)
 {
     system->sendVariable(qd, tops.Total.N());
 }
 
-
 void Plant::get_n_uptake(protocol::Component *system, protocol::QueryValueData &qd)
 {
     system->sendVariable(qd, tops.Total.N());
 }
-
 
 void Plant::get_green_biomass_n(protocol::Component *system, protocol::QueryValueData &qd)
 {
@@ -2469,28 +1856,26 @@ void Plant::get_n_conc_stover(protocol::Component *system, protocol::QueryValueD
 
 void Plant::get_n_conc_crit(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float n_conc = divide ((leafPart->n_conc_crit()*leafPart->Green.DM()
-                           + stemPart->n_conc_crit()*stemPart->Green.DM())
-                          , (leafPart->Green.DM() + stemPart->Green.DM())
+    float n_conc = divide ((leaf().n_conc_crit()*leaf().Green.DM()
+                           + stem().n_conc_crit()*stem().Green.DM())
+                          , (leaf().Green.DM() + stem().Green.DM())
                           , 0.0) * fract2pcnt;
     system->sendVariable(qd, n_conc);
 }
 
 void Plant::get_n_conc_min(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float n_conc = divide ((leafPart->n_conc_min() * leafPart->Green.DM()
-                            + stemPart->n_conc_min() * stemPart->Green.DM())
-                          , (leafPart->Green.DM() + stemPart->Green.DM())
+    float n_conc = divide ((leaf().n_conc_min() * leaf().Green.DM()
+                            + stem().n_conc_min() * stem().Green.DM())
+                          , (leaf().Green.DM() + stem().Green.DM())
                           , 0.0) * fract2pcnt;
     system->sendVariable(qd, n_conc);
 }
-
 
 void Plant::get_n_uptake_stover(protocol::Component *system, protocol::QueryValueData &qd)
 {
     system->sendVariable(qd, tops.Vegetative.N());
 }
-
 
 void Plant::get_n_demanded(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
@@ -2507,8 +1892,6 @@ void Plant::get_nfact_grain_tot(protocol::Component *system, protocol::QueryValu
    system->sendVariable(qd, sum);
 }
 
-
-
 void Plant::get_no3_demand(protocol::Component *system, protocol::QueryValueData &qd)
 {
     system->sendVariable(qd, (float)g.ext_n_demand*gm2kg/sm2ha);
@@ -2516,7 +1899,7 @@ void Plant::get_no3_demand(protocol::Component *system, protocol::QueryValueData
 
 void Plant::get_transp_eff(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float transp_eff = leafPart->transpirationEfficiency(); //FIXME - ?? how to handle fruitPart->transpirationEfficiency();
+    float transp_eff = leaf().transpirationEfficiency(); //FIXME - ?? how to handle fruit().transpirationEfficiency();
     system->sendVariable(qd, transp_eff);
 }
 
@@ -2584,33 +1967,8 @@ void Plant::get_dlt_p_retrans(protocol::Component *systemInterface, protocol::Qu
    systemInterface->sendVariable(qd, dlt_p_retrans);
 }
 
-
-float Plant::GreenDM(void) {return plant.Green.DM();}
-float Plant::GreenN(void) {return plant.Green.N();}
-float Plant::GreenP(void) {return plant.Green.P();}
-float Plant::SenescedDM(void) {return plant.Senesced.DM();}
-float Plant::SenescedN(void) {return plant.Senesced.N();}
-float Plant::SenescedP(void) {return plant.Senesced.P();}
-
-float Plant::getPlants(void)  {return population.Density();}
-float Plant::getCo2(void)  {return environment().co2();}
-float Plant::getNodeNo(void)  {return leafPart->getNodeNo();}
-float Plant::getDltNodeNo(void)  {return leafPart->getDltNodeNo();}
-float Plant::getDltDMPotRueVeg(void)  {return leafPart->dltDmPotRue();}
-float Plant::getDmTops(void) { return tops.Total.DM();}
-float Plant::getDltDm(void) { return plant.dltDm();}
-float Plant::getDltDmGreen(void) { return plant.dltDmGreen();}
-float Plant::getDmVeg(void)  {return leafPart->Total.DM() + stemPart->Total.DM();}
-float Plant::getDmGreenStem(void)  {return stemPart->Green.DM();}
-float Plant::getDmGreenTot(void)  {return plant.Green.DM();}
-// FIXME - remove next line when P demand corrections activated
-float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(plant.dltDmPotRue()), plant.Green.DM(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
-float Plant::getTotalPotentialGrowthRate(void) {return arbitrator->dltDMWhole(plant.dltDmPotRue());} // the dlt_dm_pot_rue is only tops, thus adjust it for roots.
-float Plant::getDyingFractionPlants(void) {return population.DyingFractionPlants();}
-float Plant::getLAI() {return leafPart->getLAI();}
 float Plant::getCumSwdefPheno() {return g.cswd_pheno.getSum();}
 float Plant::getCumSwdefPhoto() {return g.cswd_photo.getSum();}
-float Plant::getVpd(void)  {return environment().vpdEstimate();}
 float Plant::getTempStressPhoto(void)  {return tempStress->tFact.photo;}
 float Plant::getNfactPhoto(void)  {return nStress->nFact.photo;}
 float Plant::getNfactGrainConc(void)  {return nStress->nFact.grain;}
@@ -2620,10 +1978,7 @@ float Plant::getSwdefPhoto(void)  {return swStress->swDef.photo;}
 float Plant::getSwDefPheno() {return swStress->swDef.pheno;}
 float Plant::getNFactPheno() {return nStress->nFact.pheno;}
 float Plant::getPFactPheno() {return pStress->pFact.pheno;}
-float Plant::swAvailablePotential() {return root->swAvailablePotential();}
-float Plant::swAvailable() {return root->swAvailable();}
-
-
 const std::string & Plant::getCropType(void) {return c.crop_type;};
 protocol::Component *Plant::getComponent(void) {return parent;};
+
 

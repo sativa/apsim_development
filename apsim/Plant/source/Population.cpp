@@ -4,8 +4,9 @@
 #include "Environment.h"
 #include "CompositePart.h"
 #include "Phenology/Phenology.h"
+#include "Leaf/Leaf.h"
 Population::Population(ScienceAPI& api, plantInterface& plant)
-   : scienceAPI(api), Plant(plant)
+   : plantThing(api, "population"), Plant(plant)
    {
    SoilTemp.push_back(0);
    SoilTemp.push_back(0);
@@ -18,7 +19,7 @@ Population::Population(ScienceAPI& api, plantInterface& plant)
    Zero();
    }
 
-void Population::Initialise()
+void Population::onInit1(protocol::Component*)
    {
    scienceAPI.read("leaf_no_crit", leaf_no_crit, 0.0f, 100.0f);
    scienceAPI.read("tt_emerg_limit", tt_emerg_limit, 0.0f, 1000.0f);
@@ -175,7 +176,7 @@ float Population::CropFailurePhenDelay()
 float Population::CropFailureLeafSen()
    {
    // Determine plant population death from leaf area senescing
-   float leaf_area = divide (Plant.getLAI(), plants, 0.0); // leaf area per plant
+   float leaf_area = divide (Plant.leaf().getLAI(), plants, 0.0); // leaf area per plant
 
    if (reals_are_equal (leaf_area, 0.0, 1.0e-6))
       {

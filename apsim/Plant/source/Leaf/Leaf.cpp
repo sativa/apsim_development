@@ -6,22 +6,9 @@
 #include "CohortingLeaf.h"
 #include "Photosynthesis/PhotosynthesisModel.h"
 #include "Phenology/Phenology.h"
+#include "Environment.h"
 
 using namespace std;
-
-// Return one of the leaf objects we know about.
-Leaf* constructLeafPart (ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name)
-  {
-  Leaf *object;
-  if (type == "generic_leaf")
-    object = new GenericLeaf(scienceAPI, p, name);
-  else if (type == "cohorting")
-    object = new CohortingLeaf(scienceAPI, p, name);
-  else
-    throw std::invalid_argument("Unknown leaf_object '" + type + "'");
-
-  return (object);
-  }
 
 Leaf::Leaf(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
    : SimplePart(scienceAPI, p, name)
@@ -70,7 +57,7 @@ void Leaf::doNConccentrationLimits(float modifier)
 
 float Leaf::dmRetransSupply(void)
   {
-  float dm_part_avail = Green.DM() - DMPlantMin * plant->getPlants();
+  float dm_part_avail = Green.DM() - DMPlantMin * plant->population().Density();
   return (l_bound (dm_part_avail, 0.0));
   }
 
@@ -91,7 +78,7 @@ void Leaf::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water dem
       // get potential transpiration from potential
       // carbohydrate production and transpiration efficiency
 
-   cproc_transp_eff_co2_1(plant->getVpd()
+   cproc_transp_eff_co2_1(plant->environment().vpdEstimate()
                           , plant->phenology().doLookup(c.transpEffCf)
                           , plant->getCo2Modifier()->te()
                           , &transpEff);
@@ -110,14 +97,14 @@ void Leaf::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water dem
    }
 
 
-void Leaf::doBioActual (void)
+float Leaf::DMSupply(void)
    //===========================================================================
 {
    //       Takes biomass production limited by radiation and discounted by water supply.
    if (plant->Tops().SWDemand() > 0.0)
-      dlt.dm = dlt.dm_pot_rue * plant->getSwdefPhoto();
+      return dlt.dm_pot_rue * plant->getSwdefPhoto();
    else
-      dlt.dm = 0.0;
+      return 0.0;
 }
 
 float Leaf::coverTotal(void)

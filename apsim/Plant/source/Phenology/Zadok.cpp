@@ -7,7 +7,7 @@ Zadok::Zadok(ScienceAPI& scienceAPI, plantInterface& p)
    : plantThing(scienceAPI, "zadok"), plant(p)
    {
    scienceAPI.exposeFunction("zadok_stage", "", "Zadok's growth developmental stage",
-                             FloatFunction(&Zadok::calcZadok));
+                             FloatGetter(&Zadok::calcZadok));
    }
 
 

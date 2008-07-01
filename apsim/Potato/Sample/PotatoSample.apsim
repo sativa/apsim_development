@@ -1,7 +1,7 @@
 <folder name="Simulations" version="9">
   <simulation name="Sample Potato Simulation">
     <metfile name="met">
-      <filename name="filename">C:\development\apsim\met\sample\Gatton.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\Gatton.met</filename>
     </metfile>
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/10/1997" ubound="29/05/2000">1/01/1999</start_date>

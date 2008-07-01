@@ -5,6 +5,7 @@
 #include "CohortingLeaf.h"
 #include "Environment.h"
 #include "Phenology/Phenology.h"
+#include "Population.h"
 using namespace std;
 
 
@@ -229,7 +230,7 @@ void CohortingLeaf::get_node_no_fx(protocol::Component *system, protocol::QueryV
 void CohortingLeaf::get_dlt_slai_age(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
-   system->sendVariable(qd, sum(dltSLA_age) * plant->getPlants() * smm2sm);
+   system->sendVariable(qd, sum(dltSLA_age) * plant->population().Density() * smm2sm);
 }
 
 float CohortingLeaf::getLeafNo(void)
@@ -277,7 +278,7 @@ void CohortingLeaf::get_sen_leaf_area_index(protocol::Component *system, protoco
 void CohortingLeaf::get_dlt_slai(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
-   float dltSLAI = max(max(max(sum(dltSLA_age) * plant->getPlants() * smm2sm,
+   float dltSLAI = max(max(max(sum(dltSLA_age) * plant->population().Density() * smm2sm,
                                dltSLAI_light),
                                dltSLAI_water),
                                dltSLAI_frost);
@@ -534,7 +535,7 @@ void CohortingLeaf::leaf_area_potential (float tt)
          gDltLeafAreaPot[cohort] = 0.0;
       }
 
-   dltLAI_pot =  sum(gDltLeafAreaPot) * smm2sm * plant->getPlants();
+   dltLAI_pot =  sum(gDltLeafAreaPot) * smm2sm * plant->population().Density();
    }
 
 void CohortingLeaf::leaf_area_stressed (float stressFactor)
@@ -552,7 +553,7 @@ void CohortingLeaf::Detachment (void)
                                , getSLAI()
                                , &dltSLAI_detached);
 
-   float area_detached = divide(dltSLAI_detached,  plant->getPlants(), 0.0) * sm2smm;
+   float area_detached = divide(dltSLAI_detached,  plant->population().Density(), 0.0) * sm2smm;
 
    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
       {
@@ -575,7 +576,7 @@ void CohortingLeaf::leaf_area_sen(float swdef_photo)
 //=======================================================================================
 //   Calculate todays leaf area senescence
 {
-    float plants = plant->getPlants();
+    float plants = plant->population().Density();
 
     // Age senescence for each cohort
     for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
@@ -633,7 +634,7 @@ void CohortingLeaf::update(void)
    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
       gLeafAge[cohort] += dltTT;
 
-   float dltLeafArea = divide (dltLAI, plant->getPlants(), 0.0) * sm2smm;
+   float dltLeafArea = divide (dltLAI, plant->population().Density(), 0.0) * sm2smm;
 
     // Partition new LAI to cohorts
 
@@ -660,7 +661,7 @@ void CohortingLeaf::update(void)
     if (dltSLAI_light > 0.0)
        {
        // bottom up (shading)
-       float dltLeafArea = divide (dltSLAI_light, plant->getPlants(), 0.0) * sm2smm;
+       float dltLeafArea = divide (dltSLAI_light, plant->population().Density(), 0.0) * sm2smm;
        for (cohort = 0; cohort != gLeafArea.size() && dltLeafArea > 0.0; cohort++)
           {
           float dlt = (dltLeafArea > gLeafArea[cohort]) ? gLeafArea[cohort] : dltLeafArea;
@@ -672,7 +673,7 @@ void CohortingLeaf::update(void)
     if (dltSLAI_water > 0.0)
        {
        // bottom up
-       float dltLeafArea = divide (dltSLAI_water, plant->getPlants(), 0.0) * sm2smm;
+       float dltLeafArea = divide (dltSLAI_water, plant->population().Density(), 0.0) * sm2smm;
        for (cohort = 0; cohort != gLeafArea.size(); cohort++)
           {
           float dlt = (dltLeafArea > gLeafArea[cohort]) ? gLeafArea[cohort] : dltLeafArea;
@@ -684,7 +685,7 @@ void CohortingLeaf::update(void)
     if (dltSLAI_frost > 0.0)
        {
        // top down
-       float dltLeafArea = divide (dltSLAI_frost, plant->getPlants(), 0.0) * sm2smm;
+       float dltLeafArea = divide (dltSLAI_frost, plant->population().Density(), 0.0) * sm2smm;
        for (int cohort = (int)gLeafArea.size()-1; cohort >= 0 && dltLeafArea > 0.0; cohort--)
           {
           float dlt = (dltLeafArea > gLeafArea[cohort]) ? gLeafArea[cohort] : dltLeafArea;
@@ -695,7 +696,7 @@ void CohortingLeaf::update(void)
        }
 
     // Plant death
-    float dying_fract_plants = plant->getDyingFractionPlants();
+    float dying_fract_plants = plant->population().DyingFractionPlants();
     //XX I'm not sure any of this is needed???????
     if (dying_fract_plants > 0.0)
        {
@@ -734,7 +735,7 @@ void CohortingLeaf::remove_detachment (float /* dlt_slai_detached*/, float /* dl
 float CohortingLeaf::senFract (void)
 //=======================================================================================
    {
-   float dltSLAI = max(max(max(sum(dltSLA_age) * plant->getPlants() * smm2sm,
+   float dltSLAI = max(max(max(sum(dltSLA_age) * plant->population().Density() * smm2sm,
                                dltSLAI_light),
                                dltSLAI_water),
                                dltSLAI_frost);

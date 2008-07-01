@@ -49,12 +49,9 @@ void PlantSpatial::read(ScienceAPI& scienceAPI)
    scienceAPI.read("skiprow_default", skip_row_default, 0.0f, 2.0f);
    }
 
-void PlantSpatial::startCrop (protocol::Component *system, protocol::Variant &v/*(INPUT) message arguments*/)
+void PlantSpatial::startCrop(protocol::ApsimVariant& incomingApsimVariant)
    //===========================================================================
     {
-           protocol::ApsimVariant incomingApsimVariant(system);
-           incomingApsimVariant.aliasTo(v.getMessageData());
-
            // get other sowing criteria
            if (incomingApsimVariant.get("plants", protocol::DTsingle, false, plants) == false)
                {

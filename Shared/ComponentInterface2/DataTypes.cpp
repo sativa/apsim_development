@@ -419,6 +419,163 @@
                "<field name=\"ddml\" kind=\"string\" />"
                "</type>";}
 
+   //------ ApsimVariant ------
+
+   void EXPORT pack(MessageData& messageData, const ApsimVariantType& data)
+      {
+      pack(messageData, data.param1_name);
+      pack(messageData, data.param1_numbytes);
+      pack(messageData, data.param1_code);
+      pack(messageData, data.param1_isarray);
+      pack(messageData, data.param1_value);
+      pack(messageData, data.param2_name);
+      pack(messageData, data.param2_numbytes);
+      pack(messageData, data.param2_code);
+      pack(messageData, data.param2_isarray);
+      pack(messageData, data.param2_value);
+      pack(messageData, data.param3_name);
+      pack(messageData, data.param3_numbytes);
+      pack(messageData, data.param3_code);
+      pack(messageData, data.param3_isarray);
+      pack(messageData, data.param3_value);
+      pack(messageData, data.param4_name);
+      pack(messageData, data.param4_numbytes);
+      pack(messageData, data.param4_code);
+      pack(messageData, data.param4_isarray);
+      pack(messageData, data.param4_value);
+      pack(messageData, data.param5_name);
+      pack(messageData, data.param5_numbytes);
+      pack(messageData, data.param5_code);
+      pack(messageData, data.param5_isarray);
+      pack(messageData, data.param5_value);
+      pack(messageData, data.param6_name);
+      pack(messageData, data.param6_numbytes);
+      pack(messageData, data.param6_code);
+      pack(messageData, data.param6_isarray);
+      pack(messageData, data.param6_value);
+      pack(messageData, data.param7_name);
+      pack(messageData, data.param7_numbytes);
+      pack(messageData, data.param7_code);
+      pack(messageData, data.param7_isarray);
+      pack(messageData, data.param7_value);
+      }
+   void EXPORT unpack(MessageData& messageData, ApsimVariantType& data)
+      {
+      unpack(messageData, data.param1_name);
+      unpack(messageData, data.param1_numbytes);
+      unpack(messageData, data.param1_code);
+      unpack(messageData, data.param1_isarray);
+      unpack(messageData, data.param1_value);
+      unpack(messageData, data.param2_name);
+      unpack(messageData, data.param2_numbytes);
+      unpack(messageData, data.param2_code);
+      unpack(messageData, data.param2_isarray);
+      unpack(messageData, data.param2_value);
+      unpack(messageData, data.param3_name);
+      unpack(messageData, data.param3_numbytes);
+      unpack(messageData, data.param3_code);
+      unpack(messageData, data.param3_isarray);
+      unpack(messageData, data.param3_value);
+      unpack(messageData, data.param4_name);
+      unpack(messageData, data.param4_numbytes);
+      unpack(messageData, data.param4_code);
+      unpack(messageData, data.param4_isarray);
+      unpack(messageData, data.param4_value);
+      unpack(messageData, data.param5_name);
+      unpack(messageData, data.param5_numbytes);
+      unpack(messageData, data.param5_code);
+      unpack(messageData, data.param5_isarray);
+      unpack(messageData, data.param5_value);
+      unpack(messageData, data.param6_name);
+      unpack(messageData, data.param6_numbytes);
+      unpack(messageData, data.param6_code);
+      unpack(messageData, data.param6_isarray);
+      unpack(messageData, data.param6_value);
+      unpack(messageData, data.param7_name);
+      unpack(messageData, data.param7_numbytes);
+      unpack(messageData, data.param7_code);
+      unpack(messageData, data.param7_isarray);
+      unpack(messageData, data.param7_value);
+      }
+   unsigned EXPORT memorySize(const ApsimVariantType& data)
+      {
+      return 0
+              + ::memorySize(data.param1_name)
+              + ::memorySize(data.param1_numbytes)
+              + ::memorySize(data.param1_code)
+              + ::memorySize(data.param1_isarray)
+              + ::memorySize(data.param1_value)
+              + ::memorySize(data.param2_name)
+              + ::memorySize(data.param2_numbytes)
+              + ::memorySize(data.param2_code)
+              + ::memorySize(data.param2_isarray)
+              + ::memorySize(data.param2_value)
+              + ::memorySize(data.param3_name)
+              + ::memorySize(data.param3_numbytes)
+              + ::memorySize(data.param3_code)
+              + ::memorySize(data.param3_isarray)
+              + ::memorySize(data.param3_value)
+              + ::memorySize(data.param4_name)
+              + ::memorySize(data.param4_numbytes)
+              + ::memorySize(data.param4_code)
+              + ::memorySize(data.param4_isarray)
+              + ::memorySize(data.param4_value)
+              + ::memorySize(data.param5_name)
+              + ::memorySize(data.param5_numbytes)
+              + ::memorySize(data.param5_code)
+              + ::memorySize(data.param5_isarray)
+              + ::memorySize(data.param5_value)
+              + ::memorySize(data.param6_name)
+              + ::memorySize(data.param6_numbytes)
+              + ::memorySize(data.param6_code)
+              + ::memorySize(data.param6_isarray)
+              + ::memorySize(data.param6_value)
+              + ::memorySize(data.param7_name)
+              + ::memorySize(data.param7_numbytes)
+              + ::memorySize(data.param7_code)
+              + ::memorySize(data.param7_isarray)
+              + ::memorySize(data.param7_value)
+              ;
+      }
+   std::string EXPORT DDML(const ApsimVariantType& data)
+      {return "<type name=\"ApsimVariant\">"
+               "<field name=\"param1_name\" kind=\"string\" />"
+               "<field name=\"param1_numbytes\" kind=\"integer4\" />"
+               "<field name=\"param1_code\" kind=\"integer4\" />"
+               "<field name=\"param1_isarray\" kind=\"boolean\" />"
+               "<field name=\"param1_value\" kind=\"string\" />"
+               "<field name=\"param2_name\" kind=\"string\" />"
+               "<field name=\"param2_numbytes\" kind=\"integer4\" />"
+               "<field name=\"param2_code\" kind=\"integer4\" />"
+               "<field name=\"param2_isarray\" kind=\"boolean\" />"
+               "<field name=\"param2_value\" kind=\"string\" />"
+               "<field name=\"param3_name\" kind=\"string\" />"
+               "<field name=\"param3_numbytes\" kind=\"integer4\" />"
+               "<field name=\"param3_code\" kind=\"integer4\" />"
+               "<field name=\"param3_isarray\" kind=\"boolean\" />"
+               "<field name=\"param3_value\" kind=\"string\" />"
+               "<field name=\"param4_name\" kind=\"string\" />"
+               "<field name=\"param4_numbytes\" kind=\"integer4\" />"
+               "<field name=\"param4_code\" kind=\"integer4\" />"
+               "<field name=\"param4_isarray\" kind=\"boolean\" />"
+               "<field name=\"param4_value\" kind=\"string\" />"
+               "<field name=\"param5_name\" kind=\"string\" />"
+               "<field name=\"param5_numbytes\" kind=\"integer4\" />"
+               "<field name=\"param5_code\" kind=\"integer4\" />"
+               "<field name=\"param5_isarray\" kind=\"boolean\" />"
+               "<field name=\"param5_value\" kind=\"string\" />"
+               "<field name=\"param6_name\" kind=\"string\" />"
+               "<field name=\"param6_numbytes\" kind=\"integer4\" />"
+               "<field name=\"param6_code\" kind=\"integer4\" />"
+               "<field name=\"param6_isarray\" kind=\"boolean\" />"
+               "<field name=\"param6_value\" kind=\"string\" />"
+               "<field name=\"param7_name\" kind=\"string\" />"
+               "<field name=\"param7_numbytes\" kind=\"integer4\" />"
+               "<field name=\"param7_code\" kind=\"integer4\" />"
+               "<field name=\"param7_isarray\" kind=\"boolean\" />"
+               "<field name=\"param7_value\" kind=\"string\" />"
+               "</type>";}
+
    //------ Layered ------
 
    void EXPORT pack(MessageData& messageData, const LayeredType& data)

@@ -6,8 +6,6 @@ using namespace std;
 #include "Root/RootPart.h"
 #include "Environment.h"
 
-static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
-
 //#####################################################################################
 // PStress implementation
 //######################################################################################
@@ -78,9 +76,7 @@ void PStress::PlantP_set_phosphorus_aware ()
       vector<float> values;               // Scratch area
       bool soilpPresent;
 
-      unsigned int idSoilpVar = parent->addRegistration(::get, -1, "labile_p", floatArrayType);
-      parent->getVariable(idSoilpVar, values, 0.0, 1000000.0, true);
-      soilpPresent = (values.size() > 0);
+      soilpPresent = scienceAPI.getOptional("labile_p", "", values, 0.0, 1000000.0);
 
       if(soilpPresent == true)
       {
@@ -680,5 +676,6 @@ void SWStress::get_swstress_fixation(protocol::Component *systemInterface, proto
        swstress_fixation = 0.0;
     systemInterface->sendVariable(qd, swstress_fixation);  //()
 }
+
 
 

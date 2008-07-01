@@ -24,6 +24,7 @@ OBJ=PlantComponent.o \
    Utility/LookupFunction.o \
    Utility/Science.o \
    Utility/Date.o \
+   PlantComms.o \
    PlantP.o \
    Population.o \
    PlantStress.o \
@@ -64,11 +65,8 @@ OBJ=PlantComponent.o \
    Leaf/GenericLeaf.o \
    Leaf/CohortingLeaf.o \
    Arbitrators/arbitrator.o \
-   Arbitrators/NullArbitrator.o \
    Arbitrators/GenericArbitrator.o \
    Arbitrators/GenericArbitratorXY.o \
-   Arbitrators/CerealArbitrator.o \
-   Arbitrators/AllometricArbitrator.o \
    PlantSpatial.o \
    Pool.o \
    CompositePool.o \

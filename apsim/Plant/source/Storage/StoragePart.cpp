@@ -4,18 +4,6 @@
 using namespace std;
 
 
-StoragePart* StoragePart::construct(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-//=======================================================================================
-// Setup correct storage part model for user-defined type
-   {
-   string type;
-   scienceAPI.readOptional("storage_part", type);
-   if (type == "generic")
-      return new StoragePart(scienceAPI, p, name);
-   else
-      return NULL;
-   }
-
 void StoragePart::onHarvest(float /*cutting_height*/, float /*remove_fr*/,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,

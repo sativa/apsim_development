@@ -4,17 +4,21 @@
    ***********************************************************************************************************
     -->
    <options>
-      <Environment/><Fixation/>
+      <Environment/>
+      <Population/>
       <Phenology/>
       <Zadok/>
       <Root/>
+      <GenericArbitratorXY/>
+      <GenericLeaf/>
+      <Stem/>
+      <Fruit name="Head"/>
    </options>
    <RadiationPartitioningOrder>fruit leaf</RadiationPartitioningOrder>
     
    <crop_type>oats</crop_type>
    <default_crop_class>plant</default_crop_class>
    <default_cultivar>taipan</default_cultivar>
-   <leaf_part>generic_leaf</leaf_part>
    <grain_part_type>grain_no</grain_part_type>
    <!--  Parts than can supply retranslocate to grain
     -->
@@ -77,6 +81,8 @@
    <n_stress>end_of_juvenile(0.3) floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</n_stress>
    <plant>
       <partition_option>2</partition_option>
+      <partitionparts>root  fruit  leaf stem</partitionparts>
+      <partitionrules>magic demand frac remainder</partitionrules>
       <n_retrans_option>2</n_retrans_option>
       <n_retrans_fraction description="0.33">1.0 </n_retrans_fraction>
       <n_deficit_uptake_fraction>0.0001</n_deficit_uptake_fraction>

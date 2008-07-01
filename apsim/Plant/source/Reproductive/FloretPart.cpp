@@ -3,6 +3,8 @@
 #include "CompositePart.h"
 #include "FloretPart.h"
 #include "Phenology/Phenology.h"
+#include "Population.h"
+#include "Environment.h"
 using namespace std;
 
 FloretPart::FloretPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
@@ -45,7 +47,7 @@ void FloretPart::onHarvest(float /* cutting_height */, float remove_fr,
 void FloretPart::doDmMin(void)
 //=======================================================================================
 {
-   float dm_plant = divide (Green.DM(), plant->getPlants(), 0.0);
+   float dm_plant = divide (Green.DM(), plant->population().Density(), 0.0);
    DMPlantMin = max (dm_plant * (1.0 - c.trans_frac), DMPlantMin);
 }
 
@@ -75,7 +77,7 @@ float FloretPart::dltDmRetranslocateSupply(float DemandDifferential)
 //=======================================================================================
    {
    float DMPartPot = Green.DM() + Retranslocation.DM();
-   float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
+   float DMPartAvail = DMPartPot - DMPlantMin * plant->population().Density();
    DMPartAvail = l_bound (DMPartAvail, 0.0);
    float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
    Retranslocation = Retranslocation - Biomass(-DltDmRetransPart, 0, 0);  //XXXX this is a bad thing..
@@ -185,14 +187,14 @@ void FloretPart::doProcessBioDemand(void)
 {
 }
 
-void FloretPart::doBioActual (void)
+float FloretPart::DMSupply(void)
    //===========================================================================
 {
    //       Takes biomass production limited by radiation and discounted by water supply.
    if (plant->Tops().SWDemand() > 0.0)
-      dlt.dm = dlt.dm_pot_rue * plant->getSwdefPhoto();
+      return dlt.dm_pot_rue * plant->getSwdefPhoto();
    else
-      dlt.dm = 0.0;
+      return 0.0;
 }
 
 void FloretPart::calcDlt_Floret_area (void)
@@ -225,7 +227,7 @@ void FloretPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop wat
    // get potential transpiration from potential
    // carbohydrate production and transpiration efficiency
 
-   cproc_transp_eff_co2_1(plant->getVpd()
+   cproc_transp_eff_co2_1(plant->environment().vpdEstimate()
                           , plant->phenology().doLookup(c.transpEffCf)
                           , plant->getCo2Modifier()->te()
                           , &transpEff);

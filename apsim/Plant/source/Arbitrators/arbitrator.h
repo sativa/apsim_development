@@ -1,35 +1,41 @@
-#ifndef ARBITRATOR_H
-#define ARBITRATOR_H
+#ifndef ArbitratorH
+#define ArbitratorH
 
 #include "PlantInterface.h"
 
+class rootPart;
 class Arbitrator : public plantThing
    {
-  protected:
-      plantInterface *plant;                 // The plant we are attached to
+   private:
+      int n_retrans_option;
+      float _DMSupply;
+      void doNRetranslocate(vector<plantPart*>& allParts, float g_grain_n_demand);
 
-      plantPart* FindPart(vector <plantPart *>& Parts, string name);
-  public:
-   Arbitrator(ScienceAPI& scienceAPI, plantInterface *p)
-      : plantThing(scienceAPI, "Arbitrator") {plant = p;};
-   virtual ~Arbitrator(void) {};
+   protected:
+      plantInterface& plant;
+      vector <string> PartitionParts;
+      vector <string> PartitionRules;
 
-   virtual void readSpeciesParameters (protocol::Component *, vector<string> &) {};
-   virtual void partitionDM(float,vector <plantPart *>& Parts, string FruitName) = 0;
+      virtual float ratioRootShoot() = 0;
+      virtual float fracDMRemainingInPart(int partNumber) = 0;
 
-   // Unused "thingy" things..
-   virtual void undoRegistrations(protocol::Component *) {};
-   virtual void onInit1(protocol::Component *) {};
-   virtual void onPlantEvent(const string &) {};
-   virtual void readConstants (protocol::Component *, const string &) {};
-   virtual void readCultivarParameters (protocol::Component *, const string &) {};
-   virtual void update(void) {};
-   virtual float dltDMWhole(float dlt_dm) {return 0.0;};
-   virtual void zeroDeltas(void) {};
-   virtual void zeroAllGlobals(void) {};
+   public:
+      Arbitrator(ScienceAPI& scienceAPI, plantInterface& p);
+      virtual ~Arbitrator(void) {};
+
+      void partitionDM();
+      void doDmRetranslocate(plantPart* stemPart, plantPart* leafPart,
+                                     plantPart* fruitPart);
+      void doNRetranslocate(vector<plantPart*>& allParts,
+                                    plantPart* fruitPart);
+      void doNPartition(float g_n_fix_pot, float nDemandTotal, float& nFixUptake);
+      void doNSenescedRetrans(plantPart* leafPart);
+
+
+      float DMSupply() {return _DMSupply;}
+      float RelativeGrowthRate(void);
+      float TotalPotentialGrowthRate(void);
    };
-
-Arbitrator* constructArbitrator(ScienceAPI& scienceAPI, plantInterface *, const string &type);
 
 #endif
 

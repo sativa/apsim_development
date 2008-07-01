@@ -1,7 +1,7 @@
 #include "StdPlant.h"
 
 #include "Pool.h"
-//#include "Delta.h"
+#include "Population.h"
 using namespace std;
 
 Pool::Pool(plantInterface& plant, ScienceAPI& API, const std::string& Name, const std::string& PartName, bool DoRegist)
@@ -20,16 +20,16 @@ Pool::Pool(plantInterface& plant, ScienceAPI& API, const std::string& Name, cons
 
 void Pool::DoRegistrations()
    {
-   scienceAPI.exposeFunction(PartName+Name+"Wt", "g/m^2", Name + " " + PartName + " dry matter", FloatFunction(&Biomass::DM));
-   scienceAPI.exposeFunction(PartName+Name+"N",  "g/m^2", Name + " " + PartName + " nitrogen", FloatFunction(&Biomass::N));
-   scienceAPI.exposeFunction(PartName+Name+"P",  "g/m^2", Name + " " + PartName + " phosphorus", FloatFunction(&Biomass::P));
+   scienceAPI.exposeFunction(PartName+Name+"Wt", "g/m^2", Name + " " + PartName + " dry matter", FloatGetter(&Biomass::DM));
+   scienceAPI.exposeFunction(PartName+Name+"N",  "g/m^2", Name + " " + PartName + " nitrogen", FloatGetter(&Biomass::N));
+   scienceAPI.exposeFunction(PartName+Name+"P",  "g/m^2", Name + " " + PartName + " phosphorus", FloatGetter(&Biomass::P));
 
-   scienceAPI.exposeFunction(PartName+Name+"nconc", "%", "N concentration in "+Name+" "+PartName, FloatFunction(&Pool::NconcPercent));
-   scienceAPI.exposeFunction(PartName+Name+"pconc", "%", "P concentration in "+Name+" "+PartName, FloatFunction(&Pool::PconcPercent));
+   scienceAPI.exposeFunction(PartName+Name+"nconc", "%", "N concentration in "+Name+" "+PartName, FloatGetter(&Pool::NconcPercent));
+   scienceAPI.exposeFunction(PartName+Name+"pconc", "%", "P concentration in "+Name+" "+PartName, FloatGetter(&Pool::PconcPercent));
    }
 void Pool::Init()
    {
-   float Plants = Plant.getPlants();
+   float Plants = Plant.population().Density();
    float dm_init;
    float n_init_conc;
    float p_init_conc;

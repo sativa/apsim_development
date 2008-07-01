@@ -50,8 +50,8 @@ void Phenology::onInit1(protocol::Component *)
    scienceAPI.expose("Stage", "", "Plant stage", currentStage);
    scienceAPI.exposeWritable("Phase", "", "Plant stage", FloatSetter(&Phenology::onSetStage));
    scienceAPI.expose("DeltaStage", "", "Change in plant stage", dltStage);
-   scienceAPI.exposeFunction("StageName", "", "Plant stage name", StringFunction(&Phenology::stageName));
-   scienceAPI.exposeFunction("TT", "deg. day", "Todays thermal time", FloatFunction(&Phenology::TT));
+   scienceAPI.exposeFunction("StageName", "", "Plant stage name", StringGetter(&Phenology::stageName));
+   scienceAPI.exposeFunction("TT", "deg. day", "Todays thermal time", FloatGetter(&Phenology::TT));
 
    scienceAPI.subscribe("harvest", NullFunction(&Phenology::onHarvest));
    scienceAPI.subscribe("end_crop", NullFunction(&Phenology::onEndCrop));
@@ -409,14 +409,11 @@ void Phenology::onKillStem()
       publishStageEvent(existingStage, phases[(int)currentStage]->name(), true);
    }
 
-void Phenology::onSow(protocol::Variant &v)
+void Phenology::onSow(protocol::ApsimVariant& incomingApsimVariant)
    {
    // --------------------------------------------------------------------------
    // Respond to a sow request
    // --------------------------------------------------------------------------
-
-   protocol::ApsimVariant incomingApsimVariant(plant.getComponent());
-   incomingApsimVariant.aliasTo(v.getMessageData());
 
    float sowing_depth;
    if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)

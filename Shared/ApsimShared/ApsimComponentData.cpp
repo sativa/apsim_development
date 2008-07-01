@@ -256,11 +256,22 @@ std::string ApsimComponentData::findProperty(const std::string& name)
    // Go recursively searching for a property. Delimiter = '/'.
    // Return it's value.
    // ------------------------------------------------------------------
-   XMLNode foundNode = findNode(node, name, '/');
-   if (foundNode.isValid())
-      return foundNode.getValue();
-
-   return "";      
+   XMLNode foundNode;
+   unsigned posLastDelimiter = name.rfind('/');
+   if (posLastDelimiter != string::npos
+       && Str_i_Eq(name.substr(posLastDelimiter+1), "name"))
+      {
+      foundNode = findNode(node, name.substr(0, posLastDelimiter), '/');
+      if (foundNode.isValid())
+         return foundNode.getAttribute("name");
+      }
+   else
+      {
+      foundNode = findNode(node, name, '/');
+      if (foundNode.isValid())
+         return foundNode.getValue();
+      }
+   return "";
    }
 // ------------------------------------------------------------------
 // return a list of variables to caller.

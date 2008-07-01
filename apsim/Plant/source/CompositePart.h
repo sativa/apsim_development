@@ -38,9 +38,8 @@ public:                                             // member functions
    virtual float coverGreen(void) ;
    virtual float coverSen(void) ;
    virtual void  Detachment(void);
-   virtual float dltDm(void);
+   virtual float DMSupply(void);
    virtual float dltDmGreen(void)  ;
-   virtual float dltDmUptake(void)  ;
    virtual float dltDmGreenRemoved(void);
    virtual float dltDmPotRue(void);
    virtual float dltDmRemoved(void);
@@ -48,7 +47,6 @@ public:                                             // member functions
    virtual float dltNRemoved(void);
    virtual float dltNSenescedRetrans(void);
    virtual float dmGrainWetTotal(void);
-   virtual void  doBioActual (void);
    virtual void  doCover (PlantSpatial &spatial);
    virtual void  doDmDemand (float dlt_dm_supply_by_veg);
    virtual void  doDmMin(void);
@@ -114,6 +112,7 @@ public:                                             // member functions
    virtual void get_n_demanded(vector<float> &);
    virtual void get_p_demand(vector<float> &p_demand);
    void doRadnPartition();
+   virtual void zeroDltDmGreen(void);
 
 protected:
    virtual void readConstants (protocol::Component *, const string &);
@@ -134,7 +133,6 @@ protected:
 
    virtual void zeroAllGlobals(void);
    virtual void zeroDeltas(void);
-   virtual void zeroDltDmGreen(void);
 
 
    virtual float coverTotal(void) ;

@@ -5,18 +5,40 @@
     -->
     
    <options>
-      <Environment/><Fixation/>
+      <Environment/>
+      <Population/>
+      <Fixation/>
       <Phenology/>
       <Root/>
+      <GenericArbitratorXY/>
+      <CohortingLeaf/>
+      <Stem/>
+      <Floret/>   
+      <SoilWaterStress/>
+      <NitrogenStress>
+         <!--
+         NITROGEN STRESS FACTORS FOR PHOTOSYNTHESIS,LEAF GROWTH AND DEVELOPMENT
+         n_conc_ratio      = divide ((N_conc_stover - N_conc_stover_min),(N_conc_stover_crit-N_conc_stover_min),0.0)
+         n_conc_ratio_leaf = divide ((N_conc_leaf - N_conc_leaf_min), (N_conc_leaf_crit - N_conc_leaf_min), 0.0)
+         g_nfact_photo     = N_fact_photo * N_conc_ratio
+         g_n_fact_pheno    = N_fact_pheno * N_conc_ratio
+         g_nfact_expansion = N_fact_expansion * n_conc_ratio_leaf
+          -->
+         <NFactPhoto     description="multipler for N deficit effect on photosynthesis">2.0</NFactPhoto>
+         <NFactExpansion description="multipler for N deficit effect on leaf expansion">1.0</NFactExpansion>
+         <NFactPheno     description="multipler for N deficit effect on phenology"     >100</NFactPheno>
+         <PhotoParts>GenericLeaf Stem</PhotoParts>
+         <ExpansionParts>GenericLeaf</ExpansionParts>
+         <PhenoParts>GenericLeaf Stem</PhenoParts>
+         <GrainParts>GenericLeaf Stem</GrainParts>
+      </NitrogenStress>
    </options>
    <RadiationPartitioningOrder>floret leaf</RadiationPartitioningOrder>
     
    <crop_type>Broccoli</crop_type>
    <default_crop_class>plant</default_crop_class>
    <default_cultivar>greenbelt</default_cultivar>
-   <leaf_part>cohorting</leaf_part>
    <grain_part_type>harvest_index</grain_part_type>
-   <fruit_part>floret</fruit_part>
 
    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    SECTION - VALUE LIMITS - MAX AND MINS
@@ -363,17 +385,6 @@
       <N_fix_rate units="gN/gDM">0      0    0     .00  0.00  0.00  0.00</N_fix_rate>
       <x_sw_avail_fix description="soil water ratio for effect on N fixation">0.0  0.50  0.95  1.0</x_sw_avail_fix>
       <y_swdef_fix units="0-1" description="stress index on N fixation">1.0  1.0   1.0   1.0</y_swdef_fix>
-      <!-- ______________________________________________________________________________
-      NITROGEN STRESS FACTORS FOR PHOTOSYNTHESIS,LEAF GROWTH AND DEVELOPMENT
-      n_conc_ratio      = divide ((N_conc_stover - N_conc_stover_min),(N_conc_stover_crit-N_conc_stover_min),0.0)
-      n_conc_ratio_leaf = divide ((N_conc_leaf - N_conc_leaf_min), (N_conc_leaf_crit - N_conc_leaf_min), 0.0)
-      g_nfact_photo     = N_fact_photo * N_conc_ratio
-      g_n_fact_pheno    = N_fact_pheno * N_conc_ratio
-      g_nfact_expansion = N_fact_expansion * n_conc_ratio_leaf
-       -->
-      <N_fact_photo description="multipler for N deficit effect on photosynthesis">2.0     </N_fact_photo>
-      <N_fact_expansion description="multipler for N deficit effect on leaf expansion">1.0     </N_fact_expansion>
-      <N_fact_pheno description="multipler for N deficit effect on phenology">100     </N_fact_pheno>
       <!-- ______________________________________________________________________________
       NITROGEN CONCENTRATION LIMITS: MAX. CRITICAL AND MINIMUM N CONCENTRATIONS
        emerg  juv     floral_init but   mat

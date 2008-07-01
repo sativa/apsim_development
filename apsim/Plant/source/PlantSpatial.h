@@ -13,7 +13,7 @@ class PlantSpatial {
    void zeroAllGlobals(void);
    void zeroDeltas(void);
    void read(ScienceAPI& scienceAPI);
-   void startCrop (protocol::Component *system, protocol::Variant &v);
+   void startCrop(protocol::ApsimVariant& incomingApsimVariant);
    void setPlants(float plants);
    void setCanopyWidth(float canopy_width);
    float canopyFac(void);

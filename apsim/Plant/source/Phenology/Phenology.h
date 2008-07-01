@@ -41,7 +41,7 @@ class Phenology : public plantThing
       virtual void writeSummary();
       virtual void process();
       virtual void read();
-      virtual void onSow(protocol::Variant &v);
+      virtual void onSow(protocol::ApsimVariant &v);
       virtual void onRemoveBiomass(float removeBiomPheno);
 
       bool onDayOf(const string &);

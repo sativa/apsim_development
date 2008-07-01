@@ -70,11 +70,10 @@ void CompositePart::onInit1(protocol::Component *system)
    vector <plantPart *>::iterator part;
    if (myName == "")  // If you don't have this then we get a TopsSWDemand - not needed.
       {
-      scienceAPI.exposeFunction("sw_demand", "mm",  "Demand for soil water", FloatFunction(&CompositePart::SWDemand));
-      scienceAPI.exposeFunction("sw_demand_te", "mm",  "TE Demand for soil water", FloatFunction(&CompositePart::SWDemandTE));
-      scienceAPI.exposeFunction("dlt_dm", "g/m^2",  "Actual above_ground dry matter production", FloatFunction(&CompositePart::dltDm));
-      scienceAPI.exposeFunction("dlt_dm_pot_rue", "g/m^2",  "Potential above_ground dry matter production via photosynthesis", FloatFunction(&CompositePart::dltDmPotRue));
-      scienceAPI.exposeFunction("cover_green", "",  "Green cover", FloatFunction(&CompositePart::coverGreen));
+      scienceAPI.exposeFunction("sw_demand", "mm",  "Demand for soil water", FloatGetter(&CompositePart::SWDemand));
+      scienceAPI.exposeFunction("sw_demand_te", "mm",  "TE Demand for soil water", FloatGetter(&CompositePart::SWDemandTE));
+      scienceAPI.exposeFunction("dlt_dm_pot_rue", "g/m^2",  "Potential above_ground dry matter production via photosynthesis", FloatGetter(&CompositePart::dltDmPotRue));
+      scienceAPI.exposeFunction("cover_green", "",  "Green cover", FloatGetter(&CompositePart::coverGreen));
       }
 
    for (part =  myParts.begin(); part != myParts.end(); part++)
@@ -729,16 +728,6 @@ float CompositePart::dltDmGreen(void)
    return dltDmGreen;
 }
 
-float CompositePart::dltDmUptake(void)
-   //===========================================================================
-{
-   float dltDmUptake= 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      dltDmUptake+=(*part)->dltDmUptake();
-   return dltDmUptake;
-}
-
-
 float CompositePart::dltDmRetranslocateSupply(float /* demand_differential*/)
    //===========================================================================
 {
@@ -914,14 +903,14 @@ float CompositePart::dltDmPotRue(void)
    return dltDmPotRue;
 }
 
-float CompositePart::dltDm(void)
+float CompositePart::DMSupply(void)
    //===========================================================================
 {
-   float dltDm = 0.0;
+   float supply = 0.0;
    vector <plantPart *>::const_iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
-      dltDm += (*part)->dltDm();
-   return dltDm;
+      supply += (*part)->DMSupply();
+   return supply;
 }
 
 float CompositePart::dltDmGrainDemand(void)
@@ -1060,15 +1049,6 @@ float CompositePart::SWDemandTE(void)
       SWDemandTE += (*part)->SWDemandTE();
    return SWDemandTE;
 }
-
-void CompositePart::doBioActual (void)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->doBioActual();
-}
-
 
 void CompositePart::doNDemandGrain(float g_nfact_grain_conc      //   (INPUT)
                                  , float g_swdef_expansion)    //   grain N demand (g/m^2)

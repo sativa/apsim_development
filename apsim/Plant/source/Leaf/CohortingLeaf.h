@@ -1,6 +1,7 @@
 #ifndef CohortingLeafH
 #define CohortingLeafH
 
+#include "Population.h"
 class CohortingLeaf : public Leaf {
   public:
    CohortingLeaf(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
@@ -26,15 +27,15 @@ class CohortingLeaf : public Leaf {
    float getDltNodeNo(void){return dltNodeNo;};
 
    float getLAI(void)
-     { return sum(gLeafArea) * plant->getPlants() * smm2sm; };
+     { return sum(gLeafArea) * plant->population().Density() * smm2sm; };
    float getSLAI(void)
-     { return sum(gLeafAreaSen) * plant->getPlants() * smm2sm; };
+     { return sum(gLeafAreaSen) * plant->population().Density() * smm2sm; };
    float getLeafNo(void);
    float senFract (void);
    float dmGreenDemand(void)
      { return(divide (dltLAI_stressed, cSLAMin * smm2sm, 0.0));};   // Maximum DM this part can take today
 
-   float dltLeafAreaPot(void) {return (divide(dltLAI_stressed, plant->getPlants(), 0.0) * sm2smm);};
+   float dltLeafAreaPot(void) {return (divide(dltLAI_stressed, plant->population().Density(), 0.0) * sm2smm);};
    void CanopyExpansion (int option, float, float, float);
    void leaf_area_stressed(float);
    void actual(void);

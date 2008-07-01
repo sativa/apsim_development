@@ -3,6 +3,8 @@
 #include "FruitCohortFN.h"
 #include "GrainPartFN.h"
 #include "Environment.h"
+#include "Stem.h"
+#include "Population.h"
 using namespace std;
 
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
@@ -63,7 +65,7 @@ void fruitGrainPartFN::doGrainNumber (void)
    //===========================================================================
    //       Calculate Grain Number
 {
-      gGrain_no = grainNumber (plant->getDmGreenStem()
+      gGrain_no = grainNumber (plant->stem().Green.DM()
                               , pGrains_per_gram_stem);
 }
 
@@ -157,7 +159,7 @@ void fruitGrainPartFN::update(void)
 {
    fruitGrainPart::update();
    // transfer plant grain no.
-   float dlt_grain_no_lost  = gGrain_no * plant->getDyingFractionPlants();
+   float dlt_grain_no_lost  = gGrain_no * plant->population().DyingFractionPlants();
    gGrain_no -= dlt_grain_no_lost;
 
 }

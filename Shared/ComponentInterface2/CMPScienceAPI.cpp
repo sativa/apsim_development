@@ -489,6 +489,11 @@ void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, Qu
 void CMPScienceAPI::publish(const std::string& name, QuerySetValueType& data)
      {componentInterface.publish(name, new CMPType< QuerySetValueType >(data));}
 
+void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, ApsimVariantType&> handler)
+     {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, ApsimVariantType&>, ApsimVariantType > (handler, false));}
+void CMPScienceAPI::publish(const std::string& name, ApsimVariantType& data)
+     {componentInterface.publish(name, new CMPType< ApsimVariantType >(data));}
+
 void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, LayeredType&> handler)
      {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, LayeredType&>, LayeredType > (handler, false));}
 void CMPScienceAPI::publish(const std::string& name, LayeredType& data)

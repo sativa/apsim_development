@@ -5,6 +5,8 @@
 #include "Co2Modifier.h"
 #include "FruitCohort.h"
 #include "Phenology/Phenology.h"
+#include "Population.h"
+#include "Environment.h"
 using namespace std;
 // ================================ AREA =================================================
 // This class only has functionality for pods. It needs extra methods and data members to be used for leaf and other organs.
@@ -172,7 +174,7 @@ void fruitPodPart::onStartGrainFill(void)
 void fruitPodPart::doDmMin(void)
 //=======================================================================================
 {
-   float dm_plant = divide (Green.DM(), plant->getPlants(), 0.0);
+   float dm_plant = divide (Green.DM(), plant->population().Density(), 0.0);
    DMPlantMin = max (dm_plant * (1.0 - c.trans_frac), DMPlantMin);
 }
 
@@ -202,7 +204,7 @@ float fruitPodPart::dltDmRetranslocateSupply(float DemandDifferential)
 //=======================================================================================
    {
    float DMPartPot = Green.DM() + Retranslocation.DM();
-   float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
+   float DMPartAvail = DMPartPot - DMPlantMin * plant->population().Density();
    DMPartAvail = l_bound (DMPartAvail, 0.0);
    float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
    Retranslocation = Retranslocation - Biomass(DltDmRetransPart, 0, 0);   //XXXX this is a bad thing..
@@ -293,14 +295,14 @@ void fruitPodPart::doProcessBioDemand(void)
 {
 }
 
-void fruitPodPart::doBioActual (void)
+float fruitPodPart::DMSupply(void)
    //===========================================================================
 {
    //       Takes biomass production limited by radiation and discounted by water supply.
    if (plant->Tops().SWDemand() > 0.0)
-      dlt.dm = dlt.dm_pot_rue * plant->getSwdefPhoto();
+      return dlt.dm_pot_rue * plant->getSwdefPhoto();
    else
-      dlt.dm = 0.0;
+      return 0;
 }
 
 void fruitPodPart::calcDlt_pod_area (void)
@@ -351,7 +353,7 @@ void fruitPodPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop w
    // get potential transpiration from potential
    // carbohydrate production and transpiration efficiency
 
-   cproc_transp_eff_co2_1(plant->getVpd()
+   cproc_transp_eff_co2_1(plant->environment().vpdEstimate()
                           , plant->phenology().doLookup(c.transpEffCf)
                           , co2Modifier->te()
                           , &transpEff);

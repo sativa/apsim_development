@@ -3,6 +3,7 @@
 #include "RootPart.h"
 #include "RootGrowthOption2.h"
 #include "Utility/PlantUtility.h"
+#include "Population.h"
 
 using namespace std;
 
@@ -44,7 +45,7 @@ void rootGrowthOption2::root_length_growth (void)
 
       rld       = divide (root_length[layer], (*soil[0]).dlayer[layer], 0.0);
 
-      plant_rld = divide (rld, plant->getPlants() ,0.0);
+      plant_rld = divide (rld, plant->population().Density(), 0.0);
 
       branching_factor = rel_root_rate.value(plant_rld);
 

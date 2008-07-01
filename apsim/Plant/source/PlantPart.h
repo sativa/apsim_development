@@ -89,7 +89,6 @@ public:
    virtual void  calcDlt_pod_area (void) = 0;   //FIXME
 
    virtual float dltDmGreen(void)  = 0;
-   virtual float dltDmUptake(void)  = 0;
    virtual float dltDmGreenRemoved(void) = 0;
    virtual float dltDmRemoved(void) = 0;
    virtual float dltNGreen(void)  = 0;
@@ -101,7 +100,7 @@ public:
    virtual float dmGreenDemand(void) = 0;
    virtual float dmRetransSupply(void) = 0;
 
-   virtual void  doBioActual (void) = 0;
+   virtual float DMSupply(void) = 0;
    virtual void  doCover (PlantSpatial &spatial) = 0;
    virtual void  doDmDemand (float dlt_dm_supply_by_veg) = 0;
    virtual void  doDmPotRUE (void ) = 0;                      // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
@@ -185,7 +184,6 @@ public:
 
    virtual void  Detachment(void) = 0;
 
-   virtual float dltDm(void) = 0;
    virtual float dltDmDetached(void) = 0;
    virtual float dltDmGrainDemand(void) = 0;
    virtual float dltDmGreenRetrans(void) = 0;

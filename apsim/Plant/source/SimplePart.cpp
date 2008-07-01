@@ -1,5 +1,8 @@
 #include "StdPlant.h"
 #include "Phenology/Phenology.h"
+#include "Arbitrators/Arbitrator.h"
+#include "CompositePart.h"
+#include "Population.h"
 using namespace std;
 
 SimplePart::SimplePart(ScienceAPI& api, plantInterface *p, const string &name)
@@ -69,30 +72,30 @@ string SimplePart::addPartToDesc(const string& description)
 void SimplePart::onInit1(protocol::Component*)
 //=======================================================================================
    {
-   scienceAPI.exposeFunction(addPartToVar("dlt_dm_green"), "g/m^2", addPartToDesc("Delta Weight of "), FloatFunction(&SimplePart::dltDmGreen));
-   scienceAPI.exposeFunction(addPartToVar("dlt_dm_detached"), "g/m^2", addPartToDesc("Delta Weight of detached "), FloatFunction(&SimplePart::dltDmDetached));
-   scienceAPI.exposeFunction(addPartToVar("dlt_dm_senesced"), "g/m^2", addPartToDesc("Delta Weight of senesced "), FloatFunction(&SimplePart::dltDmSenesced));
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_green"), "g/m^2", addPartToDesc("Delta Weight of "), FloatGetter(&SimplePart::dltDmGreen));
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_detached"), "g/m^2", addPartToDesc("Delta Weight of detached "), FloatGetter(&SimplePart::dltDmDetached));
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_senesced"), "g/m^2", addPartToDesc("Delta Weight of senesced "), FloatGetter(&SimplePart::dltDmSenesced));
 
-   scienceAPI.exposeFunction(addPartToVar("dlt_n_green"), "g/m^2", addPartToDesc("Delta N in "), FloatFunction(&SimplePart::dltNGreen));
-   scienceAPI.exposeFunction(addPartToVar("dlt_n_retrans"), "g/m^2", addPartToDesc("N retranslocated to/from "), FloatFunction(&SimplePart::dltNRetrans));
-   scienceAPI.exposeFunction(addPartToVar("dlt_n_detached"), "g/m^2", addPartToDesc("Delta N in detached "), FloatFunction(&SimplePart::dltNDetached));
-   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced"), "g/m^2", addPartToDesc("Delta N in senesced "), FloatFunction(&SimplePart::dltNSenesced));
-   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced_trans"), "g/m^2", addPartToDesc("N translocated to/from senesced "), FloatFunction(&SimplePart::dltNSenescedTrans));
-   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced_retrans"), "g/m^2", addPartToDesc("N retranslocated to/from senesced "), FloatFunction(&SimplePart::dltNSenescedRetrans));
-   scienceAPI.exposeFunction(addPartToVar("n_demand"), "g/m^2", addPartToDesc("N demand of "), FloatFunction(&SimplePart::nDemand));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_green"), "g/m^2", addPartToDesc("Delta N in "), FloatGetter(&SimplePart::dltNGreen));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_retrans"), "g/m^2", addPartToDesc("N retranslocated to/from "), FloatGetter(&SimplePart::dltNRetrans));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_detached"), "g/m^2", addPartToDesc("Delta N in detached "), FloatGetter(&SimplePart::dltNDetached));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced"), "g/m^2", addPartToDesc("Delta N in senesced "), FloatGetter(&SimplePart::dltNSenesced));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced_trans"), "g/m^2", addPartToDesc("N translocated to/from senesced "), FloatGetter(&SimplePart::dltNSenescedTrans));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced_retrans"), "g/m^2", addPartToDesc("N retranslocated to/from senesced "), FloatGetter(&SimplePart::dltNSenescedRetrans));
+   scienceAPI.exposeFunction(addPartToVar("n_demand"), "g/m^2", addPartToDesc("N demand of "), FloatGetter(&SimplePart::nDemand));
 
-   scienceAPI.exposeFunction(addPartToVar("dlt_p_green"), "g/m^2", addPartToDesc("Delta P in "), FloatFunction(&SimplePart::dltPGreen));
-   scienceAPI.exposeFunction(addPartToVar("dlt_p_senesced"), "g/m^2", addPartToDesc("Delta P in senesced "), FloatFunction(&SimplePart::dltPSenesced));
-   scienceAPI.exposeFunction(addPartToVar("dlt_p_detached"), "g/m^2", addPartToDesc("Delta P in detached "), FloatFunction(&SimplePart::dltPDetached));
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_green"), "g/m^2", addPartToDesc("Delta P in "), FloatGetter(&SimplePart::dltPGreen));
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_senesced"), "g/m^2", addPartToDesc("Delta P in senesced "), FloatGetter(&SimplePart::dltPSenesced));
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_detached"), "g/m^2", addPartToDesc("Delta P in detached "), FloatGetter(&SimplePart::dltPDetached));
 
    if (tempFlagToShortCircuitInit1) return;
 
 
-   scienceAPI.exposeFunction(addPartToVar("n_conc_crit"), "%", addPartToDesc("Critical N content in "), FloatFunction(&SimplePart::nConcCrit));
-   scienceAPI.exposeFunction(addPartToVar("n_conc_min"), "%", addPartToDesc("Minimum N content in "), FloatFunction(&SimplePart::nConcMin));
+   scienceAPI.exposeFunction(addPartToVar("n_conc_crit"), "%", addPartToDesc("Critical N content in "), FloatGetter(&SimplePart::nConcCrit));
+   scienceAPI.exposeFunction(addPartToVar("n_conc_min"), "%", addPartToDesc("Minimum N content in "), FloatGetter(&SimplePart::nConcMin));
 
-   scienceAPI.exposeFunction(addPartToVar("dlt_dm_retrans"), "g/m^2", addPartToDesc("DM retranslocated to/from "), FloatFunction(&SimplePart::dltDmGreenRetrans));
-   scienceAPI.exposeFunction(addPartToVar("dm_demand"), "g/m^2", addPartToDesc("DM demand of "), FloatFunction(&SimplePart::dmGreenDemand));
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_retrans"), "g/m^2", addPartToDesc("DM retranslocated to/from "), FloatGetter(&SimplePart::dltDmGreenRetrans));
+   scienceAPI.exposeFunction(addPartToVar("dm_demand"), "g/m^2", addPartToDesc("DM demand of "), FloatGetter(&SimplePart::dmGreenDemand));
    }
 
 void SimplePart::process(void)
@@ -242,7 +245,6 @@ void SimplePart::zeroDeltas(void)
 //=======================================================================================
    {
    dlt.dm_pot_rue = 0.0;
-   dlt.dm = 0.0;
    Growth.Clear();
    Senescing.Clear();
    Detaching.Clear();
@@ -401,7 +403,7 @@ void SimplePart::onEmergence()
 void SimplePart::onFlowering(void)
 //=======================================================================================
    {
-   float dm_plant = divide (Green.DM(), plant->getPlants(), 0.0);
+   float dm_plant = divide (Green.DM(), plant->population().Density(), 0.0);
    if (c.trans_frac_option==1)
       DMPlantMin = dm_plant;
    else
@@ -412,7 +414,7 @@ void SimplePart::onStartGrainFill(void)
 //=======================================================================================
 // set the minimum weight of part; used for retranslocation to grain
    {
-   float dm_plant = divide (Green.DM(), plant->getPlants(), 0.0);
+   float dm_plant = divide (Green.DM(), plant->population().Density(), 0.0);
    if (c.trans_frac_option==1)
       DMPlantMin = dm_plant * (1.0 - c.trans_frac);
    //else
@@ -423,7 +425,7 @@ void SimplePart::onStartGrainFill(void)
 void SimplePart::onKillStem(void)
 //=======================================================================================
    {
-   float dm_init = u_bound(SimplePart::c.dm_init * plant->getPlants(), SimplePart::Green.DM());
+   float dm_init = u_bound(SimplePart::c.dm_init * plant->population().Density(), SimplePart::Green.DM());
    float n_init = u_bound(dm_init * SimplePart::c.n_init_conc, SimplePart::Green.N());
    float p_init = u_bound(dm_init * SimplePart::c.p_init_conc, SimplePart::Green.P());
 
@@ -445,7 +447,7 @@ void SimplePart::morphology(void)
 //=======================================================================================
    {
    float dm_plant;               // dry matter of part (g/plant)
-   dm_plant = divide (Green.DM(), plant->getPlants(), 0.0);
+   dm_plant = divide (Green.DM(), plant->population().Density(), 0.0);
 
    if (c.height.isInitialised())
       {
@@ -494,10 +496,10 @@ void SimplePart::update(void)
    Green = Green + Retranslocation;
 
    Green = Green + Biomass(0, dlt.n_senesced_retrans, 0);
-   relativeGrowthRate = divide (Growth.DM(), plant->getDltDmGreen(), 0.0);
+   relativeGrowthRate = divide (Growth.DM(), plant->All().dltDmGreen(), 0.0);
 
 
-   float dying_fract_plants = plant->getDyingFractionPlants();
+   float dying_fract_plants = plant->population().DyingFractionPlants();
 
    float n_green_dead = Green.N() * dying_fract_plants;
    float greenN = Green.N() - n_green_dead;
@@ -635,7 +637,7 @@ void SimplePart::doNDemand1Pot(float dlt_dm             //  Whole plant the dail
 //=======================================================================================
    {
    // Estimate of dlt dm green
-   Growth = Biomass(dlt_dm_pot_rue * divide (Green.DM(), plant->getDmGreenTot(), 0.0),
+   Growth = Biomass(dlt_dm_pot_rue * divide (Green.DM(), plant->All().Green.DM(), 0.0),
                       Growth.N(), Growth.P());
 
    doNDemand1(dlt_dm, dlt_dm_pot_rue);
@@ -745,7 +747,7 @@ void SimplePart::doPDemand(void)
    float    totalPotentialGrowthRate;
 
    PDemand = 0.0;
-   totalPotentialGrowthRate = plant->getTotalPotentialGrowthRate();
+   totalPotentialGrowthRate = plant->arbitrator().TotalPotentialGrowthRate();
 
    if (c.yield_part)
       {
@@ -774,7 +776,7 @@ void SimplePart::doPDemand(void)
    // PDemand = u_bound (deficit, pDemandMax);
       }
  // FIXME - remove following 4 lines after P demand corrections above are activated
-   float rel_growth_rate = plant->getRelativeGrowthRate();
+   float rel_growth_rate = plant->arbitrator().RelativeGrowthRate();
    float p_conc_max = plant->phenology().doInterpolation(c.y_p_conc_max);
    deficit = p_conc_max * Green.DM() * (1.0 + rel_growth_rate) - Green.P();
    PDemand = l_bound(deficit, 0.0);
@@ -813,7 +815,7 @@ float SimplePart::dltDmRetranslocateSupply(float /* DemandDifferential*/)
 //=======================================================================================
    {
 //   float DMPartPot = DMGreen + dlt.dm_green_retrans;
-//   float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
+//   float DMPartAvail = DMPartPot - DMPlantMin * plant->population().Density();
 //   DMPartAvail = l_bound (DMPartAvail, 0.0);
 //   float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
 //   dlt.dm_green_retrans = - DltDmRetransPart;
@@ -928,7 +930,7 @@ void SimplePart::onHarvest_GenericAboveGroundPart( float remove_fr,
 {
    float fractToResidue = 1.0 - remove_fr;
 
-   float dm_init = u_bound (c.dm_init * plant->getPlants(), Green.DM());
+   float dm_init = u_bound (c.dm_init * plant->population().Density(), Green.DM());
    float n_init  = u_bound (  dm_init * SimplePart::c.n_init_conc, Green.N());
    float p_init  = u_bound (  dm_init * SimplePart::c.p_init_conc, Green.P());
 
@@ -986,12 +988,6 @@ float SimplePart::dltDmGreen(void)
    return (Growth.DM());
    }
 
-float SimplePart::dltDmUptake(void)
-//=======================================================================================
-   {
-   return (Growth.DM());
-   }
-
 float SimplePart::transpirationEfficiency(void)
 //=======================================================================================
    {
@@ -1002,12 +998,6 @@ float SimplePart::dltDmPotRue(void)
 //=======================================================================================
    {
    return (dlt.dm_pot_rue);
-   }
-
-float SimplePart::dltDm(void)
-//=======================================================================================
-   {
-   return (dlt.dm);
    }
 
 float SimplePart::dltDmRetranslocate(void)
@@ -1197,7 +1187,7 @@ float SimplePart::dmRetransSupply(void)
 //=======================================================================================
    {
    if (c.retrans_part)
-      return l_bound(Green.DM() - (DMPlantMin*plant->getPlants()), 0.0);
+      return l_bound(Green.DM() - (DMPlantMin*plant->population().Density()), 0.0);
    return 0.0;
    }
 
@@ -1309,7 +1299,6 @@ void SimplePart::doSWDemand(float /*SWDemandMaxFactor*/){}
 float SimplePart::SWDemand(void){return sw_demand;}
 float SimplePart::SWDemandTE(void){return sw_demand_te;}
 void SimplePart::calcDlt_pod_area (void){}   //FIXME
-void SimplePart::doBioActual (void){}
 void SimplePart::doDmDemand (float /* dlt_dm_supply_by_veg*/){}
 void SimplePart::doDmPotRUE (void){}                         // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
 void SimplePart::doGrainNumber (void){}

@@ -11,7 +11,7 @@ StageBasedInterpolationFunction::StageBasedInterpolationFunction(plantInterface&
    f.read(scienceAPI, "X"+Name+"StageCode" , "()", 1.0, 12.0
                     , "Y"+Name, "()", 0.0, 1e6);
    if (f.isInitialised())
-      scienceAPI.exposeFunction(Name, Units, Description, FloatFunction(&StageBasedInterpolationFunction::value));
+      scienceAPI.exposeFunction(Name, Units, Description, FloatGetter(&StageBasedInterpolationFunction::value));
    }
 
 

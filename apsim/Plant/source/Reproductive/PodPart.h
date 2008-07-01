@@ -83,7 +83,7 @@ class fruitPodPart : public SimplePart {
    void doDmPotRUE (void );
 
    void doSWDemand(float SWDemandMaxFactor);
-   void doBioActual (void);
+   float DMSupply(void);
    float removePodFraction(float DM);
 
    protected:

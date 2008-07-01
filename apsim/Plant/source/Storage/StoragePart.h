@@ -5,8 +5,6 @@
 class StoragePart : public SimplePart
    {
    public:
-
-      static StoragePart* construct(ScienceAPI& scienceAPI, plantInterface *p, const string &name) ;
       StoragePart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
          : SimplePart(scienceAPI, p, name) {};
       ~StoragePart() {};

@@ -155,7 +155,15 @@ bool copyDBRecord(TDataSet* source, TDataSet* destination)
       {
       destination->Append();
       for (int field = 0; field < source->FieldCount; field++)
-         destination->Fields->Fields[field] = source->Fields->Fields[field];
+         {
+         String fieldName = source->Fields->Fields[field]->FieldName;
+         try
+            {
+            destination->FieldValues[fieldName] = source->FieldValues[fieldName];
+            }
+         catch (...)
+            { }              
+         }
       destination->Post();
       return true;
       }

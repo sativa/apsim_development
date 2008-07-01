@@ -34,7 +34,7 @@ class FloretPart : public SimplePart {
    void doDmPotRUE (void );
 
    void doSWDemand(float SWDemandMaxFactor);
-   void doBioActual (void);
+   float DMSupply(void);
 
    virtual float nDeadVeg(void) {return 0;}
    virtual float pDeadVeg(void)  {return 0;}
@@ -61,7 +61,6 @@ class FloretPart : public SimplePart {
       float cY_co2_te_modifier[max_table];
       int   cNum_co2_te_modifier;
 
-      int cPartition_option;
       struct Cover
       {
          float green;

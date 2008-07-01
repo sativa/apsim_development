@@ -3,6 +3,7 @@
 #include "Phase.h"
 #include "PhotoPhase.h"
 #include "Environment.h"
+#include "Root/RootBase.h"
 
 void PhotoPhase::read()
 //=======================================================================================
@@ -59,9 +60,9 @@ float PhotoPhase::stress()
 // and calculate the 0 - 1 stress factor for phenology.
 // 1 is no stress, 0 is full stress.
    {
-   if (plant.swAvailablePotential() > 0.0 && stressFunction.isInitialised())
+   if (plant.root().swAvailablePotential() > 0.0 && stressFunction.isInitialised())
       {
-      float sw_avail_ratio = divide (plant.swAvailable(), plant.swAvailablePotential(), 1.0);
+      float sw_avail_ratio = divide (plant.root().swAvailable(), plant.root().swAvailablePotential(), 1.0);
       sw_avail_ratio = bound (sw_avail_ratio , 0.0, 1.0);
       return stressFunction.value(sw_avail_ratio);
       }

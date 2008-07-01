@@ -60,20 +60,21 @@ private:
    vector <plantThing *> myThings;
    vector <plantPart *> myParts;
 
-   Stem  *stemPart;
-   Leaf  *leafPart;
-   RootBase*  root;
+   Stem* _stem;
+   Leaf* _leaf;
+   RootBase*  _root;
    Phenology* _phenology;
-   Fixation  *fixation;
-   plantPart     *fruitPart;
-   Population population;
+   Fixation* _fixation;
+   plantPart*  _fruit;
+   Population* _population;
+   Environment* _environment;
+   Arbitrator* _arbitrator;
 
    eventObserver *sowingEventObserver;     // Bookkeeper for Sowing events
    eventObserver *emergenceEventObserver;  // Bookkeeper for Emergence events
    eventObserver *FIEventObserver;         // Bookkeeper for Floral Initiation events
    eventObserver *floweringEventObserver;  // Bookkeeper for flowering events
    eventObserver *maturityEventObserver;   // Bookkeeper for maturity events
-   Arbitrator    *arbitrator;
 
    StressDeficit swDef;
    StressDeficit nFact;
@@ -95,73 +96,59 @@ public:
    Plant(protocol::Component *P, ScienceAPI& api);
    ~Plant(void);
 
+   Environment& environment() {return *_environment;}
+   CompositePart& All() {return plant;}
+   Phenology& phenology() {return *_phenology;}
+   RootBase& root() {return *_root;}
+   Arbitrator& arbitrator() {return *_arbitrator;}
+   Population& population() {return *_population;}
+   Fixation& fixation() {return *_fixation;}
+   Leaf& leaf() {return *_leaf;}
+   Stem& stem() {return *_stem;}
+   plantPart& fruit() {return *_fruit;}
+
    void onInit1(void);
    void onInit2(void);
-   bool respondToSet(unsigned int &id, protocol::QuerySetValueData& qd) ;
-
-   void onPrepare(unsigned &, unsigned &, protocol::Variant &) ;
-   void onProcess(unsigned &, unsigned &, protocol::Variant &) ;
-   void onSow(unsigned &, unsigned &, protocol::Variant &v) ;
-   void onHarvest(unsigned &, unsigned &, protocol::Variant &v) ;
-   void onEndCrop(unsigned &, unsigned &, protocol::Variant &v) ;
-   void onKillStem(unsigned &, unsigned &, protocol::Variant &v) ;
-   void onRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v) ;
-   void onDetachCropBiomass(unsigned &, unsigned &, protocol::Variant &v) ;
-   void onEndRun(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doAutoClassChange(unsigned &, unsigned &, protocol::Variant &v) ;
+   void onPrepare();
+   void onProcess();
+   void onSow(protocol::ApsimVariant& variant);
+   void onHarvest(protocol::ApsimVariant &variant);
+   void onEndCrop() ;
+   void onKillStem(protocol::ApsimVariant &variant);
+   void onRemoveCropBiomass(protocol::RemoveCropDmType& dmRemoved);
+   void onDetachCropBiomass(float detachRate);
+   void onEndRun();
+   void onAction(const std::string& eventName);
    void onTick(unsigned &, unsigned &, protocol::Variant &v) ;
 
-   void registerClassActions(void);
-   void sendStageMessage(const char *what);
    void doPlantEvent(const string& oldStageName, const string& newStageName, bool phenologyRewound);
 
    const std::string & getCropType(void) ;
    protocol::Component *getComponent(void) ;
    std::string Name(void) {return g.module_name;}
 
-   void doDmRetranslocate (void);
-   void doNRetranslocate (int option      /* (INPUT) option number*/);
    void doNDemand (int option       /* (INPUT) option number*/);
-   void doNPartition (void);
 
    void doNDemandEstimate (int option);
    void doNSenescence (int   option/*(INPUT) option number*/);
    void plant_cleanup (void);
    void plant_update(void) ;
-   void plant_check_bounds( float  g_cover_green
-                           ,float  g_cover_sen) ;
-
-   void plant_totals(float *g_lai_max
-                     ,float  *g_n_fix_uptake
-                     ,float  *g_n_fixed_tops
-                    )  ;
    void plant_event(const std::string& newStageName);
 
    void plant_root_depth (int option /* (INPUT) option number*/);
    void doPlantRadnPartition (int option /*(INPUT) option number*/);
-   void doNPartition(float g_n_fix_pot, float &n_fix_uptake);
-
-   void doNRetranslocate(float g_grain_n_demand);
-
-   void doNSenescedRetrans (void);
-   void plant_process ( void );
-
    bool onSetPhase (protocol::QuerySetValueData &v/*(INPUT) message variant*/);
-   void plant_harvest (protocol::Variant &v/*(INPUT) message variant*/);
-   void plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/);
    void plant_dormancy (protocol::Variant &v/*(INPUT) incoming message variant*/);
-   void plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments*/);
-   void plant_kill_stem_update (protocol::Variant &v/*(INPUT) message arguments*/);
+   void plant_harvest_update (protocol::ApsimVariant &v);
    void plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved);
    void plant_zero_all_globals (void);
    void plant_zero_variables (void);
    void plant_zero_daily_variables (void);
-   void plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/);
+   void plant_start_crop(protocol::ApsimVariant& variant);
    void plant_end_crop (void);
    void plant_get_other_variables (void);
    void plant_update_other_variables (void);
    void plant_read_constants ( void );
-   void plant_prepare (void);
    void plant_read_species_const (void);
    void plant_harvest_report (void);
    bool  plant_auto_class_change (const char *action);
@@ -173,7 +160,7 @@ public:
                                        ,vector<float>  &fraction_to_residue);
 
 
-   bool set_plant_crop_class(protocol::QuerySetValueData&v);
+   void onSetCropClass(const std::string& crop_class);
 
    void get_plant_status(protocol::Component *, protocol::QueryValueData &);
    status_t Status(void) {return g.plant_status;}
@@ -183,14 +170,11 @@ public:
    void get_crop_type(protocol::Component *, protocol::QueryValueData &);
    void get_crop_class(protocol::Component *, protocol::QueryValueData &);
    void get_leaf_no(protocol::Component *, protocol::QueryValueData &);
-   pheno_stress_t getPhotoStress(void);
    float getPeswSeed(void);
    float getFaswSeed(void);
    float getLeafNo(void);
-   float getLAI(void);
    float getCumSwdefPheno(void);
    float getCumSwdefPhoto(void);
-   float getDyingFractionPlants(void);
    void get_dlt_leaf_no(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_node_no(protocol::Component *, protocol::QueryValueData &);
    void get_leaf_no_dead(protocol::Component *, protocol::QueryValueData &);
@@ -199,31 +183,6 @@ public:
    void get_width(protocol::Component *, protocol::QueryValueData &);
    void get_root_depth(protocol::Component *, protocol::QueryValueData &);
    void get_plants(protocol::Component *, protocol::QueryValueData &);
-   float getPlants(void);
-   float getCo2(void);
-   float getNodeNo(void);
-   float getDltNodeNo(void);
-   //  float getRadnInterceptedPod(void);
-   float getDltDMPotRueVeg(void);
-   //  float getDltDmVeg(void);
-   float getDmTops(void);
-   float getDltDmGreen(void);
-   float getDltDm(void);
-   float getDmVeg(void);
-   float getDmGreenStem(void);
-   float getDmGreenTot(void);
-
-   float GreenDM(void) ;
-   float GreenN(void) ;
-   float GreenP(void) ;
-   float SenescedDM(void) ;
-   float SenescedN(void) ;
-   float SenescedP(void);
-
-// FIXME - remove next line when corrections for P demand activated
-   float getRelativeGrowthRate(void);
-   float getTotalPotentialGrowthRate(void);
-   float getVpd(void);
 
    float getTempStressPhoto(void);
    float getNfactPhoto(void);
@@ -234,8 +193,6 @@ public:
    float getSwDefPheno();
    float getNFactPheno();
    float getPFactPheno();
-   float swAvailablePotential();   
-   float swAvailable();   
 
    void get_cover_tot(protocol::Component *, protocol::QueryValueData &);
    void get_lai_canopy_green(protocol::Component *, protocol::QueryValueData &);
@@ -308,7 +265,7 @@ public:
    void get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd);
 
    //Phosporousy things:
-   void doPInit(protocol::Component *systemInterface);
+   void doPInit();
    bool phosphorusAware(void)  {return pStress->isPhosphorusAware();};
    bool removeBiomassReport(void)  {return c.remove_biomass_report == "on";};
    void prepare_p(void);
@@ -318,46 +275,8 @@ public:
    void  doPRetranslocate (void);
    const Co2Modifier  *getCo2Modifier(void) {return co2Modifier;};
 
-   Environment* _environment;
-   Environment& environment() {return *_environment;}
-   Phenology& phenology() {return *_phenology;}
-
 private:
-   /* system interface: */
-   UInt2SetFnMap   IDtoSetFn;    /* setVariable */
-   UInt2StringMap  IDtoAction;   /* class actions*/
-
-   //     ================================================================
-   //     Plant
-   //     ================================================================
    void UpdateCanopy(void);
-   struct IDS {
-      // gets
-      unsigned int eo;
-
-      unsigned int parasite_c_demand;
-      unsigned int parasite_sw_demand;
-      unsigned int add_residue_p;
-      unsigned int layered_p_uptake;
-
-      // events.
-      unsigned int crop_chopped;
-   } id;
-   struct crop_chopped {
-      string crop_type;
-      vector<string> dm_type;
-      vector<float> dlt_crop_dm;
-      vector<float> dlt_dm_n;
-      vector<float> fraction_to_residue;
-   };
-   struct new_profile {
-      vector<float> dlayer;
-      vector<float> ll15_dep;
-      vector<float> dul_dep;
-      vector<float> sat_dep;
-      vector<float> sw_dep;
-      vector<float> bd;
-   };
 
    //     ================================================================
    //       plant Globals
