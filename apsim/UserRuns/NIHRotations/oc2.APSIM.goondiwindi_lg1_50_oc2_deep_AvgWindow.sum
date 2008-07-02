@@ -2625,7 +2625,7 @@ Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     0.31 (%)    extractable sw =   27.03 (mm)
 25 October 1981(Day of year=298), wheat: 
       stage 9.0 maturity
-                     biomass =         972.23 (g/m^2)   lai          =   0.326 (m^2/m^2)
+                     biomass =         972.23 (g/m^2)   lai          =   0.325 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   25.18 (mm)
 26 October 1981(Day of year=299), wheat: 
       stage 10.0 harvest_ripe
@@ -3101,7 +3101,7 @@ Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
 6 March 1984(Day of year=66), sorghum: 
      Stage 10 Maturity  DAS = 104
      		Biomass       = 845.46 		 LAI            =   0.70
-     		Stover N Conc =   2.48 		 Extractable SW = 224.60
+     		Stover N Conc =   2.48 		 Extractable SW = 224.61
 7 March 1984(Day of year=67), sorghum: 
      Stage 11 HarvestRipe  DAS = 105
      		Biomass       = 846.34 		 LAI            =   0.70
@@ -3120,7 +3120,7 @@ Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
      Stover (kg/ha)        = 4345.4 	 Grain yield (kg/ha)     = 4127.2
      Grain % water content = 13.0 		 Grain yield wet (kg/ha) = 4743.9
      Weight 1000 grains(g) = 18.3 		 Grains/m^2              = 22574.2
-     Grains/head           = 3473.0
+     Grains/head           = 3472.9
      Grain N percent    (%)     =      0.97 	 Grain N            (kg/ha) =    40.18
      Total N content    (kg/ha) =     64.78 	 Senesced N content (kg/ha) =    14.78
      Green N content    (kg/ha) =     13.19
@@ -3425,7 +3425,7 @@ Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
       flowering day          =  272                           stover (kg/ha)         =     5024.1
       maturity day           =  308                           grain yield (kg/ha)    =     2463.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2814.9
-      grain wt (g)           =    0.028                       grains/m^2             =     8739.1
+      grain wt (g)           =    0.028                       grains/m^2             =     8739.0
       grains/plant           =   87.4                         maximum lai            =      3.344
       total above ground biomass (kg/ha)    =     7487.1
       live above ground biomass (kg/ha)     =     7487.1
@@ -4675,7 +4675,7 @@ Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
      		Stover N Conc =   5.97 		 Extractable SW = 302.63
 3 March 1996(Day of year=63), sorghum: 
      Stage 9 EndGrainFill  DAS = 102
-     		Biomass       = 1032.37 		 LAI            =   0.87
+     		Biomass       = 1032.36 		 LAI            =   0.87
      		Stover N Conc =   2.83 		 Extractable SW = 208.39
 5 March 1996(Day of year=65), sorghum: 
      Stage 10 Maturity  DAS = 104
@@ -4683,7 +4683,7 @@ Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
      		Stover N Conc =   2.80 		 Extractable SW = 206.00
 6 March 1996(Day of year=66), sorghum: 
      Stage 11 HarvestRipe  DAS = 105
-     		Biomass       = 1034.68 		 LAI            =   0.85
+     		Biomass       = 1034.67 		 LAI            =   0.85
      		Stover N Conc =   2.79 		 Extractable SW = 204.01
 7 March 1996(Day of year=67), manager: 
      Manager sending message :- sorghum harvest
@@ -4722,7 +4722,7 @@ Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- sorghum end_crop
      Crop ended.
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               5106.35		 2115.63
+                         DM (kg/ha) =               5106.34		 2115.63
                          N  (kg/ha) =                 27.87		    3.82
                          P  (kg/ha) =                  0.00		    0.00
 20 May 1996(Day of year=141), manager: 

@@ -1003,7 +1003,7 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 28.50000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 99.52209
+     Manager creating a new local real variable : nitrogen = 99.52210
      Manager creating a new local real variable : availablewater = 35.52014
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1135,11 +1135,11 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
                      stover N conc =     5.83 (%)    extractable sw =   17.15 (mm)
 13 August 2006(Day of year=225), Wheat: 
       stage 5.0 floral_initiation
-                     biomass =         218.55 (g/m^2)   lai          =   3.030 (m^2/m^2)
+                     biomass =         218.55 (g/m^2)   lai          =   3.031 (m^2/m^2)
                      stover N conc =     2.09 (%)    extractable sw =   57.49 (mm)
 25 September 2006(Day of year=268), Wheat: 
       stage 6.0 flowering
-                     biomass =         528.63 (g/m^2)   lai          =   1.271 (m^2/m^2)
+                     biomass =         528.64 (g/m^2)   lai          =   1.271 (m^2/m^2)
                      stover N conc =     0.98 (%)    extractable sw =   18.77 (mm)
 4 October 2006(Day of year=277), Wheat: 
       stage 7.0 start_grain_fill
@@ -1161,14 +1161,14 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         581.44 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    5.47 (mm)
 8 November 2006(Day of year=312), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 146.81380
+     Manager creating a new local real variable : fullprice = 146.81404
 8 November 2006(Day of year=312), Harvest: 
      Manager sending message :- wheat harvest
      
       flowering day          =  268                           stover (kg/ha)         =     4274.3
       maturity day           =  311                           grain yield (kg/ha)    =     1540.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1760.1
-      grain wt (g)           =    0.021                       grains/m^2             =     7357.6
+      grain wt (g)           =    0.021                       grains/m^2             =     7357.7
       grains/plant           =   73.6                         maximum lai            =      3.217
       total above ground biomass (kg/ha)    =     5814.4
       live above ground biomass (kg/ha)     =     5814.4

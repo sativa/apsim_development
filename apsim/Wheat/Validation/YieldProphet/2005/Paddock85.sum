@@ -1027,7 +1027,7 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager creating a new local real variable : avtemp = 29.00000
      Manager creating a new local real variable : amountwaterleft = 0.00000
      Manager creating a new local real variable : amountwaterabovecll = 0.00000
-     Manager creating a new local real variable : nitrogen = 57.59058
+     Manager creating a new local real variable : nitrogen = 57.59059
      Manager creating a new local real variable : availablewater = 41.37854
      Manager creating a new local real variable : nuptakekgha = 0.00000
      Manager creating a new local real variable : ninplant = 0.00000
@@ -1172,15 +1172,15 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
                                               added at depth   20.00 (layer   1)
 17 September 2005(Day of year=260), barley: 
       stage 5.0 floral_initiation
-                     biomass =         291.93 (g/m^2)   lai          =   4.396 (m^2/m^2)
+                     biomass =         291.94 (g/m^2)   lai          =   4.397 (m^2/m^2)
                      stover N conc =     2.26 (%)    extractable sw =   74.08 (mm)
 3 October 2005(Day of year=276), barley: 
       stage 6.0 flowering
-                     biomass =         492.39 (g/m^2)   lai          =   3.374 (m^2/m^2)
+                     biomass =         492.39 (g/m^2)   lai          =   3.375 (m^2/m^2)
                      stover N conc =     1.46 (%)    extractable sw =   47.21 (mm)
 13 October 2005(Day of year=286), barley: 
       stage 7.0 start_grain_fill
-                     biomass =         576.90 (g/m^2)   lai          =   2.201 (m^2/m^2)
+                     biomass =         576.91 (g/m^2)   lai          =   2.201 (m^2/m^2)
                      stover N conc =     1.17 (%)    extractable sw =   28.28 (mm)
 14 October 2005(Day of year=287), CanolaOilConc: 
      Manager creating a new local real variable : avg_temp = 12.00000
@@ -1198,7 +1198,7 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
                      biomass =         660.83 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =    6.90 (mm)
 12 November 2005(Day of year=316), GrossMargin: 
-     Manager creating a new local real variable : fullprice = 150.93149
+     Manager creating a new local real variable : fullprice = 150.93214
 12 November 2005(Day of year=316), Harvest: 
      Manager sending message :- barley harvest
      
@@ -1206,10 +1206,10 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
       maturity day           =  315                           grain yield (kg/ha)    =     2234.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2553.8
       grain wt (g)           =    0.036                       grains/m^2             =     6222.0
-      grains/plant           =   62.2                         maximum lai            =      4.578
+      grains/plant           =   62.2                         maximum lai            =      4.579
       total above ground biomass (kg/ha)    =     6608.3
       live above ground biomass (kg/ha)     =     6608.3
-      green above ground biomass (kg/ha)    =     4808.1
+      green above ground biomass (kg/ha)    =     4808.2
       senesced above ground biomass (kg/ha) =     1800.1
       number of leaves       =     41.7
       DM Root:Shoot ratio    =     0.19                       Harvest Index          =       0.34
@@ -1241,7 +1241,7 @@ Component     "YPCalc" = C:\development\apsim\YPCalc\lib\YPCalc.dll
      Manager sending message :- barley end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                   0.0                  1281.2
+                          DM (kg/ha) =                   0.0                  1281.3
                           N  (kg/ha) =                   0.00                   17.11
      
 13 November 2005(Day of year=317), GrossMargin: 
