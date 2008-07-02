@@ -1267,7 +1267,7 @@ Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.030709 vs n_uptake_sum =0.163118
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.030709 vs n_uptake_sum =0.163119
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1322,7 +1322,7 @@ Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.017957 vs n_uptake_sum =0.060656
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.017957 vs n_uptake_sum =0.060657
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1385,7 +1385,7 @@ Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.58 (%)    extractable sw =   39.48 (mm)
 31 October 1993(Day of year=304), wheat: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 5109.27 (kg/ha)
+     Plant death. standing above-ground dm = 5109.28 (kg/ha)
 1 November 1993(Day of year=305), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -16.737093
      **** C balance - unaccounted loss (kg/ha) =   -293.684418
@@ -1741,7 +1741,7 @@ Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     4.65 (%)    extractable sw =   30.28 (mm)
 26 October 1994(Day of year=299), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         148.74 (g/m^2)   lai          =   1.314 (m^2/m^2)
+                     biomass =         148.75 (g/m^2)   lai          =   1.314 (m^2/m^2)
                      stover N conc =     4.66 (%)    extractable sw =   28.38 (mm)
 8 November 1994(Day of year=312), operatns: 
       Sending do_end_day_output message to report3
@@ -2061,15 +2061,13 @@ Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     2.48 (%)    extractable sw =  112.80 (mm)
 29 June 1996(Day of year=181), lucerne: 
      Plant kill. 0.00% failure because of water stress.
-6 July 1996(Day of year=188), lucerne: 
-     Plant kill. 0.00% failure because of water stress.
-7 July 1996(Day of year=189), lucerne: 
-     Plant kill. 0.00% failure because of water stress.
 9 July 1996(Day of year=191), operatns: 
       Sending do_end_day_output message to report3
-11 July 1996(Day of year=193), lucerne: 
+9 July 1996(Day of year=191), lucerne: 
      Plant kill. 0.00% failure because of water stress.
-13 July 1996(Day of year=195), lucerne: 
+10 July 1996(Day of year=192), lucerne: 
+     Plant kill. 0.00% failure because of water stress.
+11 July 1996(Day of year=193), lucerne: 
      Plant kill. 0.00% failure because of water stress.
 27 July 1996(Day of year=209), lucerne: 
       stage 5.0 floral_initiation
@@ -2125,9 +2123,9 @@ Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
       stage 4.0 end_of_juvenile
                      biomass =          94.70 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.43 (%)    extractable sw =   37.22 (mm)
-25 September 1996(Day of year=269), lucerne: 
-     Plant kill. 0.00% failure because of water stress.
 30 September 1996(Day of year=274), lucerne: 
+     Plant kill. 0.00% failure because of water stress.
+6 October 1996(Day of year=280), lucerne: 
      Plant kill. 0.00% failure because of water stress.
 13 October 1996(Day of year=287), lucerne: 
       stage 5.0 floral_initiation
@@ -2185,8 +2183,6 @@ Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     4.63 (%)    extractable sw =   10.88 (mm)
 10 December 1996(Day of year=345), operatns: 
       Sending do_end_day_output message to report3
-13 December 1996(Day of year=348), lucerne: 
-     Plant kill. 0.00% failure because of water stress.
 19 December 1996(Day of year=354), lucerne: 
       stage 5.0 floral_initiation
                      biomass =         105.66 (g/m^2)   lai          =   0.533 (m^2/m^2)
@@ -2239,10 +2235,6 @@ Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
       stage 4.0 end_of_juvenile
                      biomass =          56.76 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.43 (%)    extractable sw =  104.04 (mm)
-13 March 1997(Day of year=72), lucerne: 
-     Plant kill. 0.00% failure because of water stress.
-14 March 1997(Day of year=73), lucerne: 
-     Plant kill. 0.00% failure because of water stress.
 16 March 1997(Day of year=75), lucerne: 
      Plant kill. 0.00% failure because of water stress.
 21 March 1997(Day of year=80), lucerne: 
@@ -2329,11 +2321,13 @@ Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
                           DM (kg/ha) =                 169.1                     0.0
                           N  (kg/ha) =                   9.56                    0.00
      
-6 July 1997(Day of year=187), lucerne: 
+13 July 1997(Day of year=194), lucerne: 
      Plant kill. 0.00% failure because of water stress.
-7 July 1997(Day of year=188), lucerne: 
+16 July 1997(Day of year=197), lucerne: 
      Plant kill. 0.00% failure because of water stress.
-15 July 1997(Day of year=196), lucerne: 
+17 July 1997(Day of year=198), lucerne: 
+     Plant kill. 0.00% failure because of water stress.
+19 July 1997(Day of year=200), lucerne: 
      Plant kill. 0.00% failure because of water stress.
 20 July 1997(Day of year=201), lucerne: 
      Plant kill. 0.00% failure because of water stress.
@@ -2435,7 +2429,7 @@ Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
       stage 4.0 end_of_juvenile
                      biomass =          27.46 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     3.38 (%)    extractable sw =   55.12 (mm)
-24 October 1997(Day of year=297), lucerne: 
+23 October 1997(Day of year=296), lucerne: 
      Plant kill. 0.00% failure because of water stress.
 27 October 1997(Day of year=300), operatns: 
       Sending do_end_day_output message to report3
