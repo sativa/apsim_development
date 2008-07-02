@@ -33,7 +33,7 @@ class EXPORT  ApsimRegistration
            }
         };
 
-      ~ApsimRegistration(void) {};
+      virtual ~ApsimRegistration(void) {};
 
       // ------------------------------------------------------------------
       // Return true if this registration item matches the specified parameters.

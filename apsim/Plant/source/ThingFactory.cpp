@@ -50,17 +50,17 @@ plantThing* createThing(ScienceAPI& api, plantInterface& plant, const std::strin
    else if (typeLower == "genericarbitratorxy")
       return new GenericArbitratorXY(api, plant);
    else if (typeLower == "genericleaf")
-      return new GenericLeaf(api, &plant, "leaf");
+      return new GenericLeaf(api, &plant, name);
    else if (typeLower == "cohortingleaf")
-      return new CohortingLeaf(api, &plant, "leaf");
+      return new CohortingLeaf(api, &plant, name);
    else if (typeLower == "stem")
-      return new Stem(api, &plant, "Stem");
+      return new Stem(api, &plant, name);
    else if (typeLower == "floret")
-      return new FloretPart(api, &plant, "Floret");
+      return new FloretPart(api, &plant, name);
    else if (typeLower == "cohortingfruit")
-      return new PlantFruitCohorting(api, &plant, "Fruit");
+      return new PlantFruitCohorting(api, &plant, name);
    else if (typeLower == "fruit")
-      return new PlantFruit(api, &plant, "fruit");
+      return new PlantFruit(api, &plant, name);
    else if (typeLower == "storage")
       return new StoragePart(api, &plant, name);
    throw runtime_error("Cannot create a thing of type: " + type);

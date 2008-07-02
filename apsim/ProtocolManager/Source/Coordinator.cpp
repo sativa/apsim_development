@@ -367,8 +367,8 @@ void Coordinator::onRegisterMessage(unsigned int fromID,
 
    if (registry.find((EventTypeCode)registerData.kind, fromID, registerData.ID) == NULL)
       {
-      ApsimRegistration *newReg = new
-         ForeignRegistration((EventTypeCode)registerData.kind,
+      ApsimRegistration *newReg = registry.createForeignRegistration(
+                            (EventTypeCode)registerData.kind,
                              regName,
                              asString(registerData.type),
                              registerData.destID,

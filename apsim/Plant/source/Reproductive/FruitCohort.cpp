@@ -25,13 +25,8 @@ FruitCohort::FruitCohort(ScienceAPI& scienceAPI, plantInterface *p, const string
 // destructor
 FruitCohort::~FruitCohort()
    // ====================================================================
-{
-   for (vector<plantPart *>::iterator part = myParts.begin();
-        part != myParts.end();
-        part++)
-      delete (*part);
-}
-
+   {
+   }
 
 void FruitCohort::onInit1(protocol::Component *system)
    //===========================================================================

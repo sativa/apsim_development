@@ -16,14 +16,45 @@ public:                                             // member functions
 #else
    ~CompositePart();
 #endif
-
+   bool deleteChildren;
 
    void createParts();
    plantThing* get(const std::string& name);
    plantThing* getOptional(const std::string& name);
+   plantPart* getPart(const std::string& name);
+   std::vector<plantPart*> getParts(const std::vector<std::string>& names);
 
+   std::vector<plantPart*> parts() {return myParts;}
    void add(plantPart* part);
+   void addThing(plantThing* thing);
    plantPart& find(const std::string& name);
+
+   template <class T>
+   T findByTypeOptional()
+      {
+      //===========================================================================
+      // Find a child part. Returns NULL if not found.
+      //===========================================================================
+      for (unsigned p = 0; p != things.size(); p++)
+         {
+         T child = dynamic_cast<T> (things[p]);
+         if (child != NULL)
+            return child;
+         }
+      return NULL;
+      }
+
+   template <class T>
+   T findByType(const std::string& type)
+      {
+      //===========================================================================
+      // Find a child part. Will throw if not found.
+      //===========================================================================
+      T child = findByTypeOptional<T>();
+      if (child == NULL)
+         throw runtime_error("Cannot find part with type: " + type);
+      return child;
+      }
 
       // plant
    virtual void prepare(void);
@@ -113,11 +144,17 @@ public:                                             // member functions
    virtual void get_p_demand(vector<float> &p_demand);
    void doRadnPartition();
    virtual void zeroDltDmGreen(void);
-
-protected:
    virtual void readConstants (protocol::Component *, const string &);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
    virtual void readCultivarParameters (protocol::Component *, const string &);
+   virtual void zeroAllGlobals(void);
+   virtual void zeroDeltas(void);
+   virtual float dmGreenStressDeterminant(void);
+   virtual float pGreenStressDeterminant(void);
+   virtual float pMaxPotStressDeterminant(void);
+   virtual float pMinPotStressDeterminant(void);
+
+protected:
    virtual void doProcessBioDemand(void);
    virtual void onEmergence();
    virtual void get_dlt_dm_senesced(vector<float> &);
@@ -131,8 +168,6 @@ protected:
    virtual void doGrainNumber (void);
 
 
-   virtual void zeroAllGlobals(void);
-   virtual void zeroDeltas(void);
 
 
    virtual float coverTotal(void) ;
@@ -192,11 +227,6 @@ protected:
 
    virtual bool isYieldPart(void);
    virtual bool isRetransPart(void);
-
-   virtual float dmGreenStressDeterminant(void);
-   virtual float pGreenStressDeterminant(void);
-   virtual float pMaxPotStressDeterminant(void);
-   virtual float pMinPotStressDeterminant(void);
 
    vector <plantPart *> myParts;
 

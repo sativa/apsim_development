@@ -38,11 +38,11 @@
       <Phenology/>
       <Root/>
       <GenericArbitrator/>
-      <GenericLeaf/>
+      <GenericLeaf name="leaf"/>
       <Stem/>
       <Fruit name="Pod"/>
    </options>
-   <RadiationPartitioningOrder>fruit leaf</RadiationPartitioningOrder>
+   <RadiationPartitioningOrder>pod leaf</RadiationPartitioningOrder>
     
    <crop_type>fieldpea</crop_type>
    <default_crop_class>plant</default_crop_class>
@@ -109,7 +109,7 @@
       <class_action>harvest</class_action>
       <class_change>unchanged</class_change>
       <partition_option>1</partition_option>
-      <partitionparts>root  fruit  leaf stem</partitionparts>
+      <partitionparts>root  pod    leaf stem</partitionparts>
       <partitionrules>magic demand frac remainder</partitionrules>
       <n_uptake_option>1</n_uptake_option>
       <leaf_no_pot_option>1</leaf_no_pot_option>

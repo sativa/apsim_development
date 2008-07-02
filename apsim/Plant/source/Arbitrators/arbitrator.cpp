@@ -76,44 +76,29 @@ float Arbitrator::TotalPotentialGrowthRate(void)
    return (1.0 + ratioRootShoot()) * plant.All().dltDmPotRue();
    }
 
-void Arbitrator::doNRetranslocate(vector<plantPart*>& allParts,
-                                  plantPart* fruitPart)
+void Arbitrator::doNRetranslocate(plantPart* fruitPart)
    {
    //=======================================================================================
    // Do Plant Nitrogen Retranslocation
    if (n_retrans_option == 1)
       {
-      doNRetranslocate(allParts, fruitPart->nDemandGrain());
+      doNRetranslocate(fruitPart->nDemandGrain());
       }
    else if (n_retrans_option == 2)
       {
-      doNRetranslocate(allParts, fruitPart->nDemandGrain2());  //FIXME
+      doNRetranslocate(fruitPart->nDemandGrain2());  //FIXME
       }
    }
 
-
-
-void Arbitrator::doNRetranslocate(vector<plantPart*>& allParts,
-                                  float g_grain_n_demand)
+void Arbitrator::doNRetranslocate(float g_grain_n_demand)
    {
    // Calculate the nitrogen retranslocation from the various plant parts
    // to the grain.
-
-   const float  tolerence = 0.001 ;
-   vector<plantPart*>::iterator part;            // plant part
 
    //! available N does not include roots or grain
    //! this should not presume roots and grain are 0.
    // grain N potential (supply)
    plant.Tops().doNRetranslocate(plant.Tops().availableRetranslocateN(), g_grain_n_demand);
-
-   // check that we got (some of) the maths right.
-   for (part = allParts.begin(); part != allParts.end(); part++)
-      {
-      bound_check_real_var (scienceAPI,fabs((*part)->dltNRetransOut())
-                          , 0.0, (*part)->availableRetranslocateN() + tolerence
-                          , (string("dlt_N_retrans(") + (*part)->name() + string(")")).c_str() );
-      }
    }
 
 void Arbitrator::doNPartition(float g_n_fix_pot, float nDemandTotal, float& nFixUptake)

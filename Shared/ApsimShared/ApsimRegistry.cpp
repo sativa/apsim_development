@@ -37,6 +37,21 @@ void ApsimRegistry::reset(void)
    taintedComponents.empty();
    }
 
+// Create a native registration.
+ApsimRegistration* ApsimRegistry::createNativeRegistration
+      (EventTypeCode kind, const std::string& regName, const std::string& ddml,
+       int destinationComponentID, int componentID)
+   {
+   return new NativeRegistration(kind, regName, ddml, destinationComponentID, componentID);
+   }
+
+// Create a foreign registration.
+ApsimRegistration* ApsimRegistry::createForeignRegistration
+      (EventTypeCode kind, const std::string& regName, const std::string& ddml,
+       int destinationComponentID, int componentID, unsigned foreignID)
+   {
+   return new ForeignRegistration(kind, regName, ddml, destinationComponentID, componentID, foreignID);
+   }
 
 // Add a registration if not already present
 // fixme - we really need to rethink this!!
@@ -188,6 +203,7 @@ void ApsimRegistry::erase(EventTypeCode type, int owner, unsigned int regID)
             registrations.erase(i);
             //delete reg;
             found = true;
+            break;
             }
       }      
    }

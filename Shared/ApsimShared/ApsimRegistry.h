@@ -29,6 +29,14 @@ class EXPORT ApsimRegistry
          };
       ~ApsimRegistry();
 
+      ApsimRegistration* createNativeRegistration
+            (EventTypeCode kind, const std::string& regName, const std::string& ddml,
+             int destinationComponentID, int componentID);
+
+      ApsimRegistration* createForeignRegistration
+            (EventTypeCode kind, const std::string& regName, const std::string& ddml,
+             int destinationComponentID, int componentID, unsigned foreignID);
+
       unsigned int add(ApsimRegistration *);
 
       void erase(EventTypeCode type, int owner, unsigned int regID);

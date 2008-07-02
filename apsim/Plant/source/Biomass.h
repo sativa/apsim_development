@@ -5,6 +5,7 @@ class Biomass
    public:
       Biomass();
       Biomass(float DM, float N, float P); 
+      virtual ~Biomass() {}
       virtual void Clear();
       virtual float DM() const {return privateDM;}
       virtual float N()  const {return privateN;}

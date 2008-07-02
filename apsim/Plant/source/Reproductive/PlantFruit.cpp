@@ -17,9 +17,6 @@ PlantFruit::PlantFruit(ScienceAPI& scienceAPI, plantInterface *p, const string &
 // destructor
 PlantFruit::~PlantFruit()
 {
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      delete (*part);
 }
 
 ostream &operator<<(ostream &output, const PlantFruit /*&pool*/)
