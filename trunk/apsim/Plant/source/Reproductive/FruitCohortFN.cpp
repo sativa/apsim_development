@@ -26,10 +26,6 @@ FruitCohortFN::FruitCohortFN(ScienceAPI& scienceAPI, plantInterface *p, const st
 FruitCohortFN::~FruitCohortFN()
    // ====================================================================
 {
-   for (vector<plantPart *>::iterator part = myParts.begin();
-        part != myParts.end();
-        part++)
-      delete (*part);
       delete fruitPhenology;
 }
 

@@ -13,6 +13,7 @@ class Message;
 class IMessageHook
    {
    public:
+      virtual ~IMessageHook() {}
       virtual void callback(const std::string& toName,
                             const protocol::Message* message) = 0;
    };

@@ -31,14 +31,14 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="ComponentInterface.bpf"/>
-    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;$(BCB)\include;$(BCB)\include\vcl;..\..\Shared;$(BCB)\components\boost"/>
-    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="..\ApsimShared;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;$(BCB)\include;$(BCB)\include\vcl;..\..\Shared;$(BCB)\components\boost"/>
+    <LIBPATH value="..\ApsimShared;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -vGc -vGt -vGd -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- 
-      -k -y -v -vi- -tWD -tWM -c"/>
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
+      -tWD -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zi"/>
@@ -48,7 +48,7 @@
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -108,17 +108,19 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=5
-Item0=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;..\..\Shared;$(BCB)\components\boost
-Item1=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item4=$(BCB)\include;$(BCB)\include\vcl
+Count=6
+Item0=..\ApsimShared;C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;..\..\Shared;$(BCB)\components\boost
+Item1=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;..\..\Shared;$(BCB)\components\boost
+Item2=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=2
-Item0=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\lib\obj;$(BCB)\lib
-Item1=$(BCB)\lib\obj;$(BCB)\lib
+Count=3
+Item0=..\ApsimShared;C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\lib\obj;$(BCB)\lib
+Item1=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\lib\obj;$(BCB)\lib
+Item2=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -155,12 +157,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-LinkCGLIB=1
-
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
+LinkCGLIB=0
 
 [Linker]
 LibPrefix=

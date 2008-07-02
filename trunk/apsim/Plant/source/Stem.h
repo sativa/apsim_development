@@ -1,5 +1,5 @@
-#ifndef StemPartH
-#define StemPartH
+#ifndef StemH
+#define StemH
 
 
 class Stem : public SimplePart

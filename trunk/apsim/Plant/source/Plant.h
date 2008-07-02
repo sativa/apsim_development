@@ -57,9 +57,6 @@ private:
    CompositePart plant;
    CompositePart tops;
 
-   vector <plantThing *> myThings;
-   vector <plantPart *> myParts;
-
    Stem* _stem;
    Leaf* _leaf;
    RootBase*  _root;
@@ -148,7 +145,6 @@ public:
    void plant_end_crop (void);
    void plant_get_other_variables (void);
    void plant_update_other_variables (void);
-   void plant_read_constants ( void );
    void plant_read_species_const (void);
    void plant_harvest_report (void);
    bool  plant_auto_class_change (const char *action);

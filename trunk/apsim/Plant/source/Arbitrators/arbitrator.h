@@ -9,7 +9,7 @@ class Arbitrator : public plantThing
    private:
       int n_retrans_option;
       float _DMSupply;
-      void doNRetranslocate(vector<plantPart*>& allParts, float g_grain_n_demand);
+      void doNRetranslocate(float g_grain_n_demand);
 
    protected:
       plantInterface& plant;
@@ -26,11 +26,12 @@ class Arbitrator : public plantThing
       void partitionDM();
       void doDmRetranslocate(plantPart* stemPart, plantPart* leafPart,
                                      plantPart* fruitPart);
-      void doNRetranslocate(vector<plantPart*>& allParts,
-                                    plantPart* fruitPart);
+      void doNRetranslocate(plantPart* fruitPart);
       void doNPartition(float g_n_fix_pot, float nDemandTotal, float& nFixUptake);
-      void doNSenescedRetrans(plantPart* leafPart);
-
+
+      void doNSenescedRetrans(plantPart* leafPart);
+
+
 
       float DMSupply() {return _DMSupply;}
       float RelativeGrowthRate(void);

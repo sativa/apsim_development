@@ -326,8 +326,7 @@ unsigned Component::addRegistration(EventTypeCode kind,
    {
    ApsimRegistry &registry = ApsimRegistry::getApsimRegistry();
 
-   ApsimRegistration *newReg =
-      new NativeRegistration(kind, regName, ddml, destinationComponentID, componentID);
+   ApsimRegistration *newReg = registry.createNativeRegistration(kind, regName, ddml, destinationComponentID, componentID);
 
    unsigned int regID = registry.add(newReg);
 

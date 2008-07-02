@@ -21,9 +21,6 @@ PlantFruitCohorting::PlantFruitCohorting(ScienceAPI& scienceAPI, plantInterface 
 // destructor
 PlantFruitCohorting::~PlantFruitCohorting()
 {
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      delete (*part);
 }
 
 ostream &operator<<(ostream &output, const PlantFruitCohorting /*&pool*/)

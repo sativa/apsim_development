@@ -11,11 +11,11 @@
       <Zadok/>
       <root/>
       <GenericArbitratorXY/>
-      <GenericLeaf/>
+      <GenericLeaf name="leaf"/>
       <Stem/>
       <Fruit name="Head"/>
    </options>
-   <RadiationPartitioningOrder>fruit leaf</RadiationPartitioningOrder>
+   <RadiationPartitioningOrder>head leaf</RadiationPartitioningOrder>
     
    <crop_type>barley</crop_type>
    <default_crop_class>plant</default_crop_class>
@@ -81,7 +81,7 @@
    <stress_reporting>end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill</stress_reporting>
    <plant>
       <partition_option>2</partition_option>
-      <partitionparts>root  fruit  leaf stem</partitionparts>
+      <partitionparts>root  head  leaf stem</partitionparts>
       <partitionrules>magic demand frac remainder</partitionrules>
    <n_retrans_option>2</n_retrans_option>
       <n_retrans_fraction description="0.33">1.0 </n_retrans_fraction>

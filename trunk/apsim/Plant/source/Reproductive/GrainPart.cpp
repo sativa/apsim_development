@@ -18,9 +18,6 @@ fruitGrainPart::fruitGrainPart(ScienceAPI& scienceAPI, plantInterface *p, const 
 // destructor
 fruitGrainPart::~fruitGrainPart()
 {
-   if (oilPart) delete oilPart;
-   if (mealPart) delete mealPart;
-
 }
 
 

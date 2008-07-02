@@ -15,12 +15,20 @@ CompositePart::CompositePart(ScienceAPI& scienceAPI, plantInterface *p, const st
                *new CompositePool(*p, scienceAPI, "Green", name),
                *new CompositePool(*p, scienceAPI, "Senesced", name))
    {
+   deleteChildren = true;
    }
 
 // destructor
 CompositePart::~CompositePart()
-{
-}
+   {
+   if (deleteChildren)
+      {
+      for (vector<plantThing *>::iterator t = things.begin();
+           t != things.end();
+           t++)
+         delete (*t);
+      }
+   }
 
 ostream &operator<<(ostream &output, const CompositePart /*&pool*/)
 {
@@ -66,8 +74,6 @@ void CompositePart::onInit1(protocol::Component *system)
    {
    plantPart::onInit1(system);
 
-
-   vector <plantPart *>::iterator part;
    if (myName == "")  // If you don't have this then we get a TopsSWDemand - not needed.
       {
       scienceAPI.exposeFunction("sw_demand", "mm",  "Demand for soil water", FloatGetter(&CompositePart::SWDemand));
@@ -76,10 +82,8 @@ void CompositePart::onInit1(protocol::Component *system)
       scienceAPI.exposeFunction("cover_green", "",  "Green cover", FloatGetter(&CompositePart::coverGreen));
       }
 
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->onInit1(system);
-
-
+   for (unsigned i = 0; i != things.size(); i++)
+      things[i]->onInit1(system);
    }
 
 
@@ -91,15 +95,32 @@ plantThing* CompositePart::get(const std::string& name)
       throw runtime_error("Cannot find a child called: " + name);
    return *i;
    }
+
 plantThing* CompositePart::getOptional(const std::string& name)
    {
    vector<plantThing*>::iterator i = find_if(things.begin(), things.end(),
                                              PEqualToName<plantThing>(name));
    if (i == things.end())
       return NULL;
-   return *i;                        
+   return *i;
    }
 
+plantPart* CompositePart::getPart(const std::string& name)
+   {
+   vector<plantPart*>::iterator i = find_if(myParts.begin(), myParts.end(),
+                                             PEqualToName<plantPart>(name));
+   if (i == myParts.end())
+      throw runtime_error("Cannot find a part called: " + name);
+   return *i;
+   }
+
+std::vector<plantPart*> CompositePart::getParts(const std::vector<std::string>& names)
+   {
+   vector<plantPart*> parts;
+   for (unsigned i = 0; i != names.size(); i++)
+      parts.push_back(getPart(names[i]));
+   return parts;
+   }
 
 void CompositePart::createParts()
    {
@@ -112,17 +133,23 @@ void CompositePart::createParts()
    for (unsigned i = 0; i != types.size(); i++)
       {
       vector<string> names;
-      //scienceAPI.readFiltered("initdata/options/" + types[i] + "/name", names);
+      scienceAPI.readFiltered("initdata/options/" + types[i] + "/name", names);
       if (names.size() == 0)
          names.push_back(types[i]);
 
-      things.push_back(createThing(scienceAPI, *plant, types[i], names[0]));
+      plantThing* thing = createThing(scienceAPI, *plant, types[i], names[0]);
+      plantPart* part = dynamic_cast<plantPart*> (thing);
+      if (part != NULL)
+         add(part);
+      else
+         things.push_back(thing);
       }
    }
 void CompositePart::add(plantPart* part)
    //===========================================================================
    {
    myParts.push_back(part);
+   things.push_back(part);
 
    // Add this part's pools to green and senesced composite pools
    CompositePool& GreenPool = (CompositePool&) Green;
@@ -137,6 +164,10 @@ void CompositePart::add(plantPart* part)
 
    GrainPool.AddPool(part->Grain);
    GrainTotalPool.AddPool(part->GrainTotal);
+   }
+void CompositePart::addThing(plantThing* thing)
+   {
+   things.push_back(thing);
    }
 
 float CompositePart::nConcCrit()
@@ -529,11 +560,10 @@ void CompositePart::doGrainNumber (void)
 
 void CompositePart::readCultivarParameters (protocol::Component *system, const string &cultivar)
    //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->readCultivarParameters(system, cultivar);
-}
+   {
+   for (unsigned i = 0; i != things.size(); i++)
+      things[i]->readCultivarParameters(system, cultivar);
+   }
 
 void CompositePart::writeCultivarInfo (protocol::Component *system)
    //===========================================================================
@@ -554,19 +584,17 @@ void CompositePart::morphology(void)
 
 void CompositePart::zeroAllGlobals(void)
    //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->zeroAllGlobals();
-}
+   {
+   for (unsigned i = 0; i != things.size(); i++)
+      things[i]->zeroAllGlobals();
+   }
 
 void CompositePart::zeroDeltas(void)
    //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->zeroDeltas();
-}
+   {
+   for (unsigned i = 0; i != things.size(); i++)
+      things[i]->zeroDeltas();
+   }
 
 void CompositePart::zeroDltDmGreen(void)
    //===========================================================================
@@ -670,12 +698,11 @@ void CompositePart::onEmergence()
       (*part)->onEmergence();
    }
 
-void CompositePart::onPlantEvent(const string &event)
+void CompositePart::onPlantEvent(const string &newPhaseName)
 //=======================================================================================
    {
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->onPlantEvent(event);
+   for (unsigned i = 0; i!= things.size(); i++)
+      things[i]->onPlantEvent(newPhaseName);
    }
 
 void CompositePart::onKillStem(void)
@@ -705,19 +732,17 @@ void CompositePart::onEndCrop(vector<string> &dm_type,
 
 void CompositePart::readConstants(protocol::Component *system, const string &section)
    //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->readConstants(system, section);
-}
+   {
+   for (unsigned i = 0; i != things.size(); i++)
+      things[i]->readConstants(system, section);
+   }
 
 void CompositePart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
    //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->readSpeciesParameters(system, sections);
-}
+   {
+   for (unsigned i = 0; i != things.size(); i++)
+      things[i]->readSpeciesParameters(system, sections);
+   }
 
 float CompositePart::dltDmGreen(void)
    //===========================================================================
@@ -1205,7 +1230,7 @@ void CompositePart::doNFixRetranslocate(float NFix, float NDemandDifferentialTot
 void CompositePart::doNRetranslocate( float N_supply, float g_grain_n_demand)
    //============================================================================
    //     Calculate the nitrogen retranslocation from the various plant parts to the grain.
-{
+   {
 
    // available N does not include grain
    // this should not presume grain is 0.
@@ -1213,11 +1238,17 @@ void CompositePart::doNRetranslocate( float N_supply, float g_grain_n_demand)
    // get actual grain N uptake by retransolcation
    // limit retranslocation to total available N
 
+   const float  tolerence = 0.001 ;
    for (vector <plantPart *>::iterator part = myParts.begin();
         part != myParts.end();
         part++)
+      {
       (*part)->doNRetranslocate(N_supply, g_grain_n_demand);           //FIXME - divy up?
-}
+      bound_check_real_var (scienceAPI,fabs((*part)->dltNRetransOut())
+                          , 0.0, (*part)->availableRetranslocateN() + tolerence
+                          , (string("dlt_N_retrans(") + (*part)->name() + string(")")).c_str() );
+      }
+   }
 
 void CompositePart::doNDemand1(float dlt_dm             // (INPUT)  Whole plant the daily biomass production (g/m^2)
                             , float dlt_dm_pot_rue)  // (INPUT)  Whole plant potential dry matter production (g/m^2)

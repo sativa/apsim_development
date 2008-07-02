@@ -1,10 +1,12 @@
-#include "StdPlant.h"
+#include "StdPlant.h" 
 
 #include "Plant.h"
 #include "CompositePart.h"
 #include "Phenology/Phenology.h"
 #include "Leaf/Leaf.h"
 #include "Reproductive/PlantFruit.h"
+#include "Reproductive/FloretPart.h"
+#include "Reproductive/PlantFruitCohorting.h"
 #include "Stem.h"
 #include "Leaf/Leaf.h"
 #include "Reproductive/PodPart.h"
@@ -41,42 +43,26 @@ Plant::Plant(protocol::Component *P, ScienceAPI& api)
    scienceAPI.setClass2(c.default_crop_class);
 
    plant.createParts();
-   _environment  = dynamic_cast<Environment*> (plant.get("environment"));
-   _population   = dynamic_cast<Population*>  (plant.get("population"));
-   _phenology    = dynamic_cast<Phenology*>   (plant.get("phenology"));
-   _root         = dynamic_cast<RootBase*>    (plant.get("root"));
-   _fixation     = dynamic_cast<Fixation*>    (plant.getOptional("fixation"));
-   _arbitrator   = dynamic_cast<Arbitrator*>  (plant.get("arbitrator"));
-   _leaf         = dynamic_cast<Leaf*>        (plant.get("leaf"));
-   _stem         = dynamic_cast<Stem*>        (plant.get("stem"));
-   _fruit        = dynamic_cast<plantPart*>   (plant.get("fruit"));
+   _environment  = plant.findByType<Environment*>("environment");
+   _population   = plant.findByType<Population*>("population");
+   _phenology    = plant.findByType<Phenology*>("phenology");
+   _root         = plant.findByType<RootBase*>("root");
+   _fixation     = plant.findByTypeOptional<Fixation*>();
+   _arbitrator   = plant.findByType<Arbitrator*>("arbitrator");
+   _leaf         = plant.findByType<Leaf*>("leaf");
+   _stem         = plant.findByType<Stem*>("stem");
+   // DPH: Need to sort this fruit stuff out.
+   // We need a common base class for all fruit objects.
+   _fruit        = plant.findByTypeOptional<PlantFruit*>();
+   if (_fruit == NULL)
+      _fruit     = plant.findByTypeOptional<FloretPart*>();
+   if (_fruit == NULL)
+      _fruit     = plant.findByType<PlantFruitCohorting*>("fruit");
 
-    myThings.push_back(_population);
-    myThings.push_back(_phenology);
-    myThings.push_back(_root);
-    myThings.push_back(_arbitrator);
-    myThings.push_back(_leaf);
-    myThings.push_back(_stem);
-    myThings.push_back(_fruit);
-    myParts.push_back(_root);
-    myParts.push_back(_leaf);
-    myParts.push_back(_stem);
-    myParts.push_back(_fruit);
-    plant.add(_root);
-    plant.add(_leaf);
-    plant.add(_stem);
-    plant.add(_fruit);
     tops.add(_leaf);
     tops.add(_stem);
     tops.add(_fruit);
 
-    plantPart* storage = dynamic_cast<plantPart*> (plant.getOptional("storage"));
-    if (storage != NULL)
-       {
-       myThings.push_back(storage);
-       myParts.push_back(storage);
-       plant.add(storage);
-       }
 
     nStress = new NStress(scienceAPI, parent);
     pStress = new PStress(scienceAPI, parent);
@@ -97,17 +83,11 @@ Plant::Plant(protocol::Component *P, ScienceAPI& api)
     otherObservers.addObserver(&g.cswd_pheno);
 
     plantSpatial.init(this);
+    tops.deleteChildren = false;
     }
 
 Plant::~Plant(void)
    {
-   // --------------------------------------------------------------------------
-   // Destructor
-   // --------------------------------------------------------------------------
-   for (vector<plantThing *>::iterator t = myThings.begin();
-        t != myThings.end();
-        t++)
-      delete (*t);
    }
 
 void Plant::onInit1(void)
@@ -119,22 +99,19 @@ void Plant::onInit1(void)
    plant_zero_all_globals();
 
     sowingEventObserver = new eventObserver(scienceAPI, "sowing", this);
-    myThings.push_back(sowingEventObserver);
+    plant.addThing(sowingEventObserver);
 
     emergenceEventObserver = new eventObserver(scienceAPI, "emergence", this);
-    myThings.push_back(emergenceEventObserver);
+    plant.addThing(emergenceEventObserver);
 
     FIEventObserver = new eventObserver(scienceAPI, "floral_initiation", this);
-    myThings.push_back(FIEventObserver);
+    plant.addThing(FIEventObserver);
 
     floweringEventObserver = new eventObserver(scienceAPI, "flowering", this);
-    myThings.push_back(floweringEventObserver);
+    plant.addThing(floweringEventObserver);
 
     maturityEventObserver = new eventObserver(scienceAPI, "maturity", this);
-    myThings.push_back(maturityEventObserver);
-
-   plant.tempFlagToShortCircuitInit1 = true;
-   plant.onInit1(parent);
+    plant.addThing(maturityEventObserver);
 
    scienceAPI.subscribe("prepare",    NullFunction(&Plant::onPrepare));
    scienceAPI.subscribe("process",    NullFunction(&Plant::onProcess));
@@ -282,14 +259,8 @@ void Plant::onInit1(void)
 
    scienceAPI.exposeWritable("crop_class", "", "Crop class", StringSetter(&Plant::onSetCropClass));
 
-   // now go and call onInit1 for all non part things.
-   for (vector<plantThing *>::iterator t = myThings.begin();
-        t != myThings.end();
-        t++)
-      {
-      if (dynamic_cast<plantPart*>(*t) == NULL)
-         (*t)->onInit1(parent);
-      }
+   plant.tempFlagToShortCircuitInit1 = true;
+   plant.onInit1(parent);
    }
 
 void Plant::onInit2(void)
@@ -304,7 +275,9 @@ void Plant::onInit2(void)
    tempStress->init();
    co2Modifier->init();
 
-   plant_read_constants ();
+   const char*  section_name = "constants" ;
+   scienceAPI.readOptional("crop_type", c.crop_type);
+   plant.readConstants(parent, section_name);
 
    read();
    plant_zero_variables (); // Zero global states
@@ -328,10 +301,7 @@ void Plant::doPlantEvent(const string& oldStageName,
    // --------------------------------------------------------------------------
    // Called by Phenology when the phase changes.
    // --------------------------------------------------------------------------
-   for (vector<plantThing *>::iterator t = myThings.begin();
-        t != myThings.end();
-        t++)
-      (*t)->onPlantEvent(newStageName);
+   plant.onPlantEvent(newStageName);
    if (phenologyRewound)
       plant_event(newStageName);
    else
@@ -440,7 +410,7 @@ void Plant::onProcess()
             {
             // this option requires retrans to happen before working out n demand from soil
             // NOTE: two processes are linked.
-            arbitrator().doNRetranslocate(myParts, &fruit());
+            arbitrator().doNRetranslocate(&fruit());
             doNDemand (c.n_retrans_option);
             }
          else
@@ -458,7 +428,7 @@ void Plant::onProcess()
          doPPartition();
 
          if (c.n_retrans_option==2)  // this option requires soil uptake to satisfy grain n before retranslocation
-            arbitrator().doNRetranslocate(myParts, &fruit());
+            arbitrator().doNRetranslocate(&fruit());
 
          doPRetranslocate();
          population().PlantDeath();
@@ -1150,10 +1120,7 @@ void Plant::plant_zero_variables (void)
 
     g.plant_status_out_today = false;
 
-   for (vector<plantThing *>::iterator t = myThings.begin();
-        t != myThings.end();
-        t++)
-       (*t)->zeroAllGlobals();
+    plant.zeroAllGlobals();
 
     plantSpatial.zeroAllGlobals();
 
@@ -1174,13 +1141,10 @@ void Plant::plant_zero_variables (void)
     }
 
 void Plant::plant_zero_daily_variables (void)
-    {
-   for (vector<plantThing *>::iterator t = myThings.begin();
-        t != myThings.end();
-        t++)
-       (*t)->zeroDeltas();
-    g.ext_n_demand             = 0.0;
-    }
+   {
+   plant.zeroDeltas();
+   g.ext_n_demand = 0.0;
+   }
 
 //+  Purpose
 //       Start crop using parameters specified in passed record
@@ -1261,8 +1225,7 @@ void Plant::plant_start_crop(protocol::ApsimVariant& incomingApsimVariant)
 
            // Bang.
            g.plant_status = alive;
-           for (vector<plantThing *>::iterator t = myThings.begin(); t != myThings.end(); t++)
-             (*t)->onPlantEvent("sowing");
+           plant.onPlantEvent("sowing");
 
            parent->writeString ("");
            parent->writeString ("                 Crop Sowing Data");
@@ -1302,17 +1265,12 @@ void Plant::plant_start_crop(protocol::ApsimVariant& incomingApsimVariant)
 void Plant::read(void)
    {
    plant_read_species_const ();
-    for (vector<plantThing *>::iterator t = myThings.begin();
-         t != myThings.end();
-         t++)
-       {
-       (*t)->readCultivarParameters(parent, g.cultivar);
-       }
+   plant.readCultivarParameters(parent, g.cultivar);
 
    if (!scienceAPI.readOptional("eo_crop_factor", p.eo_crop_factor, 0.0f, 100.0f))
       p.eo_crop_factor = c.eo_crop_factor_default;
    scienceAPI.readOptional("remove_biomass_report", c.remove_biomass_report);
-
+                      
    phenology().read();
    root().read();
    }
@@ -1396,8 +1354,7 @@ void Plant::plant_end_crop (void)
 
         parent->writeString (" ");
 
-        for (vector<plantThing *>::iterator t = myThings.begin(); t != myThings.end(); t++)
-           (*t)->onPlantEvent("end_crop");
+        plant.onPlantEvent("end_crop");
 
         UpdateCanopy();
 
@@ -1473,21 +1430,6 @@ void Plant::UpdateCanopy()
 
    }
 
-void Plant::plant_read_constants ( void )
-//=======================================================================================
-// Crop initialisation - reads constants from constants file
-    {
-    const char*  section_name = "constants" ;
-
-    scienceAPI.readOptional("crop_type", c.crop_type);
-
-    for (vector<plantThing *>::iterator t = myThings.begin();
-         t != myThings.end();
-         t++)
-      (*t)->readConstants(parent, section_name);
-    }
-
-
 //+  Purpose
 //       Species initialisation - reads constants from constants file
 void Plant::plant_read_species_const (void)
@@ -1511,11 +1453,7 @@ void Plant::plant_read_species_const (void)
     scienceAPI.read("class_change", scratch);
     Split_string(scratch, " ", c.class_change);
 
-    for (vector<plantThing *>::iterator t = myThings.begin();
-        t != myThings.end();
-        t++)
-      (*t)->readSpeciesParameters(parent, search_order);
-
+    plant.readSpeciesParameters(parent, search_order);
     plantSpatial.read(scienceAPI);
 
     scienceAPI.read("n_fix_rate", c.n_fix_rate, 0.0, 1.0);
