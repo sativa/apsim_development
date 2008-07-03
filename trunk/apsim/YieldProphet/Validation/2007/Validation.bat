@@ -6,18 +6,20 @@ set APSROOT=%CD%\..\..\..\..\
 rem -------------------------------------------------------------------
 rem Run APSIM on all simulations.
 rem -------------------------------------------------------------------
-%APSROOT%\bin\apsrun /auto YieldProphet.apsim
+%APSROOT%\bin\apsrun /auto %HERE%\YieldProphet.apsim
 
 rem -------------------------------------------------------------------
 rem Merge all outputs files into a single file.
 rem -------------------------------------------------------------------
-cd %APSROOT%\tools\MergeOutputFiles\bin\Debug
-MergeOutputFiles %HERE%\*Yearly.out %HERE%\All.txt
+cd %APSROOT%\tools\MergeOutputFiles\bin\Release
+MergeOutputFiles %HERE%
 
 rem -------------------------------------------------------------------
 rem Clean up all unwanted files.
 rem -------------------------------------------------------------------
 cd %HERE%
+ren all.out all.txt
+
 del /Q *.sum
 del /Q *.sim
 del /Q *.out

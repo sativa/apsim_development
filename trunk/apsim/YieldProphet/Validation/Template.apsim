@@ -1,0 +1,1352 @@
+<folder version="14" name="Simulations">
+  <simulation name="YPBase">
+    <clock name="Clock" />
+    <siloinput name="Met">
+      <station_number type="text" description="station_number">77007</station_number>
+    </siloinput>
+    <patchinput name="PatchInput">
+      <filename name="filename">C:\Users\hol353\ApsimWork\YieldProphet\grower.rain</filename>
+    </patchinput>
+    <summaryfile name="SummaryFile">
+      <filename name="filename">Continuous Wheat Simulation.sum</filename>
+    </summaryfile>
+    <area name="Paddock">
+      <registrations name="global" />
+      <folder name="Management">
+        <manager name="GrossMargin">
+          <ui>
+            <category description="Cost properties" />
+            <FertiliserCost type="text" description="Cost of N fertiliser ($/ha) : ">1.2</FertiliserCost>
+            <FertiliserApplicationCost type="text" description="Cost of N application ($/ha) : ">15</FertiliserApplicationCost>
+            <WaterCost type="text" description="Cost of water ($/Ml) : ">150</WaterCost>
+            <category description="Price properties" />
+            <Price type="text" description="Price ($/t) : ">140</Price>
+            <ProteinContent type="text" description="Minimum protein for classification ($/t) : ">10.5</ProteinContent>
+            <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
+          </ui>
+          <script name="post">
+            <text><![CDATA[   ! Reset the bank to zero the day after harvest.
+   if (ResetBank = 1 or today = met_start_date) then
+      Bank = 0
+      ResetBank = 0
+      TwoTimesCost = 0              
+   endif
+
+   ! Keep track of the number of fertiliser applications.
+   if (fertilizer > 0)then
+      Cost = [FertiliserCost] * fertilizer + [FertiliserApplicationCost]
+      Bank = Bank - Cost
+      if ScenarioApplication = 'yes' then
+         TwoTimesCost = TwoTimesCost + 2 * Cost
+      endif
+   endif
+
+   ! Keep track of the number of irrigation applications.
+   if (irrig_tot > 0)then
+      Cost = [WaterCost] * (irrig_tot / 100)
+      Bank = Bank - Cost
+      if ScenarioApplication = 'yes' then
+         TwoTimesCost = TwoTimesCost + 2 * Cost
+      endif
+   endif
+
+   ! Calculate gross margin at harvest.
+   if StageName = 'harvest_ripe' or plant_status = 'dead' then
+      if (grain_protein > [ProteinContent]) then
+         FullPrice = [Price] + (grain_protein - [ProteinContent]) * 2 * [ProteinIncrement]
+      else
+         FullPrice = [Price]
+      endif
+      Bank = Bank + FullPrice * WetYield
+      ResetBank = 1
+   endif
+]]></text>
+            <event>post</event>
+          </script>
+          <script name="init">
+            <text>      Bank = 0
+      ResetBank = 0
+      TwoTimesCost = 0              
+</text>
+            <event>init</event>
+          </script>
+        </manager>
+        <manager name="Reset">
+          <ui>
+            <category description="When should a reset be done" />
+            <ResetDate type="ddmmmdate" description="Enter date of reset (dd-mmm) : ">1-apr</ResetDate>
+            <category description="Reset details" />
+            <soilmodule type="modulename" description="Name of your soil module : ">Soil</soilmodule>
+            <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">SurfaceOM</surfaceommodule>
+            <resetWater type="yesno" description="Reset soil water?">yes</resetWater>
+            <resetNitrogen type="yesno" description="Reset soil nitrogen?">yes</resetNitrogen>
+            <resetSurfaceOM type="yesno" description="Reset surface organic matter?">yes</resetSurfaceOM>
+          </ui>
+          <script name="start_of_day">
+            <text><![CDATA[   ! If the reset date is after the sow date then we want to reset on both sowing and on the reset date.
+   ! Otherwise, just reset on the reset date.
+   DoReset = 0
+   if (date('[ResetDate]')> SowDate) then
+      if (today = date('[ResetDate]') or today = SowDate) then
+         DoReset = 1
+      endif
+   elseif (today = date('[ResetDate]')) then
+         DoReset = 1
+   endif
+
+   if (DoReset = 1) then
+      resetWater = '[resetWater]'
+      resetNitrogen  = '[resetNitrogen]'
+      resetSurfaceOM = '[resetSurfaceOM]'
+      if (resetWater = 'yes') then
+          '[soilmodule] Water' reset
+      endif
+      if (resetNitrogen = 'yes') then
+          '[soilmodule] Nitrogen' reset
+      endif
+      if (resetSurfaceOM = 'yes') then
+          '[surfaceommodule]' reset
+      endif
+      act_mods reseting
+   endif
+      ]]></text>
+            <event>start_of_day</event>
+          </script>
+        </manager>
+        <manager name="Sow">
+          <ui>
+            <category description="Sowing criteria" />
+            <sowdate type="text" description="Enter sowing date (dd-mmm) : ">15-may</sowdate>
+            <category description="Sowing parameters" />
+            <crop type="crop" description="Enter name of crop to sow : ">wheat</crop>
+            <SowingDensity type="text" description="Enter sowing density  (plants/m2) : ">100</SowingDensity>
+            <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+            <cultivar type="cultivars" description="Enter cultivar : ">yitpi</cultivar>
+            <class type="classes" description="Enter crop growth class : ">plant</class>
+            <RowSpacing type="text" description="Enter row spacing (mm, m for sorghum) : ">250</RowSpacing>
+            <skiprow type="list" listvalues="solid, single, double" description="Skip row (sorghum only) : ">solid</skiprow>
+            <ftn type="text" description="Enter Fertile Tiller No. (sorghum only) : ">1</ftn>
+          </ui>
+          <script name="start_of_day">
+            <text>   CropSown  = '[crop]'
+   if (today = date('[sowdate]') then
+      sow_year = year
+      [crop] sow plants =[SowingDensity], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [RowSpacing], crop_class = [class], tiller_no_fertile = [ftn] (), skip = [skiprow]
+   endif
+               </text>
+            <event>start_of_day</event>
+          </script>
+        </manager>
+        <manager name="Sowing tillage">
+          <ui>
+            <category description="Tillage details" />
+            <surfaceommodule type="modulename" description="Module used to apply the tillage : ">SurfaceOM</surfaceommodule>
+            <tillage_type type="list" description="Tillage type : "> planter</tillage_type>
+            <tillage_depth type="text" description="User_defined depth of seedbed preparation (mm) : ">50</tillage_depth>
+            <tillage_f_incorp type="text" description="User_defined fraction of surface residues to incorporate (0-1): ">0.1</tillage_f_incorp>
+          </ui>
+          <script name="sowing">
+            <text>
+         '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
+   </text>
+            <event>sowing</event>
+          </script>
+        </manager>
+        <manager name="Harvest">
+          <ui>
+            <category description="Harvesting criteria" />
+            <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
+          </ui>
+          <script name="end_of_day">
+            <text>
+
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </text>
+            <event>end_of_day</event>
+          </script>
+        </manager>
+        <manager name="Yield moisture correction">
+          <script name="start_of_day">
+            <text>   if CropSown = 'canola' then
+      MoistureContent = 8       ! %
+   else
+      MoistureContent = 12     ! %
+   endif
+   WetYield = yield / (1 - MoistureContent/100) / 1000
+</text>
+            <event>start_of_day</event>
+          </script>
+        </manager>
+        <manager name="MildFrost">
+          <ui>
+            <category description="Condition1 properties" />
+            <VariableName1 type="text" description="Name of 1st APSIM variable to check (e.g. stage_name) : ">Z</VariableName1>
+            <LowerBound1 type="text" description="Lower bound of variable1 : ">60</LowerBound1>
+            <UpperBound1 type="text" description="Upper bound of variable1 : ">69.99</UpperBound1>
+            <category description="Condition2 properties" />
+            <VariableName2 type="text" description="Name of 2nd APSIM variable to bound check (e.g. maxt, mint, avtemp) : ">mint</VariableName2>
+            <LowerBound2 type="text" description="Lower bound of variable2 : ">0</LowerBound2>
+            <UpperBound2 type="text" description="Upper bound of variable2 : ">2</UpperBound2>
+            <category description="Event properties" />
+            <EventName type="text" description="Name of event to publish when above 2 conditions are met : ">MildFrost</EventName>
+          </ui>
+          <script name="post">
+            <text><![CDATA[
+          if ([VariableName1] >= [LowerBound1] and 
+              [VariableName1] <= [UpperBound1] and
+              [VariableName2] >= [LowerBound2] and 
+              [VariableName2] <= [UpperBound2]) then
+             act_mods [EventName]
+          endif]]></text>
+            <event>post</event>
+          </script>
+        </manager>
+        <manager name="ModerateFrost">
+          <ui>
+            <category description="Condition1 properties" />
+            <VariableName1 type="text" description="Name of 1st APSIM variable to check (e.g. stage_name) : ">Z</VariableName1>
+            <LowerBound1 type="text" description="Lower bound of variable1 : ">60</LowerBound1>
+            <UpperBound1 type="text" description="Upper bound of variable1 : ">75.99</UpperBound1>
+            <category description="Condition2 properties" />
+            <VariableName2 type="text" description="Name of 2nd APSIM variable to bound check (e.g. maxt, mint, avtemp) : ">mint</VariableName2>
+            <LowerBound2 type="text" description="Lower bound of variable2 : ">-2</LowerBound2>
+            <UpperBound2 type="text" description="Upper bound of variable2 : ">0</UpperBound2>
+            <category description="Event properties" />
+            <EventName type="text" description="Name of event to publish when above 2 conditions are met : ">ModerateFrost</EventName>
+          </ui>
+          <script name="post">
+            <text><![CDATA[
+          if ([VariableName1] >= [LowerBound1] and 
+              [VariableName1] <= [UpperBound1] and
+              [VariableName2] >= [LowerBound2] and 
+              [VariableName2] <= [UpperBound2]) then
+             act_mods [EventName]
+          endif]]></text>
+            <event>post</event>
+          </script>
+        </manager>
+        <manager name="SevereFrost">
+          <ui>
+            <category description="Condition1 properties" />
+            <VariableName1 type="text" description="Name of 1st APSIM variable to check (e.g. stage_name) : ">Z</VariableName1>
+            <LowerBound1 type="text" description="Lower bound of variable1 : ">60</LowerBound1>
+            <UpperBound1 type="text" description="Upper bound of variable1 : ">79.99</UpperBound1>
+            <category description="Condition2 properties" />
+            <VariableName2 type="text" description="Name of 2nd APSIM variable to bound check (e.g. maxt, mint, avtemp) : ">mint</VariableName2>
+            <LowerBound2 type="text" description="Lower bound of variable2 : ">-100</LowerBound2>
+            <UpperBound2 type="text" description="Upper bound of variable2 : ">-2</UpperBound2>
+            <category description="Event properties" />
+            <EventName type="text" description="Name of event to publish when above 2 conditions are met : ">SevereFrost</EventName>
+          </ui>
+          <script name="post">
+            <text><![CDATA[
+          if ([VariableName1] >= [LowerBound1] and 
+              [VariableName1] <= [UpperBound1] and
+              [VariableName2] >= [LowerBound2] and 
+              [VariableName2] <= [UpperBound2]) then
+             act_mods [EventName]
+          endif]]></text>
+            <event>post</event>
+          </script>
+        </manager>
+        <manager name="MildHeatShock">
+          <ui>
+            <category description="Condition1 properties" />
+            <VariableName1 type="text" description="Name of 1st APSIM variable to check (e.g. stage_name) : ">Z</VariableName1>
+            <LowerBound1 type="text" description="Lower bound of variable1 : ">70</LowerBound1>
+            <UpperBound1 type="text" description="Upper bound of variable1 : ">79.99</UpperBound1>
+            <category description="Condition2 properties" />
+            <VariableName2 type="text" description="Name of 2nd APSIM variable to bound check (e.g. maxt, mint, avtemp) : ">maxt</VariableName2>
+            <LowerBound2 type="text" description="Lower bound of variable2 : ">32</LowerBound2>
+            <UpperBound2 type="text" description="Upper bound of variable2 : ">34</UpperBound2>
+            <category description="Event properties" />
+            <EventName type="text" description="Name of event to publish when above 2 conditions are met : ">MildHeatShock</EventName>
+          </ui>
+          <script name="post">
+            <text><![CDATA[
+          if ([VariableName1] >= [LowerBound1] and 
+              [VariableName1] <= [UpperBound1] and
+              [VariableName2] >= [LowerBound2] and 
+              [VariableName2] <= [UpperBound2]) then
+             act_mods [EventName]
+          endif]]></text>
+            <event>post</event>
+          </script>
+        </manager>
+        <manager name="ModerateHeatShock">
+          <ui>
+            <category description="Condition1 properties" />
+            <VariableName1 type="text" description="Name of 1st APSIM variable to check (e.g. stage_name) : ">Z</VariableName1>
+            <LowerBound1 type="text" description="Lower bound of variable1 : ">70</LowerBound1>
+            <UpperBound1 type="text" description="Upper bound of variable1 : ">79.99</UpperBound1>
+            <category description="Condition2 properties" />
+            <VariableName2 type="text" description="Name of 2nd APSIM variable to bound check (e.g. maxt, mint, avtemp) : ">maxt</VariableName2>
+            <LowerBound2 type="text" description="Lower bound of variable2 : ">34</LowerBound2>
+            <UpperBound2 type="text" description="Upper bound of variable2 : ">36</UpperBound2>
+            <category description="Event properties" />
+            <EventName type="text" description="Name of event to publish when above 2 conditions are met : ">ModerateHeatShock</EventName>
+          </ui>
+          <script name="post">
+            <text><![CDATA[
+          if ([VariableName1] >= [LowerBound1] and 
+              [VariableName1] <= [UpperBound1] and
+              [VariableName2] >= [LowerBound2] and 
+              [VariableName2] <= [UpperBound2]) then
+             act_mods [EventName]
+          endif]]></text>
+            <event>post</event>
+          </script>
+        </manager>
+        <manager name="SevereHeatShock">
+          <ui>
+            <category description="Condition1 properties" />
+            <VariableName1 type="text" description="Name of 1st APSIM variable to check (e.g. stage_name) : ">Z</VariableName1>
+            <LowerBound1 type="text" description="Lower bound of variable1 : ">70</LowerBound1>
+            <UpperBound1 type="text" description="Upper bound of variable1 : ">79.99</UpperBound1>
+            <category description="Condition2 properties" />
+            <VariableName2 type="text" description="Name of 2nd APSIM variable to bound check (e.g. maxt, mint, avtemp) : ">maxt</VariableName2>
+            <LowerBound2 type="text" description="Lower bound of variable2 : ">36</LowerBound2>
+            <UpperBound2 type="text" description="Upper bound of variable2 : ">100</UpperBound2>
+            <category description="Event properties" />
+            <EventName type="text" description="Name of event to publish when above 2 conditions are met : ">SevereHeatShock</EventName>
+          </ui>
+          <script name="post">
+            <text><![CDATA[
+          if ([VariableName1] >= [LowerBound1] and 
+              [VariableName1] <= [UpperBound1] and
+              [VariableName2] >= [LowerBound2] and 
+              [VariableName2] <= [UpperBound2]) then
+             act_mods [EventName]
+          endif]]></text>
+            <event>post</event>
+          </script>
+        </manager>
+        <manager name="Fertilise">
+          <ui>
+            <category description="When should fertiliser be applied" />
+            <FertDate type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">1/1/1800</FertDate>
+            <FertDateFull type="text" description="Fertiliser date (not used)" />
+            <category description="Fertiliser application details" />
+            <FertModule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</FertModule>
+            <FertAmount type="text" description="Amount of fertiliser to apply (kg/ha) : ">0</FertAmount>
+            <FertType type="list" description="Fertiliser type : ">NO3_N</FertType>
+            <Scenario type="text" description="Is this a scenario fertiliser? :">no</Scenario>
+          </ui>
+          <script name="start_of_day">
+            <text>   if (today = date('[FertDate]') then
+      ScenarioApplication = '[Scenario]'
+      [FertModule] apply amount = [FertAmount] (kg/ha), depth = 20 (mm), type = [FertType] ()
+   endif 
+</text>
+            <event>start_of_day</event>
+          </script>
+        </manager>
+        <manager name="Irrigate">
+          <ui>
+            <category description="When should irrigation be applied" />
+            <IrrigateDate type="ddmmmdate" description="Enter irrigation date (dd-mmm) : ">1/1/1800</IrrigateDate>
+            <IrrigateDateFull type="text" description="Full irrigation date (not used) :" />
+            <category description="Irrigation application details" />
+            <IrrigateModule type="modulename" description="Module used to apply the irrigation : ">Irrigation</IrrigateModule>
+            <IrrigateAmount type="text" description="Amount of irrigation to apply (mm) : ">0</IrrigateAmount>
+            <IrrigateEfficiency type="text" description="Irrigation efficiency (0-1) : ">1</IrrigateEfficiency>
+            <Scenario type="text" description="Is this a scenario irrigation? :">no</Scenario>
+          </ui>
+          <script name="start_of_day">
+            <text>   if (today = date('[IrrigateDate]') then
+      ScenarioApplication = '[Scenario]'
+      '[IrrigateModule]' set irrigation_efficiency = [IrrigateEfficiency]
+      '[IrrigateModule]' apply amount = [IrrigateAmount] (mm)
+   endif 
+</text>
+            <event>start_of_day</event>
+          </script>
+        </manager>
+        <manager name="Tillage">
+          <ui>
+            <category description="When should tillage be done" />
+            <TillageDate type="ddmmmdate" description="Enter tillage date (dd-mmm) : ">1/1/1800</TillageDate>
+            <TillageDateFull type="text" description="Tillage date full (not used) :" />
+            <category description="Tillage application details" />
+            <Disturbance type="text" description="Disturbance :">low</Disturbance>
+            <tillage_depth type="text" description="User_defined depth of seedbed preparation (mm) : ">100</tillage_depth>
+            <Scenario type="text" description="Scenario application? (not used)" />
+          </ui>
+          <script name="start_of_day">
+            <text>   if (today = date('[TillageDate]') then
+      if ('[Disturbance]' = 'low') then
+         SurfaceOM tillage type = user_defined, f_incorp = 0.2, tillage_depth = [tillage_depth]
+      elseif ('[Disturbance]' = 'medium') then
+         SurfaceOM tillage type = user_defined, f_incorp = 0.5, tillage_depth = [tillage_depth]
+      else
+         SurfaceOM tillage type = user_defined, f_incorp = 0.8, tillage_depth = [tillage_depth]
+      endif
+   endif
+      </text>
+            <event>start_of_day</event>
+          </script>
+        </manager>
+        <manager name="Constants">
+          <script name="init">
+            <text>TodayDate = 0 
+TodayDateFull = 0
+StartSeasonDate = 0
+StartSeasonDateFull = 0
+ResetDate = 0
+ResetDateFull = 0
+SowDateFull = 0
+SowDate = 0
+</text>
+            <event>init</event>
+          </script>
+          <script name="start_of_day">
+            <text>TodayDate=date('02-Jul')
+TodayDateFull=date('02/07/2008')
+StartSeasonDate=date('01-Apr')
+StartSeasonDateFull=date('01/04/2008')
+ResetDate=date('23-May')
+ResetDateFull=date('23/05/2008')
+SowDateFull=date('06/05/2008')
+SowDate=date('06-May')
+</text>
+            <event>start_of_day</event>
+          </script>
+        </manager>
+        <manager name="Script">
+          <script name="post">
+            <text><![CDATA[   ! Work out when to start doing a daily output of variables.
+   ! = min(start season date, reset date, sow date)
+   if (StartDailyDate = 0) then
+      if (StartSeasonDateFull <= SowDateFull and StartSeasonDateFull <= ResetDateFull) then
+         StartDailyDate = StartSeasonDateFull)
+      elseif (SowDateFull <= ResetDateFull) then
+         StartDailyDate = SowDateFull
+      else
+         StartDailyDate = ResetDateFull
+      endif
+   endif
+
+   if (today >= StartDailyDate) then
+      act_mods OnDailyOutput
+
+      ! Create a variable that = 1 during the current fallow and has a value
+      ! of 0 when not in current fallow.
+      if (DaysAfterSowing > 0) then
+         CurrentCropFound = 1
+      endif
+      if (CurrentCropFound = 1 and DaysAfterSowing = 0) then
+         CurrentFallow = 1
+      endif
+
+   endif
+
+   ! -------------------------------------------------------------
+   ! Create a special decile date that starts at 
+   ! this years start of growing season date 
+   ! and steps up month at a time
+   ! -------------------------------------------------------------
+   if (today = StartSeasonDate) then
+      DecileDate = StartSeasonDateFull 
+      DoDecileOutput = 1
+   elseif (start_month = 1) then
+      DecileDate = add_months('DecileDate, 1')
+   endif
+   if (DoDecileOutput = 1 and today < StartSeasonDateFull and start_month = 1) then
+      act_mods OnDecileOutput
+   endif
+
+   ! -------------------------------------------------------------
+   ! Create 'thismonth' and 'threemonthstime'
+   ! events so that Tracker can do its future 
+   ! rain calculations
+   ! -------------------------------------------------------------
+   if (month = month(TodayDateFull)) then
+      act_mods ThisMonth
+      ThreeMonthsTimeDate = today + 90
+   endif
+   if (today = ThreeMonthsTimeDate) then
+      act_mods ThreeMonthsTime
+   endif
+
+   ! -----------------------------------------
+   ! Improved Zadok_stage
+   ! -----------------------------------------
+   if (zadok_stage < 30) then
+      Z = node_no + 8
+      if (Z > 16) then
+         Z = 16
+      endif
+   else
+      Z = zadok_stage
+   endif
+
+
+
+
+]]></text>
+            <event>post</event>
+          </script>
+          <script name="end_of_day,sowing,harvesting,reseting">
+            <text><![CDATA[   AvTemp = (maxt + mint) / 2
+   AmountWaterLeft = SwToday - CritSWToday
+   AmountWaterAboveCLL = SwToday - CLLToday
+   if (AmountWaterAboveCLL < 0) then
+      AmountWaterAboveCLL = 0
+   endif
+   Nitrogen = no3() + nh4()
+   AvailableWater = sw_dep() - ll_dep()
+   NUptakeKgHa = no3_uptake() * -1                            ! convert to positive number
+   NInPlant = (biomass_n * 10) + (RootGreenN * 10)    ! unit conversion g/m2 to kg/ha
+
+   ! convert kg/ha to t/ha & correct for 13% moisture and then take 80% of it - Hay yield.
+   HayBiomass= 0.8 * (biomass / (1 - 13/100) / 1000)    
+
+
+   if (DaysAfterSowing = 1) then
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+   endif
+   if (Z >= 11 and Zadok11Das = 0) then
+      Zadok11Das = DaysAfterSowing
+   elseif (Z >= 12 and Zadok12Das = 0) then
+      Zadok12Das = DaysAfterSowing
+   elseif (Z >= 13 and Zadok13Das = 0) then
+      Zadok13Das = DaysAfterSowing
+   elseif (Z >= 14 and Zadok14Das = 0) then
+      Zadok14Das = DaysAfterSowing
+   elseif (Z >= 15 and Zadok15Das = 0) then
+      Zadok15Das = DaysAfterSowing
+   elseif (Z >= 16 and Zadok16Das = 0) then
+      Zadok16Das = DaysAfterSowing
+   elseif (Z >= 30 and Zadok30Das = 0) then
+      Zadok30Das = DaysAfterSowing
+   elseif (Z >= 31 and Zadok31Das = 0) then
+      Zadok31Das = DaysAfterSowing
+   elseif (Z >= 32 and Zadok32Das = 0) then
+      Zadok32Das = DaysAfterSowing
+   elseif (Z >= 37 and Zadok37Das = 0) then
+      Zadok37Das = DaysAfterSowing
+   elseif (Z >= 39 and Zadok39Das = 0) then
+      Zadok39Das = DaysAfterSowing
+   elseif (Z >= 45 and Zadok45Das = 0) then
+      Zadok45Das = DaysAfterSowing
+   elseif (Z >= 55 and Zadok55Das = 0) then
+      Zadok55Das = DaysAfterSowing
+   elseif (Z >= 65 and Zadok65Das = 0) then
+      Zadok65Das = DaysAfterSowing
+   elseif (Z >= 75 and Zadok75Das = 0) then
+      Zadok75Das = DaysAfterSowing
+   endif
+
+]]></text>
+            <event>end_of_day</event>
+            <event>sowing</event>
+            <event>harvesting</event>
+            <event>reseting</event>
+          </script>
+          <script name="start_of_day">
+            <text>   if (today = StartSeasonDate-1) then
+      act_mods EndSeason
+   elseif (today = StartSeasonDate) then
+      act_mods StartSeason
+   endif
+
+   if (today = TodayDate) then
+      act_mods CurrentDay
+   endif
+</text>
+            <event>start_of_day</event>
+          </script>
+          <script name="init">
+            <text>      CurrentFallow = 0
+      Z = 0
+      Zadok11Das = 0
+      Zadok12Das = 0
+      Zadok13Das = 0
+      Zadok14Das = 0
+      Zadok15Das = 0
+      Zadok16Das = 0
+      Zadok30Das = 0
+      Zadok31Das = 0
+      Zadok32Das = 0
+      Zadok37Das = 0
+      Zadok39Das = 0
+      Zadok45Das = 0
+      Zadok55Das = 0
+      Zadok65Das = 0
+      Zadok75Das = 0
+      StartDailyDate = 0
+      CurrentCropFound = 0
+      DecileDate  = 0
+      DoDecileOutput  = 0
+      ThreeMonthsTimeDate  = 0</text>
+            <event>init</event>
+          </script>
+        </manager>
+        <manager name="CanolaOilConc">
+          <script name="start_of_day">
+            <text><![CDATA[   if (DaysAfterSowing = 1) then
+      cum_temp = 0
+      cum_swdef = 0
+      cum_days = 0
+
+   elseif (StageName = 'start_grain_fill' or
+                StageName = 'end_grain_fill' or
+                StageName = 'maturity' or
+                StageName = 'harvest_ripe') then
+      cum_temp = cum_temp + (maxt + mint) / 2
+      cum_swdef = cum_swdef + swdef_photo
+      cum_days = cum_days + 1
+   endif
+
+   ! calculate canola oil content
+   if (cum_days > 0) then
+      avg_temp = cum_temp / cum_days
+      avg_swdef = cum_swdef / cum_days
+      if (avg_temp <= 14) then
+         oil_conc =  47
+      else
+         oil_conc = (47 - ((avg_temp - 14)*1.21)) - (1.91*(1 - avg_swdef^2))
+      endif
+   else
+      oil_conc = 0
+   endif
+]]></text>
+            <event>start_of_day</event>
+          </script>
+          <script name="end_of_day">
+            <text>
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <script name="init">
+            <text>      cum_temp = 0
+      cum_swdef = 0
+      cum_days = 0
+</text>
+            <event>init</event>
+          </script>
+        </manager>
+        <manager name="StubbleRemoved">
+          <ui>
+            <StubbleRemovedDate type="ddmmmdate" description="Enter date to remove stubble on : ">1/1/1800</StubbleRemovedDate>
+            <StubbleRemovedDateFull type="ddmmmdate" description="Enter full date to remove stubble on (not used):">1/1/1800</StubbleRemovedDateFull>
+            <StubbleRemovedAmount type="text" description="Amount of stubble removed (%)">30</StubbleRemovedAmount>
+          </ui>
+          <script name="start_of_day">
+            <text>   if (today = date('[StubbleRemovedDate]') then
+      [Name]Percent = [StubbleRemovedAmount] / 100
+      SurfaceOM tillage type = user_defined, f_incorp = [Name]Percent , tillage_depth = 0
+   endif
+      </text>
+            <event>start_of_day</event>
+          </script>
+        </manager>
+      </folder>
+      <fertiliser name="Fertiliser" />
+      <irrigation name="Irrigation">
+        <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      </irrigation>
+      <surfaceom name="SurfaceOM">
+        <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
+        <type type="list" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat" description="Organic Matter type">wheat</type>
+        <mass type="text" description="Initial surface residue (kg/ha)">1000</mass>
+        <cnr type="text" description="C:N ratio of initial residue">80</cnr>
+        <standing_fraction type="text" description="Fraction of residue standing">0</standing_fraction>
+      </surfaceom>
+      <wheat name="Wheat" />
+      <barley enabled="no" />
+      <canola enabled="no" />
+      <oats enabled="no" />
+      <sorghum enabled="no" />
+      <outputfile name="Yearly">
+        <events name="Reporting Frequency">
+          <event name="harvesting" />
+        </events>
+        <variables name="Variables">
+          <variable name="dd/mm/yyyy as Date" array="?" description="Biomass" />
+          <variable name="sow_year" />
+          <variable name="DaysAfterSowing" />
+          <variable name="simulation_end_date format dd/mm/yyyy" />
+          <variable name="biomass" array="?" description="Yield" />
+          <variable name="wetyield" />
+          <variable name="Grain_protein" />
+          <variable name="grain_n" />
+          <variable name="grain_no" />
+          <variable name="oil_conc" />
+          <variable name="leaf_no" />
+          <variable name="sw_stress_expan" />
+          <variable name="sw_stress_photo" />
+          <variable name="n_stress_expan" />
+          <variable name="n_stress_photo" />
+          <variable name="Hay" />
+          <variable name="Z" />
+          <variable name="Zadok11Das" />
+          <variable name="Zadok12Das" />
+          <variable name="Zadok13Das" />
+          <variable name="Zadok14Das" />
+          <variable name="Zadok15Das" />
+          <variable name="Zadok16Das" />
+          <variable name="Zadok30Das" />
+          <variable name="Zadok31Das" />
+          <variable name="Zadok32Das" />
+          <variable name="Zadok37Das" />
+          <variable name="Zadok39Das" />
+          <variable name="Zadok45Das" />
+          <variable name="Zadok55Das" />
+          <variable name="Zadok65Das" />
+          <variable name="Zadok75Das" />
+          <variable name="flowering_das" />
+          <variable name="maturity_das" />
+          <variable name="root_depth" />
+          <variable name="Bank" />
+          <variable name="TwoTimesCost " />
+          <variable name="CurrentFallow" />
+          <variable name="MildFrostCount" />
+          <variable name="ModerateFrostCount" />
+          <variable name="SevereFrostCount" />
+          <variable name="MildHeatShockCount" />
+          <variable name="ModerateHeatShockCount" />
+          <variable name="SevereHeatShockCount" />
+          <variable name="InCropRain" />
+          <variable name="InCropIrrigation" />
+          <variable name="rain" array="Rainfall (mm)" />
+          <variable name="runoff" />
+          <variable name="SumRunoffToSowing" />
+          <variable name="drain" />
+          <variable name="es" />
+          <variable name="ep" />
+          <variable name="sw_dep()" />
+          <variable name="AvailableWater" />
+          <variable name="AvailableWaterAtSowing" />
+          <variable name="AmountWaterLeft" />
+          <variable name="ll_dep()" />
+          <variable name="no3()" />
+          <variable name="nh4()" />
+          <variable name="Nitrogen" />
+          <variable name="NitrogenAtSowing" />
+          <variable name="NUptakeKgHa" />
+          <variable name="soil_loss" array="No" description="Soil loss (t/ha)" />
+          <variable name="SumSoilLossToSowing" />
+          <variable name="dlt_n_min_tot()" />
+          <variable name="dnit()" />
+          <variable name="leach_no3" />
+          <variable name="NInPlant" />
+          <variable name="CLLToday" />
+          <variable name="DulToday" />
+          <variable name="SwToday" />
+          <variable name="CritSWToday" />
+          <Constants>
+            <Title>GrowerName,PaddockName</Title>
+          </Constants>
+        </variables>
+      </outputfile>
+      <outputfile name="Daily">
+        <events name="Reporting Frequency">
+          <event name="OnDailyOutput" />
+        </events>
+        <variables name="Variables">
+          <variable name="dd/mm/yyyy as Date" array="?" description="Biomass" />
+          <variable name="sow_year" />
+          <variable name="DaysAfterSowing" />
+          <variable name="simulation_end_date format dd/mm/yyyy" />
+          <variable name="biomass" array="?" description="Yield" />
+          <variable name="wetyield" />
+          <variable name="Grain_protein" />
+          <variable name="grain_n" />
+          <variable name="grain_no" />
+          <variable name="oil_conc" />
+          <variable name="leaf_no" />
+          <variable name="sw_stress_expan" />
+          <variable name="sw_stress_photo" />
+          <variable name="n_stress_expan" />
+          <variable name="n_stress_photo" />
+          <variable name="Hay" />
+          <variable name="Z" />
+          <variable name="node_no" />
+          <variable name="flowering_das" />
+          <variable name="maturity_das" />
+          <variable name="root_depth" />
+          <variable name="Bank" />
+          <variable name="TwoTimesCost " />
+          <variable name="CurrentFallow" />
+          <variable name="InCropRain" />
+          <variable name="rain" array="Rainfall (mm)" />
+          <variable name="irrig_tot" array="No" description="Total applied irrigation (irrigation + loss) (mm)" />
+          <variable name="irrigation" array="No" description="Irrigation entering the profile (mm)" />
+          <variable name="runoff" />
+          <variable name="drain" />
+          <variable name="es" />
+          <variable name="ep" />
+          <variable name="sw_dep()" />
+          <variable name="AvailableWater" />
+          <variable name="AmountWaterLeft" />
+          <variable name="ll_dep()" />
+          <variable name="fertilizer" array="Amount of fertilizer applied (kg/ha)" />
+          <variable name="no3()" />
+          <variable name="nh4()" />
+          <variable name="Nitrogen" />
+          <variable name="NUptakeKgHa" />
+          <variable name="soil_loss" array="No" description="Soil loss (t/ha)" />
+          <variable name="dlt_n_min_tot()" />
+          <variable name="dnit()" />
+          <variable name="leach_no3" />
+          <variable name="NInPlant" />
+          <variable name="CLLToday" />
+          <variable name="DulToday" />
+          <variable name="SwToday" />
+          <variable name="CritSWToday" />
+          <variable name="dlayer" />
+          <variable name="air_dry" />
+          <variable name="ll" />
+          <variable name="sw" />
+          <variable name="dul" />
+          <variable name="sat" />
+          <Constants>
+            <Title>GrowerName,PaddockName</Title>
+          </Constants>
+        </variables>
+      </outputfile>
+      <outputfile name="Decile">
+        <filename name="filename">sample.out</filename>
+        <events name="Reporting Frequency">
+          <event name="OnDecileOutput" />
+        </events>
+        <variables name="Variables">
+          <variable name="dd/mm/yyyy as Date" />
+          <variable name="DecileDate format dd/mm/yyyy" />
+          <variable name="month" array="Month" description="Date (dd/mm/yyyy)" />
+          <variable name="SeasonalRainUnPatched" />
+          <Constants>
+            <Title>GrowerName,PaddockName</Title>
+          </Constants>
+        </variables>
+      </outputfile>
+      <outputfile name="FutureRain">
+        <filename name="filename">sample.out</filename>
+        <events name="Reporting Frequency">
+          <event name="ThreeMonthsTime" description="" />
+        </events>
+        <variables name="Variables">
+          <variable name="Sow_year" />
+          <variable name="RainInComingMonths" />
+          <Constants>
+            <Title>GrowerName,PaddockName</Title>
+          </Constants>
+        </variables>
+      </outputfile>
+      <tracker name="Tracker">
+        <variable name="sum of unpatched_rain on start_of_day from StartSeason to EndSeason as SeasonalRainUnPatched" />
+        <variable name="sum of unpatched_rain on start_of_day from ThisMonth to ThreeMonthsTime as RainInComingMonths" />
+        <variable name="value of HayBiomass on flowering as Hay" />
+        <variable name="count of MildFrost from sowing to harvesting as MildFrostCount" />
+        <variable name="count of ModerateFrost from sowing to harvesting as ModerateFrostCount" />
+        <variable name="count of SevereFrost from sowing to harvesting as SevereFrostCount" />
+        <variable name="count of MildHeatShock from sowing to harvesting as MildHeatShockCount" />
+        <variable name="count of ModerateHeatShock from sowing to harvesting as ModerateHeatShockCount" />
+        <variable name="count of SevereHeatShock from sowing to harvesting as SevereHeatShockCount" />
+        <variable name="sum of runoff on end_of_day from CurrentDay to sowing as SumRunoffToSowing" />
+        <variable name="sum of soil_loss on end_of_day  from CurrentDay to sowing as SumSoilLossToSowing" />
+        <variable name="value of AvailableWater on sowing as AvailableWaterAtSowing" />
+        <variable name="value of Nitrogen on sowing as NitrogenAtSowing" />
+        <variable name="sum of rain on end_of_day from sowing to harvesting as InCropRain" />
+        <variable name="sum of irrigation on end_of_day from sowing to harvesting as InCropIrrigation" />
+      </tracker>
+      <soil name="Soil">
+        <profile>
+          <layer>
+            <thickness>100</thickness>
+            <ll15>0.12</ll15>
+            <airdry>0.07</airdry>
+            <dul>0.33</dul>
+            <sat>0.46</sat>
+            <swcon>0.3</swcon>
+            <bd>1.36</bd>
+            <ph>8</ph>
+            <oc>1.5</oc>
+            <fbiom>0.03</fbiom>
+            <finert>0.4</finert>
+            <ll name="wheat">0.12</ll>
+            <kl name="wheat">0.06</kl>
+            <xf name="wheat">1</xf>
+            <ll name="barley">0.12</ll>
+            <kl name="barley">0.06</kl>
+            <xf name="barley">1</xf>
+            <ll name="oats">0.12</ll>
+            <kl name="oats">0.06</kl>
+            <xf name="oats">1</xf>
+            <ll name="canola">0.12</ll>
+            <kl name="canola">0.06</kl>
+            <xf name="canola">1</xf>
+            <ll name="sorghum">0.12</ll>
+            <kl name="sorghum">0.06</kl>
+            <xf name="sorghum">1</xf>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <ll15>0.17</ll15>
+            <airdry>0.15</airdry>
+            <dul>0.34</dul>
+            <sat>0.48</sat>
+            <swcon>0.3</swcon>
+            <bd>1.293</bd>
+            <ph>8.1</ph>
+            <oc>0.5</oc>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <ll name="wheat">0.17</ll>
+            <kl name="wheat">0.06</kl>
+            <xf name="wheat">0.9</xf>
+            <ll name="barley">0.17</ll>
+            <kl name="barley">0.06</kl>
+            <xf name="barley">0.9</xf>
+            <ll name="oats">0.17</ll>
+            <kl name="oats">0.06</kl>
+            <xf name="oats">1</xf>
+            <ll name="canola">0.17</ll>
+            <kl name="canola">0.06</kl>
+            <xf name="canola">1</xf>
+            <ll name="sorghum">0.17</ll>
+            <kl name="sorghum">0.06</kl>
+            <xf name="sorghum">1</xf>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <ll15>0.17</ll15>
+            <airdry>0.17</airdry>
+            <dul>0.34</dul>
+            <sat>0.48</sat>
+            <swcon>0.3</swcon>
+            <bd>1.293</bd>
+            <ph>8.1</ph>
+            <oc>0.5</oc>
+            <fbiom>0.02</fbiom>
+            <finert>0.7</finert>
+            <ll name="wheat">0.17</ll>
+            <kl name="wheat">0.04</kl>
+            <xf name="wheat">0.9</xf>
+            <ll name="barley">0.17</ll>
+            <kl name="barley">0.04</kl>
+            <xf name="barley">0.9</xf>
+            <ll name="oats">0.17</ll>
+            <kl name="oats">0.06</kl>
+            <xf name="oats">1</xf>
+            <ll name="canola">0.17</ll>
+            <kl name="canola">0.06</kl>
+            <xf name="canola">1</xf>
+            <ll name="sorghum">0.17</ll>
+            <kl name="sorghum">0.06</kl>
+            <xf name="sorghum">1</xf>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.35</dul>
+            <sat>0.45</sat>
+            <swcon>0.3</swcon>
+            <bd>1.374</bd>
+            <ph>8.2</ph>
+            <oc>0.5</oc>
+            <fbiom>0.02</fbiom>
+            <finert>0.8</finert>
+            <ll name="wheat">0.21</ll>
+            <kl name="wheat">0.04</kl>
+            <xf name="wheat">0.7</xf>
+            <ll name="barley">0.21</ll>
+            <kl name="barley">0.04</kl>
+            <xf name="barley">0.7</xf>
+            <ll name="oats">0.21</ll>
+            <kl name="oats">0.06</kl>
+            <xf name="oats">1</xf>
+            <ll name="canola">0.21</ll>
+            <kl name="canola">0.06</kl>
+            <xf name="canola">1</xf>
+            <ll name="sorghum">0.21</ll>
+            <kl name="sorghum">0.06</kl>
+            <xf name="sorghum">1</xf>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.35</dul>
+            <sat>0.45</sat>
+            <swcon>0.3</swcon>
+            <bd>1.374</bd>
+            <ph>8.2</ph>
+            <oc>0.5</oc>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <ll name="wheat">0.21</ll>
+            <kl name="wheat">0.04</kl>
+            <xf name="wheat">0.7</xf>
+            <ll name="barley">0.21</ll>
+            <kl name="barley">0.04</kl>
+            <xf name="barley">0.7</xf>
+            <ll name="oats">0.21</ll>
+            <kl name="oats">0.06</kl>
+            <xf name="oats">1</xf>
+            <ll name="canola">0.21</ll>
+            <kl name="canola">0.06</kl>
+            <xf name="canola">1</xf>
+            <ll name="sorghum">0.21</ll>
+            <kl name="sorghum">0.06</kl>
+            <xf name="sorghum">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <ll15>0.24</ll15>
+            <airdry>0.24</airdry>
+            <dul>0.35</dul>
+            <sat>0.44</sat>
+            <swcon>0.3</swcon>
+            <bd>1.412</bd>
+            <ph>8.3</ph>
+            <oc>0.5</oc>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <ll name="wheat">0.24</ll>
+            <kl name="wheat">0.04</kl>
+            <xf name="wheat">0.5</xf>
+            <ll name="barley">0.24</ll>
+            <kl name="barley">0.04</kl>
+            <xf name="barley">0.5</xf>
+            <ll name="oats">0.24</ll>
+            <kl name="oats">0.06</kl>
+            <xf name="oats">1</xf>
+            <ll name="canola">0.24</ll>
+            <kl name="canola">0.06</kl>
+            <xf name="canola">1</xf>
+            <ll name="sorghum">0.24</ll>
+            <kl name="sorghum">0.06</kl>
+            <xf name="sorghum">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.35</dul>
+            <sat>0.43</sat>
+            <swcon>0.3</swcon>
+            <bd>1.423</bd>
+            <ph>8.4</ph>
+            <oc>0.5</oc>
+            <fbiom>0.01</fbiom>
+            <finert>1</finert>
+            <ll name="wheat">0.25</ll>
+            <kl name="wheat">0.02</kl>
+            <xf name="wheat">0.5</xf>
+            <ll name="barley">0.25</ll>
+            <kl name="barley">0.02</kl>
+            <xf name="barley">0.5</xf>
+            <ll name="oats">0.25</ll>
+            <kl name="oats">0.06</kl>
+            <xf name="oats">1</xf>
+            <ll name="canola">0.25</ll>
+            <kl name="canola">0.06</kl>
+            <xf name="canola">1</xf>
+            <ll name="sorghum">0.25</ll>
+            <kl name="sorghum">0.06</kl>
+            <xf name="sorghum">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <ll15>0.28</ll15>
+            <airdry>0.28</airdry>
+            <dul>0.34</dul>
+            <sat>0.42</sat>
+            <swcon>0.3</swcon>
+            <bd>1.455</bd>
+            <ph>7</ph>
+            <oc>0.5</oc>
+            <fbiom>0.01</fbiom>
+            <finert>1</finert>
+            <ll name="wheat">0.28</ll>
+            <kl name="wheat">0.02</kl>
+            <xf name="wheat">0.4</xf>
+            <ll name="barley">0.28</ll>
+            <kl name="barley">0.02</kl>
+            <xf name="barley">0.4</xf>
+            <ll name="oats">0.28</ll>
+            <kl name="oats">0.06</kl>
+            <xf name="oats">1</xf>
+            <ll name="canola">0.28</ll>
+            <kl name="canola">0.06</kl>
+            <xf name="canola">1</xf>
+            <ll name="sorghum">0.28</ll>
+            <kl name="sorghum">0.06</kl>
+            <xf name="sorghum">1</xf>
+          </layer>
+        </profile>
+        <Cona>2</Cona>
+        <U>2</U>
+        <CN2Bare>73</CN2Bare>
+        <Salb>0.13</Salb>
+        <DiffusConst>88</DiffusConst>
+        <DiffusSlope>35.4</DiffusSlope>
+        <CNRed>20</CNRed>
+        <CNCov>0.8</CNCov>
+        <RootCN>45</RootCN>
+        <RootWT>1500</RootWT>
+        <SoilCN>12.5</SoilCN>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <Phosphorus />
+        <soilsample name="Soil sample 1">
+          <profile>
+            <layer>
+              <thickness>100</thickness>
+              <sw>0.08</sw>
+              <no3>7.2</no3>
+              <nh4>1.6</nh4>
+            </layer>
+            <layer>
+              <thickness>300</thickness>
+              <sw>0.184</sw>
+              <no3>2.4</no3>
+              <nh4>0.78</nh4>
+            </layer>
+            <layer>
+              <thickness>300</thickness>
+              <sw>0.229</sw>
+              <no3>1</no3>
+              <nh4>1</nh4>
+            </layer>
+            <layer>
+              <thickness>300</thickness>
+              <sw>0.253</sw>
+              <no3>1</no3>
+              <nh4>0.7</nh4>
+            </layer>
+            <layer>
+              <thickness>300</thickness>
+              <sw>0.26</sw>
+              <no3>1</no3>
+              <nh4>0.7</nh4>
+            </layer>
+          </profile>
+          <WaterFormat>GravimetricPercent</WaterFormat>
+          <date>16/01/2008 12:00:00 AM</date>
+        </soilsample>
+        <soilsample name="Soil sample 2">
+          <profile>
+            <layer>
+              <thickness>100</thickness>
+              <oc>0.72</oc>
+              <ph>7.9</ph>
+              <ec>0.26</ec>
+              <cl>50</cl>
+            </layer>
+            <layer>
+              <thickness>300</thickness>
+              <ph>8.3</ph>
+              <ec>0.62</ec>
+              <cl>220</cl>
+            </layer>
+            <layer>
+              <thickness>300</thickness>
+              <ph>8.7</ph>
+              <ec>1.3</ec>
+              <cl>770</cl>
+            </layer>
+            <layer>
+              <thickness>300</thickness>
+              <ph>8.7</ph>
+              <ec>1.65</ec>
+              <cl>1100</cl>
+            </layer>
+            <layer>
+              <thickness>300</thickness>
+              <ph>8.6</ph>
+              <ec>2</ec>
+              <cl>1500</cl>
+            </layer>
+          </profile>
+        </soilsample>
+      </soil>
+      <erosion name="Erosion">
+        <model type="text" description="Model Name">freebairn</model>
+        <slope type="text" description="Slope of plot in percent (%)">0</slope>
+        <slope_length type="text" description="Length of plot (m)">60</slope_length>
+        <k_factor type="text" description="Soil erodibility factor (t/ha/EI 30 )">0.4</k_factor>
+        <p_factor type="text" description="Supporting practise factor (unitless)">1</p_factor>
+        <bed_depth type="text" description="Depth to bedrock (mm)">5000</bed_depth>
+        <profile_reduction type="list" listvalues="off,on" description="Profile Reduction">off</profile_reduction>
+        <profile_layer_merge type="text" description="Fraction of original size in which the lowest layer is merged into the layer above (0-1)">0.05</profile_layer_merge>
+        <minimum_depth type="text" description="If the profile erodes to this depth, the simulation is stopped (mm)">100</minimum_depth>
+      </erosion>
+      <YPCalc />
+    </area>
+  </simulation>
+  <simulation name="NUnlimited" shortcut="/Simulations/YPBase">
+    <clock name="Clock" shortcut="/Simulations/YPBase/Clock" />
+    <siloinput name="Met" shortcut="/Simulations/YPBase/Met" />
+    <patchinput name="PatchInput" shortcut="/Simulations/YPBase/PatchInput" />
+    <summaryfile name="SummaryFile" shortcut="/Simulations/YPBase/SummaryFile" />
+    <area name="Paddock" shortcut="/Simulations/YPBase/Paddock">
+      <folder name="Management" shortcut="/Simulations/YPBase/Paddock/Management">
+        <manager name="GrossMargin" shortcut="/Simulations/YPBase/Paddock/Management/GrossMargin" />
+        <manager name="Reset" shortcut="/Simulations/YPBase/Paddock/Management/Reset" />
+        <manager name="Sow" shortcut="/Simulations/YPBase/Paddock/Management/Sow" />
+        <manager name="Sowing tillage" shortcut="/Simulations/YPBase/Paddock/Management/Sowing tillage" />
+        <manager name="Harvest" shortcut="/Simulations/YPBase/Paddock/Management/Harvest" />
+        <manager name="Yield moisture correction" shortcut="/Simulations/YPBase/Paddock/Management/Yield moisture correction" />
+        <manager name="MildFrost" shortcut="/Simulations/YPBase/Paddock/Management/MildFrost" />
+        <manager name="ModerateFrost" shortcut="/Simulations/YPBase/Paddock/Management/ModerateFrost" />
+        <manager name="SevereFrost" shortcut="/Simulations/YPBase/Paddock/Management/SevereFrost" />
+        <manager name="MildHeatShock" shortcut="/Simulations/YPBase/Paddock/Management/MildHeatShock" />
+        <manager name="ModerateHeatShock" shortcut="/Simulations/YPBase/Paddock/Management/ModerateHeatShock" />
+        <manager name="SevereHeatShock" shortcut="/Simulations/YPBase/Paddock/Management/SevereHeatShock" />
+        <manager name="Fertilise" shortcut="/Simulations/YPBase/Paddock/Management/Fertilise" />
+        <manager name="Irrigate" shortcut="/Simulations/YPBase/Paddock/Management/Irrigate" />
+        <manager name="Tillage" shortcut="/Simulations/YPBase/Paddock/Management/Tillage" />
+        <manager name="Constants" shortcut="/Simulations/YPBase/Paddock/Management/Constants" />
+        <manager name="Script" shortcut="/Simulations/YPBase/Paddock/Management/Script" />
+        <manager name="CanolaOilConc" shortcut="/Simulations/YPBase/Paddock/Management/CanolaOilConc" />
+        <manager name="NUnlimited">
+          <script name="post">
+            <text>   if (today = ResetDate) then
+       fertiliser apply amount = 300 (kg/ha), depth = 20 (mm), type = no3_n
+   endif
+</text>
+            <event>post</event>
+          </script>
+        </manager>
+      </folder>
+      <fertiliser name="Fertiliser" shortcut="/Simulations/YPBase/Paddock/Fertiliser" />
+      <irrigation name="Irrigation" shortcut="/Simulations/YPBase/Paddock/Irrigation" />
+      <surfaceom name="SurfaceOM" shortcut="/Simulations/YPBase/Paddock/SurfaceOM" />
+      <wheat shortcut="/Simulations/YPBase/Paddock/Wheat" />
+      <barley enabled="no" shortcut="/Simulations/YPBase/Paddock/barley" />
+      <canola enabled="no" shortcut="/Simulations/YPBase/Paddock/canola" />
+      <oats enabled="no" shortcut="/Simulations/YPBase/Paddock/oats" />
+      <sorghum enabled="no" shortcut="/Simulations/YPBase/Paddock/sorghum" />
+      <outputfile name="Yearly" shortcut="/Simulations/YPBase/Paddock/Yearly">
+        <events name="Reporting Frequency" shortcut="/Simulations/YPBase/Paddock/Yearly/Reporting Frequency" />
+        <variables name="Variables" shortcut="/Simulations/YPBase/Paddock/Yearly/Variables" />
+      </outputfile>
+      <outputfile name="Daily" shortcut="/Simulations/YPBase/Paddock/Daily">
+        <events name="Reporting Frequency" shortcut="/Simulations/YPBase/Paddock/Daily/Reporting Frequency" />
+        <variables name="Variables" shortcut="/Simulations/YPBase/Paddock/Daily/Variables" />
+      </outputfile>
+      <tracker name="Tracker" shortcut="/Simulations/YPBase/Paddock/Tracker" />
+      <soil name="Soil" shortcut="/Simulations/YPBase/Paddock/Soil">
+        <soilsample name="Soil sample 1" shortcut="/Simulations/YPBase/Paddock/Soil/Soil sample 1" />
+        <soilsample name="Soil sample 2" shortcut="/Simulations/YPBase/Paddock/Soil/Soil sample 2" />
+      </soil>
+      <erosion name="Erosion" shortcut="/Simulations/YPBase/Paddock/Erosion" />
+      <YPCalc shortcut="/Simulations/YPBase/Paddock/YPCalc" />
+    </area>
+  </simulation>
+  <simulation name="Next10Days" shortcut="/Simulations/YPBase">
+    <clock name="Clock" shortcut="/Simulations/YPBase/Clock" />
+    <siloinput name="Met" shortcut="/Simulations/YPBase/Met" />
+    <patchinput name="PatchInput" shortcut="/Simulations/YPBase/PatchInput" />
+    <summaryfile name="SummaryFile" shortcut="/Simulations/YPBase/SummaryFile" />
+    <area name="Paddock" shortcut="/Simulations/YPBase/Paddock">
+      <folder name="Management" shortcut="/Simulations/YPBase/Paddock/Management">
+        <manager name="GrossMargin" shortcut="/Simulations/YPBase/Paddock/Management/GrossMargin" />
+        <manager name="Reset" shortcut="/Simulations/YPBase/Paddock/Management/Reset" />
+        <manager name="Sow" shortcut="/Simulations/YPBase/Paddock/Management/Sow" />
+        <manager name="Sowing tillage" shortcut="/Simulations/YPBase/Paddock/Management/Sowing tillage" />
+        <manager name="Harvest" shortcut="/Simulations/YPBase/Paddock/Management/Harvest" />
+        <manager name="Yield moisture correction" shortcut="/Simulations/YPBase/Paddock/Management/Yield moisture correction" />
+        <manager name="MildFrost" shortcut="/Simulations/YPBase/Paddock/Management/MildFrost" />
+        <manager name="ModerateFrost" shortcut="/Simulations/YPBase/Paddock/Management/ModerateFrost" />
+        <manager name="SevereFrost" shortcut="/Simulations/YPBase/Paddock/Management/SevereFrost" />
+        <manager name="MildHeatShock" shortcut="/Simulations/YPBase/Paddock/Management/MildHeatShock" />
+        <manager name="ModerateHeatShock" shortcut="/Simulations/YPBase/Paddock/Management/ModerateHeatShock" />
+        <manager name="SevereHeatShock" shortcut="/Simulations/YPBase/Paddock/Management/SevereHeatShock" />
+        <manager name="Fertilise" shortcut="/Simulations/YPBase/Paddock/Management/Fertilise" />
+        <manager name="Irrigate" shortcut="/Simulations/YPBase/Paddock/Management/Irrigate" />
+        <manager name="Tillage" shortcut="/Simulations/YPBase/Paddock/Management/Tillage" />
+        <manager name="Constants" shortcut="/Simulations/YPBase/Paddock/Management/Constants" />
+        <manager name="Script" shortcut="/Simulations/YPBase/Paddock/Management/Script" />
+        <manager name="CanolaOilConc" shortcut="/Simulations/YPBase/Paddock/Management/CanolaOilConc" />
+        <manager name="Next10DaysLogic">
+          <script name="post">
+            <text><![CDATA[   ! -------------------------------------------------------------
+   ! Fire an event if we're in a window from
+   ! now + 10 days.
+   ! -------------------------------------------------------------
+   if (today = TodayDate) then
+      StartTenDayWindow = today 
+      EndTenDayWindow = today + 10      
+   endif
+   if (today >= StartTenDayWindow and today < EndTenDayWindow)  then
+      rain = 0
+      Daily do_end_day_output
+   endif
+]]></text>
+            <event>post</event>
+          </script>
+          <script name="init">
+            <text>StartTenDayWindow  = 0
+EndTenDayWindow = 0</text>
+            <event>init</event>
+          </script>
+        </manager>
+      </folder>
+      <fertiliser name="Fertiliser" shortcut="/Simulations/YPBase/Paddock/Fertiliser" />
+      <irrigation name="Irrigation" shortcut="/Simulations/YPBase/Paddock/Irrigation" />
+      <surfaceom name="SurfaceOM" shortcut="/Simulations/YPBase/Paddock/SurfaceOM" />
+      <wheat shortcut="/Simulations/YPBase/Paddock/Wheat" />
+      <barley enabled="no" shortcut="/Simulations/YPBase/Paddock/barley" />
+      <canola enabled="no" shortcut="/Simulations/YPBase/Paddock/canola" />
+      <oats enabled="no" shortcut="/Simulations/YPBase/Paddock/oats" />
+      <sorghum enabled="no" shortcut="/Simulations/YPBase/Paddock/sorghum" />
+      <outputfile name="Daily">
+        <filename name="filename">sample.out</filename>
+        <events name="Reporting Frequency" />
+        <variables name="Variables">
+          <variable name="today as Date format dd/mm" />
+          <variable name="year" />
+          <variable name="es" />
+          <variable name="ep" />
+          <variable name="NUptakeKgHa" />
+          <variable name="AmountWaterLeft" />
+          <variable name="AmountWaterAboveCLL" />
+          <variable name="Nitrogen" />
+          <variable name="Z" />
+          <variable name="root_depth" />
+          <variable name="CLLToday" />
+          <variable name="DulToday" />
+          <variable name="SwToday" />
+          <variable name="CritSWToday" />
+          <Constants>
+            <Title>BCG^Manangatang 2008 Risk Management - Low Input</Title>
+            <Crop>Wheat</Crop>
+          </Constants>
+        </variables>
+      </outputfile>
+      <tracker name="Tracker" shortcut="/Simulations/YPBase/Paddock/Tracker" />
+      <soil name="Soil" shortcut="/Simulations/YPBase/Paddock/Soil">
+        <soilsample name="Soil sample 1" shortcut="/Simulations/YPBase/Paddock/Soil/Soil sample 1" />
+        <soilsample name="Soil sample 2" shortcut="/Simulations/YPBase/Paddock/Soil/Soil sample 2" />
+      </soil>
+      <erosion name="Erosion" shortcut="/Simulations/YPBase/Paddock/Erosion" />
+      <YPCalc shortcut="/Simulations/YPBase/Paddock/YPCalc" />
+    </area>
+  </simulation>
+</folder>
