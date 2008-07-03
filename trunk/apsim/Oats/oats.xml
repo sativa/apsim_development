@@ -162,7 +162,7 @@
       LEAF NUMBER DEVELOPMENT
       currently leaf number at emergence will affect LAI at early stage, leaf_no_seed has no effect on the model, but will have in future
        -->
-      <leaf_no_at_emerg description="0.5     ! (expanded) leaf number at emergence ()">2.0 </leaf_no_at_emerg>
+      <leaf_no_at_emerg description="leaf number at emergence">0.5</leaf_no_at_emerg>
       <leaf_app_rate1 units="oCd" description="NOT USED AP     ! Growing deg day required to develop the most leaf ligules. (deg day).">75.0</leaf_app_rate1>
       <leaf_app_rate2 units="oCd" description="Growing deg day required to develop last leaf ligules. (deg day).">2.0</leaf_app_rate2>
       <leaf_no_rate_change description="Leaf no below flag above which leaf appearance rate changes from rate1 to rate2.">7</leaf_no_rate_change>
@@ -170,7 +170,7 @@
        -->
       <leaf_no_pot_option>2</leaf_no_pot_option>
       <x_node_no_app>0    20</x_node_no_app>
-      <y_node_app_rate>95   95</y_node_app_rate>
+      <y_node_app_rate>135   135</y_node_app_rate>
       <x_lai_ratio description="ratio table for critical leaf size below which leaf number is reduced ()">0.0  0.1 0.8 1.0</x_lai_ratio>
       <y_leaf_no_frac description="reduction in leaf appearance ()">0.0  1.0 1.0 1.0</y_leaf_no_frac>
       <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -260,7 +260,7 @@
       <!-- ______________________________________________________________________________
       TPLA  - USED TO INTIALISE THE INITIAL LAI
        -->
-      <initial_tpla description="200    (mm^2/plant)  ! initial total plant leaf area    !was 160 at one stage">60  </initial_tpla>
+      <initial_tpla description="initial total plant leaf area(mm^2/plant)">80</initial_tpla>
       <!-- ______________________________________________________________________________
       HARVESTING EFFECTS ON LEAF AREA
        -->
@@ -469,7 +469,7 @@
       <y_senescence_fac description="daily fraction of leaf area senesced due to frost (0-1)">1    0       </y_senescence_fac>
       <!-- sen_rate_water = 0.10 ()          ! slope in linear eqn relating soil water stress during photosynthesis to leaf senesence rate CHANGED FROM 0.1
        -->
-      <sen_rate_water description="has worked well at 0.01 AP">0.01</sen_rate_water>
+      <sen_rate_water description="has worked well at 0.01 at Roma06, but going back to 0.1 at Gatton07">0.01</sen_rate_water>
       <!-- ______________________________________________________________________________
       DETACHMENT
        root
@@ -592,7 +592,7 @@
       <!-- EXTINCTION COEFFICIENT
        -->
       <x_row_spacing>200  350  1000</x_row_spacing>
-      <y_extinct_coef>0.50 0.50 0.50</y_extinct_coef>
+      <y_extinct_coef>0.45 0.45 0.45</y_extinct_coef>
       <y_extinct_coef_dead>0.30 0.30 0.30</y_extinct_coef_dead>
       <!-- __________________________________________________________________________________________________________-
       BIOMASS PARTITIONING
@@ -600,7 +600,7 @@
        -->
       <x_stage_no_partition>1      2    3     4    4.9       5     5.4   6       6.9    7      8     9    10     11</x_stage_no_partition>
       <y_ratio_root_shoot units="0-1">0      0    1.0   1.0  0.3       0.30  0.30  0.08    0.01   0      0     0     0      0</y_ratio_root_shoot>
-      <y_frac_leaf units="0-1" description="fraction of remaining dm allocated to leaves CHANGED FI from 4.2, EME and JUV FROM 0.6, changed  AP  endjuv and FI were working well at 0.6">0      0    0.9   0.95  0.55     0.60  0.0   0.0     0.0    0      0     0     0      0</y_frac_leaf>
+      <y_frac_leaf units="0-1" description="fraction of remaining dm allocated to leaves CHANGED FI from 4.2, EME and JUV FROM 0.6, changed  AP  endjuv and FI were working well at 0.6">0      0    0.95   0.95  0.35     0.30  0.0   0.0     0.0    0      0     0     0      0</y_frac_leaf>
       <y_frac_pod units="0-1" description="fraction of dm allocated to pod or multiplier of grain dm to account for pod dm">0      0    0     0     0        0     0.33  0.33    0.33   0      0     0     0      0</y_frac_pod>
    </erect>
    <!-- __________________________________________________________________________________________________________-
@@ -610,7 +610,7 @@
       <!-- EXTINCTION COEFFICIENT
        -->
       <x_row_spacing>200  350  1000</x_row_spacing>
-      <y_extinct_coef>0.55 0.55 0.55</y_extinct_coef>
+      <y_extinct_coef>0.45 0.45 0.45</y_extinct_coef>
       <y_extinct_coef_dead>0.30 0.30 0.30</y_extinct_coef_dead>
       <!-- __________________________________________________________________________________________________________-
       BIOMASS PARTITIONING
@@ -618,7 +618,7 @@
        -->
       <x_stage_no_partition>1      2    3     4    4.9       5     5.4   6       6.9    7      8     9    10     11</x_stage_no_partition>
       <y_ratio_root_shoot units="0-1">0      0    1.0   1.0  0.3       0.30  0.30  0.08    0.01   0      0     0     0      0</y_ratio_root_shoot>
-      <y_frac_leaf units="0-1" description="fraction of remaining dm allocated to leaves CHANGED FI from 4.2, EME and JUV FROM 0.6, changed  AP  endjuv and FI were working well at 0.6">0      0    0.9   0.95  0.65       0.6  0.0   0.0     0.0    0      0     0     0      0</y_frac_leaf>
+      <y_frac_leaf units="0-1" description="fraction of remaining dm allocated to leaves CHANGED FI from 4.2, EME and JUV FROM 0.6, changed  AP  endjuv and FI were working well at 0.6">0      0    0.95   0.95  0.50       0.4  0.0   0.0     0.0    0      0     0     0      0</y_frac_leaf>
       <y_frac_pod units="0-1" description="fraction of dm allocated to pod or multiplier of grain dm to account for pod dm">0      0    0     0     0        0     0.33  0.33    0.33   0      0     0     0      0</y_frac_pod>
    </semi-erect>
    <!-- __________________________________________________________________________________________________________-
@@ -658,13 +658,13 @@
       <derived_from>erect</derived_from>
       <vern_sens description="3.3">2.9 </vern_sens>
       <photop_sens description="4.0">4.75 </photop_sens>
-      <x_node_no_leaf description="was 0  2.5  6 - changed AP">0    2    6   </x_node_no_leaf>
-      <y_leaves_per_node description="was 1   1  6 - changed AP 6/2/07">1    2    6.0   </y_leaves_per_node>
+      <x_node_no_leaf description="">   0    2    7   </x_node_no_leaf>
+      <y_leaves_per_node description="">1    2   10.0   </y_leaves_per_node>
       <!-- ______________________________________________________________________________
       SPECIFIC LEAF AREA - SLA
        -->
       <x_lai>0     6</x_lai>
-      <y_sla_max description="20000 22000    ! PLP maximum specific leaf area for delta LAI    !changed AP was 21000 18000 for Gatton">22000  24000 </y_sla_max>
+      <y_sla_max description="28000 31000    ! PLP maximum specific leaf area for delta LAI    !changed AP was 21000 18000 for Gatton">22000  24000 </y_sla_max>
       <sla_min description="18000       ! minimum specific leaf area for delta LAI !working at 12">19000    </sla_min>
    </Taipan>
    <Wintaroo description="based on Taipan except for phenology">
@@ -697,14 +697,14 @@
       <derived_from>semi-erect</derived_from>
       <vern_sens>2.7</vern_sens>
       <photop_sens>2.5</photop_sens>
-      <x_node_no_leaf description="was 0  2.5  6 - changed AP">0    2    6   </x_node_no_leaf>
-      <y_leaves_per_node description="was 1   1  6 - changed AP 6/2/07">1    2   12.0   </y_leaves_per_node>
+      <x_node_no_leaf description="">   0    2    7   </x_node_no_leaf>
+      <y_leaves_per_node description="">1    2   12.0   </y_leaves_per_node>
       <!-- ______________________________________________________________________________
       SPECIFIC LEAF AREA - SLA
        -->
       <x_lai>0     6</x_lai>
-      <y_sla_max description="20000 22000    ! PLP maximum specific leaf area for delta LAI    !changed AP was 21000 18000 for Gatton working for Roma at 22000/22000">20000  22000 </y_sla_max>
-      <sla_min description="18000       ! minimum specific leaf area for delta LAI">18000    </sla_min>
+      <y_sla_max description="maximum specific leaf area for delta LAI">30000  34000 </y_sla_max>
+      <sla_min description="minimum specific leaf area for delta LAI">18000    </sla_min>
    </Coolibah>
    <Potoroo>
       <derived_from>taipan</derived_from>
