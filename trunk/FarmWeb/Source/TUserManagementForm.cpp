@@ -7,6 +7,7 @@
 #include "Data.h"
 #include "TWebSession.h"
 #include <general\vcl_functions.h>
+#include <dir.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "IWBaseControl"
@@ -17,7 +18,7 @@
 #pragma link "IWCompEdit"
 #pragma link "IWCompListbox"
 #pragma link "IWTMSCal"
-#pragma link "IWCompButton"                
+#pragma link "IWCompButton"
 #pragma link "IWCompRectangle"
 #pragma link "IWBaseHTMLControl"
 #pragma resource "*.dfm"
@@ -111,6 +112,9 @@ void __fastcall TUserManagementForm::addGrowerCallback(bool okClicked,
          data->addUser(text1.c_str(), text2.c_str(),
                        text3.c_str(), userName, text4.c_str());
          populateUserList();
+         // Create a directory for this new grower
+         string Directory = webSession->getFilesDir() + "\\" + string(text2.c_str());
+         mkdir(Directory.c_str());
          }
       catch (const runtime_error& err)
          {

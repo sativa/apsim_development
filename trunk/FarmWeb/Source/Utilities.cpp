@@ -138,7 +138,7 @@ string createJobXML(TWebSession* webSession, Data* data, const string& userName,
 
    string xml = "<job owner=\"[USERNAME]\">\n"
                 "   <localcommand>\n"
-                "      <commandline>\"c:\\program files\\apsim42\\bin\\apsrun.exe\" /createsim \"[USERNAME].con\"</commandline>\n"
+                "      <commandline>\"c:\\program files\\apsim6\\bin\\contosim.exe\" \"[USERNAME].con\"</commandline>\n"
                 "   </localcommand>\n"
                 "   <cluster>\n";
 
@@ -151,7 +151,7 @@ string createJobXML(TWebSession* webSession, Data* data, const string& userName,
 
    xml += "   </cluster>\n"
           "   <localcommand>\n"
-          "	     <commandline>\"c:\\program files\\apsim42\\bin\\apsimreport.exe\" \"[USERNAME].report\" \"" + GIFFileName + "\"</commandline>\n"
+          "	     <commandline>\"c:\\program files\\apsim6\\bin\\apsimreport.exe\" \"[USERNAME].report\" \"" + GIFFileName + "\"</commandline>\n"
           "   </localcommand>\n"
           "   <ftp>\n"
           "	     <from>" + GIFFileName + "</from>\n"
@@ -189,10 +189,10 @@ void createJobBat(TWebSession* webSession, const string& userName, vector<string
       string IAsString = string(IntToStr(i).c_str());
       string batFileName = webSession->getFilesDir() + "\\" + userName + IAsString + "._bat";
       ofstream out(batFileName.c_str());
-      if (count == 1)
-         out << "\"c:\\program files\\apsim42\\bin\\apsim.exe\" \"" << userName << ".sim\"" << endl;
-      else
-         out << "\"c:\\program files\\apsim42\\bin\\apsim.exe\" \"" << userName << IAsString << ".sim\"" << endl;
+//      if (count == 1)
+//         out << "\"c:\\program files\\apsim6\\bin\\apsim.exe\" \"" << userName << ".sim\"" << endl;
+//      else
+         out << "\"c:\\program files\\apsim6\\bin\\apsim.exe\" \"" << userName << "." << IAsString << ".sim\"" << endl;
       out << "echo Finished > Run" << IAsString << ".finished" << endl;
       filesCreated.push_back(batFileName);
       }
