@@ -13,24 +13,21 @@ OBJFILES=YPCalc.obj YPComponent.obj ..\..\..\Shared\ComponentInterface\EntryPoin
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(APSROOT)\Shared\general\general.lib \
-	$(APSROOT)\Shared\Protocol\Protocol.lib
+	$(BCB)\Components\Boost\libs\date_time\date_time.lib
+
 
 # ---------------------------------------------------------------------------
 RESFILES = 
 USERDEFINES =
-SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;
-INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost;
+INCLUDEPATH = $(SYSINCLUDES)
 LIBPATH = $(SYSLIBPATH)
 CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
-ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib $(OBJFILES)
+ALLOBJ = c0d32.obj Memmgr.Lib $(OBJFILES)
 ALLRES = $(RESFILES)
 ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
-
-CC=$(BCB)\Bin\bcc32.exe
-LD=$(BCB)\Bin\ilink32
 
 source: $(PROJECT)
 
