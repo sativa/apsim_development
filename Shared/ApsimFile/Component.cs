@@ -301,9 +301,9 @@ namespace ApsimFile
                     // the user pastes a soil node. We want to make sure there are <initwater> and
                     // <initnitrogen> nodes.
                     XmlNode SoilNode = Doc.DocumentElement.ChildNodes[0];
-                    XmlNode InitWaterNode = XmlHelper.Find(SoilNode, "InitWater");
-                    XmlNode InitNitrogenNode = XmlHelper.Find(SoilNode, "InitNitrogen");
-                    XmlNode SoilSampleNode = XmlHelper.Find(SoilNode, "SoilSample");
+                    XmlNode InitWaterNode = XmlHelper.FindByType(SoilNode, "InitWater");
+                    XmlNode InitNitrogenNode = XmlHelper.FindByType(SoilNode, "InitNitrogen");
+                    XmlNode SoilSampleNode = XmlHelper.FindByType(SoilNode, "SoilSample");
                     if (InitWaterNode == null && InitNitrogenNode == null && SoilSampleNode == null)
                         {
                         SoilNode.AppendChild(SoilNode.OwnerDocument.CreateElement("InitWater"));
