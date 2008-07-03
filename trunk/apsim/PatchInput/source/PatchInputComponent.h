@@ -28,6 +28,8 @@ class PatchInputComponent : public InputComponent
       unsigned maxYear;
       unsigned getDataMethodID;
       unsigned returnDataMethodID;
+      unsigned startDateID;
+      unsigned endDateID;
       std::vector<std::string> patchVariablesLongTerm;
       typedef std::map<unsigned, protocol::NewMetType> PatchData;
       PatchData patchDataByDayNumber;
