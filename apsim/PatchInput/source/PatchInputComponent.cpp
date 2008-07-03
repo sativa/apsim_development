@@ -68,6 +68,8 @@ void PatchInputComponent::doInit1(const protocol::Init1Data& initData)
    unpatchedMinTID = addRegistration(::respondToGet, -1, "unpatched_mint", protocol::DDML(newmet.mint).c_str());
    unpatchedRadnID = addRegistration(::respondToGet, -1, "unpatched_radn", protocol::DDML(newmet.radn).c_str());
    unpatchedRainID = addRegistration(::respondToGet, -1, "unpatched_rain", protocol::DDML(newmet.rain).c_str());
+   startDateID = addRegistration(::get, -1, "simulation_start_date", "<type kind=\"double\"/>");
+   endDateID = addRegistration(::get, -1, "simulation_end_date", "<type kind=\"double\"/>");
    }
 // ------------------------------------------------------------------
 // Read all patch dates.
@@ -121,13 +123,25 @@ void PatchInputComponent::getDataFromInput(unsigned int fromID)
 
    if (patchVariablesLongTerm.size() > 0)
       {
+      double startDate = 0;
+      double endDate = 0;
+      getVariable(startDateID, startDate, 0, 10000000, true);
+      getVariable(endDateID, endDate, 0, 10000000, true);
+
       vector<string> dataDates;
       for (PatchDates::iterator i = patchDates.begin();
                                 i != patchDates.end();
                                 i++)
          {
-         date d(i->first);
-         dataDates.push_back(to_iso_extended_string(d));
+         bool validPatchDate = (startDate == 0 && endDate == 0);
+         if (!validPatchDate && i->first >= startDate && i->first <= endDate)
+            validPatchDate = true;
+            
+         if (validPatchDate)
+            {
+            date d(i->first);
+            dataDates.push_back(to_iso_extended_string(d));
+            }
          }
       getDataMethodID = addRegistration(::event,
                                         fromID,
@@ -294,9 +308,9 @@ void PatchInputComponent::setPatchData()
 
    if (!found)
       {
-      string msg = "Cannot find patch data from INPUT component for date ";
+      string msg = "No patching of data occurred on date: ";
       msg += to_iso_extended_string(todaysDate);
-      error(msg, false);
+      writeString(msg.c_str());
       }
    else
       {
