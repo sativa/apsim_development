@@ -21,8 +21,14 @@ cd %APSROOT%
 rem --------- Create the ComponentDescription.xml
 call %APSROOT%\ApsimUI\CreateComponentDescription.bat
 
-rem --------- Compile Howwetv2
-cd %APSROOT%\howwetv2\source
-echo ------Compiling Howwetv2 >> %APSROOT%\dotnet.out
-"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" Howwetv2.sln /build release >> %APSROOT%\dotnet.out
+rem --------- Compile YieldProphet\ProcessYPDirectory
+cd %APSROOT%\apsim\yieldprophet\ProcessYPDirectory
+echo ------Compiling YieldProphet\ProcessYPDirectory >> %APSROOT%\dotnet.out
+"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" ProcessYPDirectory.sln /build release >> %APSROOT%\dotnet.out
+cd %APSROOT%
+
+rem --------- Compile Tools
+cd %APSROOT%\tools
+echo ------Compiling Tools >> %APSROOT%\dotnet.out
+"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" Tools.sln /build release >> %APSROOT%\dotnet.out
 cd %APSROOT%

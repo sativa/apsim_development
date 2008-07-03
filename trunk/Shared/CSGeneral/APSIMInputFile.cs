@@ -125,46 +125,64 @@ namespace CSGeneral
 		// ----------------------------------
 		void ReadApsimHeader(StreamReader In)
 			{
-			string Line;
-			string PreviousLine = "";
+         StringCollection ConstantLines = new StringCollection();
+         StringCollection HeadingLines = new StringCollection();
+         ReadApsimHeaderLines(In, ref ConstantLines, ref HeadingLines);
 
-			Line = In.ReadLine();
-			while (In.Peek() >= 0)
-				{
-                // constant found.
-                string Comment = StringManip.SplitOffAfterDelimiter(ref Line, "!");
-                Comment.Trim();
-                int PosEquals = Line.IndexOf('=');
-				if (PosEquals != -1)
-					{	
-					if (Line.Length > 0)
-						{
-						string Name = Line.Substring(0, PosEquals).Trim();
-						string Value = Line.Substring(PosEquals+1).Trim();
-						string Units = StringManip.SplitOffBracketedValue(ref Value, '(', ')');
-						_Constants.Add(new APSIMConstant(Name, Value, Units, Comment));
-						}
-					}
-				else
-					{
-					char[] whitespace = {' ', '\t'};
-					int PosFirstNonBlankChar = StringManip.IndexNotOfAny(Line, whitespace);
-					if (PosFirstNonBlankChar != -1 && Line[PosFirstNonBlankChar] == '(')
-						{
-						Headings = StringManip.SplitStringHonouringQuotes(PreviousLine, " \t");
-						Units = StringManip.SplitStringHonouringQuotes(Line, " \t");
-						break;
-						}
-					}
-				PreviousLine = Line;
-				Line = In.ReadLine();
+         foreach (string ConstantLine in ConstantLines)
+            {
+            string Line = ConstantLine;
+            string Comment = StringManip.SplitOffAfterDelimiter(ref Line, "!");
+            Comment.Trim();
+            int PosEquals = Line.IndexOf('=');
+            if (PosEquals != -1)
+               {
+               string Name = Line.Substring(0, PosEquals).Trim();
+               string Value = Line.Substring(PosEquals + 1).Trim();
+               string Unit = StringManip.SplitOffBracketedValue(ref Value, '(', ')');
+               _Constants.Add(new APSIMConstant(Name, Value, Unit, Comment));
+               }
 				}
 
-			if (Headings.Count == 0 || Units.Count == 0)
-				throw new Exception("Cannot find headings and units in file: " + _FileName);
+         Headings = StringManip.SplitStringHonouringQuotes(HeadingLines[0], " \t");
+         Units = StringManip.SplitStringHonouringQuotes(HeadingLines[1], " \t");
 			
 			IdentifyDateColumns();
 			}
+
+      public static void ReadApsimHeaderLines(StreamReader In, 
+                                              ref StringCollection ConstantLines,
+                                              ref StringCollection HeadingLines)
+         {
+         string PreviousLine = "";
+
+         string Line = In.ReadLine();
+         while (Line != null && Line != "")
+            {
+            int PosEquals = Line.IndexOf('=');
+            if (PosEquals != -1)
+               {
+               // constant found.
+               ConstantLines.Add(Line);
+               }
+            else
+               {
+               char[] whitespace = { ' ', '\t' };
+               int PosFirstNonBlankChar = StringManip.IndexNotOfAny(Line, whitespace);
+               if (PosFirstNonBlankChar != -1 && Line[PosFirstNonBlankChar] == '(')
+                  {
+                  HeadingLines.Add(PreviousLine);
+                  HeadingLines.Add(Line);
+                  break;
+                  }
+               }
+            PreviousLine = Line;
+            Line = In.ReadLine();
+            }
+
+         if (HeadingLines.Count != 2)
+            throw new Exception("Cannot find headings and units");
+         }
 
 
 		// ----------------------------------

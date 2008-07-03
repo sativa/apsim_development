@@ -222,6 +222,6 @@ cd %APSROOT%\apsim\WaterSupply\source
 echo ------Compiling %CD%
 %APSMAKE%
 
-cd %APSROOT%\apsim\YPCalc\source
+cd %APSROOT%\apsim\YieldProphet\source
 echo ------Compiling %CD%
 %APSMAKE%
