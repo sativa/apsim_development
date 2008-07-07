@@ -22,6 +22,10 @@ class interpolationFunction : public externalFunction
    void read(ScienceAPI& scienceAPI,
              const string& xName, const string&  xunits, float x0, float x1,
              const string& yName, const string& yunits, float y0, float y1);
+   void readOptional(ScienceAPI& scienceAPI,
+             const string& xName, const string&  xunits, float x0, float x1,
+             const string& yName, const string& yunits, float y0, float y1, float DefaultY);
+
    float value(float v);
    vector<float> xVal()  {
    	return(x);

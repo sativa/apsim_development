@@ -196,6 +196,8 @@ public:
    void get_root_wt(protocol::Component *, protocol::QueryValueData &);
    void get_leaf_wt(protocol::Component *, protocol::QueryValueData &);
    void get_stem_wt(protocol::Component *, protocol::QueryValueData &);
+   void get_respiration(protocol::Component *, protocol::QueryValueData &);
+   void get_effective_rue(protocol::Component *, protocol::QueryValueData &);
    void get_biomass(protocol::Component *, protocol::QueryValueData &);
    void get_green_biomass(protocol::Component *, protocol::QueryValueData &);
    void get_biomass_wt(protocol::Component *, protocol::QueryValueData &);

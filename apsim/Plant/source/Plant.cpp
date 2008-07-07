@@ -1,4 +1,4 @@
-#include "StdPlant.h" 
+#include "StdPlant.h"
 
 #include "Plant.h"
 #include "CompositePart.h"
@@ -142,6 +142,11 @@ void Plant::onInit1(void)
    setupGetFunction(parent, "cover_tot", protocol::DTsingle, false,
                      &Plant::get_cover_tot, "", "Total cover");
 
+
+   setupGetFunction(parent, "effective_rue", protocol::DTsingle, false,
+                    &Plant::get_effective_rue, "g/m2/MJ", "EffectiveRUE");
+   setupGetFunction(parent, "respiration", protocol::DTsingle, false,
+                    &Plant::get_respiration, "g/m2", "Whole Plant Respiration");
 
    setupGetFunction(parent, "biomass", protocol::DTsingle, false,
                     &Plant::get_biomass, "kg/ha", "Biomass");
@@ -1270,7 +1275,7 @@ void Plant::read(void)
    if (!scienceAPI.readOptional("eo_crop_factor", p.eo_crop_factor, 0.0f, 100.0f))
       p.eo_crop_factor = c.eo_crop_factor_default;
    scienceAPI.readOptional("remove_biomass_report", c.remove_biomass_report);
-                      
+
    phenology().read();
    root().read();
    }
@@ -1738,6 +1743,22 @@ void Plant::get_biomass(protocol::Component *system, protocol::QueryValueData &q
 {
     system->sendVariable(qd, tops.Total.DM() * gm2kg / sm2ha);
 }
+void Plant::get_respiration(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    system->sendVariable(qd, plant.Respiration());
+}
+
+void Plant::get_effective_rue(protocol::Component *system, protocol::QueryValueData &qd)
+{
+   float erue;
+   if (plant.Respiration()>0.)   // SPASS model used
+      erue = divide(plant.Growth.DM()-plant.Respiration()-root().dltDmGreen(),environment().radn()*tops.coverGreen(),0.0);
+   else
+      erue = divide(plant.Growth.DM()-plant.Respiration(),environment().radn()*tops.coverGreen(),0.0);
+    //erue = divide(tops.Growth.DM(),environment().radn()*tops.coverGreen(),0.0);
+    system->sendVariable(qd, erue);
+}
+
 
 void Plant::get_green_biomass(protocol::Component *system, protocol::QueryValueData &qd)
 {

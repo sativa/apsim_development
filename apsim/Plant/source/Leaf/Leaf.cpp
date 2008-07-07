@@ -83,7 +83,7 @@ void Leaf::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water dem
                           , plant->getCo2Modifier()->te()
                           , &transpEff);
 
-      cproc_sw_demand1 (dlt.dm_pot_rue
+      cproc_sw_demand1 (dlt.dm_pot_rue - Respiration()
                         , transpEff
                         , &sw_demand_te);
 

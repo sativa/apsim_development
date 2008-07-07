@@ -104,6 +104,7 @@ public:
    virtual void  doCover (PlantSpatial &spatial) = 0;
    virtual void  doDmDemand (float dlt_dm_supply_by_veg) = 0;
    virtual void  doDmPotRUE (void ) = 0;                      // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+   virtual float Respiration(void) = 0;
    virtual void  doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal) = 0;
    virtual void  doNDemand1(float, float) = 0;
    virtual void  doNDemand1Pot(float, float) = 0;

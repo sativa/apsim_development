@@ -24,6 +24,7 @@ class Environment : public plantThing
       float vpdEstimate() const;
       float dayLength(float sun_angle) const;
       float dayLength(int dyoyr, float sun_angle) const;
+      float Latitude() const {return latitude;}
 
    private:
       protocol::NewMetType NewMet;

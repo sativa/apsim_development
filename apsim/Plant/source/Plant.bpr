@@ -35,7 +35,7 @@
       Phenology\CWVernalPhase.obj Phenology\CWInductivePhase.obj 
       Phenology\CWFixedPhase.obj Phenology\CWSowingPhase.obj Root\Soil.obj 
       Fixation.obj Phenology\Zadok.obj Phenology\InductivePhase.obj 
-      Phenology\WaitingPhase.obj"/>
+      Phenology\WaitingPhase.obj Arbitrators\WholePlantGenericArbitratorXY.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -163,6 +163,7 @@
       <FILE FILENAME="Phenology\Zadok.cpp" FORMNAME="" UNITNAME="Zadok" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\InductivePhase.cpp" FORMNAME="" UNITNAME="InductivePhase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Phenology\WaitingPhase.cpp" FORMNAME="" UNITNAME="WaitingPhase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Arbitrators\WholePlantGenericArbitratorXY.cpp" FORMNAME="" UNITNAME="WholePlantGenericArbitratorXY" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -271,25 +272,5 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=C:\hol353\Development\apsim\Wheat\Sample\wheat.apsim.wheat_sample.sim
-Launcher=
-UseLauncher=0
-DebugCWD=
-HostApplication=C:\hol353\Development\Bin\apsim.exe
-RemoteHost=
-RemotePath=
-RemoteLauncher=
-RemoteCWD=
-RemoteDebug=0
-
-[Compiler]
-ShowInfoMsgs=0
-LinkDebugVcl=0
-LinkCGLIB=0
-
-[Linker]
-LibPrefix=
-LibSuffix=
-LibVersion=
   </IDEOPTIONS>
 </PROJECT>

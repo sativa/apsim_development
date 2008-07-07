@@ -252,7 +252,7 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
                               , "frac_pod", "-", 0.0, 2.0);
 
       }
-   else if (partition_option == "2" || partition_option == "allometric")
+   else if (partition_option == "2" || partition_option == "allometric" || partition_option == "wholeplantgenericxy")
       {
       fracPod = new interpolationFunction();
       fracPod->read(scienceAPI, "x_stage_no_partition", "-", 0.0, 20.0

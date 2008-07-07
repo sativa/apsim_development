@@ -3,6 +3,8 @@
 #include "Arbitrators/Arbitrator.h"
 #include "CompositePart.h"
 #include "Population.h"
+#include "Environment.h"
+
 using namespace std;
 
 SimplePart::SimplePart(ScienceAPI& api, plantInterface *p, const string &name)
@@ -33,7 +35,7 @@ void SimplePart::Initialise()
      c.p_init_conc = 0;
      c.n_sen_conc = 0;
      c.trans_frac = 1;
-     c.trans_frac_option = false;
+     c.trans_frac_option = 0;
      c.n_retrans_fraction = 1.0;
      c.sen_detach_frac = 0;
      c.p_stress_determinant = false;
@@ -369,6 +371,15 @@ void SimplePart::readSpeciesParameters (protocol::Component *, vector<string> &)
 
     if (!scienceAPI.readOptional("n_deficit_uptake_fraction", c.n_deficit_uptake_fraction, 0.0f, 1.0f))
         c.n_deficit_uptake_fraction = 0.0;
+
+    c.MaintenanceCoefficient.readOptional(scienceAPI
+                        , "MaintenanceCoefficientStage", "()", 0.0, 100.0
+                        , (myName+"MaintenanceCoefficient").c_str(), "()", 0.0, 1.0, 0.0);
+
+//    if (!scienceAPI.readOptional(myName+"MaintenanceCoefficient", c.MaintenanceCoefficient, 0.0f, 1.0f))
+//        c.MaintenanceCoefficient = 0.0;
+//    else
+//        cout << myName <<" "<<c.MaintenanceCoefficient<<endl;
 
     }
 
@@ -1301,6 +1312,27 @@ float SimplePart::SWDemandTE(void){return sw_demand_te;}
 void SimplePart::calcDlt_pod_area (void){}   //FIXME
 void SimplePart::doDmDemand (float /* dlt_dm_supply_by_veg*/){}
 void SimplePart::doDmPotRUE (void){}                         // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+float SimplePart::Respiration(void)
+   {
+	//===============================================================================================
+	//Temperature effect
+	double Q10 = 2.0;
+	float fTempRef=(float)25.0;
+	float fTmpAve = (plant->environment().maxt()+plant->environment().mint())/2.0;
+	float fTempEf=(float)pow(Q10,(double)(fTmpAve-fTempRef)/10.0);
+
+   float nfac = (Green.NconcPercent() - nConcMin())/(nConcCrit()-nConcMin());
+   //if (nfac > 1.) cout << "NFAC---------"<<nfac<<endl;
+   //if (nfac < 0.) cout << myName<<" NFAC---------"<<nfac<<endl;
+   nfac = min(max(nfac,0.),1.);
+   nfac = 1.0;  // turn this off for now!!!!!
+
+//   return min(Green.DM(),DMPlantMin*plant->getPlants())
+//           *c.MaintenanceCoefficient*fTempEf*nfac;
+   float MC = plant->phenology().doInterpolation(c.MaintenanceCoefficient);
+   return Green.DM()*MC*fTempEf*nfac;
+
+   }
 void SimplePart::doGrainNumber (void){}
 void SimplePart::doNDemandGrain(float /* nfact_grain_conc*/, float /* swdef_expansion*/){}
 void SimplePart::writeCultivarInfo (protocol::Component *){}

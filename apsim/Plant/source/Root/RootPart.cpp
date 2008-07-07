@@ -165,9 +165,11 @@ void RootPart::read()
                          "x_ws_root", "()", 0.0, 1.0,
                          "y_ws_root_fac", "()", 0.0, 1.0);
 
+// NIH This really should be inherited from simple part.
+    c.MaintenanceCoefficient.read(scienceAPI
+                        , "MaintenanceCoefficientStage", "()", 0.0, 100.0
+                        , (myName+"MaintenanceCoefficient").c_str(), "()", 0.0, 1.0);   scienceAPI.readOptional("uptake_source", uptake_source);
 
-
-   scienceAPI.readOptional("uptake_source", uptake_source);
    if (uptake_source == "")uptake_source = "calc";
 
    (*soil[0]).Read();
