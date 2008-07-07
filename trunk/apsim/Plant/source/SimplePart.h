@@ -97,6 +97,7 @@ class SimplePart : public plantPart
                                                         // and this can be converted to
                                                         // kpa*g carbo per m^2 / mm water
                                                         // because 1g water = 1 cm^3 water
+      interpolationFunction MaintenanceCoefficient;
    } c;
 
    plantInterface *plant;                 // The plant we are attached to
@@ -280,6 +281,7 @@ protected:
    virtual float coverSen(void) ;
    virtual float coverTotal(void) ;
    virtual float dltDmGrainDemand(void);
+   virtual float Respiration(void);
    virtual float grainWaterContent(void);
    virtual float dmGrainWetTotal(void);
    virtual float grainNo(void);

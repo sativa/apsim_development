@@ -12,6 +12,7 @@
 #include "Root/MultiRoot.h"
 #include "Arbitrators/GenericArbitrator.h"
 #include "Arbitrators/GenericArbitratorXY.h"
+#include "Arbitrators/WholePlantGenericArbitratorXY.h"
 #include "Leaf/GenericLeaf.h"
 #include "Leaf/CohortingLeaf.h"
 #include "Stem.h"
@@ -49,6 +50,8 @@ plantThing* createThing(ScienceAPI& api, plantInterface& plant, const std::strin
       return new GenericArbitrator(api, plant);
    else if (typeLower == "genericarbitratorxy")
       return new GenericArbitratorXY(api, plant);
+   else if (typeLower == "wholeplantgenericxy")
+     return new WholePlantGenericArbitratorXY(api, plant);
    else if (typeLower == "genericleaf")
       return new GenericLeaf(api, &plant, name);
    else if (typeLower == "cohortingleaf")

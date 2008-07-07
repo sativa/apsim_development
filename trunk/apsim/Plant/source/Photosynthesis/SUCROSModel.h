@@ -23,7 +23,24 @@ class SUCROSModel : public PhotosynthesisModel {
   float Potential (float radiationInterceptedGreen);
   void  Read (void);
   private:
-  interpolationFunction RUE;                        // radiation use efficiency as f(stage number) (g dm/mj)
+  float DailyCanopyGrossPhotosythesis(float fLAI, float fLatitude,int nDay,
+                                        float fRad,float fTmpMax,float fTmpMin,float fCO2,
+                                       float nFact);
+  float LeafMaxGrossPhotosynthesis(float fTemp,float fCO2,float nFact);
+  float LeafLightUseEfficiency(float fTemp, float fCO2);
+  float CanopyGrossPhotosynthesis(float fPgMax, float fLUE, float fLAI,float fKDIF,
+                                float fLatitude,int nDay,float fHour, float fPARdir,float fPARdif);
+   float RelativeTemperatureResponse(float fTemp, float fMinTemp, float fOptTemp, float fMaxTemp);
+   float   fPgmmax;
+   float fMaxLUE;
+   float fCO2Cmp;
+   float fCO2R;
+   float fKDIF;
+   float fMaxTmp;
+   float fOptTmp;
+   float fMinTmp;
+   string pathway;
+
 };
 
 #endif

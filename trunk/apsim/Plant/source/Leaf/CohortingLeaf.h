@@ -78,7 +78,7 @@ class CohortingLeaf : public Leaf {
    vector<float> gLeafAge;                            // age (TT) of each cohort (oC^d)
    vector<float> gDltLeafAreaPot;                     // Pot daily increase in leaf area
    float gLeavesPerNode;
-
+   float gDltLeavesPerNode;
    float cInitialTPLA;                                // initial plant leaf area (mm^2)
    float cLeafNumberAtEmerg;                          // leaf number at emergence ()
    float cFrLeafSenRate;                              // rate of leaf senescence
@@ -110,6 +110,7 @@ class CohortingLeaf : public Leaf {
 
    interpolationFunction cNodeAppRate;
    interpolationFunction cLeavesPerNode;
+   interpolationFunction cTilleringCriticalCover;                     //Cover at which tillering stops
    interpolationFunction cLeafSize;
    interpolationFunction cSLAMax;
    interpolationFunction cLeafNoFrac;

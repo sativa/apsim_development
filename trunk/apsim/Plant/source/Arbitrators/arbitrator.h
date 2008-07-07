@@ -16,7 +16,7 @@ class Arbitrator : public plantThing
       vector <string> PartitionParts;
       vector <string> PartitionRules;
 
-      virtual float ratioRootShoot() = 0;
+      virtual float ratioRootShoot(){return 0.0;}
       virtual float fracDMRemainingInPart(int partNumber) = 0;
 
    public:
@@ -35,7 +35,7 @@ class Arbitrator : public plantThing
 
       float DMSupply() {return _DMSupply;}
       float RelativeGrowthRate(void);
-      float TotalPotentialGrowthRate(void);
+      virtual float TotalPotentialGrowthRate(void);
    };
 
 #endif

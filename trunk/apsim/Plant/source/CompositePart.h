@@ -73,6 +73,7 @@ public:                                             // member functions
    virtual float dltDmGreen(void)  ;
    virtual float dltDmGreenRemoved(void);
    virtual float dltDmPotRue(void);
+   virtual float Respiration(void);
    virtual float dltDmRemoved(void);
    virtual float dltNGreen(void);
    virtual float dltNRemoved(void);

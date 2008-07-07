@@ -24,6 +24,8 @@ class RUEModel : public PhotosynthesisModel {
   void  Read (void);
   private:
   interpolationFunction RUE;                        // radiation use efficiency as f(stage number) (g dm/mj)
+  interpolationFunction DiffuseLightFactor;
+  float Q0(float lat, int day);
 };
 
 #endif

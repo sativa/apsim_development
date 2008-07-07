@@ -927,6 +927,15 @@ float CompositePart::dltDmPotRue(void)
       dltDmPotRue += (*part)->dltDmPotRue();
    return dltDmPotRue;
 }
+float CompositePart::Respiration(void)
+   //===========================================================================
+{
+   float Respiration = 0.0;
+   vector <plantPart *>::const_iterator part;
+   for (part =  myParts.begin(); part != myParts.end(); part++)
+      Respiration += (*part)->Respiration();
+   return Respiration;
+}
 
 float CompositePart::DMSupply(void)
    //===========================================================================

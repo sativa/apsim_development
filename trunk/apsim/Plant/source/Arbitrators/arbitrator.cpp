@@ -5,6 +5,7 @@
 #include "CompositePart.h"
 #include "Root/RootBase.h"
 #include "Phenology/Phenology.h"
+#include "WholePlantGenericArbitratorXY.h"
 
 Arbitrator::Arbitrator(ScienceAPI& scienceAPI, plantInterface& p)
    : plantThing(scienceAPI, "arbitrator"), plant(p)
@@ -32,7 +33,7 @@ void Arbitrator::partitionDM()
       {
       plantPart& Part = plant.All().find(PartitionParts[i]);
 
-      Part.zeroDltDmGreen(); 
+      Part.zeroDltDmGreen();
       if (PartitionRules[i] == "magic")
          Part.giveDmGreen(ratioRootShoot() * DMSupply());
 

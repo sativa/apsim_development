@@ -16,6 +16,22 @@ void interpolationFunction::read(ScienceAPI& scienceAPI,
    scienceAPI.readOptional(yname, y, y0, y1);
    }
 
+void interpolationFunction::readOptional(ScienceAPI& scienceAPI,
+                                   const string& xname, const string& xunits, float x0, float x1,
+                                   const string& yname, const string& yunits, float y0, float y1, float DefaultY)
+   {
+   externalFunction::read(scienceAPI, xname, xunits, x0, x1, yname, yunits, y0, y1);
+   x.clear();   y.clear();
+
+   scienceAPI.readOptional(xname, x, x0, x1);
+   if(!scienceAPI.readOptional(yname, y, y0, y1))
+      {
+      x.push_back(0.0);
+      x.push_back(1.0);
+      y.push_back(DefaultY);
+      y.push_back(DefaultY);
+      }
+   }
 
 std::string interpolationFunction::description(void)
    {

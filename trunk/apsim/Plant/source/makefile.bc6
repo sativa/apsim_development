@@ -32,6 +32,8 @@ OBJFILES=PlantComponent.obj \
    Fixation.obj \
    Utility\Observers.obj \
    Leaf\Leaf.obj \
+   Leaf\Culm.obj \
+   Leaf\IndividualLeaf.obj \
    Stem.obj \
    Storage\StoragePart.obj \
    ReproductivePart.obj \
@@ -64,6 +66,7 @@ OBJFILES=PlantComponent.obj \
    Arbitrators\Arbitrator.obj \
    Arbitrators\GenericArbitrator.obj \
    Arbitrators\GenericArbitratorXY.obj \
+   Arbitrators\WholePlantGenericArbitratorXY.obj \
    PlantSpatial.obj \
    Pool.obj \
    CompositePool.obj \
@@ -100,7 +103,7 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 # ---------------------------------------------------------------------------
 RESFILES =
 USERDEFINES=
-INCLUDEPATH=$(SYSINCLUDES) 
+INCLUDEPATH=$(SYSINCLUDES)
 LIBPATH=$(SYSLIBPATH)
 CFLAG1=$(SYSCFLAGS) -WD -WR -r- -k -vi- -y -v -w
 WARNINGS=-w-par
@@ -157,6 +160,8 @@ Environment.obj: Environment.cpp Environment.h
 Fixation.obj: Fixation.cpp Fixation.h
 Utility\Observers.obj: Utility\Observers.cpp Utility\Observers.h
 Leaf\Leaf.obj: Leaf\Leaf.cpp PlantPart.h Leaf\Leaf.h SimplePart.h
+Leaf\Culm.obj: Leaf\Culm.cpp Leaf\Culm.h
+Leaf\Culm.obj: Leaf\IndividualLeaf.cpp Leaf\IndividualLeaf.h
 Stem.obj: Stem.cpp Stem.h PlantPart.h SimplePart.h
 Storage\StoragePart.obj: Storage\StoragePart.cpp Storage\StoragePart.h PlantPart.h SimplePart.h
 ReproductivePart.obj: ReproductivePart.cpp ReproductivePart.h PlantPart.h SimplePart.h
@@ -212,4 +217,4 @@ Photosynthesis\Weather.obj: Photosynthesis\Weather.cpp Photosynthesis\Weather.h
 Photosynthesis\SUCROSModel.obj: Photosynthesis\SUCROSModel.cpp Photosynthesis\SUCROSModel.h
 Arbitrators\GenericArbitrator.obj: Arbitrators\GenericArbitrator.cpp Arbitrators\GenericArbitrator.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
 Arbitrators\GenericArbitratorXY.obj: Arbitrators\GenericArbitratorXY.cpp Arbitrators\GenericArbitratorXY.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
-
+Arbitrators\WholePlantGenericArbitratorXY.obj: Arbitrators\WholePlantGenericArbitratorXY.cpp Arbitrators\WholePlantGenericArbitratorXY.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h

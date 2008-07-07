@@ -57,6 +57,9 @@ void CohortingLeaf::readSpeciesParameters (protocol::Component *system, vector<s
                        , "x_node_no_leaf",  "()", 0.0, 200.0
                        , "y_leaves_per_node", "()", 0.0, 50.0);
 
+   cTilleringCriticalCover.read(scienceAPI
+                       , "CropCover",  "()", 0.0, 1.0
+                       , "RelativeTillerAppearance", "()", 0.0, 1.0);
 
    cGrowthPeriod.read(scienceAPI,
                         "x_leaf_cohort", "(cohort)", 0, 50.0,
@@ -153,6 +156,9 @@ void CohortingLeaf::onInit1(protocol::Component *system)
    system->addGettableVar("dlt_slai_water", dltSLAI_water, "m^2/m^2", "Change in lai via water stress");
 
    system->addGettableVar("dlt_slai_frost", dltSLAI_frost, "m^2/m^2", "Change in lai via low temperature");
+
+
+   system->addGettableVar("leaves_per_node", gLeavesPerNode, "","");
    }
 
 void CohortingLeaf::get_tlai(protocol::Component *system, protocol::QueryValueData &qd)
@@ -209,21 +215,29 @@ void CohortingLeaf::get_node_no_sen(protocol::Component *system, protocol::Query
 void CohortingLeaf::get_node_no_fx(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
-   float node_no_fx = gNodeNo;
+   float node_no_fx = 1.0; //gNodeNo;
 
    if (gNodeNo == 0)
       node_no_fx = 0.0;
 
    else
-      for (unsigned int cohort = 0; cohort != gLeafArea.size()-1; cohort++)
+      for (unsigned int cohort = 0; cohort < gLeafArea.size(); cohort++)
          {
-         if (gLeafAge[cohort]>cGrowthPeriod[cohort+1] && gLeafAge[cohort+1]<=cGrowthPeriod[cohort+1+1])
+         cout << "cohort"<< cohort << " " << gLeafArea.size()-1 << " " <<gLeafAge[cohort]<<" "<<cGrowthPeriod[cohort+1]<<endl;
+         if ((cohort == (gLeafArea.size()-1)) && gLeafAge[cohort]>cGrowthPeriod[cohort+1])
+            {
+            // We are dealing with the top node
+            node_no_fx = cohort + 1;
+            break;
+            }
+         else if (gLeafAge[cohort]>cGrowthPeriod[cohort+1] && gLeafAge[cohort+1]<=cGrowthPeriod[cohort+1+1])
             {
             // This is the expanded node
             node_no_fx = cohort+1; //+divide(gLeafAge[cohort+1],cGrowthPeriod[cohort+1+1],0.0);
             break;
             }
          }
+   cout <<node_no_fx << " " << gNodeNo<<endl;
 
    system->sendVariable(qd, node_no_fx);
 }
@@ -299,6 +313,7 @@ void CohortingLeaf::zeroDeltas(void)
    dltSLAI_water = 0.0;
    dltSLAI_frost = 0.0;
    dltLeafNo              = 0.0;
+   gDltLeavesPerNode = 0.0;
 //    g.dlt_node_no              = 0.0; JNGH - need to carry this through for site no next day.
    dltNodeNo = 0.0;
    setTo(dltSLA_age, (float) 0.0);
@@ -325,6 +340,7 @@ void CohortingLeaf::zeroAllGlobals(void)
    gDltLeafAreaPot.clear();
    gLeafNo.clear();
    gLeavesPerNode = 0.0;
+   gDltLeavesPerNode = 0.0;
 
    gNodeNo = 0.0;
    dltNodeNo = 0.0;
@@ -332,6 +348,7 @@ void CohortingLeaf::zeroAllGlobals(void)
    coverLeaf.sen = 0.0;
 
    ExternalSWDemand = false;
+
 }
 
 void CohortingLeaf::onEmergence(void)
@@ -467,6 +484,9 @@ void CohortingLeaf::leaf_no_actual (void)
 
 
    dltLeafNo = dltLeafNoPot * leaf_no_frac;
+   if (dltNodeNo > dltLeafNo) dltNodeNo = dltLeafNo;
+   gDltLeavesPerNode = gDltLeavesPerNode * leaf_no_frac;
+
    }
 
 
@@ -510,16 +530,18 @@ void CohortingLeaf::leaf_no_pot (float stressFactor, float dlt_tt)
     if (tillering)
         {
         float leaves_per_node_now = cLeavesPerNode[gNodeNo];
+
         gLeavesPerNode = min(gLeavesPerNode, leaves_per_node_now);
-        float dlt_leaves_per_node = cLeavesPerNode[gNodeNo + dltNodeNo] - leaves_per_node_now;
 
-        if (dlt_leaves_per_node > 0.0)
-           gLeavesPerNode +=  dlt_leaves_per_node * stressFactor;
-        else
-           gLeavesPerNode +=  dlt_leaves_per_node;
-        gLeavesPerNode = max(1.0, gLeavesPerNode);
+        gDltLeavesPerNode = cLeavesPerNode[gNodeNo + dltNodeNo] - leaves_per_node_now;
+        gDltLeavesPerNode = gDltLeavesPerNode * cTilleringCriticalCover[coverTotal()];
 
-        dltLeafNoPot = dltNodeNo * gLeavesPerNode;
+        if (gDltLeavesPerNode > 0.0)
+           gDltLeavesPerNode =  gDltLeavesPerNode * stressFactor;
+
+        gDltLeavesPerNode = max(1.0 - gLeavesPerNode, gDltLeavesPerNode);  //cannot reduce LPN to below 1
+
+        dltLeafNoPot = dltNodeNo * (gLeavesPerNode + gDltLeavesPerNode);
         }
     }
 
@@ -530,7 +552,7 @@ void CohortingLeaf::leaf_area_potential (float tt)
    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
       {
       if (cGrowthPeriod[cohort+1] - gLeafAge[cohort] > 0.0)
-         gDltLeafAreaPot[cohort] = cAreaPot[cohort+1] * u_bound(divide(tt, cGrowthPeriod[cohort+1], 0.0), 1.0);
+         gDltLeafAreaPot[cohort] = cAreaPot[cohort+1] * (gLeavesPerNode+gDltLeavesPerNode) * u_bound(divide(tt, cGrowthPeriod[cohort+1], 0.0), 1.0);
       else
          gDltLeafAreaPot[cohort] = 0.0;
       }
@@ -630,6 +652,7 @@ void CohortingLeaf::update(void)
      gLeafNo[gLeafArea.size()-1] += dltLeafNo;  // Add leaves to currently expanding cohort.
 
    gNodeNo += dltNodeNo;
+   gLeavesPerNode = gLeavesPerNode + gDltLeavesPerNode;
 
    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
       gLeafAge[cohort] += dltTT;
