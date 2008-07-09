@@ -13,7 +13,7 @@ SimplePart::SimplePart(ScienceAPI& api, plantInterface *p, const string &name)
      {
      plant = p;
      myName = name;
-
+ 
      Initialise();
      }
 
@@ -231,9 +231,6 @@ void SimplePart::zeroAllGlobals(void)
    g.n_conc_crit=0.0;
    g.n_conc_max=0.0;
    g.n_conc_min=0.0;
-   g.p_conc_sen=0.0;
-   g.p_conc_max=0.0;
-   g.p_conc_min=0.0;
    DMPlantMin=0.0;
 
    relativeGrowthRate = 0.0;
@@ -1321,7 +1318,7 @@ float SimplePart::Respiration(void)
 	float fTmpAve = (plant->environment().maxt()+plant->environment().mint())/2.0;
 	float fTempEf=(float)pow(Q10,(double)(fTmpAve-fTempRef)/10.0);
 
-   float nfac = (Green.NconcPercent() - nConcMin())/(nConcCrit()-nConcMin());
+   float nfac = divide((Green.NconcPercent() - nConcMin()),(nConcCrit()-nConcMin()),1.0);
    //if (nfac > 1.) cout << "NFAC---------"<<nfac<<endl;
    //if (nfac < 0.) cout << myName<<" NFAC---------"<<nfac<<endl;
    nfac = min(max(nfac,0.),1.);
