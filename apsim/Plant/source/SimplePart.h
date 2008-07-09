@@ -18,9 +18,6 @@ class SimplePart : public plantPart
       float n_conc_crit;                  // critical N concentration (g N/g biomass)
       float n_conc_max;                   // maximum N concentration (g N/g biomass)
       float n_conc_min;                   // minimum N concentration (g N/g biomass)
-      float p_conc_sen;                  // critical P concentration (g N/g biomass)
-      float p_conc_max;                   // maximum P concentration (g N/g biomass)
-      float p_conc_min;                   // minimum P concentration (g N/g biomass)
    } g;
 
    float DMPlantMin;                 // minimum weight of each plant part (g/plant)
