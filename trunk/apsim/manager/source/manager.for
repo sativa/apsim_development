@@ -992,7 +992,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       else if (variable_name(1:5) .eq. 'date(') then
          call Manager_get_params (variable_name, Params)
-         call Get_char_var (Unknown_module, 'today', '', Todaystr,
+         call Get_char_var (Unknown_module, 'today', blank, Todaystr,
      .                        numvals)
          call string_to_double_var (Todaystr, Today, numvals)
          numvals = 0
@@ -1038,7 +1038,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
          call Manager_get_params (variable_name, Params)
 
-         call Get_char_var (Unknown_module, 'today', '', Todaystr,
+         call Get_char_var (Unknown_module, 'today', blank, Todaystr,
      .                        numvals)
          call string_to_double_var (Todaystr, Today, numvals)
 
@@ -1365,6 +1365,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
                                        ! Action to send to APSIM
       character Data_string*(Function_string_len)
                                        ! Data string to send to APSIM
+      character scratch*(Function_string_len)
       character value*(Function_string_len)
       character Variable_name*(Max_manager_var_name_size)
                                        ! variable name in set actions.
@@ -1379,8 +1380,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call split_line_with_quotes (Action_string, Module_name,
      .                             Data_string, Blank)
-      Data_string = adjustl(Data_string)
-      call split_line_with_quotes (Data_string, Action,
+      scratch = adjustl(Data_string)
+      call split_line_with_quotes (scratch, Action,
      .                             Data_string, Blank)
       Action = adjustl(Action)
 
@@ -1510,7 +1511,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       endif
       KillCropID = add_registration(eventReg,
      .                        trim(ModuleNameString) // '.kill_crop',
-     .                              KillCropTypeDDML, '')
+     .                              KillCropTypeDDML, blank)
       call publish_KillCrop(KillCropID, Kill)
 
       end subroutine

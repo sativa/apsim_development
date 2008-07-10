@@ -14,6 +14,7 @@ Arbitrator::Arbitrator(ScienceAPI& scienceAPI, plantInterface& p)
    scienceAPI.read("partitionparts", PartitionParts);
    scienceAPI.read("partitionrules", PartitionRules);
    scienceAPI.expose("dlt_dm", "g/m^2",  "Actual above_ground dry matter production", _DMSupply);
+   _DMSupply = 0.0;
    }
 
 void Arbitrator::partitionDM()

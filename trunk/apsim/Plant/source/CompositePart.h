@@ -24,7 +24,7 @@ public:                                             // member functions
    plantPart* getPart(const std::string& name);
    std::vector<plantPart*> getParts(const std::vector<std::string>& names);
 
-   std::vector<plantPart*> parts() {return myParts;}
+   std::vector<plantPart*> & parts() {return myParts;}
    void add(plantPart* part);
    void addThing(plantThing* thing);
    plantPart& find(const std::string& name);

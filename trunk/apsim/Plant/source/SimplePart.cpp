@@ -1,6 +1,6 @@
 #include "StdPlant.h"
 #include "Phenology/Phenology.h"
-#include "Arbitrators/Arbitrator.h"
+#include "Arbitrators/arbitrator.h"
 #include "CompositePart.h"
 #include "Population.h"
 #include "Environment.h"

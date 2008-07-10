@@ -2,7 +2,7 @@
 
 #include "PlantFruitCohorting.h"
 #include "Environment.h"
-#include "Arbitrators/Arbitrator.h"
+#include "Arbitrators/arbitrator.h"
 #include "Leaf/Leaf.h"
 #include "Population.h"
 using namespace std;
