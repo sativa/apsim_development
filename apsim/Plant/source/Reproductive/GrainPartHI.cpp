@@ -3,7 +3,7 @@
 #include "GrainPartHI.h"
 #include "Environment.h"
 #include "Phenology/Phenology.h"
-#include "Arbitrators/Arbitrator.h"
+#include "Arbitrators/arbitrator.h"
 
 using namespace std;
 

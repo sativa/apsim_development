@@ -240,14 +240,15 @@ module StringModule
 
 
    ! ====================================================================
-       subroutine Split_line (Line, Left_string, Right_string, Delimiter)
+       subroutine Split_line (Input_Line, Left_string, Right_string, Delimiter)
    ! ====================================================================
+      use ConstantsModule
       implicit none
 
    !+ Sub-Program Arguments
        character Delimiter*(*)         ! (INPUT) Delimiter to look for
        character Left_string*(*)       ! (OUTPUT) Extracted left string
-       character Line*(*)              ! (INPUT) Line to break apart
+       character Input_Line*(*)        ! (INPUT) Line to break apart
        character Right_string*(*)      ! (OUTPUT) Extracted right string
 
    !+ Purpose
@@ -282,16 +283,15 @@ module StringModule
    !+ Calls
 
    !+ Constant Values
-      character Blank                  ! Blank
-      parameter (Blank = ' ')
-   !
       integer Not_found                ! Pos when index doesn't find string
       parameter (Not_Found = 0)
 
    !+ Local Variables
        integer Delimiter_Pos           ! Position of delimiter on line
+       character*(Function_string_len) Line
 
    !- Implementation Section ----------------------------------
+      Line(:) = Input_Line(:)
 
       Delimiter_Pos = index (Line,  Delimiter)
 
@@ -318,15 +318,16 @@ module StringModule
       end subroutine
 
    ! ====================================================================
-       subroutine Split_line_with_quotes (Line, Left_string, Right_string, Delimiter)
+       subroutine Split_line_with_quotes (Input_Line, Left_string, Right_string, Delimiter)
    ! ====================================================================
+      use ConstantsModule
       implicit none
 
    !+ Sub-Program Arguments
-       character Delimiter*(*)         ! (INPUT) Delimiter to look for
+       character Input_Line*(*)        ! (INPUT) Line to break apart
        character Left_string*(*)       ! (OUTPUT) Extracted left string
-       character InputLine*(*)         ! (INPUT) Line to break apart
        character Right_string*(*)      ! (OUTPUT) Extracted right string
+       character Delimiter*(*)         ! (INPUT) Delimiter to look for
 
    !+ Purpose
    !      Split up a character string into the string to the left of a
@@ -361,9 +362,6 @@ module StringModule
    !+ Calls
 
    !+ Constant Values
-      character Blank                  ! Blank
-      parameter (Blank = ' ')
-   !
       integer Not_found                ! Pos when index doesn't find string
       parameter (Not_Found = 0)
 
@@ -374,10 +372,11 @@ module StringModule
        integer string_end
        integer Char_index
        character*1 Charact
-       character*(*) Line
+       character*(Function_string_len) Line
 
    !- Implementation Section ----------------------------------
       Line = Input_Line
+
       Delimiter_pos = Not_found
       i = 1
       InsideQuote = .false.

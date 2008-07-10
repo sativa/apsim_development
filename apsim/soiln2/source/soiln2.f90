@@ -784,7 +784,6 @@ subroutine soiln2_zero_all_globals ()
    g%dlt_urea_hydrol(:)   = 0.0
    g%excess_nh4(:)        = 0.0
 
-
       ! Constants
    c%CNrf_coeff            = 0.0
    c%CNrf_optCN            = 0.0
@@ -876,6 +875,7 @@ subroutine soiln2_zero_variables ()
    g%dlt_res_c_atm = 0.0
    g%pot_C_decomp(:) = 0.0
    g%pot_N_decomp(:) = 0.0
+   g%pot_P_decomp(:) = 0.0
    g%dlt_res_C_decomp = 0.0
    g%dlt_res_N_decomp = 0.0
    g%dlt_res_nh4_min = 0.0
