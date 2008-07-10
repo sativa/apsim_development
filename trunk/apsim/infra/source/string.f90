@@ -325,7 +325,7 @@ module StringModule
    !+ Sub-Program Arguments
        character Delimiter*(*)         ! (INPUT) Delimiter to look for
        character Left_string*(*)       ! (OUTPUT) Extracted left string
-       character Line*(*)              ! (INPUT) Line to break apart
+       character InputLine*(*)         ! (INPUT) Line to break apart
        character Right_string*(*)      ! (OUTPUT) Extracted right string
 
    !+ Purpose
@@ -374,9 +374,10 @@ module StringModule
        integer string_end
        integer Char_index
        character*1 Charact
+       character*(*) Line
 
    !- Implementation Section ----------------------------------
-
+      Line = Input_Line
       Delimiter_pos = Not_found
       i = 1
       InsideQuote = .false.
@@ -1435,6 +1436,87 @@ module StringModule
       return
       end subroutine
 
+   ! ====================================================================
+       subroutine Split_line_reverse (Line, Left_string, Right_string, Delimiter)
+   ! ====================================================================
+      implicit none
+
+   !+ Sub-Program Arguments
+       character Delimiter*(*)         ! (INPUT) Delimiter to look for
+       character Left_string*(*)       ! (OUTPUT) Extracted left string
+       character Line*(*)              ! (INPUT) Line to break apart
+       character Right_string*(*)      ! (OUTPUT) Extracted right string
+
+   !+ Purpose
+   !      Split up a character string into the string to the left of a
+   !      delimiter (Left_string) and the string to the right of
+   !      a delimiter (Right_string). The delimiter used is the rightmost
+
+   !+  Definition
+   !     If "line" does not contain any substring equal to "delimiter",
+   !     "line" is assigned to "left_string" and blank is assigned to
+   !     "right_string".  Otherwise let us say that "line" is
+   !     equivalent to lstr // "delimiter" // rstr.  lstr will be
+   !     assigned to "left_string" and rstr will be assigned to
+   !     "right_string".  Warning message are flagged if non blank
+   !     characters are truncated during the assignment to
+   !     "left_string" or the assignment to "right_string".
+
+   !+ Assumptions
+   !      Assumes that Left_string and Right_string are big enough
+
+   !+  Mission Statement
+   !      Split %1 into %2 and %3 using delimiter %4
+
+   !+ Changes
+   !      DPH 11/6/92
+   !      DPH 9/02/93 Changed Key_name and Param_string names to Left_string &
+   !                  Right_string.  Also removed common block dependancy.
+   !                  Re-worked entire routine to handle delimiter's > 1 in size
+   !     jngh 4/8/94 used assign_string s/r to detect truncations
+   !                 allowed for case of delimiter being first character
+
+   !+ Calls
+
+   !+ Constant Values
+      character Blank                  ! Blank
+      parameter (Blank = ' ')
+   !
+      integer Not_found                ! Pos when index doesn't find string
+      parameter (Not_Found = 0)
+
+   !+ Local Variables
+      integer Delimiter_Pos           ! Position of delimiter on line
+
+   !- Implementation Section ----------------------------------
+      Delimiter_Pos = len(Line)
+
+      do 10 while (Delimiter_Pos .gt. not_found .and. &
+                   Line(Delimiter_Pos:Delimiter_Pos+len(Delimiter)-1) .ne. Delimiter) 
+        Delimiter_Pos = Delimiter_Pos - len(Delimiter)
+  10  Continue  
+
+      if (Delimiter_Pos .eq. Not_found) then
+         call assign_string (Left_string, Line)
+         Right_string = Blank
+
+      else
+         if (delimiter_pos.eq.1) then
+            Left_string = blank
+         else
+            call assign_string (Left_string, Line(1:Delimiter_pos - 1))
+         endif
+         Delimiter_pos = Delimiter_pos + len(Delimiter)
+         if (Delimiter_pos .gt. len(Line)) then
+            Right_string = Blank
+
+         else
+            call assign_string (Right_string, Line(Delimiter_pos:))
+         endif
+      endif
+
+      return
+      end subroutine
 
 end module StringModule
 

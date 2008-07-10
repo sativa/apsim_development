@@ -1114,7 +1114,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
          valueIsReal = .true.
 
       elseif (Is_apsim_variable) then
-         call Split_line(variable_name, Mod_name, Var_name, '.')
+         call Split_line_reverse(variable_name, Mod_name, 
+     .     Var_name, '.')
          ok = component_name_to_id(Mod_name, modNameID)
 
          Variable_value = ' '
@@ -1225,7 +1226,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
       variable_name = lower_case(variable_name)
       Is_apsim_variable = (index(variable_name, '.') .gt. 0)
       if (Is_apsim_variable) then
-         call Split_line(variable_name, Mod_name, Var_name, '.')
+         call Split_line_reverse(variable_name, Mod_name, 
+     .                           Var_name, '.')
          if (component_name_to_id(Mod_name, modNameID)) then
             call set_variable_in_other_module(modNameID,
      .         trim(var_name),
@@ -3362,7 +3364,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 10     continue
 
-       if     (g%ch .ge. 'a' .and. g%ch .le. 'z') then
+       if     ((g%ch .ge. 'a' .and. g%ch .le. 'z') .or.
+     :          (g%ch .eq. '.'))  then
               call   Get_Word()
 
        elseif (g%ch .ge. '0' .and. g%ch .le. '9') then
