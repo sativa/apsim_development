@@ -17,7 +17,7 @@
       <initdata>
          <outputfile>wheat.out</outputfile>
          <variable>clock.dd/mm/yyyy as Date</variable>
-         <variable>SubSystem.rain as rain</variable>
+         <variable>SubSystem.met.rain as rain</variable>
          <variable>settabledummy</variable>
       </initdata>
    </component>
@@ -29,17 +29,16 @@
          <rule name="sample.end_of_day" condition="end_of_day">
             <![CDATA[
             if (day = 200) then
-               subsystem.rain = 123
-               subsystem.dlt_sw_dep= 0 0 0 0 0 0 0
+               !.MasterPM.subsystem.Met set rain = 123
+               .MasterPM.subsystem.Met.rain = 123
+               .MasterPM.subsystem.soilwat2 set dlt_sw_dep= 0 0 0 0 0 0 0
             endif
             report do_output
-            SubSystem do_output
+            SubSystem.report2 do_output
             ]]>
          </rule>
       </initdata>
    </component>
-
-
    <system name="SubSystem" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
       <component name="Met" executable="%apsuite\apsim\input\lib\input.dll">
 	      <initdata>
@@ -52,7 +51,7 @@
             <rule name="sample2.end_of_day" condition="end_of_day">
                <![CDATA[
                if (day = 190) then
-                  settabledummy = 2
+                  .MasterPM.manager set settabledummy = 2
                endif
                ]]>
             </rule>
@@ -88,29 +87,6 @@
             <bd>1.02 1.03 1.02 1.02 1.06 1.11 1.12 1.15 1.18 1.2 1.25 </bd>
 	      </initdata>
 	   </component>
-
-      <registrations>
-         <event name="summaryFileWrite" type="summaryFileWrite"/>
-         <event name="error" type="string"/>
-         <respondToGet name="rain" type="float" unit="mm"/>
-         <respondToSet name="dlt_sw_dep" type="float"/>
-         <respondToEvent name="tick" type="time"/>
-         <respondToEvent name="prepare" type="string"/>
-         <respondToEvent name="process" type="string"/>
-         <respondToEvent name="post" type="string"/>
-         <respondToEvent name="do_output" type="do_output"/>
-         <get name="day" type="int" unit="day"/>
-         <get name="title" type="string"/>
-         <respondToSet name="rain" type="float" unit="mm"/>
-         <set name="settabledummy" type="single"/>
-         <get name="settabledummy" type="single"/>
-      </registrations>
-      <types>
-         <type name="summaryFileWrite">
-            <field name="componentName" kind="string"/>
-            <field name="lines" kind="string"/>
-         </type>
-      </types>
 
 	</system>
 
