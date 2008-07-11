@@ -9,7 +9,7 @@ if (clock.day = clock.simulation_start_day and
    annual_lwg = 0.0
 endif
 
-
+[BSc4past.manager.end_of_day]
 ! 'GRAZEON' stocking rate resets (%Use of TSDM for next year)
 annual_lwg = annual_lwg + graz.lwg
 
@@ -28,7 +28,6 @@ if (today = date('1-sep') then                                 ! p081
    annual_lwg = 0.0
 endif
 
-[BSc4past.manager.end_of_day]
 grass_sw = sw_dep(1) + sw_dep(2) + sw_dep(3)
 
 if (year >= 1900) then
