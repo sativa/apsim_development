@@ -11,17 +11,17 @@
 
 Version                = 6.1
 Title                  = 
-Component      "clock" = C:\development\apsim\clock\lib\clock.dll
-Component     "annual" = C:\development\apsim\report\lib\report.dll
-Component      "daily" = C:\development\apsim\report\lib\report.dll
-Component        "met" = C:\development\apsim\input\lib\input.dll
-Component    "manager" = C:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
-Component      "grasp" = C:\development\apsim\grasp\lib\grasp.dll
-Component    "tracker" = C:\development\apsim\tracker\lib\tracker.dll
-Component       "graz" = C:\development\apsim\graz\lib\graz.dll
+Component      "clock" = C:\Development\apsim\clock\lib\clock.dll
+Component     "annual" = C:\Development\apsim\report\lib\report.dll
+Component      "daily" = C:\Development\apsim\report\lib\report.dll
+Component        "met" = C:\Development\apsim\input\lib\input.dll
+Component    "manager" = C:\Development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = C:\Development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\Development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = C:\Development\apsim\soiln2\lib\soiln2.dll
+Component      "grasp" = C:\Development\apsim\grasp\lib\grasp.dll
+Component    "tracker" = C:\Development\apsim\tracker\lib\tracker.dll
+Component       "graz" = C:\Development\apsim\graz\lib\graz.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -100,6 +100,8 @@ Component       "graz" = C:\development\apsim\graz\lib\graz.dll
         graz set alw =  400.0
         annual_lwg = 0.0
      endif
+     
+     SECTION:- end_of_day
      annual_lwg = annual_lwg + graz.lwg
      if (today = date('1-sep') then
         graz set alw = 400.0
@@ -113,8 +115,6 @@ Component       "graz" = C:\development\apsim\graz\lib\graz.dll
         graz set stocking_rate = beasts_ha
         annual_lwg = 0.0
      endif
-     
-     SECTION:- end_of_day
      grass_sw = sw_dep(1) + sw_dep(2) + sw_dep(3)
      if (year >= 1900) then
        daily do_output
@@ -306,13 +306,13 @@ Component       "graz" = C:\development\apsim\graz\lib\graz.dll
      Manager creating a new local real variable : annual_lwg = 0.00000
      Manager creating a new local real variable : grass_sw = 582.25616
 1 September 1900(Day of year=244), manager: 
-     Manager creating a new local real variable : avgdailyintake = 4.20568
+     Manager creating a new local real variable : avgdailyintake = 4.20815
      Manager creating a new local real variable : targetutil = 0.20000
-     Manager creating a new local real variable : annualintake = 1537.17603
-     Manager creating a new local real variable : stock_equiv_ratio = 0.14649
+     Manager creating a new local real variable : annualintake = 1538.07874
+     Manager creating a new local real variable : stock_equiv_ratio = 0.14582
      Manager creating a new local real variable : weight_ratio = 2.00000
      Manager creating a new local real variable : factor = 1.68179
-     Manager creating a new local real variable : beasts_ha = 0.08710
+     Manager creating a new local real variable : beasts_ha = 0.08671
 23 June 1911(Day of year=174), grasp: 
       green leaf dm,n =       0.0000      0.0000
       green stem dm,n =       0.0000      0.0000

@@ -46,6 +46,10 @@ grazComponent::grazComponent(ScienceAPI& scienceapi)
    alw = 0.0;
    stocking_rate = 0.0;
    pasture_source = "";
+   dlt_lwg = 0.0;
+   acc_eaten = 0.0;
+   acc_growth = 0.0;
+   intake_restr = 0.0;
    }
 
 // ------------------------------------------------------------------
