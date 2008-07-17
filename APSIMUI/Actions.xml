@@ -82,12 +82,6 @@
          <MediumIcon>%apsuite\ApsimUI\Images\media_play24.png</MediumIcon>
          <Description>Run the current simulation</Description>
          <ShortCut>F5</ShortCut>
-         <DisabledWhen>
-            <call>
-               <class>APSIMUI.ApsimUIActions</class>
-               <method>SimulationsAreRunning</method>
-            </call>
-         </DisabledWhen>
          <OnInvoke>
             <call>
                <class>APSIMUI.ApsimUIActions</class>
@@ -95,23 +89,6 @@
             </call>
          </OnInvoke>         
       </Run>      
-      <Stop>
-         <text>Stop</text>
-         <MediumIcon>%apsuite\ApsimUI\Images\media_stop24.png</MediumIcon>
-         <Description>Stop all running simulations</Description>
-         <DisabledWhen>
-            <call>
-               <class>APSIMUI.ApsimUIActions</class>
-               <method>NoSimulationsAreRunning</method>
-            </call>
-         </DisabledWhen>
-         <OnInvoke>
-            <call>
-               <class>APSIMUI.ApsimUIActions</class>
-               <method>StopAll</method>
-            </call>
-         </OnInvoke>         
-      </Stop>        
       <Graph>
          <text>Graph</text>
          <SmallIcon>%apsuite\ApsimUI\Images\chart16.png</SmallIcon>
@@ -339,7 +316,6 @@
       <Item>FileSaveAs</Item>
       <Separator/>
       <Item>Run</Item>
-      <Item>Stop</Item>
       <Separator/>
       <Item>Graph</Item>
       <Item>ApsimOutlook</Item>

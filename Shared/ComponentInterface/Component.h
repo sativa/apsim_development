@@ -337,6 +337,7 @@ class EXPORT Component
       void writeString(const FString& st);
       void writeString(const std::string& st);
       void writeString(const char *st);
+      void writeStdErr(const std::string& st);
 
       // Send a variable to another component.
       template <class T>

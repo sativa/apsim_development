@@ -17,7 +17,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
          double precision current_time ! current time of simulation (mins)
          logical pause_current_run     ! pause the current run.
          logical end_current_run       ! end the current run.
-         integer Percent_complete      ! percentage of simulation completed.
+         integer PercentDone           ! percentage of simulation completed.
          integer currentTimestepEvent  ! index into event list
          integer, dimension(MAX_NUM_EVENTS) :: timestepEvents
                                        ! list of all events this sequencer is going
@@ -113,6 +113,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       g%end_current_run = .false.
       g%pause_current_run = .false.
+      g%PercentDone = 0
 
       ! read in all parameters for clock module.
       call clock_read_timesteps ()
@@ -291,6 +292,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *+  Local varialbles
       integer thisdate(3)              ! day, month, year
       character str*100                ! string for date formatting
+      integer TodayPercentDone
 
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
@@ -318,6 +320,16 @@ C     Last change:  E     5 Dec 2000    8:52 am
             call terminate_simulation()
             g%end_current_run = .true.
          else
+            ! See if we need to output a % done to standard error stream.
+            TodayPercentDone = (g%current_date - g%start_date) / 
+     :                         (g%end_date - g%start_date) * 100
+            TodayPercentDone = TodayPercentDone / 5 * 5
+            if (g%PercentDone <> TodayPercentDone) then
+               write(str, '(a1, i3)') '%', TodayPercentDone
+               call writeStdErr(str)
+               g%PercentDone = TodayPercentDone
+            endif
+
             ! convert julian day to day and year for speed reasons later.
 
             call jday_to_day_of_year (g%current_date,

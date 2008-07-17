@@ -5,7 +5,7 @@
 using namespace System;
 using namespace System::Collections::Generic;
 
-ref class Instances
+public ref class Instances
 	{
 	public:
 		static int CreateClass(String^ dllFileName, String^ className);

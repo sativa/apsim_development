@@ -281,39 +281,38 @@ namespace CSGeneral
 		//---------------------------------------------------------------
 		// Replace all macros in the specified Contents.
 		//---------------------------------------------------------------
-        void ReplaceLocalMacros(ref string Contents, StringCollection AliasNames, XmlNode[] AliasNodes)
-		{
+      void ReplaceLocalMacros(ref string Contents, StringCollection AliasNames, XmlNode[] AliasNodes)
+		   {
 			char[] delimiters = {'.'};
 
 			int PosStartMacro = Contents.IndexOf('[');
 			while (PosStartMacro != -1)
-			{
+			   {
 				int PosEndMacro = Contents.IndexOf(']', PosStartMacro);
 				string Macro = Contents.Substring(PosStartMacro+1, PosEndMacro-PosStartMacro-1);
 				string[] words = Macro.Split(delimiters, 2);
 				if (words.Length == 2)
-				{
+				   {
 					int PosAlias = AliasNames.IndexOf(words[0].ToLower());
 					if (PosAlias != -1)
-					{
-                    XmlNode node = AliasNodes[PosAlias];
-						try
-						{
-							string Value = GetValueFromNode(node, words[1]);
-							Contents = Contents.Remove(PosStartMacro, Macro.Length+2);
-							Contents = Contents.Insert(PosStartMacro, Value);
-						}
-						catch (Exception)
-						{ }
+					   {
+                  XmlNode node = AliasNodes[PosAlias];
+			         string Value = GetValueFromNode(node, words[1]);
+                  if (Value != null)
+                     {
+                     Contents = Contents.Remove(PosStartMacro, Macro.Length + 2);
+                     Contents = Contents.Insert(PosStartMacro, Value);
+                     }
+                  }
 					}
-				}
-				PosStartMacro = Contents.IndexOf('[', PosStartMacro+1);
+            PosStartMacro = Contents.IndexOf('[', PosStartMacro + 1);
+            }
 			}
-		}
+		
 		//---------------------------------------------------------------
 		// Replace global macros in the specified Contents.
 		//---------------------------------------------------------------
-        void ReplaceGlobalMacros(ref string Contents, XmlNode Values)
+      void ReplaceGlobalMacros(ref string Contents, XmlNode Values)
 			{
 			char[] delimiters = {'.'};
 
@@ -330,43 +329,41 @@ namespace CSGeneral
 						Macro = Macro.Substring(PosPeriod+1);
 					}
 
-				try
-					{
-					string Value = GetValueFromNode(Values, Macro);
-					Contents = Contents.Remove(PosStartMacro, PosEndMacro-PosStartMacro-1+2);
-					Contents = Contents.Insert(PosStartMacro, Value);
-					}
-				catch (Exception)
-				{
-				}
+				string Value = GetValueFromNode(Values, Macro);
+            if (Value != null)
+               {
+               Contents = Contents.Remove(PosStartMacro, PosEndMacro - PosStartMacro - 1 + 2);
+               Contents = Contents.Insert(PosStartMacro, Value);
+               }
+
 				PosStartMacro = Contents.IndexOf('[', PosStartMacro+1);
 				}
 			}
 		//---------------------------------------------------------------
 		// Return a attribute value or child value from the specified child node
 		//---------------------------------------------------------------
-        string GetValueFromNode(XmlNode Child, string Macro)
-		{
+      string GetValueFromNode(XmlNode Child, string Macro)
+		   {
 			int PosLastPeriod = Macro.LastIndexOf('.');
 			string FormatString = "";
 			if (PosLastPeriod != -1)
 				{
 				string ChildName = Macro.Substring(0, PosLastPeriod);
 				Macro = Macro.Substring(PosLastPeriod+1);
-                int NumDecPlaces;
-                if (int.TryParse(Macro, out NumDecPlaces))
+            int NumDecPlaces;
+            if (int.TryParse(Macro, out NumDecPlaces))
 					{
-                    FormatString = "f" + NumDecPlaces.ToString();
+               FormatString = "f" + NumDecPlaces.ToString();
 					Macro = ChildName;
 					}
-                else
+            else
 					{
-                    ChildName = ChildName.Replace(".", "\\");
+               ChildName = ChildName.Replace(".", "\\");
 					XmlNode NewChild = XmlHelper.Find(Child, ChildName);
-                    if (NewChild != null)
-                        Child = NewChild;
-                    else if (ChildName != "" && ChildName.ToLower() != XmlHelper.Type(Child).ToLower())
-                        throw new Exception("Invalid child name: " + ChildName);
+               if (NewChild != null)
+                  Child = NewChild;
+               else if (ChildName != "" && ChildName.ToLower() != XmlHelper.Type(Child).ToLower())
+                  return null;   // Invalid child name
 					}
 				}
 
@@ -374,23 +371,24 @@ namespace CSGeneral
 			if (Macro == "name")
 				Value = XmlHelper.Name(Child);
 			else if (Macro == "xmltype")
-                Value = XmlHelper.Type(Child);
-            else if (XmlHelper.Attribute(Child, Macro) != "")
-                Value = XmlHelper.Attribute(Child, Macro);
+            Value = XmlHelper.Type(Child);
+         else if (XmlHelper.Attribute(Child, Macro) != "")
+             Value = XmlHelper.Attribute(Child, Macro);
 			else if (Macro == "xml")
 				Value = Child.OuterXml;
-            else if (Macro == "innerxml")
-                Value = Child.InnerXml;
-            else
-                {
-                if (XmlHelper.Find(Child, Macro) != null)
-                    Value = XmlHelper.Value(Child, Macro);
-                else
-                    throw new Exception("Macro doesn't exist: " + Macro);
-                }
+         else if (Macro == "innerxml")
+             Value = Child.InnerXml;
+         else
+             {
+             if (XmlHelper.Find(Child, Macro) != null)
+                Value = XmlHelper.Value(Child, Macro);
+             else
+                return null;
+             }
 
 			if (FormatString != "")
 				Value = Convert.ToDouble(Value).ToString(FormatString);
+
 			return Value;
 			}
 

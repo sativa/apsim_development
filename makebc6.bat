@@ -25,6 +25,11 @@ cd %APSROOT%\APSBuild\source
 echo ------Compiling  %APSROOT%\APSBuild\source >> %APSROOT%\build.win32.out
 cmd /c %APSMAKE%  >> %APSROOT%\build.win32.out
 
+REM -------Compile ApsimRun
+cd %APSROOT%\Apsrun\ApsimRun
+echo ------Compiling ApsimRun >> %APSROOT%\build.win32.out
+"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" ApsimRun.sln /build release >> %APSROOT%\build.win32.out
+
 REM -------Compile ProcessDataTypesInterface - needed to create ComponentInterface2/datatypes.h
 cd %APSROOT%\Shared\ComponentInterface2\ProcessDataTypesInterface
 echo ------Compiling ProcessDataTypesInterface >> %APSROOT%\build.win32.out
@@ -60,20 +65,10 @@ cd %APSROOT%\apsim\ProtocolManager\Source
 echo ------Compiling  %APSROOT%\apsim\ProtocolManager\Source >> %APSROOT%\build.win32.out
 cmd /c %APSMAKE%  >> %APSROOT%\build.win32.out
 
-REM -------Build apsrun
-cd %APSROOT%\apsrun\source
-echo ------Compiling  %APSROOT%\apsrun\source >> %APSROOT%\build.win32.out
-cmd /c %APSMAKE%  >> %APSROOT%\build.win32.out
-
 REM -------Build apsrun contosim
 cd %APSROOT%\apsrun\ConToSim
 echo ------Compiling  %APSROOT%\apsrun\contosim >> %APSROOT%\build.win32.out
 cmd /c c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f makefile.bc6  >> %APSROOT%\build.win32.out
-
-REM -------Build TestAPSRun
-cd %APSROOT%\apsrun\source\test
-echo ------Compiling  %APSROOT%\apsrun\source\test\TestAPSRun >> %APSROOT%\build.win32.out
-cmd /c c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f TestAPSRun.mak  >> %APSROOT%\build.win32.out
 
 REM -------Build TestApsimShared
 cd %APSROOT%\Shared\ApsimShared\test

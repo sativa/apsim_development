@@ -292,6 +292,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\APSRun\ApsimRun\ApsimRun.csproj">
+      <Project>{26438943-A191-4C2A-992F-61478CEB7346}</Project>
+      <Name>ApsimRun</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\ApsimFile\ApsimFile.csproj">
       <Project>{416A3885-FD38-46D0-BE42-54AA33D146B7}</Project>
       <Name>ApsimFile</Name>
