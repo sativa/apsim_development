@@ -483,6 +483,22 @@ extern "C" void EXPORT STDCALL write_string(const char* msg, unsigned int msgLen
    {
    FortranWrapper::currentInstance->writeString(asString(msg, msgLength));
    }
+   
+
+// ------------------------------------------------------------------
+//  Short description:
+//     Called from FORTRAN to write a string to the std err stream.
+
+//  Notes:
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+extern "C" void EXPORT STDCALL writeStdErr(const char* msg, unsigned int msgLength)
+   {
+   FortranWrapper::currentInstance->writeStdErr(asString(msg, msgLength));
+   }   
 
 // ------------------------------------------------------------------
 //  Short description:

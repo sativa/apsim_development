@@ -9,12 +9,12 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\..\Bin\ConToSim.exe
 
-OBJECTS=ConToSim.obj 
+OBJECTS=ConToSim.obj ControlFileConverter.obj
 
 LIBFILES = $(APSROOT)\Shared\general\general.lib \
-	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib 
+           $(APSROOT)\Shared\ApsimShared\ApsimShared.lib 
 
-RESFILES = ConToSim.res
+RESFILES =
 
 USERDEFINES = 
 SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES
@@ -50,6 +50,7 @@ $(PROJECT): $(OBJECTS) $(RESFILES)
 
 ####
 ConToSim.obj: ConToSim.cpp
+ControlFileConverter.obj: ControlFileConverter.cpp ControlFileConverter.h
 
 clean:
 	$(RM) $(OBJECTS) $(TARGET)

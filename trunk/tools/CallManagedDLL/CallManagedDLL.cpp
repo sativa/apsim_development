@@ -60,8 +60,8 @@ int Instances::CreateClass(String^ dllFileName, String^ className)
 		{
 		String^ msg = gcnew String("Cannot find dll: " + dll);
 		System::Windows::Forms::MessageBox::Show(msg, "Error", System::Windows::Forms::MessageBoxButtons::OK);
-		return -1;
 		}
+	return -1;
 	}
 
 void Instances::CallMethod(unsigned Index, const char* methodName, Object^ argument)

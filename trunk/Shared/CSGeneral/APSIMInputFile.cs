@@ -237,7 +237,8 @@ namespace CSGeneral
 									
 								data.Columns.Add(new DataColumn(Headings[w], ColumnType));
 								}
-							NewMetRow[Headings[w]] = Words[w];
+                     if (Words[w] != "?")
+							   NewMetRow[Headings[w]] = Words[w];
 							}
 						}
 
@@ -307,12 +308,16 @@ namespace CSGeneral
 			if (DateIndex != -1)
 				{
 				StringCollection DateWords = StringManip.SplitStringHonouringQuotes(Words[DateIndex], "/");
-                if (DateWords.Count != 3)
-                    throw new Exception("Invalid date format: " + Words[DateIndex] + ". Format for dates is yyyy/mm/dd");
-                return new DateTime(Convert.ToInt32(DateWords[0]),
-					                              Convert.ToInt32(DateWords[1]),
-															Convert.ToInt32(DateWords[2]));
-
+            if (DateWords.Count != 3)
+               throw new Exception("Invalid date format: " + Words[DateIndex] + ". Format for dates is yyyy/mm/dd");
+            if (Convert.ToInt32(DateWords[2]) > 1000)
+               return new DateTime(Convert.ToInt32(DateWords[2]),    // dd/mm/yyyy
+                                   Convert.ToInt32(DateWords[1]),
+                                   Convert.ToInt32(DateWords[0]));
+            else
+               return new DateTime(Convert.ToInt32(DateWords[0]),    // yyyy/mm/dd
+	   			                    Convert.ToInt32(DateWords[1]),
+                                   Convert.ToInt32(DateWords[2]));
 				}
 			//int Year = Convert.ToInt16(Words[YearIndex]);
             int Year=Convert.ToInt16(Decimal.Truncate((decimal)Convert.ToSingle(Words[YearIndex])));

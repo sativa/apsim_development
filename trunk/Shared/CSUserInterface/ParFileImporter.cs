@@ -5,7 +5,6 @@ using System.Collections.Specialized;
 using System.Xml;
 using VBGeneral;
 using CSGeneral;
-using CSUserInterface;
 using Soils;
 using VBUserInterface;
 

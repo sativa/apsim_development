@@ -75,6 +75,11 @@ module ComponentInterfaceModule
       character (len=*), intent(in) :: st
       end subroutine write_string
 
+      subroutine writeStdErr(st)
+      ml_external writeStdErr
+      character (len=*), intent(in) :: st
+      end subroutine writeStdErr
+
       function read_parameter(parameterName, sectionName, value, isOptional)
       ml_external read_parameter
       character(len=*), intent(in) :: parameterName

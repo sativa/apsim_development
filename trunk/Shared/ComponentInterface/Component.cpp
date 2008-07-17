@@ -683,6 +683,10 @@ void Component::writeString(const char *st)
    {
    writeStringToStream(st, cout, name);   
    }
+void Component::writeStdErr(const std::string& st)
+   {
+   cerr << st.c_str() << endl;
+   }
 
 void Component::writeStringToStream(const std::string& lines, ostream& out,
                                     const std::string& componentName)

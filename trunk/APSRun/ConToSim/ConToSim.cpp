@@ -6,7 +6,8 @@
 using namespace std;
 
 #include <ApsimShared/SimCreator.h>
-
+#include "ControlFileConverter.h"
+#include <iostream>
 
 int main(int argc, char* argv[])
    //---------------------------------------------------------------------------
@@ -27,12 +28,15 @@ int main(int argc, char* argv[])
       if (conFileName == "")
          throw runtime_error("No .con file specified on the command line");
 
+      ControlFileConverter converter;
+      converter.go(conFileName);
+
       SimCreator simCreator(true);
       simCreator.ConToSim(conFileName, simNames);
       }
    catch (const exception& error)
       {
-      fwrite(error.what(),strlen(error.what()), 1, stdout);
+      cerr << error.what() << endl;
       return 1;
       }
    return 0;

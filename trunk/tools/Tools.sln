@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertSimsFromSILOToMetFil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtractXMLElements", "ExtractXMLElements\ExtractXMLElements.csproj", "{F46C39A0-F600-49DD-AF3C-FC8338AF36B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompareOutputFiles", "CompareOutputFiles\CompareOutputFiles.csproj", "{9DB606A5-41E7-443A-9946-FFD71B60B93E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{F46C39A0-F600-49DD-AF3C-FC8338AF36B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F46C39A0-F600-49DD-AF3C-FC8338AF36B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F46C39A0-F600-49DD-AF3C-FC8338AF36B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DB606A5-41E7-443A-9946-FFD71B60B93E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DB606A5-41E7-443A-9946-FFD71B60B93E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DB606A5-41E7-443A-9946-FFD71B60B93E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DB606A5-41E7-443A-9946-FFD71B60B93E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

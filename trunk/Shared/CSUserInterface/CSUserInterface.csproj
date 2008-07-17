@@ -14,7 +14,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arrow.cs" />
-    <Compile Include="AsyncOperation.cs" />
     <Compile Include="BitmapUtility.cs" />
     <Compile Include="ColorBox.cs">
       <SubType>UserControl</SubType>
@@ -57,30 +56,20 @@
     <Compile Include="ErrorMessageForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HowwetPageTemplate.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="HowwetPageTemplate.Designer.cs">
-      <DependentUpon>HowwetPageTemplate.cs</DependentUpon>
-    </Compile>
     <Compile Include="HyperTextLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="HyperTextLink.cs" />
     <Compile Include="InitNitrogenUI.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="InitWaterUI.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ListviewAPI.cs" />
     <Compile Include="MemoUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ParFileImporter.cs" />
-    <Compile Include="ProcessCaller.cs" />
     <Compile Include="ProfileUI.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ProfileUI.Designer.cs">
       <DependentUpon>ProfileUI.cs</DependentUpon>
@@ -94,12 +83,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SampleUI.cs">
-      <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="SingleApplicationInstance.cs" />
     <Compile Include="SoilActions.cs" />
     <Compile Include="SoilSpreadsheet.cs" />
     <Compile Include="SoilUI.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TextHeader.cs">
       <SubType>UserControl</SubType>
@@ -115,6 +103,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vector.cs" />
+    <Compile Include="VerticalProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="WaterChartControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -124,10 +115,6 @@
     <EmbeddedResource Include="ErrorMessageForm.resx">
       <DependentUpon>ErrorMessageForm.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HowwetPageTemplate.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>HowwetPageTemplate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HyperTextLabel.resx">
       <DependentUpon>HyperTextLabel.cs</DependentUpon>
@@ -165,6 +152,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SoilUI.resx">
       <DependentUpon>SoilUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VerticalProgressBar.resx">
+      <DependentUpon>VerticalProgressBar.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WaterChartControl.resx">

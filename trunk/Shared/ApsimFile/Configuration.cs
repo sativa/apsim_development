@@ -58,6 +58,14 @@ namespace ApsimFile
             {
             return APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(), SectionName, SettingName);
             }
+        public void SetSetting(string SettingName, string Value)
+           {
+           APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), SectionName, SettingName, Value);
+           }
+         public void SetSettings(string SettingName, string[] Values)
+          {
+          APSIMSettings.INIWriteMultiple(APSIMSettings.ApsimIniFile(), SectionName, SettingName, Values);
+          }
 
         public static void LoadIcon(XmlNode Data, string Specifier, ref ImageList Icons)
             {
