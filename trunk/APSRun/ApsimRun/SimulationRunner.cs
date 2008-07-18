@@ -73,8 +73,8 @@ namespace ApsimRun
       private int NumCPUsToUse = 1;
       private List<SingleRun> Simulations = new List<SingleRun>();
       private int NextIndex = -1;
+      private int NumCompleted = 0;
       private ISynchronizeInvoke MainThread;
-      private int NumApsimsRunning = 0;
       private bool Stopped = false;
       private bool KillThread = false;
       private Thread WorkerThread;
@@ -179,6 +179,7 @@ namespace ApsimRun
          lock (LockObject)
             {
             Stopped = false;
+            NumCompleted = 0;
             NextIndex = -1;
             }
          }
@@ -218,8 +219,8 @@ namespace ApsimRun
                      {
                      if (!Stopped)
                         {
-                        NumApsimsRunning++;
                         ApsimProcess.Start();
+                        Thread.Sleep(300);
                         }
                      }
                   }
@@ -229,19 +230,19 @@ namespace ApsimRun
                   SimulationToRun.Details.HasErrors = true;
                   CSGeneral.DataReceivedEventArgs Arg = new CSGeneral.DataReceivedEventArgs(ex.Message);
                   OnStdError(ApsimProcess, Arg);
-                  SimulationToRun.SummaryFile.Close();
-                  SimulationToRun.IsCompleted();
-                  InvokeUpdatedEvent(SimulationToRun.Details, 100);
+                  CloseJob(SimulationToRun);
                   }
                }
-            Thread.Sleep(500);
+            Thread.Sleep(300);
             }
          }
       private SingleRun GetNextSimulationToRun()
          {
          lock (LockObject)
             {
-            if (NextIndex + 1 < Simulations.Count && NumApsimsRunning < NumCPUsToUse)
+            Process[] ApsimInstances = Process.GetProcessesByName("apsim");
+
+            if (NextIndex + 1 < Simulations.Count && ApsimInstances.Length < NumCPUsToUse)
                {
                NextIndex++;
                return Simulations[NextIndex];
@@ -289,17 +290,23 @@ namespace ApsimRun
          SingleRun Simulation = (SingleRun)Process.Tag;
 
          // Look for a percent complete
-         if (e.Text[0] == '%')
+         if (e.Text.Length > 0)
             {
-            int Percent = Convert.ToInt32(e.Text.Substring(1));
-            if (Percent >= 0 && Percent < 100)
-               InvokeUpdatedEvent(Simulation.Details, Percent);
-            }
-         else
-            {
-            if (e.Text.IndexOf("APSIM  Fatal  Error") != -1)
-               Simulation.Details.HasErrors = true;
-            InvokeStdErrEvent(Simulation.Details, e.Text);
+            if (e.Text[0] == '%')
+               {
+               int Percent = Convert.ToInt32(e.Text.Substring(1));
+               if (Percent >= 0 && Percent < 100)
+                  InvokeUpdatedEvent(Simulation.Details, Percent);
+               }
+            else
+               {
+               if (e.Text.IndexOf("APSIM  Fatal  Error") != -1)
+                  Simulation.Details.HasErrors = true;
+               else if (e.Text.IndexOf("APSIM Warning Error") != -1)
+                  Simulation.Details.HasWarnings = true;
+               Simulation.SummaryFile.WriteLine(e.Text);
+               InvokeStdErrEvent(Simulation.Details, e.Text);
+               }
             }
          }
 
@@ -313,14 +320,16 @@ namespace ApsimRun
 
          ProcessCaller Process = (ProcessCaller)sender;
          SingleRun Simulation = (SingleRun)Process.Tag;
-
+         CloseJob(Simulation);
+         }
+      private void CloseJob(SingleRun Simulation)
+         {
          Simulation.SummaryFile.Close();
          Simulation.IsCompleted();
          InvokeUpdatedEvent(Simulation.Details, 100);
-
          lock (LockObject)
             {
-            NumApsimsRunning--;
+            NumCompleted++;
             }
          }
 
@@ -356,7 +365,7 @@ namespace ApsimRun
          if (SimulationUpdated != null)
             {
             double PercentPerSimulation = 100.0 / Simulations.Count;
-            int OverallPercent = (int) (PercentDone / 100.0 * PercentPerSimulation  + NextIndex * PercentPerSimulation);
+            int OverallPercent = (int)(PercentDone / 100.0 * PercentPerSimulation + NumCompleted * PercentPerSimulation);
 
             object[] args = new object[] { SimulationDetail, PercentDone, OverallPercent };
             MainThread.Invoke(SimulationUpdated, args);

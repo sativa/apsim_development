@@ -41,6 +41,7 @@ namespace ApsimFile
          Info.RedirectStandardOutput = true;
          Info.CreateNoWindow = true;
          Process ConToSim = Process.Start(Info);
+         ConToSim.WaitForExit();
          Messages = ConToSim.StandardOutput.ReadToEnd();
          Messages += ConToSim.StandardError.ReadToEnd();
          this.SimFileName = Path.GetDirectoryName(FileName) + "\\" + Path.GetFileNameWithoutExtension(FileName) + "." + SimulationName + ".sim";
