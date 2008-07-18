@@ -94,7 +94,7 @@ extern "C" _export void __stdcall runFiles(const char* csvFiles)
 
    for (unsigned int file = 0; file != fileNames.size(); file++)
       {
-      string command = "\"" + getApsimDirectory() + "\\bin\\apsrun\" \"" + fileNames[file] + "\"";
+      string command = "\"" + getApsimDirectory() + "\\bin\\ApsimRun\" \"" + fileNames[file] + "\"";
 
       // run command
       WinExec(command.c_str(), SW_SHOW);
