@@ -1155,6 +1155,7 @@ subroutine soiln2_send_my_variable (variable_name)
    real       org_c (max_layer)     ! organic c
    real       org_n (max_layer)     ! organic n
    real       oc_percent(max_layer) ! organic c %
+   real       temp(max_layer)
    character   err_string*80
 !- Implementation Section ----------------------------------
    call push_routine (my_name)
@@ -1617,6 +1618,18 @@ subroutine soiln2_send_my_variable (variable_name)
    !                           --------------
       num_layers = count_of_real_vals (g%dlayer, max_layer)
       call respond2get_real_array (variable_name,'(kg/ha)', g%soilp_dlt_org_p, num_layers)
+
+   elseif (variable_name .eq. 'tf') then
+   !                           --------------
+      num_layers = count_of_real_vals (g%dlayer, max_layer)
+      do layer = 1, num_layers
+         if (g%soiltype.eq.'rothc') then
+            temp(layer) = rothc_tf (layer)
+         else
+            temp(layer) = soiln2_tf (layer)
+         endif
+      end do
+      call respond2get_real_array (variable_name,'()', temp, num_layers)
 
    else
       call message_unused ()
@@ -2466,9 +2479,11 @@ subroutine soiln2_incorp_fom ()
          call collect_char_var_optional ('dlt_fom_type', '()', dlt_fom_type, numvals)
 
          g%fom_type = Find_string_in_array (dlt_fom_type, g%fom_types, g%num_fom_types)
+
          if (g%fom_type.le.0) then
             ! fom type not found - use default
             g%fom_type = 1
+            !print*,'NOT FOUND HERE!!!!!!'
          else
          endif
          !dsg  now convert the dlt_fom_incorp and the dlt_fom_n_incorp arrays to two dimensions
@@ -3482,7 +3497,11 @@ subroutine soiln2_min_humic (layer, dlt_c_biom, dlt_c_atm, dlt_n_min)
 
    call push_routine (my_name)
 
-   tf = soiln2_tf (layer)
+   if (g%soiltype.eq.'rothc') then
+      tf = rothc_tf (layer)
+   else
+      tf = soiln2_tf (layer)
+   endif
 
    mf = soiln2_wf(layer)
 
@@ -3537,7 +3556,11 @@ subroutine soiln2_min_biomass (layer,dlt_c_hum,dlt_c_atm,dlt_n_min)
 
    call push_routine (my_name)
 
-   tf = soiln2_tf (layer)
+   if (g%soiltype.eq.'rothc') then
+      tf = rothc_tf (layer)
+   else
+      tf = soiln2_tf (layer)
+   endif
    mf = soiln2_wf(layer)
 
    ! get the rate of mineralization of C & N from the biomass pool
@@ -3644,7 +3667,11 @@ subroutine soiln2_min_fom (layer, dlt_c_biom, dlt_c_hum, dlt_c_atm, dlt_fom_n, d
    cnrf = bound (cnrf, 0.0, 1.0)
 
    ! get temperature & moisture factors for the layer
-   tf = soiln2_tf (layer)
+   if (g%soiltype.eq.'rothc') then
+      tf = rothc_tf (layer)
+   else
+      tf = soiln2_tf (layer)
+   endif
    mf = soiln2_wf (layer)
 
    ! calulate gross amount of C & N released due to mineralization
@@ -4116,6 +4143,42 @@ real function soiln2_tf (layer)
    return
 end function
 
+!     ===========================================================
+real function rothc_tf (layer)
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+
+!+  Sub-Program Arguments
+   integer    layer                 ! (INPUT) layer number
+
+!+  Purpose
+!       Calculate a temperature factor, based on the soil temperature
+!       of the layer, for nitrification and mineralisation
+
+!+  Notes
+!           - the layer l < 1 or > num_layers
+!           - the soil temperature falls outside of lower to upper
+
+!+  Mission Statement
+!     Nitrification and mineralisation soil temperature factor in %1
+
+!+  Constant Values
+   character  my_name*(*)           ! name of subroutine
+   parameter (my_name = 'soiln2_tf')
+
+!+  Local Variables
+   real tf                          ! temporary temperature factor
+   real t
+!- Implementation Section ----------------------------------
+
+   t = min(g%soil_temp(layer),c%opt_temp)
+   tf = 47.9/(1+exp(106/(t+18.3)))
+   rothc_tf = tf
+
+
+   return
+end function
 
 
 !     ===========================================================
