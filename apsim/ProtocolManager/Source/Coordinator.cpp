@@ -957,6 +957,7 @@ void Coordinator::onError(const std::string& fromComponentName,
 
    message += msg;
    message += "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
+   writeStringToStream(message, cout, "");
    writeStringToStream(message, cerr, "");
    }
 

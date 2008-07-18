@@ -156,9 +156,9 @@ namespace ApsimFile
          Doc.LoadXml(Xml);
          Open(Doc.DocumentElement);
          }
-      public void Open(XmlNode Node)
+      public bool Open(XmlNode Node)
          {
-         APSIMChangeTool.Upgrade(Node);
+         bool UpgradeOccurred = APSIMChangeTool.Upgrade(Node);
          this.ReadOnly = false;
 
          DisabledEventCount++;
@@ -168,13 +168,15 @@ namespace ApsimFile
          DisabledEventCount--;
          PublishComponentChanged(MyRootNode);
          SetFileName("Untitled");
+         return UpgradeOccurred;
          }
       public void OpenFile(string FileName)
          {
          DisabledEventCount++;
          XmlDocument doc = new XmlDocument();
          doc.Load(FileName);
-         Open(doc.DocumentElement);
+         if (Open(doc.DocumentElement))
+            doc.Save(FileName);
          StringCollection ReadOnlyFileNames = MyConfiguration.Settings("ReadOnlyFiles");
          ReadOnly = (Utility.IndexOfCaseInsensitive(ReadOnlyFileNames, Path.GetFileName(FileName)) != -1);
          DisabledEventCount--;

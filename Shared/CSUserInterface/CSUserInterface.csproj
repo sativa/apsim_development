@@ -61,8 +61,10 @@
     </Compile>
     <Compile Include="HyperTextLink.cs" />
     <Compile Include="InitNitrogenUI.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="InitWaterUI.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ListviewAPI.cs" />
     <Compile Include="MemoUI.cs">
@@ -70,6 +72,7 @@
     </Compile>
     <Compile Include="ParFileImporter.cs" />
     <Compile Include="ProfileUI.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ProfileUI.Designer.cs">
       <DependentUpon>ProfileUI.cs</DependentUpon>
@@ -83,11 +86,13 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SampleUI.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SingleApplicationInstance.cs" />
     <Compile Include="SoilActions.cs" />
     <Compile Include="SoilSpreadsheet.cs" />
     <Compile Include="SoilUI.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TextHeader.cs">
       <SubType>UserControl</SubType>

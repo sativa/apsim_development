@@ -227,6 +227,7 @@ namespace ApsimRun
       private void OnClosing(object sender, FormClosingEventArgs e)
          {
          Runner.Stop();
+         Runner.Close();
          Config.SetSetting("Top", Top.ToString());
          Config.SetSetting("Left", Left.ToString());
          }
