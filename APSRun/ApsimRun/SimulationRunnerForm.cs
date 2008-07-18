@@ -27,9 +27,10 @@ namespace ApsimRun
 
          Runner = new SimulationRunner(this);
          Runner.SimulationUpdated += OnUpdate;
-         string NumCPUs = Config.Setting("NumCPUs");
-         if (NumCPUs != "")
-            Runner.NumCPUs = Convert.ToInt32(NumCPUs);
+         string NumCPUsString = Config.Setting("NumCPUs");
+         if (NumCPUsString != "")
+             Runner.NumCPUs = Convert.ToInt32(NumCPUsString);
+         NumCPUs.Value = Runner.NumCPUs;
          this.Args = Args;
 
          // Position window correctly.
@@ -54,11 +55,7 @@ namespace ApsimRun
             {
             FileToRun.SimulationsToRun = SimulationsToRun;
             if (FileToRun.SimulationsToRun.Count > 0)
-               {
                Runner.Add(FileToRun);
-               if (RunButton.Text == "Run" && Runner.SimulationDetails.Count > 0)
-                  OnRunClick(null, null);
-               }
             }
          catch (Exception ex)
             {
@@ -101,9 +98,6 @@ namespace ApsimRun
                else
                   AddFile(FileName, JustDoIt);
                }
-
-            if (RunButton.Text == "Run" && Runner.SimulationDetails.Count > 0)
-               OnRunClick(null, null);
             }
          catch (Exception ex)
             {
@@ -201,7 +195,6 @@ namespace ApsimRun
             Completed.Text = "0";
             NumberWithErrors.Text = "0";
             NumberWithWarnings.Text = "0";
-            NumCPUs.Value = Runner.NumCPUs;
             ProgressBar.Value = 0;
 
             RunButton.Text = "Stop";
