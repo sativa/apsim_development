@@ -59,7 +59,7 @@ namespace CSGeneral
         /// </summary>
         public string Arguments;
 
-        public int Tag;
+        public object Tag;
         public event NotifyEvent StdOutClosed;
         public event NotifyEvent StdErrClosed;
 

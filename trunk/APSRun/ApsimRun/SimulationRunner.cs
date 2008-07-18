@@ -56,6 +56,11 @@ namespace ApsimRun
          if (SimulationFile.DeleteSimOnceRunCompleted)
             File.Delete(SimFileName);
          }
+      internal void Close()
+         {
+         if (SimulationFile.DeleteSimOnceRunCompleted && File.Exists(SimFileName))
+            File.Delete(SimFileName);
+         }
       }
 
    /// <summary>
@@ -71,6 +76,9 @@ namespace ApsimRun
       private ISynchronizeInvoke MainThread;
       private int NumApsimsRunning = 0;
       private bool Stopped = false;
+      private bool KillThread = false;
+      private Thread WorkerThread;
+      private object LockObject = new object();
 
       public delegate void WriteDelegate(Detail Simulation, string Line);
       public delegate void UpdateDelegate(Detail Simulation, int PercentDone, int OverallPercent);
@@ -88,11 +96,25 @@ namespace ApsimRun
       public SimulationRunner(ISynchronizeInvoke MainThread)
          {
          this.MainThread = MainThread;
+         string NumberOfProcesses = Environment.GetEnvironmentVariable("NUMBER_OF_PROCESSORS");
+         if (NumberOfProcesses != null && NumberOfProcesses != "")
+            NumCPUsToUse = Convert.ToInt32(NumberOfProcesses);
+         WorkerThread = new Thread(DoWork);
+         WorkerThread.Start();
+         }
+      public void Close()
+         {
+         KillThread = true;
+         for (int i = 0; i <= NextIndex; i++)
+            Simulations[i].Close();
          }
 
       public void Clear()
          {
-         Simulations.Clear();
+         lock (LockObject)
+            {
+            Simulations.Clear();
+            }
          }
 
       /// <summary>
@@ -102,8 +124,11 @@ namespace ApsimRun
       /// <param name="SimulationSet"></param>
       public void Add(Runnable SimulationSet)
          {
-         foreach (string Name in SimulationSet.SimulationsToRun)
-            Simulations.Add(new SingleRun(SimulationSet, Name));
+         lock (LockObject)
+            {
+            foreach (string Name in SimulationSet.SimulationsToRun)
+               Simulations.Add(new SingleRun(SimulationSet, Name));
+            }
          }
 
       /// <summary>
@@ -151,53 +176,78 @@ namespace ApsimRun
       /// </summary>
       public void Run()
          {
-         Stopped = false;
-         NextIndex = -1;
-         RunNext();
+         lock (LockObject)
+            {
+            Stopped = false;
+            NextIndex = -1;
+            }
          }
 
 
       /// <summary> 
-      /// Run the next simulation in the run queue.
+      /// Main worker thread for keeping APSIM busy.
       /// </summary>
-      private void RunNext()
+      private void DoWork()
          {
-         while (NextIndex + 1 < Simulations.Count && NumApsimsRunning < NumCPUsToUse && !Stopped)
+         while (!KillThread)
             {
-            Monitor.Enter(this);
-            NumApsimsRunning++; 
-            NextIndex++;
-            Monitor.Exit(this);
-            try
+            SingleRun SimulationToRun = GetNextSimulationToRun();
+            if (SimulationToRun != null)
                {
-               string Messages = Simulations[NextIndex].PrepareToRun();
-
                ProcessCaller ApsimProcess = new ProcessCaller(MainThread);
-               ApsimProcess.FileName = Path.GetDirectoryName(Application.ExecutablePath) + "\\apsim.exe";
-               ApsimProcess.Arguments = "\"" + Simulations[NextIndex].SimFileName + "\"";
-               ApsimProcess.WorkingDirectory = Path.GetDirectoryName(Simulations[NextIndex].SimFileName);
-               ApsimProcess.StdOutClosed += OnApsimExited;
-               ApsimProcess.StdOutReceived += OnStdOut;
-               ApsimProcess.StdErrReceived += OnStdError;
-               ApsimProcess.Tag = NextIndex;
-
-               // Do something with any messages during the create .sim bit.
-               if (Messages != "")
+               ApsimProcess.Tag = SimulationToRun;
+               try
                   {
-                  CSGeneral.DataReceivedEventArgs arg = new CSGeneral.DataReceivedEventArgs(Messages);
-                  OnStdOut(ApsimProcess, arg);
-                  }
+                  string Messages = SimulationToRun.PrepareToRun();
 
-               ApsimProcess.Start();
+                  ApsimProcess.FileName = Path.GetDirectoryName(Application.ExecutablePath) + "\\apsim.exe";
+                  ApsimProcess.Arguments = "\"" + SimulationToRun.SimFileName + "\"";
+                  ApsimProcess.WorkingDirectory = Path.GetDirectoryName(SimulationToRun.SimFileName);
+                  ApsimProcess.StdOutClosed += OnApsimExited;
+                  ApsimProcess.StdOutReceived += OnStdOut;
+                  ApsimProcess.StdErrReceived += OnStdError;
+
+                  // Do something with any messages during the create .sim bit.
+                  if (Messages != "")
+                     {
+                     CSGeneral.DataReceivedEventArgs arg = new CSGeneral.DataReceivedEventArgs(Messages);
+                     OnStdOut(ApsimProcess, arg);
+                     }
+
+                  lock (LockObject)
+                     {
+                     if (!Stopped)
+                        {
+                        NumApsimsRunning++;
+                        ApsimProcess.Start();
+                        }
+                     }
+                  }
+              
+               catch (Exception ex) 
+                  {
+                  SimulationToRun.Details.HasErrors = true;
+                  CSGeneral.DataReceivedEventArgs Arg = new CSGeneral.DataReceivedEventArgs(ex.Message);
+                  OnStdError(ApsimProcess, Arg);
+                  SimulationToRun.SummaryFile.Close();
+                  SimulationToRun.IsCompleted();
+                  InvokeUpdatedEvent(SimulationToRun.Details, 100);
+                  }
                }
-           
-            catch (Exception ex) 
+            Thread.Sleep(500);
+            }
+         }
+      private SingleRun GetNextSimulationToRun()
+         {
+         lock (LockObject)
+            {
+            if (NextIndex + 1 < Simulations.Count && NumApsimsRunning < NumCPUsToUse)
                {
-               Simulations[NextIndex].Details.HasErrors = true;
-               InvokeStdErrEvent(Simulations[NextIndex].Details, ex.Message);
-               InvokeUpdatedEvent(Simulations[NextIndex].Details, 100);
-               Run();
+               NextIndex++;
+               return Simulations[NextIndex];
                }
+            else
+               return null;
             }
          }
 
@@ -206,7 +256,10 @@ namespace ApsimRun
       /// </summary>
       public void Stop()
          {
-         Stopped = true;
+         lock (LockObject)
+            {
+            Stopped = true;
+            }
          foreach (Process P in Process.GetProcesses())
             {
             if (P.ProcessName == "apsim")
@@ -222,10 +275,9 @@ namespace ApsimRun
       private void OnStdOut(object sender, CSGeneral.DataReceivedEventArgs e)
          {
          ProcessCaller Process = (ProcessCaller)sender;
-         int ProcessIndex = Process.Tag;
-         Simulations[ProcessIndex].SummaryFile.WriteLine(e.Text);
-
-         InvokeStdOutEvent(Simulations[NextIndex].Details, e.Text);
+         SingleRun Simulation = (SingleRun)Process.Tag;
+         Simulation.SummaryFile.WriteLine(e.Text);
+         InvokeStdOutEvent(Simulation.Details, e.Text);
          }
 
       /// <summary>
@@ -234,43 +286,42 @@ namespace ApsimRun
       private void OnStdError(object sender, CSGeneral.DataReceivedEventArgs e)
          {
          ProcessCaller Process = (ProcessCaller)sender;
-         int ProcessIndex = Process.Tag;
+         SingleRun Simulation = (SingleRun)Process.Tag;
 
          // Look for a percent complete
          if (e.Text[0] == '%')
             {
             int Percent = Convert.ToInt32(e.Text.Substring(1));
             if (Percent >= 0 && Percent < 100)
-               InvokeUpdatedEvent(Simulations[ProcessIndex].Details, Percent);
+               InvokeUpdatedEvent(Simulation.Details, Percent);
             }
          else
             {
             if (e.Text.IndexOf("APSIM  Fatal  Error") != -1)
-               Simulations[ProcessIndex].Details.HasErrors = true;
-            InvokeStdErrEvent(Simulations[ProcessIndex].Details, e.Text);
+               Simulation.Details.HasErrors = true;
+            InvokeStdErrEvent(Simulation.Details, e.Text);
             }
          }
 
       /// <summary>
       /// A handler for when an APSIM process terminates.
       /// </summary>
-      private void OnApsimExited(object Sender)
+      private void OnApsimExited(object sender)
          {
          // APSIM has finished running, so we need to close the summary file
          // and attempt to run the next simulation
 
-         ProcessCaller Process = (ProcessCaller)Sender;
-         int ProcessIndex = Process.Tag;
+         ProcessCaller Process = (ProcessCaller)sender;
+         SingleRun Simulation = (SingleRun)Process.Tag;
 
-         Simulations[ProcessIndex].SummaryFile.Close();
-         Simulations[ProcessIndex].IsCompleted();
-         InvokeUpdatedEvent(Simulations[ProcessIndex].Details, 100);
+         Simulation.SummaryFile.Close();
+         Simulation.IsCompleted();
+         InvokeUpdatedEvent(Simulation.Details, 100);
 
-         Monitor.Enter(this);
-         NumApsimsRunning--;
-         Monitor.Exit(this);
-
-         RunNext();
+         lock (LockObject)
+            {
+            NumApsimsRunning--;
+            }
          }
 
       /// <summary>
