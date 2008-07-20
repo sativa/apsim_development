@@ -30,116 +30,116 @@ class ControlFileConverter
       std::string managerActionNewParameter;
 
 
-      bool convert(const string& fileName, const string& scriptFileName);
+      bool convert(const std::string& fileName, const std::string& scriptFileName);
       
       //---------------------------------------------------------------------------
       // convert the control file using the commands in the specified section
       // in the script file.  Throws an exception if a problem was encountered.
       // Returns true on success.
       //---------------------------------------------------------------------------
-      bool convertSection(const string& sectionName) throw(runtime_error);
+      bool convertSection(const std::string& sectionName) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Evalulate the specified expression and return a value.  Returns true on
       // success.
       //---------------------------------------------------------------------------
-      bool evaluate(const string& expression, string& value) const throw(runtime_error);
+      bool evaluate(const std::string& expression, std::string& value) const throw(std::runtime_error);
 
       // ------------------------------------------------------------------
       // resolve a module.variable to a value if necessary.
       // ------------------------------------------------------------------
-      void resolveVariableRef(string& value) const;
+      void resolveVariableRef(std::string& value) const;
 
       // ------------------------------------------------------------------
       // evaluate the date arguments passed in and return a date.
       // ------------------------------------------------------------------
-      bool evaluateDate(const string& arguments, string& value) const throw(runtime_error);
+      bool evaluateDate(const std::string& arguments, std::string& value) const throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Execute the SetParameterValue command.  Returns true on success.
       //---------------------------------------------------------------------------
-      bool executeSetParameterValue(const string& arguments) throw(runtime_error);
+      bool executeSetParameterValue(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Execute the RenameParameter command.  Returns true on success.
       //---------------------------------------------------------------------------
-      bool executeRenameParameter(const string& arguments) throw(runtime_error);
+      bool executeRenameParameter(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Execute the DeleteParameter command.  Returns true on success.
       //---------------------------------------------------------------------------
-      bool executeDeleteParameter(const string& arguments) throw(runtime_error);
+      bool executeDeleteParameter(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Execute the ChangeInstantiation command.  Returns true on success.
       //---------------------------------------------------------------------------
-      bool executeChangeInstantiation(const string& arguments) throw(runtime_error);
+      bool executeChangeInstantiation(const std::string& arguments) throw(std::runtime_error);
 
       // ------------------------------------------------------------------
       // Execute the newFormatReportVariables function call
       // ------------------------------------------------------------------
       bool executeRemoveReportOutputSwitch
-         (const string& arguments) throw(runtime_error);
+         (const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Execute the MoveParameter command.  Returns true on success.
       //---------------------------------------------------------------------------
-      bool executeMoveParameter(const string& arguments) throw(runtime_error);
+      bool executeMoveParameter(const std::string& arguments) throw(std::runtime_error);
 
       // ------------------------------------------------------------------
       // Execute the NewFormatReportVariables command. Returns true on success
       // ------------------------------------------------------------------
-      bool executeNewFormatReportVariables(const std::string& arguments) throw(runtime_error);
+      bool executeNewFormatReportVariables(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // move all parameters out of the control file and into a parameter file.
       //---------------------------------------------------------------------------
-      bool executeMoveParametersOutOfCon(const std::string arguments) throw(runtime_error);
+      bool executeMoveParametersOutOfCon(const std::string arguments) throw(std::runtime_error);
 
       // ------------------------------------------------------------------
       // Execute the RemoveSumAvgToTracker command. Returns true on success
       // ------------------------------------------------------------------
-      bool executeRemoveSumAvgToTracker(const std::string& arguments) throw(runtime_error);
+      bool executeRemoveSumAvgToTracker(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Execute the executeRemoveTrackerDefault command.  Returns true on success.
       //---------------------------------------------------------------------------
-      bool executeRemoveTrackerDefault(const std::string& arguments) throw(runtime_error);
+      bool executeRemoveTrackerDefault(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // To a search and replace on all report variables
       //---------------------------------------------------------------------------
-      bool executeSearchReplaceReportVariables(const std::string& arguments) throw(runtime_error);
+      bool executeSearchReplaceReportVariables(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Add a parameter file reference to all instances of a module in con file.
       //---------------------------------------------------------------------------
-      bool executeAddParamFileToModule(const string& arguments) throw(runtime_error);
+      bool executeAddParamFileToModule(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Remove any period characters in tracker variables.
       //---------------------------------------------------------------------------
-      bool removePeriodsInReportAndTracker(const string& arguments) throw(runtime_error);
+      bool removePeriodsInReportAndTracker(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Rework the tracker variables to new format.
       //---------------------------------------------------------------------------
-      bool ReworkTrackerVariables(const string& arguments) throw(runtime_error);
+      bool ReworkTrackerVariables(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Add a parameter file reference to all instances of a module in con file.
       //---------------------------------------------------------------------------
-      bool executeRenameModule(const string& arguments) throw(runtime_error);
+      bool executeRenameModule(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Perform a search and replace on a param file section
       //---------------------------------------------------------------------------
-      bool executeSearchReplace(const string& arguments) throw(runtime_error);
+      bool executeSearchReplace(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Set a manager action parameter.
       //---------------------------------------------------------------------------
-      bool executeSetManagerActionParameter(const string& arguments) throw(runtime_error);
+      bool executeSetManagerActionParameter(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Callback for SetmanagerActionParameter.
@@ -150,17 +150,17 @@ class ControlFileConverter
       //---------------------------------------------------------------------------
       // Delete a manager action parameter.
       //---------------------------------------------------------------------------
-      bool executeDeleteManagerActionParameter(const string& arguments) throw(runtime_error);
+      bool executeDeleteManagerActionParameter(const std::string& arguments) throw(std::runtime_error);
 
       //---------------------------------------------------------------------------
       // Find a module.ini file. Return true if found.
       //---------------------------------------------------------------------------
-      bool executeFindModuleLocalIniFile(const string& arguments);
+      bool executeFindModuleLocalIniFile(const std::string& arguments);
 
       //---------------------------------------------------------------------------
       // Remove report variable. Return true if found.
       //---------------------------------------------------------------------------
-      bool executeRemoveReportVariable(const string& arguments);
+      bool executeRemoveReportVariable(const std::string& arguments);
 
       //---------------------------------------------------------------------------
       // Callback for DeleteManagerActionParameter.
@@ -171,10 +171,10 @@ class ControlFileConverter
       //---------------------------------------------------------------------------
       // Delete a module from the control file.
       //---------------------------------------------------------------------------
-      bool executeDeleteModule(const string& arguments) throw(runtime_error);
+      bool executeDeleteModule(const std::string& arguments) throw(std::runtime_error);
 
 
-      bool executeIniToXml(const string& arguments) throw(runtime_error);
+      bool executeIniToXml(const std::string& arguments) throw(std::runtime_error);
    };
 
 // ------------------------------------------------------------------

@@ -3,13 +3,13 @@
 #include <string>
 #include <fstream>
 #include <stdexcept>
-#include <iosfwd.h>
+#include <iostream>
 
-#include <general/stringTokenizer.h>
+#include <general/StringTokenizer.h>
 #include <general/string_functions.h>
 #include <general/path.h>
 #include <general/date_class.h>
-#include <general/inifile.h>
+#include <general/IniFile.h>
 #include <general/stristr.h>
 
 #include <boost/lexical_cast.hpp>
@@ -29,9 +29,9 @@ using namespace boost;
 //---------------------------------------------------------------------------
 void getScriptFilesToUse(const string& fileName, vector<string>& scriptFileNames)
    {
-   int fileVersion = ApsimControlFile::getVersionNumber(fileName);
+   long fileVersion = ApsimControlFile::getVersionNumber(fileName);
    double versionNumber = atof(getApsimVersion().c_str()) * 10;
-   long apsimVersion = versionNumber;
+   long apsimVersion = (long) versionNumber;
    if (fileVersion != apsimVersion)
       {
       string homeDir = getApsimDirectory() + "\\apsim\\";
@@ -95,7 +95,7 @@ void ControlFileConverter::go(const string& fileName)
          somethingConverted = convert(fileName, scriptFileNames[f])
                               || somethingConverted;
    
-      double apsimVersion = atof(getApsimVersion().c_str())*10;
+      long apsimVersion = (long) atof(getApsimVersion().c_str())*10;
       ApsimControlFile::setVersionNumber(fileName, apsimVersion);
       }  
    }
@@ -822,7 +822,7 @@ bool ControlFileConverter::ReworkTrackerVariables(const string& arguments) throw
                else if (Str_i_Eq(word, "between"))
                   {
                   startPeriod = tokenizer.nextToken();
-                  string and = tokenizer.nextToken();
+                  string andjunk = tokenizer.nextToken();
                   endPeriod = tokenizer.nextToken();
                   }
                else if (Str_i_Eq(word, "on"))
