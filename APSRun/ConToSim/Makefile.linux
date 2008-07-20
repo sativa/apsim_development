@@ -10,7 +10,7 @@ XML2_LIBDIR ?=-L/usr/lib
 
 PRG=	$(APSROOT)/Bin/ConToSim.x
 
-SRC=	ConToSim.cpp
+SRC=	ConToSim.cpp ControlFileConverter.cpp
 
 OBJ=	$(SRC:.cpp=.o)
 
@@ -20,14 +20,13 @@ OBJ=	$(SRC:.cpp=.o)
 CC=		/usr/bin/gcc
 LD=		/usr/bin/g++
 CPPFLAGS=$(BOOST_INCLUDEDIR) $(XML2_INCLUDEDIR) -I$(APSROOT)/Shared 	\
-		-I$(APSROOT)/Shared/ComponentInterface		\
 		-Wno-deprecated $(CPPDEBUGFLAGS)
 
 
 #-----------------------------------------------------------------------
 # Required libraries
 
-LDFLAGS=	$(XML2_LIBDIR)	-L$(APSROOT)/lib -L/usr/local/lf9562/lib  $(LDDEBUGFLAGS)
+LDFLAGS=	$(XML2_LIBDIR)	-L$(APSROOT)/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lprotocol			\
 		-lApsimShared			\
