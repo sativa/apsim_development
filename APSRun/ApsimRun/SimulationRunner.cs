@@ -79,6 +79,7 @@ namespace ApsimRun
       private bool KillThread = false;
       private Thread WorkerThread;
       private object LockObject = new object();
+      private int NumApsimsRunning = 0;
 
       public delegate void WriteDelegate(Detail Simulation, string Line);
       public delegate void UpdateDelegate(Detail Simulation, int PercentDone, int OverallPercent);
@@ -104,6 +105,7 @@ namespace ApsimRun
          }
       public void Close()
          {
+         NumApsimsRunning = 0;
          KillThread = true;
          for (int i = 0; i <= NextIndex; i++)
             Simulations[i].Close();
@@ -190,6 +192,7 @@ namespace ApsimRun
          lock (LockObject)
             {
             Stopped = false;
+            NumApsimsRunning = 0;
             NumCompleted = 0;
             NextIndex = -1;
             }
@@ -230,12 +233,7 @@ namespace ApsimRun
                      {
                      if (!Stopped)
                         {
-                        // Make absolutely certain we don't have too many APSIM's running.
-                        // Otherwise you can get the situation where this thread creates many 
-                        // instances of APSIM very quickly.
-                        while (Process.GetProcessesByName("apsim").Length > NumCPUsToUse)
-                           Thread.Sleep(300);
-
+                        NumApsimsRunning++;
                         ApsimProcess.Start();
                         }
                      }
@@ -249,16 +247,14 @@ namespace ApsimRun
                   CloseJob(SimulationToRun);
                   }
                }
-            Thread.Sleep(300);
+            Thread.Sleep(100);
             }
          }
       private SingleRun GetNextSimulationToRun()
          {
          lock (LockObject)
             {
-            Process[] ApsimInstances = Process.GetProcessesByName("apsim");
-
-            if (NextIndex + 1 < Simulations.Count && ApsimInstances.Length < NumCPUsToUse)
+            if (NextIndex + 1 < Simulations.Count && NumApsimsRunning < NumCPUsToUse)
                {
                NextIndex++;
                return Simulations[NextIndex];
@@ -336,6 +332,10 @@ namespace ApsimRun
          ProcessCaller Process = (ProcessCaller)sender;
          SingleRun Simulation = (SingleRun)Process.Tag;
          CloseJob(Simulation);
+         lock (LockObject)
+            {
+            NumApsimsRunning--;
+            }
          }
       private void CloseJob(SingleRun Simulation)
          {

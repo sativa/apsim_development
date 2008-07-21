@@ -126,7 +126,7 @@ namespace CSGeneral
             StartProcess();
 
             // Wait for the process to end, or cancel it
-            while (! process.HasExited)
+            while (!process.HasExited && !StdOutFinished && !StdErrFinished)
             {
                 Thread.Sleep(SleepTime); // sleep
                 if (CancelRequested)
@@ -137,6 +137,10 @@ namespace CSGeneral
                     AcknowledgeCancel();
                 }
             }
+
+            if (AllFinished != null)
+               FireAsync(AllFinished, this);
+
         }
 
         /// <summary>
@@ -177,12 +181,7 @@ namespace CSGeneral
             {
             FireAsync(StdOutReceived, this, new DataReceivedEventArgs(str));
             }
-         lock (this)
-            {
-            if (StdErrFinished)
-               FireAsync(AllFinished, this);
-            StdOutFinished = true;
-            }
+         StdOutFinished = true;
          }           
 
         /// <summary>
@@ -195,12 +194,7 @@ namespace CSGeneral
             {
             FireAsync(StdErrReceived, this, new DataReceivedEventArgs(str));
             }
-         lock (this)
-            {
-            if (StdOutFinished)
-               FireAsync(AllFinished, this);
-            StdErrFinished = true;
-            }
+         StdErrFinished = true;
          }
 
 	}
