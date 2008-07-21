@@ -61,6 +61,21 @@ namespace ApsimRun
          if (SimulationFile.DeleteSimOnceRunCompleted && File.Exists(SimFileName))
             File.Delete(SimFileName);
          }
+      internal void WriteToSummaryFile(string Line)
+         {
+         try
+            {
+            SummaryFile.WriteLine(Line);
+            }
+         catch (Exception)
+            {
+            // This is bad. It means that the associated apsim.exe has been closed but
+            // we're still being passed stdout stuff.
+            SummaryFile = new StreamWriter(Details.SummaryFileName, true);
+            SummaryFile.WriteLine(Line);
+            SummaryFile.Close();
+            }
+         }
       }
 
    /// <summary>
@@ -289,14 +304,8 @@ namespace ApsimRun
          {
          ProcessCaller Process = (ProcessCaller)sender;
          SingleRun Simulation = (SingleRun)Process.Tag;
-         try
-            {
-            Simulation.SummaryFile.WriteLine(e.Text);
-            InvokeStdOutEvent(Simulation.Details, e.Text);
-            }
-         catch (Exception )
-            {
-            }
+         Simulation.WriteToSummaryFile(e.Text);
+         InvokeStdOutEvent(Simulation.Details, e.Text);
          }
 
       /// <summary>
