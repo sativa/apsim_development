@@ -243,56 +243,52 @@ namespace ApsimFile
             }
          set
             {
-            ExpandSimsToRun(value);
+            if (SimsToRun == null)
+               SimsToRun = new List<string>();
+            else
+               SimsToRun.Clear();
+
+            if (value == null)
+               ExpandSimsToRun(RootComponent.FullPath);
+            else
+               {
+               foreach (string NodePath in value)
+                  ExpandSimsToRun(NodePath);
+               }
             }
          }
 
-      private void ExpandSimsToRun(List<string> value)
+      private void ExpandSimsToRun(string NodePath)
          {
          // ------------------------------------------------
          // Go looking for simulations to run. Look at the
          // currently selected nodes first and progressively
          // their parents until some simulations are found.
          // ------------------------------------------------
-         if (SimsToRun == null)
-            SimsToRun = new List<string>();
-         else
-            SimsToRun.Clear();
+         Component Comp = Find(NodePath);
+         while (Comp.Type != "simulation" && Comp.Type != "folder" && Comp.Type != "simulations")
+            Comp = Comp.Parent;
 
-         if (value == null)
+         if (Comp.Type == "simulation" & Comp.Enabled)
+            SimsToRun.Add(Comp.FullPath);
+
+         else if (Comp.Type == "folder")
             {
-            value = new List<string>();
-            value.Add(RootComponent.FullPath);
-            }
-
-         foreach (string NodePath in value)
-            {
-            Component Comp = Find(NodePath);
-            while (Comp.Type != "simulation" && Comp.Type != "folder" && Comp.Type != "simulations")
+            foreach (Component Child in Comp.ChildNodes)
                {
-               Comp = Comp.Parent;
+               if (Child.Type == "simulation" || Child.Type == "folder")
+                  ExpandSimsToRun(Child.FullPath); // recursion
                }
-            if (Comp.Type == "simulation" & Comp.Enabled)
-               {
-               SimsToRun.Add(Comp.FullPath);
-               }
-            else if (Comp.Type == "folder")
-               {
-               foreach (Component Child in Comp.ChildNodes)
-                  {
-                  if (Child.Type == "simulation" & Child.Enabled)
-                     SimsToRun.Add(Child.FullPath);
-                  }
-               if (SimsToRun.Count == 0)
-                  {
-                  // Current selection must be in a folder inside a simulation step up to parent
-                  // looking for the parent simulation
-                  while ((Comp != null) && Comp.Type != "simulation")
-                     Comp = Comp.Parent;
 
-                  if ((Comp != null) && Comp.Type == "simulation" && Comp.Enabled)
-                     SimsToRun.Add(Comp.FullPath);
-                  }
+            if (SimsToRun.Count == 0)
+               {
+               // Current selection must be in a folder inside a simulation step up to parent
+               // looking for the parent simulation
+               while ((Comp != null) && Comp.Type != "simulation")
+                  Comp = Comp.Parent;
+
+               if ((Comp != null) && Comp.Type == "simulation" && Comp.Enabled)
+                  SimsToRun.Add(Comp.FullPath);
                }
             }
          }
