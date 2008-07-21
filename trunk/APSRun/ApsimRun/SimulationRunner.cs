@@ -294,7 +294,7 @@ namespace ApsimRun
             Simulation.SummaryFile.WriteLine(e.Text);
             InvokeStdOutEvent(Simulation.Details, e.Text);
             }
-         catch (Exception err)
+         catch (Exception )
             {
             }
          }
@@ -349,7 +349,7 @@ namespace ApsimRun
             {
             Simulation.SummaryFile.Close();
             }
-         catch (Exception err)
+         catch (Exception )
             {
             }
          Simulation.IsCompleted();
