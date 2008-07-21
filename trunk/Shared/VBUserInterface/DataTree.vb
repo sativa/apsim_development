@@ -91,10 +91,11 @@ Public Class DataTree
             CollapseAll()
             RootNode.Expand()
             If RootNode.Nodes.Count = 1 AndAlso _
-               RootNode.Nodes(0).Tag.ToString.ToLower = "simulation" Then
+               (RootNode.Nodes(0).Tag.ToString.ToLower = "simulation") Then
                 ExpandAll()
-            Else
-                ExpandAllFolders(RootNode)
+            ElseIf RootNode.Nodes.Count = 1 AndAlso _
+                     RootNode.Nodes(0).Text.ToString.ToLower = "australia" Then
+                RootNode.Nodes(0).Expand()
             End If
             Controller.SelectedPath = Controller.ApsimData.RootComponent.FullPath
         End If

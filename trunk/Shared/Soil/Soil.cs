@@ -534,21 +534,21 @@ namespace Soils
 				if (OpenPredLLCoeffFile() && Utility.ToMidPoints(Thickness).Length > 0)
 					{
 					// get a list of all possible predicted crops.
-                    string SoilNameNoSpaces = Classification.Replace(" ", "");
-                    double[] SoilDepthCentre = Utility.ToMidPoints(Thickness);
-				
-					foreach (XmlNode PredSoil in  XmlHelper.ChildNodes(Data, ""))
+               string SoilNameNoSpaces = Classification.Replace(" ", "");
+               double[] SoilDepthCentre = Utility.ToMidPoints(Thickness);
+
+               foreach (XmlNode PredSoil in XmlHelper.ChildNodes(PredLLCoeff, ""))
 						if (PredSoil.Name.ToLower() == SoilNameNoSpaces.ToLower())
-                            foreach (string CropName in XmlHelper.ChildNames(PredSoil, ""))
-								if (!CropExists(CropName))
-									{
-									double[] a = null;
-									double[] b = null;
-									double[] CoeffDepthCentre = null;
-									PredictedCoeffs(CropName, ref a, ref b, ref CoeffDepthCentre);
-									if (SoilDepthCentre[SoilDepthCentre.Length-1] <= CoeffDepthCentre[CoeffDepthCentre.Length-1])
-										PredCrops.Add(CropName);
-									}
+                     foreach (string CropName in XmlHelper.ChildNames(PredSoil, ""))
+                        if (!CropExists(CropName))
+                           {
+                           double[] a = null;
+                           double[] b = null;
+                           double[] CoeffDepthCentre = null;
+                           PredictedCoeffs(CropName, ref a, ref b, ref CoeffDepthCentre);
+                           if (SoilDepthCentre[SoilDepthCentre.Length - 1] <= CoeffDepthCentre[CoeffDepthCentre.Length - 1])
+                              PredCrops.Add(CropName);
+                           }
 					}
 				return PredCrops;
 				}
