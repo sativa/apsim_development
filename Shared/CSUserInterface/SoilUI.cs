@@ -962,7 +962,7 @@ namespace CSUserInterface
                 MySoil.SetUCona(GridUtils.GetCellAsDouble(APSIM, 1, 1), GridUtils.GetCellAsDouble(APSIM, 1, 2));
             else
                 MySoil.SetSummerWinterUCona(GridUtils.GetCellAsDouble(APSIM, 1, 3), GridUtils.GetCellAsDouble(APSIM, 1, 4),
-                                            GridUtils.GetCellAsDouble(APSIM, 1, 4), GridUtils.GetCellAsDouble(APSIM, 1, 6),
+                                            GridUtils.GetCellAsDouble(APSIM, 1, 5), GridUtils.GetCellAsDouble(APSIM, 1, 6),
                                             APSIM.Cells[7, 1].Text, APSIM.Cells[8, 1].Text);
                 
 			MySoil.Salb = GridUtils.GetCellAsDouble(APSIM, 1, 9);
