@@ -3,7 +3,7 @@ summaryfile=testA1.sum
 [test1.report.parameters]
 outputfile  =testA1.out
 [test1.manager.start_of_day]
-if sugar.das = 100 then
+if sugar.DaysAfterSowing = 100 then
    sugar harvest
    sugar sow plants = 10 (), cultivar = q117, sowing_depth = 150
 endif
@@ -13,7 +13,7 @@ summaryfile=testA2.sum
 [test2.report.parameters]
 outputfile  =testA2.out
 [test2.manager.start_of_day]
-if sugar.das = 100 then
+if sugar.DaysAfterSowing = 100 then
    sugar harvest
    sugar end_crop
    sugar sow plants = 10 (), cultivar = q117, sowing_depth = 150
@@ -29,7 +29,7 @@ if harvest = 1 then
    harvest = 2
 endif
 
-if sugar.das = 100 then
+if sugar.DaysAfterSowing = 100 then
    sugar harvest
    sugar end_crop
    harvest = 1

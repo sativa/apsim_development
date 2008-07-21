@@ -1,21 +1,21 @@
-version = 6
+version = 6.1
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda lg1 Nfert=50 system=w1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
 
 [APSIM.warialda_lg1_50_w1_deep_AvgWindow]
 Title = site=warialda; soil=lg1; treatment=w1; Nrate=50; RootDepth=deep; Sowing = AvgWindow
-module = clock   PRule.par [all] %apsuite/apsim/clock/clock.ini [standard]
+module = clock   PRule.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report      report_files.par[warialda_lg1_50_w1_deep_AvgWindow]      report.par [whtsrg]
 module = input(met)         warialda.met [weather]
 module = manager     prule.man [Fert_50]   prule.man [w1] prule.man [w] prule.man [all] prule.man [AvgWindow]
-module = fertiliz                                                      %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2    soil.par[lg1]                              %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2      soil.par [all]                                    %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/Wheat/wheat.ini  [standard]
-module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [lg1] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   soil.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   soil.par [lg1deep] %apsuite/apsim/wheat/wheat.xml [standard]
+module = plant(chickpea)   soil.par [lg1deep] %apsuite/apsim/chickpea/chickpea.xml [standard]
+module = sorghum   soil.par [lg1deep] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = tracker   report.par[all]
 module = sysbal
 
@@ -24,17 +24,17 @@ module = sysbal
 
 [APSIM.warialda_lg1_200_w1_deep_AvgWindow]
 Title = site=warialda; soil=lg1; treatment=w1; Nrate=200; RootDepth=deep; Sowing = AvgWindow
-module = clock   PRule.par [all] %apsuite/apsim/clock/clock.ini [standard]
+module = clock   PRule.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report      report_files.par[warialda_lg1_200_w1_deep_AvgWindow]      report.par [whtsrg]
 module = input(met)         warialda.met [weather]
 module = manager     prule.man [Fert_200]   prule.man [w1] prule.man [w] prule.man [all] prule.man [AvgWindow]
-module = fertiliz                                                      %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2    soil.par[lg1]                              %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2      soil.par [all]                                    %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/Wheat/wheat.ini  [standard]
-module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [lg1] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   soil.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   soil.par [lg1deep] %apsuite/apsim/wheat/wheat.xml [standard]
+module = plant(chickpea)   soil.par [lg1deep] %apsuite/apsim/chickpea/chickpea.xml [standard]
+module = sorghum   soil.par [lg1deep] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = tracker   report.par[all]
 module = sysbal
 
@@ -43,17 +43,17 @@ module = sysbal
 
 [APSIM.warialda_cd2_50_w1_deep_AvgWindow]
 Title = site=warialda; soil=cd2; treatment=w1; Nrate=50; RootDepth=deep; Sowing = AvgWindow
-module = clock   PRule.par [all] %apsuite/apsim/clock/clock.ini [standard]
+module = clock   PRule.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report      report_files.par[warialda_cd2_50_w1_deep_AvgWindow]      report.par [whtsrg]
 module = input(met)         warialda.met [weather]
 module = manager     prule.man [Fert_50]   prule.man [w1] prule.man [w] prule.man [all] prule.man [AvgWindow]
-module = fertiliz                                                      %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2    soil.par[cd2]                              %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2      soil.par [all]                                    %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/Wheat/wheat.ini  [standard]
-module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [cd2] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   soil.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   soil.par [cd2deep] %apsuite/apsim/wheat/wheat.xml [standard]
+module = plant(chickpea)   soil.par [cd2deep] %apsuite/apsim/chickpea/chickpea.xml [standard]
+module = sorghum   soil.par [cd2deep] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = tracker   report.par[all]
 module = sysbal
 
@@ -62,17 +62,17 @@ module = sysbal
 
 [APSIM.warialda_cd2_200_w1_deep_AvgWindow]
 Title = site=warialda; soil=cd2; treatment=w1; Nrate=200; RootDepth=deep; Sowing = AvgWindow
-module = clock   PRule.par [all] %apsuite/apsim/clock/clock.ini [standard]
+module = clock   PRule.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report      report_files.par[warialda_cd2_200_w1_deep_AvgWindow]      report.par [whtsrg]
 module = input(met)         warialda.met [weather]
 module = manager     prule.man [Fert_200]   prule.man [w1] prule.man [w] prule.man [all] prule.man [AvgWindow]
-module = fertiliz                                                      %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2    soil.par[cd2]                              %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2      soil.par [all]                                    %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/Wheat/wheat.ini  [standard]
-module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [cd2] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   soil.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   soil.par [cd2deep] %apsuite/apsim/wheat/wheat.xml [standard]
+module = plant(chickpea)   soil.par [cd2deep] %apsuite/apsim/chickpea/chickpea.xml [standard]
+module = sorghum   soil.par [cd2deep] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = tracker   report.par[all]
 module = sysbal
 
@@ -81,17 +81,17 @@ module = sysbal
 
 [APSIM.goondiwindi_lg1_50_w1_deep_AvgWindow]
 Title = site=goondiwindi; soil=lg1; treatment=w1; Nrate=50; RootDepth=deep; Sowing = AvgWindow
-module = clock   PRule.par [all] %apsuite/apsim/clock/clock.ini [standard]
+module = clock   PRule.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report      report_files.par[goondiwindi_lg1_50_w1_deep_AvgWindow]      report.par [whtsrg]
 module = input(met)         goondiwindi.met [weather]
 module = manager     prule.man [Fert_50]   prule.man [w1] prule.man [w] prule.man [all] prule.man [AvgWindow]
-module = fertiliz                                                      %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2    soil.par[lg1]                              %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2      soil.par [all]                                    %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/Wheat/wheat.ini  [standard]
-module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [lg1] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   soil.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   soil.par [lg1deep] %apsuite/apsim/wheat/wheat.xml [standard]
+module = plant(chickpea)   soil.par [lg1deep] %apsuite/apsim/chickpea/chickpea.xml [standard]
+module = sorghum   soil.par [lg1deep] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = tracker   report.par[all]
 module = sysbal
 
@@ -100,17 +100,17 @@ module = sysbal
 
 [APSIM.goondiwindi_lg1_200_w1_deep_AvgWindow]
 Title = site=goondiwindi; soil=lg1; treatment=w1; Nrate=200; RootDepth=deep; Sowing = AvgWindow
-module = clock   PRule.par [all] %apsuite/apsim/clock/clock.ini [standard]
+module = clock   PRule.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report      report_files.par[goondiwindi_lg1_200_w1_deep_AvgWindow]      report.par [whtsrg]
 module = input(met)         goondiwindi.met [weather]
 module = manager     prule.man [Fert_200]   prule.man [w1] prule.man [w] prule.man [all] prule.man [AvgWindow]
-module = fertiliz                                                      %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2    soil.par[lg1]                              %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2      soil.par [all]                                    %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/Wheat/wheat.ini  [standard]
-module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [lg1] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   soil.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   soil.par [lg1deep] %apsuite/apsim/wheat/wheat.xml [standard]
+module = plant(chickpea)   soil.par [lg1deep] %apsuite/apsim/chickpea/chickpea.xml [standard]
+module = sorghum   soil.par [lg1deep] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = tracker   report.par[all]
 module = sysbal
 
@@ -119,17 +119,17 @@ module = sysbal
 
 [APSIM.goondiwindi_cd2_50_w1_deep_AvgWindow]
 Title = site=goondiwindi; soil=cd2; treatment=w1; Nrate=50; RootDepth=deep; Sowing = AvgWindow
-module = clock   PRule.par [all] %apsuite/apsim/clock/clock.ini [standard]
+module = clock   PRule.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report      report_files.par[goondiwindi_cd2_50_w1_deep_AvgWindow]      report.par [whtsrg]
 module = input(met)         goondiwindi.met [weather]
 module = manager     prule.man [Fert_50]   prule.man [w1] prule.man [w] prule.man [all] prule.man [AvgWindow]
-module = fertiliz                                                      %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2    soil.par[cd2]                              %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2      soil.par [all]                                    %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/Wheat/wheat.ini  [standard]
-module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [cd2] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   soil.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   soil.par [cd2deep] %apsuite/apsim/wheat/wheat.xml [standard]
+module = plant(chickpea)   soil.par [cd2deep] %apsuite/apsim/chickpea/chickpea.xml [standard]
+module = sorghum   soil.par [cd2deep] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = tracker   report.par[all]
 module = sysbal
 
@@ -138,17 +138,17 @@ module = sysbal
 
 [APSIM.goondiwindi_cd2_200_w1_deep_AvgWindow]
 Title = site=goondiwindi; soil=cd2; treatment=w1; Nrate=200; RootDepth=deep; Sowing = AvgWindow
-module = clock   PRule.par [all] %apsuite/apsim/clock/clock.ini [standard]
+module = clock   PRule.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report      report_files.par[goondiwindi_cd2_200_w1_deep_AvgWindow]      report.par [whtsrg]
 module = input(met)         goondiwindi.met [weather]
 module = manager     prule.man [Fert_200]   prule.man [w1] prule.man [w] prule.man [all] prule.man [AvgWindow]
-module = fertiliz                                                      %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2    soil.par[cd2]                              %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2      soil.par [all]                                    %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/Wheat/wheat.ini  [standard]
-module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [cd2] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   soil.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   soil.par [cd2deep] %apsuite/apsim/wheat/wheat.xml [standard]
+module = plant(chickpea)   soil.par [cd2deep] %apsuite/apsim/chickpea/chickpea.xml [standard]
+module = sorghum   soil.par [cd2deep] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = tracker   report.par[all]
 module = sysbal
 
@@ -157,17 +157,17 @@ module = sysbal
 
 [APSIM.coonamble_lg1_50_w1_deep_AvgWindow]
 Title = site=coonamble; soil=lg1; treatment=w1; Nrate=50; RootDepth=deep; Sowing = AvgWindow
-module = clock   PRule.par [all] %apsuite/apsim/clock/clock.ini [standard]
+module = clock   PRule.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report      report_files.par[coonamble_lg1_50_w1_deep_AvgWindow]      report.par [whtsrg]
 module = input(met)         coonamble.met [weather]
 module = manager     prule.man [Fert_50]   prule.man [w1] prule.man [w] prule.man [all] prule.man [AvgWindow]
-module = fertiliz                                                      %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2    soil.par[lg1]                              %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2      soil.par [all]                                    %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/Wheat/wheat.ini  [standard]
-module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [lg1] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   soil.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   soil.par [lg1deep] %apsuite/apsim/wheat/wheat.xml [standard]
+module = plant(chickpea)   soil.par [lg1deep] %apsuite/apsim/chickpea/chickpea.xml [standard]
+module = sorghum   soil.par [lg1deep] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = tracker   report.par[all]
 module = sysbal
 
@@ -176,17 +176,17 @@ module = sysbal
 
 [APSIM.coonamble_lg1_200_w1_deep_AvgWindow]
 Title = site=coonamble; soil=lg1; treatment=w1; Nrate=200; RootDepth=deep; Sowing = AvgWindow
-module = clock   PRule.par [all] %apsuite/apsim/clock/clock.ini [standard]
+module = clock   PRule.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report      report_files.par[coonamble_lg1_200_w1_deep_AvgWindow]      report.par [whtsrg]
 module = input(met)         coonamble.met [weather]
 module = manager     prule.man [Fert_200]   prule.man [w1] prule.man [w] prule.man [all] prule.man [AvgWindow]
-module = fertiliz                                                      %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2    soil.par[lg1]                              %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2      soil.par [all]                                    %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/Wheat/wheat.ini  [standard]
-module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [lg1] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   soil.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   soil.par [lg1deep] %apsuite/apsim/wheat/wheat.xml [standard]
+module = plant(chickpea)   soil.par [lg1deep] %apsuite/apsim/chickpea/chickpea.xml [standard]
+module = sorghum   soil.par [lg1deep] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = tracker   report.par[all]
 module = sysbal
 
@@ -195,17 +195,17 @@ module = sysbal
 
 [APSIM.coonamble_cd2_50_w1_deep_AvgWindow]
 Title = site=coonamble; soil=cd2; treatment=w1; Nrate=50; RootDepth=deep; Sowing = AvgWindow
-module = clock   PRule.par [all] %apsuite/apsim/clock/clock.ini [standard]
+module = clock   PRule.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report      report_files.par[coonamble_cd2_50_w1_deep_AvgWindow]      report.par [whtsrg]
 module = input(met)         coonamble.met [weather]
 module = manager     prule.man [Fert_50]   prule.man [w1] prule.man [w] prule.man [all] prule.man [AvgWindow]
-module = fertiliz                                                      %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2    soil.par[cd2]                              %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2      soil.par [all]                                    %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/Wheat/wheat.ini  [standard]
-module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [cd2] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   soil.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   soil.par [cd2deep] %apsuite/apsim/wheat/wheat.xml [standard]
+module = plant(chickpea)   soil.par [cd2deep] %apsuite/apsim/chickpea/chickpea.xml [standard]
+module = sorghum   soil.par [cd2deep] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = tracker   report.par[all]
 module = sysbal
 
@@ -214,16 +214,16 @@ module = sysbal
 
 [APSIM.coonamble_cd2_200_w1_deep_AvgWindow]
 Title = site=coonamble; soil=cd2; treatment=w1; Nrate=200; RootDepth=deep; Sowing = AvgWindow
-module = clock   PRule.par [all] %apsuite/apsim/clock/clock.ini [standard]
+module = clock   PRule.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report      report_files.par[coonamble_cd2_200_w1_deep_AvgWindow]      report.par [whtsrg]
 module = input(met)         coonamble.met [weather]
 module = manager     prule.man [Fert_200]   prule.man [w1] prule.man [w] prule.man [all] prule.man [AvgWindow]
-module = fertiliz                                                      %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2    soil.par[cd2]                              %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2      soil.par [all]                                    %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/Wheat/wheat.ini  [standard]
-module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [cd2] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   PRule.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   soil.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   soil.par [cd2deep] %apsuite/apsim/wheat/wheat.xml [standard]
+module = plant(chickpea)   soil.par [cd2deep] %apsuite/apsim/chickpea/chickpea.xml [standard]
+module = sorghum   soil.par [cd2deep] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = tracker   report.par[all]
 module = sysbal

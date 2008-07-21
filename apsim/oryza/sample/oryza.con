@@ -1,15 +1,15 @@
-version = 6
+version = 6.1
 
 [apsim.water limited]
 title = oryza Sample Simulation - water limited
-module = clock   oryza.par [sample] %apsuite\apsim\clock\clock.ini [standard]
+module = clock   oryza.par [sample] %apsuite/apsim/clock/clock.xml [standard]
 module = report     oryza.par [sample] oryza.par [wl]
 module = input(met) DarlingtonPoint.met [weather]
 module = irrigate
-module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = micromet   oryza.par [sample] oryza.par [standard]                     %apsuite\apsim\micromet\micromet.ini[standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = micromet   oryza.par [sample] oryza.par [standard] %apsuite/apsim/micromet/micromet.xml [standard]
 module = manager    oryza.par [sample]
-module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]   %apsuite\apsim\soilwat2\soilwat2.ini [standard]
-module = eo         %apsuite\apsim\eo\sample\eo.par [sample]                    %apsuite\apsim\eo\eo.ini [standard]
-module = oryza      oryza.par [sample] %apsuite\apsim\oryza\oryza.ini[standard]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = eo   %apsuite/apsim/eo/sample/eo.par [sample] %apsuite/apsim/eo/eo.xml [standard]
+module = oryza   oryza.par [sample] %apsuite/apsim/oryza/oryza.xml [standard]
 

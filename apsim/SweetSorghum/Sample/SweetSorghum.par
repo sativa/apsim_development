@@ -4,7 +4,7 @@ outputfile    = SweetSorghum.out
 
 variable = clock.dd/mmm/yyyy as Date
 variable = met.rain as rain
-variable = sweetsorghum.das
+variable = sweetsorghum.DaysAfterSowing
 variable = sweetsorghum.zadok_stage
 variable = met.day_length
 variable = sweetsorghum.stage
@@ -20,8 +20,8 @@ variable = sweetsorghum.temp_stress_photo
 variable = met.maxt
 variable = met.mint
 variable = met.radn
-variable = sweetsorghum.tt_tot()
-variable = sweetsorghum.dlt_tt
+variable = sweetsorghum.TTAfterSowing
+variable = sweetsorghum.TT
 variable = sweetsorghum.LeafGreenWt
 variable = sweetsorghum.StemGreenWt
 
@@ -37,7 +37,7 @@ if today = date('9/12/98') then
 endif
 
 [sample.manager.end_of_day]
-if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+if sweetsorghum.StageName = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
    sweetsorghum harvest
    sweetsorghum end_crop
 endif

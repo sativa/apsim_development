@@ -19,7 +19,7 @@ if day = 330 and year  = 1988 then
    mungbean sow cultivar = berken, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
-if mungbean.stage_name = 'harvest_ripe' or mungbean.plant_status = 'dead' then
+if mungbean.StageName = 'harvest_ripe' or mungbean.plant_status = 'dead' then
    mungbean harvest
    mungbean end_crop   
 

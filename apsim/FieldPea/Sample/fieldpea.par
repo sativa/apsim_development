@@ -13,7 +13,7 @@ variable = met.rain
 variable = surfaceom.surfaceom_wt
 variable = surfaceom.surfaceom_cover
 variable = surfaceom.surfaceom_n
-variable = fieldpea.das
+variable = fieldpea.DaysAfterSowing
 variable = fieldpea.stage
 variable = fieldpea.lai
 variable = fieldpea.biomass
@@ -48,7 +48,7 @@ name = wheat
 
 report do_output
 
-if fieldpea.stage_name = 'harvest_ripe' or fieldpea.plant_status = 'dead' then
+if fieldpea.StageName = 'harvest_ripe' or fieldpea.plant_status = 'dead' then
    fieldpea harvest
    fieldpea kill_crop
    fieldpea end_crop

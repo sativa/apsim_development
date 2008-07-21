@@ -1,4 +1,4 @@
-<folder name="Simulations" version="9">
+<folder name="Simulations" version="14">
   <simulation name="Canopy Sample Simulation">
     <metfile name="met">
       <filename name="filename">C:\development\apsim\met\sample\dalby.met</filename>
@@ -27,10 +27,11 @@
           <event name="Daily" description="End of daily simulation time step" />
         </events>
       </outputfile>
-      <logic name="Logic">
+      <manager name="Logic">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
@@ -49,7 +50,7 @@ if day = 10 and year  = 1988 then
    cowpea sow cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
-if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
+if cowpea.StageName = 'harvest_ripe' or cowpea.plant_status = 'dead' then
    cowpea harvest
    cowpea end_crop   
 endif
@@ -57,9 +58,10 @@ endif
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <canopy name="Canopy">
         <intercrop name="intercrop" description="Enter crop names to intercrop" type="text">maize cowpea</intercrop>
       </canopy>

@@ -31,7 +31,7 @@ if today = date('1-dec') then
 endif
 
 [sensibility.manager.end_of_day]
-if Mungbean.stage_name = 'harvest_ripe' or Mungbean.plant_status = 'dead' then
+if Mungbean.StageName = 'harvest_ripe' or Mungbean.plant_status = 'dead' then
 
    report do_output
    Mungbean harvest

@@ -1,10 +1,10 @@
 [lupin.report.parameters]
 variable = clock.year
 variable = clock.day
-variable = lupin.das
-variable = lupin.stage_code
+variable = lupin.DaysAfterSowing
+variable = lupin.Stage
 variable = lupin.flowering_das
-variable = lupin.tt_tot()
+variable = lupin.TTAfterSowing
 variable = lupin.root_depth
 variable = lupin.flowering_date
 variable = lupin.yield

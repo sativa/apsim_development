@@ -1,4 +1,4 @@
-<simulations name="LettuceSensibility" version="9">
+<simulations name="LettuceSensibility" version="14">
   <simulation name="PatagoniaBaseline">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1961" ubound="1/09/2007">1/01/1961</start_date>
@@ -12,39 +12,45 @@
     </metfile>
     <area name="May1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-may</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -59,7 +65,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -67,39 +76,45 @@
     </area>
     <area name="May15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-may</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -114,7 +129,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -122,39 +140,45 @@
     </area>
     <area name="jun1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-jun</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -169,7 +193,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -177,39 +204,45 @@
     </area>
     <area name="jun15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-jun</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -224,7 +257,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -232,39 +268,45 @@
     </area>
     <area name="jul1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-jul</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -279,7 +321,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -299,39 +344,45 @@
     </metfile>
     <area name="May1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-may</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -346,7 +397,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -354,39 +408,45 @@
     </area>
     <area name="May15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-may</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -401,7 +461,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -409,39 +472,45 @@
     </area>
     <area name="jun1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-jun</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -456,7 +525,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -464,39 +536,45 @@
     </area>
     <area name="jun15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-jun</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -511,7 +589,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -519,39 +600,45 @@
     </area>
     <area name="jul1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-jul</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -566,7 +653,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -586,39 +676,45 @@
     </metfile>
     <area name="May1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-may</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -633,7 +729,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -641,39 +740,45 @@
     </area>
     <area name="May15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-may</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -688,7 +793,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -696,39 +804,45 @@
     </area>
     <area name="jun1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-jun</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -743,7 +857,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -751,39 +868,45 @@
     </area>
     <area name="jun15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-jun</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -798,7 +921,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -806,39 +932,45 @@
     </area>
     <area name="jul1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-jul</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -853,7 +985,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1022,39 +1157,45 @@
     </metfile>
     <area name="Apr1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-apr</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1069,7 +1210,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1077,39 +1221,45 @@
     </area>
     <area name="Apr15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-Apr</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1124,7 +1274,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1132,39 +1285,45 @@
     </area>
     <area name="jul15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-Jul</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1179,7 +1338,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1187,39 +1349,45 @@
     </area>
     <area name="Aug1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-Aug</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1234,7 +1402,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1242,39 +1413,45 @@
     </area>
     <area name="Aug15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-Aug</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1289,7 +1466,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1309,39 +1489,45 @@
     </metfile>
     <area name="Apr1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-apr</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1356,7 +1542,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1364,39 +1553,45 @@
     </area>
     <area name="Apr15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-Apr</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1411,7 +1606,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1419,39 +1617,45 @@
     </area>
     <area name="jul15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-Jul</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1466,7 +1670,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1474,39 +1681,45 @@
     </area>
     <area name="Aug1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-Aug</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1521,7 +1734,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1529,39 +1745,45 @@
     </area>
     <area name="Aug15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-Aug</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1576,7 +1798,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1596,39 +1821,45 @@
     </metfile>
     <area name="Apr1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-apr</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1643,7 +1874,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1651,39 +1885,45 @@
     </area>
     <area name="Apr15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-Apr</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1698,7 +1938,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1706,39 +1949,45 @@
     </area>
     <area name="jul15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-Jul</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1753,7 +2002,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1761,39 +2013,45 @@
     </area>
     <area name="Aug1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-Aug</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1808,7 +2066,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1816,39 +2077,45 @@
     </area>
     <area name="Aug15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-Aug</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1863,7 +2130,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1883,39 +2153,45 @@
     </metfile>
     <area name="May1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-may</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1930,7 +2206,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1938,39 +2217,45 @@
     </area>
     <area name="May15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-may</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -1985,7 +2270,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -1993,39 +2281,45 @@
     </area>
     <area name="jun1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-jun</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -2040,7 +2334,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -2048,39 +2345,45 @@
     </area>
     <area name="jun15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-jun</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -2095,7 +2398,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -2103,39 +2409,45 @@
     </area>
     <area name="jul1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-jul</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -2150,7 +2462,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -2170,39 +2485,45 @@
     </metfile>
     <area name="Apr1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-apr</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -2217,7 +2538,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -2225,39 +2549,45 @@
     </area>
     <area name="Apr15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-Apr</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -2272,7 +2602,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -2280,39 +2613,45 @@
     </area>
     <area name="jul15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-Jul</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -2327,7 +2666,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -2335,39 +2677,45 @@
     </area>
     <area name="Aug1">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-Aug</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -2382,7 +2730,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />
@@ -2390,39 +2741,45 @@
     </area>
     <area name="Aug15">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-Aug</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <outputfile name="Outputfile">
         <variables name="Variables">
@@ -2437,7 +2794,10 @@
           <event name="harvesting" description="Day" array="No" />
         </events>
       </outputfile>
-      <soil name="Soil" shortcut="Soil" />
+      <soil name="Soil" shortcut="/LettuceSensibility/shared/Soil">
+        <InitWater shortcut="/LettuceSensibility/shared/Soil/InitWater" />
+        <InitNitrogen shortcut="/LettuceSensibility/shared/Soil/InitNitrogen" />
+      </soil>
       <tracker>
         <variable name="average of maxt on start_of_day from sowing to now as AvMax" array="No" description="Sum of rainfall from sowing to now" />
         <variable name="average of mint on start_of_day from sowing to now as AvMin" array="No" description="Sum of rainfall from sowing to now" />

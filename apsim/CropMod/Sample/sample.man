@@ -79,7 +79,7 @@ if (sunflower.stage = 11) then
   sunflower end_crop
 endif
 
-if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
+if cowpea.StageName = 'harvest_ripe' or cowpea.plant_status = 'dead' then
    cowpea harvest
    cowpea end_crop
 endif

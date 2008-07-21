@@ -1,4 +1,4 @@
-<folder version="13" name="LE14">
+<folder version="14" name="LE14">
   <folder name="shared">
     <manager name="Calculator">
       <script>
@@ -40,7 +40,7 @@ nConcGrainPC = n_conc_grain * 100]]></text>
     </manager>
     <variables name="My Variables">
       <variable name="today format dd/mm/yyyy as Date" array="No" description="Date (dd/mm/yyyy)" />
-      <variable name="das" array="No" description="Total LAI" />
+      <variable name="DaysAfterSowing" array="No" description="Total LAI" />
       <variable name="Stage" array="No" description="Senesced LAI" />
       <variable name="Biomass" array="Yes" description="Nitrogen in dead parts" />
       <variable name="GreenWt" array="No" description="Nitrogen concentration in the grain" />
@@ -541,7 +541,7 @@ nConcGrainPC = n_conc_grain * 100]]></text>
           <script>
             <text>
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
@@ -865,7 +865,7 @@ nConcGrainPC = n_conc_grain * 100]]></text>
           <script>
             <text>
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
@@ -1189,7 +1189,7 @@ nConcGrainPC = n_conc_grain * 100]]></text>
           <script>
             <text>
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif

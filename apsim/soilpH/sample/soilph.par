@@ -66,7 +66,7 @@ variable = tracker2.sum@soilph_cl_uptake_equiv as cl_uptk_eqv
       fertiliz apply amount = 100 (kg/ha), depth = 50 (mm), type = urea ()
    endif
 
-   if (wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' ) then
+   if (wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' ) then
       wheat harvest
       crop_in = 0
       report do_end_day_output
@@ -131,8 +131,6 @@ s_dm_percent  =   0.018  (%)
 cl_dm_percent =   0.01   (%)
 
 
-[sample.SummaryFile.parameters]
-summaryfile = soilph.sum
 [sample.Screen.parameters]
 screen_output = off
 [sample.tracker1.parameters]

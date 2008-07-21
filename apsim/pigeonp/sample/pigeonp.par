@@ -19,7 +19,7 @@ if day = 290 and year  = 1988 then
    pigeonp sow cultivar = short_duration, plants = 10 (/m2), sowing_depth = 40 (mm)
 endif
 
-if pigeonp.stage_name = 'harvest_ripe' or pigeonp.plant_status = 'dead' then
+if pigeonp.StageName = 'harvest_ripe' or pigeonp.plant_status = 'dead' then
    pigeonp harvest
    pigeonp end_crop   
 

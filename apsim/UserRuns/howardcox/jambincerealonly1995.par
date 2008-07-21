@@ -28,7 +28,7 @@ variable = wheat.yield as nw_yield
 variable = wheat.stage as nw_status
 variable = wheat.lai as nw_lai
 variable = sorghum.RachisGreenWt as sor_flower_wt
-variable = sorghum.das as sor_das
+variable = sorghum.DaysAfterSowing as sor_das
 variable = sorghum.lai as sor_lai
 variable = sorghum.yield as sor_yield
 variable = sorghum.flowering_date as sor_flowerdate
@@ -379,7 +379,7 @@ days_this_year = 364 + (date('1-mar') - date('28-feb'))
    endif
 
 
-   if (wheat.stage_name = 'harvest_ripe') then
+   if (wheat.StageName = 'harvest_ripe') then
       wheat harvest
       wheat_to_harvest = 1
    endif

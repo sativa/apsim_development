@@ -1,4 +1,4 @@
-<simulations name="untitled" version="9">
+<simulations name="untitled" version="14">
   <simulation name="Sample Economics Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">31/12/1940</start_date>
@@ -12,9 +12,10 @@
     </metfile>
     <area name="paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="pre sow Tillage">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="pre sow Tillage">
+          <script>
+            <text>
          if (today = date('[tillage_date]') then
             if ('[tillage_type]' = 'user_defined') then
                 '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
@@ -26,19 +27,22 @@
                economics operate tractor=t1, implement = p2, area = 200, costtype = fallow_cost
 
          endif
-      </condition>
-          <category name="When should tillage be done">
+      </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="When should tillage be done" />
             <tillage_date type="ddmmmdate" description="Enter tillage date (dd-mmm) : ">1-may</tillage_date>
-          </category>
-          <category name="Tillage application details">
+            <category name="Tillage application details" />
             <surfaceommodule type="modulename" description="Module used to apply the tillage : ">surface organic matter</surfaceommodule>
             <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
             <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">150</tillage_depth>
             <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">80</tillage_f_incorp>
-          </category>
-        </rule>
-        <rule name="Sowing rule">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Sowing rule">
+          <script>
+            <text><![CDATA[
 ! Ask the system (economics/machinery module) whether the tractor/implement combination is available:
 if (available('tractor=t1,implement=p1')) THEN
 
@@ -61,28 +65,31 @@ if (available('tractor=t1,implement=p1')) THEN
       endif
 
 ENDIF
-]]></condition>
-          <category name="Sowing criteria">
+]]></text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
             <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
             <must_sow type="yesno" description="Must sow? : ">no</must_sow>
             <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
             <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
             <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="crop" description="Enter name of crop to sow : ">wheat</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">hartog</cultivar>
             <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
 
-if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
 
               ! harvesting costs
               economics expenditure category = contract, name = broadacre_harvesting, rate = 1, area = 200 (ha),  incrop_cost = ?
@@ -100,30 +107,36 @@ if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  end_crop
 endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
-          </category>
-        </rule>
-        <rule name="Sowing fertiliser">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Sowing fertiliser">
+          <script>
+            <text>
         ! Fertiliser costs
         economics expenditure category = fertilisercost, name = [fert_type_sow], rate = [fert_amount_sow], area = 200 (ha), incrop_cost = ?
 
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
 
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : "> urea</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
         <PoolName description="Organic Matter pool name">wheat</PoolName>
@@ -655,26 +668,31 @@ endif
         <EnrACoeff>7.4</EnrACoeff>
         <EnrBCoeff>0.2</EnrBCoeff>
       </soil>
-      <tclgroup name="Economics">
-        <initscript>
+      <tclmanager name="Economics">
+        <rule name="Initialisation logic">
+          <script name="init">
+            <text>
 source $apsuite/apsim/Economics/lib/Cashbook.tcl
 source $apsuite/apsim/Economics/lib/Machinery.tcl
-    </initscript>
+    </text>
+            <event>init</event>
+          </script>
+        </rule>
         <tclui name="Initial Capital Assets">
           <uiscript>source $apsuite/apsim/Economics/lib/CapitalUI.tcl</uiscript>
-    <category>icapital</category>
-    <icapital>
-        <ivalue>400000.0</ivalue>
-        <loanRate>6.0</loanRate>
-        <loanDuration>5</loanDuration>
-    </icapital>
-</tclui>
+          <category>icapital</category>
+          <icapital>
+            <ivalue>400000.0</ivalue>
+            <loanRate>6.0</loanRate>
+            <loanDuration>5</loanDuration>
+          </icapital>
+        </tclui>
         <tclui name="Cash Journal">
           <uiscript>source $apsuite/apsim/Economics/lib/CashbookUI.tcl</uiscript>
-    <balance>42000</balance>
-    <outputfilename>Sample.Cashbook.csv</outputfilename>
-    <summaryfilename>Sample.Detailed.Cashflow.csv</summaryfilename>
-</tclui>
+          <balance>42000</balance>
+          <outputfilename>Sample.Cashbook.csv</outputfilename>
+          <summaryfilename>Sample.Detailed.Cashflow.csv</summaryfilename>
+        </tclui>
         <tclui name="Machinery - 200kwFWA">
           <uiscript>source $apsuite/apsim/Economics/lib/MachineryUI.tcl</uiscript>
           <category>tractor</category>
@@ -726,21 +744,21 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
         </tclui>
         <tclui name="Machinery - Spray Rig">
           <uiscript>source $apsuite/apsim/Economics/lib/MachineryUI.tcl</uiscript>
-    <category>implement</category>
-    <implement>
-        <image></image>
-        <name>p2</name>
-        <newPrice>20000</newPrice>
-        <tradeInValue>20</tradeInValue>
-        <lifeOfEquipment>1500</lifeOfEquipment>
-        <insuranceRate>2.3</insuranceRate>
-        <repairs>30</repairs>
-        <oil>0</oil>
-        <loanInterestRate>4.5</loanInterestRate>
-        <loanDuration>4</loanDuration>
-        <age>200</age>
-    </implement>
-</tclui>
+          <category>implement</category>
+          <implement>
+            <image />
+            <name>p2</name>
+            <newPrice>20000</newPrice>
+            <tradeInValue>20</tradeInValue>
+            <lifeOfEquipment>1500</lifeOfEquipment>
+            <insuranceRate>2.3</insuranceRate>
+            <repairs>30</repairs>
+            <oil>0</oil>
+            <loanInterestRate>4.5</loanInterestRate>
+            <loanDuration>4</loanDuration>
+            <age>200</age>
+          </implement>
+        </tclui>
         <tclui name="Prices">
           <uiscript>source $apsuite/apsim/Economics/lib/PricesUI.tcl</uiscript>
           <category>cropprice</category>
@@ -757,8 +775,7 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <desc>Sorghum</desc>
             <name>sorghum</name>
             <price>120.0</price>
-            <protein>
-            </protein>
+            <protein />
             <units>$/tonne</units>
             <updated>27/10/2006</updated>
             <grain_moisture>14.0</grain_moisture>
@@ -862,8 +879,7 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <name>big_n</name>
             <price>0.61</price>
             <units>$/kg</units>
-            <updated>
-            </updated>
+            <updated />
           </fertilisercost>
           <fertilisercost>
             <desc>CK700 (32.3n;5.1p;18.9s)</desc>
@@ -947,16 +963,14 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <name>nitram_and_sulphur</name>
             <price>0.13</price>
             <units>$/kg</units>
-            <updated>
-            </updated>
+            <updated />
           </fertilisercost>
           <fertilisercost>
             <desc>Phosul</desc>
             <name>phosul</name>
             <price>0.57</price>
             <units>$/kg</units>
-            <updated>
-            </updated>
+            <updated />
           </fertilisercost>
           <fertilisercost>
             <desc>potassium nitrate (13n;38.3k)</desc>
@@ -990,66 +1004,57 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <desc>sulphate of potash (41K;18S)</desc>
             <name>sulphate_of_potash</name>
             <price>0.69</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </fertilisercost>
           <fertilisercost>
             <desc>Supazinc (7.5Zn)</desc>
             <name>supazinc</name>
             <price>4.82</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </fertilisercost>
           <fertilisercost>
             <desc>Superphosphate (8.8P;11S;20Ca)</desc>
             <name>superphosphate</name>
             <price>0.34</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </fertilisercost>
           <fertilisercost>
             <desc>tech feed </desc>
             <name>tech_feed</name>
             <price>0.58</price>
-            <units>
-            </units>
+            <units />
             <updated>needs to be specific</updated>
           </fertilisercost>
           <fertilisercost>
             <desc>Urea (46N)</desc>
             <name>urea</name>
             <price>0.5</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </fertilisercost>
           <fertilisercost>
             <desc>zinc sulphate heptahydrate</desc>
             <name>zinc_sulphate_heptahydrate</name>
             <price>0.72</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </fertilisercost>
           <fertilisercost>
             <desc>zinc sulphate monohydrate (35Zn;17.2S)</desc>
             <name>zinc sulphate monohydrate</name>
             <price>1.12</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </fertilisercost>
           <fertilisercost>
             <desc>Ammonium Sulphate</desc>
             <name>ammonium_sulphate</name>
             <price>0.5</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </fertilisercost>
         </tclui>
         <tclui name="Costs - Herbicides">
@@ -1059,225 +1064,189 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <desc>Achieve</desc>
             <name>achieve</name>
             <price>87.82</price>
-            <units>
-            </units>
+            <units />
             <updated>29/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Ally (metsulfuron)</desc>
             <name>ally</name>
             <price>0.2</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Amicide 625</desc>
             <name>amicide625</name>
             <price>500</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </herbicide>
           <herbicide>
             <desc>Avadex Xtra (tri-allate)</desc>
             <name>avadex_xtra</name>
             <price>14.29</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </herbicide>
           <herbicide>
             <desc>Basagran (bentazone)</desc>
             <name>basagran</name>
             <price>34.27</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Blazer 2L (acifluorfen)</desc>
             <name>blazer_2l</name>
             <price>43.45</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Broadstrike (flumetsulam)</desc>
             <name>broadstrike</name>
             <price>0.65</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Bromicide MA (bromicide + MCPA)</desc>
             <name>bromicide_ma</name>
             <price>13.95</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </herbicide>
           <herbicide>
             <desc>Buticide</desc>
             <name>buticide</name>
             <price>500</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </herbicide>
           <herbicide>
             <desc>Cotogard (flurometuron + prometryn)</desc>
             <name>cotogard</name>
             <price>12.32</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Cotoran (flurometuron)</desc>
             <name>cotoran</name>
             <price>12.3</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </herbicide>
           <herbicide>
             <desc>Diuron</desc>
             <name>diuron</name>
             <price>8.5</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </herbicide>
           <herbicide>
             <desc>Dual Gold (metolachlor)</desc>
             <name>dual_gold</name>
             <price>32.23</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Eclipse (metosulam)</desc>
             <name>eclipse</name>
             <price>1.19</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </herbicide>
           <herbicide>
             <desc>Fusilade (fluazifop-p)</desc>
             <name>fusilade</name>
             <price>69.27</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Garlon 600 (triclopyr)</desc>
             <name>garlon_600</name>
             <price>50.91</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Gesaprim (atrazine)</desc>
             <name>gesaprim</name>
             <price>6.23</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Glean (chlorsulfuron)</desc>
             <name>glean</name>
             <price>0.18</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </herbicide>
           <herbicide>
             <desc>Glyphosate 450 CT (glyphosate IPA salt)</desc>
             <name>glyphosate450</name>
             <price>4.64</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Gramoxone 250 (paraquat)</desc>
             <name>gramoxone_250</name>
             <price>9.68</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Kamba 500 (Dicamba)</desc>
             <name>kamba_500</name>
             <price>39</price>
-            <units>
-            </units>
+            <units />
             <updated>3/06/2004</updated>
           </herbicide>
           <herbicide>
             <desc>MCPA LVE (MCPA ester)</desc>
             <name>MCPA_LVE</name>
             <price>10.4</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Primextra Gold (metolachlor + atrazine)</desc>
             <name>primextra_gold</name>
             <price>14.64</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Reglone (diquat)</desc>
             <name>reglone</name>
             <price>18.72</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Roundup POWERMAX (glyphosate MEA salt)</desc>
             <name>roundup</name>
             <price>7.64</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
           <herbicide>
             <desc>Tordon 75D</desc>
             <name>tordon</name>
             <price>300</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </herbicide>
           <herbicide>
             <desc>Trifluralin 480 (trifluralin)</desc>
             <name>trifluralin</name>
             <price>7.82</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </herbicide>
         </tclui>
@@ -1288,64 +1257,56 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <desc>Alto 100SL (cyproconazole)</desc>
             <name>Alto 100SL</name>
             <price>116.9</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </fungicide>
           <fungicide>
             <desc>Dithane (mancozeb)</desc>
             <name>Dithane </name>
             <price>7.25</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </fungicide>
           <fungicide>
             <desc>Elect 720 (chlorothalonil)</desc>
             <name>Elect 720</name>
             <price>18.83</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </fungicide>
           <fungicide>
             <desc>Folicur 430 SC</desc>
             <name>Folicur 430 SC</name>
             <price>94</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </fungicide>
           <fungicide>
             <desc>Fortress 500 (procymidone)</desc>
             <name>Fortress 500</name>
             <price>67</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </fungicide>
           <fungicide>
             <desc>Rover</desc>
             <name>Rover</name>
             <price>14.75</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </fungicide>
           <fungicide>
             <desc>Rovral Aquaflo (iprodione)</desc>
             <name>Rovral Aquaflo</name>
             <price>55.82</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </fungicide>
           <fungicide>
             <desc>Wettable Sulphur</desc>
             <name>Wettable Sulphur</name>
             <price>2.16</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </fungicide>
         </tclui>
@@ -1356,214 +1317,183 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <desc>Amino-feed</desc>
             <name>Amino-feed</name>
             <price>3.91</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </insecticide>
           <insecticide>
             <desc>Amitraz EC (amitraz)</desc>
             <name>Amitraz EC</name>
             <price>14.27</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </insecticide>
           <insecticide>
             <desc>Cosmos (fipronil)</desc>
             <name>Cosmos</name>
             <price>687.27</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </insecticide>
           <insecticide>
             <desc>Curacron Pro (profenofos)</desc>
             <name>Curacron Pro</name>
             <price>27</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </insecticide>
           <insecticide>
             <desc>Dimethoate</desc>
             <name>Dimethoate</name>
             <price>7.36</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </insecticide>
           <insecticide>
             <desc>Dipel (Strain HD-1)</desc>
             <name>Dipel</name>
             <price>66</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </insecticide>
           <insecticide>
             <desc>Dipel (Strain HD-1)</desc>
             <name>Dipel</name>
             <price>66</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </insecticide>
           <insecticide>
             <desc>Dominex 100 EC (alpha cypermethrin)</desc>
             <name>Dominex 100 EC</name>
             <price>19.5</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </insecticide>
           <insecticide>
             <desc>Dominex Duo (alpha cypermethrin)</desc>
             <name>Dominex Duo</name>
             <price>22</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </insecticide>
           <insecticide>
             <desc>Elect 760</desc>
             <name>Elect 760</name>
             <price>24</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </insecticide>
           <insecticide>
             <desc>Emamectin</desc>
             <name>Emamectin</name>
             <price>102.92</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </insecticide>
           <insecticide>
             <desc>Endosulfan EC</desc>
             <name>Endosulfan EC</name>
             <price>10.23</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </insecticide>
           <insecticide>
             <desc>Ethion + Zeta-cypermethrin</desc>
             <name>Ethion + Zeta-cypermethrin</name>
             <price>18.41</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </insecticide>
           <insecticide>
             <desc>Fastac Duo (alpha cypermethrin)</desc>
             <name>Fastac Duo</name>
             <price>6</price>
-            <units>
-            </units>
+            <units />
             <updated>20/12/2002</updated>
           </insecticide>
           <insecticide>
             <desc>Fenitrothion 1000</desc>
             <name>Fenitrothion</name>
             <price>30</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </insecticide>
           <insecticide>
             <desc>L Marlin (methomyl)</desc>
             <name>L Marlin</name>
             <price>10.95</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </insecticide>
           <insecticide>
             <desc>Larvin 375 (thiodicarb)</desc>
             <name>Larvin 375</name>
             <price>25.68</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </insecticide>
           <insecticide>
             <desc>Larvin LV</desc>
             <name>Larvin LV</name>
             <price>17.97</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </insecticide>
           <insecticide>
             <desc>Lorsban 500 EC (chlorpyrifos)</desc>
             <name>Lorsban 500 EC</name>
             <price>9.77</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </insecticide>
           <insecticide>
             <desc>NPV Gemstar/Vivus</desc>
             <name>NPV Gemstar/Vivus</name>
             <price>66.9</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </insecticide>
           <insecticide>
             <desc>PBO (piperonyl butoxide)</desc>
             <name>PBO</name>
             <price>30</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </insecticide>
           <insecticide>
             <desc>Phostoxin tablets (aluminium phosphide)</desc>
             <name>Phostoxin tablets</name>
             <price>0.15</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </insecticide>
           <insecticide>
             <desc>Predator 300 (chlorpyrifos)</desc>
             <name>Predator 300</name>
             <price>11</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </insecticide>
           <insecticide>
             <desc>Regent (fipronil)</desc>
             <name>Regent</name>
             <price>360</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </insecticide>
           <insecticide>
             <desc>Thidiazuron</desc>
             <name>Thidiazuron</name>
-            <price>
-            </price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <price />
+            <units />
+            <updated />
           </insecticide>
           <insecticide>
             <desc>Tracer (spinosad)</desc>
             <name>Tracer</name>
             <price>91.75</price>
-            <units>
-            </units>
-            <updated>
-            </updated>
+            <units />
+            <updated />
           </insecticide>
         </tclui>
         <tclui name="Costs - Seed">
@@ -1573,136 +1503,119 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <desc>Barley (Tallon)</desc>
             <name>Barley</name>
             <price>0.78</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Chickpea (Jimbour)</desc>
             <name>Chickpea</name>
             <price>1.51</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Cotton </desc>
             <name>Cotton</name>
             <price>5.6</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Forage Sorghum (Jumbo)</desc>
             <name>Forage Sorghum</name>
             <price>3.96</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Lucerne (sequel)</desc>
             <name>Lucerne</name>
             <price>5.45</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Maize P3237</desc>
             <name>Maize</name>
             <price>6.51</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Millet (White frend)</desc>
             <name>Millet</name>
             <price>1</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Mungbean (Emerald)</desc>
             <name>Mungbean</name>
             <price>1.45</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Navy Bean (Spearfeld)</desc>
             <name>NavyBean</name>
             <price>1.49</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Peanut Streeton (20-23 weeks)</desc>
             <name>PeanutC</name>
             <price>2.91</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Peanut Conder (17-19 weeks)</desc>
             <name>PeanutS</name>
             <price>2.7</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Peanut VB97 (20-23 weeks)</desc>
             <name>PeanutVB</name>
             <price>2.7</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Peanut NC7 (20-23 weeks)</desc>
             <name>PeanutNC7</name>
             <price>2.7</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Sorghum (Buster)</desc>
             <name>Sorghum</name>
             <price>5.82</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Soybean (Soya791)</desc>
             <name>Soybean</name>
             <price>1.31</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Sunflower (Sunolei 04)</desc>
             <name>Sunflower</name>
             <price>11.82</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
           <seedcost>
             <desc>Wheat (Kennedy)</desc>
             <name>Wheat</name>
             <price>0.73</price>
-            <units>
-            </units>
+            <units />
             <updated>30/03/2004</updated>
           </seedcost>
         </tclui>
@@ -1714,16 +1627,14 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <name>dropp</name>
             <price>147</price>
             <units>kg</units>
-            <updated>
-            </updated>
+            <updated />
           </defoliant>
           <defoliant>
             <desc>Salt Defoliant</desc>
             <name>salt defoliant</name>
             <price>1.55</price>
             <units>kg</units>
-            <updated>
-            </updated>
+            <updated />
           </defoliant>
         </tclui>
         <tclui name="Costs - Contractors">
@@ -1748,16 +1659,14 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <name>aerial spraying-cotton ulv</name>
             <price>9.5</price>
             <units>$/ha</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
           <contract>
             <desc>Broadacre Harvesting</desc>
             <name>broadacre_harvesting</name>
             <price>250</price>
             <units>$/ha</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
           <contract>
             <desc>chickpea scouting</desc>
@@ -1771,8 +1680,7 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <name>cotton_casual_labour</name>
             <price>80</price>
             <units>$/ha</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
           <contract>
             <desc>peanut chipping</desc>
@@ -1786,72 +1694,63 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <name>cotton_consultant</name>
             <price>35</price>
             <units>$/ha</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
           <contract>
             <desc>cotton crop insurance</desc>
             <name>cotton_crop_insurance</name>
             <price>30</price>
             <units>$/ha</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
           <contract>
             <desc>Cotton harvesting double skip</desc>
             <name>cotton_harvesting_double_skip</name>
             <price>41.67</price>
             <units>$170 / hr at 1.36 ha / hour @ 3 bales/ha</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
           <contract>
             <desc>heavy offsets - contract</desc>
             <name>heavy_offsets</name>
             <price>0</price>
             <units>$/ha</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
           <contract>
             <desc>light chisel plough - contract</desc>
             <name>light_chisel_plough</name>
             <price>0</price>
             <units>$/ha</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
           <contract>
             <desc>light offsets - contract</desc>
             <name>light_offsets</name>
             <price>0</price>
             <units>$/ha</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
           <contract>
             <desc>peanut scouting</desc>
             <name>peanut_scouting</name>
             <price>45</price>
             <units>$/ha</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
           <contract>
             <desc>cotton_eliminator</desc>
             <name>Cotton eliminator</name>
             <price>22</price>
             <units>$/bale</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
           <contract>
             <desc>Cotton harvest solid nsw</desc>
             <name>cotton_harvest_solid_nsw</name>
             <price>280</price>
             <units>$/ha</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
           <contract>
             <desc>gypsum spread on farm</desc>
@@ -1872,11 +1771,10 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
             <name>high clearance spray rig</name>
             <price>10</price>
             <units>$/ha</units>
-            <updated>
-            </updated>
+            <updated />
           </contract>
         </tclui>
-      </tclgroup>
+      </tclmanager>
     </area>
   </simulation>
 </simulations>

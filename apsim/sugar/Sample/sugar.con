@@ -1,15 +1,15 @@
-version = 6
+version = 6.1
 [apsim.sample_sugar]
 
 title=Sugar Sample Simulation
-module = clock    sugar.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = clock   sugar.par [sample] %apsuite/apsim/clock/clock.xml [standard]
 module = report   sugar.par [sample]
 module = Input(Met)      %apsuite/apsim/met/sample/ingham.met [weather]
-module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
 module = irrigate sugar.par [sample]
 module = manager  sugar.par [sample]
-module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [sugar_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = sugar    sugar.par [sample]      %apsuite/apsim/sugar/sugar.ini [standard]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [sugar_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = sugar   sugar.par [sample] %apsuite/apsim/sugar/sugar.xml [standard]
 module = Tracker  sugar.par [sample]

@@ -1,4 +1,4 @@
-<folder version="13" name="Simulations">
+<folder version="14" name="Simulations">
   <simulation name="Site 67">
     <metfile name="met">
       <filename name="filename">Site67.met</filename>
@@ -32,12 +32,12 @@
         </manager>
         <manager name="Burning rule">
           <script>
-            <text><![CDATA[
+            <text>
  if ((date('[date1]') = today) AND ([crop].crop_status = 1)) then
    [crop].green_pool = 0
    [crop].dead_pool = 0
  endif
-            ]]></text>
+            </text>
             <event>start_of_day</event>
           </script>
           <ui>

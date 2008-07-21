@@ -51,7 +51,7 @@ endif
 
 [standard.manager.end_of_day]    
 
-     if lupin.das > 0 then
+     if lupin.DaysAfterSowing > 0 then
         report do_output
      endif
 
@@ -112,7 +112,7 @@ else
 endif
 day_cnt = day_cnt + 1
 
-if (lupin.stage_name = 'harvest_ripe' or lupin.plant_status = 'dead') then
+if (lupin.StageName = 'harvest_ripe' or lupin.plant_status = 'dead') then
    lupin harvest 
    lupin kill_crop 
    lupin end_crop

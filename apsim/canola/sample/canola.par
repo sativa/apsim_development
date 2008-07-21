@@ -22,7 +22,7 @@ if day = 130 and year  = 1988 then
    canola sow cultivar = Hyola42, plants = 40 (/m2), sowing_depth = 20 (mm), row_spacing = 300 (mm)
 endif
 
-if canola.stage_name = 'harvest_ripe' or canola.plant_status = 'dead' then
+if canola.StageName = 'harvest_ripe' or canola.plant_status = 'dead' then
    canola harvest
    canola end_crop
 endif

@@ -17,6 +17,7 @@ namespace ApsimRun
       private Configuration Config = new Configuration("ApsimRun");
       private string[] Args;
       private bool FirstPaint = true;
+      private bool AutoClose = false;
 
       /// <summary>
       /// Constructor
@@ -80,6 +81,8 @@ namespace ApsimRun
                {
                if (FileName == "/auto")
                   JustDoIt = true;
+               else if (FileName == "/autoclose")
+                  AutoClose = true;
                else if (Directory.Exists(FileName))
                   {
                   Cursor.Current = Cursors.WaitCursor;
@@ -164,7 +167,7 @@ namespace ApsimRun
          ProgressBar.Value = OverallPercent;
          if (PercentDone == 100)
             {
-            Completed.Text = Increment(Completed.Text);
+            Completed.Text = Runner.NumberCompleted.ToString();
             if (Simulation.HasErrors)
                NumberWithErrors.Text = Increment(NumberWithErrors.Text);
             if (Simulation.HasWarnings)
@@ -179,6 +182,8 @@ namespace ApsimRun
                Player.Play();
                }
             OnRunClick(null, null);
+            if (AutoClose)
+               Close();
             }
          }
 
@@ -192,7 +197,7 @@ namespace ApsimRun
          if (RunButton.Text == "Run")
             {
             Total.Text = Runner.Count.ToString();
-            Completed.Text = "0";
+            Completed.Text = Runner.NumberCompleted.ToString();
             NumberWithErrors.Text = "0";
             NumberWithWarnings.Text = "0";
             ProgressBar.Value = 0;

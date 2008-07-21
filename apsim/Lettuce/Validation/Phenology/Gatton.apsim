@@ -1,4 +1,4 @@
-<folder name="simulations" version="9">
+<folder name="simulations" version="14">
   <simulation name="Patagonia1">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2000" ubound="15/10/2007">2-May-2007</start_date>
@@ -12,39 +12,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">2-May-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -220,39 +226,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">9-May-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -428,39 +440,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-May-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -636,39 +654,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">23-May-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -844,39 +868,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">30-May-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -1052,39 +1082,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">5-Jun-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -1260,39 +1296,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">12-Jun-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -1468,39 +1510,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">22-Jun-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -1676,39 +1724,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">25-Jun-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -1884,39 +1938,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">3-Jul-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Patagonia</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -2092,39 +2152,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">3-Apr-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -2300,39 +2366,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">11-Apr-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -2508,39 +2580,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">17-Apr-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -2716,39 +2794,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">24-Apr-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -2924,39 +3008,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">17-Jul-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -3132,39 +3222,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">26-Jul-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -3340,39 +3436,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">1-Aug-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -3548,39 +3650,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">8-Aug-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Annie</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -3756,39 +3864,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">3-Apr-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">AztecSun</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -3964,39 +4078,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">11-Apr-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">AztecSun</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -4172,39 +4292,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">29-mar-2004</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Raider</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -4380,39 +4506,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">30-mar-2004</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Raider</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -4588,39 +4720,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">15-jul-2004</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Raider</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -4796,39 +4934,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">16-jul-2004</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Raider</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -5004,39 +5148,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">27-jul-2004</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Raider</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -5212,39 +5362,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">12-jul-2001</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Raider</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -5420,39 +5576,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">27-apr-2004</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Oxford</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -5628,39 +5790,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">3-may-2004</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Oxford</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -5836,39 +6004,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">18-may-2004</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Oxford</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -6044,39 +6218,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">12-jul-2001</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Oxford</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -6252,39 +6432,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">26-may-2004</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Titanic</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -6460,39 +6646,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">7-jun-2004</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Titanic</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>
@@ -6668,39 +6860,45 @@
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
       if (today = date('[date]') then
                     [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
         endif
-               </condition>
-          <category name="Sowing criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (dd-mmm) : ">12-apr-2007</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Titanic</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvest on a Growth Stage">
-          <condition name="start_of_day">
-        if ([crop].stage_name = '[stage]') then
+          </ui>
+        </manager>
+        <manager name="Harvest on a Growth Stage">
+          <script>
+            <text>
+        if ([crop].StageName = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
-               </condition>
-          <category name="Harvesting criteria">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <stage type="text" description="Enter stage name : ">maturity</stage>
-          </category>
-          <category name="Harvesting parameters">
+            <category name="Harvesting parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">lettuce</crop>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <lettuce />
       <soil name="Soil">
         <state>Queensland</state>

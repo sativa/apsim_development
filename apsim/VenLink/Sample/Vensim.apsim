@@ -1,4 +1,4 @@
-<folder name="Simulations" version="9">
+<folder name="Simulations" version="14">
   <simulation name="Vensim">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1988" ubound="30/04/1990">1/01/1988</start_date>
@@ -549,14 +549,14 @@
         </ini>
       </venlink>
       <fertiliser name="Fertiliser" />
-      <logic name="Logic">
+      <manager name="Logic">
         <script>
           <event>script</event>
           <text> ! set the VENSIM model variables st1 and sw1 from APSIM variables
 Venlink.st1 = st(1)
 Venlink.sw1 = sw(1)  start_of_day</text>
         </script>
-      </logic>
+      </manager>
     </area>
   </simulation>
 </folder>

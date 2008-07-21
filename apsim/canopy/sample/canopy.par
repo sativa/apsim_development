@@ -38,7 +38,7 @@ if day = 10 and year  = 1988 then
    cowpea sow cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
-if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
+if cowpea.StageName = 'harvest_ripe' or cowpea.plant_status = 'dead' then
    cowpea harvest
    cowpea end_crop   
 

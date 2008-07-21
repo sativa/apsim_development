@@ -19,7 +19,7 @@ end_date=29/7/1989
 if day = 150 and year = 1988 then
    lucerne sow cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
 
-elseif lucerne.stage_name = 'flowering' then
+elseif lucerne.StageName = 'flowering' then
    lucerne harvest height = 50 (mm)
     
 elseif day = 200 and year = 1989 then

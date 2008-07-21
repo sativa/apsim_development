@@ -246,7 +246,7 @@ eff_in_crop_rain = eff_in_crop_rain + met.rain - soilwat2.drain - soilwat2.runof
 !   report do_output
 !endif
 
-if Wheat.stage_name = 'harvest_ripe' or Wheat.plant_status = 'dead' then
+if Wheat.StageName = 'harvest_ripe' or Wheat.plant_status = 'dead' then
    if wheat.biomass > 1 then
       hi = wheat.yield/wheat.biomass
       nhi = wheat.grain_n/wheat.biomass_n

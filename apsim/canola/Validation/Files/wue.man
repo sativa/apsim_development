@@ -14,14 +14,14 @@ num_rain_events = 0
 
 [all.manager.start_of_day]
 
-   if (das = 1) then
+   if (DaysAfterSowing = 1) then
       cum_temp = 0
       cum_swdef = 0
       cum_days = 0
-   elseif (stage_name = 'start_grain_fill' or
-                 stage_name = 'end_grain_fill' or
-                 stage_name = 'maturity' or
-                 stage_name = 'harvest_ripe') then
+   elseif (StageName = 'start_grain_fill' or
+                 StageName = 'end_grain_fill' or
+                 StageName = 'maturity' or
+                 StageName = 'harvest_ripe') then
       cum_temp = cum_temp + (maxt + mint) / 2
       cum_swdef = cum_swdef + swdef_photo
       cum_days = cum_days + 1
@@ -47,7 +47,7 @@ if day = 100 then
      accum_es = 0
 endif
 
-if canola.das = 1 then
+if canola.DaysAfterSowing = 1 then
    start_esw = esw
    sow_day = day
 endif
@@ -56,16 +56,16 @@ if canola.plant_status = 'out' then
    pre_sow_rain = pre_sow_rain + rain
 endif
 
-if canola.das > 0 then
+if canola.DaysAfterSowing > 0 then
      accum_es = accum_es + es
      in_crop_rain = in_crop_rain + rain
 endif     
 
-if canola.das > 0 and rain > 3 then
+if canola.DaysAfterSowing > 0 and rain > 3 then
      num_rain_events = num_rain_events + 1
 endif     
 
-if canola.stage_name = 'flowering' and flower_flag = 0 then 
+if canola.StageName = 'flowering' and flower_flag = 0 then 
    pre_flower_rain = in_crop_rain
    pre_flower_rain_events = num_rain_events
    flower_lai = lai
@@ -75,7 +75,7 @@ endif
 
 grain_fill_rain = grain_fill_rain + rain
 
-if canola.stage_name = 'harvest_ripe' or canola.plant_status = 'dead' then
+if canola.StageName = 'harvest_ripe' or canola.plant_status = 'dead' then
    total_rain_events = num_rain_events
    end_esw = esw
    canola harvest

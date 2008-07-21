@@ -60,8 +60,7 @@ namespace CSGeneral
         public string Arguments;
 
         public object Tag;
-        public event NotifyEvent StdOutClosed;
-        public event NotifyEvent StdErrClosed;
+        public event NotifyEvent AllFinished;
 
         /// <summary>
         /// The WorkingDirectory (should be made into a property)
@@ -88,6 +87,9 @@ namespace CSGeneral
         /// The process used to run your task
         /// </summary>
         private Process process;
+
+        private bool StdErrFinished = false;
+        private bool StdOutFinished = false;
 
         /// <summary>
         /// Initialises a ProcessCaller with an association to the
@@ -168,15 +170,20 @@ namespace CSGeneral
         /// Handles reading of stdout and firing an event for
         /// every line read
         /// </summary>
-        protected virtual void ReadStdOut()
-           {
-           string str;
-           while ((str = process.StandardOutput.ReadLine()) != null)
-              {
-              FireAsync(StdOutReceived, this, new DataReceivedEventArgs(str));
-              }
-           FireAsync(StdOutClosed, this);
-           }
+      protected virtual void ReadStdOut()
+         {
+         string str;
+         while ((str = process.StandardOutput.ReadLine()) != null)
+            {
+            FireAsync(StdOutReceived, this, new DataReceivedEventArgs(str));
+            }
+         lock (this)
+            {
+            if (StdErrFinished)
+               FireAsync(AllFinished, this);
+            StdOutFinished = true;
+            }
+         }           
 
         /// <summary>
         /// Handles reading of stdErr
@@ -188,7 +195,12 @@ namespace CSGeneral
             {
             FireAsync(StdErrReceived, this, new DataReceivedEventArgs(str));
             }
-         FireAsync(StdErrClosed, this);
+         lock (this)
+            {
+            if (StdOutFinished)
+               FireAsync(AllFinished, this);
+            StdErrFinished = true;
+            }
          }
 
 	}

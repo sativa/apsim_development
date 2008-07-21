@@ -4,7 +4,7 @@ outputfile    = SweetCorn.out
 
 variable = clock.dd/mmm/yyyy as Date
 variable = met.rain as rain
-variable = SweetCorn.das
+variable = SweetCorn.DaysAfterSowing
 variable = SweetCorn.zadok_stage
 variable = met.day_length
 variable = SweetCorn.stage
@@ -21,8 +21,8 @@ variable = SweetCorn.tt_tot
 variable = met.maxt
 variable = met.mint
 variable = met.radn
-variable = SweetCorn.tt_tot()
-variable = SweetCorn.dlt_tt
+variable = SweetCorn.TTAfterSowing
+variable = SweetCorn.TT
 variable = SweetCorn.LeafGreenWt
 variable = SweetCorn.StemGreenWt
 
@@ -38,7 +38,7 @@ if today = date('9/12/98') then
 endif
 
 [sample.manager.end_of_day]
-if SweetCorn.stage_name = 'harvest_ripe' or SweetCorn.plant_status = 'dead' then
+if SweetCorn.StageName = 'harvest_ripe' or SweetCorn.plant_status = 'dead' then
    SweetCorn harvest
    SweetCorn end_crop
 endif

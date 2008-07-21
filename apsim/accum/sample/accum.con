@@ -1,8 +1,8 @@
-version = 6
+version = 6.1
 [apsim.sample_accum]  
 
 title=Accum Sample Simulation
-module = clock    accum.par [sample]   %apsuite/apsim/clock/clock.ini[standard]
+module = clock   accum.par [sample] %apsuite/apsim/clock/clock.xml [standard]
 module = report   accum.par [sample]
 module = input(met)      %apsuite/apsim/met/sample/dalby.met [weather]
 module = accum    accum.par [sample]

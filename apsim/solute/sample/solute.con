@@ -1,11 +1,11 @@
-version = 6
+version = 6.1
 [apsim.sample_solute]
 
 title=Solute Sample Simulation
-module = clock    solute.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = clock   solute.par [sample] %apsuite/apsim/clock/clock.xml [standard]
 module = report   solute.par [sample]
 module = input(Met)      %apsuite/apsim/met/sample/dalby.met [weather]
 module = manager  solute.par [sample]
-module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = solute   solute.par [sample]     %apsuite/apsim/solute/solute.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = solute   solute.par [sample] %apsuite/apsim/solute/solute.xml [standard]

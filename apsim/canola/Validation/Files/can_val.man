@@ -56,14 +56,14 @@ end_date = 31/12/1998     ! dd/mm/yyyy
 
 [standard.manager.start_of_day]    
    
-   if (das = 1) then
+   if (DaysAfterSowing = 1) then
       cum_temp = 0
       cum_swdef = 0
       cum_days = 0
-   elseif (stage_name = 'start_grain_fill' or
-                 stage_name = 'end_grain_fill' or
-                 stage_name = 'maturity' or
-                 stage_name = 'harvest_ripe') then
+   elseif (StageName = 'start_grain_fill' or
+                 StageName = 'end_grain_fill' or
+                 StageName = 'maturity' or
+                 StageName = 'harvest_ripe') then
       cum_temp = cum_temp + (maxt + mint) / 2
       cum_swdef = cum_swdef + swdef_photo
       cum_days = cum_days + 1
@@ -82,7 +82,7 @@ end_date = 31/12/1998     ! dd/mm/yyyy
       oil_conc = 0
    endif
 
-if (canola.stage_name = 'harvest_ripe' or canola.plant_status = 'dead') then
+if (canola.StageName = 'harvest_ripe' or canola.plant_status = 'dead') then
    canola harvest 
    canola kill_crop 
    canola end_crop

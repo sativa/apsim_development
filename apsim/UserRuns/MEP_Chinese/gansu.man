@@ -206,7 +206,7 @@ if (end_month = 1) then
    report do_end_day_output
 endif
 
-if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' then
    event = 2
    flag = 2
    report do_output 
@@ -244,7 +244,7 @@ if (end_month = 1) then
    report do_end_day_output
 endif
 
-if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' then
    event = 2
    flag = 2
    report do_output 
@@ -284,7 +284,7 @@ if (end_month = 1) then
    report do_end_day_output
 endif
 
-if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' then
    event = 2
    report do_output 
    wheat harvest
