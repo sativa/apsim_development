@@ -673,6 +673,8 @@ Public Class OutputFileDescUI
                                             ByRef ComponentNames As StringCollection, ByRef ComponentTypes As StringCollection)
         ComponentNames.Clear()
         ComponentTypes.Clear()
+        ComponentNames.Add("Global")
+        ComponentTypes.Add("registrations")
         For Each Sibling As ApsimFile.Component In Paddock.ChildNodes
             ComponentNames.Add(Sibling.Name)
             ComponentTypes.Add(Sibling.Type.ToLower())
