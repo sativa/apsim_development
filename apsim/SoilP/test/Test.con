@@ -9,7 +9,6 @@ module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [stan
 module = SurfaceOM   Test.par [test1] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
 module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
-module = log Test.par[test1]
 
 [apsim.Test2]
 
@@ -22,7 +21,6 @@ module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [stan
 module = SurfaceOM   Test.par [test2] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
 module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
-module = log Test.par[test2]
 
 [apsim.Test3]
 
@@ -35,7 +33,6 @@ module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [stan
 module = SurfaceOM   Test.par [test3] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
 module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
-module = log Test.par[test3]
 
 [apsim.Test4]
 
@@ -48,8 +45,6 @@ module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [stan
 module = SurfaceOM   Test.par [test4] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
 module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
-module = log Test.par[test4]
-
 
 [apsim.Test5]
 
@@ -62,7 +57,6 @@ module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [stan
 module = SurfaceOM   Test.par [test5] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
 module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
-module = log Test.par[test5]
 
 [apsim.Test6]
 
@@ -76,7 +70,6 @@ module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [stan
 module = SurfaceOM   Test.par [test6] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
 module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
-module = log Test.par[test6]
 
 [apsim.Test7]
 
@@ -91,4 +84,3 @@ module = SurfaceOM   Test.par [test7] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [st
 module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
 module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
 module = sysbal
-module = log Test.par[test6]
