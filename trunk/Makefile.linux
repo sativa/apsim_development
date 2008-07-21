@@ -59,35 +59,35 @@ MODULEDIRS =  apsim/ProtocolManager/Source \
 
 # These inifiles don't have a "source" makefile to install them..
 INIFILES = \
-	apsim/soybean/soybean.ini \
-	apsim/WaterSupply/WaterSupply.ini \
-	apsim/sunflower/Sunflower.ini \
-	apsim/weed/weed.ini \
-	apsim/lablab/lablab.ini \
-	apsim/SweetSorghum/SweetSorghum.ini \
-	apsim/Bambatsi/Bambatsi.ini \
-	apsim/ButterflyPea/butterflypea.ini \
-	apsim/chickpea/chickpea.ini \
-	apsim/cowpea/cowpea.ini \
-	apsim/lucerne/lucerne.ini \
-	apsim/Horsegram/horsegram.ini \
-	apsim/Egrandis/Egrandis.ini \
-	apsim/navybean/navybean.ini \
-	apsim/mungbean/mungbean.ini \
-	apsim/millet/millet.ini \
-	apsim/SweetCorn/SweetCorn.ini \
-	apsim/Wheat/wheat.ini \
-	apsim/pigeonp/pigeonp.ini \
-	apsim/canola/canola.ini \
-	apsim/stylo/stylo.ini \
-	apsim/Broccoli/Broccoli.ini \
-	apsim/fababean/fababean.ini \
-	apsim/lupin/lupin.ini \
-	apsim/barley/barley.ini \
-	apsim/FieldPea/fieldpea.ini \
-	apsim/peanut/peanut.ini \
-	apsim/eo/eo.ini \
-	apsim/mucuna/mucuna.ini 
+	apsim/soybean/soybean.xml \
+	apsim/WaterSupply/watersupply.xml \
+	apsim/sunflower/sunflower.xml \
+	apsim/weed/weed.xml \
+	apsim/lablab/lablab.xml \
+	apsim/SweetSorghum/sweetsorghum.xml \
+	apsim/Bambatsi/bambatsi.xml \
+	apsim/ButterflyPea/butterflypea.xml \
+	apsim/chickpea/chickpea.xml \
+	apsim/cowpea/cowpea.xml \
+	apsim/lucerne/lucerne.xml \
+	apsim/Horsegram/horsegram.xml \
+	apsim/Egrandis/egrandis.xml \
+	apsim/navybean/navybean.xml \
+	apsim/mungbean/mungbean.xml \
+	apsim/millet/millet.xml \
+	apsim/SweetCorn/sweetcorn.xml \
+	apsim/Wheat/wheat.xml \
+	apsim/pigeonp/pigeonp.xml \
+	apsim/canola/canola.xml \
+	apsim/stylo/stylo.xml \
+	apsim/Broccoli/broccoli.xml \
+	apsim/fababean/fababean.xml \
+	apsim/lupin/lupin.xml \
+	apsim/barley/barley.xml \
+	apsim/FieldPea/fieldpea.xml \
+	apsim/peanut/peanut.xml \
+	apsim/eo/eo.xml \
+	apsim/mucuna/mucuna.xml 
 
 
 all: system modules
