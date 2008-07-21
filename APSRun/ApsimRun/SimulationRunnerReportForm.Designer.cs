@@ -29,9 +29,9 @@ namespace ApsimRun
       private void InitializeComponent()
          {
          this.components = new System.ComponentModel.Container();
-         System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("File Name", System.Windows.Forms.HorizontalAlignment.Left);
-         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationRunnerReportForm));
          System.Windows.Forms.Label label1;
+         System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("File Name", System.Windows.Forms.HorizontalAlignment.Left);
+         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationRunnerReportForm));
          this.SimulationList = new System.Windows.Forms.ListView();
          this.SimulationName = new System.Windows.Forms.ColumnHeader();
          this.HasErrors = new System.Windows.Forms.ColumnHeader();
@@ -41,9 +41,17 @@ namespace ApsimRun
          label1 = new System.Windows.Forms.Label();
          this.SuspendLayout();
          // 
+         // label1
+         // 
+         label1.AutoSize = true;
+         label1.Location = new System.Drawing.Point(12, 9);
+         label1.Name = "label1";
+         label1.Size = new System.Drawing.Size(323, 13);
+         label1.TabIndex = 2;
+         label1.Text = "Double click the simulations below to view the APSIM summary file.";
+         // 
          // SimulationList
          // 
-         this.SimulationList.Activation = System.Windows.Forms.ItemActivation.OneClick;
          this.SimulationList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                      | System.Windows.Forms.AnchorStyles.Left)
                      | System.Windows.Forms.AnchorStyles.Right)));
@@ -53,13 +61,13 @@ namespace ApsimRun
             this.HasErrors,
             this.HasWarnings});
          this.SimulationList.GridLines = true;
-         listViewGroup1.Header = "File Name";
-         listViewGroup1.Name = "FileNameGroup";
+         listViewGroup2.Header = "File Name";
+         listViewGroup2.Name = "FileNameGroup";
          this.SimulationList.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1});
-         this.SimulationList.HotTracking = true;
-         this.SimulationList.HoverSelection = true;
+            listViewGroup2});
+         this.SimulationList.HideSelection = false;
          this.SimulationList.Location = new System.Drawing.Point(12, 40);
+         this.SimulationList.MultiSelect = false;
          this.SimulationList.Name = "SimulationList";
          this.SimulationList.Size = new System.Drawing.Size(498, 403);
          this.SimulationList.SmallImageList = this.ImageList;
@@ -87,10 +95,9 @@ namespace ApsimRun
          // 
          this.ImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageList.ImageStream")));
          this.ImageList.TransparentColor = System.Drawing.Color.Transparent;
-         this.ImageList.Images.SetKeyName(0, "document.png");
+         this.ImageList.Images.SetKeyName(0, "check2.png");
          this.ImageList.Images.SetKeyName(1, "error.png");
          this.ImageList.Images.SetKeyName(2, "warning.png");
-         this.ImageList.Images.SetKeyName(3, "check2.png");
          // 
          // OkButton
          // 
@@ -102,15 +109,6 @@ namespace ApsimRun
          this.OkButton.TabIndex = 1;
          this.OkButton.Text = "Ok";
          this.OkButton.UseVisualStyleBackColor = true;
-         // 
-         // label1
-         // 
-         label1.AutoSize = true;
-         label1.Location = new System.Drawing.Point(12, 9);
-         label1.Name = "label1";
-         label1.Size = new System.Drawing.Size(323, 13);
-         label1.TabIndex = 2;
-         label1.Text = "Double click the simulations below to view the APSIM summary file.";
          // 
          // SimulationRunnerReportForm
          // 
@@ -126,6 +124,7 @@ namespace ApsimRun
          this.ShowInTaskbar = false;
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
          this.Text = "Simulation Report";
+         this.Shown += new System.EventHandler(this.OnShown);
          this.ResumeLayout(false);
          this.PerformLayout();
 
