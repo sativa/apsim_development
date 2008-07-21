@@ -289,8 +289,14 @@ namespace ApsimRun
          {
          ProcessCaller Process = (ProcessCaller)sender;
          SingleRun Simulation = (SingleRun)Process.Tag;
-         Simulation.SummaryFile.WriteLine(e.Text);
-         InvokeStdOutEvent(Simulation.Details, e.Text);
+         try
+            {
+            Simulation.SummaryFile.WriteLine(e.Text);
+            InvokeStdOutEvent(Simulation.Details, e.Text);
+            }
+         catch (Exception err)
+            {
+            }
          }
 
       /// <summary>
@@ -339,7 +345,13 @@ namespace ApsimRun
          }
       private void CloseJob(SingleRun Simulation)
          {
-         Simulation.SummaryFile.Close();
+         try
+            {
+            Simulation.SummaryFile.Close();
+            }
+         catch (Exception err)
+            {
+            }
          Simulation.IsCompleted();
          InvokeUpdatedEvent(Simulation.Details, 100);
          lock (LockObject)
