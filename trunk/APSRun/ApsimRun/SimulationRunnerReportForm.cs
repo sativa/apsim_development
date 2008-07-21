@@ -32,25 +32,34 @@ namespace ApsimRun
                }
             ListViewItem Item = new ListViewItem(Group);
             Item.Text = Simulation.Name;
+            Item.UseItemStyleForSubItems = false;
             if (Simulation.IsCompleted)
                {
-               Item.ImageIndex = 3;
+               Item.ImageIndex = 0;
                if (Simulation.HasErrors)
                   {
                   System.Windows.Forms.ListViewItem.ListViewSubItem Sub = Item.SubItems.Add("ERRORS");
-                  Sub.ForeColor = Color.Red;
+                  Sub.ForeColor = System.Drawing.Color.Red;
                   Sub.Font = SystemFonts.CaptionFont;
+                  Item.ImageIndex = 1;
                   }
                else
-                  Item.SubItems.Add("No errors");
+                  {
+                  System.Windows.Forms.ListViewItem.ListViewSubItem Sub = Item.SubItems.Add("No errors");
+                  Sub.ForeColor = System.Drawing.Color.Gray;
+                  }
                if (Simulation.HasWarnings)
                   {
                   System.Windows.Forms.ListViewItem.ListViewSubItem Sub = Item.SubItems.Add("WARNINGS");
-                  Sub.ForeColor = Color.Pink;
+                  Sub.ForeColor = System.Drawing.Color.HotPink; // Such a lovely colour!
                   Sub.Font = SystemFonts.CaptionFont;
+                  Item.ImageIndex = 2;
                   }
                else
-                  Item.SubItems.Add("No warnings");
+                  {
+                  System.Windows.Forms.ListViewItem.ListViewSubItem Sub = Item.SubItems.Add("No warnings");
+                  Sub.ForeColor = System.Drawing.Color.Gray;
+                  }
                }
             SimulationList.Items.Add(Item);
             }
@@ -63,6 +72,14 @@ namespace ApsimRun
             {
             string SummaryFileName = Simulations[ClickedItem.Index].SummaryFileName;
             Process.Start(SummaryFileName);
+            }
+         }
+
+      private void OnShown(object sender, EventArgs e)
+         {
+         if (SimulationList.Items.Count > 0)
+            {
+            Invalidate(true); // this is to get around a painting problem in Windows.
             }
          }
 
