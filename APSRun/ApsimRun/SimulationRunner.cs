@@ -230,11 +230,13 @@ namespace ApsimRun
                      {
                      if (!Stopped)
                         {
-                        ApsimProcess.Start();
-                        // Need to pause here to give Windows a chance to start the process.
+                        // Make absolutely certain we don't have too many APSIM's running.
                         // Otherwise you can get the situation where this thread creates many 
                         // instances of APSIM very quickly.
-                        Thread.Sleep(900);
+                        while (Process.GetProcessesByName("apsim").Length > NumCPUsToUse)
+                           Thread.Sleep(300);
+
+                        ApsimProcess.Start();
                         }
                      }
                   }
@@ -318,7 +320,6 @@ namespace ApsimRun
                   Simulation.Details.HasErrors = true;
                else if (e.Text.IndexOf("APSIM Warning Error") != -1)
                   Simulation.Details.HasWarnings = true;
-               Simulation.SummaryFile.WriteLine(e.Text);
                InvokeStdErrEvent(Simulation.Details, e.Text);
                }
             }

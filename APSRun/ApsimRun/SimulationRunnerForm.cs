@@ -57,6 +57,7 @@ namespace ApsimRun
             FileToRun.SimulationsToRun = SimulationsToRun;
             if (FileToRun.SimulationsToRun.Count > 0)
                Runner.Add(FileToRun);
+            Total.Text = Runner.Count.ToString();
             }
          catch (Exception ex)
             {
