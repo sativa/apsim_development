@@ -9,7 +9,6 @@ module = manager  Test.par [test1]
 module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
 module = SurfaceOM   Test.par [test1] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth] %apsuite/apsim/soiln2/soiln2.xml [standard]
-module = Log Test.par[test1]
 
 [apsim.Test2]
 
@@ -21,7 +20,6 @@ module = manager  Test.par [test2]
 module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
 module = SurfaceOM   Test.par [test2] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth] %apsuite/apsim/soiln2/soiln2.xml [standard]
-module = Log Test.par[test2]
 
 [apsim.Test3]
 
@@ -33,7 +31,6 @@ module = manager  Test.par [test3]
 module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
 module = SurfaceOM   Test.par [test3] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth] %apsuite/apsim/soiln2/soiln2.xml [standard]
-module = Log Test.par[test1]
 
 [apsim.Test4]
 
@@ -45,7 +42,6 @@ module = manager  Test.par [test4]
 module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
 module = SurfaceOM   Test.par [test4] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth] %apsuite/apsim/soiln2/soiln2.xml [standard]
-module = Log Test.par[test1]
 
 
 [apsim.Test5]
@@ -59,7 +55,6 @@ module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %a
 module = SurfaceOM   Test.par [test5] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth] %apsuite/apsim/soiln2/soiln2.xml [standard]
 module = growth(bambatsi)   Test.par [test5] %apsuite/apsim/bambatsi/bambatsi.xml [standard]
-module = Log Test.par[test5]
 ! NOTE - NO MICROMET MODULE SO BAMBATSI WILL NOT GROW AND SO WILL REMAIN STATIC
 
 [apsim.Test6]
@@ -77,4 +72,3 @@ module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth] %apsuite
 module = Plant(wheat)   Test.par [test6] %apsuite/apsim/wheat/wheat.xml [standard]
 module = sorghum   Test.par [test6] %apsuite/apsim/sorghum/sorghum.xml [standard]
 module = Plant(canola)   Test.par [test6] %apsuite/apsim/canola/canola.xml [standard]
-module = Log Test.par[test6]
