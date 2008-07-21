@@ -122,7 +122,7 @@ namespace ApsimFile
             // create child nodes as necessary.
             // ------------------------------------------------------
             XmlHelper.SetName(Node, Name);
-            if (!Enabled)
+            if (!Enabled && ShortCutTo == null)
                 XmlHelper.SetAttribute(Node, "enabled", "no");
             if (ShortCutTo != null)
                 XmlHelper.SetAttribute(Node, "shortcut", ShortCutTo.FullPath);
