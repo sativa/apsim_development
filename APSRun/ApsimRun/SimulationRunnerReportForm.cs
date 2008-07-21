@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using ApsimFile;
 using System.Diagnostics;
+using System.IO;
 
 namespace ApsimRun
    {
@@ -71,7 +72,10 @@ namespace ApsimRun
          if (ClickedItem != null)
             {
             string SummaryFileName = Simulations[ClickedItem.Index].SummaryFileName;
-            Process.Start(SummaryFileName);
+            if (File.Exists(SummaryFileName))
+               Process.Start(SummaryFileName);
+            else
+               MessageBox.Show("Cannot find summary file: " + SummaryFileName);
             }
          }
 
