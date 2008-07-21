@@ -37,7 +37,7 @@ if tracker.rain3 >= 20 and date_within('1-may,30-jun') and wheat.plant_status = 
    wheat sow cultivar = batavia, plants = 100 (/m2), sowing_depth = 40 (mm)
 endif
 
-if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' then
    wheat harvest
    wheat end_crop
 endif
@@ -83,7 +83,7 @@ variable = sum   of lucerne.biomass on lucerne.harvesting from reported to now a
 if tracker.rain3 >= 20 and date_within('1-may,30-jun') and lucerne.plant_status = 'out' then
    lucerne sow cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
 endif
-if lucerne.stage_name = 'flowering' or lucerne.biomass > 3000 then
+if lucerne.StageName = 'flowering' or lucerne.biomass > 3000 then
    lucerne harvest height = 50 (mm)
 endif
 
@@ -141,11 +141,11 @@ if tracker.rain3 >= 20 and date_within('1-may,30-jun') and wheat.plant_status = 
    endif
 endif
 
-if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' then
    wheat harvest
    wheat end_crop
 endif
-if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
+if chickpea.StageName = 'harvest_ripe' or chickpea.plant_status = 'dead' then
    chickpea harvest
    chickpea end_crop
 endif

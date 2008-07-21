@@ -16,7 +16,7 @@ if day = 330 and year  = 1988 then
    horsegram sow cultivar = co1, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
-if horsegram.stage_name = 'harvest_ripe' or horsegram.plant_status = 'dead' then
+if horsegram.StageName = 'harvest_ripe' or horsegram.plant_status = 'dead' then
    horsegram harvest
    horsegram end_crop   
 endif

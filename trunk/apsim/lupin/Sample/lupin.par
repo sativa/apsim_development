@@ -20,7 +20,7 @@ if day = 130 and year  = 1988 then
    lupin sow cultivar = belara, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
-if lupin.stage_name = 'harvest_ripe' or lupin.plant_status = 'dead' then
+if lupin.StageName = 'harvest_ripe' or lupin.plant_status = 'dead' then
    lupin harvest
    lupin end_crop   
 

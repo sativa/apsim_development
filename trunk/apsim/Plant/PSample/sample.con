@@ -1,16 +1,16 @@
 
-version = 6
+version = 6.1
 [apsim.navybean]
-module = clock              sample.man [all]       %apsuite/apsim/clock/clock.ini [standard]
+module = clock   sample.man [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report             report.par [navybean]  report.par [navybeanF]    report.par  [all]
 module = input(met)         gatton.met [weather]
 module = manager            sample.man [navybean]
 module = irrigate
-module = fertiliz                                  %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = soilwat2           soil.par   [sample]    %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = soiln2             soil.par   [sample]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
-module = SurfaceOM          soil.par   [sample]    %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = SoilP              soil.par   [sample]    %apsuite/apsim/SoilP/soilp.ini [standard]
-module = Plant(navybean)    soil.par   [sample]    %apsuite/apsim/navybean/navybean.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   soil.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = soiln2   soil.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = SurfaceOM   soil.par [sample] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = SoilP   soil.par [sample] %apsuite/apsim/SoilP/SoilP.xml [standard]
+module = Plant(navybean)   soil.par [sample] %apsuite/apsim/navybean/navybean.xml [standard]
 !module = Log debug.par[debug]
 

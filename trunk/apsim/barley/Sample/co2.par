@@ -25,7 +25,7 @@ if day = 169 then
    barley sow cultivar = skiff, plants = 120, sowing_depth = 30 (mm)
 endif
 
-if barley.stage_name = 'harvest_ripe' or barley.plant_status = 'dead' then
+if barley.StageName = 'harvest_ripe' or barley.plant_status = 'dead' then
    report do_output
    barley harvest
    barley end_crop

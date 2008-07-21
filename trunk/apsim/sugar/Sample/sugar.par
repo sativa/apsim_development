@@ -92,8 +92,8 @@ if sugar.crop_status = 'alive' then
 
    ! Farmers will 'dry off' the crop by stopping irrigation some
    ! time before harvest.
-   if (das > (plantlen - dryoff) and ratoon_no = 0) or
-      (das > (ratoonlen - dryoff) and ratoon_no > 0) then
+   if (DaysAfterSowing > (plantlen - dryoff) and ratoon_no = 0) or
+      (DaysAfterSowing > (ratoonlen - dryoff) and ratoon_no > 0) then
       ! Stop all irrigation
       if automatic_irrigation = 'on' then
          irrigate.automatic_irrigation = 'off'
@@ -109,8 +109,8 @@ if sugar.crop_status = 'alive' then
    endif
 
    ! Set harvest dates for each crop phase
-   if (das = plantlen and ratoon_no = 0) or
-      (das = ratoonlen and ratoon_no > 0) then
+   if (DaysAfterSowing = plantlen and ratoon_no = 0) or
+      (DaysAfterSowing = ratoonlen and ratoon_no > 0) then
 
       sugar harvest
 
@@ -142,9 +142,9 @@ if sugar.crop_status = 'alive' then
       ! We have not reached the harvest date for this ratoon.
    endif
 
-   if (das = plant_lag) and (ratoon_no = 0) then
+   if (DaysAfterSowing = plant_lag) and (ratoon_no = 0) then
       fertiliz.fert_no3_n = plant_fert
-   elseif (das = ratoon_lag) and (ratoon_no > 0) then
+   elseif (DaysAfterSowing = ratoon_lag) and (ratoon_no > 0) then
       fertiliz.fert_no3_n = ratoon_fert
    else
       ! we do not add fertiliser today

@@ -1,10 +1,10 @@
-version = 6
+version = 6.1
 [apsim.test]
-module = clock    sample.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = clock   sample.par [sample] %apsuite/apsim/clock/clock.xml [standard]
 module = report   sample.par [sample]
 module = input(met)      SAMPLE.MET [sample]
 module = manager  sample.par [sample]
 module = canopy
-module = apswim   sample.par [sample]     %apsuite/apsim/apswim/apswim.ini [standard]
+module = apswim   sample.par [sample] %apsuite/apsim/apswim/apswim.xml [standard]
 module = slurp    sample.par [sample]
 module = surface  sample.par [sample]

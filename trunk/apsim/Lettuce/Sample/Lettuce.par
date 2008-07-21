@@ -3,7 +3,7 @@
 outputfile    = Lettuce.out
 
 variable = clock.dd/mmm/yyyy as Date
-variable = Lettuce.das
+variable = Lettuce.DaysAfterSowing
 variable = Lettuce.stage
 variable = Lettuce.lai
 variable = Lettuce.biomass
@@ -27,7 +27,7 @@ if today = date('5/4/98') then
 endif
 
 [sample.manager.end_of_day]
-if Lettuce.stage_name = 'maturity' or Lettuce.plant_status = 'dead' then
+if Lettuce.StageName = 'maturity' or Lettuce.plant_status = 'dead' then
    Lettuce harvest
    Lettuce end_crop
 endif

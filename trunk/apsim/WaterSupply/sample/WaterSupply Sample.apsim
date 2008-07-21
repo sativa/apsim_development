@@ -1,4 +1,4 @@
-<folder name="Simulations" version="9">
+<folder name="Simulations" version="14">
   <simulation name="WaterSupply Sample Simulation">
     <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
@@ -12,9 +12,10 @@
     </summaryfile>
     <area name="paddock">
       <registrations name="global" />
-      <manager name="Manager">
-        <rule name="Sowing rule">
-          <condition name="start_of_day"><![CDATA[
+      <folder name="Manager folder">
+        <manager name="Sowing rule">
+          <script>
+            <text><![CDATA[
       if (paddock_is_fallow() = 1 ) then
          if (date_within('[date1], [date2]') = 1) then
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
@@ -24,52 +25,61 @@
             endif
          endif
       endif
-            ]]></condition>
-          <category name="Sowing criteria">
+            ]]></text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
             <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
             <must_sow type="yesno" description="Must sow? : ">no</must_sow>
             <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
             <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
             <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="crop" description="Enter name of crop to sow : ">wheat</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">hartog</cultivar>
             <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
-          </category>
-        </rule>
-        <rule name="Sowing fertiliser">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Sowing fertiliser">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
         <PoolName description="Organic Matter pool name">wheat</PoolName>
@@ -603,7 +613,7 @@
         <EnrACoeff>7.4</EnrACoeff>
         <EnrBCoeff>0.2</EnrBCoeff>
       </soil>
-      <logic name="Logic">
+      <manager name="Logic">
         <script>
           <event>init</event>
           <text> ! hello
@@ -644,7 +654,7 @@ endif
 
 outputfile do_output</text>
         </script>
-      </logic>
+      </manager>
       <channel name="channel">
         <max_available_water description="Capacity (ML)">1000</max_available_water>
         <init_available_water description="Supply volume available at start of simulation (ML)">50</init_available_water>

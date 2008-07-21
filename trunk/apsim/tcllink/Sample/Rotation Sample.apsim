@@ -1,4 +1,4 @@
-<folder name="Simulations" version="9">
+<folder name="Simulations" version="14">
   <memo name="Readme">e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcZGVmZjBcZGVmbGFuZzMwODF7XGZvbnR0Ymx7XGYwXGZuaWxcZmNoYXJzZXQwIE1pY3Jvc29mdCBTYW5zIFNlcmlmO319DQpcdmlld2tpbmQ0XHVjMVxwYXJkXGYwXGZzMTcgVGhlIGZpcnN0IHNpbXVsYXRpb24gc2hvd3MgbWFuYWdlbWVudCBvZiBhIHNpbmdsZSBwYWRkb2NrIFxwYXINClxwYXINClRoZSBzZWNvbmQgYSBtdWx0aS1wYWRkb2NrIHN5c3RlbS5ccGFyDQp9DQo=</memo>
   <simulation name="Sample Rotation 1">
     <clock name="clock">
@@ -968,6 +968,15 @@ proc sow_[crop] {} {
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <farmmanager name="Farm Manager">
+      <tclui name="Rug plot">
+        <uiscript>source $apsuite/apsim/tcllink/lib/RotationRugPlotUI.tcl</uiscript>
+        <filename>%apsuite/apsim/tcllink/sample/Rotation Sample 2.log</filename>
+      </tclui>
+      <tclui name="Paddock Map">
+        <uiscript>source $apsuite/apsim/tcllink/lib/PaddockMapUI.tcl</uiscript>
+        <filename>%apsuite/apsim/tcllink/sample/Rotation Sample 2.log</filename>
+        <kmlfilename>C:/development/apsim/tcllink/sample/Rotation Sample 2.kml</kmlfilename>
+      </tclui>
       <rule name="Farm logic">
         <condition name="init"><![CDATA[# Manager initialisation - set up a farm manager interpreter
 ############### INITIAL CONDITIONS
@@ -1097,20 +1106,171 @@ doProcess
 </condition>
         <condition name="post" />
         <condition name="exit">closeLogging</condition>
+        <script>
+          <text><![CDATA[# Manager initialisation - set up a farm manager interpreter
+############### INITIAL CONDITIONS
+set paddocks [list Paddock1 Paddock2 Paddock3]
+
+########### Support procedures
+# return true if today's date is within 2 points.
+proc dateWithin {t0 t1} {
+   set t [apsimGet day]
+   if {$t0 > $t1} {
+      return [expr $t >= $t0 || $t <= $t1]
+   } else {
+      return [expr $t >= $t0 && $t <= $t1]
+   }
+   # notreached
+}
+
+proc dateIs {t0} {
+   set t [apsimGet day]
+   return [expr $t0 == $t]
+}
+
+# Return the fraction of the whole farm planted under a crop
+proc areaPlanted {what} {
+   global paddocks
+   set sum 0.0; set total 0.0
+   foreach paddock $paddocks {
+      set paddockState [interp eval $paddock currentState]
+      set area [interp eval $paddock set area]
+      if {$paddockState == $what} {
+        set sum [expr $sum + $area]
+      }
+      set total [expr $total + $area]
+   }
+   return [expr $sum/$total ]
+}
+
+# "logfile" is used to generate the rugplots of farm activities
+set logFile {}
+proc setupLogging {logFileName} {
+   global logFile paddocks
+   set logFile [open $logFileName w]
+   puts $logFile "Starting [apsimGet day],[apsimGet year]"
+   puts $logFile "paddocks = $paddocks"
+   foreach {state colour} [interp eval [lindex $paddocks 0] array get colour] {
+      puts $logFile "colour $state $colour"
+   }
+   flush $logFile
+   apsimWriteToSummaryFile "initialised logging:paddocks=$paddocks"
+}
+proc closeLogging {} {
+   global logFile date
+   puts $logFile "Finished $date"
+   close $logFile
+}
+proc log {msg} {
+   global logFile
+   puts $logFile $msg
+   flush $logFile
+}
+proc logPaddock {paddock msg} {
+   global logFile
+   puts $logFile "   $paddock,$msg"
+   flush $logFile
+}
+proc logState {paddock state} {
+   global logFile
+   puts $logFile "changeState $paddock $state"
+   flush $logFile
+}
+
+# Set up alias procedures within paddocks.
+proc setup {} {
+   global paddocks
+   foreach paddock $paddocks {
+      $paddock alias log logPaddock $paddock
+      $paddock alias logState logState $paddock
+      $paddock alias reportEvent reportEvent $paddock
+      $paddock alias apsimSendGlobalMessage apsimSendMessage
+      $paddock alias apsimGlobalGet apsimGet
+      $paddock alias areaPlanted areaPlanted
+   }
+}
+
+# Do daily process at top level
+proc doProcess {} {
+   global date paddocks 
+
+   set date "[apsimGet day],[apsimGet year]"
+   log "$date"
+
+   set more 1
+   while {$more} {
+      set more 0
+      # 1. Find out what's possible
+      set bestPaddock {}; set bestScore -1.0; set bestState {}
+      foreach paddock $paddocks {
+         foreach {target score} [interp eval $paddock checkRules] {break}
+         if {$score > $bestScore} {
+            set bestPaddock $paddock; set bestScore $score; set bestTarget $target
+         }
+      }
+      if {$bestScore > 0.0} {
+         log ">>> Changing state in $bestPaddock to $bestTarget<<<"
+         interp eval $bestPaddock changeState $bestTarget
+         set more 1
+      }
+   }
+}
+
+]]></text>
+          <event>init</event>
+        </script>
+        <script>
+          <text># NB. some funny business here. Delay opening report file until the 1st day of
+# simulation as it's hard to know how many paddocks are present at init2 time.
+
+setupLogging "Rotation Sample 2.log"
+
+setup
+
+foreach paddock $paddocks {
+      interp eval $paddock setup
+}
+
+</text>
+          <event>start_simulation</event>
+        </script>
+        <script>
+          <text>
+          </text>
+          <event>prepare</event>
+        </script>
+        <script>
+          <text>
+doProcess
+</text>
+          <event>process</event>
+        </script>
+        <script>
+          <text>
+          </text>
+          <event>post</event>
+        </script>
+        <script>
+          <text>closeLogging</text>
+          <event>exit</event>
+        </script>
       </rule>
-      <tclui name="Rug plot">
-        <uiscript>source $apsuite/apsim/tcllink/lib/RotationRugPlotUI.tcl</uiscript>
-        <filename>%apsuite/apsim/tcllink/sample/Rotation Sample 2.log</filename>
-      </tclui>
-      <tclui name="Paddock Map">
-        <uiscript>source $apsuite/apsim/tcllink/lib/PaddockMapUI.tcl</uiscript>
-        <filename>%apsuite/apsim/tcllink/sample/Rotation Sample 2.log</filename>
-        <kmlfilename>C:/development/apsim/tcllink/sample/Rotation Sample 2.kml</kmlfilename>
-      </tclui>
     </farmmanager>
     <area name="Paddock1">
       <registrations name="global" />
       <paddockmanager name="Paddock1">
+        <tclui name="Rotation Management" shortcut="/Simulations/shared/Rotation Management">
+          <rule shortcut="/Simulations/shared/Rotation Management/Init rule" name="Init rule" />
+        </tclui>
+        <tclui name="Wheat Sowing Rule" shortcut="/Simulations/shared/Wheat Sowing Rule">
+          <rule shortcut="/Simulations/shared/Wheat Sowing Rule/ Wheat Sowing Rule.out - Sowing rule - initialisation" name=" Wheat Sowing Rule.out - Sowing rule - initialisation" />
+        </tclui>
+        <tclui name="Cotton Sowing Rule" shortcut="/Simulations/shared/Cotton Sowing Rule">
+          <rule shortcut="/Simulations/shared/Cotton Sowing Rule/ Cotton Sowing Rule.out - Sowing rule - initialisation" name=" Cotton Sowing Rule.out - Sowing rule - initialisation" />
+        </tclui>
+        <tclui name="Chickpea Sowing Rule" shortcut="/Simulations/shared/Chickpea Sowing Rule">
+          <rule shortcut="/Simulations/shared/Chickpea Sowing Rule/ Chickpea Sowing Rule.out - Sowing rule - initialisation" name=" Chickpea Sowing Rule.out - Sowing rule - initialisation" />
+        </tclui>
         <rule name="Rotation Initialisation">
           <condition name="init"><![CDATA[############### INITIAL CONDITIONS
 set state "F1"
@@ -1214,11 +1374,118 @@ proc fesw {layer} {
           <condition name="exit">
 exit
 </condition>
+          <script>
+            <text><![CDATA[############### INITIAL CONDITIONS
+set state "F1"
+set area  250.0
+
+############### Support procedures
+# Return the current state of the system
+proc currentState {} {
+   global state
+   return $state
+}
+
+############### The decision routine.
+# Return the score for planting "what"
+proc checkRules {} {
+  log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
+
+  set bestScore -1.0; set bestTarget {}
+  foreach arc [stateGraph arcs -out [currentState]] {
+     set expr {}
+     set target [stateGraph arc target $arc]
+     foreach rule [stateGraph arc get $arc rules] {
+        set value [uplevel #0 expr $rule]
+        log "target=$target,rule=$rule, value=$value"
+        lappend expr $value
+     }
+     set score [expr [join $expr "*"]]
+     if {$score > $bestScore} {
+        set bestScore $score
+        set bestTarget $target
+     }
+  }
+  return [list $bestTarget $bestScore]
+}
+
+# Change state to another
+proc changeState {newState} {
+   global state
+   set arcs {}
+   foreach arc [stateGraph arcs -out [currentState]] {
+      if {[stateGraph arc target $arc] == "$newState" } {
+         lappend arcs $arc
+      }
+  }  
+   
+   if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
+   if {[llength $arcs] > 1} {
+      # More than 1 path - evaluate best option
+      set bestScore -1.0; set bestArc {}
+      foreach arc $arcs {
+         set expr {}
+         foreach rule [stateGraph arc get $arc rules] {
+            set value [uplevel #0 expr $rule]
+            lappend expr $value
+         }
+         set score [expr [join $expr "*"]]
+         if {$score > $bestScore} {
+            set bestScore $score
+            set bestArc $arc
+         }
+      }  
+      if {$bestScore > 0.0} {
+         set arc $bestArc
+      } else {
+         error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
+      }
+   } else {
+      # Only 1 path - take it.
+      set arc $arcs
+   }
+   foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
+   set state $newState
+   logState $newState
+}
+
+proc setup {} { 
+    #Nothing yet..
+}
+
+# Apsimish utilities
+proc pawc {} {
+  set sw [apsimGet sw_dep]
+  set ll [apsimGet ll15_dep]
+  set pawc 0.0
+  for {set i 0} {$i < [llength $sw]} {incr i} {
+      set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
+  }
+  return $pawc
+}
+
+proc fesw {layer} {
+  set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
+  set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
+  set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
+  set fesw [expr ($sw - $ll)/($dul - $ll)]
+  return $fesw
+}
+]]></text>
+            <event>init</event>
+          </script>
+          <script>
+            <text>
+            </text>
+            <event>process</event>
+          </script>
+          <script>
+            <text>
+exit
+</text>
+            <event>exit</event>
+          </script>
         </rule>
-        <tclui name="Rotation Management" shortcut="Rotation Management" />
-        <tclui name="Wheat Sowing Rule" shortcut="Wheat Sowing Rule" />
-        <tclui name="Cotton Sowing Rule" shortcut="Cotton Sowing Rule" />
-        <tclui name="Chickpea Sowing Rule" shortcut="Chickpea Sowing Rule" />
       </paddockmanager>
       <wheat />
       <chickpea />
@@ -1494,6 +1761,18 @@ exit
     <area name="Paddock2">
       <registrations name="global" />
       <paddockmanager name="Paddock2">
+        <tclui name="Rotation Management" shortcut="/Simulations/shared/Rotation Management">
+          <rule shortcut="/Simulations/shared/Rotation Management/Init rule" name="Init rule" />
+        </tclui>
+        <tclui name="Wheat Sowing Rule" shortcut="/Simulations/shared/Wheat Sowing Rule">
+          <rule shortcut="/Simulations/shared/Wheat Sowing Rule/ Wheat Sowing Rule.out - Sowing rule - initialisation" name=" Wheat Sowing Rule.out - Sowing rule - initialisation" />
+        </tclui>
+        <tclui name="Cotton Sowing Rule" shortcut="/Simulations/shared/Cotton Sowing Rule">
+          <rule shortcut="/Simulations/shared/Cotton Sowing Rule/ Cotton Sowing Rule.out - Sowing rule - initialisation" name=" Cotton Sowing Rule.out - Sowing rule - initialisation" />
+        </tclui>
+        <tclui name="Chickpea Sowing Rule" shortcut="/Simulations/shared/Chickpea Sowing Rule">
+          <rule shortcut="/Simulations/shared/Chickpea Sowing Rule/ Chickpea Sowing Rule.out - Sowing rule - initialisation" name=" Chickpea Sowing Rule.out - Sowing rule - initialisation" />
+        </tclui>
         <rule name="Rotation Initialisation">
           <condition name="init"><![CDATA[############### INITIAL CONDITIONS
 set state "WinterFallow"
@@ -1597,11 +1876,118 @@ proc fesw {layer} {
           <condition name="exit">
 exit
 </condition>
+          <script>
+            <text><![CDATA[############### INITIAL CONDITIONS
+set state "WinterFallow"
+set area  250.0
+
+############### Support procedures
+# Return the current state of the system
+proc currentState {} {
+   global state
+   return $state
+}
+
+############### The decision routine.
+# Return the score for planting "what"
+proc checkRules {} {
+  log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
+
+  set bestScore -1.0; set bestTarget {}
+  foreach arc [stateGraph arcs -out [currentState]] {
+     set expr {}
+     set target [stateGraph arc target $arc]
+     foreach rule [stateGraph arc get $arc rules] {
+        set value [uplevel #0 expr $rule]
+        log "target=$target,rule=$rule, value=$value"
+        lappend expr $value
+     }
+     set score [expr [join $expr "*"]]
+     if {$score > $bestScore} {
+        set bestScore $score
+        set bestTarget $target
+     }
+  }
+  return [list $bestTarget $bestScore]
+}
+
+# Change state to another
+proc changeState {newState} {
+   global state
+   set arcs {}
+   foreach arc [stateGraph arcs -out [currentState]] {
+      if {[stateGraph arc target $arc] == "$newState" } {
+         lappend arcs $arc
+      }
+  }  
+   
+   if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
+   if {[llength $arcs] > 1} {
+      # More than 1 path - evaluate best option
+      set bestScore -1.0; set bestArc {}
+      foreach arc $arcs {
+         set expr {}
+         foreach rule [stateGraph arc get $arc rules] {
+            set value [uplevel #0 expr $rule]
+            lappend expr $value
+         }
+         set score [expr [join $expr "*"]]
+         if {$score > $bestScore} {
+            set bestScore $score
+            set bestArc $arc
+         }
+      }  
+      if {$bestScore > 0.0} {
+         set arc $bestArc
+      } else {
+         error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
+      }
+   } else {
+      # Only 1 path - take it.
+      set arc $arcs
+   }
+   foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
+   set state $newState
+   logState $newState
+}
+
+proc setup {} { 
+    #Nothing yet..
+}
+
+# Apsimish utilities
+proc pawc {} {
+  set sw [apsimGet sw_dep]
+  set ll [apsimGet ll15_dep]
+  set pawc 0.0
+  for {set i 0} {$i < [llength $sw]} {incr i} {
+      set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
+  }
+  return $pawc
+}
+
+proc fesw {layer} {
+  set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
+  set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
+  set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
+  set fesw [expr ($sw - $ll)/($dul - $ll)]
+  return $fesw
+}
+]]></text>
+            <event>init</event>
+          </script>
+          <script>
+            <text>
+            </text>
+            <event>process</event>
+          </script>
+          <script>
+            <text>
+exit
+</text>
+            <event>exit</event>
+          </script>
         </rule>
-        <tclui name="Rotation Management" shortcut="Rotation Management" />
-        <tclui name="Wheat Sowing Rule" shortcut="Wheat Sowing Rule" />
-        <tclui name="Cotton Sowing Rule" shortcut="Cotton Sowing Rule" />
-        <tclui name="Chickpea Sowing Rule" shortcut="Chickpea Sowing Rule" />
       </paddockmanager>
       <wheat />
       <chickpea />
@@ -1877,6 +2263,18 @@ exit
     <area name="Paddock3">
       <registrations name="global" />
       <paddockmanager name="Paddock3">
+        <tclui name="Rotation Management" shortcut="/Simulations/shared/Rotation Management">
+          <rule shortcut="/Simulations/shared/Rotation Management/Init rule" name="Init rule" />
+        </tclui>
+        <tclui name="Wheat Sowing Rule" shortcut="/Simulations/shared/Wheat Sowing Rule">
+          <rule shortcut="/Simulations/shared/Wheat Sowing Rule/ Wheat Sowing Rule.out - Sowing rule - initialisation" name=" Wheat Sowing Rule.out - Sowing rule - initialisation" />
+        </tclui>
+        <tclui name="Cotton Sowing Rule" shortcut="/Simulations/shared/Cotton Sowing Rule">
+          <rule shortcut="/Simulations/shared/Cotton Sowing Rule/ Cotton Sowing Rule.out - Sowing rule - initialisation" name=" Cotton Sowing Rule.out - Sowing rule - initialisation" />
+        </tclui>
+        <tclui name="Chickpea Sowing Rule" shortcut="/Simulations/shared/Chickpea Sowing Rule">
+          <rule shortcut="/Simulations/shared/Chickpea Sowing Rule/ Chickpea Sowing Rule.out - Sowing rule - initialisation" name=" Chickpea Sowing Rule.out - Sowing rule - initialisation" />
+        </tclui>
         <rule name="Rotation Initialisation">
           <condition name="init"><![CDATA[############### INITIAL CONDITIONS
 set state "WinterFallow"
@@ -1979,11 +2377,118 @@ proc fesw {layer} {
           <condition name="exit">
 exit
 </condition>
+          <script>
+            <text><![CDATA[############### INITIAL CONDITIONS
+set state "WinterFallow"
+set area  250.0
+
+############### Support procedures
+# Return the current state of the system
+proc currentState {} {
+   global state
+   return $state
+}
+
+############### The decision routine.
+# Return the score for planting "what"
+proc checkRules {} {
+  log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
+
+  set bestScore -1.0; set bestTarget {}
+  foreach arc [stateGraph arcs -out [currentState]] {
+     set expr {}
+     set target [stateGraph arc target $arc]
+     foreach rule [stateGraph arc get $arc rules] {
+        set value [uplevel #0 expr $rule]
+        log "target=$target,rule=$rule, value=$value"
+        lappend expr $value
+     }
+     set score [expr [join $expr "*"]]
+     if {$score > $bestScore} {
+        set bestScore $score
+        set bestTarget $target
+     }
+  }
+  return [list $bestTarget $bestScore]
+}
+
+# Change state to another
+proc changeState {newState} {
+   global state
+   set arcs {}
+   foreach arc [stateGraph arcs -out [currentState]] {
+      if {[stateGraph arc target $arc] == "$newState" } {
+         lappend arcs $arc
+      }
+  }  
+   
+   if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
+   if {[llength $arcs] > 1} {
+      # More than 1 path - evaluate best option
+      set bestScore -1.0; set bestArc {}
+      foreach arc $arcs {
+         set expr {}
+         foreach rule [stateGraph arc get $arc rules] {
+            set value [uplevel #0 expr $rule]
+            lappend expr $value
+         }
+         set score [expr [join $expr "*"]]
+         if {$score > $bestScore} {
+            set bestScore $score
+            set bestArc $arc
+         }
+      }  
+      if {$bestScore > 0.0} {
+         set arc $bestArc
+      } else {
+         error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
+      }
+   } else {
+      # Only 1 path - take it.
+      set arc $arcs
+   }
+   foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
+   set state $newState
+   logState $newState
+}
+
+proc setup {} { 
+    #Nothing yet..
+}
+
+# Apsimish utilities
+proc pawc {} {
+  set sw [apsimGet sw_dep]
+  set ll [apsimGet ll15_dep]
+  set pawc 0.0
+  for {set i 0} {$i < [llength $sw]} {incr i} {
+      set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
+  }
+  return $pawc
+}
+
+proc fesw {layer} {
+  set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
+  set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
+  set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
+  set fesw [expr ($sw - $ll)/($dul - $ll)]
+  return $fesw
+}
+]]></text>
+            <event>init</event>
+          </script>
+          <script>
+            <text>
+            </text>
+            <event>process</event>
+          </script>
+          <script>
+            <text>
+exit
+</text>
+            <event>exit</event>
+          </script>
         </rule>
-        <tclui name="Rotation Management" shortcut="Rotation Management" />
-        <tclui name="Wheat Sowing Rule" shortcut="Wheat Sowing Rule" />
-        <tclui name="Cotton Sowing Rule" shortcut="Cotton Sowing Rule" />
-        <tclui name="Chickpea Sowing Rule" shortcut="Chickpea Sowing Rule" />
       </paddockmanager>
       <wheat />
       <chickpea />

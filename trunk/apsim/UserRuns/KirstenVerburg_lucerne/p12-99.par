@@ -136,7 +136,7 @@ if (year = 1997 and day = 8) then
 endif
 
 !Temporary assumption about cut at flowering
-!if (lucerne.stage_name = 'flowering') then
+!if (lucerne.StageName = 'flowering') then
 !   lucerne harvest height = 50 (mm), remove = 0.95
 !endif
 

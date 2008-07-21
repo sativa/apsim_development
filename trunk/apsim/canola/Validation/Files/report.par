@@ -4,12 +4,12 @@
 
 variable = clock.year
 variable = clock.day
-variable = canola.stage_code
+variable = canola.Stage
 variable = canola.plant_status
 variable = manager.event
 variable = canola.grain_n
-variable = canola.das
-variable = canola.tt_tot()
+variable = canola.DaysAfterSowing
+variable = canola.TTAfterSowing
 variable = canola.grain_wt
 variable = canola.yield units kg/ha
 variable = canola.biomass_wt

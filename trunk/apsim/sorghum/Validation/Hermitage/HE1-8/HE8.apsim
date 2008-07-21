@@ -1,4 +1,4 @@
-<folder version="13" name="HE8">
+<folder version="14" name="HE8">
   <folder name="shared">
     <manager name="Calculator">
       <script name="init">
@@ -461,7 +461,7 @@ NCGrain = n_conc_grain * 100]]></text>
     </Sorghum>
     <variables name="My Variables">
       <variable name="today format dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-      <variable name="das" description="Days after Sowing" array="?" />
+      <variable name="DaysAfterSowing" description="Days after Sowing" array="?" />
       <variable name="Stage" description="Plant stage" array="?" />
       <variable name="Biomass" description="Biomass weight" array="?" />
       <variable name="GreenWt" description="" array="" />
@@ -537,7 +537,7 @@ NCGrain = n_conc_grain * 100]]></text>
           <script>
             <text>
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
@@ -935,7 +935,7 @@ NCGrain = n_conc_grain * 100]]></text>
           <script>
             <text>
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
@@ -1337,7 +1337,7 @@ NCGrain = n_conc_grain * 100]]></text>
           <script>
             <text>
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif

@@ -1,14 +1,14 @@
-version = 6
+version = 6.1
 [apsim.Maize_reference_data_set]
-module = clock      referenc.par [reference] %apsuite/apsim/clock/clock.ini[standard]
+module = clock   referenc.par [reference] %apsuite/apsim/clock/clock.xml [standard]
 module = report     referenc.par [reference]
 module = input(met) referenc.met [reference]
 module = manager    referenc.par [reference]
-module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.ini [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
 module = irrigate   referenc.par [reference]
-module = soilwat2   referenc.par [reference]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SurfaceOM   referenc.par [reference] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2     referenc.par [reference]     %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = maize      referenc.par [reference]     %apsuite/apsim/maize/maize.ini [standard]
+module = soilwat2   referenc.par [reference] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   referenc.par [reference] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   referenc.par [reference] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = maize   referenc.par [reference] %apsuite/apsim/maize/maize.xml [standard]
 module = Tracker     referenc.par [reference]
 module = sysbal

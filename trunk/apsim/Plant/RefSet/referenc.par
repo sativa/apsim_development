@@ -47,7 +47,7 @@ variable = clock.year
 variable = clock.day
 variable = soiln2.no3
 variable = soilwat2.sw_dep
-variable = mungbean.tt_tot()
+variable = mungbean.TTAfterSowing
 variable = mungbean.lai
 variable = mungbean.biomass
 variable = tracker1.avg@mungbean_swdef_photo
@@ -202,7 +202,7 @@ profile_reduction =      on
 
 [reference.manager.end_of_day]
 
-!     if mungbean.days_tot(3) > 0 and mungbean.days_tot(3) <= 1 then
+!     if mungbean.DaysAfterEmergence > 0 and mungbean.DaysAfterEmergence <= 1 then
 !        mungbean.crop_class = 'supermung'
 !     endif
 

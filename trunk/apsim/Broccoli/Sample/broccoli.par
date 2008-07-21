@@ -3,7 +3,7 @@
 outputfile    = Broccoli.out
 
 variable = clock.dd/mmm/yyyy as Date
-variable = Broccoli.das
+variable = Broccoli.DaysAfterSowing
 variable = Broccoli.stage
 variable = Broccoli.lai
 variable = Broccoli.biomass
@@ -24,7 +24,7 @@ if today = date('5/4/98') then
 endif
 
 [sample.manager.end_of_day]
-if Broccoli.stage_name = 'maturity' or Broccoli.plant_status = 'dead' then
+if Broccoli.StageName = 'maturity' or Broccoli.plant_status = 'dead' then
    Broccoli harvest
    Broccoli end_crop
 endif

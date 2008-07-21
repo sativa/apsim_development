@@ -1,4 +1,4 @@
-<folder name="Simulations" version="9">
+<folder name="Simulations" version="14">
   <simulation name="populneaW30">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">01/01/1889</start_date>
@@ -7,7 +7,7 @@
     <summaryfile name="summaryfile">
       <filename name="filename">Continuous Wheat Simulation.sum</filename>
     </summaryfile>
-    <metfile name="met" shortcut="met" />
+    <metfile name="met" shortcut="/Simulations/shared/met" />
     <area name="paddock">
       <registrations name="global" />
       <operations>
@@ -28,16 +28,19 @@
           <action>epopulnea kill</action>
         </operation>
       </operations>
-      <outputfile name="outputfile" shortcut="outputfile" />
+      <outputfile name="outputfile" shortcut="/Simulations/shared/outputfile">
+        <variables shortcut="/Simulations/shared/outputfile/Variables" name="Variables" />
+        <events shortcut="/Simulations/shared/outputfile/Reporting Frequency" name="Reporting Frequency" />
+      </outputfile>
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
       </irrigation>
-      <surfaceom name="surface organic matter" shortcut="surface organic matter" />
-      <Epopulnea name="Epopulnea" shortcut="Epopulnea" />
-      <logic name="OutputCalculator" shortcut="OutputCalculator" />
+      <surfaceom name="surface organic matter" shortcut="/Simulations/shared/surface organic matter" />
+      <Epopulnea name="Epopulnea" shortcut="/Simulations/shared/Epopulnea" />
+      <manager name="OutputCalculator" shortcut="/Simulations/shared/OutputCalculator" />
       <micromet name="Micromet">
         <soilalbedo name="soilalbedo">0.13</soilalbedo>
         <a_interception name="a_interception">0.0</a_interception>
@@ -45,7 +48,10 @@
         <c_interception name="c_interception">0.0</c_interception>
         <d_interception name="d_interception">0.0</d_interception>
       </micromet>
-      <soil name="WellCamp" shortcut="WellCamp" />
+      <soil name="WellCamp" shortcut="/Simulations/shared/WellCamp">
+        <InitWater shortcut="/Simulations/shared/WellCamp/InitWater" />
+        <InitNitrogen shortcut="/Simulations/shared/WellCamp/InitNitrogen" />
+      </soil>
     </area>
   </simulation>
   <simulation name="populneaW60">
@@ -56,7 +62,7 @@
     <summaryfile name="summaryfile">
       <filename name="filename">Continuous Wheat Simulation.sum</filename>
     </summaryfile>
-    <metfile name="met" shortcut="met" />
+    <metfile name="met" shortcut="/Simulations/shared/met" />
     <area name="paddock">
       <registrations name="global" />
       <operations>
@@ -77,16 +83,19 @@
           <action>epopulnea kill</action>
         </operation>
       </operations>
-      <outputfile name="outputfile" shortcut="outputfile" />
+      <outputfile name="outputfile" shortcut="/Simulations/shared/outputfile">
+        <variables shortcut="/Simulations/shared/outputfile/Variables" name="Variables" />
+        <events shortcut="/Simulations/shared/outputfile/Reporting Frequency" name="Reporting Frequency" />
+      </outputfile>
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
       </irrigation>
-      <surfaceom name="surface organic matter" shortcut="surface organic matter" />
-      <Epopulnea name="Epopulnea" shortcut="Epopulnea" />
-      <logic name="OutputCalculator" shortcut="OutputCalculator" />
+      <surfaceom name="surface organic matter" shortcut="/Simulations/shared/surface organic matter" />
+      <Epopulnea name="Epopulnea" shortcut="/Simulations/shared/Epopulnea" />
+      <manager name="OutputCalculator" shortcut="/Simulations/shared/OutputCalculator" />
       <micromet name="Micromet">
         <soilalbedo name="soilalbedo">0.13</soilalbedo>
         <a_interception name="a_interception">0.0</a_interception>
@@ -94,7 +103,10 @@
         <c_interception name="c_interception">0.0</c_interception>
         <d_interception name="d_interception">0.0</d_interception>
       </micromet>
-      <soil name="WellCamp" shortcut="WellCamp" />
+      <soil name="WellCamp" shortcut="/Simulations/shared/WellCamp">
+        <InitWater shortcut="/Simulations/shared/WellCamp/InitWater" />
+        <InitNitrogen shortcut="/Simulations/shared/WellCamp/InitNitrogen" />
+      </soil>
     </area>
   </simulation>
   <simulation name="populneaW90">
@@ -105,7 +117,7 @@
     <summaryfile name="summaryfile">
       <filename name="filename">Continuous Wheat Simulation.sum</filename>
     </summaryfile>
-    <metfile name="met" shortcut="met" />
+    <metfile name="met" shortcut="/Simulations/shared/met" />
     <area name="paddock">
       <registrations name="global" />
       <operations>
@@ -126,16 +138,19 @@
           <action>epopulnea kill</action>
         </operation>
       </operations>
-      <outputfile name="outputfile" shortcut="outputfile" />
+      <outputfile name="outputfile" shortcut="/Simulations/shared/outputfile">
+        <variables shortcut="/Simulations/shared/outputfile/Variables" name="Variables" />
+        <events shortcut="/Simulations/shared/outputfile/Reporting Frequency" name="Reporting Frequency" />
+      </outputfile>
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
       </irrigation>
-      <surfaceom name="surface organic matter" shortcut="surface organic matter" />
-      <Epopulnea name="Epopulnea" shortcut="Epopulnea" />
-      <logic name="OutputCalculator" shortcut="OutputCalculator" />
+      <surfaceom name="surface organic matter" shortcut="/Simulations/shared/surface organic matter" />
+      <Epopulnea name="Epopulnea" shortcut="/Simulations/shared/Epopulnea" />
+      <manager name="OutputCalculator" shortcut="/Simulations/shared/OutputCalculator" />
       <micromet name="Micromet">
         <soilalbedo name="soilalbedo">0.13</soilalbedo>
         <a_interception name="a_interception">0.0</a_interception>
@@ -143,7 +158,10 @@
         <c_interception name="c_interception">0.0</c_interception>
         <d_interception name="d_interception">0.0</d_interception>
       </micromet>
-      <soil name="WellCamp" shortcut="WellCamp" />
+      <soil name="WellCamp" shortcut="/Simulations/shared/WellCamp">
+        <InitWater shortcut="/Simulations/shared/WellCamp/InitWater" />
+        <InitNitrogen shortcut="/Simulations/shared/WellCamp/InitNitrogen" />
+      </soil>
     </area>
   </simulation>
   <folder name="shared">
@@ -215,7 +233,7 @@
       <radiationmodifier description="Relative change in radiation">0.82</radiationmodifier>
       <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
     </climatechange>
-    <logic name="OutputCalculator">
+    <manager name="OutputCalculator">
       <script>
         <event>init</event>
         <text> 
@@ -245,7 +263,7 @@ endif
   dul60 = dul_dep(1) + dul_dep(2) + dul_dep(3)
   ]]></text>
       </script>
-    </logic>
+    </manager>
     <soil name="WellCamp">
       <Site>Jimbour</Site>
       <Region>South East Queensland</Region>

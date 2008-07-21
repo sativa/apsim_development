@@ -1,70 +1,70 @@
-version = 6
+version = 6.1
 ! Derived from McKeon's 7 steps.
 
 ! All off.
 [apsim.step1]
 title = Step 1. All off.
-module = clock    refdata.par [all] %apsuite/apsim/clock/clock.ini[standard]
+module = clock   refdata.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report   refdata.par [all]     refdata.par [step1]
 module = Input(Met)      %apsuite/apsim/grasp/RefSet/NARAYEN.MET [climate]
 module = manager  refdata.par [all]
 module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
-module = soiln2 refdata.par [all]     %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = grasp    refdata.par [all]     refdata.par [step1]     refdata.par [soilwat]     %apsuite/apsim/grasp/grasp.ini [standard]
-module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   refdata.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = grasp   refdata.par [all] refdata.par [step1] refdata.par [soilwat] %apsuite/apsim/grasp/grasp.xml [standard]
+module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = sysbal
 
 ! Introduce dead grass
 [apsim.step3]
 title = Step 3. Declining dead pool.
-module = clock    refdata.par [all] %apsuite/apsim/clock/clock.ini[standard]
+module = clock   refdata.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report   refdata.par [all]     refdata.par [step3]
 module = input(met)      %apsuite/apsim/grasp/RefSet/NARAYEN.MET [climate]
 module = manager  refdata.par [all]
 module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
-module = soiln2 refdata.par [all]     %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = grasp    refdata.par [all]     refdata.par [step3]     refdata.par [soilwat]     %apsuite/apsim/grasp/grasp.ini [standard]
-module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   refdata.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = grasp   refdata.par [all] refdata.par [step3] refdata.par [soilwat] %apsuite/apsim/grasp/grasp.xml [standard]
+module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = sysbal
 
 ! Add growth by regrowth
 [apsim.step5]
 title = Step 5. growth by regrowth
-module = clock    refdata.par [all] %apsuite/apsim/clock/clock.ini[standard]
+module = clock   refdata.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report   refdata.par [all]     refdata.par [step5]
 module = input(met)      %apsuite/apsim/grasp/RefSet/NARAYEN.MET [climate]
 module = manager  refdata.par [all]
 module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
-module = soiln2 refdata.par [all]     %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = grasp    refdata.par [all]     refdata.par [step5]     refdata.par [soilwat]     %apsuite/apsim/grasp/grasp.ini [standard]
-module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   refdata.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = grasp   refdata.par [all] refdata.par [step5] refdata.par [soilwat] %apsuite/apsim/grasp/grasp.xml [standard]
+module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = sysbal
 
 ! And growth by transpiration
 [apsim.step6]
 title = Step 6. growth by regrowth + transpiration
-module = clock    refdata.par [all] %apsuite/apsim/clock/clock.ini[standard]
+module = clock   refdata.par [all] %apsuite/apsim/clock/clock.xml [standard]
 module = report   refdata.par [all]     refdata.par [step6]
 module = input(met)      %apsuite/apsim/grasp/RefSet/NARAYEN.MET [climate]
 module = manager  refdata.par [all]
 module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
-module = soiln2 refdata.par [all]     %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = grasp    refdata.par [all]     refdata.par [step6]     refdata.par [soilwat]     %apsuite/apsim/grasp/grasp.ini [standard]
-module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   refdata.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = grasp   refdata.par [all] refdata.par [step6] refdata.par [soilwat] %apsuite/apsim/grasp/grasp.xml [standard]
+module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = sysbal
 
 ! SWIM interface.
 [apsim.step8]
 title = Step 8. swim
-module = clock    refdata.par [gmtb0] %apsuite/apsim/clock/clock.ini[standard]
+module = clock   refdata.par [gmtb0] %apsuite/apsim/clock/clock.xml [standard]
 module = report   refdata.par [allswim] refdata.par [wupt] refdata.par [step8]
 module = report(sysbalreport) refdata.par[sysbal]
 module = input(met)      GMTAPSIM.DAT [weather]
 module = manager  refdata.par [all]
-module = apswim   refdata.par [gmtb0]   %apsuite/apsim/apswim/apswim.ini [standard]
-module = soiln2 refdata.par [gmtbo]     %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = grasp    refdata.par [all]     refdata.par [step8]     refdata.par [swim]     %apsuite/apsim/grasp/grasp.ini [standard]
-module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = apswim   refdata.par [gmtb0] %apsuite/apsim/apswim/apswim.xml [standard]
+module = soiln2   refdata.par [gmtbo] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = grasp   refdata.par [all] refdata.par [step8] refdata.par [swim] %apsuite/apsim/grasp/grasp.xml [standard]
+module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = surface  refdata.par [gmtb0]
 module = canopy   refdata.par [gmtb0]
 !module = sysbal
@@ -72,25 +72,25 @@ module = canopy   refdata.par [gmtb0]
 ! EP effect on Nitrogen uptake
 [apsim.ep-on]
 title = erosion productivity on
-module = clock    refdata.par [ep] %apsuite/apsim/clock/clock.ini[standard]
+module = clock   refdata.par [ep] %apsuite/apsim/clock/clock.xml [standard]
 module = report   refdata.par [ep]     refdata.par [ep-on]
 module = input(met)      %apsuite/apsim/grasp/RefSet/NARAYEN.MET [climate]
 module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
-module = soiln2 refdata.par [all]     %apsuite/apsim/soiln2/soiln2.ini [standard]
+module = soiln2   refdata.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
 module = erosion  refdata.par [ep]
-module = grasp    refdata.par [all]     refdata.par [ep]     refdata.par [soilwat]     %apsuite/apsim/grasp/grasp.ini [standard]
-module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = grasp   refdata.par [all] refdata.par [ep] refdata.par [soilwat] %apsuite/apsim/grasp/grasp.xml [standard]
+module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = manager  refdata.par [ep]
 module = sysbal
 
 [apsim.ep-off]
 title = erosion productivity off
-module = clock    refdata.par [ep] %apsuite/apsim/clock/clock.ini[standard]
+module = clock   refdata.par [ep] %apsuite/apsim/clock/clock.xml [standard]
 module = report   refdata.par [ep]     refdata.par [ep-off]
 module = input(met)      %apsuite/apsim/grasp/RefSet/NARAYEN.MET [climate]
 module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
-module = soiln2 refdata.par [all]     %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = grasp    refdata.par [all]     refdata.par [ep]     refdata.par [soilwat]     %apsuite/apsim/grasp/grasp.ini [standard]
-module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   refdata.par [all] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = grasp   refdata.par [all] refdata.par [ep] refdata.par [soilwat] %apsuite/apsim/grasp/grasp.xml [standard]
+module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
 module = manager  refdata.par [ep]
 module = sysbal

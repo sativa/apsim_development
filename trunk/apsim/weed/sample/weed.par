@@ -60,7 +60,7 @@ if day = 169 and year = 1988 then
    weed_in = 1
 endif
 
-if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' then
   wheat harvest
   wheat kill_crop
   wheat end_crop
@@ -95,8 +95,8 @@ endif
 ! rain amount or above the biomass limit
 
 if weed_in = 1 AND
-   weed.das >= 20 AND
-   weed.das <= 120 AND
+   weed.DaysAfterSowing >= 20 AND
+   weed.DaysAfterSowing <= 120 AND
    rain[5] >= 5 AND
    rain[5] <= 30 OR
    weed.biomass > 500 THEN

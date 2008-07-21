@@ -78,7 +78,7 @@ if (crop_in = 0) then
    endif
 endif
 
-if (wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' ) then
+if (wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' ) then
    mature_flag = mature_flag - 1
    if (mature_flag = 0) then
       wheat harvest
@@ -198,8 +198,6 @@ s_dm_percent  =   0.018  (%)
 cl_dm_percent =   0.01   (%)
 
 
-[WagCW.SummaryFile.parameters]
-summaryfile = WagCW.sum
 [all.Screen.parameters]
 screen_output = off
 [all.tracker.parameters]

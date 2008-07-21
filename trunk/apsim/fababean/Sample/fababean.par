@@ -19,7 +19,7 @@ if day = 130 and year  = 1988 then
    fababean sow cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
-if fababean.stage_name = 'harvest_ripe' or fababean.plant_status = 'dead' then
+if fababean.StageName = 'harvest_ripe' or fababean.plant_status = 'dead' then
    fababean harvest
    fababean end_crop   
 

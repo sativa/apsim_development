@@ -157,6 +157,17 @@ namespace ApsimRun
          }
 
       /// <summary>
+      /// Return the number of completed simulations.
+      /// </summary>
+      public int NumberCompleted
+         {
+         get
+            {
+            return NumCompleted;
+            }
+         }
+
+      /// <summary>
       /// Get or set the number of CPU's that APSIM is allowed to use.
       /// </summary>
       public int NumCPUs
@@ -204,7 +215,7 @@ namespace ApsimRun
                   ApsimProcess.FileName = Path.GetDirectoryName(Application.ExecutablePath) + "\\apsim.exe";
                   ApsimProcess.Arguments = "\"" + SimulationToRun.SimFileName + "\"";
                   ApsimProcess.WorkingDirectory = Path.GetDirectoryName(SimulationToRun.SimFileName);
-                  ApsimProcess.StdOutClosed += OnApsimExited;
+                  ApsimProcess.AllFinished += OnApsimExited;
                   ApsimProcess.StdOutReceived += OnStdOut;
                   ApsimProcess.StdErrReceived += OnStdError;
 
@@ -220,7 +231,10 @@ namespace ApsimRun
                      if (!Stopped)
                         {
                         ApsimProcess.Start();
-                        Thread.Sleep(300);
+                        // Need to pause here to give Windows a chance to start the process.
+                        // Otherwise you can get the situation where this thread creates many 
+                        // instances of APSIM very quickly.
+                        Thread.Sleep(900);
                         }
                      }
                   }

@@ -8,7 +8,7 @@ variable = maize.yield
 variable = maize.biomass_n
 variable = maize.swdef_expan
 variable = maize.nfact_expan
-variable = maize.das
+variable = maize.DaysAfterSowing
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
 start_date=27/10/1989     ! dd/mm/yyyy

@@ -84,81 +84,81 @@ endif
 
 [N0.manager.start_of_day]
 
-if maize.das = 1 or maize.das = 42 then
+if maize.DaysAfterSowing = 1 or maize.DaysAfterSowing = 42 then
       fertiliz apply amount = 0, type = nh4no3, depth = 5
     endif
 
 [N13.manager.start_of_day]
 
-if maize.das = 1 or maize.das = 42 then
+if maize.DaysAfterSowing = 1 or maize.DaysAfterSowing = 42 then
       fertiliz apply amount = 6.25, type = nh4no3, depth = 5
     endif
 
 [N25.manager.start_of_day]
 
-if maize.das = 1 or maize.das = 42 then
+if maize.DaysAfterSowing = 1 or maize.DaysAfterSowing = 42 then
       fertiliz apply amount = 12.5, type = nh4no3, depth = 5
     endif
 
 [N50.manager.start_of_day]
 
-if maize.das = 1 or maize.das = 42 then
+if maize.DaysAfterSowing = 1 or maize.DaysAfterSowing = 42 then
       fertiliz apply amount = 25, type = nh4no3, depth = 5
     endif
 
 [N75.manager.start_of_day]
 
-if maize.das = 1 or maize.das = 42 then
+if maize.DaysAfterSowing = 1 or maize.DaysAfterSowing = 42 then
       fertiliz apply amount = 37.5, type = nh4no3, depth = 5
     endif
 
 [N100.manager.start_of_day]
 
-if maize.das = 1 or maize.das = 42 then
+if maize.DaysAfterSowing = 1 or maize.DaysAfterSowing = 42 then
       fertiliz apply amount = 50, type = nh4no3, depth = 5
     endif
 
 [N125.manager.start_of_day]
 
-if maize.das = 1 or maize.das = 42 then
+if maize.DaysAfterSowing = 1 or maize.DaysAfterSowing = 42 then
       fertiliz apply amount = 62.5, type = nh4no3, depth = 5
     endif
 
 [N150.manager.start_of_day]
 
-if maize.das = 1 or maize.das = 42 or maize.das = 61 then
+if maize.DaysAfterSowing = 1 or maize.DaysAfterSowing = 42 or maize.DaysAfterSowing = 61 then
       fertiliz apply amount = 50, type = nh4no3, depth = 5
     endif
 
 [N175.manager.start_of_day]
 
-if maize.das = 1 or maize.das = 42 or maize.das = 61 then
+if maize.DaysAfterSowing = 1 or maize.DaysAfterSowing = 42 or maize.DaysAfterSowing = 61 then
       fertiliz apply amount = 58.3, type = nh4no3, depth = 5
     endif
 
 [N200.manager.start_of_day]
 
-if maize.das = 1 or maize.das = 42 or maize.das = 61 then
+if maize.DaysAfterSowing = 1 or maize.DaysAfterSowing = 42 or maize.DaysAfterSowing = 61 then
       fertiliz apply amount = 66.7, type = nh4no3, depth = 5
     endif
 
 [N250.manager.start_of_day]
 
-if maize.das = 1 or maize.das = 42 or maize.das = 61 then
+if maize.DaysAfterSowing = 1 or maize.DaysAfterSowing = 42 or maize.DaysAfterSowing = 61 then
       fertiliz apply amount = 83.3, type = nh4no3, depth = 5
     endif
 
 [all.manager.end_of_day]
 
-     if stage_code = 3 and emer_date = 0 then
-        emer_date = das
-     elseif stage_code = 7 and anth_date = 0 then
-        anth_date = das
-     elseif stage_code = 11 and mat_date = 0 then
-        mat_date = das
+     if Stage = 3 and emer_date = 0 then
+        emer_date = DaysAfterSowing
+     elseif Stage = 7 and anth_date = 0 then
+        anth_date = DaysAfterSowing
+     elseif Stage = 11 and mat_date = 0 then
+        mat_date = DaysAfterSowing
      endif
 
-     if (maize.stage_code = 11 OR
+     if (maize.Stage = 11 OR
    maize.plant_status = 'dead') THEN
         report do_output
         maize harvest

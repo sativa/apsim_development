@@ -25,7 +25,7 @@ if day = 169 then
    wheat sow cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
 endif
 
-if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+if wheat.StageName = 'harvest_ripe' or wheat.plant_status = 'dead' then
    report do_output
    wheat harvest
    wheat end_crop

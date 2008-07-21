@@ -1,4 +1,4 @@
-<simulations name="ALL BarleyData_AMM" version="9">
+<simulations name="ALL BarleyData_AMM" version="14">
   <shared name="shared" />
   <simulation name="Barley_HB90Sow1_3">
     <clock name="clock">
@@ -16,17 +16,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -48,54 +48,64 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">26/04/1990</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">130.0</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <soil name="M Block90">
         <Site>HRS</Site>
         <Region>Warwick</Region>
@@ -409,49 +419,56 @@
         <EnrBCoeff>0.2</EnrBCoeff>
       </soil>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
-      <logic name="Irrigator">
+      </manager>
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <automatic_irrigation type="text" description="switch">on</automatic_irrigation>
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">1800</asw_depth>
@@ -476,17 +493,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -508,54 +525,64 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">5/06/1990</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">130.0</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <soil name="M Block90">
         <Site>HRS</Site>
         <Region>Warwick</Region>
@@ -869,35 +896,39 @@
         <EnrBCoeff>0.2</EnrBCoeff>
       </soil>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <automatic_irrigation type="text" description="switch">on</automatic_irrigation>
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">1800</asw_depth>
@@ -922,17 +953,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -954,54 +985,64 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">7/08/1990</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">130.0</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <soil name="M Block90">
         <Site>HRS</Site>
         <Region>Warwick</Region>
@@ -1315,49 +1356,56 @@
         <EnrBCoeff>0.2</EnrBCoeff>
       </soil>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
-      <logic name="Irrigator">
+      </manager>
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <automatic_irrigation type="text" description="switch">on</automatic_irrigation>
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">1800</asw_depth>
@@ -1382,17 +1430,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -1414,54 +1462,64 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">2/04/1987</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">68.9</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <soil name="M Block87">
         <Site>HRS</Site>
         <Region>Warwick</Region>
@@ -1775,55 +1833,62 @@
         <EnrBCoeff>0.2</EnrBCoeff>
       </soil>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
     </area>
   </simulation>
   <simulation name="Barley_HRS87-3MP_1">
@@ -1842,17 +1907,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -1874,54 +1939,64 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">26/05/1987</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">99.93</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <soil name="M Block87">
         <Site>HRS</Site>
         <Region>Warwick</Region>
@@ -2235,55 +2310,62 @@
         <EnrBCoeff>0.2</EnrBCoeff>
       </soil>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
     </area>
   </simulation>
   <simulation name="Barley_HRSRO-DD_1">
@@ -2302,17 +2384,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -2334,54 +2416,64 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">15/7/1991</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <soil name="M Block92">
         <Site>HRS</Site>
         <Region>Warwick</Region>
@@ -2695,30 +2787,32 @@
         <EnrBCoeff>0.2</EnrBCoeff>
       </soil>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
@@ -2739,24 +2833,28 @@
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
     </area>
   </simulation>
   <simulation name="Barley_HRSRO-DI_1">
@@ -2775,17 +2873,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -2807,79 +2905,91 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/6/1991</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
@@ -2942,24 +3052,28 @@
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <soil name="M Block92">
         <Site>HRS</Site>
         <Region>Warwick</Region>
@@ -3290,17 +3404,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -3322,79 +3436,91 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/6/1991</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
@@ -3481,24 +3607,28 @@
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <soil name="M Block92">
         <Site>HRS</Site>
         <Region>Warwick</Region>
@@ -3829,17 +3959,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -3861,54 +3991,64 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">11/07/2005</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Mackay</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">20</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <soil name="Bay 0">
         <Site>Kingsthorpe</Site>
         <Region>Jondaryan</Region>
@@ -4222,55 +4362,62 @@
         <EnrBCoeff>0.2</EnrBCoeff>
       </soil>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">1800</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.8</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
     </area>
   </simulation>
   <simulation name="Barley_Well360_1">
@@ -4289,17 +4436,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -4321,54 +4468,64 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">29/06/1993</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">130</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <soil name="Bay 4">
         <Site>Wellcamp</Site>
         <Region>Jondaryan</Region>
@@ -4598,49 +4755,56 @@
         <EnrBCoeff>0.2</EnrBCoeff>
       </soil>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
-      <logic name="Irrigator">
+      </manager>
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <automatic_irrigation type="text" description="switch">on</automatic_irrigation>
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">1800</asw_depth>
@@ -4665,17 +4829,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -4697,54 +4861,64 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">12/03/1988</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">120.9</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <soil name="Bay 0">
         <Site>Roma</Site>
         <Region>Roma</Region>
@@ -5058,55 +5232,62 @@
         <EnrBCoeff>0.2</EnrBCoeff>
       </soil>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
     </area>
   </simulation>
   <simulation name="Barley_R88-1MP_1">
@@ -5125,17 +5306,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -5157,104 +5338,121 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">12/03/1988</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">46.4</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <soil name="Bay 0">
         <Site>Roma</Site>
         <Region>Roma</Region>
@@ -5585,17 +5783,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -5617,104 +5815,121 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">21/04/1988</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">179.51</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <soil name="Bay 0">
         <Site>Roma</Site>
         <Region>Roma</Region>
@@ -6045,17 +6260,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -6077,104 +6292,121 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">21/04/1988</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">63.3</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <soil name="Bay 0">
         <Site>Roma</Site>
         <Region>Roma</Region>
@@ -6505,17 +6737,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -6537,104 +6769,121 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">11/05/1988</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">175.3</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <soil name="Bay 0">
         <Site>Roma</Site>
         <Region>Roma</Region>
@@ -6965,17 +7214,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -6997,104 +7246,121 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">11/05/1988</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">66.6</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <soil name="Bay 0">
         <Site>Roma</Site>
         <Region>Roma</Region>
@@ -7425,17 +7691,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -7457,104 +7723,121 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">8/06/1988</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">169.98</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <soil name="Bay 0">
         <Site>Roma</Site>
         <Region>Roma</Region>
@@ -7885,17 +8168,17 @@
       <outputfile name="outputfile">
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="No" />
-          <variable name="barley.das" description="Days after Sowing" array="No" />
+          <variable name="barley.DaysAfterSowing" description="Days after Sowing" array="No" />
           <variable name="barley.stage" description="Plant stage" array="No" />
           <variable name="barley.biomass_wt" description="Biomass weight" array="No" />
-          <variable name="barley.leaf_wt as dmLeaf" description="Weight of Leaf" array="No" />
-          <variable name="barley.stem_wt as dmStem " description="Weight of Stem" array="No" />
+          <variable name="barley.LeafGreenWt as dmLeaf" description="Weight of Leaf" array="No" />
+          <variable name="barley.StemGreenWt as dmStem " description="Weight of Stem" array="No" />
           <variable name="barley.grain_wt as dmGrain" description="Weight of grain" array="No" />
           <variable name="barley.biomass_n as nBiomass" description="N in total biomass" array="No" />
-          <variable name="barley.stem_n as nStem" description="N in stems" array="No" />
-          <variable name="barley.n_green(4) as nRachis" description="N in green" array="No" />
+          <variable name="barley.StemGreenN as nStem" description="N in stems" array="No" />
+          <variable name="barley.PodGreenN as nRachis" description="N in green" array="No" />
           <variable name="barley.grain_n as nGrain" description="N in grain" array="No" />
-          <variable name="barley.n_senesced() as nSenLeaf" description="N in senesced" array="Yes" />
+          <variable name="barley.SenescedN as nSenLeaf" description="N in senesced" array="Yes" />
           <variable name="barley.n_conc_grain as nConcGrain" description="N concentration in grain" array="No" />
           <variable name="barley.grain_no" description="Grain number" array="No" />
           <variable name="barley.lai" description="Leaf area index" array="No" />
@@ -7917,104 +8200,121 @@
         </variables>
         <events name="My Variables Events" />
       </outputfile>
-      <manager name="Manager">
-        <rule name="Sow on a fixed date">
-          <condition name="start_of_day">
+      <folder name="Manager folder">
+        <manager name="Sow on a fixed date">
+          <script>
+            <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
          endif
-           </condition>
-          <category name="Sowing criteria">
+           </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sowing criteria" />
             <date type="text" description="Enter sowing date (d/m/yyyy) : ">8/06/1988</date>
-          </category>
-          <category name="Sowing parameters">
+            <category name="Sowing parameters" />
             <crop type="modulename" description="Enter name of crop to sow : ">barley</crop>
             <density type="text" description="Enter sowing density  (plants/m2) : ">76.4</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Grimmett</cultivar>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-          </category>
-        </rule>
-        <rule name="Harvesting rule">
-          <condition name="end_of_day">
+          </ui>
+        </manager>
+        <manager name="Harvesting rule">
+          <script>
+            <text>
              if (paddock_is_fallow() = 0) then
                outputfile do_output
             endif 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">barley</crop>
-          </category>
-        </rule>
-        <rule name="Fertilise at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Fertilise at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">barley</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">80</fert_amount_sow>
             <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
       <barley />
-      <logic name="Calculator">
+      <manager name="Calculator">
         <script>
           <event>init</event>
           <text>sd = 0</text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
-      </logic>
+      </manager>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">off</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <logic name="Irrigator">
+      <manager name="Irrigator">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <fertiliser name="fertiliser" />
-      <logic name="Fertilizer">
+      <manager name="Fertilizer">
         <script>
           <event>init</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>start_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
         <script>
           <event>end_of_day</event>
-          <text />
+          <text>
+          </text>
         </script>
-      </logic>
+      </manager>
       <soil name="Bay 0">
         <Site>Roma</Site>
         <Region>Roma</Region>

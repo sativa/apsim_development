@@ -19,7 +19,7 @@ if day = 330 and year  = 1988 then
    peanut sow cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
 endif
 
-if peanut.stage_name = 'harvest_ripe' or peanut.plant_status = 'dead' then
+if peanut.StageName = 'harvest_ripe' or peanut.plant_status = 'dead' then
    peanut harvest
    peanut end_crop   
 
