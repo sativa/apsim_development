@@ -1,0 +1,59 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+Version                = 6.1
+Title                  = YPBase
+Component      "Clock" = C:\development\apsim\clock\lib\clock.dll
+Component        "Met" = C:\development\apsim\siloinput\lib\siloinput.dll
+Component "PatchInput" = C:\development\apsim\PatchInput\lib\PatchInput.dll
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot open file: C:\Users\hol353\ApsimWork\YieldProphet\grower.rain. File doesn't exist
+     Component name: PatchInput
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+Paddock:
+Component     "Yearly" = C:\development\apsim\report\lib\report.dll
+Component      "Daily" = C:\development\apsim\report\lib\report.dll
+Component     "Decile" = C:\development\apsim\report\lib\report.dll
+Component "FutureRain" = C:\development\apsim\report\lib\report.dll
+Component      "accum" = C:\development\apsim\accum\lib\accum.dll
+Component "Fertiliser" = C:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = C:\development\apsim\irrigate\lib\irrigate.dll
+Component "GrossMargin" = C:\development\apsim\manager\lib\manager.dll
+Component      "Reset" = C:\development\apsim\manager\lib\manager.dll
+Component        "Sow" = C:\development\apsim\manager\lib\manager.dll
+Component "Sowing tillage" = C:\development\apsim\manager\lib\manager.dll
+Component    "Harvest" = C:\development\apsim\manager\lib\manager.dll
+Component "Yield moisture correction" = C:\development\apsim\manager\lib\manager.dll
+Component  "MildFrost" = C:\development\apsim\manager\lib\manager.dll
+Component "ModerateFrost" = C:\development\apsim\manager\lib\manager.dll
+Component "SevereFrost" = C:\development\apsim\manager\lib\manager.dll
+Component "MildHeatShock" = C:\development\apsim\manager\lib\manager.dll
+Component "ModerateHeatShock" = C:\development\apsim\manager\lib\manager.dll
+Component "SevereHeatShock" = C:\development\apsim\manager\lib\manager.dll
+Component  "Fertilise" = C:\development\apsim\manager\lib\manager.dll
+Component   "Irrigate" = C:\development\apsim\manager\lib\manager.dll
+Component    "Tillage" = C:\development\apsim\manager\lib\manager.dll
+Component  "Constants" = C:\development\apsim\manager\lib\manager.dll
+Component     "Script" = C:\development\apsim\manager\lib\manager.dll
+Component "CanolaOilConc" = C:\development\apsim\manager\lib\manager.dll
+Component "StubbleRemoved" = C:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = C:\development\apsim\surfaceom\lib\surfaceom.dll
+Component    "Erosion" = C:\development\apsim\erosion\lib\erosion.dll
+Component "Soil Nitrogen" = C:\development\apsim\soiln2\lib\soiln2.dll
+Component      "Wheat" = C:\development\apsim\plant\lib\plant.dll
+Component    "Tracker" = C:\development\apsim\tracker\lib\tracker.dll
+Component     "YPCalc" = C:\development\apsim\YieldProphet\lib\YPCalc.dll
+------- Start of simulation  --------------------------------------------------
