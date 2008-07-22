@@ -126,7 +126,7 @@ namespace CSGeneral
             StartProcess();
 
             // Wait for the process to end, or cancel it
-            while (!process.HasExited && !StdOutFinished && !StdErrFinished)
+            while (!process.HasExited || !StdOutFinished || !StdErrFinished)
             {
                 Thread.Sleep(SleepTime); // sleep
                 if (CancelRequested)
