@@ -1,4 +1,4 @@
-<folder version="12" name="Standard Toolbox">
+<folder version="14" name="Standard Toolbox">
   <soilwatkludge name="soilwatkludge">
     <mwcon>1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</mwcon>
     <max_pond>100</max_pond>
@@ -140,72 +140,66 @@
     </AusfarmPasture>
     <fieldpea />
     <grasp name="Grasp">
-<category name="Initial values at establishment" />
-<root_depth_init description="Initial depth of roots (mm)">750</root_depth_init>
-
-<dm_dead_leaf_init description="Initial Dead Leaf weight (kg/ha)">0</dm_dead_leaf_init>
-<dm_dead_stem_init description="Initial Dead Stem weight (kg/ha)">0</dm_dead_stem_init>
-<dm_dead_root_init description="Initial Dead Root weight (kg/ha)">0</dm_dead_root_init>
-<dm_green_leaf_init description="Initial Green Leaf weight (p135, kg/ha)">0</dm_green_leaf_init>
-<dm_green_stem_init description="Initial Green Stem weight (p136, kg/ha)">0</dm_green_stem_init>
-<dm_green_root_init description="Initial Green Root weight (kg/ha)">0</dm_green_root_init>
-<basal_area_init description="Initial Basal area of tussocks (p005, %)">0.5</basal_area_init>
-<acc_trans_for_n_init description="Initial accumulated transpiration, used for N uptake (mm)">0</acc_trans_for_n_init>
-<acc_growth_for_n_init description="Initial accumulated growth, used for N uptake (kg/ha)">0</acc_growth_for_n_init>
-
-<category name="Soil Properties" />
-<max_n_avail description="Limit to total N (p099, kg/year)">15</max_n_avail>
-<max_n_avail_dist description="Distribution of N in profile">0.8 0.1 0.05  0.05  0.0 0.0  0.0</max_n_avail_dist>
-<ll description="Lower limit (ll) of water extraction (mm/mm)">.230     .240    .240    .250 .260 .270 .280</ll>
-<kl description="Rate of water extraction (kl)">0.5      0.5      0.5    0.5  0.0  0.0  0.0</kl>
-<kl2rlv>1.0</kl2rlv>
-
-<category name="Parameter values" />
-<crop_type>grass</crop_type>
-<uptake_source>calc</uptake_source>
-
-<height_max description="Maximum canopy height (mm)">1200</height_max>
-<hgt_vpd_screen description="Height at which surface effects on vpd are 0 (p095*10, mm)">200</hgt_vpd_screen>
-<height_1000kg description="Sward Height per tonne (p096*10, mm)">100</height_1000kg>
-<et_use_efficiency description="Evapotranspiration use efficiency used in BA calc (p288, kg/ha/mm) (p288)">0</et_use_efficiency>
-<frac_leaf2total description="Fraction of total dm produced that goes into leaf pool (p123,0-1)">0.5</frac_leaf2total>
-<yld_cover_slope description="Shape of exponential curve relating yield and cover">0.693147</yld_cover_slope>
-<yld_fpc50 description="yld_fpc50 (p046)">1000</yld_fpc50>
-<yld_cov50 description="Yield transpiring at 50% of pan evap (p045)">1000</yld_cov50>
-<yld_tcov50 description="Tsdm yield at which cover for runoff is 50% (p271)">1000</yld_tcov50>
-<swi_fullgreen description="Min soil water for 100% green (p009)">0.1</swi_fullgreen>
-<swi_nogrow description="SWI when growth stops (swi_nogrow)">0.4</swi_nogrow>
-<pot_regrow description="Max rate regrowth from tussocks (p006, kg/ha/unit grass ba)">3.0</pot_regrow>
-<te_std description="Transpiration efficiency at vpd=20mb (p007)">10.0</te_std>
-<rad_factor>8.97</rad_factor>
-<residual_plant_N description="Always this much n in plant (p097, kg/ha)">5</residual_plant_N>
-<litter_n description="N conc of detached stems and roots ((p110-p111)/2)">0.3</litter_n>
-<n_uptk_per100 description="Nitrogen uptake per 100mm water (p098, kg/ha)">5</n_uptk_per100>
-<frost_start description="Minimum screen temp at which green cover=100% (p125, oC)">2</frost_start>
-<frost_kill description="Minimum screen temp at which frost kills all green (p011, oC)">0</frost_kill>
-<death_slope description="Rate of green death per soil water (p051)">0.013</death_slope>
-<death_intercept description="Background death rate (p010)">0.002</death_intercept>
-<leaf_death_ratio description="Proportion of leaf death to total death (p133)">1</leaf_death_ratio>
-<stem_death_ratio description="Proportion of stem death to total death (p134)">1</stem_death_ratio>
-<n_conc_dm_crit description="Level of plant N at which no N stress occurs (p102)">2.5</n_conc_dm_crit>
-<n_conc_dm_min description="Level of soil N at which no N stress occurs (p101)">0.4</n_conc_dm_min>
-<n_conc_dm_max description="Level of soil N at which soil N to high for growth (p100)">0.5</n_conc_dm_max>
-<stem_thresh description="stem_thresh (p124)">0</stem_thresh>
-
-<detach_dryseason description="detach_dryseason: root, leaf, stem">0.0   0.002     0.002</detach_dryseason>
-<detach_wetseason description="detach_wetseason: root, leaf, stem">0.0   0.002     0.002</detach_wetseason>
-
-<category name="Date resets" />
-<day_start_summer>335</day_start_summer>
-<day_end_summer>59</day_end_summer>
-<acc_et_reset>273</acc_et_reset>
-<acc_growth_reset>273</acc_growth_reset>
-<trans_for_n_reset>273</trans_for_n_reset>
-<growth_for_n_reset>273</growth_for_n_reset>
-<day_start_wet>274</day_start_wet>
-<day_start_dry>91</day_start_dry>
-<enr_a_coeff>7.4</enr_a_coeff>
-<enr_b_coeff>0.2</enr_b_coeff>
+      <category name="Initial values at establishment" />
+      <root_depth_init description="Initial depth of roots (mm)">750</root_depth_init>
+      <dm_dead_leaf_init description="Initial Dead Leaf weight (kg/ha)">0</dm_dead_leaf_init>
+      <dm_dead_stem_init description="Initial Dead Stem weight (kg/ha)">0</dm_dead_stem_init>
+      <dm_dead_root_init description="Initial Dead Root weight (kg/ha)">0</dm_dead_root_init>
+      <dm_green_leaf_init description="Initial Green Leaf weight (p135, kg/ha)">0</dm_green_leaf_init>
+      <dm_green_stem_init description="Initial Green Stem weight (p136, kg/ha)">0</dm_green_stem_init>
+      <dm_green_root_init description="Initial Green Root weight (kg/ha)">0</dm_green_root_init>
+      <basal_area_init description="Initial Basal area of tussocks (p005, %)">0.5</basal_area_init>
+      <acc_trans_for_n_init description="Initial accumulated transpiration, used for N uptake (mm)">0</acc_trans_for_n_init>
+      <acc_growth_for_n_init description="Initial accumulated growth, used for N uptake (kg/ha)">0</acc_growth_for_n_init>
+      <category name="Soil Properties" />
+      <max_n_avail description="Limit to total N (p099, kg/year)">15</max_n_avail>
+      <max_n_avail_dist description="Distribution of N in profile">0.8 0.1 0.05  0.05  0.0 0.0  0.0</max_n_avail_dist>
+      <ll description="Lower limit (ll) of water extraction (mm/mm)">.230     .240    .240    .250 .260 .270 .280</ll>
+      <kl description="Rate of water extraction (kl)">0.5      0.5      0.5    0.5  0.0  0.0  0.0</kl>
+      <kl2rlv>1.0</kl2rlv>
+      <category name="Parameter values" />
+      <crop_type>grass</crop_type>
+      <uptake_source>calc</uptake_source>
+      <height_max description="Maximum canopy height (mm)">1200</height_max>
+      <hgt_vpd_screen description="Height at which surface effects on vpd are 0 (p095*10, mm)">200</hgt_vpd_screen>
+      <height_1000kg description="Sward Height per tonne (p096*10, mm)">100</height_1000kg>
+      <et_use_efficiency description="Evapotranspiration use efficiency used in BA calc (p288, kg/ha/mm) (p288)">0</et_use_efficiency>
+      <frac_leaf2total description="Fraction of total dm produced that goes into leaf pool (p123,0-1)">0.5</frac_leaf2total>
+      <yld_cover_slope description="Shape of exponential curve relating yield and cover">0.693147</yld_cover_slope>
+      <yld_fpc50 description="yld_fpc50 (p046)">1000</yld_fpc50>
+      <yld_cov50 description="Yield transpiring at 50% of pan evap (p045)">1000</yld_cov50>
+      <yld_tcov50 description="Tsdm yield at which cover for runoff is 50% (p271)">1000</yld_tcov50>
+      <swi_fullgreen description="Min soil water for 100% green (p009)">0.1</swi_fullgreen>
+      <swi_nogrow description="SWI when growth stops (swi_nogrow)">0.4</swi_nogrow>
+      <pot_regrow description="Max rate regrowth from tussocks (p006, kg/ha/unit grass ba)">3.0</pot_regrow>
+      <te_std description="Transpiration efficiency at vpd=20mb (p007)">10.0</te_std>
+      <rad_factor>8.97</rad_factor>
+      <residual_plant_N description="Always this much n in plant (p097, kg/ha)">5</residual_plant_N>
+      <litter_n description="N conc of detached stems and roots ((p110-p111)/2)">0.3</litter_n>
+      <n_uptk_per100 description="Nitrogen uptake per 100mm water (p098, kg/ha)">5</n_uptk_per100>
+      <frost_start description="Minimum screen temp at which green cover=100% (p125, oC)">2</frost_start>
+      <frost_kill description="Minimum screen temp at which frost kills all green (p011, oC)">0</frost_kill>
+      <death_slope description="Rate of green death per soil water (p051)">0.013</death_slope>
+      <death_intercept description="Background death rate (p010)">0.002</death_intercept>
+      <leaf_death_ratio description="Proportion of leaf death to total death (p133)">1</leaf_death_ratio>
+      <stem_death_ratio description="Proportion of stem death to total death (p134)">1</stem_death_ratio>
+      <n_conc_dm_crit description="Level of plant N at which no N stress occurs (p102)">2.5</n_conc_dm_crit>
+      <n_conc_dm_min description="Level of soil N at which no N stress occurs (p101)">0.4</n_conc_dm_min>
+      <n_conc_dm_max description="Level of soil N at which soil N to high for growth (p100)">0.5</n_conc_dm_max>
+      <stem_thresh description="stem_thresh (p124)">0</stem_thresh>
+      <detach_dryseason description="detach_dryseason: root, leaf, stem">0.0   0.002     0.002</detach_dryseason>
+      <detach_wetseason description="detach_wetseason: root, leaf, stem">0.0   0.002     0.002</detach_wetseason>
+      <category name="Date resets" />
+      <day_start_summer>335</day_start_summer>
+      <day_end_summer>59</day_end_summer>
+      <acc_et_reset>273</acc_et_reset>
+      <acc_growth_reset>273</acc_growth_reset>
+      <trans_for_n_reset>273</trans_for_n_reset>
+      <growth_for_n_reset>273</growth_for_n_reset>
+      <day_start_wet>274</day_start_wet>
+      <day_start_dry>91</day_start_dry>
+      <enr_a_coeff>7.4</enr_a_coeff>
+      <enr_b_coeff>0.2</enr_b_coeff>
     </grasp>
     <horsegram />
     <lablab />
@@ -255,71 +249,71 @@
     <wheat />
   </folder>
   <folder name="Soil related">
-     <InitWater>
-       <percentmethod>
-         <percent>1</percent>
-         <distributed>filled from top</distributed>
-       </percentmethod>
-     </InitWater>
-     <InitNitrogen>
-       <profile>
-         <layer>
-           <no3>6.503</no3>
-           <nh4>0.599</nh4>
-           <thickness>150</thickness>
-         </layer>
-         <layer>
-           <no3>2.101</no3>
-           <nh4>0.100</nh4>
-           <thickness>150</thickness>
-         </layer>
-         <layer>
-           <no3>2.101</no3>
-           <nh4>0.100</nh4>
-           <thickness>300</thickness>
-         </layer>
-         <layer>
-           <no3>1.701</no3>
-           <nh4>0.100</nh4>
-           <thickness>300</thickness>
-         </layer>
-         <layer>
-           <no3>1.701</no3>
-           <nh4>0.100</nh4>
-           <thickness>300</thickness>
-         </layer>
-         <layer>
-           <no3>1.701</no3>
-           <nh4>0.100</nh4>
-           <thickness>300</thickness>
-         </layer>
-         <layer>
-           <no3>1.701</no3>
-           <nh4>0.100</nh4>
-           <thickness>300</thickness>
-         </layer>
-         <layer>
-           <no3>1.701</no3>
-           <nh4>0.100</nh4>
-           <thickness>300</thickness>
-         </layer>
-         <layer>
-           <no3>1.701</no3>
-           <nh4>0.100</nh4>
-           <thickness>300</thickness>
-         </layer>
-         <layer>
-           <no3>1.701</no3>
-           <nh4>0.100</nh4>
-           <thickness>300</thickness>
-         </layer>
-         <layer>
-           <no3>1.701</no3>
-           <nh4>0.100</nh4>
-           <thickness>300</thickness>
-         </layer>
-       </profile>
-     </InitNitrogen>
+    <InitWater>
+      <percentmethod>
+        <percent>1</percent>
+        <distributed>filled from top</distributed>
+      </percentmethod>
+    </InitWater>
+    <InitNitrogen>
+      <profile>
+        <layer>
+          <no3>6.503</no3>
+          <nh4>0.599</nh4>
+          <thickness>150</thickness>
+        </layer>
+        <layer>
+          <no3>2.101</no3>
+          <nh4>0.100</nh4>
+          <thickness>150</thickness>
+        </layer>
+        <layer>
+          <no3>2.101</no3>
+          <nh4>0.100</nh4>
+          <thickness>300</thickness>
+        </layer>
+        <layer>
+          <no3>1.701</no3>
+          <nh4>0.100</nh4>
+          <thickness>300</thickness>
+        </layer>
+        <layer>
+          <no3>1.701</no3>
+          <nh4>0.100</nh4>
+          <thickness>300</thickness>
+        </layer>
+        <layer>
+          <no3>1.701</no3>
+          <nh4>0.100</nh4>
+          <thickness>300</thickness>
+        </layer>
+        <layer>
+          <no3>1.701</no3>
+          <nh4>0.100</nh4>
+          <thickness>300</thickness>
+        </layer>
+        <layer>
+          <no3>1.701</no3>
+          <nh4>0.100</nh4>
+          <thickness>300</thickness>
+        </layer>
+        <layer>
+          <no3>1.701</no3>
+          <nh4>0.100</nh4>
+          <thickness>300</thickness>
+        </layer>
+        <layer>
+          <no3>1.701</no3>
+          <nh4>0.100</nh4>
+          <thickness>300</thickness>
+        </layer>
+        <layer>
+          <no3>1.701</no3>
+          <nh4>0.100</nh4>
+          <thickness>300</thickness>
+        </layer>
+      </profile>
+    </InitNitrogen>
     <surfaceom name="Surface Organic Matter">
       <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
       <type type="list" description="Organic Matter type" listvalues="bambatsi,barley,base_type,broccoli,camaldulensis,canola,centro,chickpea,chikenmanure_base,cm,cmA,cmB,constants,cotton,cowpea,danthonia,fababean,fieldpea,fym,gbean,globulus,goatmanure,grandis,grass,horsegram,inert,lablab,lentil,lucerne,lupin,maize,manB,manure,medic,millet,mucuna,nativepasture,navybean,oats,orobanche,peanut,pigeonpea,potato,rice,sorghum,soybean,stylo,sugar,sunflower,sweetcorn,sweetsorghum,tillage,tithonia,vetch,weed,wheat">wheat</type>
@@ -383,7 +377,7 @@
       <filename name="filename">
       </filename>
     </patchinput>
-    <input/>
+    <input />
     <siloinput>
       <station_number>
       </station_number>
@@ -563,8 +557,8 @@
                dah = 0
 
                ! Set harvest dates for each crop phase
-               if (sugar.das = [plantlen] and ratoon_no = 0) or
-                  (sugar.das = [ratoonlen] and ratoon_no > 0) then
+               if (sugar.DaysAfterSowing = [plantlen] and ratoon_no = 0) or
+                  (sugar.DaysAfterSowing = [ratoonlen] and ratoon_no > 0) then
 
                   sugar harvest
 
@@ -623,7 +617,7 @@
         </script>
         <script name="end_of_day">
           <text><![CDATA[
-             if [crop].stage_name = 'flowering'  then
+             if [crop].StageName = 'flowering'  then
                 [crop]  harvest height = [harvest_ht]
               endif
               if today= date('[killdate]') and [crop].plant_status <>'out' then
@@ -675,8 +669,8 @@
           <event>start_of_day</event>
         </script>
         <script>
-        <text><![CDATA[
-                if [crop].stage_name = 'flowering'  then
+          <text><![CDATA[
+                if [crop].StageName = 'flowering'  then
              [crop]  harvest height = [harvest_ht]
         endif
         if today= date('[killdate]') and [crop].plant_status <>'out' then
@@ -719,12 +713,11 @@
               if ([crop].ozcot_status > 0) then
                   [crop] harvest
               endif
-           elseif ([crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead') then
+           elseif ([crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead') then
               [crop]  harvest
               [crop]  end_crop
            endif
-]]>
-            </text>
+]]></text>
           <event>end_of_day</event>
         </script>
         <ui>
@@ -794,10 +787,10 @@
         </text>
           <event>init</event>
         </script>
-       <script>
-          <text><![CDATA[
+        <script>
+          <text>
             fert_applied[zadok_fert_stage_begin][zadok_fert_stage_end] = 0
-        ]]></text>
+        </text>
           <event>sowing</event>
         </script>
         <script>
@@ -849,7 +842,7 @@
       <manager name="Fertilise on days after sowing - top up">
         <script>
           <text>
-         if ([modulename].das = [fert_das]) then
+         if ([modulename].DaysAfterSowing = [fert_das]) then
             N_deficit = [fert_criteria] - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
             '[fertmodule]' apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type] ()
          endif </text>
@@ -1044,7 +1037,7 @@
           <event>init</event>
         </script>
         <script>
-          <text><![CDATA[
+          <text>
       if (ChooseNextCrop = 'yes') then
          if (NextCropIndex = 1) then
             NextCrop = '[crop1]'
@@ -1124,7 +1117,7 @@
          SummerFallowIn = 'no'
          FallowIn = 'no'
       endif
-      ]]></text>
+      </text>
           <event>start_of_day</event>
         </script>
         <ui>
@@ -1208,7 +1201,7 @@
            endif
 
            ! Add harvest return to the bank
-           if stage_name = 'harvest_ripe' or plant_status = 'dead' then
+           if StageName = 'harvest_ripe' or plant_status = 'dead' then
               FullPrice = [Price] + (grain_protein - [MinimumProtein]) * 2 * [ProteinIncrement]
               Bank = Bank + FullPrice * (WetYield / 1000)
               ResetBank = 1
@@ -1251,8 +1244,8 @@
       <manager name="Create a yes/no variable when within x TT of start of a crop stage">
         <script>
           <text><![CDATA[
-            if (stage_name = '[StageName]') then
-               TTFromStart[StageName] = TTFromStart[StageName] + dlt_tt
+            if (StageName = '[StageName]') then
+               TTFromStart[StageName] = TTFromStart[StageName] + TT
                [OutputVariableName] = 'yes'
                if (TTFromStart[StageName] > [TT]) then
                   [OutputVariableName] = 'no'
@@ -1388,7 +1381,7 @@
             <event>init</event>
           </script>
           <script>
-            <text><![CDATA[
+            <text>
          if ([crop]_to_harvest = 1) then
             [crop] harvest, remove=[fraction_to_remove]
             [crop] kill_crop
@@ -1409,12 +1402,13 @@
             endif
          endif
 
-         if ([crop].stage_name = 'harvest_ripe' OR [crop].plant_status = 'dead') then
+         if ([crop].StageName = 'harvest_ripe' OR [crop].plant_status = 'dead') then
             [crop]_to_harvest = 1
          endif
-            ]]></text>
+            </text>
             <event>end_of_day</event>
-          </script>          <ui>
+          </script>
+          <ui>
             <category name="Harvesting criteria" />
             <crop type="crop" description="Enter name of crop to harvest when ripe : ">maize</crop>
             <fraction_to_remove type="text" description="Enter fraction of stover to remove (not for maize): ">0.0</fraction_to_remove>
@@ -1443,13 +1437,13 @@
             <event>init</event>
           </script>
           <script>
-            <text><![CDATA[
-         if [crop].stage_name = last_stage_name  then
+            <text>
+         if [crop].StageName = last_stage_name  then
          else
             '[outputfile]' do_output
          endif
-         last_stage_name = [crop].stage_name
-            ]]></text>
+         last_stage_name = [crop].StageName
+            </text>
             <event>end_of_day</event>
           </script>
           <ui>
@@ -1461,11 +1455,11 @@
         <manager name="Output at specified phenological stage">
           <script>
             <text>
-         if [crop].stage_name = [stage_name]  then
+         if [crop].StageName = [StageName]  then
          else
             '[outputfile]' do_output
          endif
-         last_stage_name = [crop].stage_name
+         last_stage_name = [crop].StageName
             </text>
             <event>end_of_day</event>
           </script>
@@ -1498,14 +1492,14 @@
             <event>init</event>
           </script>
           <script>
-            <text><![CDATA[
+            <text>
 
          if (date_within('[date1], [date2]') = 1) THEN
          else
             wht_sow_opp_num = 0
             wht_sow_opp_days = 0
          endif
-         ]]></text>
+         </text>
             <event>end_of_day</event>
           </script>
           <script>
@@ -1699,7 +1693,7 @@
          endif
          ! apply topdress fertiliser
          if ([fert_amount_TopDress] > 0.0) then
-            if ([crop].das = [fert_days_TopDress]) then
+            if ([crop].DaysAfterSowing = [fert_days_TopDress]) then
                fertiliser apply amount = [fert_amount_TopDress] (kg/ha), depth = 50 (mm), type = [fert_type_TopDress] ()
             else
             endif
@@ -1708,7 +1702,6 @@
          ]]></text>
             <event>process</event>
           </script>
-
           <ui>
             <category name="Crop properties" />
             <crop description="Name of this crop" type="crop">maize</crop>
@@ -1899,7 +1892,6 @@
             ]]></text>
             <event>end_of_day</event>
           </script>
-
           <ui>
             <category name="Crop properties" />
             <crop type="crop" description="Name of this crop">weed</crop>
@@ -1955,7 +1947,7 @@
             <event>init</event>
           </script>
           <script>
-            <text><![CDATA[
+            <text>
          if (ready_for_next = 1) then
             if      (next = 1) THEN
                next_crop = '[crop01]'
@@ -2083,7 +2075,7 @@
             endif
          endif
 
-      ]]></text>
+      </text>
             <event>start_of_day</event>
           </script>
           <ui>
@@ -2216,12 +2208,12 @@
           </script>
           <script>
             <text><![CDATA[
-         if [crop].stage_name <> last_stage_name  then
-            if ([crop].stage_name = 'out') then
+         if [crop].StageName <> last_stage_name  then
+            if ([crop].StageName = 'out') then
                '[surfaceommodule]' tillage type = user_defined, f_incorp = [fraction] (), tillage_depth = 0.0 ()
             endif
          endif
-         last_stage_name = [crop].stage_name
+         last_stage_name = [crop].StageName
             ]]></text>
             <event>start_of_day</event>
           </script>
@@ -2244,14 +2236,15 @@
             <event>init</event>
           </script>
           <script>
-            <text><![CDATA[
+            <text>
         if (today = date('[buy_date]') then
            [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
            cattle_presence = 'on'
          endif
-               ]]></text>
+               </text>
             <event>start_of_day</event>
-          </script>          <ui>
+          </script>
+          <ui>
             <category name="Buy properties" />
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
@@ -2270,12 +2263,12 @@
             <event>init</event>
           </script>
           <script>
-            <text><![CDATA[
-        if (das = [buy_das]) then
+            <text>
+        if (DaysAfterSowing = [buy_das]) then
            [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
            cattle_presence = 'on'
          endif
-               ]]></text>
+               </text>
             <event>start_of_day</event>
           </script>
           <ui>
@@ -2297,7 +2290,7 @@
             <event>init</event>
           </script>
           <script>
-            <text><![CDATA[
+            <text>
          if (today = date('[move_date]') then
                stockage = [sellpaddock].age_all/30.4375
                stockwt = [sellpaddock].weight_all
@@ -2305,7 +2298,7 @@
                [sellpaddock] sellstock number = stocknumber (-)
                [buypaddock] buystock number = stocknumber (-), genotype = '[genotype]', sex = [sex], age = stockage (months), weight = stockwt (kg)
         endif
-        ]]></text>
+        </text>
             <event>start_of_day</event>
           </script>
           <ui>
@@ -2325,7 +2318,7 @@
           </script>
           <script>
             <text><![CDATA[
-          if (([sellpaddock].wt_change_all <= [minimum_wt_change] OR [buypaddock].stage_name = 'flowering') AND [sellpaddock]_cattle_presence = 'on') then
+          if (([sellpaddock].wt_change_all <= [minimum_wt_change] OR [buypaddock].StageName = 'flowering') AND [sellpaddock]_cattle_presence = 'on') then
                stockage = [sellpaddock].age_all/30.4375
                stockwt = [sellpaddock].weight_all
                stocknumber = [sellpaddock].number_all
@@ -2385,7 +2378,7 @@
           <script>
             <text><![CDATA[
            if ('[paddockname]' = 'nil') then
-              if (stage_name = 'out') then
+              if (StageName = 'out') then
                  buy_count = 0
               endif
               if ([herbage_module].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off' AND buy_count = 0) then
@@ -2394,7 +2387,7 @@
                  buy_count = buy_count + 1
               endif
            else
-              if ([paddockname].stage_name = 'out') then
+              if ([paddockname].StageName = 'out') then
                  buy_count = 0
               endif
               if ([paddockname].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off' AND buy_count = 0) then
@@ -2638,12 +2631,12 @@
             <event>init</event>
           </script>
           <script>
-            <text><![CDATA[
+            <text>
         if (today = date('[buy_date]') then
            [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
            sheep_presence = 'on'
          endif
-               ]]></text>
+               </text>
             <event>start_of_day</event>
           </script>
           <ui>
@@ -2703,10 +2696,10 @@
             else
                grazing_days = 0
             endif
-            feed_on_offer = ([herbage_module].dm_green(2) + [herbage_module].dm_green(3) * stem_discount) * gpsm2kgpha
-            if ((([herbage_module].stage_code >= 5) or (feed_on_offer  > [buy_green_leaf_on_offer])) and (sheep_presence = 'off')) then
-                leaf = [herbage_module].dm_green(2) + [herbage_module].dlt_dm_green(2)*[est_grazing_days]
-                stem = [herbage_module].dm_green(3) + [herbage_module].dlt_dm_green(3)*[est_grazing_days]
+            feed_on_offer = ([herbage_module].GreenWt2) + [herbage_module].GreenWt3) * stem_discount) * gpsm2kgpha
+            if ((([herbage_module].Stage >= 5) or (feed_on_offer  > [buy_green_leaf_on_offer])) and (sheep_presence = 'off')) then
+                leaf = [herbage_module].GreenWt2) + [herbage_module].dlt_dm_green(2)*[est_grazing_days]
+                stem = [herbage_module].GreenWt3) + [herbage_module].dlt_dm_green(3)*[est_grazing_days]
                 stock_in = ((leaf + stem * stem_discount) * gpsm2kgpha / ([est_grazing_days] * [est_intake_day]) + 0.5)
 
                 if (stock_in >= [min_buy_number]) then
@@ -2779,7 +2772,7 @@
           </script>
           <script>
             <text><![CDATA[
-           feed_on_offer = ([herbage_module].dm_green(2) + [herbage_module].dm_green(3) * stem_discount) * gpsm2kgpha
+           feed_on_offer = ([herbage_module].GreenWt2) + [herbage_module].GreenWt3) * stem_discount) * gpsm2kgpha
             if (feed_on_offer < [sell_on_green_leaf] and sheep_presence = 'on') then
                 stock_sell = [stock_module].number_all
                 [stockmodule] sellstock number = stock_sell
@@ -3085,26 +3078,26 @@
     <folder name="Tcl">
       <tclmanager name="TCL Manager (standalone)">
         <rule name="Logic">
-         <script name="init">
-           <text>
-           </text>
-           <event>init</event>
-         </script>
-         <script name="prepare">
-           <text>
-           </text>
-           <event>prepare</event>
-         </script>
-         <script name="exit">
-           <text>
-           </text>
-           <event>exit</event>
-         </script>
+          <script name="init">
+            <text>
+            </text>
+            <event>init</event>
+          </script>
+          <script name="prepare">
+            <text>
+            </text>
+            <event>prepare</event>
+          </script>
+          <script name="exit">
+            <text>
+            </text>
+            <event>exit</event>
+          </script>
         </rule>
         <rule name="Debugger">
           <script name="init">
-          <event>init</event>
-          <text><![CDATA[package require Tk
+            <event>init</event>
+            <text><![CDATA[package require Tk
 wm withdraw .
 
 package require tkcon
@@ -3134,10 +3127,9 @@ proc link {apsimName tclName} {
 proc getLinked {a n1 n2 op} {uplevel #0 set $n1 [apsimGet $a]}
 proc setLinked {a n1 n2 op} {apsimSet $a $n1}
 
-]]></text></script>
-\          <script name="process">
-           <event>process</event>
-<text>update
+]]></text>
+          </script>
+\          <script name="process"><event>process</event><text>update
 foreach cond $Conds {
   if {[expr $cond]} {
     set steps 1
@@ -3146,49 +3138,48 @@ foreach cond $Conds {
 
 incr steps -1
 if {$steps == 0} {tkwait variable steps}
-        </text></script>
-        </rule>
+        </text></script></rule>
       </tclmanager>
       <farmmanager name="Farm Manager">
         <rule name="Farm logic">
-         <script name="init">
-           <text>
-           </text>
-           <event>init</event>
-         </script>
-         <script name="prepare">
-           <text>
-           </text>
-           <event>prepare</event>
-         </script>
-         <script name="exit">
-           <text>
-           </text>
-           <event>exit</event>
-         </script>
+          <script name="init">
+            <text>
+            </text>
+            <event>init</event>
+          </script>
+          <script name="prepare">
+            <text>
+            </text>
+            <event>prepare</event>
+          </script>
+          <script name="exit">
+            <text>
+            </text>
+            <event>exit</event>
+          </script>
         </rule>
       </farmmanager>
       <paddockmanager name="Paddock Manager">
         <rule name="Farm logic">
-         <script name="init">
-           <text>
-           </text>
-           <event>init</event>
-         </script>
-         <script name="prepare">
-           <text>
-           </text>
-           <event>prepare</event>
-         </script>
-         <script name="exit">
-           <text>
-           </text>
-           <event>exit</event>
-         </script>
+          <script name="init">
+            <text>
+            </text>
+            <event>init</event>
+          </script>
+          <script name="prepare">
+            <text>
+            </text>
+            <event>prepare</event>
+          </script>
+          <script name="exit">
+            <text>
+            </text>
+            <event>exit</event>
+          </script>
         </rule>
       </paddockmanager>
-  <tclui name="R Graphics">
-    <uiscript>
+      <tclui name="R Graphics">
+        <uiscript>
 # Displays R graphics
 trace remove variable XMLDoc read setXML
 package require Tk
@@ -3412,7 +3403,7 @@ proc setXML {name1 name2 op} {
 }
 trace add variable XMLDoc read setXML
 </uiscript>
-    <rscript>
+        <rscript>
 
 files&lt;-c("C:/Program Files/Apsim6/apsim/Wheat/Sample/co2.out",
             "C:/Program Files/Apsim6/apsim/Wheat/Sample/std.out")
@@ -3443,7 +3434,7 @@ dev.off()
 ########
 
 </rscript>
-</tclui>
+      </tclui>
     </folder>
     <operations />
     <accum>
@@ -3462,14 +3453,14 @@ dev.off()
       <script>
         <event>script</event>
         <text><![CDATA[start_of_day
-         if (das = 1) then
+         if (DaysAfterSowing = 1) then
             cum_temp = 0
             cum_swdef = 0
             cum_days = 0
-         elseif (stage_name = 'start_grain_fill' or
-                       stage_name = 'end_grain_fill' or
-                       stage_name = 'maturity' or
-                       stage_name = 'harvest_ripe') then
+         elseif (StageName = 'start_grain_fill' or
+                       StageName = 'end_grain_fill' or
+                       StageName = 'maturity' or
+                       StageName = 'harvest_ripe') then
             cum_temp = cum_temp + (maxt + mint) / 2
             cum_swdef = cum_swdef + swdef_photo
             cum_days = cum_days + 1
@@ -3664,19 +3655,19 @@ dev.off()
     </SupplementScienceConverter>
     <FarmwiseSequencerConverter name="FarmwiseSequencer" />
     <graz name="Simple grazing model">
-          <intake_util_intercept description="Intercept in intake and utilization eqn (p142)">1</intake_util_intercept>
-          <intake_util_slope description="Slope in intake and utilization eqn (p143)">-0.3</intake_util_slope>
-          <yld_eat_restr description="Yield at which intake restriction no longer applies (p144)">300</yld_eat_restr>
-          <summer_lwg description="Expected summer lwg @ low SR (p145)">70</summer_lwg>
-          <autumn_lwg description="Expected autumn lwg @ low SR (p146)">35</autumn_lwg>
-          <winter_lwg description="Expected winter lwg @ low SR (p147)">10</winter_lwg>
-          <spring_lwg description="Expected spring lwg @ low SR (p148)">35</spring_lwg>
-          <leaf_diet description="Proportion of leaf in diet (p132/100)">0.85</leaf_diet>
-          <std_alw>200</std_alw>
-          <metabol_expon>0.75</metabol_expon>
-          <acc_eaten_reset description="Day to reset eaten accumulator">335</acc_eaten_reset>
-          <prop_can_eat>1.0</prop_can_eat>
-          <allow_supplements>1</allow_supplements>
-    </graz>    
+      <intake_util_intercept description="Intercept in intake and utilization eqn (p142)">1</intake_util_intercept>
+      <intake_util_slope description="Slope in intake and utilization eqn (p143)">-0.3</intake_util_slope>
+      <yld_eat_restr description="Yield at which intake restriction no longer applies (p144)">300</yld_eat_restr>
+      <summer_lwg description="Expected summer lwg @ low SR (p145)">70</summer_lwg>
+      <autumn_lwg description="Expected autumn lwg @ low SR (p146)">35</autumn_lwg>
+      <winter_lwg description="Expected winter lwg @ low SR (p147)">10</winter_lwg>
+      <spring_lwg description="Expected spring lwg @ low SR (p148)">35</spring_lwg>
+      <leaf_diet description="Proportion of leaf in diet (p132/100)">0.85</leaf_diet>
+      <std_alw>200</std_alw>
+      <metabol_expon>0.75</metabol_expon>
+      <acc_eaten_reset description="Day to reset eaten accumulator">335</acc_eaten_reset>
+      <prop_can_eat>1.0</prop_can_eat>
+      <allow_supplements>1</allow_supplements>
+    </graz>
   </folder>
 </folder>
