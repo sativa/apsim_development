@@ -238,7 +238,10 @@ namespace ApsimFile
          get
             {
             if (SimsToRun == null)
-               ExpandSimsToRun(null);
+               {
+               SimsToRun = new List<string>();
+               ExpandSimsToRun(RootComponent.FullPath);
+               }
             return SimsToRun;
             }
          set
