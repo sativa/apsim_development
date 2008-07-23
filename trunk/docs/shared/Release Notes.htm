@@ -4,6 +4,58 @@
       <link href="ApsimWebStyle.css" rel="stylesheet" type="text/css">
    </head>
    <body>
+      <h1>APSIM 6.1 release notes</h1>
+      <p>8th August 2008</p>
+      <h2>Models .ini files</h2>
+      <p>All model .ini files are now XML files. XML is an extensible text format that can be viewed
+         and edited using any text editor. The names of the constants haven't changed.</p>
+
+      <h2>PLANT</h2>
+      <ul>
+      <li>The generic PLANT model in APSIM has had more clean up work done to it. This is an ongoing process
+      and shouldn't affect users.</li>
+      <li>Many of PLANT's classes can now be explicitly instantiated from the XML file. This provides optioning
+      functionality that is a core part of PLANT's generic functionality.</li>
+      <li>A new phenology model for Sweet Sorghum was introducted</li>
+      <li>The root class has been redesigned and extended to allow multiple, distributed root systems</li>
+      <li>A generic Phenology class has been created, capable of simulating the development of all crops</li>
+      <li>A single Arbitrator base class, with 2 derived classes, replaces the many arbitrators in the
+      previous version of APSIM. This work is ongoing.</li>
+      <li>New classes for canopy phytomer and SPASS photosynthesis have been added by Neil Huth</li>
+      </ul>
+
+      <h2>APSWIM</h2>
+      <p>A cleanup of SWIM model source code has done, removing redundant code and unused functionality.</p>
+
+      <h2>Manager</h2>
+      <p>The manager model now outputs less decimal places when reporting local variabls to the summary file.</p>
+
+      <h2>Barley</h2>
+      <p>The barley potential grain filling rates have been dropped for all cultivars to improve the 
+         predicted / observed validation line.</p>
+
+      <h2>Oats</h2>
+      <p>A modified oats model was provided by Allan Peake.</p>
+
+      <h2>Infrastructure</h2>
+      <p>The APSIM infrastructure has been significantly reworked allowing better multi-paddock variable
+         and event addressing. A paddock can now use dot notation to get the value of a variable in
+         another paddock e.g. .paddock1.wheat.lai</p>
+
+      <h2>APSRun</h2>
+      <p>APSRun has been rewritten (now called ApsimRun.exe). It is now a multi-threaded application
+         capable of scheduling and running multiple instances of APSIM on multi-CPU computers.</p>
+
+      <h2>APSIM User Interface</h2>
+      <ul>
+      <li>Enabling and disabling of nodes has been fixed</li>
+      <li>Reporting frequency list is now correct</li>
+      <li>Summer and winter Cona / U are now remembered correctly</li>
+      <li>Tracker examples now show up when tracker is added to a paddock</li>
+      <li>Many other small defects have been fixed.</li>
+      </ul>
+      
+      
       <h1>APSIM 6.0 release notes</h1>
       <p>26th March 2008</p>
 
