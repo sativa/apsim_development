@@ -6,7 +6,8 @@
     <ProjectGuid>{1955D0F0-3C58-4D2C-B5F1-0A3131E41ECC}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>APSIM.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>APSIMUI</AssemblyName>
@@ -123,7 +124,6 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="APSIM.ico" />
     <None Include="Resources\cut.png" />
     <None Include="Resources\copy.png" />
     <None Include="Resources\paste.png" />
@@ -137,6 +137,7 @@
     <None Include="Resources\delete2.png" />
     <None Include="Resources\edit.png" />
     <None Include="Resources\media_stop.png" />
+    <Content Include="Apsim.ico" />
     <Content Include="Resources\Simulation.png" />
     <None Include="Resources\text.png" />
     <None Include="Resources\sunglasses.png" />
