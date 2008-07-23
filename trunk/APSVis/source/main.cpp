@@ -278,7 +278,7 @@ void TMainForm::Display_chart_types_box (void)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::Contents1Click(TObject *Sender)
    {
-   string CommandLine = "winhlp32.exe \"" + getAppHomeDirectory() + "\\docs\\apsvis.hlp\"";
+   string CommandLine = "winhlp32.exe \"" + getApsimDirectory() + "\\ApsimOutlook\\docs\\apsvis.hlp\"";
    WinExec (CommandLine.c_str(), SW_SHOW);
    }
 //---------------------------------------------------------------------------

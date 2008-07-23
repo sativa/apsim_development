@@ -56,7 +56,7 @@ void DamEasyEcon::setStartupParameters(const std::string& parameters)
    End_year = atoi(begin_and_end_years[1].c_str());
    Read_inifile_settings();
 
-   string app_dir = getAppHomeDirectory();
+   string app_dir = getApsimDirectory() + "\\ApsimOutlook;
    string econ_bmp_name = app_dir + string("\\") + Econ_bitmap_name;
 
    Graphics::TBitmap* bitmap = new Graphics::TBitmap;
