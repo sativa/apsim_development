@@ -38,6 +38,7 @@ Public Class ApsimUIActions
         ' currently selected nodes first and progressively
         ' their parents until some simulations are found.
         ' ------------------------------------------------
+        BaseActions.FileSave(Controller)
         Dim SimulationsToRun As New List(Of String)
 
         For Each NodePath As String In Controller.SelectedPaths
