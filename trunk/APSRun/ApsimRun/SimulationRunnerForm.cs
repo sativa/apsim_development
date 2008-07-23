@@ -32,6 +32,7 @@ namespace ApsimRun
          if (NumCPUsString != "")
              Runner.NumCPUs = Convert.ToInt32(NumCPUsString);
          NumCPUs.Value = Runner.NumCPUs;
+         NumCPUs.ValueChanged += OnNumCPUsChanged;
          this.Args = Args;
 
          // Position window correctly.
