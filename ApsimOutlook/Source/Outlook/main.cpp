@@ -282,7 +282,7 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
       {
       // create a new temporary mdb file in the apswork directory to contain
       // our files.
-      string sourceMDB = getAppHomeDirectory() + "\\new.mdb";
+      string sourceMDB = getApsimDirectory() + "\\ApsimOutlook\\new.mdb";
       string destinationMDB = Path::getTempFolder().Get_path() + "\\temp.mdb";
       CopyFile(sourceMDB.c_str(), destinationMDB.c_str(), false);
       SetFileAttributes(destinationMDB.c_str(), FILE_ATTRIBUTE_NORMAL);

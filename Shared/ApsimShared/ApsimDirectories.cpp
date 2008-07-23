@@ -25,8 +25,14 @@ string EXPORT getApsimDirectory(void) throw(runtime_error)
 
    char moduleFileName[MAX_PATH];
    GetModuleFileName(hInstance, moduleFileName, sizeof moduleFileName);
-   string path = string(moduleFileName);
-   return fileDirName(fileDirName(string(moduleFileName)));
+   Path path(moduleFileName);
+   path.Set_name("apsim.ini");
+   while (path.Back_up_directory() != "" && !path.Exists());
+
+   if (!path.Exists())
+      return Path(moduleFileName).Get_directory();
+  
+   return path.Get_directory();
    }
 #else
 
@@ -46,18 +52,6 @@ string EXPORT getApsimDirectory(void) throw(runtime_error)
    return "/usr/local/APSIM";
    }
 #endif
-
-// ------------------------------------------------------------------
-// This routine provides a way for APSIM applications to get their
-// home directory.  Will throw a runtime error if the current
-// Application is not in the apsim directory structure.
-// ------------------------------------------------------------------
-
-std::string EXPORT getAppHomeDirectory(void) throw(std::runtime_error)
-   {
-   string apsimDir = getApsimDirectory();
-   return apsimDir;
-   }
 
 
 

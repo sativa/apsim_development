@@ -79,7 +79,7 @@ DEToolBar::DEToolBar(const string& parameters)
    // get stuff from ini file like image name
    if (numObjects == 0)
    {
-      string app_dir = getAppHomeDirectory();
+      string app_dir = getApsimDirectory() + "\\ApsimOutlook;
       edit_bmp_name = app_dir + string("\\") + edit_bmp_name;
       costs_bmp_name = app_dir + string("\\") + costs_bmp_name;
       Costs_glyph = new Graphics::TBitmap;

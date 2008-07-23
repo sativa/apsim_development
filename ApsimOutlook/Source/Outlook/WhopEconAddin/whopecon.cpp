@@ -44,7 +44,8 @@ extern "C" void _export __stdcall deleteAddIn(AddInBase* addin)
 // ------------------------------------------------------------------
 void WhopEcon::setStartupParameters(const std::string& parameters)
    {
-   SetCurrentDir(getAppHomeDirectory().c_str());
+   string dir = getApsimDirectory() + "\\ApsimOutlook";
+   SetCurrentDir(dir.c_str());
    
    // open the last economics data base.
    ApsimSettings settings;

@@ -49,7 +49,7 @@ void __fastcall TOutlookSplashForm::FormShow(TObject *Sender)
          pic->Parent = Panel1;
          pic->AutoSize = true;
          pic->Stretch = true;
-         string fileName = getAppHomeDirectory() + "\\" + (*logo);
+         string fileName = getApsimDirectory() + "\\ApsimOutlook\\" + (*logo);
          pic->Picture->LoadFromFile(fileName.c_str());
          int wdth = pic->Width;
          int hght = pic->Height;
