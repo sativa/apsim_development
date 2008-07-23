@@ -1,4 +1,4 @@
-<folder version="13" name="New Simulations">
+<folder version="14" name="New Simulations">
   <shared name="shared" />
   <simulation name="Blank Simulation">
     <metfile name="met">
@@ -69,7 +69,7 @@
           <script>
             <text>
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
@@ -692,7 +692,7 @@
           <script>
             <text>
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
@@ -1318,7 +1318,7 @@
           <script>
             <text>
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
@@ -1910,7 +1910,7 @@
             endif
          endif
 
-         if ([crop].stage_name = 'harvest_ripe' OR [crop].plant_status = 'dead') then
+         if ([crop].StageName = 'harvest_ripe' OR [crop].plant_status = 'dead') then
             [crop]_to_harvest = 1
          endif
             </text>
@@ -2160,7 +2160,7 @@
          endif
          ! apply topdress fertiliser
          if ([fert_amount_TopDress] > 0.0) then
-            if ([crop].das = [fert_days_TopDress]) then
+            if ([crop].DaysAfterSowing = [fert_days_TopDress]) then
                fertiliser apply amount = [fert_amount_TopDress] (kg/ha), depth = 50 (mm), type = [fert_type_TopDress] ()
             else
             endif
@@ -2733,7 +2733,7 @@
             endif
          endif
 
-         if ([crop].stage_name = 'harvest_ripe' OR [crop].plant_status = 'dead') then
+         if ([crop].StageName = 'harvest_ripe' OR [crop].plant_status = 'dead') then
             [crop]_to_harvest = 1
          endif
             </text>
@@ -2983,7 +2983,7 @@
          endif
          ! apply topdress fertiliser
          if ([fert_amount_TopDress] > 0.0) then
-            if ([crop].das = [fert_days_TopDress]) then
+            if ([crop].DaysAfterSowing = [fert_days_TopDress]) then
                fertiliser apply amount = [fert_amount_TopDress] (kg/ha), depth = 50 (mm), type = [fert_type_TopDress] ()
             else
             endif
@@ -3829,7 +3829,7 @@
             endif
          endif
 
-         if ([crop].stage_name = 'harvest_ripe' OR [crop].plant_status = 'dead') then
+         if ([crop].StageName = 'harvest_ripe' OR [crop].plant_status = 'dead') then
             [crop]_to_harvest = 1
          endif
             </text>
@@ -4079,7 +4079,7 @@
          endif
          ! apply topdress fertiliser
          if ([fert_amount_TopDress] > 0.0) then
-            if ([crop].das = [fert_days_TopDress]) then
+            if ([crop].DaysAfterSowing = [fert_days_TopDress]) then
                fertiliser apply amount = [fert_amount_TopDress] (kg/ha), depth = 50 (mm), type = [fert_type_TopDress] ()
             else
             endif
@@ -4375,7 +4375,7 @@
          endif
          ! apply topdress fertiliser
          if ([fert_amount_TopDress] > 0.0) then
-            if ([crop].das = [fert_days_TopDress]) then
+            if ([crop].DaysAfterSowing = [fert_days_TopDress]) then
                fertiliser apply amount = [fert_amount_TopDress] (kg/ha), depth = 50 (mm), type = [fert_type_TopDress] ()
             else
             endif
@@ -4854,7 +4854,7 @@
             endif
          endif
 
-         if ([crop].stage_name = 'harvest_ripe' OR [crop].plant_status = 'dead') then
+         if ([crop].StageName = 'harvest_ripe' OR [crop].plant_status = 'dead') then
             [crop]_to_harvest = 1
          endif
             </text>
@@ -5104,7 +5104,7 @@
          endif
          ! apply topdress fertiliser
          if ([fert_amount_TopDress] > 0.0) then
-            if ([crop].das = [fert_days_TopDress]) then
+            if ([crop].DaysAfterSowing = [fert_days_TopDress]) then
                fertiliser apply amount = [fert_amount_TopDress] (kg/ha), depth = 50 (mm), type = [fert_type_TopDress] ()
             else
             endif
@@ -5415,7 +5415,7 @@
          endif
          ! apply topdress fertiliser
          if ([fert_amount_TopDress] > 0.0) then
-            if ([crop].das = [fert_days_TopDress]) then
+            if ([crop].DaysAfterSowing = [fert_days_TopDress]) then
                fertiliser apply amount = [fert_amount_TopDress] (kg/ha), depth = 50 (mm), type = [fert_type_TopDress] ()
             else
             endif
@@ -5517,7 +5517,7 @@
             endif
          endif
 
-         if ([crop].stage_name = 'harvest_ripe' OR [crop].plant_status = 'dead') then
+         if ([crop].StageName = 'harvest_ripe' OR [crop].plant_status = 'dead') then
             [crop]_to_harvest = 1
          endif
             </text>
@@ -6876,7 +6876,7 @@
           <variable name="sugar.cane_wt" description="Sugar cane dry weight (g/m2)" array="?" />
           <variable name="sugar.sucrose_wt" description="Sugar sucrose weight (g/m2)" array="?" />
           <variable name="sugar.sw_demand" description="Sugar crop demand for water (potential uptake) (mm)" array="?" />
-          <variable name="sugar.das" description="Sugar days after sowing" array="?" />
+          <variable name="sugar.DaysAfterSowing" description="Sugar days after sowing" array="?" />
           <variable name="sugar.ratoon_no" description="Sugar Ratoon number" array="?" />
           <variable name="sugar.crop_status" description="Sugar Crop status (dead,alive,out)" array="?" />
           <variable name="sugar.esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
@@ -6911,8 +6911,8 @@
                dah = 0
 
                ! Set harvest dates for each crop phase
-               if (sugar.das = [plantlen] and ratoon_no = 0) or
-                  (sugar.das = [ratoonlen] and ratoon_no > 0) then
+               if (sugar.DaysAfterSowing = [plantlen] and ratoon_no = 0) or
+                  (sugar.DaysAfterSowing = [ratoonlen] and ratoon_no > 0) then
 
                   sugar harvest
 
@@ -9523,7 +9523,7 @@
           <script name="end_of_day">
             <text>
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
@@ -9540,7 +9540,7 @@
           <script name="end_of_day">
             <text>
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
