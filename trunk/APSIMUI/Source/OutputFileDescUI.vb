@@ -414,7 +414,7 @@ Public Class OutputFileDescUI
         ' ----------------------------------------
         ComponentFilter.Items.Clear()
         For Each ComponentName As String In ComponentNames
-            If ComponentName.ToLower() <> "tracker" Then
+            If ComponentName.ToLower() <> "tracker" Or XmlHelper.Type(Data).ToLower = "tracker" Then
                 ComponentFilter.Items.Add(ComponentName)
             End If
         Next
