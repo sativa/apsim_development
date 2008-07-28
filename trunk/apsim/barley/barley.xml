@@ -611,6 +611,10 @@
       <vern_sens>1.00</vern_sens>
       <photop_sens>3.50</photop_sens>
    </schooner>
+   <FlagShip>
+      <derived_from>schooner</derived_from>
+   </FlagShip>
+   
    <!--  __________________
     -->
    <skiff>
@@ -666,6 +670,9 @@
       <vern_sens>1.00</vern_sens>
       <photop_sens>3.50</photop_sens>
    </Sloop_VIC>
+   <Buloke>
+      <derived_from>Sloop_VIC</derived_from>
+   </Buloke>
    <!--  __________________
     -->
    <gairdner>
