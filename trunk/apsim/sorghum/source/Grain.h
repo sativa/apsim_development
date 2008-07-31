@@ -20,6 +20,13 @@ class Grain : public PlantPart
    float grainFillRate;
    float targetNConc;
 
+   // heat effects on grain number
+   vector<float> grainTempWindow;
+   vector<float> grainTempOrdinals;
+   TableFn grainTempTable;
+   float tempFactor;
+
+
 // Variables ----------------------------------------------------------
 
    float totDMGreenFI;          // total plant dm at FI
@@ -27,7 +34,9 @@ class Grain : public PlantPart
    float finalGrainNo;
    float grainSize;
    float yield;
-   
+   float potGFRate;             // potential grain filling rate in g/grain/oCd
+   float maxGFRate;             // maximum grain filling rate in g/grain/oCd
+
 
    float dltDMStressMax;
    float dltDMGrainDemand;
@@ -38,6 +47,9 @@ class Grain : public PlantPart
    float calcGrainNumber(void);
    float yieldPartDemandStress(void);
    float calcDMGrainSourceSink(void);
+   void  calcDemandStress(void);
+   void  calcBiomassDemand(void);
+   float  calcTempFactor(void);              // high temp stress on grain number
 
 // public Methods -------------------------------------------------------
    public:
@@ -47,8 +59,7 @@ class Grain : public PlantPart
    // plant
    void  readParams (void);
    void  updateVars(void);
-   void  calcDemandStress(void);
-   void  calcBiomassDemand(void);
+   void  process(void);
 
    // nitrogen
    float calcNDemand(void);

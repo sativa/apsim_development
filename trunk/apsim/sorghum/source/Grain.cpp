@@ -33,17 +33,23 @@ void Grain::doRegistrations(void)
    scienceAPI.expose("GrainGreenNConc", "%",          "N concentration in grain", false, nConc);
    scienceAPI.expose("Yield",           "kg/ha",      "Grain yield",              false, yield);
    scienceAPI.expose("GrainGreenP",     "g/m^2",      "P in live Grain",          false, pGreen);
+   scienceAPI.expose("GrainTempFactor", "()",         "Stress on Grain Number",   false, tempFactor);
+   scienceAPI.expose("DltDMGrainDemand","g/m^2",      "Delta DM Grain Demand",    false, dltDMGrainDemand);
+   scienceAPI.expose("PotGrainFillRate","mg/grain/oCd","Potential Grain Fill Rate",false, potGFRate);
+
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
 //------------------------------------------------------------------------------------------------
 void Grain::initialize(void)
    {
+     /* TODO : Fix prepare so that it is not called every day that therree is no crop in */
    grainNo = 0.0;
    finalGrainNo = 0.0;
    grainSize = 0.0;
    dltDMGrainDemand = 0.0;
    yield = 0.0;
+   tempFactor = 1.0;
 
    PlantPart::initialize();
    }
@@ -53,6 +59,8 @@ void Grain::initialize(void)
 void Grain::readParams (void)
    {
    scienceAPI.read("dm_per_seed", "", 0, dmPerSeed);
+   scienceAPI.read("maxGFRate", "", 0, maxGFRate);
+
    scienceAPI.read("grn_water_cont", "", 0, waterContent);
    // nitrogen
    scienceAPI.read("grainFillRate","", 0, grainFillRate);
@@ -63,6 +71,14 @@ void Grain::readParams (void)
    pMinTable.read(scienceAPI, "x_p_stage_code","y_p_conc_min_grain");
    pSenTable.read(scienceAPI, "x_p_stage_code","y_p_conc_sen_grain");
    scienceAPI.read("p_conc_init_grain", "", 0, initialPConc);   /* TODO : Remove this */
+
+   // heat effects on grain number
+   scienceAPI.read("GrainTempWindow","", 0, grainTempWindow);
+   scienceAPI.read("GrainTempOrdinals","", 0, grainTempOrdinals);
+   vector<float> y;y.push_back(0.0);y.push_back(1.0);
+   grainTempTable.load(grainTempOrdinals,y);
+
+
    }
 
 //------------------------------------------------------------------------------------------------
@@ -85,7 +101,7 @@ void Grain::updateVars(void)
 
    // Ramp grain number from 0 at StartGrainFill to finalGrainNo at SGF + 100dd
    float gfTTNow = plant->phenology->sumTTtotalFM(startGrainFill,maturity);
-   grainNo = Min((gfTTNow/100.0 *  finalGrainNo),finalGrainNo);
+   grainNo = Min((gfTTNow/100.0 *  finalGrainNo),finalGrainNo) * tempFactor;
 
    yield = dmGreen * 10.0;                   // yield in kg/ha for reporting
 
@@ -107,6 +123,53 @@ void Grain::phenologyEvent(int iStage)
          finalGrainNo = calcGrainNumber();
          break;
       }
+   }
+//------------------------------------------------------------------------------------------------
+void Grain::process(void)
+   {
+   // calculate high temperature effects on grain number
+   if(stage >= fi && stage <= flowering)
+      {
+      tempFactor -= calcTempFactor();
+      tempFactor = bound(tempFactor,0.0,1.0);
+      }
+
+   // calculate grain biomass demand
+   if(stage >= startGrainFill && stage <= endGrainFill)
+      {
+      calcDemandStress();
+      calcBiomassDemand();
+      }
+   }
+//------------------------------------------------------------------------------------------------
+float Grain::calcTempFactor(void)
+   {
+   // calculate a daily contribution to stress on grain number
+   // if we are within the grain stress window (grainTempWindow)calculate stress factor
+   // from grainTempTable and this day's contribution to the total stress
+
+   // first see if it is a hot day
+   if(grainTempTable.value(plant->today.maxT) < 0.001)return 0.0;
+
+   // then see if we are in the pre flag or post-flag window window
+   // if not return 0                                      (grainTempWindow[0] is -ve)
+   float targetTT = plant->phenology->sumTTtarget (fi, flag) + grainTempWindow[0];
+   float eTT = plant->phenology->sumTTtotal (fi, flag);
+   if(eTT < targetTT)return 0.0;
+   // see if in the post flag window
+   float eTTpostFlag = plant->phenology->sumTTtotal (flag, flowering);
+   if(eTTpostFlag > grainTempWindow[1]) return 0.0;
+
+   float dltTT = plant->phenology->getDltTT();
+   float ttContrib;
+   // check  window
+   if(eTTpostFlag > 0.0)  // post flag
+      ttContrib = Min(grainTempWindow[1] - eTTpostFlag, dltTT);      // allow for overlap
+   else                   // pre flag
+      ttContrib = Min(eTT - targetTT, dltTT);      // allow for overlap
+
+   float dayFract = ttContrib / (-grainTempWindow[0] + grainTempWindow[1]);
+   return dayFract * grainTempTable.value(plant->today.maxT);
    }
 //------------------------------------------------------------------------------------------------
 void Grain::calcDemandStress(void)
@@ -177,7 +240,9 @@ float Grain::calcDMGrainSourceSink(void)
 
    float totDMCaryopsis = divide(plant->biomass->getDltDM() , grainNo);
    totDMCaryopsis = divide(totDMCaryopsis, plant->phenology->getDltTTFM());
-   return (0.0000319 + 0.4026 * totDMCaryopsis) * plant->phenology->getDltTTFM() * grainNo;
+   potGFRate = (0.0000319 + 0.4026 * totDMCaryopsis) * 1000;     // in mg/grain/oCd
+   potGFRate = Min(potGFRate, maxGFRate);
+   return potGFRate * plant->phenology->getDltTTFM() * grainNo / 1000;   // in g/m2
    }
 //------------------------------------------------------------------------------------------------
 void Grain::RetranslocateN(float N)
