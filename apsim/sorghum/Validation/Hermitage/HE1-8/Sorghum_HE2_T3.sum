@@ -377,115 +377,13 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
          -------------------------------------------------------
          tpla_prod_coef           =    0.01
          tpla_inflection_ratio    =    0.66
-         tt_emerg_to_endjuv       =  252.00
-         tt_flower_to_maturity    =  761.00
-         tt_flag_to_flower        =  170.00
-         tt_flower_to_start_grain =   80.00
-         tt_maturity_to_ripe      =    1.00
-         ------------------------------------------------------
+9 January 1997(Day of year=9): 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot read parameter "maxGFRate" for module Sorghum.
+     Component name: Sorghum
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-                            Root Profile
-         ---------------------------------------------------
-              Layer       Kl           Lower    Exploration
-              Depth     Factor         Limit      Factor
-              (mm)         ()        (mm/mm)       (0-1)
-         ---------------------------------------------------
-             100.0     0.070          0.226       1.000
-             100.0     0.070          0.226       1.000
-             200.0     0.070          0.258       1.000
-             200.0     0.070          0.270       1.000
-             200.0     0.060          0.268       1.000
-             200.0     0.060          0.304       1.000
-             200.0     0.060          0.335       1.000
-             200.0     0.050          0.330       1.000
-             200.0     0.050          0.320       1.000
-             200.0     0.040          0.330       1.000
-         ---------------------------------------------------
-     
-10 January 1997(Day of year=10), Sorghum: 
-     Stage 2 Germination  DAS = 1
-     		Biomass       =   0.00 		 LAI            =   0.00
-     		Stover N Conc =   0.00 		 Extractable SW =   0.00
-14 January 1997(Day of year=14), Sorghum: 
-     Stage 3 Emergence  DAS = 5
-     		Biomass       =   0.00 		 LAI            =   0.00
-     		Stover N Conc =   0.00 		 Extractable SW =   9.02
-16 January 1997(Day of year=16), operations: 
-      Sending apply message to irrigation
-21 January 1997(Day of year=21), operations: 
-      Sending apply message to irrigation
-24 January 1997(Day of year=24), Sorghum: 
-     Stage 4 EndOfJuvenile  DAS = 15
-     		Biomass       =   4.68 		 LAI            =   0.05
-     		Stover N Conc =   0.11 		 Extractable SW =  65.63
-29 January 1997(Day of year=29), operations: 
-      Sending apply message to irrigation
-7 February 1997(Day of year=38), operations: 
-      Sending apply message to irrigation
-24 February 1997(Day of year=55), Sorghum: 
-     Stage 5 FloralInitiation  DAS = 46
-     		Biomass       = 131.72 		 LAI            =   1.06
-     		Stover N Conc =   2.16 		 Extractable SW = 155.64
-13 March 1997(Day of year=72), operations: 
-      Sending apply message to irrigation
-21 March 1997(Day of year=80), operations: 
-      Sending apply message to irrigation
-2 April 1997(Day of year=92), Sorghum: 
-     Stage 6 FlagLeaf  DAS = 83
-     		Biomass       = 366.26 		 LAI            =   1.10
-     		Stover N Conc =   3.84 		 Extractable SW = 170.13
-10 April 1997(Day of year=100), operations: 
-      Sending apply message to irrigation
-17 April 1997(Day of year=107), operations: 
-      Sending apply message to irrigation
-2 May 1997(Day of year=122), operations: 
-      Sending apply message to irrigation
-6 May 1997(Day of year=126), Sorghum: 
-     Stage 7 Flowering  DAS = 117
-     		Biomass       = 516.86 		 LAI            =   1.09
-     		Stover N Conc =   4.39 		 Extractable SW = 183.92
-15 May 1997(Day of year=135), Sorghum: 
-     Stage 8 StartGrainFill  DAS = 126
-     		Biomass       = 544.67 		 LAI            =   1.09
-     		Stover N Conc =   4.41 		 Extractable SW = 184.70
-28 June 1997(Day of year=179), Sorghum: 
-      ********** Crop failed due to loss of leaf area ********     Plant Death. Standing above-ground dm = 6209.52 (kg/ha)
-28 June 1997(Day of year=179), Harvesting rule: 
-     Manager sending message :- sorghum harvest
-     
-     Harvest
-     Flowering (DAS)       = 117 		 Maturity (DAS)          = 
-     Flowering day         = 126 		 Maturity day            = 
-     Maximum LAI           = 1.2 		 Number of leaves        = 22.2
-     Total above ground biomass    (kg/ha) = 6209.5
-     Green above ground biomass    (kg/ha) = 5243.2
-     Senesced above ground biomass (kg/ha) = 966.3
-     Stover (kg/ha)        = 5542.6 	 Grain yield (kg/ha)     = 666.9
-     Grain % water content = 13.0 		 Grain yield wet (kg/ha) = 766.5
-     Weight 1000 grains(g) = 13.9 		 Grains/m^2              = 4811.4
-     Grains/head           = 481.1
-     Grain N percent    (%)     =      1.42 	 Grain N            (kg/ha) =     9.50
-     Total N content    (kg/ha) =     44.11 	 Senesced N content (kg/ha) =    15.22
-     Green N content    (kg/ha) =     22.53
-     
-     Average Stress Indices:                          Water Photo  Water Expan  N Photo
-        Emergence           to End of juvenile           1.0          1.0        1.0
-        End of juvenile     to Floral initiation         1.0          1.0        1.0
-        Floral initiation   to Flag leaf                 1.0          1.0        0.7
-        Flag leaf           to Flowering                 1.0          1.0        0.6
-        Flowering           to Start grain fill          1.0          1.0        0.6
-        Start grain fill    to End grain fill            1.0          1.0        0.5
-     
-     Crop harvested.
-        Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =                666.89		    0.00
-                         N  (kg/ha) =                  9.50		    0.00
-     Manager sending message :- sorghum end_crop
-     Crop ended.
-     Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               5542.64		 2664.26
-                         N  (kg/ha) =                 34.60		    3.15
-                         P  (kg/ha) =                  0.00		    0.00
-30 June 1997(Day of year=181), clock: 
-     Simulation is terminating due to end criteria being met.

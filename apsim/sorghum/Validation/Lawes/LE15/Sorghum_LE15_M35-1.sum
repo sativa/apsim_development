@@ -389,104 +389,13 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
          -------------------------------------------------------
          tpla_prod_coef           =    0.01
          tpla_inflection_ratio    =    0.66
-         tt_emerg_to_endjuv       =  252.00
-         tt_flower_to_maturity    =  761.00
-         tt_flag_to_flower        =  170.00
-         tt_flower_to_start_grain =   80.00
-         tt_maturity_to_ripe      =    1.00
-         ------------------------------------------------------
+6 January 1997(Day of year=6): 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot read parameter "maxGFRate" for module Sorghum.
+     Component name: Sorghum
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-                            Root Profile
-         ---------------------------------------------------
-              Layer       Kl           Lower    Exploration
-              Depth     Factor         Limit      Factor
-              (mm)         ()        (mm/mm)       (0-1)
-         ---------------------------------------------------
-             200.0     0.080          0.300       1.000
-             200.0     0.080          0.300       1.000
-             200.0     0.080          0.350       1.000
-             300.0     0.080          0.320       1.000
-             300.0     0.060          0.290       1.000
-             300.0     0.040          0.310       1.000
-             300.0     0.020          0.310       1.000
-         ---------------------------------------------------
-     
-7 January 1997(Day of year=7), Sorghum: 
-     Stage 2 Germination  DAS = 1
-     		Biomass       =   0.00 		 LAI            =   0.00
-     		Stover N Conc =   0.00 		 Extractable SW =   0.00
-8 January 1997(Day of year=8), operations: 
-      Sending apply message to irrigation
-10 January 1997(Day of year=10), operations: 
-      Sending apply message to irrigation
-10 January 1997(Day of year=10), Sorghum: 
-     Stage 3 Emergence  DAS = 4
-     		Biomass       =   0.00 		 LAI            =   0.00
-     		Stover N Conc =   0.00 		 Extractable SW =   8.37
-12 January 1997(Day of year=12), operations: 
-      Sending apply message to irrigation
-14 January 1997(Day of year=14), operations: 
-      Sending apply message to irrigation
-17 January 1997(Day of year=17), operations: 
-      Sending apply message to irrigation
-18 January 1997(Day of year=18), Sorghum: 
-     Stage 4 EndOfJuvenile  DAS = 12
-     		Biomass       =   4.38 		 LAI            =   0.05
-     		Stover N Conc =   0.16 		 Extractable SW =  31.75
-20 January 1997(Day of year=20), operations: 
-      Sending apply message to irrigation
-22 January 1997(Day of year=22), operations: 
-      Sending apply message to irrigation
-24 January 1997(Day of year=24), operations: 
-      Sending apply message to irrigation
-4 February 1997(Day of year=35), operations: 
-      Sending apply message to irrigation
-      Sending apply message to fertiliser
-4 February 1997(Day of year=35), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-        59.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
-12 February 1997(Day of year=43), operations: 
-      Sending apply message to irrigation
-16 February 1997(Day of year=47), Sorghum: 
-     Stage 5 FloralInitiation  DAS = 41
-     		Biomass       = 163.76 		 LAI            =   2.04
-     		Stover N Conc =   4.19 		 Extractable SW = 132.17
-26 February 1997(Day of year=57), operations: 
-      Sending apply message to irrigation
-11 March 1997(Day of year=70), operations: 
-      Sending apply message to irrigation
-      Sending apply message to fertiliser
-11 March 1997(Day of year=70), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-        59.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
-12 March 1997(Day of year=71), Sorghum: 
-     Stage 6 FlagLeaf  DAS = 65
-     		Biomass       = 586.64 		 LAI            =   4.89
-     		Stover N Conc =  11.39 		 Extractable SW = 151.02
-19 March 1997(Day of year=78), operations: 
-      Sending apply message to irrigation
-27 March 1997(Day of year=86), operations: 
-      Sending apply message to irrigation
-27 March 1997(Day of year=86), Sorghum: 
-     Stage 7 Flowering  DAS = 80
-     		Biomass       = 939.07 		 LAI            =   4.92
-     		Stover N Conc =  16.24 		 Extractable SW = 119.80
-31 March 1997(Day of year=90), Sorghum: 
-     Stage 8 StartGrainFill  DAS = 84
-     		Biomass       = 1019.35 		 LAI            =   4.92
-     		Stover N Conc =  16.24 		 Extractable SW = 102.71
-3 April 1997(Day of year=93), operations: 
-      Sending apply message to irrigation
-9 April 1997(Day of year=99), operations: 
-      Sending apply message to irrigation
-18 April 1997(Day of year=108), operations: 
-      Sending apply message to irrigation
-27 April 1997(Day of year=117), operations: 
-      Sending apply message to irrigation
-8 May 1997(Day of year=128), clock: 
-     Simulation is terminating due to end criteria being met.

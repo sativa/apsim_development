@@ -359,64 +359,13 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
          -------------------------------------------------------
          tpla_prod_coef           =    0.01
          tpla_inflection_ratio    =    0.66
-         tt_emerg_to_endjuv       =  228.00
-         tt_flower_to_maturity    =  761.00
-         tt_flag_to_flower        =  170.00
-         tt_flower_to_start_grain =   80.00
-         tt_maturity_to_ripe      =    1.00
-         ------------------------------------------------------
+11 November 1998(Day of year=315): 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot read parameter "maxGFRate" for module Sorghum.
+     Component name: Sorghum
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-                            Root Profile
-         ---------------------------------------------------
-              Layer       Kl           Lower    Exploration
-              Depth     Factor         Limit      Factor
-              (mm)         ()        (mm/mm)       (0-1)
-         ---------------------------------------------------
-             200.0     0.080          0.300       1.000
-             200.0     0.080          0.300       1.000
-             200.0     0.080          0.350       1.000
-             300.0     0.080          0.320       1.000
-             300.0     0.060          0.290       1.000
-             300.0     0.040          0.310       1.000
-             300.0     0.020          0.310       1.000
-         ---------------------------------------------------
-     
-12 November 1998(Day of year=316), Sorghum: 
-     Stage 2 Germination  DAS = 1
-     		Biomass       =   0.00 		 LAI            =   0.00
-     		Stover N Conc =   0.00 		 Extractable SW =   0.00
-15 November 1998(Day of year=319), Sorghum: 
-     Stage 3 Emergence  DAS = 4
-     		Biomass       =   0.00 		 LAI            =   0.00
-     		Stover N Conc =   0.00 		 Extractable SW =   7.37
-25 November 1998(Day of year=329), Sorghum: 
-     Stage 4 EndOfJuvenile  DAS = 14
-     		Biomass       =   4.82 		 LAI            =   0.05
-     		Stover N Conc =   0.11 		 Extractable SW =  45.01
-17 December 1998(Day of year=351), Sorghum: 
-     Stage 5 FloralInitiation  DAS = 36
-     		Biomass       = 131.82 		 LAI            =   1.56
-     		Stover N Conc =   2.73 		 Extractable SW =  86.31
-10 January 1999(Day of year=10), Sorghum: 
-     Stage 6 FlagLeaf  DAS = 60
-     		Biomass       = 651.43 		 LAI            =   5.77
-     		Stover N Conc =   9.65 		 Extractable SW = 159.42
-23 January 1999(Day of year=23), Sorghum: 
-     Stage 7 Flowering  DAS = 73
-     		Biomass       = 1071.47 		 LAI            =   5.74
-     		Stover N Conc =  11.41 		 Extractable SW = 123.97
-27 January 1999(Day of year=27), Sorghum: 
-     Stage 8 StartGrainFill  DAS = 77
-     		Biomass       = 1180.28 		 LAI            =   5.74
-     		Stover N Conc =  11.76 		 Extractable SW = 116.37
-5 March 1999(Day of year=64), Sorghum: 
-     Stage 9 EndGrainFill  DAS = 114
-     		Biomass       = 1781.57 		 LAI            =   2.71
-     		Stover N Conc =   6.24 		 Extractable SW = 143.49
-7 March 1999(Day of year=66), Sorghum: 
-     Stage 10 Maturity  DAS = 116
-     		Biomass       = 1790.72 		 LAI            =   2.59
-     		Stover N Conc =   6.08 		 Extractable SW = 138.77
-7 March 1999(Day of year=66), clock: 
-     Simulation is terminating due to end criteria being met.
