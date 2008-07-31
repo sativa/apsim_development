@@ -24,6 +24,10 @@ Phenology::Phenology(ScienceAPI& api, plantInterface& p)
    // --------------------------------------------------------------------------
    // Constructor.
    // --------------------------------------------------------------------------
+   dltStage = 0;
+   currentStage = 0;
+   das = 0;
+   dlt_tt_phenol = 0;
    }
 Phenology::~Phenology()
    {
