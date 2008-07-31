@@ -278,12 +278,7 @@ void Plant::process (void)                 // do crop preparation
 
    biomass->calcDltBiomass();
 
-   // calculate grain biomass demand
-   if(stage >= startGrainFill && stage <= endGrainFill)
-      {
-      grain->calcDemandStress();
-      grain->calcBiomassDemand();
-      }
+   grain->process();
 
    // biomass partitioning
    biomass->calcPartitioning();

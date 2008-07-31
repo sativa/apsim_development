@@ -279,6 +279,7 @@ void Leaf::areaActual(void)
    if(stage >= endJuv && stage < maturity)
       dltLAI = Min(dltStressedLAI,dltDmGreen * slaMax * smm2sm);
    else dltLAI = dltStressedLAI;
+//   if (dltLAI < 0.001)dltLAI = 0.0;
    }
 //------------------------------------------------------------------------------------------------
 //------- calc senesced leaf area

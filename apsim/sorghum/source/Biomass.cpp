@@ -80,7 +80,7 @@ void Biomass::readParams (void)
 //------------------------------------------------------------------------------------------------
 void Biomass::process(void)
    {
-   calcBiomassTE();
+/*   calcBiomassTE();
    calcDltBiomass();
 
    // calculate grain biomass demand
@@ -96,7 +96,7 @@ void Biomass::process(void)
    if(stage >= startGrainFill && stage <= endGrainFill)
       calcRetranslocation();
 
-   dmScenescence();
+   dmScenescence();  */
    }
 //------------------------------------------------------------------------------------------------
 //------ read Biomass parameters
