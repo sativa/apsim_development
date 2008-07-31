@@ -11,21 +11,21 @@
 
 Version                = 6.1
 Title                  = stock lablab SAMPLE Simulation
-Component        "Log" = C:\development\apsim\log\lib\log.dll
-Component      "clock" = C:\development\apsim\clock\lib\clock.dll
-Component        "Met" = C:\development\apsim\Input\lib\Input.dll
-Component "FarmwiseSequencer" = C:\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
-Component "reportstock" = C:\development\apsim\report\lib\report.dll
-Component     "report" = C:\development\apsim\report\lib\report.dll
-Component    "manager" = C:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "surfaceom" = C:\development\apsim\surfaceom\lib\surfaceom.dll
-Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
-Component     "lablab" = C:\development\apsim\plant\lib\plant.dll
-Component "cattlelablab" = C:\development\apsim\stock\lib\StockScienceConverter.dll
+Component        "Log" = c:\development\apsim\log\lib\log.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "Met" = c:\development\apsim\Input\lib\Input.dll
+Component "FarmwiseSequencer" = c:\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
+Component "reportstock" = c:\development\apsim\report\lib\report.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "surfaceom" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component     "lablab" = c:\development\apsim\plant\lib\plant.dll
+Component "cattlelablab" = c:\development\apsim\stock\lib\StockScienceConverter.dll
 Component      "stock" = C:\Program Files\ausfarm\stock.dll
-Component     "cattle" = C:\development\apsim\stock\lib\StockScienceConverter.dll
-Component "managercattle" = C:\development\apsim\manager\lib\manager.dll
+Component     "cattle" = c:\development\apsim\stock\lib\StockScienceConverter.dll
+Component "managercattle" = c:\development\apsim\manager\lib\manager.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -38,7 +38,7 @@ Component "managercattle" = C:\development\apsim\manager\lib\manager.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: C:\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- FarmwiseSequencer Initialisation --------------------------------------
       - reading constants

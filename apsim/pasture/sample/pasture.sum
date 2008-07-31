@@ -11,15 +11,15 @@
 
 Version                = 6.1
 Title                  = Pasture PI SAMPLE Simulation
-Component        "Log" = C:\development\apsim\log\lib\log.dll
-Component      "clock" = C:\development\apsim\clock\lib\clock.dll
-Component        "Met" = C:\development\apsim\Input\lib\Input.dll
-Component     "report" = C:\development\apsim\report\lib\report.dll
-Component    "manager" = C:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
-Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
-Component "FarmwiseSequencer" = C:\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
-Component "pastureconverter" = C:\development\apsim\pasture\lib\PastureScienceConverter.dll
+Component        "Log" = c:\development\apsim\log\lib\log.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "Met" = c:\development\apsim\Input\lib\Input.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "FarmwiseSequencer" = c:\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
+Component "pastureconverter" = c:\development\apsim\pasture\lib\PastureScienceConverter.dll
 Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -33,7 +33,7 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: C:\development\apsim\met\sample\roseworthy.met
+     INPUT File name: c:\development\apsim\met\sample\roseworthy.met
 
 ------- report Initialisation -------------------------------------------------
      Output frequency:

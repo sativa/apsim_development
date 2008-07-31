@@ -11,16 +11,16 @@
 
 Version                = 6.1
 Title                  = Dalby 600mm wet soil High Population
-Component      "clock" = C:\development\apsim\clock\lib\clock.dll
-Component     "report" = C:\development\apsim\report\lib\report.dll
-Component        "met" = C:\development\apsim\input\lib\input.dll
-Component   "fertiliz" = C:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "manager" = C:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
-Component      "maize" = C:\development\apsim\maize\lib\maize.dll
-Component    "Tracker" = C:\development\apsim\Tracker\lib\Tracker.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "maize" = c:\development\apsim\maize\lib\maize.dll
+Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -45,7 +45,7 @@ Component    "Tracker" = C:\development\apsim\Tracker\lib\Tracker.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: C:\development\apsim\Common Files\Dalby.met
+     INPUT File name: c:\development\apsim\Common Files\Dalby.met
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising

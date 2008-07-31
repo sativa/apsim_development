@@ -11,21 +11,21 @@
 
 Version                = 6.1
 Title                  = Wheat_Wongan83Unripped_UnrippedN010
-Component      "clock" = C:\development\apsim\clock\lib\clock.dll
-Component        "met" = C:\development\apsim\input\lib\input.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
 Paddock:
-Component "outputfile" = C:\development\apsim\report\lib\report.dll
-Component      "accum" = C:\development\apsim\accum\lib\accum.dll
-Component "fertiliser" = C:\development\apsim\fertiliz\lib\fertiliz.dll
-Component "Irrigation" = C:\development\apsim\irrigate\lib\irrigate.dll
-Component "Sow on a fixed date" = C:\development\apsim\manager\lib\manager.dll
-Component "Harvesting rule" = C:\development\apsim\manager\lib\manager.dll
-Component  "Irrigator" = C:\development\apsim\manager\lib\manager.dll
-Component "Fertilizer" = C:\development\apsim\manager\lib\manager.dll
-Component "Wongan83UnRipped Water" = C:\development\apsim\soilwat2\lib\soilwat2.dll
-Component "Surface Organic Matter" = C:\development\apsim\surfaceom\lib\surfaceom.dll
-Component "Wongan83UnRipped Nitrogen" = C:\development\apsim\soiln2\lib\soiln2.dll
-Component      "wheat" = C:\development\apsim\plant\lib\plant.dll
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
+Component  "Irrigator" = c:\development\apsim\manager\lib\manager.dll
+Component "Fertilizer" = c:\development\apsim\manager\lib\manager.dll
+Component "Wongan83UnRipped Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "Surface Organic Matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Wongan83UnRipped Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:

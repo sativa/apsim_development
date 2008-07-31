@@ -11,17 +11,17 @@
 
 Version                = 6.1
 Title                  = Grass Grazing Simulation
-Component      "clock" = C:\development\apsim\clock\lib\clock.dll
-Component        "met" = C:\development\apsim\input\lib\input.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
 Paddock:
-Component "Outputfile" = C:\development\apsim\report\lib\report.dll
-Component      "accum" = C:\development\apsim\accum\lib\accum.dll
-Component "Grasp Managment" = C:\development\apsim\manager\lib\manager.dll
-Component "Grazing management" = C:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = C:\development\apsim\soilwat2\lib\soilwat2.dll
-Component "Soil Nitrogen" = C:\development\apsim\soiln2\lib\soiln2.dll
-Component      "grasp" = C:\development\apsim\grasp\lib\grasp.dll
-Component       "graz" = C:\development\apsim\graz\lib\graz.dll
+Component "Outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "Grasp Managment" = c:\development\apsim\manager\lib\manager.dll
+Component "Grazing management" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
+Component       "graz" = c:\development\apsim\graz\lib\graz.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -34,7 +34,7 @@ Component       "graz" = C:\development\apsim\graz\lib\graz.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: C:\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- Outputfile Initialisation ---------------------------------------------
      Output frequency:

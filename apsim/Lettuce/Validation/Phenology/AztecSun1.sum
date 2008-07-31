@@ -11,16 +11,16 @@
 
 Version                = 6.1
 Title                  = AztecSun1
-Component      "clock" = C:\development\apsim\clock\lib\clock.dll
-Component        "met" = C:\development\apsim\input\lib\input.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
 Paddock:
-Component "Outputfile" = C:\development\apsim\report\lib\report.dll
-Component      "accum" = C:\development\apsim\accum\lib\accum.dll
-Component "Sow on a fixed date" = C:\development\apsim\manager\lib\manager.dll
-Component "Harvest on a Growth Stage" = C:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = C:\development\apsim\soilwat2\lib\soilwat2.dll
-Component "Soil Nitrogen" = C:\development\apsim\soiln2\lib\soiln2.dll
-Component    "lettuce" = C:\development\apsim\plant\lib\plant.dll
+Component "Outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvest on a Growth Stage" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component    "lettuce" = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:

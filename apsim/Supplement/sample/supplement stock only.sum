@@ -11,21 +11,21 @@
 
 Version                = 6.1
 Title                  = Stock Supplement PI SAMPLE Simulation
-Component        "Log" = C:\development\apsim\log\lib\log.dll
-Component      "clock" = C:\development\apsim\clock\lib\clock.dll
-Component        "Met" = C:\development\apsim\Input\lib\Input.dll
-Component "FarmwiseSequencer" = C:\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
+Component        "Log" = c:\development\apsim\log\lib\log.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "Met" = c:\development\apsim\Input\lib\Input.dll
+Component "FarmwiseSequencer" = c:\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
 Paddock:
-Component     "report" = C:\development\apsim\report\lib\report.dll
-Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "surfaceom" = C:\development\apsim\surfaceom\lib\surfaceom.dll
-Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
-Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "surfaceom" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Component      "stock" = C:\Program Files\AusFarm\stock.dll
-Component     "cattle" = C:\development\apsim\stock\lib\StockScienceConverter.dll
-Component "managercattle" = C:\development\apsim\manager\lib\manager.dll
-Component "supplementstore" = C:\development\apsim\supplement\lib\SupplementScienceConverter.dll
-Component "supplementmanager" = C:\development\apsim\manager\lib\manager.dll
+Component     "cattle" = c:\development\apsim\stock\lib\StockScienceConverter.dll
+Component "managercattle" = c:\development\apsim\manager\lib\manager.dll
+Component "supplementstore" = c:\development\apsim\supplement\lib\SupplementScienceConverter.dll
+Component "supplementmanager" = c:\development\apsim\manager\lib\manager.dll
 Component "supplement" = C:\Program Files\AusFarm\supplement.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -39,7 +39,7 @@ Component "supplement" = C:\Program Files\AusFarm\supplement.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: C:\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- FarmwiseSequencer Initialisation --------------------------------------
       - reading constants
