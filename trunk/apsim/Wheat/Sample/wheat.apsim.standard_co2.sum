@@ -11,15 +11,15 @@
 
 Version                = 6.1
 Title                  = Constant CO2 levels
-Component      "clock" = C:\development\apsim\clock\lib\clock.dll
-Component     "report" = C:\development\apsim\report\lib\report.dll
-Component        "Met" = C:\development\apsim\input\lib\input.dll
-Component    "manager" = C:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = C:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = C:\development\apsim\soiln2\lib\soiln2.dll
-Component      "wheat" = C:\development\apsim\Plant\lib\Plant.dll
-Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "Met" = c:\development\apsim\input\lib\input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -41,7 +41,7 @@ Component     "sysbal" = C:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: C:\development\apsim\met\sample\goond.met
+     INPUT File name: c:\development\apsim\met\sample\goond.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:

@@ -11,17 +11,17 @@
 
 Version                = 6.1
 Title                  = Canopy Sample Simulation
-Component      "clock" = C:\development\apsim\clock\lib\clock.dll
-Component        "met" = C:\development\apsim\input\lib\input.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
 Paddock:
-Component "Outputfile" = C:\development\apsim\report\lib\report.dll
-Component      "accum" = C:\development\apsim\accum\lib\accum.dll
-Component     "Canopy" = C:\development\apsim\canopy\lib\canopy.dll
-Component      "Logic" = C:\development\apsim\manager\lib\manager.dll
-Component "No000 SampleBlackVertosol (No000) Water" = C:\development\apsim\soilwat2\lib\soilwat2.dll
-Component "No000 SampleBlackVertosol (No000) Nitrogen" = C:\development\apsim\soiln2\lib\soiln2.dll
-Component     "cowpea" = C:\development\apsim\plant\lib\plant.dll
-Component      "maize" = C:\development\apsim\maize\lib\maize.dll
+Component "Outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component     "Canopy" = c:\development\apsim\canopy\lib\canopy.dll
+Component      "Logic" = c:\development\apsim\manager\lib\manager.dll
+Component "No000 SampleBlackVertosol (No000) Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "No000 SampleBlackVertosol (No000) Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component     "cowpea" = c:\development\apsim\plant\lib\plant.dll
+Component      "maize" = c:\development\apsim\maize\lib\maize.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:

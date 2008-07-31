@@ -11,13 +11,13 @@
 
 Version                = 6.1
 Title                  = This test makes sure a fatal error in a child system terminates the simulation immediately - D593
-Component        "log" = C:\development\apsim\log\lib\log.dll
-Component      "clock" = C:\development\apsim\clock\lib\clock.dll
-Component     "report" = C:\development\apsim\report\lib\report.dll
-Component    "manager" = C:\development\apsim\manager\lib\manager.dll
+Component        "log" = c:\development\apsim\log\lib\log.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Paddock:
-Component        "Met" = C:\development\apsim\input\lib\input.dll
-Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
+Component        "Met" = c:\development\apsim\input\lib\input.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -52,7 +52,7 @@ Component   "soilwat2" = C:\development\apsim\soilwat2\lib\soilwat2.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: C:\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
