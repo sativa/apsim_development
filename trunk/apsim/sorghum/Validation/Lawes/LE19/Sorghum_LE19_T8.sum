@@ -361,78 +361,13 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
          -------------------------------------------------------
          tpla_prod_coef           =    0.01
          tpla_inflection_ratio    =    0.66
-         tt_emerg_to_endjuv       =  228.00
-         tt_flower_to_maturity    =  761.00
-         tt_flag_to_flower        =  170.00
-         tt_flower_to_start_grain =   80.00
-         tt_maturity_to_ripe      =    1.00
-         ------------------------------------------------------
+11 November 1998(Day of year=315): 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot read parameter "maxGFRate" for module Sorghum.
+     Component name: Sorghum
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-                            Root Profile
-         ---------------------------------------------------
-              Layer       Kl           Lower    Exploration
-              Depth     Factor         Limit      Factor
-              (mm)         ()        (mm/mm)       (0-1)
-         ---------------------------------------------------
-             200.0     0.080          0.300       1.000
-             200.0     0.080          0.300       1.000
-             200.0     0.080          0.350       1.000
-             300.0     0.080          0.320       1.000
-             300.0     0.060          0.290       1.000
-             300.0     0.040          0.310       1.000
-             300.0     0.020          0.310       1.000
-         ---------------------------------------------------
-     
-12 November 1998(Day of year=316), Sorghum: 
-     Stage 2 Germination  DAS = 1
-     		Biomass       =   0.00 		 LAI            =   0.00
-     		Stover N Conc =   0.00 		 Extractable SW =   0.00
-15 November 1998(Day of year=319), Sorghum: 
-     Stage 3 Emergence  DAS = 4
-     		Biomass       =   0.00 		 LAI            =   0.00
-     		Stover N Conc =   0.00 		 Extractable SW =   7.37
-25 November 1998(Day of year=329), Sorghum: 
-     Stage 4 EndOfJuvenile  DAS = 14
-     		Biomass       =   4.97 		 LAI            =   0.05
-     		Stover N Conc =   0.12 		 Extractable SW =  45.03
-17 December 1998(Day of year=351), operations: 
-      Sending apply message to fertiliser
-17 December 1998(Day of year=351), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-        55.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
-17 December 1998(Day of year=351), Sorghum: 
-     Stage 5 FloralInitiation  DAS = 36
-     		Biomass       = 137.89 		 LAI            =   1.65
-     		Stover N Conc =   2.84 		 Extractable SW =  86.54
-10 January 1999(Day of year=10), Sorghum: 
-     Stage 6 FlagLeaf  DAS = 60
-     		Biomass       = 665.23 		 LAI            =   5.99
-     		Stover N Conc =  11.71 		 Extractable SW = 159.02
-23 January 1999(Day of year=23), operations: 
-      Sending apply message to fertiliser
-23 January 1999(Day of year=23), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-        55.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
-23 January 1999(Day of year=23), Sorghum: 
-     Stage 7 Flowering  DAS = 73
-     		Biomass       = 1096.30 		 LAI            =   5.94
-     		Stover N Conc =  15.23 		 Extractable SW = 122.55
-27 January 1999(Day of year=27), Sorghum: 
-     Stage 8 StartGrainFill  DAS = 77
-     		Biomass       = 1205.67 		 LAI            =   5.94
-     		Stover N Conc =  16.38 		 Extractable SW = 115.10
-5 March 1999(Day of year=64), Sorghum: 
-     Stage 9 EndGrainFill  DAS = 114
-     		Biomass       = 2130.97 		 LAI            =   5.18
-     		Stover N Conc =   9.36 		 Extractable SW = 112.55
-7 March 1999(Day of year=66), Sorghum: 
-     Stage 10 Maturity  DAS = 116
-     		Biomass       = 2193.00 		 LAI            =   4.67
-     		Stover N Conc =   8.50 		 Extractable SW =  95.50
-7 March 1999(Day of year=66), clock: 
-     Simulation is terminating due to end criteria being met.

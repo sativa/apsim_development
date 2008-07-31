@@ -471,16 +471,16 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
       Sending apply message to irrigation
 6 February 1997(Day of year=37), Sorghum: 
      Stage 9 EndGrainFill  DAS = 119
-     		Biomass       = 1266.84 		 LAI            =   2.88
-     		Stover N Conc =   5.27 		 Extractable SW = 307.45
+     		Biomass       = 1267.14 		 LAI            =   2.89
+     		Stover N Conc =   5.31 		 Extractable SW = 307.38
 8 February 1997(Day of year=39), Sorghum: 
      Stage 10 Maturity  DAS = 121
-     		Biomass       = 1295.06 		 LAI            =   2.63
-     		Stover N Conc =   4.85 		 Extractable SW = 299.99
+     		Biomass       = 1295.51 		 LAI            =   2.65
+     		Stover N Conc =   4.89 		 Extractable SW = 299.89
 9 February 1997(Day of year=40), Sorghum: 
      Stage 11 HarvestRipe  DAS = 122
-     		Biomass       = 1308.15 		 LAI            =   2.53
-     		Stover N Conc =   4.69 		 Extractable SW = 296.37
+     		Biomass       = 1308.67 		 LAI            =   2.54
+     		Stover N Conc =   4.73 		 Extractable SW = 296.25
 9 February 1997(Day of year=40), Harvesting rule: 
      Manager sending message :- sorghum harvest
      
@@ -488,16 +488,16 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      Flowering (DAS)       = 70 		 Maturity (DAS)          = 121
      Flowering day         = 354 		 Maturity day            = 39
      Maximum LAI           = 3.6 		 Number of leaves        = 17.1
-     Total above ground biomass    (kg/ha) = 13206.3
-     Green above ground biomass    (kg/ha) = 12722.0
-     Senesced above ground biomass (kg/ha) = 484.2
-     Stover (kg/ha)        = 6673.0 	 Grain yield (kg/ha)     = 6533.3
-     Grain % water content = 13.0 		 Grain yield wet (kg/ha) = 7509.5
-     Weight 1000 grains(g) = 33.9 		 Grains/m^2              = 19258.2
+     Total above ground biomass    (kg/ha) = 13212.3
+     Green above ground biomass    (kg/ha) = 12734.0
+     Senesced above ground biomass (kg/ha) = 478.3
+     Stover (kg/ha)        = 6753.2 	 Grain yield (kg/ha)     = 6459.1
+     Grain % water content = 13.0 		 Grain yield wet (kg/ha) = 7424.2
+     Weight 1000 grains(g) = 33.5 		 Grains/m^2              = 19258.2
      Grains/head           = 1925.8
-     Grain N percent    (%)     =      1.76 	 Grain N            (kg/ha) =   115.00
-     Total N content    (kg/ha) =    161.93 	 Senesced N content (kg/ha) =    11.89
-     Green N content    (kg/ha) =     39.09
+     Grain N percent    (%)     =      1.78 	 Grain N            (kg/ha) =   115.22
+     Total N content    (kg/ha) =    162.48 	 Senesced N content (kg/ha) =    11.74
+     Green N content    (kg/ha) =     39.56
      
      Average Stress Indices:                          Water Photo  Water Expan  N Photo
         Emergence           to End of juvenile           1.0          1.0        0.9
@@ -509,13 +509,13 @@ Component    "Sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      
      Crop harvested.
         Organic matter removed from system:-      From Tops		From Roots
-                         DM (kg/ha) =               6533.25		    0.00
-                         N  (kg/ha) =                115.00		    0.00
+                         DM (kg/ha) =               6459.06		    0.00
+                         N  (kg/ha) =                115.22		    0.00
      Manager sending message :- sorghum end_crop
      Crop ended.
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               6673.02		 2026.04
-                         N  (kg/ha) =                 46.93		    4.05
+                         DM (kg/ha) =               6753.25		 2026.04
+                         N  (kg/ha) =                 47.25		    4.05
                          P  (kg/ha) =                  0.00		    0.00
 20 February 1997(Day of year=51), clock: 
      Simulation is terminating due to end criteria being met.
