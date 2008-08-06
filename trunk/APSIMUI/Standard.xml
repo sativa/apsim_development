@@ -366,13 +366,34 @@
     <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\dalby.met</filename>
     </metfile>
-    <climatechange>
-      <maxtmodifier description="Change in maximum temperature in degrees celsius">0.0</maxtmodifier>
-      <mintmodifier description="Change in minimum temperature in degrees celsius">0.0</mintmodifier>
-      <rainmodifier description="Relative change in rainfall">1.0</rainmodifier>
-      <radiationmodifier description="Relative change in radiation">1.0</radiationmodifier>
-      <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
-    </climatechange>
+    <manager name="ClimateControl">
+      <ui>
+        <category description="Climate Control Window" />
+        <date1 type="ddmmmdate" description="Enter window START date (dd-mmm) : ">1-jan</date1>
+        <date2 type="ddmmmdate" description="Enter window END date (dd-mmm) : ">31-dec</date2>
+        <category description="Climate Change Parameters" />
+        <MaxtChange type="text" description="Change in maximum temperature (oC):">1</MaxtChange>
+        <MintChange type="text" description="Change in minimum temperature (oC):">1</MintChange>
+        <RainChange type="text" description="Relative change in daily rainfall (%):">-10</RainChange>
+        <RadnChange type="text" description="Relative change in daily radiation (%):">0</RadnChange>
+        <CO2 type="text" description="Atmospheric CO2 Concentration (ppm)">350</CO2>
+      </ui>
+      <script name="prenewmet">
+        <text>
+!  Adjust daily temperatures, rainfall and radiation up or down according to user-defined amounts
+! To apply different levels of climate control to different times of year add multiple copies of this logic into your simulation and change the window.
+
+if (date_within('[date1], [date2]') = 1) then
+   maxt = maxt + [MaxtChange]
+   mint = mint + [MintChange]
+   rain = rain + rain * [RainChange] / 100
+   radn = radn + radn * [RadnChange] / 100
+   co2 = [CO2]
+ endif
+</text>
+        <event>prenewmet</event>
+      </script>
+    </manager>
     <patchinput>
       <filename name="filename">
       </filename>
@@ -3211,12 +3232,12 @@ proc appletInit {w} {
    upvar #0 $w data
    global XMLDoc GlobalXMLDoc
    package require tdom
- 
+
    set data(doc) [dom parse $XMLDoc]
    set data(docroot) [$data(doc) documentElement]
    set data(rscript) [getValue $data(docroot) rscript]
    set data(gdocroot) [[dom parse $GlobalXMLDoc] documentElement]
-}   
+}
 
 # find input &amp; output files
 proc findFiles {w} {
@@ -3227,7 +3248,7 @@ proc findFiles {w} {
    # Dodgy voodoo from ReporComponent.cpp - blame holzworth..
    foreach node [$data(gdocroot) selectNodes "//outputfile" ] {
        set simroot $node
-       while {"$simroot" != "" &amp;&amp; 
+       while {"$simroot" != "" &amp;&amp;
               [$simroot nodeName] != "simulation"} {
           set parent [$simroot getAttribute name]
           set simroot [$simroot parent]
@@ -3294,7 +3315,7 @@ proc regenerate {w} {
    if {$width &lt; 500} {set width 500}
    set height [expr [winfo height .]-30]
    if {$height &lt; 500} {set height 500}
-   
+
    set fp [open $data(outputScript) w]
    puts $fp "outputWidth &lt;- $width"
    puts $fp "outputHeight &lt;- $height"
@@ -3305,11 +3326,11 @@ proc regenerate {w} {
 
    set path [registry get HKEY_LOCAL_MACHINE\\software\\R-core\\R InstallPath]
    set rterm [file norm $path]/bin/rterm.exe
-   
+
    catch {
-     exec $rterm --slave --vanilla &lt; $data(outputScript)  
+     exec $rterm --slave --vanilla &lt; $data(outputScript)
    } msg
-   
+
    if {[file exists $data(output)]} {
       set data(image) [image create photo -file $data(output)]
       $w.l config -image $data(image)
@@ -3321,7 +3342,7 @@ proc regenerate {w} {
 
 proc setupUI {w} {
    upvar #0 $w data
-   
+
    label $w.l
    message $w.m -textvariable $w\(message\) -aspect 1000
    grid $w.l -row 0 -column 0 -sticky nsew
@@ -3381,7 +3402,7 @@ proc finishEditRule {w t} {
 ##############################
 foreach name [image names] {image delete $name}
 catch {destroy .w}
-frame .w   
+frame .w
 grid forget .
 grid .w -row 1 -column 1 -sticky nsew
 grid columnconf . 1 -weight 1
@@ -3426,7 +3447,7 @@ d&lt;- NULL
 for (f in files) {
    if (file.access(f, 0) == 0) {
       d&lt;- rbind(d, cbind(file=f, as.data.frame(read.apsim(f))))
-   }   
+   }
 }
 png(output,width=outputWidth,height=outputHeight)
 boxplot(yield ~ file, d)
