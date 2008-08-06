@@ -1775,9 +1775,10 @@ subroutine soiln2_set_my_variable (variable_name)
 
    if (variable_name .eq. 'no3') then
       oldN = g%no3
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', g%no3, numvals, 0.0, 1000.0)
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', no3, numvals, 0.0, 1000.0)
 
       do layer = 1, numvals
+         g%no3(layer) = no3(layer)
          call bound_check_real_var (g%no3(layer), g%no3_min(layer), g%no3(layer), 'g%NO3(layer)')
       end do
       dltN = sum(g%no3) - sum(oldN)
@@ -1799,9 +1800,10 @@ subroutine soiln2_set_my_variable (variable_name)
    elseif (variable_name .eq. 'nh4') then
 
       oldN = g%nh4
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', g%nh4, numvals, 0.0, 1000.0)
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', nh4, numvals, 0.0, 1000.0)
 
       do layer = 1, numvals
+         g%nh4(layer) = nh4(layer)
          call bound_check_real_var (g%nh4(layer), g%nh4_min(layer), g%nh4(layer), 'g%NH4(layer)')
       end do
       dltN = sum(g%nh4) - sum(oldN)
@@ -5046,7 +5048,7 @@ subroutine doInit1()
    id%newmet = add_registration(respondToEventReg, 'newmet', newmetTypeDDML, '')
    id%potentialresiduedecompositioncalculated = add_registration(respondToEventReg, 'potentialresiduedecompositioncalculated', SurfaceOrganicMatterDecompTypeDDML, '')
    id%freshorganicmatterincorporated = add_registration(respondToEventReg, 'freshorganicmatterincorporated', FPoolProfileLayerTypeDDML, '')
-   id%new_profile = add_registration(respondToEventReg, 'new_profile', newprofileTypeDDML, '')                                       
+   id%new_profile = add_registration(respondToEventReg, 'new_profile', newprofileTypeDDML, '')
 
    ! variables we get from other modules.
    dummy = add_registration_with_units(getVariableReg, 'amp', floatTypeDDML, 'oC')
