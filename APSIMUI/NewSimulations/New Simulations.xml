@@ -643,14 +643,34 @@
     <summaryfile>
       <filename name="filename">Continuous Wheat Simulation with Climate Change.sum</filename>
     </summaryfile>
-    <climatechange>
-      <maxtmodifier description="Change in maximum temperature in degrees celsius">1</maxtmodifier>
-      <mintmodifier description="Change in minimum temperature in degrees celsius">1</mintmodifier>
-      <rainmodifier description="Relative change in rainfall">0.9</rainmodifier>
-      <radiationmodifier description="Relative change in radiation">1.0</radiationmodifier>
-      <co2 description="Atmospheric C02 concentration (ppm)">400</co2>
-    </climatechange>
-    <area name="paddock">
+    <manager name="ClimateControl">
+      <ui>
+        <category description="Climate Control Window" />
+        <date1 type="ddmmmdate" description="Enter window START date (dd-mmm) : ">1-jan</date1>
+        <date2 type="ddmmmdate" description="Enter window END date (dd-mmm) : ">31-dec</date2>
+        <category description="Climate Change Parameters" />
+        <MaxtChange type="text" description="Change in maximum temperature (oC):">1</MaxtChange>
+        <MintChange type="text" description="Change in minimum temperature (oC):">1</MintChange>
+        <RainChange type="text" description="Relative change in daily rainfall (%):">-10</RainChange>
+        <RadnChange type="text" description="Relative change in daily radiation (%):">0</RadnChange>
+        <CO2 type="text" description="Atmospheric CO2 Concentration (ppm)">350</CO2>
+      </ui>
+      <script name="prenewmet">
+        <text>
+!  Adjust daily temperatures, rainfall and radiation up or down according to user-defined amounts
+! To apply different levels of climate control to different times of year add multiple copies of this logic into your simulation and change the window.
+
+if (date_within('[date1], [date2]') = 1) then
+   maxt = maxt + [MaxtChange]
+   mint = mint + [MintChange]
+   rain = rain + rain * [RainChange] / 100
+   radn = radn + radn * [RadnChange] / 100
+   co2 = [CO2]
+ endif
+</text>
+        <event>prenewmet</event>
+      </script>
+    </manager>    <area name="paddock">
       <registrations name="global" />
       <folder name="Manager folder">
         <manager name="Sowing rule">
