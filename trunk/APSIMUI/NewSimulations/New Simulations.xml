@@ -112,14 +112,14 @@
       <outputfile>
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-          <variable name="wheat.biomass" description="Biomass" array="?" units="kg/ha" />
-          <variable name="wheat.yield" description="Yield" array="?" units="kg/ha" />
-          <variable name="wheat.grain_protein" description="grain protein content" array="?" units="%" />
-          <variable name="wheat.grain_size" description="Size of each grain" array="?" units="g" />
+          <variable name="biomass" description="Biomass" array="?" units="kg/ha" />
+          <variable name="yield" description="Yield" array="?" units="kg/ha" />
+          <variable name="grain_protein" description="grain protein content" array="?" units="%" />
+          <variable name="grain_size" description="Size of each grain" array="?" units="g" />
           <variable name="esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
         </variables>
         <events name="Reporting Frequency">
-          <event name="wheat.harvesting" description="" />
+          <event name="harvesting" description="" />
         </events>
       </outputfile>
       <soil name="Jimbour,Waco (#016)">
@@ -755,14 +755,14 @@ if (date_within('[date1], [date2]') = 1) then
       <outputfile>
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-          <variable name="wheat.biomass" description="Biomass" array="?" units="kg/ha" />
-          <variable name="wheat.yield" description="Yield" array="?" units="kg/ha" />
-          <variable name="wheat.grain_protein" description="grain protein content" array="?" units="%" />
-          <variable name="wheat.grain_size" description="Size of each grain" array="?" units="g" />
+          <variable name="biomass" description="Biomass" array="?" units="kg/ha" />
+          <variable name="yield" description="Yield" array="?" units="kg/ha" />
+          <variable name="grain_protein" description="grain protein content" array="?" units="%" />
+          <variable name="grain_size" description="Size of each grain" array="?" units="g" />
           <variable name="esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
         </variables>
         <events name="Reporting Frequency">
-          <event name="wheat.harvesting" description="" />
+          <event name="harvesting" description="" />
         </events>
       </outputfile>
       <soil name="Jimbour,Waco (#016)">
@@ -1290,12 +1290,12 @@ if (date_within('[date1], [date2]') = 1) then
       <outputfile>
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-          <variable name="sorghum.biomass" description="Biomass" array="?" units="kg/ha" />
-          <variable name="sorghum.yield" description="Yield" array="?" units="kg/ha" />
+          <variable name="biomass" description="Biomass" array="?" units="kg/ha" />
+          <variable name="yield" description="Yield" array="?" units="kg/ha" />
           <variable name="esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
         </variables>
         <events name="Reporting Frequency">
-          <event name="sorghum.harvesting" description="" />
+          <event name="harvesting" description="" />
         </events>
       </outputfile>
       <folder name="Manager folder">
@@ -2284,9 +2284,9 @@ if (date_within('[date1], [date2]') = 1) then
           <variable name="esw" description="Extractable Soil Water (mm)" VariableType="Water" array="?" />
           <variable name="day" description="Day" array="?" />
           <variable name="year" description="Year" array="?" />
-          <variable name="maize.yield" description="Maize Yield (kg/ha)" array="?" />
-          <variable name="maize.stover" description="Maize Stover (kg/ha)" array="?" />
-          <variable name="maize.biomass" description="Maize Total Above Ground Biomass (kg/ha)" array="?" />
+          <variable name="yield" description="Yield (kg/ha)" array="?" />
+          <variable name="stover" description="Stover (kg/ha)" array="?" />
+          <variable name="biomass" description="Total Above Ground Biomass (kg/ha)" array="?" />
         </variables>
         <events name="My Variables Events" />
       </outputfile>
@@ -3341,13 +3341,12 @@ if (date_within('[date1], [date2]') = 1) then
         <filename name="filename">Continuous Maize and Weeds Simulation.out</filename>
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-          <variable name="Zimbabwe Fertile Luvisol (187mm PAWC) Water.esw" description="Extractable Soil Water (mm)" array="?" />
+          <variable name="esw" description="Extractable Soil Water (mm)" array="?" />
           <variable name="day" description="Day" array="?" />
           <variable name="year" description="Year" array="?" />
-          <variable name="maize.yield" description="Maize Yield (kg/ha)" array="?" />
-          <variable name="maize.stover" description="Maize Stover (kg/ha)" array="?" />
-          <variable name="maize.biomass" description="Maize Total Above Ground Biomass (kg/ha)" array="?" />
-          <variable name="weed.biomass" description="Biomass" array="No" />
+          <variable name="yield" description="Yield (kg/ha)" array="?" />
+          <variable name="stover" description="Stover (kg/ha)" array="?" />
+          <variable name="biomass" description="Total Above Ground Biomass (kg/ha)" array="?" />
         </variables>
         <events name="My Variables Events" />
       </outputfile>
@@ -4511,17 +4510,17 @@ if (date_within('[date1], [date2]') = 1) then
         <filename name="filename">Continuous Maize Bimodal Simulation.out</filename>
         <variables name="My Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-          <variable name="Chromic Luvisol, Katumani Research Station (PAWC = 164mm) Water.esw" description="Extractable Soil Water (mm)" array="?" />
+          <variable name="esw" description="Extractable Soil Water (mm)" array="?" />
           <variable name="day" description="Day" array="?" />
           <variable name="year" description="Year" array="?" />
-          <variable name="maize.yield" description="Maize Yield (kg/ha)" array="?" />
-          <variable name="maize.stover" description="Maize Stover (kg/ha)" array="?" />
-          <variable name="maize.biomass" description="Maize Total Above Ground Biomass (kg/ha)" array="?" />
-          <variable name="maize.swdef_expan" description="Maize soil water factor for expansion" array="?" />
-          <variable name="maize.swdef_photo" description="Maize soil water factor for photosynthesis" array="?" />
-          <variable name="maize.nfact_expan" description="Maize Nitrogen factor for expansion" array="?" />
-          <variable name="maize.nfact_photo" description="Maize Nitrogen factor for photosynthesis" array="?" />
-          <variable name="maize.grain_no" description="Maize Grain number (g/m2)" array="?" />
+          <variable name="yield" description="Yield (kg/ha)" array="?" />
+          <variable name="stover" description="Stover (kg/ha)" array="?" />
+          <variable name="biomass" description="Total Above Ground Biomass (kg/ha)" array="?" />
+          <variable name="swdef_expan" description="Soil water factor for expansion" array="?" />
+          <variable name="swdef_photo" description="Soil water factor for photosynthesis" array="?" />
+          <variable name="nfact_expan" description="Nitrogen factor for expansion" array="?" />
+          <variable name="nfact_photo" description="Nitrogen factor for photosynthesis" array="?" />
+          <variable name="grain_no" description="Grain number (g/m2)" array="?" />
           <variable name="Chromic Luvisol, Katumani Research Station (PAWC = 164mm) Nitrogen.no3()" description="NO3 - layered (kg/ha)" array="?" />
         </variables>
         <events name="My Variables Events" />
@@ -5999,12 +5998,10 @@ if (date_within('[date1], [date2]') = 1) then
           <variable name="esw" description="Extractable Soil Water (mm)" VariableType="Water" array="?" />
           <variable name="day" description="Day" array="?" />
           <variable name="year" description="Year" array="?" />
-          <variable name="maize.yield as yield_mz" description="Maize Yield (kg/ha)" array="?" />
-          <variable name="maize.stover as stover_mz" description="Maize Stover (kg/ha)" array="?" />
-          <variable name="maize.biomass as biom_mz" description="Maize Total Above Ground Biomass (kg/ha)" array="?" />
+          <variable name="yield" description="Yield (kg/ha)" array="?" />
+          <variable name="stover" description="Stover (kg/ha)" array="?" />
+          <variable name="biomass" description="Total Above Ground Biomass (kg/ha)" array="?" />
           <variable name="surface organic matter.surfaceom_wt" description="Total mass of all surface organic materials" array="?" />
-          <variable name="peanut.yield as yield_pnut" description="Yield" array="?" />
-          <variable name="peanut.biomass as biomass_pnut" description="Biomass" array="?" />
           <variable name="Manager.crop_in" array="?" />
           <variable name="Manager.next_crop" array="?" />
           <variable name="Manager.ready_for_next" array="?" />
@@ -6554,11 +6551,11 @@ if (date_within('[date1], [date2]') = 1) then
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
-          <variable name="egrandis.lai" description="E. grandis leaf area index" array="?" />
-          <variable name="egrandis.adm_green" array="?" description="E. grandis Live Above-ground Biomass Pools" />
-          <variable name="egrandis.fw" description="E. grandis water stress factor" array="?" />
-          <variable name="egrandis.fn" description="E. grandis N stress factor" array="?" />
-          <variable name="egrandis.plants" description="E. grandis Plant Population" array="?" />
+          <variable name="lai" description="E. grandis leaf area index" array="?" />
+          <variable name="adm_green" array="?" description="E. grandis Live Above-ground Biomass Pools" />
+          <variable name="fw" description="E. grandis water stress factor" array="?" />
+          <variable name="fn" description="E. grandis N stress factor" array="?" />
+          <variable name="plants" description="E. grandis Plant Population" array="?" />
         </variables>
         <events name="Reporting Frequency">
           <event name="post" description="End of daily simulation time step" />
@@ -6892,19 +6889,19 @@ if (date_within('[date1], [date2]') = 1) then
       <outputfile>
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-          <variable name="sugar.biomass" description="Sugar total above-ground biomass (green + trash) (g/m2)" array="?" />
-          <variable name="sugar.cane_wt" description="Sugar cane dry weight (g/m2)" array="?" />
-          <variable name="sugar.sucrose_wt" description="Sugar sucrose weight (g/m2)" array="?" />
-          <variable name="sugar.sw_demand" description="Sugar crop demand for water (potential uptake) (mm)" array="?" />
-          <variable name="sugar.DaysAfterSowing" description="Sugar days after sowing" array="?" />
-          <variable name="sugar.ratoon_no" description="Sugar Ratoon number" array="?" />
-          <variable name="sugar.crop_status" description="Sugar Crop status (dead,alive,out)" array="?" />
-          <variable name="sugar.esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
-          <variable name="sugar.lai" description="Sugar green leaf area index" array="?" />
-          <variable name="sugar.nfact_photo" description="Sugar Nitrogen stress factor on photosynthesis (0-1)" array="?" />
-          <variable name="sugar.root_depth" description="Sugar depth of roots (mm)" array="?" />
-          <variable name="sugar.swdef_photo" description="Sugar water stress factor on photosynthesis (0-1)" array="?" />
-          <variable name="sugar.canefw" description="Sugar cane fresh weight (t/ha)" array="?" />
+          <variable name="biomass" description="Sugar total above-ground biomass (green + trash) (g/m2)" array="?" />
+          <variable name="cane_wt" description="Sugar cane dry weight (g/m2)" array="?" />
+          <variable name="sucrose_wt" description="Sugar sucrose weight (g/m2)" array="?" />
+          <variable name="sw_demand" description="Sugar crop demand for water (potential uptake) (mm)" array="?" />
+          <variable name="DaysAfterSowing" description="Sugar days after sowing" array="?" />
+          <variable name="ratoon_no" description="Sugar Ratoon number" array="?" />
+          <variable name="crop_status" description="Sugar Crop status (dead,alive,out)" array="?" />
+          <variable name="esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
+          <variable name="lai" description="Sugar green leaf area index" array="?" />
+          <variable name="nfact_photo" description="Sugar Nitrogen stress factor on photosynthesis (0-1)" array="?" />
+          <variable name="root_depth" description="Sugar depth of roots (mm)" array="?" />
+          <variable name="swdef_photo" description="Sugar water stress factor on photosynthesis (0-1)" array="?" />
+          <variable name="canefw" description="Sugar cane fresh weight (t/ha)" array="?" />
           <variable name="radn" description="Solar Radiation (MJ/m2/day)" array="?" />
           <variable name="rain" description="Rainfall (mm)" array="?" />
           <variable name="maxt" description="Maximum temperature (oC)" array="?" />
@@ -7555,6 +7552,8 @@ if (date_within('[date1], [date2]') = 1) then
     </summaryfile>
     <outputfile name="Outputfile">
       <variables name="My Variables">
+        <variable name="clock.dd/mmm/yyyy" description="Date (dd/mmm/yyyy)" array="?" />
+        <variable name="clock.year" description="Year" array="?" />
         <variable name="StockHerbageConverter.dm_feed_on_offer()" description="Dry matter of feed on offer (kg/ha)" array="?" />
         <variable name="StockHerbageConverter.dm_feed_removed()" description="Dry matter of feed removed (kg/ha)" array="?" />
         <variable name="stock.age" array="?" />
@@ -7563,30 +7562,17 @@ if (date_within('[date1], [date2]') = 1) then
         <variable name="stock.sex" array="?" />
         <variable name="stock.past_intake" array="?" />
         <variable name="stock.number" array="?" />
-        <variable name="lucerne.biomass" description="Biomass" array="?" />
-        <variable name="lucerne.stage" description="Plant stage" array="?" />
-        <variable name="lucerne.lai" description="Leaf area index" array="?" />
         <variable name="stock.cond_score_all" array="?" />
         <variable name="stock.past_intake_all" array="?" />
         <variable name="stock.supp_intake_all" array="?" />
         <variable name="stock.fleece_wt_all" array="?" />
         <variable name="stock.fibre_diam_all" array="?" />
-        <variable name="clock.dd/mmm/yyyy" description="Date (dd/mmm/yyyy)" array="?" />
-        <variable name="clock.year" description="Year" array="?" />
-        <variable name="met.rain" description="Rainfall (mm)" array="?" />
-        <variable name="lucerne.cover_tot" array="?" />
-        <variable name="lucerne.dlt_dm" description="Change in dry matter" array="?" />
-        <variable name="lucerne.dlt_dm_green as dlt_dm_green_leaf(2)" description="change in green pool" array="?" />
-        <variable name="lucerne.dlt_dm_green as dlt_dm_green_stem(3)" description="change in green pool" array="?" />
-        <variable name="lucerne.LeafGreenWt" description="Weight of leaf" array="?" />
-        <variable name="lucerne.StemGreenWt" description="Weight of stem" array="?" />
-        <variable name="lucerne.LeafSenescedWt" description="Weight of senesced leaf" array="?" />
-        <variable name="lucerne.StemSenescedWt" description="Weight of senesced stem" array="?" />
-        <variable name="lucerne.dm_dead_stem" description="Weight of dead stem" array="?" />
-        <variable name="lucerne.dm_dead_leaf" description="Weight of dead leaf" array="?" />
+        <variable name="lucerne.biomass" description="Biomass" array="?" />
+        <variable name="lucerne.stage" description="Plant stage" array="?" />
+        <variable name="lucerne.lai" description="Leaf area index" array="?" />
       </variables>
       <events name="My Variables Events">
-        <event name="clock.post" description="End of daily simulation time step" />
+        <event name="daily" description="" />
       </events>
     </outputfile>
     <folder name="Manager folder">
@@ -10680,9 +10666,7 @@ proc sow_[crop] {} {
       <outputfile>
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-          <variable name="cotton.yield as cotton" description="" array="" />
-          <variable name="wheat.yield as wyield" description="" array="No" />
-          <variable name="chickpea.yield as cyield" description="" array="No" />
+          <variable name="yield" description="" array="" />
           <variable name="biomass" />
         </variables>
         <events name="Reporting Frequency">
