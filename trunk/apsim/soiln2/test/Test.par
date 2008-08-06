@@ -260,8 +260,6 @@ logfile = test5.log
 
 ! ================ TEST 6 ===============================
 ! Addition of fertiliser
-[test6.SummaryFile.parameters]
-summaryfile = test6.sum
 
 [test6.report.parameters]
 outputfile =test6.out
@@ -296,6 +294,39 @@ logfile = test6.log
 residue_name =     residue1
 type = lucerne
 mass = 4000
+cnr = 100
+standing_fraction = .0
+name = lucerne
+
+! ================ TEST 7 ===============================
+! Addition of fertiliser
+
+[test7.report.parameters]
+outputfile =test7.out
+variable = clock.day
+variable = clock.year
+variable = soiln2.no3
+variable = soiln2.nh4
+
+[test7.manager.end_of_day]
+if day = 10 then
+    soiln2 set no3 = 200 200
+    soiln2 set nh4 = 200 200
+elseif day = 20 then
+    soiln2 set no3ppm = 1 1 1
+    soiln2 set nh4ppm = 1 1 1
+endif
+
+report do_output
+
+[test7.log.parameters]
+debug_output = on
+logfile = test7.log
+
+[test7.SurfaceOM.parameters]
+residue_name =     residue1
+type = lucerne
+mass = 1
 cnr = 100
 standing_fraction = .0
 name = lucerne
