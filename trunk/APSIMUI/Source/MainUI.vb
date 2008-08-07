@@ -288,8 +288,9 @@ Public Class MainUI
         Me.ToolBoxesToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolboxesButton, Me.ToolStripSeparator2})
         Me.ToolBoxesToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.ToolBoxesToolStrip.Name = "ToolBoxesToolStrip"
-        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(91, 31)
+        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(109, 31)
         Me.ToolBoxesToolStrip.TabIndex = 2
+        Me.ToolBoxesToolStrip.ShowItemToolTips = False
         '
         'ManageToolboxesButton
         '
@@ -297,7 +298,7 @@ Public Class MainUI
         Me.ManageToolboxesButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ManageToolboxesButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ManageToolboxesButton.Name = "ManageToolboxesButton"
-        Me.ManageToolboxesButton.Size = New System.Drawing.Size(73, 28)
+        Me.ManageToolboxesButton.Size = New System.Drawing.Size(91, 28)
         Me.ManageToolboxesButton.Text = "&Manage"
         '
         'ToolStripSeparator2
@@ -467,12 +468,12 @@ Public Class MainUI
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(182, 26)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(240, 28)
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(181, 22)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(239, 24)
         Me.ToolStripMenuItem1.Text = "ToolStripMenuItem1"
         '
         'MainUI
