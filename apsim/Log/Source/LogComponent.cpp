@@ -14,6 +14,7 @@
 
 #include <ApsimShared/FStringExt.h>
 #include <ApsimShared/ApsimComponentData.h>
+#include <ApsimShared/ApsimRegistry.h>
 #include <ComponentInterface/Component.h>
 #include <Protocol/Transport.h>
 
@@ -228,8 +229,8 @@ void LogComponent::writeMessage(const string& toName,
       "TerminateSimulation", "<unused>", "<unused>", "<unused>", "<unused>", "<unused>", "<unused>", "<unused>",
       "ApsimGetQuery", "ApsimSetQuery", "ApsimChangeOrder"};
 
-   if (message->messageType == protocol::Register)
-      storeRegistration(message);
+//   if (message->messageType == protocol::Register)
+//      storeRegistration(message);
    out << "to=\"" << toName << "\"";
    out << " msgtype=\"" << messageNames[message->messageType-1] << "\"";
    out << " ack=\"";
@@ -262,8 +263,12 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          messageData >> registerData;
          out << " kind=\"" << typeCodeToString((EventTypeCode)registerData.kind) << "\"";
          out << " name=\"" << asString(registerData.name) << "\"";
-         if (registerData.destID > 0)
-            out << " directedToComponent=\"" << registerData.destID << "\"";
+         if (registerData.destID > 0) 
+            {
+            string compName;
+            componentIDToName(registerData.destID, compName);
+            out << " directedToComponent=\"" << compName << "\"";
+            }
          out << " type=\"" << formatType(asString(registerData.type)) << "\"";
          break;
          }
@@ -290,7 +295,9 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          {
          protocol::ReturnValueData returnValueData;
          messageData >> returnValueData;
-         out << " compid = \"" << returnValueData.fromID << "\"";
+         string compName;
+         componentIDToName(returnValueData.fromID, compName);
+         out << " component = \"" << compName << "\"";
          break;
          }
       case protocol::PublishEvent:
@@ -336,11 +343,11 @@ void LogComponent::writeMessageData(const protocol::Message* message)
 // ------------------------------------------------------------------
 void LogComponent::storeRegistration(const Message* message)
    {
-   MessageData messageData((Message*)message);
-   RegisterData registerData;
-   messageData >> registerData;
-   components[message->from].registrations.insert(
-      LogComponent::Registrations::value_type(make_pair(registerData.ID, (unsigned)registerData.kind), asString(registerData.name)));
+//   MessageData messageData((Message*)message);
+//   RegisterData registerData;
+//   messageData >> registerData;
+//   components[message->from].registrations.insert(
+//      LogComponent::Registrations::value_type(make_pair(registerData.ID, (unsigned)registerData.kind), asString(registerData.name)));
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -353,11 +360,11 @@ void LogComponent::storeRegistration(const Message* message)
 void LogComponent::writeRegistrationData(const Message* message, EventTypeCode kind)
    {
    MessageData messageData((Message*) message);
-   unsigned int ID;
-   messageData >> ID;
-
-   out << " regName=\"" << components[message->from].registrations[make_pair(ID, (unsigned)kind)] << "\"";
-//   out << " regID=\"" << ID << "\"";
+   unsigned int regID;
+   messageData >> regID;
+   ApsimRegistration *reg = ApsimRegistry::getApsimRegistry().find(kind, message->from, regID);
+   if (reg == NULL) throw std::runtime_error("NULL in LogComponent::writeRegistrationData");
+   out << " regName=\"" << reg->getName() << "\"";
    }
 // ------------------------------------------------------------------
 //  Short description:
