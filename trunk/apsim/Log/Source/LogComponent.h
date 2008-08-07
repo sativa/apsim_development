@@ -28,14 +28,14 @@ class LogComponent : public protocol::Component,
       int nesting;
       unsigned debug_outputID;
 
-      typedef std::pair<unsigned, unsigned> key;
-      typedef std::map<key, std::string> Registrations;
-      struct RegComponent
-         {
-         Registrations registrations;
-         };
-      typedef std::map<unsigned int, RegComponent> Components;
-      Components components;
+//      typedef std::pair<unsigned, unsigned> key;
+//      typedef std::map<key, std::string> Registrations;
+//      struct RegComponent
+//         {
+//         Registrations registrations;
+//         };
+//      typedef std::map<unsigned int, RegComponent> Components;
+//      Components components;
 
       void writeMessage(const std::string& toName,
                         const protocol::Message* message,
