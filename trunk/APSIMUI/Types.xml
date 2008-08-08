@@ -339,6 +339,10 @@
             <irrigation_efficiency>[irrigation.irrigation_efficiency]</irrigation_efficiency>
             <irrigation_allocation>[irrigation.irrigation_allocation]</irrigation_allocation>
             <allocation>[irrigation.allocation]</allocation>
+            <solutes>nh4 no3 cl</solutes>
+            <default_no3_conc>[irrigation.default_no3_conc]</default_no3_conc>
+            <default_nh4_conc>[irrigation.default_nh4_conc]</default_nh4_conc>
+            <default_cl_conc>[irrigation.default_cl_conc]</default_cl_conc>
          </sim>
       </ApsimToSim>
    </irrigation>
@@ -3118,8 +3122,8 @@
          <ini>%apsuite\apsim\solute\solute.xml</ini>
          <sim>
             <solute_names>cl</solute_names>
-            <d0_cl>[solute.d0]</d0_cl>
-            <cl>[solute.layers]</cl>
+            <d0_cl>[cl.d0]</d0_cl>
+            <cl>[cl.layers]</cl>
          </sim>
       </ApsimToSim>
    </cl>
