@@ -72,70 +72,28 @@ Public Class ApsimUIActions
             Alias "apsimoutlookFiles" (ByVal outFileList As String)
 
     Public Shared Sub Graph(ByVal Controller As BaseController)
-        Dim FileNames As String = GetCSVListOfOutputFiles(Controller)
-        If FileNames <> "" Then
+        Dim FileNames As String = BaseActions.GetCSVListOfOutputFiles(Controller)
+        If FileNames = "" Then
+            MessageBox.Show("No output files found")
+        Else
             apsvisFiles(FileNames)
         End If
     End Sub
     Public Shared Sub ApsimOutlook(ByVal Controller As BaseController)
-        Dim FileNames As String = GetCSVListOfOutputFiles(Controller)
-        If FileNames <> "" Then
+        Dim FileNames As String = BaseActions.GetCSVListOfOutputFiles(Controller)
+        If FileNames = "" Then
+            MessageBox.Show("No output files found")
+        Else
             apsimoutlookFiles(FileNames)
         End If
     End Sub
     Public Shared Sub Excel(ByVal Controller As BaseController)
-        Dim FileNames As String = GetCSVListOfOutputFiles(Controller)
-        If FileNames <> "" Then
+        Dim FileNames As String = BaseActions.GetCSVListOfOutputFiles(Controller)
+        If FileNames = "" Then
+            MessageBox.Show("No output files found")
+        Else
             excelFiles(FileNames)
         End If
-    End Sub
-    Private Shared Function GetCSVListOfOutputFiles(ByVal Controller As BaseController) As String
-        ' ---------------------------------------------------------------
-        ' Return to caller a list of all output files that the user has 
-        ' selected to export. Returns "" if user hits cancel.
-        ' ---------------------------------------------------------------
-        Dim OutputFiles As New StringCollection
-        For Each SelectedNodePath As String In Controller.SelectedPaths
-            Dim SelectedData As ApsimFile.Component = Controller.ApsimData.Find(SelectedNodePath)
-            While SelectedData.Type <> "simulation" AndAlso SelectedData.Type <> "folder" AndAlso SelectedData.Type <> "simulations"
-                SelectedData = SelectedData.Parent
-            End While
-            GetOutputFiles(Controller, SelectedData, OutputFiles)
-        Next
-        Dim ReturnString As String = ""
-        For Each St As String In OutputFiles
-            If ReturnString <> "" Then
-                ReturnString += ","
-            End If
-            ReturnString += St
-        Next
-        If ReturnString = "" Then
-            MessageBox.Show("No output files found")
-        End If
-        Return ReturnString
-    End Function
-
-    Private Shared Sub GetOutputFiles(ByVal Controller As BaseController, ByVal Data As ApsimFile.Component, ByVal OutputFiles As StringCollection)
-        ' ------------------------------------------------------------
-        'return an array of output filenames under the specified data.
-        ' ------------------------------------------------------------
-        For Each Child As ApsimFile.Component In Data.ChildNodes
-            ' If child node is an "area", "simulation" or "simulations" then node is not a leaf
-            ' and a recursive call is made
-            If Child.Type.ToLower() = "area" Or Child.Type.ToLower() = "simulation" _
-               Or Child.Type.ToLower() = "simulations" Or Child.Type.ToLower() = "folder" Then
-                GetOutputFiles(Controller, Child, OutputFiles)
-
-            ElseIf Child.Type.ToLower() = "outputfile" Then
-                Dim FullFileName As String = BaseActions.CalcFileName(Child)
-                If Controller.ApsimData.FileName <> "" Then
-                    FullFileName = Path.Combine(Path.GetDirectoryName(Controller.ApsimData.FileName), FullFileName)
-                End If
-                If File.Exists(FullFileName) Then
-                    OutputFiles.Add(FullFileName)
-                End If
-            End If
-        Next
     End Sub
 #End Region
 

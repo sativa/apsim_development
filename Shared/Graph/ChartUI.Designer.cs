@@ -30,6 +30,8 @@ namespace Graph
             {
             this.Chart = new Steema.TeeChart.TChart();
             this.ColourDialog = new System.Windows.Forms.ColorDialog();
+            this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.PropertyGridSplitter = new System.Windows.Forms.Splitter();
             this.SuspendLayout();
             // 
             // Chart
@@ -37,7 +39,7 @@ namespace Graph
             // 
             // 
             // 
-            this.Chart.Aspect.ColorPaletteIndex = 4;
+            this.Chart.Aspect.ColorPaletteIndex = 3;
             this.Chart.Aspect.ElevationFloat = 345;
             this.Chart.Aspect.RotationFloat = 345;
             this.Chart.Aspect.View3D = false;
@@ -71,7 +73,7 @@ namespace Graph
             // 
             // 
             this.Chart.Axes.Bottom.Labels.Font.Shadow.Visible = false;
-            this.Chart.Axes.Bottom.Labels.Font.Size = 12;
+            this.Chart.Axes.Bottom.Labels.Font.Size = 9;
             this.Chart.Axes.Bottom.Labels.Separation = 80;
             // 
             // 
@@ -102,7 +104,7 @@ namespace Graph
             // 
             // 
             this.Chart.Axes.Bottom.Title.Font.Shadow.Visible = false;
-            this.Chart.Axes.Bottom.Title.Font.Size = 12;
+            this.Chart.Axes.Bottom.Title.Font.Size = 11;
             this.Chart.Axes.Bottom.Title.Lines = new string[] {
         "Date"};
             // 
@@ -209,7 +211,7 @@ namespace Graph
             // 
             // 
             this.Chart.Axes.Left.Labels.Font.Shadow.Visible = false;
-            this.Chart.Axes.Left.Labels.Font.Size = 12;
+            this.Chart.Axes.Left.Labels.Font.Size = 9;
             this.Chart.Axes.Left.Labels.Separation = 80;
             // 
             // 
@@ -277,7 +279,7 @@ namespace Graph
             // 
             // 
             this.Chart.Axes.Right.Labels.Font.Shadow.Visible = false;
-            this.Chart.Axes.Right.Labels.Font.Size = 12;
+            this.Chart.Axes.Right.Labels.Font.Size = 9;
             this.Chart.Axes.Right.Labels.Separation = 80;
             // 
             // 
@@ -307,7 +309,7 @@ namespace Graph
             // 
             // 
             this.Chart.Axes.Right.Title.Font.Shadow.Visible = false;
-            this.Chart.Axes.Right.Title.Font.Size = 12;
+            this.Chart.Axes.Right.Title.Font.Size = 11;
             // 
             // 
             // 
@@ -339,7 +341,7 @@ namespace Graph
             // 
             // 
             this.Chart.Axes.Top.Labels.Font.Shadow.Visible = false;
-            this.Chart.Axes.Top.Labels.Font.Size = 12;
+            this.Chart.Axes.Top.Labels.Font.Size = 9;
             this.Chart.Axes.Top.Labels.Separation = 80;
             // 
             // 
@@ -369,7 +371,7 @@ namespace Graph
             // 
             // 
             this.Chart.Axes.Top.Title.Font.Shadow.Visible = false;
-            this.Chart.Axes.Top.Title.Font.Size = 12;
+            this.Chart.Axes.Top.Title.Font.Size = 11;
             // 
             // 
             // 
@@ -467,7 +469,7 @@ namespace Graph
             // 
             // 
             this.Chart.Panel.Shadow.Visible = false;
-            this.Chart.Size = new System.Drawing.Size(655, 523);
+            this.Chart.Size = new System.Drawing.Size(363, 506);
             // 
             // 
             // 
@@ -533,11 +535,37 @@ namespace Graph
             // 
             this.Chart.Walls.Right.Shadow.Visible = false;
             this.Chart.Walls.Visible = false;
+            this.Chart.DoubleClick += new System.EventHandler(this.OnChartDoubleClick);
+            // 
+            // PropertyGrid
+            // 
+            this.PropertyGrid.Dock = System.Windows.Forms.DockStyle.Right;
+            this.PropertyGrid.Location = new System.Drawing.Point(366, 18);
+            this.PropertyGrid.Name = "PropertyGrid";
+            this.PropertyGrid.SelectedObject = this;
+            this.PropertyGrid.Size = new System.Drawing.Size(211, 506);
+            this.PropertyGrid.TabIndex = 2;
+            this.PropertyGrid.Visible = false;
+            // 
+            // PropertyGridSplitter
+            // 
+            this.PropertyGridSplitter.Dock = System.Windows.Forms.DockStyle.Right;
+            this.PropertyGridSplitter.Location = new System.Drawing.Point(363, 18);
+            this.PropertyGridSplitter.Name = "PropertyGridSplitter";
+            this.PropertyGridSplitter.Size = new System.Drawing.Size(3, 506);
+            this.PropertyGridSplitter.TabIndex = 3;
+            this.PropertyGridSplitter.TabStop = false;
+            this.PropertyGridSplitter.Visible = false;
             // 
             // ChartUI
             // 
             this.Controls.Add(this.Chart);
+            this.Controls.Add(this.PropertyGridSplitter);
+            this.Controls.Add(this.PropertyGrid);
             this.Name = "ChartUI";
+            this.Size = new System.Drawing.Size(577, 524);
+            this.Controls.SetChildIndex(this.PropertyGrid, 0);
+            this.Controls.SetChildIndex(this.PropertyGridSplitter, 0);
             this.Controls.SetChildIndex(this.Chart, 0);
             this.ResumeLayout(false);
 
@@ -546,7 +574,9 @@ namespace Graph
         #endregion
 
         private System.Windows.Forms.ColorDialog ColourDialog;
-        private Steema.TeeChart.TChart Chart;
+       public Steema.TeeChart.TChart Chart;
+       private System.Windows.Forms.PropertyGrid PropertyGrid;
+       private System.Windows.Forms.Splitter PropertyGridSplitter;
 
         }
     }

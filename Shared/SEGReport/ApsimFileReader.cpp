@@ -160,6 +160,7 @@ void processApsimFileReader(DataContainer& parent,
                             TDataSet& result)
    {
    vector<string> fileNames = getFileNames(parent, properties);
+   bool BySeries = Str_i_Eq(parent.read(properties, "BySeries"), "yes");
 
    // Read all headings.
    result.Active = false;
@@ -176,6 +177,12 @@ void processApsimFileReader(DataContainer& parent,
          int numConstants = readApsimHeader(in, csv, fieldNames, fieldValues);
          if (!result.Active)
             {
+            if (BySeries)
+               {
+               TFieldDef *series = result.FieldDefs->AddFieldDef();
+               series->Name = "series";
+               series->DataType = ftInteger;
+               }
             addDBFields(&result, fieldNames, fieldValues);
             result.Active = true;
             }
@@ -185,6 +192,12 @@ void processApsimFileReader(DataContainer& parent,
             do
                {
                appendDBRecordNoErrors(&result, fieldNames, fieldValues);
+               if (BySeries)
+                  {
+                  result.Edit();
+                  result.FieldValues["series"] = f + 1;
+                  result.Post();
+                  }
                }
             while (readNextRecord(in, csv, numConstants, fieldValues));
             }

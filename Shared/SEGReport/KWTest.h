@@ -9,5 +9,6 @@ class DataContainer;
 
 void processKWTest(DataContainer& parent,
                    const XMLNode& properties,
+                   vector<TDataSet*> sources,
                    TDataSet& result);
 #endif

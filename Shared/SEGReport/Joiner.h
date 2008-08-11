@@ -9,5 +9,6 @@ class DataContainer;
 //---------------------------------------------------------------------------
 void processJoiner(DataContainer& parent,
                    const XMLNode& properties,
+                   vector<TDataSet*> sources,
                    TDataSet& result);
 #endif

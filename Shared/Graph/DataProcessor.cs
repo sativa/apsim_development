@@ -75,7 +75,7 @@ namespace Graph
         private static extern void FillDataFormWithData(UInt32 FormHandle, UInt32 DataContainer, string Name);
 
         [DllImport("segreport.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        private static extern void GetXYData(UInt32 DataContainer, string Name, string x, string y, byte[] Data);
+        private static extern void GetData(UInt32 DataContainer, string Name, string x, byte[] Data);
 
         [DllImport("segreport.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         private static extern void Xml(UInt32 DataContainer, StringBuilder Xml);
@@ -197,24 +197,18 @@ namespace Graph
             else
                 return contents.ToString().Split("\t".ToCharArray());
             }
-        public DataTable GetXYData(string Name, string x, string y)
+        public void GetData(string Name, string ColumnName, DataTable Data)
             {
             // ------------------------------------------------------
-            // Return an xy datatable for specified dataset for the 
-            // 2 x and y columns.
+            // Add a column of data to the specified datatable
             // ------------------------------------------------------
-            DataTable Data = new DataTable();
-
             byte[] ByteStream = new byte[5000000];
-            GetXYData(DataContainer, Name, x, y, ByteStream);
+            GetData(DataContainer, Name, ColumnName, ByteStream);
 
             MemoryStream Mem = new MemoryStream(ByteStream);
             BinaryReader In = new BinaryReader(Mem);
             
-            FillDataTable(Data, x, In);
-            FillDataTable(Data, y, In);
-
-            return Data;
+            FillDataTable(Data, ColumnName, In);
             }
         private void FillDataTable(DataTable Data, string ColumnName, BinaryReader In)
             {

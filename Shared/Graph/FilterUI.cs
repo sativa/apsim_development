@@ -33,13 +33,18 @@ namespace Graph
             GroupBox.Text = Name;
 
             FilterBox.TextChanged -= OnFilterChanged;
-            FilterBox.Text = XmlHelper.Value(Data, "FilterString");
+            List<string> FilterStrings = XmlHelper.Values(Data, "FilterString");
+            string[] Filters = new string[FilterStrings.Count];
+            FilterStrings.CopyTo(Filters);
+            FilterBox.Lines = Filters;
             FilterBox.TextChanged += OnFilterChanged;
             }
 
         private void OnFilterChanged(object sender, EventArgs e)
             {
-            XmlHelper.SetValue(Data, "FilterString", FilterBox.Text);
+            List<string> FilterStrings = new List<string>();
+            FilterStrings.AddRange(FilterBox.Lines);
+            XmlHelper.SetValues(Data, "FilterString", FilterStrings);
             PublishViewChanged();
             }
 

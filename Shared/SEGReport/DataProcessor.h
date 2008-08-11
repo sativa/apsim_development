@@ -11,4 +11,16 @@ class DataContainer;
 //---------------------------------------------------------------------------
 void processData(DataContainer& parent, const std::string& xml, TDataSet& result);
 
+//---------------------------------------------------------------------------
+// Called by processor functions to copy the fielddefs for all 'series'
+// fields i.e. 'series' and 'title'
+//---------------------------------------------------------------------------
+void copySeriesFieldDefs(TDataSet* source, TDataSet& result);
+
+//---------------------------------------------------------------------------
+// Called by processor functions to copy the values for all 'series'
+// fields i.e. 'series' and 'title'
+//---------------------------------------------------------------------------
+void copySeriesValues(TDataSet* source, TDataSet& result);
+
 #endif

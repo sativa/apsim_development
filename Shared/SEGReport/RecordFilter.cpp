@@ -5,6 +5,7 @@
 
 #include "RecordFilter.h"
 #include "DataContainer.h"
+#include "DataProcessor.h"
 #include <general\db_functions.h>
 #include <general\string_functions.h>
 
@@ -15,16 +16,18 @@ using namespace std;
 //---------------------------------------------------------------------------
 void processRecordFilter(DataContainer& parent,
                          const XMLNode& properties,
+                         vector<TDataSet*> sources,
                          TDataSet& result)
    {
-   result.Active = false;
-   result.FieldDefs->Clear();
-   TDataSet* source = parent.data(parent.read(properties, "source"));
-
-   if (source != NULL && source->Active)
+   if (sources.size() == 1)
       {
-      result.FieldDefs->Assign(source->FieldDefs);
-      result.Active = true;
+      TDataSet* source = sources[0];
+      if (!result.Active)
+         {
+         result.FieldDefs->Clear();
+         result.FieldDefs->Assign(source->FieldDefs);
+         result.Active = true;
+         }
 
       bool firstRecord = Str_i_Eq(parent.read(properties, "firstRecord"), "yes");
       bool lastRecord = Str_i_Eq(parent.read(properties, "lastRecord"), "yes");

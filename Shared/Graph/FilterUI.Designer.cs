@@ -41,7 +41,7 @@ namespace Graph
             this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupBox.Location = new System.Drawing.Point(0, 18);
             this.GroupBox.Name = "GroupBox";
-            this.GroupBox.Size = new System.Drawing.Size(135, 74);
+            this.GroupBox.Size = new System.Drawing.Size(135, 104);
             this.GroupBox.TabIndex = 2;
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "GroupBox";
@@ -52,8 +52,9 @@ namespace Graph
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.FilterBox.Location = new System.Drawing.Point(6, 41);
+            this.FilterBox.Multiline = true;
             this.FilterBox.Name = "FilterBox";
-            this.FilterBox.Size = new System.Drawing.Size(126, 20);
+            this.FilterBox.Size = new System.Drawing.Size(126, 57);
             this.FilterBox.TabIndex = 1;
             this.FilterBox.TextChanged += new System.EventHandler(this.OnFilterChanged);
             // 
@@ -70,7 +71,7 @@ namespace Graph
             // 
             this.Controls.Add(this.GroupBox);
             this.Name = "FilterUI";
-            this.Size = new System.Drawing.Size(135, 92);
+            this.Size = new System.Drawing.Size(135, 122);
             this.Controls.SetChildIndex(this.GroupBox, 0);
             this.GroupBox.ResumeLayout(false);
             this.GroupBox.PerformLayout();

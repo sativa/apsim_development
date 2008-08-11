@@ -5,6 +5,7 @@
 
 #include "Filter.h"
 #include "DataContainer.h"
+#include "DataProcessor.h"
 #include <general\string_functions.h>
 #include <general\db_functions.h>
 
@@ -15,35 +16,68 @@ using namespace std;
 //---------------------------------------------------------------------------
 void processFilter(DataContainer& parent,
                    const XMLNode& properties,
+                   vector<TDataSet*> sources,
                    TDataSet& result)
    {
-   TDataSet* source = parent.data(parent.read(properties, "source"));
-   std::string filter = parent.read(properties, "FilterString");
+   static int seriesNumber;
+   vector<string> filters = parent.reads(properties, "FilterString");
 
-   result.Active = false;
-   if (source != NULL && source->Active && filter != "")
+   if (sources.size() == 1)
       {
-      result.FieldDefs->Assign(source->FieldDefs);
-
-      if (result.FieldDefs->Count > 0)
+      TDataSet* source = sources[0];
+      for (unsigned i = 0; i != filters.size(); i++)
          {
-         result.Active = true;
-         std::string originalFilter;
-         if (source->Filtered)
-            originalFilter = source->Filter.c_str();
-         if (originalFilter != "")
-            filter = originalFilter + " and " + filter;
-
-         try
+         if (!result.Active)
             {
-            source->Filter = filter.c_str();
-            source->Filtered = true;
-
-            source->First();
-            while (!source->Eof)
+            seriesNumber = 1;
+            result.FieldDefs->Clear();
+            result.FieldDefs->Assign(source->FieldDefs);
+            if (source->FieldList->Find("series") == NULL)
                {
-               copyDBRecord(source, &result);
-               source->Next();
+               TFieldDef *series = result.FieldDefs->AddFieldDef();
+               series->Name = "series";
+               series->DataType = ftInteger;
+               addDBField(&result, "title", "abc");
+               }
+            if (result.FieldDefs->Count > 0)
+               result.Active = true;
+            }
+         if (result.Active)
+            {
+            string filter = filters[i];
+            std::string originalFilter;
+            if (source->Filtered)
+               originalFilter = source->Filter.c_str();
+            if (originalFilter != "")
+               filter = originalFilter + " and " + filter;
+
+            try
+               {
+               source->Filter = filter.c_str();
+               source->Filtered = true;
+
+               source->First();
+               String SeriesTitle;
+               if (source->FieldList->Find("title") != NULL)
+                  {
+                  SeriesTitle = source->FieldValues["title"];
+                  SeriesTitle += " ";
+                  }
+               SeriesTitle += String("-") + filters[0].c_str();
+
+               while (!source->Eof)
+                  {
+                  copyDBRecord(source, &result);
+                  result.Edit();
+                  result.FieldValues["series"] = seriesNumber;
+                  result.FieldValues["title"] = SeriesTitle;
+                  result.Post();
+                  source->Next();
+                  }
+               }
+            catch (Exception& err)
+               {
+               source->Filter = "";
                }
             if (originalFilter != "")
                source->Filter = originalFilter.c_str();
@@ -52,10 +86,7 @@ void processFilter(DataContainer& parent,
                source->Filtered = false;
                source->Filter = "";
                }
-            }
-         catch (Exception& err)
-            {
-            source->Filter = "";
+            seriesNumber++;
             }
          }
       }

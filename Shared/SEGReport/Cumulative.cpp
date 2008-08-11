@@ -5,6 +5,7 @@
 
 #include "Cumulative.h"
 #include "DataContainer.h"
+#include "DataProcessor.h"
 #include <vector>
 #include <string>
 #include <general\string_functions.h>
@@ -17,54 +18,63 @@ using namespace std;
 //---------------------------------------------------------------------------
 void processCumulative(DataContainer& parent,
                        const XMLNode& properties,
+                       vector<TDataSet*> sources,
                        TDataSet& result)
    {
-   TDataSet* source = parent.data(parent.read(properties, "source"));
-   if (source != NULL && source->Active)
+   if (sources.size() == 1)
       {
-      result.Active = false;
-      for (int i = 0; i != source->FieldDefs->Count; i++)
+      TDataSet* source = sources[0];
+      if (!result.Active)
          {
-         TFieldDef* fieldDef = source->FieldDefs->Items[i];
-         if (fieldDef->DataType == ftFloat)
-            {
-            AnsiString newField = "CUMULATIVE_" + fieldDef->Name;
-            addDBField(&result, newField.c_str(), "1.0");
-            }
-         else
-            result.FieldDefs->Add(fieldDef->Name, fieldDef->DataType,
-                                  fieldDef->Size, false);
-         }
+         result.FieldDefs->Clear();
+         copySeriesFieldDefs(source,result);
 
-      result.Active = true;
-
-      // setup some space to store cumulative values for each column.
-      int numColumns = source->FieldDefs->Count;
-      double* sums = new double[numColumns];
-      for (int i = 0; i != numColumns; i++)
-         sums[i] = 0.0;
-
-      // loop through all records.
-      source->First();
-      while (!source->Eof)
-         {
-         result.Append();
          for (int i = 0; i != source->FieldDefs->Count; i++)
             {
             TFieldDef* fieldDef = source->FieldDefs->Items[i];
             if (fieldDef->DataType == ftFloat)
                {
-               sums[i] += source->Fields->Fields[i]->AsFloat;
                AnsiString newField = "CUMULATIVE_" + fieldDef->Name;
-               result.FieldValues[newField] = sums[i];
+               addDBField(&result, newField.c_str(), "1.0");
                }
             else
-               result.FieldValues[fieldDef->Name] = source->FieldValues[fieldDef->Name];
+               result.FieldDefs->Add(fieldDef->Name, fieldDef->DataType,
+                                     fieldDef->Size, false);
             }
-         result.Post();
-         source->Next();
+         if (result.FieldDefs->Count > 0)
+            result.Active = true;
          }
+      if (result.Active)
+         {
+         // setup some space to store cumulative values for each column.
+         int numColumns = source->FieldDefs->Count;
+         double* sums = new double[numColumns];
+         for (int i = 0; i != numColumns; i++)
+            sums[i] = 0.0;
 
-      delete [] sums;
+         // loop through all records.
+         source->First();
+         while (!source->Eof)
+            {
+            result.Append();
+            copySeriesValues(source, result);
+            for (int i = 0; i != source->FieldDefs->Count; i++)
+               {
+               TFieldDef* fieldDef = source->FieldDefs->Items[i];
+               if (fieldDef->DataType == ftFloat)
+                  {
+                  sums[i] += source->Fields->Fields[i]->AsFloat;
+                  AnsiString newField = "CUMULATIVE_" + fieldDef->Name;
+                  result.FieldValues[newField] = sums[i];
+                  }
+               else
+                  result.FieldValues[fieldDef->Name] = source->FieldValues[fieldDef->Name];
+               }
+            result.Post();
+            source->Next();
+            }
+
+         delete [] sums;
+         }
       }
    }

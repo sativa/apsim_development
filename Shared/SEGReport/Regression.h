@@ -11,6 +11,7 @@ class DataContainer;
 // regression.
 //---------------------------------------------------------------------------
 void processRegression(DataContainer& parent,
-                        const XMLNode& properties,
-                        TDataSet& result);
+                       const XMLNode& properties,
+                       vector<TDataSet*> sources,
+                       TDataSet& result);
 #endif

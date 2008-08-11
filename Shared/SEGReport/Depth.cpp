@@ -5,6 +5,7 @@
 
 #include "Depth.h"
 #include "DataContainer.h"
+#include "DataProcessor.h"
 #include <general\db_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
@@ -50,31 +51,36 @@ void discoverVariables(TDataSet* source, vector<string>& variableNames, int& num
 //---------------------------------------------------------------------------
 void processDepth(DataContainer& parent,
                   const XMLNode& properties,
+                  vector<TDataSet*> sources,
                   TDataSet& result)
    {
-   result.Active = false;
-   result.FieldDefs->Clear();
-   TDataSet* source = parent.data(parent.read(properties, "source"));
-   if (source != NULL && source->Active)
+   if (sources.size() == 1)
       {
+      TDataSet* source = sources[0];
       vector<string> variableNames;
       int numLayers;
       discoverVariables(source, variableNames, numLayers);
-      if (variableNames.size() > 0)
-         addDBField(&result, "Depth", "1.0");
-      else
-         addDBField(&result, "Dummy", "?");
 
-      for (unsigned v = 0; v != variableNames.size(); v++)
+      if (!result.Active)
          {
-         if (!Str_i_Eq(variableNames[v], "dlayer"))
-            addDBField(&result, variableNames[v].c_str(), "1.0");
+         result.FieldDefs->Clear();
+         copySeriesFieldDefs(source, result);
+
+         if (variableNames.size() > 0)
+            addDBField(&result, "Depth", "1.0");
+         else
+            addDBField(&result, "Dummy", "?");
+
+         for (unsigned v = 0; v != variableNames.size(); v++)
+            {
+            if (!Str_i_Eq(variableNames[v], "dlayer"))
+               addDBField(&result, variableNames[v].c_str(), "1.0");
+            }
+         if (result.FieldDefs->Count > 0)
+            result.Active = true;
          }
-
-      if (result.FieldDefs->Count > 0)
+      if (result.Active)
          {
-         result.Active = true;
-
          // Loop through all series blocks and all records within that series.
          source->First();
          while (!source->Eof)
@@ -83,6 +89,7 @@ void processDepth(DataContainer& parent,
             for (int layer = 0; layer != numLayers; layer++)
                {
                result.Append();
+               copySeriesValues(source, result);
                for (unsigned v = 0; v != variableNames.size(); v++)
                   {
                   string sourceFieldName = variableNames[v] + "(" + itoa(layer+1) + ")";

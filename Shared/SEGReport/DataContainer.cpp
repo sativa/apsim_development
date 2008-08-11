@@ -265,6 +265,10 @@ void DataContainer::refreshIfNecessary()
                {
                children[i].errorMessage = err->Message.c_str();
                }
+            catch (...)
+               {
+
+               }
             children[i].refreshNeeded = false;
             finished = false;
             }
@@ -564,11 +568,10 @@ char* StoreColumnInData(TDataSet* data, const char* fieldName, char* dataString)
    }
 
 
-extern "C" void _export __stdcall GetXYData(DataContainer* container,
-                                            const char* name,
-                                            const char* x,
-                                            const char* y,
-                                            char* dataAsString)
+extern "C" void _export __stdcall GetData(DataContainer* container,
+                                          const char* name,
+                                          const char* x,
+                                          char* dataAsString)
    {
    BEGINSAFE;
    strcpy(dataAsString, "");
@@ -576,10 +579,7 @@ extern "C" void _export __stdcall GetXYData(DataContainer* container,
       {
       TDataSet* data = container->data(name);
       if (data != NULL && data->Active && data->FieldDefs->Count > 0)
-         {
          dataAsString = StoreColumnInData(data, x, dataAsString);
-         dataAsString = StoreColumnInData(data, y, dataAsString);
-         }
       }
    ENDSAFE;
    }

@@ -6,6 +6,7 @@
 #include "PredObs.h"
 #include "ApsimFileReader.h"
 #include "DataContainer.h"
+#include "DataProcessor.h"
 #include <general\db_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
@@ -30,51 +31,54 @@ bool isKeyField(const std::vector<std::string>& keyFieldNames, const string& fie
 //---------------------------------------------------------------------------
 void processPredObs(DataContainer& parent,
                     const XMLNode& properties,
+                    vector<TDataSet*> sources,
                     TDataSet& result)
    {
    vector<string> keyFieldNames = parent.reads(properties, "FieldName");
-   vector<string> sourceNames = parent.reads(properties, "source");
 
-   result.Active = false;
-   result.FieldDefs->Clear();
-   if (sourceNames.size() == 2 && keyFieldNames.size() > 0)
+   if (sources.size() == 2 && keyFieldNames.size() > 0)
       {
-      TDataSet* pred = parent.data(sourceNames[0]);
-      TDataSet* obs = parent.data(sourceNames[1]);
+      TDataSet* pred = sources[0];
+      TDataSet* obs = sources[1];
 
-      if (obs != NULL && pred != NULL && obs->Active && pred->Active)
+      if (!result.Active)
          {
-         for (int f = 0; f != obs->FieldDefs->Count; f++)
+         result.FieldDefs->Clear();
+         copySeriesFieldDefs(pred, result);
+         if (obs != NULL && pred != NULL && obs->Active && pred->Active)
             {
-            // if the obs field is in the keyfields then add it to our fielddefs.
-            if (isKeyField(keyFieldNames, obs->FieldDefs->Items[f]->Name.c_str()))
-               result.FieldDefs->Add(obs->FieldDefs->Items[f]->Name,
-                                      obs->FieldDefs->Items[f]->DataType,
-                                      obs->FieldDefs->Items[f]->Size,
-                                      false);
-            else
+            for (int f = 0; f != obs->FieldDefs->Count; f++)
                {
-               // if the obs field is in the predicted dataset then add a
-               // pred and a obs version of the field to our fielddefs.
-               if (pred->FieldDefs->IndexOf(obs->FieldDefs->Items[f]->Name) >= 0)
+               // if the obs field is in the keyfields then add it to our fielddefs.
+               if (isKeyField(keyFieldNames, obs->FieldDefs->Items[f]->Name.c_str()))
+                  result.FieldDefs->Add(obs->FieldDefs->Items[f]->Name,
+                                         obs->FieldDefs->Items[f]->DataType,
+                                         obs->FieldDefs->Items[f]->Size,
+                                         false);
+               else
                   {
-                  result.FieldDefs->Add("Pred" + obs->FieldDefs->Items[f]->Name,
-                                         obs->FieldDefs->Items[f]->DataType,
-                                         obs->FieldDefs->Items[f]->Size,
-                                         false);
-                  result.FieldDefs->Add("Obs" + obs->FieldDefs->Items[f]->Name,
-                                         obs->FieldDefs->Items[f]->DataType,
-                                         obs->FieldDefs->Items[f]->Size,
-                                         false);
+                  // if the obs field is in the predicted dataset then add a
+                  // pred and a obs version of the field to our fielddefs.
+                  if (pred->FieldDefs->IndexOf(obs->FieldDefs->Items[f]->Name) >= 0)
+                     {
+                     result.FieldDefs->Add("Pred" + obs->FieldDefs->Items[f]->Name,
+                                            obs->FieldDefs->Items[f]->DataType,
+                                            obs->FieldDefs->Items[f]->Size,
+                                            false);
+                     result.FieldDefs->Add("Obs" + obs->FieldDefs->Items[f]->Name,
+                                            obs->FieldDefs->Items[f]->DataType,
+                                            obs->FieldDefs->Items[f]->Size,
+                                            false);
+                     }
                   }
                }
+            if (result.FieldDefs->Count > 0)
+               result.Active = true;
             }
 
-
          // Loop through all series blocks and all records within that series.
-         if (result.FieldDefs->Count > 0)
+         if (result.Active)
             {
-            result.Active = true;
             obs->First();
             while (!obs->Eof)
                {
@@ -108,6 +112,7 @@ void processPredObs(DataContainer& parent,
                            if (!haveCreatedRecord)
                               {
                               result.Append();
+                              copySeriesValues(pred, result);
 
                               // copy all key fields to us.
                               for (int f = 0; f != obs->FieldDefs->Count; f++)
