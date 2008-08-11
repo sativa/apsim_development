@@ -13,7 +13,7 @@ namespace ApsimFile
 	// ------------------------------------------
 	public class APSIMChangeTool
 		{
-		public static int CurrentVersion = 14;	   
+		public static int CurrentVersion = 15;	   
 		private delegate void UpgraderDelegate(XmlNode Data, Configuration Config);
 
 		// ------------------------------------------
@@ -83,6 +83,10 @@ namespace ApsimFile
                 // Upgrade from version 13 to 14.
                 if (DataVersion < 14)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion14), Config);
+
+                 // Upgrade from version 14 to 15.
+                 if (DataVersion < 15)
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion15), Config);
 
                 // All finished upgrading - write version number out.
                 XmlHelper.SetAttribute(Data, "version", CurrentVersion.ToString());
@@ -659,6 +663,26 @@ namespace ApsimFile
                     }
                 }
             }
+      private static void UpdateToVersion15(XmlNode Node, Configuration Config)
+         {
+         if (XmlHelper.Type(Node) == "irrigation")
+            {
+            XmlNode no3_conc = Node.AppendChild(Node.OwnerDocument.CreateElement("default_no3_conc"));
+            XmlHelper.SetAttribute(no3_conc, "type", "text");
+            XmlHelper.SetAttribute(no3_conc, "description", "Nitrate concentration (ppm N)");
+            XmlHelper.SetValue(no3_conc, "", "0.0");
+
+            XmlNode nh4_conc = Node.AppendChild(Node.OwnerDocument.CreateElement("default_nh4_conc"));
+            XmlHelper.SetAttribute(nh4_conc, "type", "text");
+            XmlHelper.SetAttribute(nh4_conc, "description", "Ammonium concentration (ppm N)");
+            XmlHelper.SetValue(nh4_conc, "", "0.0");
+
+            XmlNode cl_conc = Node.AppendChild(Node.OwnerDocument.CreateElement("default_cl_conc"));
+            XmlHelper.SetAttribute(cl_conc, "type", "text");
+            XmlHelper.SetAttribute(cl_conc, "description", "Chloride concentration (ppm Cl)");
+            XmlHelper.SetValue(cl_conc, "", "0.0");
+            }
+         }
 
 
 
