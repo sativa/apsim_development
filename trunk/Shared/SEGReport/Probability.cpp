@@ -5,6 +5,7 @@
 
 #include "Probability.h"
 #include "DataContainer.h"
+#include "DataProcessor.h"
 #include <general\db_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
@@ -17,37 +18,44 @@ using namespace std;
 //---------------------------------------------------------------------------
 void processProbability(DataContainer& parent,
                         const XMLNode& properties,
+                        vector<TDataSet*> sources,
                         TDataSet& result)
    {
    vector<string> fieldNames = parent.reads(properties, "fieldname");
    bool exceedence = Str_i_Eq(parent.read(properties, "exceedence"), "yes");
-   TDataSet* source = parent.data(parent.read(properties, "source"));
-   if (source != NULL && source->Active)
+   if (sources.size() == 1)
       {
-      result.Active = false;
-      result.FieldDefs->Clear();
-      for (unsigned f = 0; f != fieldNames.size(); f++)
-         addDBField(&result, fieldNames[f].c_str(), "1.0");
-      addDBField(&result, "Probability", "1.0");
-
-      if (result.FieldDefs->Count > 0)
+      if (!result.Active)
          {
-         result.Active = true;
+         result.FieldDefs->Clear();
+         copySeriesFieldDefs(sources[0], result);
+
+         for (unsigned f = 0; f != fieldNames.size(); f++)
+            addDBField(&result, fieldNames[f].c_str(), "1.0");
+         addDBField(&result, "Probability", "1.0");
+         if (result.FieldDefs->Count > 0)
+            result.Active = true;
+         }
+
+      if (result.Active)
+         {
          int numValues = 0;
          vector<vector<double> > values, probValues;
          for (unsigned f = 0; f != fieldNames.size(); f++)
             {
             values.push_back(vector<double>());
             probValues.push_back(vector<double>());
-            getDBFieldValues(source, fieldNames[f], values[f]);
+            getDBFieldValues(sources[0], fieldNames[f], values[f]);
             Calculate_prob_dist(values[f], exceedence, probValues[f]);
             numValues = values[f].size();
             }
 
          // Now loop through all values and append a record for each.
+         sources[0]->First();
          for (int recordNum = 0; recordNum < numValues; recordNum++)
             {
             result.Append();
+            copySeriesValues(sources[0], result);
             for (unsigned f = 0; f != fieldNames.size(); f++)
                {
                result.FieldValues[fieldNames[f].c_str()] = values[f][recordNum];

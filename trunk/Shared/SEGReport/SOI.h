@@ -10,5 +10,6 @@ class DataContainer;
 //---------------------------------------------------------------------------
 void processSOI(DataContainer& parent,
                 const XMLNode& properties,
+                vector<TDataSet*> sources,
                 TDataSet& result);
 #endif

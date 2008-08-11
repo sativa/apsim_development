@@ -5,6 +5,7 @@
 
 #include "SOI.h"
 #include "DataContainer.h"
+#include "DataProcessor.h"
 #include <vector>
 #include <string>
 #include <fstream>
@@ -126,16 +127,18 @@ bool keepPhase(const string& phaseName, const std::vector<std::string>& phaseNam
 //---------------------------------------------------------------------------
 void processSOI(DataContainer& parent,
                 const XMLNode& properties,
+                vector<TDataSet*> sources,
                 TDataSet& result)
    {
-   result.Active = false;
-   result.FieldDefs->Clear();
-
-   TDataSet* source = parent.data(parent.read(properties, "source"));
-   if (source != NULL && source->Active)
+   if (sources.size() == 1)
       {
-      result.FieldDefs->Assign(source->FieldDefs);
-      addDBField(&result, SOI_PHASE_FIELD_NAME, "xxxx");
+      TDataSet* source = sources[0];
+      if (!result.Active)
+         {
+         result.FieldDefs->Assign(source->FieldDefs);
+         addDBField(&result, SOI_PHASE_FIELD_NAME, "xxxx");
+         result.Active = true;
+         }
 
       string soiFilename = parent.read(properties, "filename");
       string monthString = parent.read(properties, "month");

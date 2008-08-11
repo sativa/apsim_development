@@ -33,6 +33,7 @@ namespace Graph
             this.GroupBox = new System.Windows.Forms.GroupBox();
             this.FileList = new System.Windows.Forms.TextBox();
             this.BrowseButton = new System.Windows.Forms.Button();
+            this.SeriesCheckBox = new System.Windows.Forms.CheckBox();
             this.GroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,12 +47,13 @@ namespace Graph
             // 
             // GroupBox
             // 
+            this.GroupBox.Controls.Add(this.SeriesCheckBox);
             this.GroupBox.Controls.Add(this.FileList);
             this.GroupBox.Controls.Add(this.BrowseButton);
             this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupBox.Location = new System.Drawing.Point(0, 18);
             this.GroupBox.Name = "GroupBox";
-            this.GroupBox.Size = new System.Drawing.Size(162, 132);
+            this.GroupBox.Size = new System.Drawing.Size(178, 132);
             this.GroupBox.TabIndex = 8;
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "Apsim File Reader";
@@ -64,7 +66,7 @@ namespace Graph
             this.FileList.Location = new System.Drawing.Point(6, 43);
             this.FileList.Multiline = true;
             this.FileList.Name = "FileList";
-            this.FileList.Size = new System.Drawing.Size(151, 83);
+            this.FileList.Size = new System.Drawing.Size(167, 65);
             this.FileList.TabIndex = 8;
             this.FileList.WordWrap = false;
             // 
@@ -78,12 +80,23 @@ namespace Graph
             this.BrowseButton.UseVisualStyleBackColor = true;
             this.BrowseButton.Click += new System.EventHandler(this.OnBrowseButtonClick);
             // 
+            // SeriesCheckBox
+            // 
+            this.SeriesCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SeriesCheckBox.AutoSize = true;
+            this.SeriesCheckBox.Location = new System.Drawing.Point(6, 112);
+            this.SeriesCheckBox.Name = "SeriesCheckBox";
+            this.SeriesCheckBox.Size = new System.Drawing.Size(163, 17);
+            this.SeriesCheckBox.TabIndex = 10;
+            this.SeriesCheckBox.Text = "Separate series for each file?";
+            this.SeriesCheckBox.UseVisualStyleBackColor = true;
+            // 
             // ApsimFileReaderUI
             // 
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this.GroupBox);
             this.Name = "ApsimFileReaderUI";
-            this.Size = new System.Drawing.Size(162, 150);
+            this.Size = new System.Drawing.Size(178, 150);
             this.Controls.SetChildIndex(this.GroupBox, 0);
             this.GroupBox.ResumeLayout(false);
             this.GroupBox.PerformLayout();
@@ -97,5 +110,6 @@ namespace Graph
         private System.Windows.Forms.GroupBox GroupBox;
         private System.Windows.Forms.TextBox FileList;
         private System.Windows.Forms.Button BrowseButton;
+       private System.Windows.Forms.CheckBox SeriesCheckBox;
         }
     }

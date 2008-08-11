@@ -59,6 +59,10 @@
     <Compile Include="ApsimReportDataForm.Designer.cs">
       <DependentUpon>ApsimReportDataForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BoxPlotSeries.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ChartProperties.cs" />
     <Compile Include="DataGridUI.cs">
       <SubType>UserControl</SubType>
     </Compile>

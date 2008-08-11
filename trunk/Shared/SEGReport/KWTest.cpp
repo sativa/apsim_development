@@ -7,6 +7,7 @@
 
 #include "KWTest.h"
 #include "DataContainer.h"
+#include "DataProcessor.h"
 #include <general\db_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
@@ -45,24 +46,26 @@ void AddDistributionFromTable(TDataSet* table, vector<RealSet>& distributions,
 //---------------------------------------------------------------------------
 void processKWTest(DataContainer& parent,
                    const XMLNode& properties,
+                   vector<TDataSet*> sources,
                    TDataSet& result)
    {
-   vector<string> sourceNames = parent.reads(properties, "source");
    string fieldName = parent.read(properties, "fieldName");
 
-   result.Active = false;
-   result.FieldDefs->Clear();
-   if (sourceNames.size() == 2 && fieldName != "")
+   if (sources.size() == 2 && fieldName != "")
       {
-      TDataSet* source1 = parent.data(sourceNames[0]);
-      TDataSet* source2 = parent.data(sourceNames[1]);
+      TDataSet* source1 = sources[0];
+      TDataSet* source2 = sources[1];
       if (source1 != NULL && source2 != NULL && source1->Active && source2->Active)
          {
-         addDBField(&result, "PValue", "1.0");
-         addDBField(&result, "Description", "a");
-         addDBField(&result, "AreNot", "a");
-
-         result.Active = true;
+         if (!result.Active)
+            {
+            result.FieldDefs->Clear();
+            copySeriesFieldDefs(source1, result);
+            addDBField(&result, "PValue", "1.0");
+            addDBField(&result, "Description", "a");
+            addDBField(&result, "AreNot", "a");
+            result.Active = true;
+            }
 
          vector<RealSet> distributions;
          AddDistributionFromTable(source1, distributions, fieldName);
@@ -70,10 +73,12 @@ void processKWTest(DataContainer& parent,
 
          if (distributions.size() == 2)
             {
+            source1->First();
             KruskalWallisResult kwResult = KruskalWallis(distributions);
             double pValue = kwResult.p;
 
             result.Append();
+            copySeriesValues(source1, result);
             result.FieldValues["PValue"] = pValue;
             if (pValue < KRUSKAL_WALLIS_CRITICAL_VALUE)
                {

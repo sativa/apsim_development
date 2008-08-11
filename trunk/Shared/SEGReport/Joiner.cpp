@@ -16,26 +16,24 @@
 //---------------------------------------------------------------------------
 void processJoiner(DataContainer& parent,
                    const XMLNode& properties,
+                   vector<TDataSet*> sources,
                    TDataSet& result)
    {
-   vector<string> sourceNames = parent.reads(properties, "source");
-
-   result.Active = false;
-   result.FieldDefs->Clear();
-   if (sourceNames.size() > 0)
+   if (sources.size() > 0)
       {
-      TDataSet* source = parent.data(sourceNames[0]);
+      TDataSet* source = sources[0];
       if (source != NULL)
-         result.FieldDefs->Assign(source->FieldDefs);
-      }
-
-   if (result.FieldDefs->Count > 0)
-      {
-      result.Active = true;
-
-      for (unsigned i = 0; i != sourceNames.size(); i++)
          {
-         TDataSet* source = parent.data(sourceNames[i]);
+         result.FieldDefs->Assign(source->FieldDefs);
+         if (result.FieldDefs->Count > 0)
+            result.Active = true;
+         }
+      }
+   if (result.Active)
+      {
+      for (unsigned i = 0; i != sources.size(); i++)
+         {
+         TDataSet* source = sources[i];
 
          if (source != NULL)
             {

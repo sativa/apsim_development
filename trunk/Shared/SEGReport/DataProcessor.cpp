@@ -8,6 +8,7 @@
 #include "DataProcessor.h"
 #include <general\xml.h>
 #include <general\stl_functions.h>
+#include <general\db_functions.h>
 #include "ApsimFileReader.h"
 #include "Probability.h"
 #include "PredObs.h"
@@ -28,47 +29,134 @@
 #include "Joiner.h"
 
 //---------------------------------------------------------------------------
+// A dataset can be split into 1 or more 'series' if it has a series column.
+// For example, the ApsimFileReader can provide a series column from 1 to n
+// that breaks the data into series. This method filters that dataset
+// according to series. Returns true, if there is data left to by processed.
+// NB: This only ever looks for series in the first source.
+//---------------------------------------------------------------------------
+bool sourceHasSeries(int& seriesNumber, vector<TDataSet*>& sources)
+   {
+   seriesNumber++;
+   if (sources.size() == 0)
+      return (seriesNumber == 1);
+
+   else
+      {
+      // make sure all sources are open.
+      for (unsigned i = 0; i != sources.size(); i++)
+         if (sources[i] == NULL || !sources[i]->Active)
+            return false;
+
+      if (sources[0]->FieldList->Find("series") == NULL)
+         {
+         if (seriesNumber == 1)
+            return sources[0]->RecordCount > 0;
+         }
+      else
+         {
+         string filterString = "series=" + itoa(seriesNumber);
+         sources[0]->Filter = filterString.c_str();
+         sources[0]->Filtered = true;
+         if (sources[0]->RecordCount == 0)
+            {
+            sources[0]->Filtered = false;
+            sources[0]->Filter = "";
+            return false;
+            }
+         return true;
+         }
+
+      }
+   return false;
+   }
+
+//---------------------------------------------------------------------------
 // Create a dataprocessor object based on the settings
 // passed in. Caller is expected to free the object
 // when finished with it.
 //---------------------------------------------------------------------------
 void processData(DataContainer& parent, const std::string& xml, TDataSet& result)
    {
+   result.Active = false;
+
    XMLDocument doc(xml, XMLDocument::xmlContents);
    string type = doc.documentElement().getName();
 
-   if (Str_i_Eq(type, "ApsimFileReader"))
-      processApsimFileReader(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "Probability"))
-      processProbability(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "PredObs"))
-      processPredObs(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "XmlFileReader"))
-      processXmlFileReader(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "Filter"))
-      processFilter(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "Cumulative"))
-      processCumulative(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "Depth"))
-      processDepth(parent, doc.documentElement(), result);
-  else if (Str_i_Eq(type, "Diff"))
-      processDiff(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "Frequency"))
-      processFrequency(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "KWTest"))
-      processKWTest(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "REMS"))
-      processREMS(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "Regression"))
-      processRegression(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "SOIData"))
-      processSOI(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "Stats"))
-      processStats(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "RecordFilter"))
-      processRecordFilter(parent, doc.documentElement(), result);
-   else if (Str_i_Eq(type, "Joiner"))
-      processJoiner(parent, doc.documentElement(), result);
+   vector<TDataSet*> sources;
+   vector<string> sourceNames = parent.reads(doc.documentElement(), "source");
+   for (unsigned i = 0; i != sourceNames.size(); i++)
+      sources.push_back(parent.data(sourceNames[i]));
 
+   int seriesNumber = 0;
+   while (sourceHasSeries(seriesNumber, sources))
+      {
+      if (Str_i_Eq(type, "ApsimFileReader"))
+         processApsimFileReader(parent, doc.documentElement(), result);
+      else if (Str_i_Eq(type, "Probability"))
+         processProbability(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "PredObs"))
+         processPredObs(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "XmlFileReader"))
+         processXmlFileReader(parent, doc.documentElement(), result);
+      else if (Str_i_Eq(type, "Filter"))
+         processFilter(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "Cumulative"))
+         processCumulative(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "Depth"))
+         processDepth(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "Diff"))
+         processDiff(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "Frequency"))
+         processFrequency(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "KWTest"))
+         processKWTest(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "REMS"))
+         processREMS(parent, doc.documentElement(), result);
+      else if (Str_i_Eq(type, "Regression"))
+         processRegression(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "SOIData"))
+         processSOI(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "Stats"))
+         processStats(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "RecordFilter"))
+         processRecordFilter(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "Joiner"))
+         processJoiner(parent, doc.documentElement(), sources, result);
+      }
+   }
+
+
+//---------------------------------------------------------------------------
+// Called by processor functions to copy the fielddefs for all 'series'
+// fields i.e. 'series' and 'title'
+//---------------------------------------------------------------------------
+void copySeriesFieldDefs(TDataSet* source, TDataSet& result)
+   {
+   if (source->FieldList->Find("series") != NULL)
+      {
+      TFieldDef *series = result.FieldDefs->AddFieldDef();
+      series->Name = "series";
+      series->DataType = ftInteger;
+      addDBField(&result, "title", "abc");
+      }
+   }
+
+//---------------------------------------------------------------------------
+// Called by processor functions to copy the values for all 'series'
+// fields i.e. 'series' and 'title'
+//---------------------------------------------------------------------------
+void copySeriesValues(TDataSet* source, TDataSet& result)
+   {
+   if (source->FieldList->Find("series") != NULL)
+      {
+      bool alreadyInEditMode = (result.State == dsEdit || result.State == dsInsert);
+      if (!alreadyInEditMode)
+         result.Edit();
+      result.FieldValues["series"] = source->FieldValues["series"];
+      result.FieldValues["title"] = source->FieldValues["title"];
+      if (!alreadyInEditMode)
+         result.Post();
+      }
    }
 

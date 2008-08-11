@@ -5,6 +5,7 @@
 
 #include "Frequency.h"
 #include "DataContainer.h"
+#include "DataProcessor.h"
 #include <general\string_functions.h>
 #include <general\db_functions.h>
 
@@ -15,29 +16,31 @@ using namespace std;
 //---------------------------------------------------------------------------
 void processFrequency(DataContainer& parent,
                       const XMLNode& properties,
+                      vector<TDataSet*> sources,
                       TDataSet& result)
    {
-   result.Active = false;
-   result.FieldDefs->Clear();
-
    vector<string> labels = parent.reads(properties, "label");
    vector<string> filters = parent.reads(properties, "FilterString");
    bool percent = Str_i_Eq(parent.read(properties, "percent"), "yes");
-   TDataSet* source = parent.data(parent.read(properties, "source"));
-   if (source != NULL && source->Active)
+   if (sources.size() == 1)
       {
+      TDataSet* source = sources[0];
       if (labels.size() == filters.size() && source != NULL)
          {
-         addDBField(&result, "Label", "x");
-         if (percent)
-            addDBField(&result, "Percent", "1");
-         else
-            addDBField(&result, "Count", "1");
-
-         if (result.FieldDefs->Count > 0)
+         if (!result.Active)
             {
-            result.Active = true;
-
+            result.FieldDefs->Clear();
+            copySeriesFieldDefs(source, result);
+            addDBField(&result, "Label", "x");
+            if (percent)
+               addDBField(&result, "Percent", "1");
+            else
+               addDBField(&result, "Count", "1");
+            if (result.FieldDefs->Count > 0)
+               result.Active = true;
+            }
+         if (result.Active)
+            {
             std::string originalFilter = source->Filter.c_str();
             int NumRecords = source->RecordCount;
             for (unsigned i = 0; i != labels.size(); i++)
@@ -50,6 +53,7 @@ void processFrequency(DataContainer& parent,
                source->Filtered = true;
 
                result.Append();
+               copySeriesValues(source, result);
                result.FieldValues["Label"] = labels[i].c_str();
                if (percent)
                   result.FieldValues["Percent"] = source->RecordCount * 1.0 / NumRecords * 100;

@@ -11,5 +11,6 @@ class DataContainer;
 //---------------------------------------------------------------------------
 void processCumulative(DataContainer& parent,
                        const XMLNode& properties,
+                       vector<TDataSet*> sources,
                        TDataSet& result);
 #endif

@@ -5,6 +5,7 @@
 
 #include "Diff.h"
 #include "DataContainer.h"
+#include "DataProcessor.h"
 #include <general\db_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
@@ -18,25 +19,26 @@ using namespace std;
 //---------------------------------------------------------------------------
 void processDiff(DataContainer& parent,
                  const XMLNode& properties,
+                 vector<TDataSet*> sources,
                  TDataSet& result)
    {
-   vector<string> sourceNames = parent.reads(properties, "source");
    vector<string> diffFieldNames = parent.reads(properties, "FieldName");
 
-   result.Active = false;
-   result.FieldDefs->Clear();
-   if (sourceNames.size() == 2 && diffFieldNames.size() > 0)
+   if (sources.size() == 2 && diffFieldNames.size() > 0)
       {
-      TDataSet* source1 = parent.data(sourceNames[0]);
-      TDataSet* source2 = parent.data(sourceNames[1]);
+      TDataSet* source1 = sources[0];
+      TDataSet* source2 = sources[1];
       if (source1 != NULL && source2 != NULL && source1->Active && source2->Active)
          {
-         result.FieldDefs->Assign(source1->FieldDefs);
-
-         if (result.FieldDefs->Count > 0)
+         if (!result.Active)
             {
-            result.Active = true;
+            result.FieldDefs->Assign(source1->FieldDefs);
 
+            if (result.FieldDefs->Count > 0)
+               result.Active = true;
+            }
+         if (result.Active)
+            {
             source1->First();
             source2->First();
             while (!source1->Eof && !source2->Eof)
@@ -44,7 +46,6 @@ void processDiff(DataContainer& parent,
                copyDBRecord(source1, &result);
 
                result.Edit();
-
                for (unsigned f = 0; f != diffFieldNames.size(); f++)
                   {
                   if (source2->FieldDefs->IndexOf(diffFieldNames[f].c_str()) != -1)

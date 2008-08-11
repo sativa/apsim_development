@@ -1,148 +1,221 @@
-<folder version="10" name="Charts">
-  <folder name="Drop onto OutputFile">
-    <SplitReport name="XY Chart">
-      <Page name="Data" Left="0" Top="0" Width="715" Height="268">
-        <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="0" Width="318" Height="75">
-          <FileName type="filenames"></FileName>
-        </ApsimFileReader>
-        <XY Left="12" Top="6" Width="357" Height="250">
-          <Source>OutputFile</Source>
-          <SeriesType>Bar</SeriesType>
-          <PointType>Circle</PointType>
-          <Colour>-65536</Colour>
-          <X>Date</X>
-          <Y>yield</Y>
-        </XY>
-      </Page>
-      <Page name="Report" Left="0" Top="271" Width="715" Height="506">
-        <Chart Left="18" Top="-17" RightMargin="5" BottomMargin="5" Width="586" Height="478">
-          <Source>XY</Source>
-        </Chart>
-      </Page>
-    </SplitReport>
-    <SplitReport name="Double XY Chart">
-      <Page name="Data" Left="0" Top="0" Width="715" Height="268">
-        <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="22" Width="318" Height="75">
-          <FileName type="filenames"></FileName>
-        </ApsimFileReader>
-        <XY Left="12" Top="6" Width="326" Height="250" name="XY1">
-          <Source>OutputFile</Source>
-          <SeriesType>Solid line</SeriesType>
+<folder version="14" name="NewGraph">
+  <SplitReport name="XY Chart">
+    <Page name="Data" Left="0" Top="0" Width="811" Height="268">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="101">
+        <FileName type="filenames">
+        </FileName>
+        <BySeries>yes</BySeries>
+      </ApsimFileReader>
+      <XY Left="324" Top="3" Width="357" Height="250">
+        <Source>OutputFile</Source>
+        <SeriesType>Solid line</SeriesType>
+        <PointType>Circle</PointType>
+        <Colour>-65536</Colour>
+        <X>Date</X>
+        <Y>yield</Y>
+      </XY>
+    </Page>
+    <Page name="Report" Left="0" Top="271" Width="811" Height="51">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+        <Source>XY</Source>
+        <Properties>
+          <Axes>
+            <LeftAxis />
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="Double XY Chart">
+    <Page name="Data" Left="0" Top="0" Width="794" Height="349">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="101">
+        <FileName type="filenames">
+        </FileName>
+        <BySeries>yes</BySeries>
+      </ApsimFileReader>
+      <XY Left="3" Top="107" Width="357" Height="239" name="XY1">
+        <Source>OutputFile</Source>
+        <SeriesType>Bar</SeriesType>
+        <PointType>Circle</PointType>
+        <Colour>-65536</Colour>
+        <X>Date</X>
+        <Y>yield</Y>
+      </XY>
+      <XY name="XY2" Left="382" Top="104" Width="343" Height="244">
+        <source>OutputFile</source>
+        <X>Date</X>
+        <Y>esw</Y>
+        <SeriesType>Bar</SeriesType>
+      </XY>
+    </Page>
+    <Page name="Report" Left="0" Top="352" Width="794" Height="0">
+      <Chart Left="3" Top="3" RightMargin="5" BottomMargin="5" Width="398" Height="371">
+        <Properties>
+          <Axes>
+            <LeftAxis />
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+        <source>XY1</source>
+      </Chart>
+      <Chart name="Chart1" Left="410" Top="4" Width="398" Height="370">
+        <Properties>
+          <Axes>
+            <LeftAxis />
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+        <source>XY2</source>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="Probability Exceedence">
+    <Page name="Data" Left="0" Top="0" Width="811" Height="199">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="186">
+        <BySeries>yes</BySeries>
+        <FileName>
+        </FileName>
+      </ApsimFileReader>
+      <Probability Left="324" Top="0" Width="128" Height="186">
+        <source>OutputFile</source>
+        <FieldName>yield</FieldName>
+        <Exceedence>Yes</Exceedence>
+      </Probability>
+    </Page>
+    <Page name="Report" Left="0" Top="202" Width="811" Height="120">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+        <source>Probability</source>
+        <XY>
+          <X>*</X>
+          <Y>Probability</Y>
+          <SeriesType>Line</SeriesType>
           <PointType>None</PointType>
-          <Colour>-65536</Colour>
-          <X>Date</X>
-          <Y>dlayer(1)</Y>
         </XY>
-        <XY name="XY2" Left="344" Top="6" Width="349" Height="250">
-          <source>OutputFile</source>
-          <X>Date</X>
-          <Y>dlayer(2)</Y>
-          <SeriesType>Solid line</SeriesType>
+        <Properties>
+          <Axes>
+            <LeftAxis>
+              <Maximum>100</Maximum>
+              <Minimum>0</Minimum>
+            </LeftAxis>
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="CDF">
+    <Page name="Data" Left="0" Top="0" Width="811" Height="199">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="186">
+        <BySeries>yes</BySeries>
+        <FileName>
+        </FileName>
+      </ApsimFileReader>
+      <Probability Left="324" Top="0" Width="128" Height="186">
+        <source>OutputFile</source>
+        <FieldName>yield</FieldName>
+        <Exceedence>No</Exceedence>
+      </Probability>
+    </Page>
+    <Page name="Report" Left="0" Top="202" Width="811" Height="128">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+        <source>Probability</source>
+        <XY>
+          <X>*</X>
+          <Y>Probability</Y>
+          <SeriesType>Line</SeriesType>
           <PointType>None</PointType>
         </XY>
-      </Page>
-      <Page name="Report" Left="0" Top="271" Width="715" Height="506">
-        <Chart Left="3" Top="3" RightMargin="5" BottomMargin="5" Width="350" Height="340" name="Chart1">
-          <source>XY1</source>
-        </Chart>
-        <Chart name="Chart2" Left="385" Top="3" Width="310" Height="340">
-          <source>XY2</source>
-        </Chart>
-      </Page>
-    </SplitReport>
-    <SplitReport name="Probability Exceedence Chart">
-      <Page name="Data" Left="0" Top="0" Width="715" Height="269">
-        <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="0" Width="318" Height="75">
-          <FileName type="filenames"></FileName>
-        </ApsimFileReader>
-        <Probability>
-          <source>OutputFile</source>
-          <FieldName>yield</FieldName>
-          <Exceedence>Yes</Exceedence>
-        </Probability>
-      </Page>
-      <Page name="Report" Left="0" Top="272" Width="715" Height="505">
-        <Chart Left="18" Top="-17" RightMargin="5" BottomMargin="5" Width="586" Height="478">
-          <source>Probability</source>
-          <XY>
-            <X>*</X>
-            <Y>Probability</Y>
-            <SeriesType>Line</SeriesType>
-            <PointType>None</PointType>
-          </XY>
-        </Chart>
-      </Page>
-    </SplitReport>
-    <SplitReport name="CDF Chart">
-      <Page name="Data" Left="0" Top="0" Width="715" Height="269">
-        <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="0" Width="318" Height="75">
-          <FileName type="filenames"></FileName>
-        </ApsimFileReader>
-        <Probability>
-          <source>OutputFile</source>
-          <FieldName>yield</FieldName>
-          <Exceedence>No</Exceedence>
-        </Probability>
-      </Page>
-      <Page name="Report" Left="0" Top="272" Width="715" Height="505">
-        <Chart Left="18" Top="-17" RightMargin="5" BottomMargin="5" Width="586" Height="478">
-          <source>Probability</source>
-          <XY>
-            <X>*</X>
-            <Y>Probability</Y>
-            <SeriesType>Line</SeriesType>
-            <PointType>None</PointType>
-          </XY>
-        </Chart>
-      </Page>
-    </SplitReport>
-    <SplitReport name="Depth">
-      <Page name="Data" Left="0" Top="0" Width="715" Height="268">
-        <ApsimFileReader name="OutputFile" Visible="no" Left="3" Top="3" Width="318" Height="75">
-          <FileName type="filenames"></FileName>
-        </ApsimFileReader>
-        <Depth Left="3" Top="116" Width="114" Height="36">
-          <source>Filter</source>
-        </Depth>
-        <Filter Left="3" Top="23" Width="205" Height="68">
-          <source>OutputFile</source>
-          <FilterString>Date='1/1/1940'</FilterString>
-        </Filter>
-      </Page>
-      <Page name="Report" Left="0" Top="271" Width="715" Height="506">
-        <Chart Left="18" Top="-17" RightMargin="5" BottomMargin="5" Width="586" Height="478">
-          <source>Depth</source>
-          <XY>
-            <XTop>*</XTop>
-            <Y>Depth</Y>
-            <SeriesType>Line</SeriesType>
-            <PointType>None</PointType>
-          </XY>
-        </Chart>
-      </Page>
-    </SplitReport>
-  </folder>
-  <TabbedReport name="1 Page Report">
-    <Page name="Page1"/>
-    <Page name="Data"/> 
-  </TabbedReport>   
-  <TabbedReport name="2 Page Report">
-    <Page name="Page1"/>
-    <Page name="Page2"/>
-    <Page name="Data"/> 
-  </TabbedReport>   
-  <TabbedReport name="3 Page Report">
-    <Page name="Page1"/>
-    <Page name="Page2"/>
-    <Page name="Page3"/>
-    <Page name="Data"/> 
-  </TabbedReport>   
-  <TabbedReport name="4 Page Report">
-    <Page name="Page1"/>
-    <Page name="Page2"/>
-    <Page name="Page3"/>
-    <Page name="Page4"/>
-    <Page name="Data"/> 
-  </TabbedReport>   
-  <SplitReport />
+        <Properties>
+          <Axes>
+            <LeftAxis>
+              <Maximum>100</Maximum>
+              <Minimum>0</Minimum>
+            </LeftAxis>
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="Depth">
+    <Page name="Data" Left="0" Top="0" Width="811" Height="257">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="3" Top="3" Width="298" Height="124">
+        <FileName>
+        </FileName>
+        <BySeries>yes</BySeries>
+      </ApsimFileReader>
+      <Filter Left="307" Top="3" Width="205" Height="124">
+        <source>OutputFile</source>
+        <FilterString>Date='10/10/1942'</FilterString>
+      </Filter>
+      <Depth Left="518" Top="3" Width="114" Height="36">
+        <source>Filter</source>
+      </Depth>
+    </Page>
+    <Page name="Report" Left="0" Top="260" Width="811" Height="70">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+        <source>Depth</source>
+        <XY>
+          <XTop>*</XTop>
+          <Y>Depth</Y>
+          <SeriesType>Line</SeriesType>
+          <PointType>None</PointType>
+        </XY>
+        <Properties>
+          <Axes>
+            <LeftAxis>
+              <Minimum>0</Minimum>
+            </LeftAxis>
+            <BottomAxis />
+            <TopAxis>
+              <Minimum>0</Minimum>
+            </TopAxis>
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="Box plot">
+    <Page name="Data" Left="0" Top="0" Width="811" Height="200">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="186">
+        <BySeries>yes</BySeries>
+        <FileName>
+        </FileName>
+      </ApsimFileReader>
+      <Probability name="FieldNames" Left="324" Top="0" Width="128" Height="186">
+        <source>OutputFile</source>
+        <FieldName>yield</FieldName>
+        <Exceedence>Yes</Exceedence>
+      </Probability>
+    </Page>
+    <Page name="Report" Left="0" Top="203" Width="811" Height="119">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+        <source>FieldNames</source>
+        <XY>
+          <Y>!Probability</Y>
+          <SeriesType>Box</SeriesType>
+        </XY>
+        <Properties>
+          <Axes>
+            <LeftAxis />
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
 </folder>
