@@ -37,7 +37,8 @@ void processCumulative(DataContainer& parent,
                AnsiString newField = "CUMULATIVE_" + fieldDef->Name;
                addDBField(&result, newField.c_str(), "1.0");
                }
-            else
+            else if (fieldDef->Name.AnsiCompareIC("series") != 0 &&
+                     fieldDef->Name.AnsiCompareIC("title") != 0)
                result.FieldDefs->Add(fieldDef->Name, fieldDef->DataType,
                                      fieldDef->Size, false);
             }

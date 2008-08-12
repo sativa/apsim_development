@@ -1,4 +1,4 @@
-<folder version="14" name="NewGraph">
+<folder version="15" name="Graph">
   <SplitReport name="XY Chart">
     <Page name="Data" Left="0" Top="0" Width="811" Height="268">
       <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="101">
@@ -218,4 +218,13 @@
       </Chart>
     </Page>
   </SplitReport>
+  <TabbedReport name="1 Page Report">
+    <Page name="Page1"/>
+    <Page name="Data"/> 
+  </TabbedReport>   
+  <TabbedReport name="2 Page Report">
+    <Page name="Page1"/>
+    <Page name="Page2"/>
+    <Page name="Data"/> 
+  </TabbedReport>  
 </folder>

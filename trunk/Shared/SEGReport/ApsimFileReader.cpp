@@ -16,6 +16,23 @@
 #include "DataContainer.h"
 using namespace std;
 
+template <class T>
+void splitCSV(const std::string& text, T& words)
+   {
+   int n = text.length();
+   int start = 0;
+   int stop;
+
+   stop = text.find_first_of(',');
+
+   while (start < n && stop < n)
+      {
+      if (stop < 0 || stop > n) stop = n;
+      words.push_back(text.substr(start, stop - start));
+      start = stop+1;
+      stop = text.find_first_of(',', start);
+      }
+   }
 // ------------------------------------------------------------------
 // Read in the next record.  Return true if values are returned.
 // ------------------------------------------------------------------
@@ -24,36 +41,21 @@ bool readNextRecord(istream& in, bool csv, int index, vector<string>& fieldValue
    string line;
    if (getline(in, line) && line.length() > 0)
       {
-      char delimiter = ' ';
+      vector<string> values;
       if (csv)
-         delimiter = ',';
-      int n = line.length();
-      int start = line.find_first_not_of(delimiter);
-      while ((start >= 0) && (start < n))
+         splitCSV(line, values);
+      else
+         SplitStringHonouringQuotes(line, " ", values);
+      for (unsigned i = 0; i != values.size(); i++)
          {
-         int stop;
-         if (line[start] == '"')
-            stop = line.find_first_of('"', start+1)+1;
+         if (index >= fieldValues.size())
+            fieldValues.push_back(values[i]);
          else
-            stop = line.find_first_of(delimiter, start);
-         if ((stop < 0) || (stop > n)) stop = n;
-         string word = line.substr(start, stop - start);
-         if (word == "*" || word == "?")
-            word = "";
-         if (word[0] == '"' && word[word.length()-1] == '"')
-            word = word.substr(1, word.length()-2);
-         if (csv)
-            stripLeadingTrailing(word, " ");
-         if (fieldValues.size() <= (unsigned)index)
-            fieldValues.push_back(word);
-         else
-            fieldValues[index] = word;
-         if (csv)
-            start = stop+1;
-         else
-            start = line.find_first_not_of(delimiter, stop+1);
+            fieldValues[index] = values[i];
          index++;
          }
+      for (unsigned i = index; i != fieldValues.size(); i++)
+         fieldValues[i] = "";
       return true;
       }
    else
