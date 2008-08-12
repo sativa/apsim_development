@@ -2054,6 +2054,17 @@
          <variable name="etrd" description ="Radiation-driven part of reference evapotranspiration rate  !mm d-1 "/>
          <variable name="etae" description ="Dryness-driven part of reference evapotranspiration rate  !mm d-1 "/>
          <variable name="trc"  description ="Potential transpiration rate of crop with given LAI  !mm d-1"/>
+         <variable name="gnsp" description ="rate of increase in spikelet number"/>
+         <variable name="spgf" description ="spikelet growth factor"/>
+         <variable name="coldtt" description ="accumulated cold degree days"/>
+         <variable name="sf1" description ="spikelet sterility factor because of low temperatures"/>
+         <variable name="sf2" description ="spikelet fertility factor because of high temperatures"/>
+         <variable name="spfert" description ="spikelet fertility factor"/>
+         <variable name="nsp" description ="number of spikelets"/>
+         <variable name="gngr" description ="rate of increase in grain number"/>
+         <variable name="ggr" description ="rate of increase in grain weight"/>
+         <variable name="ngr" description ="number of grains"/>
+         <variable name="wgrmx" description ="maximum individual grain weight"/>
          <variable name="cover_green"  description ="green cover from crop"/>
          <variable name="cover_tot"  description ="total cover from crop"/>
          <variable name="height"  description ="height of crop"/>
