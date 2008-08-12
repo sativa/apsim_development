@@ -28,7 +28,7 @@
       <p>A cleanup of SWIM model source code has done, removing redundant code and unused functionality.</p>
 
       <h2>Manager</h2>
-      <p>The manager model now outputs less decimal places when reporting local variabls to the summary file.</p>
+      <p>The manager model now outputs less decimal places when reporting local variables to the summary file.</p>
 
       <h2>Barley</h2>
       <p>The barley potential grain filling rates have been dropped for all cultivars to improve the 
@@ -36,6 +36,18 @@
 
       <h2>Oats</h2>
       <p>A modified oats model was provided by Allan Peake.</p>
+
+      <h2>Oryza</h2>
+      <p>Apsim/Oryza now uses NH<sub>4</sub> in its calculation of total available N for daily growth. </p>
+      <p>Specification of the establishment method, sowing rate etc, is now
+         a manager 'sow' line  argument like the other APSIM crops.  This 
+         allows the user to sow different varieties, sowing rates etc., at 
+         different times in the simulation/rotation rather than being stuck 
+         with the same establishment method for the whole rotation as was the case. 
+         The samples demonstrate this. Names follow irri conventions.</p>
+
+      <h2>Sorghum</h2>
+      <p>Sorghum is sensitive to heat stress at flowering.</p>
 
       <h2>Infrastructure</h2>
       <p>The APSIM infrastructure has been significantly reworked allowing better multi-paddock variable
