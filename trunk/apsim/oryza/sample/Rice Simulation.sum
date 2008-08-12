@@ -115,7 +115,7 @@ Component       "rice" = c:\development\apsim\oryza\lib\oryza.dll
      
      SECTION:- start_of_day
      if (day = 288) then
-       rice sow cultivar = experimental, establishment_section = direct-seed
+       rice sow cultivar = experimental, establishment = direct-seed, nplds = 180 (p/m2)
      endif
      
      SECTION:- end_of_day
@@ -269,23 +269,42 @@ Component       "rice" = c:\development\apsim\oryza\lib\oryza.dll
 
 ------- rice Initialisation ---------------------------------------------------
         - Initialising
-     Eo taken from eo
 ------- Start of simulation  --------------------------------------------------
+%  5
 15 October 1990(Day of year=288), Rice sowing rule: 
-     Manager sending message :- rice sow  cultivar = experimental, establishment_section = direct-seed
+     Manager sending message :- rice sow  cultivar = experimental, establishment = direct-seed, nplds = 180 (p/m2)
 15 October 1990(Day of year=288), rice: 
         - Reading Parameters
-        - Reading Cultivar Parameters
-        - Reading Establishment Parameters
+        - Reading experimental Cultivar Parameters
+        - Reading direct-seed Establishment Parameters
+        Number of plants in seedbed: 180.0 (/m2)
+% 10
+% 15
+% 20
+% 25
+% 30
+% 35
+% 40
+% 45
+% 50
+% 55
+% 60
+% 65
 2 February 1991(Day of year=33), rice: 
      Maturity
 2 February 1991(Day of year=33), Rice sowing rule: 
      Manager sending message :- rice end_crop
-         Crop ended. Rough Rice Yield (dw) =  2451.0 (kg/ha)
-                             straw residue =  1335.0 (kg/ha)
-                             straw N       =     5.9 (kg/ha)
+         Crop ended. Rough Rice Yield (dw) =  2706.7 (kg/ha)
+                             straw residue =  1336.0 (kg/ha)
+                             straw N       =     7.5 (kg/ha)
                              root residue  =   452.3 (kg/ha)
-                             root N        =     2.0 (kg/ha)
-     Eo taken from eo
+                             root N        =     2.6 (kg/ha)
+% 70
+% 75
+% 80
+% 85
+% 90
+% 95
+%100
 28 March 1991(Day of year=87), clock: 
      Simulation is terminating due to end criteria being met.
