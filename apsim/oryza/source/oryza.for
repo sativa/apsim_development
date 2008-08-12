@@ -60,7 +60,8 @@
       type oryzaGlobals
          sequence
          character cultivar*20     ! name of cultivar
-         real no3(max_layer)       ! amount of NO3 in each layer (kg/ha)
+         real no3(max_layer)       ! amount of NO3 in each soil layer (kg/ha)
+         real nh4(max_layer)       ! amount of NH4 in each soil layer (kg/ha)
          REAL MSKPA(max_layer)     ! Array with soil water potential/layer (KPa)
          REAL WCL(max_layer)       ! Array of actual soil water content, per soil layer (m3/m3) 
          Real Fact(max_layer)      ! Soil-water tension (pF)
@@ -396,7 +397,8 @@
          REAL WLVGI                ! Initial dry weight of leaves  !kg ha-1 
          REAL WSTI                 ! Initial dry weight of stems  !kg ha-1 
          REAL WRTI                 ! Initial dry weight of roots  !kg ha-1 
-         
+
+         real cttmax               ! temperature factor - was hard coded (22.0)
       end type oryzaParameters
 ! ===================================================================
 
@@ -436,7 +438,9 @@
 
       call push_routine (my_name)
 
-      call write_string ('   - Reading Cultivar Parameters')
+      call write_string ('   - Reading '
+     :                   // trim(g%cultivar) 
+     :                   // ' Cultivar Parameters')
 
       call read_real_var (
      :           g%cultivar         ! Section header
@@ -498,19 +502,19 @@
       end subroutine
 
 *     ===========================================================
-      subroutine oryza_read_estab_params (section)
+      subroutine oryza_read_estab_params ()
 *     ===========================================================
       Use Infrastructure
       implicit none
 
 *+  Purpose
-*       Get cultivar parameters for named cultivar, from crop parameter file.
+*       Get default establishment parameters. These are
+*       overriden by whatever shows up in sowing line.
 
 *+  Changes
 *       090994 jngh specified and programmed
 
 *+  Arguments
-      character*(*)  section           ! Name of section to read from
       
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -518,22 +522,26 @@
 
 *+  Local Variables
       integer    numvals               ! number of values read
+      integer Iscratch
+      real    Rscratch
+      character  string*400            ! output string
 
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
-      call write_string ('   - Reading Establishment Parameters')
-
-      call read_char_var (
-     :           section          ! Section header
-     :          ,'estab'          ! Keyword
-     :          ,'()'             ! Units
-     :          ,p%estab          ! Array
-     :          ,numvals)         ! Number of values returned
+      IF (p%ESTAB.NE.'transplant' .and.
+     :    p%ESTAB.NE.'direct-seed') then
+         call fatal_error(err_user, 
+     :              'unknown establishment method "' 
+     :              // trim(p%ESTAB) //'"')
+      endif
       
-        call read_integer_var (
-     :           section         ! Section header
+      call write_string ('   - Reading ' // trim(p%estab) //
+     :                   ' Establishment Parameters')
+
+      call read_integer_var (
+     :           p%estab         ! Section header
      :          ,'sbdur'             ! Keyword
      :          ,'()'               ! Units
      :          ,p%sbdur             ! Array
@@ -542,7 +550,7 @@
      :          ,100)              ! Upper Limit for bound check
 
       call read_real_var (
-     :           section         ! Section header
+     :           p%estab         ! Section header
      :          ,'nplh'               ! Keyword
      :          ,'()'              ! Units
      :          ,p%nplh               ! Array
@@ -551,7 +559,7 @@
      :          ,1000.0)                 ! Upper Limit for bound check
       
       call read_real_var (
-     :           section         ! Section header
+     :           p%estab         ! Section header
      :          ,'nh'               ! Keyword
      :          ,'()'              ! Units
      :          ,p%nh               ! Array
@@ -560,7 +568,7 @@
      :          ,1000.0)                 ! Upper Limit for bound check
       
       call read_real_var (
-     :           section         ! Section header
+     :           p%estab         ! Section header
      :          ,'nplsb'             ! Keyword
      :          ,'(mm)'               ! Units
      :          ,p%nplsb             ! Array
@@ -569,13 +577,81 @@
      :          ,10000.)              ! Upper Limit for bound check
       
       call read_real_var (
-     :           section         ! Section header
+     :           p%estab         ! Section header
      :          ,'nplds'             ! Keyword
      :          ,'(mm)'               ! Units
      :          ,p%nplds             ! Array
      :          ,numvals              ! Number of values returned
      :          ,0.0                  ! Lower Limit for bound check
      :          ,1000.)              ! Upper Limit for bound check
+
+!     dsg 280408  Read in the appropriate establishment parameters, depending on the method specified
+      IF (p%ESTAB.EQ.'transplant' ) then
+
+!        sbdur - duration of the seed on nursery bed (days)
+         call collect_integer_var_optional ('sbdur'
+     :                               , '(days)'
+     :                               , Iscratch, numvals
+     :                               , 0, 100)
+         if (numvals.gt.0) then 
+           p%sbdur = Iscratch
+         endif
+         write (string, '(3x,a,i2,a)')
+     :       'Duration of seed on nursery bed: ', p%sbdur, ' (days)'
+         call write_string (string)
+         
+!        nplh - number of plants per hill ()
+         call collect_real_var_optional ('nplh', ' ()'
+     :                                  , Rscratch, numvals
+     :                                  , 0.0, 1000.0)
+         if (numvals.eq.0) then 
+             p%nplh = Rscratch
+         endif
+         write (string, '(3x,a,f5.1,a)')
+     :       'Number of plants per hill: ', p%nplh, ' ()'
+         call write_string (string)
+
+!        nh - number of hills ()
+         call collect_real_var_optional ('nh', '()'
+     :                                  , Rscratch, numvals
+     :                                  , 0.0, 1000.0)
+         if (numvals.gt.0) then 
+             p%nh = Rscratch
+         endif
+         write (string, '(3x,a,f5.1,a)')
+     :       'Number of hills: ', p%nh, ' ()'
+         call write_string (string)
+
+!        nplsb - number of plants in seed-bed ()
+         call collect_real_var_optional ('nplsb', '()'
+     :                                  , Rscratch, numvals
+     :                                  , 0.0, 1000.0)
+         if (numvals.gt.0) then 
+             p%nplsb = Rscratch
+         endif
+         write (string, '(3x,a,f5.1,a)')
+     :       'Number of plants in seedbed: ', p%nplsb, ' (/m2)'
+         call write_string (string)
+
+         g%Rlai= p%lape * p%nplsb
+         
+         
+      ELSEIF (p%ESTAB.EQ.'direct-seed') then
+
+!        nplsb - number of plants in seed-bed ()
+         call collect_real_var_optional ('nplds', '()'
+     :                                  , Rscratch, numvals
+     :                                  , 0.0, 1000.0)
+         if (numvals.gt.0) then 
+             p%nplds = Rscratch
+         endif
+         write (string, '(3x,a,f5.1,a)')
+     :       'Number of plants in seedbed: ', p%nplds, ' (/m2)'
+         call write_string (string)
+
+         g%Rlai= p%lape * p%nplds
+      else 
+      endif
      
       call pop_routine (my_name)
       return
@@ -597,9 +673,7 @@
 *     220696 jngh changed extract to collect
 
 *+  Local Variables
-      integer I
       integer numvals
-      REAL    num_layers
       character esection*80
 
 *+  Constant Values
@@ -623,25 +697,18 @@
          
          call oryza_read_cultivar_params ()
          
-         call collect_char_var ('establishment_section', '()'
-     :                         , esection, numvals)
-         call oryza_read_estab_params (esection)
+         call collect_char_var ('establishment', '()'
+     :                         , p%ESTAB, numvals)
+ 
          
          g%plant_status = status_alive
          
          !Set CROPSTA: 0=before sowing; 1=sowing; 2=in seedbed;
          !             3=day of transplanting; 4=main growth period      
          g%CROPSTA = 1
-         
          g%Rlai = 0.0
-         IF (p%ESTAB.EQ.'transplant' ) then
-            g%Rlai= p%lape * p%nplsb
-         ELSEIF (p%ESTAB.EQ.'direct-seed') then
-            g%Rlai= p%lape * p%nplds
-         else 
-            call fatal_error(err_user, 
-     :                 'unknown establishment ' // p%ESTAB)
-         endif
+
+         call oryza_read_estab_params()  ! get default values from ini file
          
          g%WLVG = 0.01  !initial Dry weight of green leaves  !kg ha-1
          g%WSTS = 0.01  !initial Dry weight of structural stems  !kg ha-1
@@ -893,7 +960,7 @@
      :                   , g%eo_source
      :                   , numvals)
       if (numvals .le. 0) then
-          g%eo_source = ' '
+          g%eo_source = 'eo'
       else
           call write_string('Eo taken from '//g%eo_source)
       endif
@@ -1088,6 +1155,7 @@
       g%WLVGEXP = 0.0
       g%LAIEXP  = 0.0
       g%no3(:) = 0.0
+      g%nh4(:) = 0.0
       g%amax1 = 0.0   !! XXnot used anywhere??
       g%eff1=0.0      !! XXnot used anywhere??
 
@@ -1360,13 +1428,27 @@
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%wst)         ! variable
-
-      elseif (variable_name .eq. 'wrr') then
-!             Weight of rough rice  (kg/ha)
+      
+      elseif (variable_name .eq. 'wrt') then
+!             Dry weight of roots  (kg/ha)
          call respond2get_real_var (
      :               variable_name    ! variable name
-     :              ,'()'          ! variable units
+     :              ,'(kg/ha)'          ! variable units
+     :              ,g%wrt)         ! variable
+      
+      elseif (variable_name .eq. 'wrr') then
+!             Dry weight of rough rice (final yield)  (kg/ha)
+         call respond2get_real_var (
+     :               variable_name    ! variable name
+     :              ,'(kg/ha)'          ! variable units
      :              ,g%wrr)         ! variable
+      
+      elseif (variable_name .eq. 'wlv') then
+!             Dry weight of leaves  (kg/ha)
+         call respond2get_real_var (
+     :               variable_name    ! variable name
+     :              ,'(kg/ha)'          ! variable units
+     :              ,g%wlv)         ! variable
       
       elseif (variable_name .eq. 'ancr') then
 !             Amount of N in crop (live and dead material)(kg N/ha)
@@ -1387,7 +1469,7 @@
 !             Total aboveground dry matter (kg/ha)
          call respond2get_real_var (
      :               variable_name    ! variable name
-     :              ,'()'          ! variable units
+     :              ,'(kg/ha)'          ! variable units
      :              ,g%wagt)         ! variable
            
       elseif (variable_name .eq. 'rnstrs') then
@@ -1463,12 +1545,19 @@
       
       
       elseif (variable_name .eq. 'zrt') then
-
+!           root length or rooting depth (m)
          call respond2get_real_var (
      :               variable_name    ! variable name
-     :              ,'()'          ! variable units
+     :              ,'(m)'          ! variable units
      :              ,g%zrt)         ! variable
       
+      elseif (variable_name .eq. 'zll') then
+!           summed root depths of preceding soil layers (m)
+         call respond2get_real_var (
+     :               variable_name    ! variable name
+     :              ,'(m)'          ! variable units
+     :              ,g%zll)         ! variable
+
       elseif (variable_name .eq. 'etrd') then
 
          call respond2get_real_var (
@@ -1549,6 +1638,91 @@
      :               variable_name      ! variable name
      :              ,'(mm)'            ! variable units
      :              ,height)            ! variable
+
+  
+      elseif (variable_name .eq. 'wcl') then
+         num_layers = count_of_real_vals (p%tkl, max_layer)
+         call respond2get_real_array (variable_name
+     :                               , '(mm/mm3)'
+     :                               , g%wcl
+     :                               , num_layers)
+
+      elseif (variable_name .eq. 'gnsp') then
+         ! Rate of increase in spikelet number   !no. ha-1 d-1 
+         call respond2get_real_var (
+     :               variable_name      ! variable name
+     :              ,'(no. ha-1 d-1)'   ! variable units
+     :              ,g%gnsp)            ! variable
+
+      elseif (variable_name .eq. 'spgf') then
+         ! Spikelet growth factor   !no. kg-1  
+         call respond2get_real_var (
+     :               variable_name      ! variable name
+     :              ,'(no. kg-1)'       ! variable units
+     :              ,p%spgf)            ! variable
+
+      elseif (variable_name .eq. 'coldtt') then
+         ! Accumulated cold degree days (degree days)
+         call respond2get_real_var (
+     :               variable_name      ! variable name
+     :              ,'(degree days)'       ! variable units
+     :              ,g%coldtt)            ! variable
+
+      elseif (variable_name .eq. 'sf1') then
+         ! Spikelet sterility factor because of low temperatures   !- 
+         call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'()'              ! variable units
+     :              ,g%sf1)            ! variable
+
+      elseif (variable_name .eq. 'sf2') then
+         ! Spikelet fertility factor because of high temperatures   !- 
+         call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'()'              ! variable units
+     :              ,g%sf2)            ! variable
+
+      elseif (variable_name .eq. 'spfert') then
+         ! Spikelet fertility factor  !-
+         call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'()'              ! variable units
+     :              ,g%spfert)            ! variable
+
+      elseif (variable_name .eq. 'nsp') then
+         ! Number of spikelets   !no. ha-1 
+         call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'(no. ha-1)'              ! variable units
+     :              ,g%nsp)            ! variable
+
+      elseif (variable_name .eq. 'gngr') then
+         ! Rate of increase in grain number   !no. ha-1 d-1 
+         call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'(no. ha-1 d-1)'              ! variable units
+     :              ,g%gngr)            ! variable
+
+      elseif (variable_name .eq. 'ggr') then
+         ! Rate of increase in grain weight  !kg DM ha-1 d-1 
+         call respond2get_real_var (
+     :               variable_name      ! variable name
+     :              ,'(kg DM ha-1 d-1)' ! variable units
+     :              ,g%ggr)             ! variable
+
+      elseif (variable_name .eq. 'ngr') then
+         ! Number of grains  !no ha-1  
+         call respond2get_real_var (
+     :               variable_name      ! variable name
+     :              ,'(no ha-1)'        ! variable units
+     :              ,g%ngr)             ! variable
+
+      elseif (variable_name .eq. 'wgrmx') then
+         ! Maximum individual grain weight  !kg grain-1
+         call respond2get_real_var (
+     :               variable_name      ! variable name
+     :              ,'(kg grain-1)'        ! variable units
+     :              ,p%wgrmx)             ! variable
 
       else
          call Message_Unused ()
@@ -2490,6 +2664,15 @@
      :          ,0.0                  ! Lower Limit for bound check
      :          ,100.0)                 ! Upper Limit for bound check 
 
+      call read_real_var (
+     :           section_name         ! Section header
+     :          ,'cttmax'             ! Keyword
+     :          ,'()'                 ! Units
+     :          ,p%cttmax             ! value
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,100.0)               ! Upper Limit for bound check
+
     
       call pop_routine  (myname)
       return
@@ -2513,7 +2696,6 @@
       parameter (myname = 'oryza_get_other_variables')
 
 *+  Local Variables
-      real    no3(max_layer)
       integer deepest_layer
       integer numvals,I
 
@@ -2535,23 +2717,26 @@
      :                                    , g%no3, numvals
      :                                    , 0.0, 10000.0)
        
+
+!        dsg 280408   add nh4 to the picture....
+!                     assume plant can get N from both no3 & nh4, using no3 as first preference
+          call get_real_array (unknown_module, 'nh4', max_layer
+     :                                    , '(kg/ha)'
+     :                                    , g%nh4, numvals
+     :                                    , 0.0, 10000.0)
+     
        deepest_layer = find_layer_no (1000*g%zrt
      :                                  ,p%tkl          
      :                                  ,max_layer)
-       g%tnsoil = sum_real_array(g%no3, deepest_layer)
+       g%tnsoil = sum_real_array(g%no3, deepest_layer) +
+     :            sum_real_array(g%nh4, deepest_layer)  
       else    
           g%TNSOIL = 10000.0
       endif
 
-      if (g%eo_source .ne. ' ') then
-         call get_real_var (unknown_module, g%eo_source, '(mm)'
+      call get_real_var (unknown_module, g%eo_source, '(mm)'
      :                                , g%etd, numvals
      :                                , 0.0, 100.0)
-      else
-         call get_real_var (unknown_module, 'eo', '(mm)'
-     :                                  , g%etd, numvals
-     :                                  , 0.0, 500.0)
-      endif
 
       call get_real_var_optional (unknown_module
      :                           , 'co2', '()'
@@ -3624,7 +3809,7 @@
       !!-----Grain formation from spikelets (GNGR)
       !!-----Calculate GNGR reduction factors
       IF ((g%DVS.GE.0.75).AND.(g%DVS.LE.1.2)) THEN
-         CTT    = MAX(0.,22.-(g%TAV-TINCR))
+         CTT    = MAX(0.,p%cttmax-(g%TAV-TINCR))
          g%COLDTT = g%COLDTT+CTT
       END IF
 
@@ -5187,9 +5372,12 @@
       parameter (myname = 'oryza_set_other_variables')
 *+  Local Variables
       real    dlt_no3(max_layer)
+      real    dlt_nh4(max_layer)
       real    nfract(max_layer)
       real    totno3
-      integer num_layers
+      real    totnh4
+      real    from_nh4_pool   ! the component of total plant uptake to be taken from the nh4 pool
+      integer num_layers, numvals
       integer layer
       integer deepest_layer
 
@@ -5201,17 +5389,45 @@
 
       if (p%nitroenv .eq. env_limited) then
          !! divvy up g%NACR over profile, proportional to N content.
+         !  dsg 280408 divvy between no3 & nh4 pools (use NO3 as first preference)
          deepest_layer = find_layer_no (g%zrt * 1000.0
      :                                  ,p%tkl          
      :                                  ,max_layer)
          totno3 = sum_real_array(g%no3, deepest_layer)
+         totnh4 = sum_real_array(g%nh4, deepest_layer)
 
-         do layer = 1, deepest_layer
-            nfract(layer) = divide(g%no3(layer),totno3,0.0)
-            dlt_no3(layer) = min(g%no3(layer), g%nacr * nfract(layer))
-         enddo
-         call set_real_array (unknown_module, 'dlt_no3', '(kg/ha)'
+! dsg 280408 try to get all g%nacr out of the NO3 if possible
+!            - if not, use all NO3, then get remainder of g%nacr from NH4 
+
+         if (totno3.ge.g%nacr) then          
+             ! all of plant N uptake available from NO3 pool, dlt_nh4 = 0.0
+             do layer = 1, deepest_layer
+              nfract(layer) = divide(g%no3(layer),totno3,0.0)
+              dlt_no3(layer) = min(g%no3(layer), g%nacr * nfract(layer))
+             enddo
+             call set_real_array (unknown_module, 'dlt_no3', '(kg/ha)'
      :                            ,-1.0*dlt_no3, deepest_layer)
+
+         else 
+            ! use all NO3 pool for plant N uptake, and get remainder from NH4 pool in proportion         
+            from_nh4_pool = g%nacr - totno3
+             do layer = 1, deepest_layer
+
+              nfract(layer) = divide(g%nh4(layer),totnh4,0.0)
+              dlt_nh4(layer) = min(g%nh4(layer), ! dsg 280408 get rest from nh4
+     :                          from_nh4_pool * nfract(layer))
+
+             enddo
+
+             call set_real_array (unknown_module, 'no3', '(kg/ha)' 
+     :                            ,0.0*dlt_no3, deepest_layer)
+
+             call set_real_array (unknown_module, 'dlt_nh4', '(kg/ha)'
+     :                            ,-1.0*dlt_nh4, deepest_layer)
+     
+     
+                    
+         endif
       endif
 
       if (p%prodenv .eq. env_limited) then
