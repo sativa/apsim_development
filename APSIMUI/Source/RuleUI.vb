@@ -8,6 +8,7 @@ Imports System.Xml
 Imports FarPoint.Win.Spread
 Imports VBUserInterface
 
+'nb. this overloads Generic UI. This RuleUI is just GenericUI with a Script tab added on, so the user can also write their own management scripts.
 
 Public Class RuleUI
     Inherits BaseView
