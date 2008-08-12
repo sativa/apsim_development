@@ -1,4 +1,4 @@
-<folder version="14" name="Simulations">
+<folder version="15" name="Simulations">
   <simulation name="Paddock1">
     <clock name="Clock" />
     <metfile name="met">
@@ -687,6 +687,9 @@ SowDate=date('06-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -1720,6 +1723,9 @@ SowDate=date('09-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -2763,6 +2769,9 @@ SowDate=date('19-May')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -3787,6 +3796,9 @@ SowDate=date('21-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -4820,6 +4832,9 @@ SowDate=date('07-May')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -5829,6 +5844,9 @@ SowDate=date('10-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -6862,6 +6880,9 @@ SowDate=date('03-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -7891,6 +7912,9 @@ SowDate=date('23-May')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -8920,6 +8944,9 @@ SowDate=date('31-May')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -9929,6 +9956,9 @@ SowDate=date('13-May')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -10959,6 +10989,9 @@ SowDate=date('15-May')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -12012,6 +12045,9 @@ SowDate=date('20-May')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -13045,6 +13081,9 @@ SowDate=date('16-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -14058,6 +14097,9 @@ SowDate=date('15-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -15060,6 +15102,9 @@ SowDate=date('29-May')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -16056,6 +16101,9 @@ SowDate=date('28-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -17100,6 +17148,9 @@ SowDate=date('26-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -18129,6 +18180,9 @@ SowDate=date('15-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -19162,6 +19216,9 @@ SowDate=date('20-Jul')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -20182,6 +20239,9 @@ SowDate=date('22-Jul')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -21200,6 +21260,9 @@ SowDate=date('15-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -22225,6 +22288,9 @@ SowDate=date('24-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -23256,6 +23322,9 @@ SowDate=date('16-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -24269,6 +24338,9 @@ SowDate=date('01-May')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -25302,6 +25374,9 @@ SowDate=date('04-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -26319,6 +26394,9 @@ SowDate=date('05-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -27328,6 +27406,9 @@ SowDate=date('20-Apr')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -28402,6 +28483,9 @@ SowDate=date('15-May')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -29432,6 +29516,9 @@ SowDate=date('04-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -30445,6 +30532,9 @@ SowDate=date('28-May')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -31454,6 +31544,9 @@ SowDate=date('20-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -32467,6 +32560,9 @@ SowDate=date('04-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -33496,6 +33592,9 @@ SowDate=date('26-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -34545,6 +34644,9 @@ SowDate=date('08-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -35554,6 +35656,9 @@ SowDate=date('14-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -36567,6 +36672,9 @@ SowDate=date('05-Jul')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -37600,6 +37708,9 @@ SowDate=date('29-Apr')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -38613,6 +38724,9 @@ SowDate=date('09-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -39662,6 +39776,9 @@ SowDate=date('23-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -40711,6 +40828,9 @@ SowDate=date('05-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -41724,6 +41844,9 @@ SowDate=date('02-Jul')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -42762,6 +42885,9 @@ SowDate=date('01-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -43791,6 +43917,9 @@ SowDate=date('11-Jun')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>
@@ -45027,6 +45156,9 @@ SowDate=date('19-May')
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="SurfaceOM">
         <PoolName type="text" description="Organic Matter pool name">wheat</PoolName>

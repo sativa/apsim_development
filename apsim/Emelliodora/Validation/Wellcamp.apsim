@@ -1,4 +1,4 @@
-<folder name="Simulations" version="14">
+<folder name="Simulations" version="15">
   <simulation name="Bare">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">21/02/2006</start_date>
@@ -36,6 +36,9 @@
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="surface organic matter" shortcut="/Simulations/shared/surface organic matter" />
       <Emelliodora name="Emelliodora" shortcut="/Simulations/shared/Emelliodora" />
@@ -426,6 +429,9 @@
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="surface organic matter" shortcut="/Simulations/shared/surface organic matter" />
       <Emelliodora name="Emelliodora" shortcut="/Simulations/shared/Emelliodora" />
@@ -821,6 +827,9 @@
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="surface organic matter" shortcut="/Simulations/shared/surface organic matter" />
       <Emelliodora name="Emelliodora" shortcut="/Simulations/shared/Emelliodora" />
@@ -1208,6 +1217,9 @@
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="surface organic matter" shortcut="/Simulations/shared/surface organic matter" />
       <Emelliodora name="Emelliodora" shortcut="/Simulations/shared/Emelliodora" />
@@ -1595,6 +1607,9 @@
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="surface organic matter" shortcut="/Simulations/shared/surface organic matter" />
       <Emelliodora name="Emelliodora" shortcut="/Simulations/shared/Emelliodora" />
@@ -1986,6 +2001,9 @@
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="surface organic matter" shortcut="/Simulations/shared/surface organic matter" />
       <Emelliodora name="Emelliodora" shortcut="/Simulations/shared/Emelliodora" />
@@ -2377,6 +2395,9 @@
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="surface organic matter" shortcut="/Simulations/shared/surface organic matter" />
       <Emelliodora name="Emelliodora" shortcut="/Simulations/shared/Emelliodora" />
@@ -2879,6 +2900,9 @@
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">1000</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">1</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="surface organic matter" shortcut="/Simulations/shared/surface organic matter" />
       <Emelliodora name="Emelliodora" shortcut="/Simulations/shared/Emelliodora" />

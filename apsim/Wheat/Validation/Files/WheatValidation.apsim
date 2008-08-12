@@ -1,4 +1,4 @@
-<simulations name="WheatValidation" version="14">
+<simulations name="WheatValidation" version="15">
   <folder name="shared">
     <soil name="Moora94">
       <Site>Moora</Site>
@@ -5030,6 +5030,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -5183,6 +5186,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -5342,6 +5348,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -5501,6 +5510,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -5660,6 +5672,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -5867,6 +5882,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -6080,6 +6098,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -6293,6 +6314,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -6508,6 +6532,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -6697,6 +6724,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -6893,6 +6923,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -7089,6 +7122,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -7291,6 +7327,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -7493,6 +7532,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -7707,6 +7749,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -7884,6 +7929,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -8061,6 +8109,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -8238,6 +8289,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -8421,6 +8475,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -8615,6 +8672,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -8809,6 +8869,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -9003,6 +9066,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -9203,6 +9269,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -9397,6 +9466,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -9591,6 +9663,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -9785,6 +9860,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -9987,6 +10065,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -10098,6 +10179,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -10209,6 +10293,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -10494,6 +10581,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -10812,6 +10902,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -10949,6 +11042,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -11092,6 +11188,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -11241,6 +11340,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -11412,6 +11514,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -11977,6 +12082,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -12506,6 +12614,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -12962,6 +13073,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -13437,6 +13551,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -13930,6 +14047,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -14441,6 +14561,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -15287,6 +15410,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -15962,6 +16088,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -16649,6 +16778,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -17324,6 +17456,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -18011,6 +18146,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -18632,6 +18770,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -19307,6 +19448,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -19928,6 +20072,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -20603,6 +20750,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -21320,6 +21470,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -22049,6 +22202,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -22766,6 +22922,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -23495,6 +23654,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -24212,6 +24374,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -24935,6 +25100,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -25646,6 +25814,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -25951,6 +26122,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -26075,6 +26249,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -26199,6 +26376,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -26323,6 +26503,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -26447,6 +26630,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -26571,6 +26757,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -26694,6 +26883,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -26811,6 +27003,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -26934,6 +27129,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -27057,6 +27255,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -27180,6 +27381,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -27303,6 +27507,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -27414,6 +27621,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -27561,6 +27771,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -27708,6 +27921,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -27825,6 +28041,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -27930,6 +28149,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -28049,6 +28271,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -28160,6 +28385,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -28272,6 +28500,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -28390,6 +28621,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -28508,6 +28742,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -28626,6 +28863,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -28744,6 +28984,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -28856,6 +29099,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -28974,6 +29220,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -29092,6 +29341,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -29210,6 +29462,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -29638,6 +29893,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -30051,6 +30309,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -30470,6 +30731,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -30889,6 +31153,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -31010,6 +31277,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -31146,6 +31416,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -31299,6 +31572,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -31452,6 +31728,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -31588,6 +31867,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -31700,6 +31982,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -31829,6 +32114,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -31958,6 +32246,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -32071,6 +32362,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -32207,6 +32501,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -32343,6 +32640,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -32496,6 +32796,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -32649,6 +32952,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -32785,6 +33091,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -32897,6 +33206,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -33009,6 +33321,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -33138,6 +33453,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -33267,6 +33585,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -33401,6 +33722,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -33558,6 +33882,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -33732,6 +34059,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -33906,6 +34236,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -34063,6 +34396,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -34196,6 +34532,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -34346,6 +34685,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -34496,6 +34838,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -34630,6 +34975,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -34787,6 +35135,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -34961,6 +35312,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -35135,6 +35489,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -35292,6 +35649,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -35425,6 +35785,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -35575,6 +35938,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -35725,6 +36091,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -35878,6 +36247,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -36050,6 +36422,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -36201,6 +36576,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -36444,6 +36822,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -36666,6 +37047,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -36852,6 +37236,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -37036,6 +37423,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -37187,6 +37577,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -37338,6 +37731,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -37489,6 +37885,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -37642,6 +38041,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -37793,6 +38195,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
@@ -37963,6 +38368,9 @@
           <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
           <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+          <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+          <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+          <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
         </irrigation>
         <manager name="Irrigator">
           <script>
