@@ -2066,17 +2066,7 @@
          <type>component</type>
          <dll>%apsuite\apsim\oryza\lib\oryza.dll</dll>
          <ini>%apsuite\apsim\oryza\oryza.xml</ini>
-         <sim>
-            <direct-seed>
-               <estab>direct-seed</estab>
-               <sbdur>[rice.sbdur]</sbdur>
-               <nplh>[rice.nplh]</nplh>
-               <nh>[rice.nh]</nh>
-               <nplsb>[rice.nplsb]</nplsb>
-               <nplds>[rice.nplds]</nplds>
-            </direct-seed>
-            <eo_source>[rice.eo_source]</eo_source>
-         </sim>
+         <sim />
       </ApsimToSim>
    </rice>
    <peanut>
