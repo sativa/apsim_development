@@ -97,12 +97,12 @@ Public Class GenericUI
         '
         Me.PopupMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditModeItem})
         Me.PopupMenu.Name = "PopupMenu"
-        Me.PopupMenu.Size = New System.Drawing.Size(147, 26)
+        Me.PopupMenu.Size = New System.Drawing.Size(167, 28)
         '
         'EditModeItem
         '
         Me.EditModeItem.Name = "EditModeItem"
-        Me.EditModeItem.Size = New System.Drawing.Size(146, 22)
+        Me.EditModeItem.Size = New System.Drawing.Size(166, 24)
         Me.EditModeItem.Text = "Edit mode"
         '
         'Grid
@@ -211,19 +211,19 @@ Public Class GenericUI
             If Prop.Name = "category" Then
                 Grid.Cells(Row, 1).Text = "category"
                 Grid.Cells(Row, 3).Text = XmlHelper.Attribute(Prop, "description")
-                If Grid.Cells(Row, 3).Text = "" Then
-                    Grid.Cells(Row, 3).Text = XmlHelper.Name(Prop)
+                If Grid.Cells(Row, 3).Text = "" Then                        'if the description property does not have a type specified (because there was no value specified for that property in the xml that was passed in [properties between ui tags])
+                    Grid.Cells(Row, 3).Text = XmlHelper.Name(Prop)              'use the name of the property as the description (in this case "description")
                 End If
             ElseIf Prop.Name <> "condition" Then
                 Grid.Cells(Row, 0).Text = Prop.Name
                 Grid.Cells(Row, 1).Text = XmlHelper.Attribute(Prop, "type")
-                If Grid.Cells(Row, 1).Text = "" Then
-                    Grid.Cells(Row, 1).Text = "text"
+                If Grid.Cells(Row, 1).Text = "" Then                        'if the type property does not have a type specified (because there was no value specified for that property in the xml that was passed in [properties between ui tags])
+                    Grid.Cells(Row, 1).Text = "text"                            'make its type a text box
                 End If
                 Grid.Cells(Row, 2).Text = XmlHelper.Attribute(Prop, "listvalues")
                 Grid.Cells(Row, 3).Text = XmlHelper.Attribute(Prop, "description")
-                If Grid.Cells(Row, 3).Text = "" Then
-                    Grid.Cells(Row, 3).Text = XmlHelper.Name(Prop)
+                If Grid.Cells(Row, 3).Text = "" Then                        'if the description property does not have a type specified (because there was no value specified for that property in the xml that was passed in [properties between ui tags])
+                    Grid.Cells(Row, 3).Text = XmlHelper.Name(Prop)              'use the name of the property as the description (in this case "description")
                 End If
                 Grid.Cells(Row, 4).Text = Prop.InnerText
             End If
@@ -237,22 +237,77 @@ Public Class GenericUI
         ' User has changed something - see if we need to create editors or
         ' setup other columns.
         ' --------------------------------------------------------------------
+
         If Not InCellChanged Then
+
             InCellChanged = True
-            If e.Column = 1 Or e.Column = 2 Then
+
+            'Changed a cell in the "Type" column
+
+            If e.Column = 1 Then
+
+                'change the cell type of the "Value" column to what the user has selected. (types are text boxes, combo boxes(drop down list), date, etc.)
                 CreateCellEditorForRow(e.Row)
 
-            ElseIf e.Column = 2 And TypeOf Grid.Cells(e.Row, 4).CellType Is FarPoint.Win.Spread.CellType.ComboBoxCellType Then
-                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = Grid.Cells(e.Row, 4).CellType
-                If Not IsNothing(Combo) Then
-                    Combo.Items = Grid.Cells(e.Row, 2).Text.Split(",")
-                    If Grid.Cells(e.Row, 4).Text = "" And Combo.Items.Length > 0 Then
-                        Grid.Cells(e.Row, 4).Text = Combo.Items(0)
+            End If
+
+
+            'Changed a cell in the "List Items" column 
+
+            If (e.Column = 2) Then
+
+                'Only list or multilist as its type use the "List Items" column to fill the combo box (drop down list)
+
+                If Grid.Cells(e.Row, 1).Text = "list" Then
+                    Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = Grid.Cells(e.Row, 4).CellType  'assign a pointer to the "Value" combo box 
+                    If Not IsNothing(Combo) Then                                                                'if the assigning of the pointer worked.
+                        Combo.Items = Grid.Cells(e.Row, 2).Text.Split(",")                                          'replace the items of the "Value" combo box to the new items specified in the "List Items" column.   
+                        If Grid.Cells(e.Row, 4).Text = "" And Combo.Items.Length > 0 Then                           'If in there is no specified value for this property and the combo box is NOT empty
+                            Grid.Cells(e.Row, 4).Text = Combo.Items(0)                                                  'then make the first item in the combo box the selected value for the property
+                        End If
                     End If
                 End If
+
+                If Grid.Cells(e.Row, 1).Text = "multilist" Then                                                 'same as above but with a "CheckedListBox Cell Type" instead of a "ComboBox Cell Type".
+                    Dim CheckedList As CheckedListBoxCellType = Grid.Cells(e.Row, 4).CellType
+                    If Not IsNothing(CheckedList) Then
+                        CheckedList.Items = Grid.Cells(e.Row, 2).Text.Split(",")
+                        If Grid.Cells(e.Row, 4).Text = "" And CheckedList.Items.Length > 0 Then
+                            Grid.Cells(e.Row, 4).Text = CheckedList.Items(0)
+                        End If
+                    End If
+                End If
+
             End If
+
+
+            'Changed a cell in the "Values" column where the value that was changed was the crop.
+
+            If (e.Column = 4) And Grid.Cells(e.Row, 1).Text.ToLower = "crop" Then
+
+                'If the user chooses a different crop from the crop combo box, then change the NEXT cultivar property below it to show cultivars for the new crop.
+
+                'Try and locate any rows with cultivar as the type. (start searching below the crop property until you find one, then stop)
+                Dim CultRow As Integer
+                For CultRow = e.Row To VBUserInterface.GridUtils.FindFirstBlankCell(Grid, 1) - 1
+                    'If we found a cultivar row then 
+                    If Grid.Cells(CultRow, 1).Text.ToLower = "cultivars" Then
+                        'get rid of the value for the old crop. It won't make sense with new crop
+                        Grid.Cells(CultRow, 4).Text = ""
+                        'go and get all cultivars for the new crop.
+                        Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = Grid.Cells(CultRow, 4).CellType
+                        Combo.Items = Controller.Configuration.GetCultivarsForCrop(Grid.Cells(e.Row, 4).Text)
+                        Exit For                    'stop looking for cultivar properties once you found the next one after the crop. 
+                    End If
+                Next
+
+            End If
+
+
             InCellChanged = False
+
         End If
+
     End Sub
 
     Public Overrides Sub OnSave()
@@ -301,125 +356,165 @@ Public Class GenericUI
 
     Public Sub CreateCellEditorForRow(ByVal Row As Integer)
         ' --------------------------------------------------------------------
-        ' Create and return a cell editor based on the property based in.
+        ' Change the cell type of the "Value" column to what the user has selected in the "Type" combo box(drop down list). 
+        ' (types are text boxes, combo boxes(drop down list), date, etc.)
         ' --------------------------------------------------------------------
-        Dim Type As String = Grid.Cells(Row, 1).Text
-        Grid.Cells(Row, 4).CellType = Nothing
+
+        Dim Type As String = Grid.Cells(Row, 1).Text.ToLower
+
         Grid.Rows(Row).BackColor = System.Drawing.Color.White
+        Grid.Rows(Row).Height = 20              'reset the default row height. "multilist" & "multiedit" changes the row height this just changes it back again.  
+        Grid.Cells(Row, 4).Text = ""            'get rid of the old value. Since we are changing the type of this property. The old value won't make any sense for the new type. User must enter a new value if they change the type.
+        Grid.Cells(Row, 2).CellType = New FarPoint.Win.Spread.CellType.TextCellType     'set "List Items" column cell type to text. Tried to find where in "Designer generated code" at the top,  the column cell types are initialized but couldn't. So just put it here.
 
-        If Type = "yesno" Then
-            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-            Combo.Items = New String() {"yes", "no"}
-            Grid.Cells(Row, 4).CellType = Combo
 
-        ElseIf Type = "date" Then
-            Dim DateEditor As FarPoint.Win.Spread.CellType.DateTimeCellType = New FarPoint.Win.Spread.CellType.DateTimeCellType
-            DateEditor.DateTimeFormat = FarPoint.Win.Spread.CellType.DateTimeFormat.ShortDate
-            If Grid.Cells(Row, 4).Text <> "" Then
-                DateEditor.DateDefault = Grid.Cells(Row, 4).Text
+        'Lock the "List Item" column, except if the "Type" column is a list or multilist. (both of which use the "List Items" column)
+
+        If Type = "list" Or Type = "multilist" Then
+            Grid.Cells(Row, 2).Locked = False
+        Else
+            Grid.Cells(Row, 2).Text = ""
+            Grid.Cells(Row, 2).Locked = True
+        End If
+
+
+        'If we have changed a filename row to some other type, you must get rid of the the old button. 
+        ' And if there is still a filename row in the grid, then make the button column visible. Otherwise make it invisible. 
+
+        Grid.Columns(5).Visible = False
+        Dim OldFileRow As Integer
+        For OldFileRow = 0 To VBUserInterface.GridUtils.FindFirstBlankCell(Grid, 1) - 1
+            ' Try and locate a row that USED TO BE a filename.
+            '(check each cell in the Button column for the tag I gave it) And if you find it (check to see if the row is NOT still a filename)
+            If (Grid.Cells(OldFileRow, 5).Tag = "buttoncell") AndAlso (Grid.Cells(OldFileRow, 1).Text.ToLower <> "filename") Then
+                Grid.Cells(OldFileRow, 5).CellType = Empty              'remove the button. (so won't show up again, if we add a filename to another row)
             End If
-            DateEditor.DropDownButton = True
-            Grid.Cells(Row, 4).CellType = DateEditor
-
-        ElseIf Type = "list" Then
-            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-            Combo.Items = Grid.Cells(Row, 2).Text.Split(",")
-            Combo.Editable = True
-            Grid.Cells(Row, 4).CellType = Combo
-
-        ElseIf Type = "multilist" Then
-            Dim Combo As CheckedListBoxCellType = New CheckedListBoxCellType
-            Combo.Items = Grid.Cells(Row, 2).Text.Split(",")
-            Grid.Cells(Row, 4).CellType = Combo
-            Grid.Rows(Row).Height = 80
-
-        ElseIf Type = "filename" Then
-            Grid.Columns(5).Visible = True
-            Dim Button As FarPoint.Win.Spread.CellType.ButtonCellType = New FarPoint.Win.Spread.CellType.ButtonCellType
-            Button.Picture = My.Resources.folder
-            Grid.Cells(Row, 5).CellType = Button
-
-        ElseIf Type = "multiedit" Then
-            Dim Text As FarPoint.Win.Spread.CellType.TextCellType = New FarPoint.Win.Spread.CellType.TextCellType
-            Text.Multiline = True
-            Text.MaxLength = 5000
-            Grid.Cells(Row, 4).CellType = Text
-            Grid.Rows(Row).Height = 80
-
-        ElseIf Type = "category" Then
-            Empty.ReadOnly = True
-            Grid.Rows(Row).BackColor = System.Drawing.Color.LightSteelBlue
-            Grid.Cells(Row, 2).CellType = Empty
-            Grid.Cells(Row, 4).CellType = Empty
-
-        ElseIf Type = "modulename" Then
-            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-            Grid.Cells(Row, 4).CellType = Combo
-            Dim Paddock As ApsimFile.Component = Controller.ApsimData.Find(NodePath).FindContainingPaddock()
-            While Not IsNothing(Paddock) AndAlso Paddock.Type.ToLower = "folder"
-                Paddock = Paddock.Parent
-            End While
-
-            If Not IsNothing(Paddock) Then
-                Combo.Items = Paddock.ChildNames
+            'If there is a filename row somewhere in the grid.
+            If (Grid.Cells(OldFileRow, 1).Text.ToLower = "filename") Then
+                Grid.Columns(5).Visible = True                         'make the button column visible
             End If
+        Next
 
-        ElseIf Type = "crop" Then
 
-            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-            Combo.Editable = True
-            Grid.Cells(Row, 4).CellType = Combo
-            Dim Paddock As ApsimFile.Component = Controller.ApsimData.Find(NodePath).FindContainingPaddock()
-            While Not IsNothing(Paddock) AndAlso Paddock.Type.ToLower = "folder"
-                Paddock = Paddock.Parent
-            End While
-            If Not IsNothing(Paddock) Then
-                Dim Crops As New List(Of String)
-                For Each ModuleName As String In Paddock.ChildNames
-                    If Controller.Configuration.Info(ModuleName, "IsCrop").ToLower = "yes" Then
-                        Crops.Add(ModuleName)
+
+
+        Select Case Type
+
+            Case "yesno"
+                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+                Combo.Editable = False
+                Combo.Items = New String() {"yes", "no"}
+                Grid.Cells(Row, 4).CellType = Combo
+
+            Case "date"
+                Dim DateEditor As FarPoint.Win.Spread.CellType.DateTimeCellType = New FarPoint.Win.Spread.CellType.DateTimeCellType
+                DateEditor.DateTimeFormat = FarPoint.Win.Spread.CellType.DateTimeFormat.ShortDate
+                If Grid.Cells(Row, 4).Text <> "" Then
+                    DateEditor.DateDefault = CType("01/01/1901", Date)      'this does not work, for some reason returns "29/01/1900"
+                End If
+                DateEditor.DropDownButton = True
+                Grid.Cells(Row, 4).CellType = DateEditor
+
+            Case "list"
+                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+                Combo.Editable = False
+                Combo.Items = Grid.Cells(Row, 2).Text.Split(",")
+                Grid.Cells(Row, 4).CellType = Combo
+
+            Case "multilist"
+                Dim CheckedList As CheckedListBoxCellType = New CheckedListBoxCellType
+                CheckedList.Items = Grid.Cells(Row, 2).Text.Split(",")
+                Grid.Cells(Row, 4).CellType = CheckedList
+                Grid.Rows(Row).Height = 80
+
+            Case "multiedit"
+                Dim Text As FarPoint.Win.Spread.CellType.TextCellType = New FarPoint.Win.Spread.CellType.TextCellType
+                Text.Multiline = True
+                Text.MaxLength = 5000
+                Grid.Cells(Row, 4).CellType = Text
+                Grid.Rows(Row).Height = 80
+
+            Case "filename"
+                Grid.Cells(Row, 4).CellType = Nothing                       'This actually makes the cell a text cell type. This must be the default for the Grid. 
+                Dim Button As FarPoint.Win.Spread.CellType.ButtonCellType = New FarPoint.Win.Spread.CellType.ButtonCellType
+                Button.Picture = My.Resources.folder
+                Grid.Columns(5).Visible = True                              'make button column visible.
+                Grid.Cells(Row, 5).CellType = Button
+                Grid.Cells(Row, 5).Tag = "buttoncell"                       'need to set this, so that if the type is changed to something else, I can find this cell again.
+
+            Case "category"
+                Empty.ReadOnly = True
+                Grid.Rows(Row).BackColor = System.Drawing.Color.LightSteelBlue
+                Grid.Cells(Row, 4).CellType = Empty                         '"Value" cell empty.
+
+            Case "modulename"
+                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+                Combo.Editable = False
+                Grid.Cells(Row, 4).CellType = Combo
+                Dim Paddock As ApsimFile.Component = Controller.ApsimData.Find(NodePath).FindContainingPaddock()
+                While Not IsNothing(Paddock) AndAlso Paddock.Type.ToLower = "folder"
+                    Paddock = Paddock.Parent
+                End While
+
+                If Not IsNothing(Paddock) Then
+                    Combo.Items = Paddock.ChildNames
+                End If
+
+            Case "crop"
+                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+                Combo.Editable = False
+                Grid.Cells(Row, 4).CellType = Combo
+                Dim Paddock As ApsimFile.Component = Controller.ApsimData.Find(NodePath).FindContainingPaddock()
+                While Not IsNothing(Paddock) AndAlso Paddock.Type.ToLower = "folder"
+                    Paddock = Paddock.Parent
+                End While
+                If Not IsNothing(Paddock) Then
+                    Dim Crops As New List(Of String)
+                    For Each ModuleName As String In Paddock.ChildNames
+                        If Controller.Configuration.Info(ModuleName, "IsCrop").ToLower = "yes" Then
+                            Crops.Add(ModuleName)
+                        End If
+                    Next
+                    Dim CropNames(Crops.Count - 1) As String
+                    Crops.CopyTo(CropNames)
+                    Combo.Items = CropNames
+                End If
+
+            Case "cultivars"
+                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+                Combo.Editable = False
+                Grid.Cells(Row, 4).CellType = Combo
+                ' Try and locate a row with crop as the name.
+                Dim CropRow As Integer
+                For CropRow = 0 To VBUserInterface.GridUtils.FindFirstBlankCell(Grid, 1) - 1
+                    If Grid.Cells(CropRow, 0).Text.ToLower = "crop" Then
+                        Exit For
                     End If
                 Next
-                Dim CropNames(Crops.Count - 1) As String
-                Crops.CopyTo(CropNames)
-                Combo.Items = CropNames
-            End If
-
-        ElseIf Type = "cultivars" Then
-
-            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-            Combo.Editable = True
-            Grid.Cells(Row, 4).CellType = Combo
-
-            ' Try and locate a row with crop as the name.
-            Dim CropRow As Integer
-            For CropRow = 0 To VBUserInterface.GridUtils.FindFirstBlankCell(Grid, 1) - 1
-                If Grid.Cells(CropRow, 0).Text.ToLower = "crop" Then
-                    Exit For
+                ' If we found a crop row then go and get all cultivars for that crop.
+                If CropRow < VBUserInterface.GridUtils.FindFirstBlankCell(Grid, 1) - 1 Then
+                    Combo.Items = Controller.Configuration.GetCultivarsForCrop(Grid.Cells(CropRow, 4).Text)
                 End If
-            Next
 
-            ' If we found a crop row then go and get all cultivars for that crop.
-            If CropRow < VBUserInterface.GridUtils.FindFirstBlankCell(Grid, 1) - 1 Then
-                Combo.Items = Controller.Configuration.GetCultivarsForCrop(Grid.Cells(CropRow, 4).Text)
-            End If
-        End If
 
-        If Type <> "list" And Type <> "multilist" Then
-            Grid.Columns(2).CellType = Empty
-        End If
+            Case Else       'if type is none of the above. ("ddmmmdate", "text", etc.)
+                Grid.Cells(Row, 4).CellType = Nothing   'This actually makes the cell a text cell type. This must be the default for the Grid. 
+
+        End Select
+
+
     End Sub
 
     Private Sub OnEditModeClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolStripItemClickedEventArgs) Handles PopupMenu.ItemClicked
         EditModeItem.Checked = Not EditModeItem.Checked
-        Grid.Columns(0).Visible = EditModeItem.Checked
-        Grid.Columns(1).Visible = EditModeItem.Checked
-        Grid.Columns(2).Visible = EditModeItem.Checked
-        Grid.Columns(3).Locked = Not EditModeItem.Checked
-        If EditModeItem.Checked Then
-            Grid.RowCount = 500
+        Grid.Columns(0).Visible = EditModeItem.Checked      'name 
+        Grid.Columns(1).Visible = EditModeItem.Checked      'type
+        Grid.Columns(2).Visible = EditModeItem.Checked      'list items
+        Grid.Columns(3).Locked = Not EditModeItem.Checked   'description (only in edit mode is it editable)
+        If EditModeItem.Checked Then    'if in edit mode, 
+            Grid.RowCount = 500         '   force the grid to have 500 rows (plenty of blank rows for adding new properties to the managment rule)
         Else
-            Grid.RowCount = VBUserInterface.GridUtils.FindFirstBlankCell(Grid, 1)
+            Grid.RowCount = VBUserInterface.GridUtils.FindFirstBlankCell(Grid, 1)   'else grid has just the number or rows it needs to display all the properties.
         End If
     End Sub
 End Class
