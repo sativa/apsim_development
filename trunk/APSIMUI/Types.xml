@@ -409,6 +409,7 @@
          <variable name="water_table" description="Water table depth (mm)"/>
          <variable name="infiltration" description="Infiltration (mm)"/>
          <variable name="pond_evap" description="pond_evap (mm)"/>
+         <variable name="max_pond" description="maximum ponding depth (mm)"/>
       </variables>
       <variables name="Nitrogen variables" module="[name] Nitrogen" link="soiln2"/>
       <events name="Nitrogen events" module="[name] Nitrogen" link="soiln2"/>

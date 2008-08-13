@@ -760,6 +760,105 @@
        -->
       <transp_eff_cf units="Pa" description="transpiration efficiency coefficient to convert vpd to transpiration efficiency (kpa)">0      0    .005  .005  .005  .005  .005  .005   .005  .00    0</transp_eff_cf>
    </perennial_grass>
+   <medic>
+      <!--  PLP
+       -->
+      <derived_from>c3</derived_from>
+      <!-- determinate
+      ===============
+                            sow    ger   eme  juv    fi    fl    st_gf end_gf  mat hv_rpe  end
+      stage_code           = 1      2    3     4     5     6      7      8     9    10     11   ()
+       -->
+      <frac_leaf description="fraction of remaining dm allocated to leaves">0.000 0.000 0.800 0.700 0.400 0.217 0.000 0.000 0.000 0.000 0.000</frac_leaf>
+      <frac_pod description="fraction of dm allocated to pod or multiplier of grain dm to account for pod dm">0.000 0.000 0.000 0.000 0.000 0.080 0.080 0.400 0.000 0.000 0.000</frac_pod>
+      <!-- perennial
+      ===============
+                       sow    ger   eme  juv    fi    fl   st_gf end_gf  mat hv_rpe  end
+       -->
+      <ratio_root_shoot units="0-1" description="root:shoot ratio for daily assimilate partitioning">0     0    0.5   0.33   0.33  0.33  0.33  0     0     0      0</ratio_root_shoot>
+      <min_tpla units="mm^2/plant" description="minimum leaf area">0</min_tpla>
+      <!-- Legume
+      ===============
+       -->
+      <n_supply_preference description="preference for n supply - it is assumed that">fixation</n_supply_preference>
+
+      <!-- ______________________________________________________________________________
+      LEGUME N FIXATION RATE - potential rate of N fixation (g N fixed per g above ground biomass)
+                            sow    ger   eme  juv    fi    fl   st_gf end_gf  mat hv_rpe  end
+      stage_code           = 1      2    3     4     5     6     7      8     9    10     11  ()
+       -->
+      <N_fix_rate units="gN/gDM"> 0      0    0     .002 0.002 0.002 0.002  0.002 0.002 0.000   0</N_fix_rate>
+
+      <leaf_n_init_conc>0.060</leaf_n_init_conc>
+      <stem_n_init_conc>0.060</stem_n_init_conc>
+      <pod_n_init_conc>0.0</pod_n_init_conc>
+      <meal_n_init_conc>0.0</meal_n_init_conc>
+      <oil_n_init_conc>0.0</oil_n_init_conc>
+
+      <x_stage_code description="stage code used in table">3       4        6        10</x_stage_code>
+      <y_n_conc_max_leaf description="leaf maximum N conc.">0.0600   0.0600   0.0300  0.02</y_n_conc_max_leaf>
+      <y_n_conc_crit_leaf description="leaf critical N conc.">0.0600   0.0600   0.0300  0.02</y_n_conc_crit_leaf>
+      <y_n_conc_min_leaf description="leaf minimum N conc.">0.0100   0.0100   0.0100  0.01</y_n_conc_min_leaf>
+      <y_n_conc_max_stem description="stem maximum N conc.">0.0600   0.0600   0.0250  0.02</y_n_conc_max_stem>
+      <y_n_conc_crit_stem description="stem critical N conc.">0.0600   0.0600   0.0250  0.02</y_n_conc_crit_stem>
+      <y_n_conc_min_stem description="stem minimum N conc.">0.0100   0.0100   0.0100  0.01</y_n_conc_min_stem>
+      <y_n_conc_max_pod description="flower maximum N conc.">0.0600   0.0600   0.0200  0.02</y_n_conc_max_pod>
+      <y_n_conc_crit_pod description="flower critical N conc.">0.0600   0.0600   0.0200  0.02</y_n_conc_crit_pod>
+      <y_n_conc_min_pod description="flower minimum N conc.">0.0100   0.0100   0.0100  0.01</y_n_conc_min_pod>
+      <n_conc_crit_grain description="grain maximum N conc.">0.017</n_conc_crit_grain>
+      <n_conc_max_grain description="grain critical N conc.">0.017</n_conc_max_grain>
+      <n_conc_min_grain description="grain minimum N conc.">0.007</n_conc_min_grain>
+      <n_conc_crit_root description="root maximum N conc.">0.02500</n_conc_crit_root>
+      <n_conc_max_root description="root critical N conc.">0.02500</n_conc_max_root>
+      <n_conc_min_root description="root minimum N conc.">0.01000</n_conc_min_root>
+      <y_n_conc_min_meal>0.0      0.0      0.017    0.017</y_n_conc_min_meal>
+      <y_n_conc_crit_meal>0.0      0.0      0.017    0.017</y_n_conc_crit_meal>
+      <y_n_conc_max_meal>0.0      0.0      0.007    0.007</y_n_conc_max_meal>
+      <y_n_conc_min_oil>0.0      0.0       0.0       0.0</y_n_conc_min_oil>
+      <y_n_conc_crit_oil>0.0      0.0       0.0       0.0</y_n_conc_crit_oil>
+      <y_n_conc_max_oil>0.0     0.0     0.0      0.0</y_n_conc_max_oil>
+
+      <!-- Very small leaf
+      -->
+      <x_node_no>1        15</x_node_no>
+      <y_leaf_size>400      1200</y_leaf_size>      
+   </medic>
+   <millet>
+      <derived_from>c4</derived_from>
+      <!--  Annual
+       ======
+                       sow    ger   eme  juv    fi    fl   st_gf end_gf  mat hv_rpe  end
+       -->
+      <x_stage_rue description="numeric code for phenological stages">1      2    3     4     5     6     7      8     9      10    11</x_stage_rue>
+      <y_rue units="g/MJ" description="radiation use efficiency">     0      0    1.20  1.20  1.20  1.20  1.20   1.20  1.20  1.20   0</y_rue>
+
+      <!-- __________________________________________________________________________________________________________-
+      EXTINCTION COEFFICIENT
+      ROW SPACING DETERMINED
+       -->
+      <skiprow_default>0</skiprow_default>
+      <row_spacing_default units="mm">350</row_spacing_default>
+      <x_row_spacing>200  350  1000</x_row_spacing>
+      <y_extinct_coef>0.50 0.50 0.50</y_extinct_coef>
+      <y_extinct_coef_dead>0.50 0.50 0.50</y_extinct_coef_dead>
+
+      <N_fix_rate units="gN/gDM">0      0    0     .000 0.000 0.000 0.000  0.000 0.000 0.000   0</N_fix_rate>
+      
+      <!--  Determinate
+       ===========
+                            sow    ger   eme  juv    fi    fl    st_gf end_gf  mat hv_rpe  end
+      stage_code           = 1      2    3     4     5     6      7      8     9    10     11   ()
+       -->
+      <frac_leaf description="fraction of remaining dm allocated to leaves">0.000 0.000 0.800 0.700 0.400 0.217 0.000 0.000 0.000 0.000 0.000</frac_leaf>
+      <frac_pod description="fraction of dm allocated to pod or multiplier of grain dm to account for pod dm">0.000 0.000 0.000 0.000 0.000 0.080 0.080 0.400 0.000 0.000 0.000</frac_pod>
+      <ratio_root_shoot units="0-1" description="root:shoot ratio for daily assimilate partitioning">0     0    0.5   0.33   0.33  0.33  0.33  0     0     0      0</ratio_root_shoot>
+      <min_tpla units="mm^2/plant" description="minimum leaf area">0</min_tpla>
+      <!--  Small Leaf
+       ==========
+       -->
+        <x_node_no>   1    5    8    10</x_node_no>
+      <y_leaf_size>1400 3700 5800  6000</y_leaf_size>
+   </millet>
    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    !!!! Cultivar parameters !!!!!!!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -827,4 +926,46 @@
       <x_stem_wt units="g/plant" description="stem weight per plant">0  3</x_stem_wt>
       <y_height units="mm" description="plant canopy height">0  800</y_height>
    </perennial>
+   <bsmillet>
+      <x_pp_hi_incr units="h">1      24</x_pp_hi_incr>
+      <y_hi_incr units="1/days">0.0150 0.015</y_hi_incr>
+      <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
+      <y_hi_max_pot>0.25 0.25</y_hi_max_pot>
+      <cumvd_emergence>0        25</cumvd_emergence>
+      <tt_emergence units="oCd">280       280</tt_emergence>
+      <est_days_emerg_to_init units="d">65</est_days_emerg_to_init>
+      <x_pp_end_of_juvenile units="h">1   24</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile units="oCd">50  50</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1   24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">200   200</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1   24</x_pp_flowering>
+      <y_tt_flowering units="oCd">60   60</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1   24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">380  380</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">25.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
+      <x_stem_wt units="g/plant" description="stem weight per plant">0  3</x_stem_wt>
+      <y_height units="mm" description="plant canopy height">0  800</y_height>
+   </bsmillet>
+   <mmedic>
+      <x_pp_hi_incr units="h">1      24</x_pp_hi_incr>
+      <y_hi_incr units="1/days">0.01 0.01</y_hi_incr>
+      <x_hi_max_pot_stress>0.00 1.00</x_hi_max_pot_stress>
+      <y_hi_max_pot>0.015 0.015</y_hi_max_pot>
+      <cumvd_emergence>0        100</cumvd_emergence>
+      <tt_emergence units="oCd">400       400</tt_emergence>
+      <est_days_emerg_to_init units="d">83</est_days_emerg_to_init>
+      <x_pp_end_of_juvenile units="h">1   24</x_pp_end_of_juvenile>
+      <y_tt_end_of_juvenile units="oCd">500  500</y_tt_end_of_juvenile>
+      <x_pp_floral_initiation units="h">1   24</x_pp_floral_initiation>
+      <y_tt_floral_initiation units="oCd">50   50</y_tt_floral_initiation>
+      <x_pp_flowering units="h">1   24</x_pp_flowering>
+      <y_tt_flowering units="oCd">120   120</y_tt_flowering>
+      <x_pp_start_grain_fill units="h">1   24</x_pp_start_grain_fill>
+      <y_tt_start_grain_fill units="oCd">380  380</y_tt_start_grain_fill>
+      <tt_end_grain_fill units="oCd">355.0</tt_end_grain_fill>
+      <tt_maturity units="oCd">1.0</tt_maturity>
+      <x_stem_wt units="g/plant" description="stem weight per plant">0  3</x_stem_wt>
+      <y_height units="mm" description="plant canopy height">0  800</y_height>
+   </mmedic>
 </weed>

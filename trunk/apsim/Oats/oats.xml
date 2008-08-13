@@ -710,5 +710,29 @@
       <derived_from>taipan</derived_from>
       <vern_sens description="PLP Phenology">2.5 </vern_sens>
       <photop_sens>4.0</photop_sens>
+      <potential_grain_filling_rate description="grain growth rate during grainfill">0.003 </potential_grain_filling_rate>
+      <potential_grain_growth_rate description="grain growth from flowering to grain fill">0.002 </potential_grain_growth_rate>
    </Potoroo>
+   <Echidna>
+      <derived_from>taipan</derived_from>
+      <vern_sens description="PLP Phenology">1.5 </vern_sens>
+      <photop_sens>2.0</photop_sens>
+      <potential_grain_filling_rate description="grain growth rate during grainfill">0.003 </potential_grain_filling_rate>
+      <potential_grain_growth_rate description="grain growth from flowering to grain fill">0.002 </potential_grain_growth_rate>
+      <!-- ______________________________________________________________________________
+      SPECIFIC LEAF AREA - SLA
+       -->
+      <x_lai>0     5</x_lai>
+      <y_sla_max description="PLP maximum specific leaf area for delta LAI    !changed AP was 21000 18000 for Gatton working for Roma at 22000/22000">30000  30000 </y_sla_max>
+      <sla_min description="minimum specific leaf area for delta LAI">18000    </sla_min>
+      <!-- __________________________________________________________________________________________________________-
+      BIOMASS PARTITIONING
+                                 sow    ger   eme  juv   endjuv    fi    flag  flow  endhead st_gf end_gf  mat hv_rpe  end
+       -->
+      <x_stage_no_partition>1      2    3     4    4.9       5     5.4   6       6.9    7      8     9    10     11</x_stage_no_partition>
+      <y_ratio_root_shoot units="0-1">0      0    1.0   0.5  0.2       0.1  0.1  0.08    0.01   0      0     0     0      0</y_ratio_root_shoot>
+      <y_frac_leaf units="0-1" description="fraction of remaining dm allocated to leaves">0      0    0.9   0.95  0.45     0.25  0.0   0.0     0.0    0      0     0     0      0</y_frac_leaf>
+      <y_frac_pod units="0-1" description="fraction of dm allocated to pod or multiplier of grain dm to account for pod dm">0      0    0     0     0        0     0     0.     0   0      0     0     0      0</y_frac_pod>
+
+   </Echidna>
 </oats>
