@@ -48,6 +48,7 @@ bool readNextRecord(istream& in, bool csv, int index, vector<string>& fieldValue
          SplitStringHonouringQuotes(line, " ", values);
       for (unsigned i = 0; i != values.size(); i++)
          {
+         replaceAll(values[i], "\"", "");
          if (index >= fieldValues.size())
             fieldValues.push_back(values[i]);
          else
