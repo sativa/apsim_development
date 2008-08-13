@@ -39,6 +39,7 @@ void processFilter(DataContainer& parent,
                series->DataType = ftInteger;
                addDBField(&result, "title", "abc");
                }
+            addDBField(&result, "filter", "abc");
             if (result.FieldDefs->Count > 0)
                result.Active = true;
             }
@@ -71,6 +72,7 @@ void processFilter(DataContainer& parent,
                   result.Edit();
                   result.FieldValues["series"] = seriesNumber;
                   result.FieldValues["title"] = SeriesTitle;
+                  result.FieldValues["filter"] = filters[i].c_str();
                   result.Post();
                   source->Next();
                   }
