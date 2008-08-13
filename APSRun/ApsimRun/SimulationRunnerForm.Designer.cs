@@ -31,13 +31,12 @@ namespace ApsimRun
          {
          this.components = new System.ComponentModel.Container();
          System.Windows.Forms.GroupBox groupBox1;
-         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationRunnerForm));
          System.Windows.Forms.Label label1;
+         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationRunnerForm));
          this.PerformanceChart = new Steema.TeeChart.TChart();
          this.PerformanceSeries = new Steema.TeeChart.Styles.Area();
          this.ImageList = new System.Windows.Forms.ImageList(this.components);
          this.RunButton = new System.Windows.Forms.Button();
-         this.PerformanceCounter = new System.Diagnostics.PerformanceCounter();
          this.Timer1 = new System.Windows.Forms.Timer(this.components);
          this.groupBox2 = new System.Windows.Forms.GroupBox();
          this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -55,7 +54,6 @@ namespace ApsimRun
          groupBox1 = new System.Windows.Forms.GroupBox();
          label1 = new System.Windows.Forms.Label();
          groupBox1.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.PerformanceCounter)).BeginInit();
          this.groupBox2.SuspendLayout();
          this.groupBox3.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.NumCPUs)).BeginInit();
@@ -614,12 +612,6 @@ namespace ApsimRun
          this.RunButton.UseVisualStyleBackColor = true;
          this.RunButton.Click += new System.EventHandler(this.OnRunClick);
          // 
-         // PerformanceCounter
-         // 
-         this.PerformanceCounter.CategoryName = "Processor";
-         this.PerformanceCounter.CounterName = "% Processor Time";
-         this.PerformanceCounter.InstanceName = "_Total";
-         // 
          // Timer1
          // 
          this.Timer1.Enabled = true;
@@ -665,7 +657,7 @@ namespace ApsimRun
          this.ProgressBar.Step = 1;
          this.ProgressBar.Style = CSUserInterface.Styles.Solid;
          this.ProgressBar.TabIndex = 8;
-         this.ProgressBar.Value = 50;
+         this.ProgressBar.Value = 0;
          // 
          // NumberWithWarnings
          // 
@@ -778,18 +770,19 @@ namespace ApsimRun
          this.Controls.Add(groupBox1);
          this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
          this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+         this.KeyPreview = true;
          this.MaximizeBox = false;
          this.Name = "SimulationRunnerForm";
          this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
          this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
          this.Text = "APSIM runs";
+         this.DragDrop += new System.Windows.Forms.DragEventHandler(this.OnDragDrop);
          this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
          this.Shown += new System.EventHandler(this.OnShown);
-         this.DragDrop += new System.Windows.Forms.DragEventHandler(this.OnDragDrop);
-         this.DragEnter += new System.Windows.Forms.DragEventHandler(this.OnDragEnter);
          this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClosing);
+         this.DragEnter += new System.Windows.Forms.DragEventHandler(this.OnDragEnter);
+         this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
          groupBox1.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.PerformanceCounter)).EndInit();
          this.groupBox2.ResumeLayout(false);
          this.groupBox2.PerformLayout();
          this.groupBox3.ResumeLayout(false);

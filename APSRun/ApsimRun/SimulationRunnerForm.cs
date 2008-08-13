@@ -41,6 +41,18 @@ namespace ApsimRun
             Top = Convert.ToInt32(Config.Setting("Top"));
             Left = Convert.ToInt32(Config.Setting("Left"));
             }
+         try
+            {
+            this.PerformanceCounter = new System.Diagnostics.PerformanceCounter();
+            this.PerformanceCounter.CategoryName = "Processor";
+            this.PerformanceCounter.CounterName = "% Processor Time";
+            this.PerformanceCounter.InstanceName = "_Total";
+            }
+         catch
+            {
+            this.PerformanceCounter = null;
+            }
+
          }
 
       /// <summary>
@@ -55,10 +67,16 @@ namespace ApsimRun
          {
          try
             {
+            if (RunButton.Text == "Run")
+               {
+               Runner.Clear();
+               }
             FileToRun.SimulationsToRun = SimulationsToRun;
             if (FileToRun.SimulationsToRun.Count > 0)
                Runner.Add(FileToRun);
             Total.Text = Runner.Count.ToString();
+            if (RunButton.Text == "Run")
+               OnRunClick(null, null);
             }
          catch (Exception ex)
             {
@@ -175,7 +193,7 @@ namespace ApsimRun
             if (Simulation.HasWarnings)
                NumberWithWarnings.Text = Increment(NumberWithWarnings.Text);
             }
-         if (OverallPercent == 100 && RunButton.Text == "Stop")
+         if (OverallPercent >= 100 && RunButton.Text == "Stop")
             {
             string WavFileName = Config.Setting("ApsimFinishedWAVFileName");
             if (File.Exists(WavFileName))
@@ -235,10 +253,20 @@ namespace ApsimRun
       private double[] values = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
       private void OnTimerTick(object sender, EventArgs e)
          {
-         Array.Copy(values, 1, values, 0, 9);
-         values[9] = PerformanceCounter.NextValue();
-         PerformanceSeries.Clear();
-         PerformanceSeries.Add(values);
+         try
+            {
+            if (PerformanceCounter != null)
+               {
+               Array.Copy(values, 1, values, 0, 9);
+               values[9] = PerformanceCounter.NextValue();
+               PerformanceSeries.Clear();
+               PerformanceSeries.Add(values);
+               }
+            }
+         catch
+            {
+
+            }
          }
 
       private void OnDragEnter(object sender, DragEventArgs e)
@@ -295,6 +323,11 @@ namespace ApsimRun
             }
          }
 
+      private void OnKeyDown(object sender, KeyEventArgs e)
+         {
+         if (e.KeyCode == Keys.Escape)
+            Visible = false;
+         }
 
 
       }

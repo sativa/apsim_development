@@ -32,6 +32,7 @@ Public Class ApsimUIActions
 
 
 #Region "Simulation methods"
+    Private Shared F As New ApsimRun.SimulationRunnerForm(Nothing)
     Public Shared Sub Run(ByVal Controller As BaseController)
         ' ------------------------------------------------
         ' Go looking for simulations to run. Look at the
@@ -44,11 +45,12 @@ Public Class ApsimUIActions
         For Each NodePath As String In Controller.SelectedPaths
             SimulationsToRun.Add(NodePath)
         Next
-        Dim F As New ApsimRun.SimulationRunnerForm(Nothing)
-        F.Show(Controller.MainForm)
+        F.Visible = True
         F.AddFromGUI(Controller.ApsimData, SimulationsToRun)
     End Sub
-
+    Public Shared Sub CloseRunWindow()
+        F.Close()
+    End Sub
 
     Public Shared Sub Enable(ByVal Controller As BaseController)
         For Each NodePath As String In Controller.SelectedPaths

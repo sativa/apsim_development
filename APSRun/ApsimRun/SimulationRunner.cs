@@ -122,7 +122,7 @@ namespace ApsimRun
          {
          NumApsimsRunning = 0;
          KillThread = true;
-         for (int i = 0; i <= NextIndex; i++)
+         for (int i = 0; i < NextIndex; i++)
             Simulations[i].Close();
          }
 
@@ -287,6 +287,7 @@ namespace ApsimRun
          lock (LockObject)
             {
             Stopped = true;
+            NextIndex = Simulations.Count;
             }
          foreach (Process P in Process.GetProcesses())
             {
@@ -362,11 +363,11 @@ namespace ApsimRun
             {
             }
          Simulation.IsCompleted();
-         InvokeUpdatedEvent(Simulation.Details, 100);
          lock (LockObject)
             {
             NumCompleted++;
             }
+         InvokeUpdatedEvent(Simulation.Details, 100);
          }
 
       /// <summary>
