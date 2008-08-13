@@ -72,10 +72,10 @@ Public Class FileUI
         '
         Me.FileContentsBox.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FileContentsBox.Font = New System.Drawing.Font("Courier New", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FileContentsBox.Location = New System.Drawing.Point(0, 43)
+        Me.FileContentsBox.Location = New System.Drawing.Point(0, 45)
         Me.FileContentsBox.Name = "FileContentsBox"
         Me.FileContentsBox.ReadOnly = True
-        Me.FileContentsBox.Size = New System.Drawing.Size(794, 425)
+        Me.FileContentsBox.Size = New System.Drawing.Size(794, 423)
         Me.FileContentsBox.TabIndex = 3
         Me.FileContentsBox.Text = ""
         Me.FileContentsBox.WordWrap = False
@@ -89,19 +89,20 @@ Public Class FileUI
         Me.BrowseButton.Image = CType(resources.GetObject("BrowseButton.Image"), System.Drawing.Image)
         Me.BrowseButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BrowseButton.Name = "BrowseButton"
-        Me.BrowseButton.Size = New System.Drawing.Size(70, 22)
+        Me.BrowseButton.Size = New System.Drawing.Size(80, 24)
         Me.BrowseButton.Text = "Browse"
+        Me.BrowseButton.ToolTipText = "Browse for files"
         '
         'ToolStripLabel1
         '
         Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(53, 22)
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(62, 24)
         Me.ToolStripLabel1.Text = "Search:"
         '
         'SearchTextBox
         '
         Me.SearchTextBox.Name = "SearchTextBox"
-        Me.SearchTextBox.Size = New System.Drawing.Size(100, 25)
+        Me.SearchTextBox.Size = New System.Drawing.Size(100, 27)
         '
         'SearchButton
         '
@@ -109,16 +110,16 @@ Public Class FileUI
         Me.SearchButton.Image = CType(resources.GetObject("SearchButton.Image"), System.Drawing.Image)
         Me.SearchButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.SearchButton.Name = "SearchButton"
-        Me.SearchButton.Size = New System.Drawing.Size(23, 22)
+        Me.SearchButton.Size = New System.Drawing.Size(23, 24)
         Me.SearchButton.Text = "ToolStripButton1"
+        Me.SearchButton.ToolTipText = "Search the file for this text"
         '
         'ToolStrip1
         '
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BrowseButton, Me.ToolStripLabel1, Me.SearchTextBox, Me.SearchButton})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 18)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.ShowItemToolTips = False
-        Me.ToolStrip1.Size = New System.Drawing.Size(794, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(794, 27)
         Me.ToolStrip1.TabIndex = 16
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -203,10 +204,15 @@ Public Class FileUI
         If OpenFileDialog.ShowDialog() = DialogResult.OK Then
             HelpText = OpenFileDialog.FileName
             Dim FileName As String = OpenFileDialog.FileName
-            FileName = FileName.Replace(Path.GetDirectoryName(Controller.ApsimData.FileName) + "\", "")
-            FileName = FileName.Replace(APSIMSettings.ApsimDirectory, "%apsuite")
-            XmlHelper.SetValue(Data, "filename", FileName)
-            Me.OnRefresh()
+            'If the File is in the same directory as the .apsim file then just use a relative path not an absolute path. Get rid of any directories in the path, just have the filename.
+            If (Path.GetDirectoryName(Controller.ApsimData.FileName) <> "") Then    'there will be no path for the .apsim file if the user has not saved yet.
+                FileName = FileName.Replace(Path.GetDirectoryName(Controller.ApsimData.FileName) + "\", "") 'replace the directories in the file path with "" IF they match the directory path of the .apsim file.
+            End If
+            'If the file is in the same directory as the install location for this version of Apsim. Then just use the "%apsuite" macro instead of the installation path.
+            'This way you won't need to change it when you upgrade to a new version of Apsim. (eg. APSIMSettings.ApsimDirectory for Apsim version 6.0 would be "C:\Program Files\Apsim6")
+            FileName = FileName.Replace(APSIMSettings.ApsimDirectory, "%apsuite")   'replace the directories in the file path with "%apsuite" IF they match the directory path of the install directory of this version of Apsim.
+            XmlHelper.SetValue(Data, "filename", FileName)                  'change the chunk of xml (from the .apsim file) for this node to the new file name.
+            Me.OnRefresh()                                                  'refresh the FileUI gui.
         End If
     End Sub
 
@@ -218,7 +224,7 @@ Public Class FileUI
     End Sub
 
     Public Overrides Sub OnSave()
-        If Not FileContentsBox.ReadOnly Then
+        If (Not FileContentsBox.ReadOnly) And System.IO.File.Exists(FullFileName) Then
             FileContentsBox.SaveFile(FullFileName, RichTextBoxStreamType.PlainText)
         End If
     End Sub
