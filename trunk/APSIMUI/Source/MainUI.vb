@@ -563,6 +563,10 @@ Public Class MainUI
         ' User is closing down - save our work.
         e.Cancel = Not Controller.FileSaveAfterPrompt()
         If Not e.Cancel Then
+            If ApplicationName = "ApsimUI" Then
+                ApsimUIActions.CloseRunWindow()
+            End If
+
             Try
                 Dim inifile As New APSIMSettings
                 APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), ApplicationName, "windowstate", Str(Me.WindowState))
