@@ -40,7 +40,7 @@
       <individual_adm units="???" description="Mass of above-ground biomass per plant">0  1  10</individual_adm>
       <agnd_structure_fraction units="0-1" description="Fraction of growth going into structure (above+below)">.6 .6  .60</agnd_structure_fraction>
       <partition_stress units="0-1" description="Stress level">0.2 0.4 1.0</partition_stress>
-      <below_gnd_fraction units="0-1" description="Fraction of growth going below ground">0.9 0.6 0.4</below_gnd_fraction>
+      <below_gnd_fraction units="0-1" description="Fraction of growth going below ground">0.9 0.4 0.3</below_gnd_fraction>
       <fta_av_temp>0 1</fta_av_temp>
       <fta_above_gnd>1 1</fta_above_gnd>
       <fta_below_gnd>1 1</fta_below_gnd>
@@ -55,8 +55,8 @@
       <!--  Partitioning Coefficients
        =========================
        -->
-      <stem_partition_fr units="0-1">0.5</stem_partition_fr>
-      <crown_partition_fr units="0-1">0.5</crown_partition_fr>
+      <stem_partition_fr units="0-1">1.00</stem_partition_fr>
+      <crown_partition_fr units="0-1">0.00</crown_partition_fr>
       <!--  Senescence Rates (Y) are a function of fractional foliage senescence rate (X).
        -->
       <x_adm_sen_stem units="/day">0 1</x_adm_sen_stem>
@@ -65,7 +65,7 @@
                         ======================
       below_gnd_parts     = crown       ! Names of all below-ground structural parts
        -->
-      <below_gnd_nconc units="g/g" description="N concentration of these parts">0.001</below_gnd_nconc>
+      <below_gnd_nconc units="g/g" description="N concentration of these parts">0.01</below_gnd_nconc>
       <bdm_sen_detach_frac units="/day" description="Fraction of senesced material detached per day">1</bdm_sen_detach_frac>
       <x_bdm_sen_crown units="/day">0      1</x_bdm_sen_crown>
       <y_bdm_sen_crown units="/day">0.00 0.00</y_bdm_sen_crown>
@@ -74,7 +74,7 @@
        -->
       <age>0       1</age>
       <specific_leaf_area>15000 15000</specific_leaf_area>
-      <leaf_residence_time>   5     5</leaf_residence_time>
+      <leaf_residence_time>130   130</leaf_residence_time>
       <Fage>1     1</Fage>
       <foliage_n_conc units="gN/g">0.005 .010</foliage_n_conc>
       <fn units="0-1">0   1.0</fn>
