@@ -48,6 +48,13 @@
             ]]></text>
             <event>start_of_day</event>
           </script>
+          <script>
+            <text><![CDATA[
+            nextcrop = 0
+            fallowin = 0
+            ]]></text>
+            <event>init</event>
+          </script>
           <ui>
             <category name="Sowing criteria" />
             <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
@@ -122,7 +129,7 @@
           <event name="harvesting" description="" />
         </events>
       </outputfile>
-      <soil name="Jimbour,Waco (#016)">
+      <soil name="Soil">
         <Site>Jimbour</Site>
         <Region>South East Queensland</Region>
         <LocalName>Waco</LocalName>
@@ -691,6 +698,13 @@ if (date_within('[date1], [date2]') = 1) then
             ]]></text>
             <event>start_of_day</event>
           </script>
+          <script>
+            <text><![CDATA[
+            nextcrop = 0
+            fallowin = 0
+            ]]></text>
+            <event>init</event>
+          </script>
           <ui>
             <category name="Sowing criteria" />
             <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
@@ -765,7 +779,7 @@ if (date_within('[date1], [date2]') = 1) then
           <event name="harvesting" description="" />
         </events>
       </outputfile>
-      <soil name="Jimbour,Waco (#016)">
+      <soil name="Soil">
         <Site>Jimbour</Site>
         <Region>South East Queensland</Region>
         <LocalName>Waco</LocalName>
@@ -1317,6 +1331,13 @@ if (date_within('[date1], [date2]') = 1) then
             ]]></text>
             <event>start_of_day</event>
           </script>
+          <script>
+            <text><![CDATA[
+            nextcrop = 0
+            fallowin = 0
+            ]]></text>
+            <event>init</event>
+          </script>
           <ui>
             <category name="Sowing criteria" />
             <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-oct</date1>
@@ -1378,7 +1399,7 @@ if (date_within('[date1], [date2]') = 1) then
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <sorghum />
-      <soil name="Jimbour,Waco (#16)">
+      <soil name="Soil">
         <Site>Jimbour</Site>
         <Region>South East Queensland</Region>
         <LocalName>Waco</LocalName>
@@ -1975,6 +1996,10 @@ if (date_within('[date1], [date2]') = 1) then
          ready_to_till_pre_sow = 0
          till_day_pre_sow = 0
          days_after_weed_kill = 0
+         ready_to_fert_pre_sow = 0
+         wht_sow_opp_num = 0
+         wht_sow_opp_days = 0
+         days_this_year = 0
         </text>
             <event>init</event>
           </script>
@@ -2234,7 +2259,7 @@ if (date_within('[date1], [date2]') = 1) then
             <fert_type_pre_sow description="Type (NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea)" type="text">urea_N</fert_type_pre_sow>
             <category name="Tillage components" />
             <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
-            <soilmodule type="modulename" description="Name of your soil module : ">Zimbabwe Fertile Luvisol (187mm PAWC)</soilmodule>
+            <soilmodule type="modulename" description="Name of your soil module : ">Soil</soilmodule>
             <category name="Planter Tillage" />
             <planter_type description="Planter type" type="list" listvalues="user_defined, planter">user_defined</planter_type>
             <planter_depth description="User_defined depth of seedbed preparation (mm)" type="text">150</planter_depth>
@@ -2291,7 +2316,7 @@ if (date_within('[date1], [date2]') = 1) then
         <events name="My Variables Events" />
       </outputfile>
       <maize />
-      <soil name="Zimbabwe Fertile Luvisol (187mm PAWC)">
+      <soil name="Soil">
         <profile>
           <layer>
             <thickness>100</thickness>
@@ -2798,6 +2823,11 @@ if (date_within('[date1], [date2]') = 1) then
          ready_to_till_pre_sow = 0
          till_day_pre_sow = 0
          days_after_weed_kill = 0
+         ready_to_fert_pre_sow = 0
+         wd_sow_opp_num = 0
+         wht_sow_opp_num = 0
+         wht_sow_opp_days = 0
+         days_this_year = 0
         </text>
             <event>init</event>
           </script>
@@ -3057,7 +3087,7 @@ if (date_within('[date1], [date2]') = 1) then
             <fert_type_pre_sow description="Type (NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea)" type="text">urea_N</fert_type_pre_sow>
             <category name="Tillage components" />
             <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">Surface Organic Matter</surfaceommodule>
-            <soilmodule type="modulename" description="Name of your soil module : ">Zimbabwe Fertile Luvisol (187mm PAWC)</soilmodule>
+            <soilmodule type="modulename" description="Name of your soil module : ">Soil</soilmodule>
             <category name="Planter Tillage" />
             <planter_type description="Planter type" type="list" listvalues="user_defined, planter">user_defined</planter_type>
             <planter_depth description="User_defined depth of seedbed preparation (mm)" type="text">150</planter_depth>
@@ -3355,7 +3385,7 @@ if (date_within('[date1], [date2]') = 1) then
       <canopy name="Canopy">
         <intercrop name="intercrop" description="Enter crop names to intercrop" type="text">maize weed</intercrop>
       </canopy>
-      <soil name="Zimbabwe Fertile Luvisol (187mm PAWC)">
+      <soil name="Soil">
         <profile>
           <layer>
             <thickness>100</thickness>
@@ -3893,6 +3923,11 @@ if (date_within('[date1], [date2]') = 1) then
          ready_to_till_pre_sow = 0
          till_day_pre_sow = 0
          days_after_weed_kill = 0
+         ready_to_fert_pre_sow = 0
+         wd_sow_opp_num = 0
+         wht_sow_opp_num = 0
+         wht_sow_opp_days = 0
+         days_this_year = 0
         </text>
             <event>init</event>
           </script>
@@ -4152,7 +4187,7 @@ if (date_within('[date1], [date2]') = 1) then
             <fert_type_pre_sow description="Type (NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea)" type="text">urea_N</fert_type_pre_sow>
             <category name="Tillage components" />
             <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
-            <soilmodule type="modulename" description="Name of your soil module : ">Chromic Luvisol, Katumani Research Station (PAWC = 164mm)</soilmodule>
+            <soilmodule type="modulename" description="Name of your soil module : ">Soil</soilmodule>
             <category name="Planter Tillage" />
             <planter_type description="Planter type" type="list" listvalues="user_defined, planter">user_defined</planter_type>
             <planter_depth description="User_defined depth of seedbed preparation (mm)" type="text">150</planter_depth>
@@ -4448,7 +4483,7 @@ if (date_within('[date1], [date2]') = 1) then
             <fert_type_pre_sow description="Type (NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea)" type="text">urea_N</fert_type_pre_sow>
             <category name="Tillage components" />
             <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
-            <soilmodule type="modulename" description="Name of your soil module : ">Chromic Luvisol, Katumani Research Station (PAWC = 164mm)</soilmodule>
+            <soilmodule type="modulename" description="Name of your soil module : ">Soil</soilmodule>
             <category name="Planter Tillage" />
             <planter_type description="Planter type" type="list" listvalues="user_defined, planter">user_defined</planter_type>
             <planter_depth description="User_defined depth of seedbed preparation (mm)" type="text">150</planter_depth>
@@ -4521,12 +4556,12 @@ if (date_within('[date1], [date2]') = 1) then
           <variable name="nfact_expan" description="Nitrogen factor for expansion" array="?" />
           <variable name="nfact_photo" description="Nitrogen factor for photosynthesis" array="?" />
           <variable name="grain_no" description="Grain number (g/m2)" array="?" />
-          <variable name="Chromic Luvisol, Katumani Research Station (PAWC = 164mm) Nitrogen.no3()" description="NO3 - layered (kg/ha)" array="?" />
+          <variable name="no3()" description="NO3 - layered (kg/ha)" array="?" />
         </variables>
         <events name="My Variables Events" />
       </outputfile>
       <maize />
-      <soil name="Chromic Luvisol, Katumani Research Station (PAWC = 164mm)">
+      <soil name="Soil">
         <profile>
           <layer>
             <thickness>150</thickness>
@@ -5177,7 +5212,7 @@ if (date_within('[date1], [date2]') = 1) then
             <fert_type_pre_sow description="Type (NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea)" type="text">urea_N</fert_type_pre_sow>
             <category name="Tillage components" />
             <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
-            <soilmodule type="modulename" description="Name of your soil module : ">Zimbabwe Fertile Luvisol (187mm PAWC)</soilmodule>
+            <soilmodule type="modulename" description="Name of your soil module : ">Soil</soilmodule>
             <category name="Planter Tillage" />
             <planter_type description="Planter type" type="list" listvalues="user_defined, planter">user_defined</planter_type>
             <planter_depth description="User_defined depth of seedbed preparation (mm)" type="text">150</planter_depth>
@@ -5488,7 +5523,7 @@ if (date_within('[date1], [date2]') = 1) then
             <fert_type_pre_sow description="Type (NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea)" type="text">urea_N</fert_type_pre_sow>
             <category name="Tillage components" />
             <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
-            <soilmodule type="modulename" description="Name of your soil module : ">Zimbabwe Fertile Luvisol (187mm PAWC)</soilmodule>
+            <soilmodule type="modulename" description="Name of your soil module : ">Soil</soilmodule>
             <category name="Planter Tillage" />
             <planter_type description="Planter type" type="list" listvalues="user_defined, planter">user_defined</planter_type>
             <planter_depth description="User_defined depth of seedbed preparation (mm)" type="text">150</planter_depth>
@@ -6014,7 +6049,7 @@ if (date_within('[date1], [date2]') = 1) then
       <canopy name="Canopy">
         <intercrop name="intercrop" description="Enter crop names to intercrop" type="text">maize peanut weed</intercrop>
       </canopy>
-      <soil name="Zimbabwe Fertile Luvisol (187mm PAWC)">
+      <soil name="Soil">
         <profile>
           <layer>
             <thickness>100</thickness>
@@ -6561,7 +6596,7 @@ if (date_within('[date1], [date2]') = 1) then
           <event name="post" description="End of daily simulation time step" />
         </events>
       </outputfile>
-      <soil name="UniformSoil">
+      <soil name="Soil">
         <Site>Hypothetical</Site>
         <Region />
         <LocalName>Uniform</LocalName>
@@ -6969,7 +7004,7 @@ if (date_within('[date1], [date2]') = 1) then
           <event name="daily" description="End of daily simulation time step" />
         </events>
       </outputfile>
-      <soil name="UniformSoil">
+      <soil name="Soil">
         <Site>Hypothetical</Site>
         <Region />
         <LocalName>Uniform</LocalName>
@@ -7373,6 +7408,15 @@ if (date_within('[date1], [date2]') = 1) then
                ]]></text>
             <event>start_of_day</event>
           </script>
+          <script>
+            <text><![CDATA[
+            nextcrop = 0
+            fallowin = 0
+            plantlen = 0
+            ratoonlen = 0
+            ]]></text>
+            <event>init</event>
+          </script>
           <ui>
             <category name="Sugar plant crop management parameters" />
             <crop type="crop" description="Enter name of crop to sow : ">sugar</crop>
@@ -7409,7 +7453,7 @@ if (date_within('[date1], [date2]') = 1) then
           </ui>
         </manager>
       </folder>
-      <soil name="Sample Soil">
+      <soil name="Soil">
         <Site>Jimbour</Site>
         <Region>South East Queensland</Region>
         <LocalName>Waco</LocalName>
@@ -8218,7 +8262,7 @@ if (date_within('[date1], [date2]') = 1) then
     <accum>
       <variable name="variable">dlt_cond_score[20]</variable>
     </accum>
-    <soil name="SampleBlackEarth">
+    <soil name="Soil">
       <region>South East Queensland</region>
       <site>Generic</site>
       <SoilType>Black Vertosol</SoilType>
@@ -9254,7 +9298,7 @@ if (date_within('[date1], [date2]') = 1) then
           <event name="Daily" description="End of day" array="No" />
         </events>
       </outputfile>
-      <soil name="Jimbour,Waco (#016)">
+      <soil name="Soil">
         <Site>Jimbour</Site>
         <Region>South East Queensland</Region>
         <LocalName>Waco</LocalName>
@@ -10132,7 +10176,7 @@ if (date_within('[date1], [date2]') = 1) then
         </events>
       </outputfile>
       <fertiliser />
-      <soil name="#009 - Kupunn">
+      <soil name="Soil">
         <Site>Kupunn</Site>
         <Region>South East Queensland</Region>
         <LocalName>Brigalow</LocalName>
@@ -11086,7 +11130,7 @@ proc sow_[crop] {} {
         </events>
       </outputfile>
       <fertiliser />
-      <soil name="#009 - Kupunn">
+      <soil name="Soil">
         <Site>Kupunn</Site>
         <Region>South East Queensland</Region>
         <LocalName>Brigalow</LocalName>
