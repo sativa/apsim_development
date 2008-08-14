@@ -143,26 +143,28 @@ Public Class BaseActions
         ' NB The returned filename won't have
         ' a path.
         ' -----------------------------------
+
         Dim SimulationName As String = Nothing
         Dim PaddockName As String = Nothing
-        Dim D As ApsimFile.Component = Data
-        While Not IsNothing(D.Parent)
+        Dim D As ApsimFile.Component = Data     'temp component variable (set it to the parameter passed in [starting component])
+
+        While Not IsNothing(D.Parent)           'loop back up the component datastructure until you get to the root component.
             D = D.Parent
             If D.Type.ToLower() = "area" Then
-                PaddockName = D.Name
+                PaddockName = D.Name            'store the paddock name for later
             ElseIf D.Type.ToLower() = "simulation" Then
-                SimulationName = D.Name
+                SimulationName = D.Name         'store the simulation name for later
             End If
         End While
 
-        Dim FileName As String = SimulationName
-        If Not IsNothing(PaddockName) AndAlso PaddockName.ToLower() <> "paddock" Then
-            FileName = FileName + " " + PaddockName
+        Dim FileName As String = SimulationName     'start out with the filename just being the simulation name
+        If Not IsNothing(PaddockName) AndAlso PaddockName.ToLower() <> "paddock" Then           'if there was a paddock component and it had been renamed by the user.
+            FileName = FileName + " " + PaddockName 'add the paddock name to the simulation name
         End If
-        If Data.Name.ToLower() <> "outputfile" And Data.Name.ToLower() <> "summaryfile" Then
-            FileName = FileName + " " + Data.Name
+        If Data.Name.ToLower() <> "outputfile" And Data.Name.ToLower() <> "summaryfile" Then    'if the starting component (either an outputfile or summary file) has been renamed by the user 
+            FileName = FileName + " " + Data.Name   'add the starting component name to the simulation name
         End If
-        If Data.Type = "summaryfile" Then
+        If Data.Type = "summaryfile" Then           'add the correct file suffix
             FileName = FileName + ".sum"
         Else
             FileName = FileName + ".out"

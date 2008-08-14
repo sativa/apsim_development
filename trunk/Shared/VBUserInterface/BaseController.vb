@@ -115,6 +115,7 @@ Public Class BaseController
 
 #Region "Node selection methods. NB: Paths are delimited with '/' characters"
     Public Property SelectedPaths() As StringCollection
+
         Get
             ' --------------------------------------------------------
             ' Provide readwrite access to the current selections.
@@ -122,13 +123,18 @@ Public Class BaseController
             ' selected nodes.
             ' --------------------------------------------------------
             Dim ReturnValues As New StringCollection        'temporary collection used to store selected paths  
+
             For Each FullPath As String In MySelectedData   'store selected paths in temporary collection
                 ReturnValues.Add(FullPath)
             Next
+
             Return ReturnValues
         End Get
+
         Set(ByVal Paths As StringCollection)
+
             Dim OldSelections As New StringCollection       'temporary collection used to store old selected paths
+
             For Each Selection As String In MySelectedData  'store old selected paths in temporary collection
                 OldSelections.Add(Selection)
             Next
@@ -149,9 +155,10 @@ Public Class BaseController
                 RaiseEvent SelectionChangingEvent()
                 MySelectedData = Paths              'set "the controllers" selected paths to the new selected paths.
                 RaiseEvent SelectionChangedEvent(OldSelections, MySelectedData)     'calls OnSelectionChanged() -> in DataTree.vb and in ExplorerUI.vb 
-                RefreshToolStrips()     'See first sub in Action Region below. This region is where all the toolstrips get rebinded after the selection is changed. This first sub is what starts all this rebinding.
+                RefreshToolStrips()     'IMPORTANT 'See first sub in Action Region below. This region is where all the toolstrips get rebinded after the selection is changed. This first sub is what starts all this rebinding.
             End If
         End Set
+
     End Property
     Public Property SelectedPath() As String
         Get
@@ -186,22 +193,22 @@ Public Class BaseController
     ' ------------------------------------------------------------------------
 
 
-    Private ToolStrips As New List(Of ToolStrip)
+    Private ToolStrips As New List(Of ToolStrip)            'this is the Controllers list of toolstrips
 
     Public Sub RefreshToolStrips()
-        For Each ToolStrip As ToolStrip In ToolStrips
+        For Each ToolStrip As ToolStrip In ToolStrips       'for every toolstrip in the Controllers list of toolstrips
             EnableActions(ToolStrip)
-            Dim ToolStripDescriptor As XmlNode = XmlHelper.Find(ActionFile, ToolStrip.Name)
+            Dim ToolStripDescriptor As XmlNode = XmlHelper.Find(ActionFile, ToolStrip.Name)     'see bottom of Actions.xml for a list of all Toolstrips in ApsimUI
             RefreshRecentFileList(ToolStrip, ToolStripDescriptor)
         Next
     End Sub
-    Public Sub ProvideToolStrip(ByVal Strip As ToolStrip, ByVal ToolStripName As String)
+    Public Sub ProvideToolStrip(ByVal Strip As ToolStrip, ByVal ToolStripName As String)    'To see where toolstrips are created do a "Find All References" on "ProvideToolStrip"
         ' --------------------------------------------------------------
         ' This method populates the specified context menu for the 
         ' currently selected type. 
         ' --------------------------------------------------------------
         Strip.Items.Clear()
-        AddHandler Strip.ItemClicked, AddressOf ActionOnClick           'add an event handler to the strip.
+        AddHandler Strip.ItemClicked, AddressOf ActionOnClick           'add an event handler to the entire strip NOT to individual items.
         Strip.Name = ToolStripName
         Dim ToolStripDescriptor As XmlNode = XmlHelper.Find(ActionFile, ToolStripName)
         If Not IsNothing(ToolStripDescriptor) Then
@@ -209,7 +216,7 @@ Public Class BaseController
             ImageAboveText = (XmlHelper.Attribute(ToolStripDescriptor, "ImageAboveText") = "yes")
             PopulateToolStrip(Strip, ToolStripDescriptor, ImageAboveText)
         End If
-        ToolStrips.Add(Strip)
+        ToolStrips.Add(Strip)   'add this newly created toolstrip to the Controllers list of toolstrips
     End Sub
     Public Sub RemoveToolStrip(ByVal Strip As ToolStrip)
         ToolStrips.Remove(Strip)
@@ -400,6 +407,8 @@ Public Class BaseController
         End Try
     End Sub
     Private Sub InvokeAction(ByVal Sender As Object, ByVal ActionName As String)
+
+        'close the menu
         ' For some reason, if we don't explicitly close the menus they remain open,
         ' and on top of other windows.
         If TypeOf Sender Is ContextMenuStrip Then
@@ -413,11 +422,12 @@ Public Class BaseController
             Menu.Close()
         End If
 
-        Dim ActionInvoke As XmlNode = XmlHelper.Find(ActionFile, "/Folder/Actions/" + ActionName + "/OnInvoke/Call")
+        'call the method to carry out the action
+        Dim ActionInvoke As XmlNode = XmlHelper.Find(ActionFile, "/Folder/Actions/" + ActionName + "/OnInvoke/Call")    'look up the <class> and <method> for the action in the Actions.xml
         If Not IsNothing(ActionInvoke) Then
             Dim Arguments As New List(Of Object)
-            Arguments.Add(Me)
-            CallDll.CallMethodOfClass(ActionInvoke, Arguments)
+            Arguments.Add(Me)                   'pass the Controller as a parameter to the method
+            CallDll.CallMethodOfClass(ActionInvoke, Arguments)      'parameters for this are an XmlNode (with a <class> and <method> tag) and a list of Objects (which are the paramters for the method specified in the XmlNode)
         End If
     End Sub
     Public Shared Function CreateClass(ByVal ClassToCall As String) As Object
