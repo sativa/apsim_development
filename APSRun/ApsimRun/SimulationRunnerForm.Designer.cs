@@ -31,8 +31,8 @@ namespace ApsimRun
          {
          this.components = new System.ComponentModel.Container();
          System.Windows.Forms.GroupBox groupBox1;
-         System.Windows.Forms.Label label1;
          System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationRunnerForm));
+         System.Windows.Forms.Label label1;
          this.PerformanceChart = new Steema.TeeChart.TChart();
          this.PerformanceSeries = new Steema.TeeChart.Styles.Area();
          this.ImageList = new System.Windows.Forms.ImageList(this.components);
@@ -64,7 +64,7 @@ namespace ApsimRun
          groupBox1.Controls.Add(this.PerformanceChart);
          groupBox1.Location = new System.Drawing.Point(226, 36);
          groupBox1.Name = "groupBox1";
-         groupBox1.Size = new System.Drawing.Size(120, 100);
+         groupBox1.Size = new System.Drawing.Size(120, 111);
          groupBox1.TabIndex = 12;
          groupBox1.TabStop = false;
          groupBox1.Text = "CPU usage";
@@ -426,7 +426,7 @@ namespace ApsimRun
          // 
          this.PerformanceChart.Panning.Allow = Steema.TeeChart.ScrollModes.None;
          this.PerformanceChart.Series.Add(this.PerformanceSeries);
-         this.PerformanceChart.Size = new System.Drawing.Size(107, 74);
+         this.PerformanceChart.Size = new System.Drawing.Size(107, 85);
          // 
          // 
          // 
@@ -631,7 +631,7 @@ namespace ApsimRun
          this.groupBox2.Controls.Add(this.label2);
          this.groupBox2.Location = new System.Drawing.Point(9, 36);
          this.groupBox2.Name = "groupBox2";
-         this.groupBox2.Size = new System.Drawing.Size(211, 100);
+         this.groupBox2.Size = new System.Drawing.Size(211, 111);
          this.groupBox2.TabIndex = 15;
          this.groupBox2.TabStop = false;
          this.groupBox2.Text = "Summary";
@@ -641,7 +641,7 @@ namespace ApsimRun
          this.groupBox3.Controls.Add(this.ProgressBar);
          this.groupBox3.Location = new System.Drawing.Point(183, 9);
          this.groupBox3.Name = "groupBox3";
-         this.groupBox3.Size = new System.Drawing.Size(22, 85);
+         this.groupBox3.Size = new System.Drawing.Size(22, 96);
          this.groupBox3.TabIndex = 24;
          this.groupBox3.TabStop = false;
          // 
@@ -653,7 +653,7 @@ namespace ApsimRun
          this.ProgressBar.Maximum = 100;
          this.ProgressBar.Minimum = 0;
          this.ProgressBar.Name = "ProgressBar";
-         this.ProgressBar.Size = new System.Drawing.Size(13, 73);
+         this.ProgressBar.Size = new System.Drawing.Size(11, 85);
          this.ProgressBar.Step = 1;
          this.ProgressBar.Style = CSUserInterface.Styles.Solid;
          this.ProgressBar.TabIndex = 8;
@@ -761,7 +761,7 @@ namespace ApsimRun
          this.AllowDrop = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(352, 144);
+         this.ClientSize = new System.Drawing.Size(352, 159);
          this.Controls.Add(this.ReportButton);
          this.Controls.Add(this.groupBox2);
          this.Controls.Add(label1);
