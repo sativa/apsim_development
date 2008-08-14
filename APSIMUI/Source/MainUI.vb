@@ -14,9 +14,9 @@ Imports VBUserInterface
 Public Class MainUI
     Inherits System.Windows.Forms.Form
 
-    Private Controller As BaseController
-    Private Toolbox As BaseController
-    Private ToolboxExplorer As ExplorerUI
+    Private Controller As BaseController            'BaseController for Simulation
+    Private Toolbox As BaseController               'BasController for Toolbox
+    Private ToolboxExplorer As ExplorerUI           'ExplorerUI for Toolbox
     Private CurrentRunningSimulationIndex As Integer
     Private ApsimProcess As ProcessCaller
     Private SimFileName As String
@@ -50,7 +50,7 @@ Public Class MainUI
     Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RunPanelListBox As System.Windows.Forms.RichTextBox
-    Friend WithEvents SimulationExplorer As VBUserInterface.ExplorerUI
+    Friend WithEvents SimulationExplorer As VBUserInterface.ExplorerUI          'ExplorerUI for Simulation
     Private Args As StringCollection
 
 
@@ -288,9 +288,9 @@ Public Class MainUI
         Me.ToolBoxesToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolboxesButton, Me.ToolStripSeparator2})
         Me.ToolBoxesToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.ToolBoxesToolStrip.Name = "ToolBoxesToolStrip"
+        Me.ToolBoxesToolStrip.ShowItemToolTips = False
         Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(109, 31)
         Me.ToolBoxesToolStrip.TabIndex = 2
-        Me.ToolBoxesToolStrip.ShowItemToolTips = False
         '
         'ManageToolboxesButton
         '
@@ -563,10 +563,6 @@ Public Class MainUI
         ' User is closing down - save our work.
         e.Cancel = Not Controller.FileSaveAfterPrompt()
         If Not e.Cancel Then
-            If ApplicationName = "ApsimUI" Then
-                ApsimUIActions.CloseRunWindow()
-            End If
-
             Try
                 Dim inifile As New APSIMSettings
                 APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), ApplicationName, "windowstate", Str(Me.WindowState))
