@@ -30,7 +30,7 @@ namespace ApsimRun
          {
          this.components = new System.ComponentModel.Container();
          System.Windows.Forms.Label label1;
-         System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("File Name", System.Windows.Forms.HorizontalAlignment.Left);
+         System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("File Name", System.Windows.Forms.HorizontalAlignment.Left);
          System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationRunnerReportForm));
          this.SimulationList = new System.Windows.Forms.ListView();
          this.SimulationName = new System.Windows.Forms.ColumnHeader();
@@ -61,10 +61,10 @@ namespace ApsimRun
             this.HasErrors,
             this.HasWarnings});
          this.SimulationList.GridLines = true;
-         listViewGroup2.Header = "File Name";
-         listViewGroup2.Name = "FileNameGroup";
+         listViewGroup1.Header = "File Name";
+         listViewGroup1.Name = "FileNameGroup";
          this.SimulationList.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup2});
+            listViewGroup1});
          this.SimulationList.HideSelection = false;
          this.SimulationList.Location = new System.Drawing.Point(12, 40);
          this.SimulationList.MultiSelect = false;
@@ -103,7 +103,7 @@ namespace ApsimRun
          // 
          this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
          this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-         this.OkButton.Location = new System.Drawing.Point(520, 26);
+         this.OkButton.Location = new System.Drawing.Point(435, 11);
          this.OkButton.Name = "OkButton";
          this.OkButton.Size = new System.Drawing.Size(75, 23);
          this.OkButton.TabIndex = 1;
@@ -114,7 +114,7 @@ namespace ApsimRun
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(601, 455);
+         this.ClientSize = new System.Drawing.Size(522, 455);
          this.Controls.Add(label1);
          this.Controls.Add(this.OkButton);
          this.Controls.Add(this.SimulationList);
