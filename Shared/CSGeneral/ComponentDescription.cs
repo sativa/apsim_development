@@ -81,13 +81,8 @@ namespace CSGeneral
             object[] parameters;
             parameters = new object[] { initScript, description };
 
-            for (int i = 0; i != 3; i++)
-                {
-                StreamWriter Out = new StreamWriter("c:\\hol353\\desktop\\call" + i.ToString() + ".txt");
-                mi.Invoke(null, parameters);
-                Out.Write(description.ToString());
-                Out.Close();
-                }
+            mi.Invoke(null, parameters);
+
 		    // Transform the xml returned from the dll with our xsl.
 		    StringReader ContentsReader = new StringReader(description.ToString());
 		    XPathDocument XmlData = new XPathDocument(ContentsReader);
