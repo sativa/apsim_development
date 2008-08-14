@@ -5,7 +5,7 @@ Imports System.IO
 Imports System.Collections.Specialized
 Imports System.Collections.Generic
 Imports System.Xml
-Imports ApsimRun
+
 
 Public Class ApsimUIActions
     Public Shared Sub FileNew(ByVal Controller As BaseController)
@@ -49,7 +49,7 @@ Public Class ApsimUIActions
         Next
         Out.Close()
         Process.Start(APSIMSettings.ApsimDirectory + "\\bin\\apsimrun.exe", _
-                      "@" + TempFileName)
+                      """@" + TempFileName + "")
     End Sub
 
     Public Shared Sub Enable(ByVal Controller As BaseController)

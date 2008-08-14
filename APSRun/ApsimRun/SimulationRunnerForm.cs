@@ -71,6 +71,7 @@ namespace ApsimRun
          try
             {
             ResponseFileName = ResponseFileName.Remove(0, 1);
+            ResponseFileName = ResponseFileName.Replace("\"", "");
             StreamReader In = new StreamReader(ResponseFileName);
             string FileName = In.ReadLine();
             Runnable FileToRun = new ApsimFile.ApsimFile(new Configuration("apsimui"), FileName);
