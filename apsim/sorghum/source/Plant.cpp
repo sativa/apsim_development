@@ -111,7 +111,9 @@ void Plant::plantInit1(void)
 
    setStatus(out);
 
-
+   // Cruft for adding sowing/harvesting events to UI
+   scienceAPI.notifyFutureEvent("sowing");
+   scienceAPI.notifyFutureEvent("harvesting");
   }
 //------------------------------------------------------------------------------------------------
 void Plant::plantInit2(void)
