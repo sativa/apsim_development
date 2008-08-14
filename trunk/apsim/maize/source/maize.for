@@ -818,7 +818,7 @@ c     :                    , 0.0, 100.0)
       call read_real_var (section_name
      :                    , 'maxt_lb', '(oC)'
      :                    , c%maxt_lb, numvals
-     :                    , 0.0, 60.0)
+     :                    , -60.0, 60.0)
 
       call read_real_var (section_name
      :                    , 'mint_ub', '(oC)'
