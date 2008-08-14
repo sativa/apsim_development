@@ -184,6 +184,7 @@ namespace ApsimRun
       /// <param name="OverallPercent">The overall progress of the simulation queue</param>
       private void OnUpdate(Detail Simulation, int PercentDone, int OverallPercent)
          {
+         OverallPercent = Math.Min(OverallPercent, 100);
          ProgressBar.Value = OverallPercent;
          if (PercentDone == 100)
             {
@@ -205,6 +206,7 @@ namespace ApsimRun
             if (AutoClose)
                Close();
             }
+         this.Text = OverallPercent.ToString() + "% complete";
          }
 
       private string Increment(string Value)
@@ -244,12 +246,17 @@ namespace ApsimRun
  
       private void OnClosing(object sender, FormClosingEventArgs e)
          {
+         e.Cancel = true;
+         Visible = false;
+         Runner.Stop();
+         }
+      public void ShutDown()
+         {
          Runner.Stop();
          Runner.Close();
          Config.SetSetting("Top", Top.ToString());
          Config.SetSetting("Left", Left.ToString());
          }
-
       private double[] values = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
       private void OnTimerTick(object sender, EventArgs e)
          {
