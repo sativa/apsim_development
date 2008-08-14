@@ -3223,6 +3223,12 @@ cbak
      :                             , green_biomass_n)
 
 
+      elseif (variable_name .eq. 'n_green') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%N_green
+     :                             , max_part)
+
       elseif (variable_name .eq. 'greenn') then
          call respond2get_real_var (variable_name
      :                    , '(g/m^2)'
