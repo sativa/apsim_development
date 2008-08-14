@@ -249,9 +249,14 @@ namespace ApsimRun
  
       private void OnClosing(object sender, FormClosingEventArgs e)
          {
-         e.Cancel = true;
-         Visible = false;
-         Runner.Stop();
+         if (this.ParentForm == null)
+            ShutDown();
+         else
+            {
+            e.Cancel = true;
+            Visible = false;
+            Runner.Stop();
+            }
          }
       public void ShutDown()
          {
