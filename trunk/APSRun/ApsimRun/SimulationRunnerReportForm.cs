@@ -72,10 +72,17 @@ namespace ApsimRun
          if (ClickedItem != null)
             {
             string SummaryFileName = Simulations[ClickedItem.Index].SummaryFileName;
-            if (File.Exists(SummaryFileName))
-               Process.Start(SummaryFileName);
-            else
-               MessageBox.Show("Cannot find summary file: " + SummaryFileName);
+            try
+               {
+               if (File.Exists(SummaryFileName))
+                  Process.Start(SummaryFileName);
+               else
+                  MessageBox.Show("Cannot find summary file: " + SummaryFileName);
+               }
+            catch
+               {
+               Process.Start("notepad", SummaryFileName);
+               }
             }
          }
 
