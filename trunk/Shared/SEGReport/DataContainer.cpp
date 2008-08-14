@@ -121,6 +121,8 @@ void DataContainer::add(const XMLNode& properties)
    children[newIndex].name = name;
    children[newIndex].data = new TkbmMemTable(owner);
    children[newIndex].data->Name = name.c_str();
+   children[newIndex].data->FilterOptions << foCaseInsensitive << foNoPartialCompare;
+
    children[newIndex].refreshNeeded = true;
 
    set(properties);
