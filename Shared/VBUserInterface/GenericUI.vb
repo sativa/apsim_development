@@ -211,21 +211,21 @@ Public Class GenericUI
             If Prop.Name = "category" Then
                 Grid.Cells(Row, 1).Text = "category"
                 Grid.Cells(Row, 3).Text = XmlHelper.Attribute(Prop, "description")
-                If Grid.Cells(Row, 3).Text = "" Then                        'if the description property does not have a type specified (because there was no value specified for that property in the xml that was passed in [properties between ui tags])
+                If Grid.Cells(Row, 3).Text = "" Then                        'if the property does not have a description specified (because there was no value specified for the description in the xml that was passed in [properties between ui tags])
                     Grid.Cells(Row, 3).Text = XmlHelper.Name(Prop)              'use the name of the property as the description (in this case "description")
                 End If
             ElseIf Prop.Name <> "condition" Then
                 Grid.Cells(Row, 0).Text = Prop.Name
                 Grid.Cells(Row, 1).Text = XmlHelper.Attribute(Prop, "type")
-                If Grid.Cells(Row, 1).Text = "" Then                        'if the type property does not have a type specified (because there was no value specified for that property in the xml that was passed in [properties between ui tags])
+                If Grid.Cells(Row, 1).Text = "" Then                        'if the property does not have a type specified (because there was no value specified for the type in the xml that was passed in [properties between ui tags])
                     Grid.Cells(Row, 1).Text = "text"                            'make its type a text box
                 End If
                 Grid.Cells(Row, 2).Text = XmlHelper.Attribute(Prop, "listvalues")
                 Grid.Cells(Row, 3).Text = XmlHelper.Attribute(Prop, "description")
-                If Grid.Cells(Row, 3).Text = "" Then                        'if the description property does not have a type specified (because there was no value specified for that property in the xml that was passed in [properties between ui tags])
+                If Grid.Cells(Row, 3).Text = "" Then                        'if the property does not have a description specified (because there was no value specified for the description in the xml that was passed in [properties between ui tags])
                     Grid.Cells(Row, 3).Text = XmlHelper.Name(Prop)              'use the name of the property as the description (in this case "description")
                 End If
-                Grid.Cells(Row, 4).Text = Prop.InnerText
+                Grid.Cells(Row, 4).Text = Prop.InnerText                        'assign the value column to the inner text of the property. 
             End If
             Row = Row + 1
         Next
@@ -364,21 +364,21 @@ Public Class GenericUI
 
         Grid.Rows(Row).BackColor = System.Drawing.Color.White
         Grid.Rows(Row).Height = 20              'reset the default row height. "multilist" & "multiedit" changes the row height this just changes it back again.  
-        Grid.Cells(Row, 4).Text = ""            'get rid of the old value. Since we are changing the type of this property. The old value won't make any sense for the new type. User must enter a new value if they change the type.
+        'Grid.Cells(Row, 4).Text = ""            'get rid of the old value. Since we are changing the type of this property. The old value won't make any sense for the new type. User must enter a new value if they change the type.
         Grid.Cells(Row, 2).CellType = New FarPoint.Win.Spread.CellType.TextCellType     'set "List Items" column cell type to text. Tried to find where in "Designer generated code" at the top,  the column cell types are initialized but couldn't. So just put it here.
 
 
         'Lock the "List Item" column, except if the "Type" column is a list or multilist. (both of which use the "List Items" column)
 
         If Type = "list" Or Type = "multilist" Then
-            Grid.Cells(Row, 2).Locked = False
+            Grid.Cells(Row, 2).Locked = False       'unlock "List Items" column
         Else
-            Grid.Cells(Row, 2).Text = ""
-            Grid.Cells(Row, 2).Locked = True
+            Grid.Cells(Row, 2).Text = ""            'clear the "List Items" column 
+            Grid.Cells(Row, 2).Locked = True        'lock the "List Items" column
         End If
 
 
-        'If we have changed a filename row to some other type, you must get rid of the the old button. 
+        'Get rid of the the old button if we have changed a filename type to some other type. 
         ' And if there is still a filename row in the grid, then make the button column visible. Otherwise make it invisible. 
 
         Grid.Columns(5).Visible = False
@@ -417,7 +417,7 @@ Public Class GenericUI
 
             Case "list"
                 Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-                Combo.Editable = False
+                Combo.Editable = True                           'allow the user to directly add stuff to the combo box.
                 Combo.Items = Grid.Cells(Row, 2).Text.Split(",")
                 Grid.Cells(Row, 4).CellType = Combo
 
@@ -449,7 +449,7 @@ Public Class GenericUI
 
             Case "modulename"
                 Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-                Combo.Editable = False
+                Combo.Editable = True                                       'allow the user to directly add stuff to the combo box.
                 Grid.Cells(Row, 4).CellType = Combo
                 Dim Paddock As ApsimFile.Component = Controller.ApsimData.Find(NodePath).FindContainingPaddock()
                 While Not IsNothing(Paddock) AndAlso Paddock.Type.ToLower = "folder"
@@ -462,7 +462,7 @@ Public Class GenericUI
 
             Case "crop"
                 Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-                Combo.Editable = False
+                Combo.Editable = True                                       'allow the user to directly add stuff to the combo box.
                 Grid.Cells(Row, 4).CellType = Combo
                 Dim Paddock As ApsimFile.Component = Controller.ApsimData.Find(NodePath).FindContainingPaddock()
                 While Not IsNothing(Paddock) AndAlso Paddock.Type.ToLower = "folder"
@@ -482,7 +482,7 @@ Public Class GenericUI
 
             Case "cultivars"
                 Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-                Combo.Editable = False
+                Combo.Editable = True                                       'allow the user to directly add stuff to the combo box.
                 Grid.Cells(Row, 4).CellType = Combo
                 ' Try and locate a row with crop as the name.
                 Dim CropRow As Integer
