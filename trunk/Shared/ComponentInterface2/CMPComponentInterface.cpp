@@ -48,7 +48,7 @@ CMPComponentInterface::~CMPComponentInterface()
    for (NameToRegMap::iterator i = regNames.begin();
                                i != regNames.end();
                                i++)
-      delete i->second;
+      if (i->second != NULL) {delete i->second;}
 
    clearMessages();
    delete simScript;
@@ -656,13 +656,22 @@ void CMPComponentInterface::terminate(void)
 std::string CMPComponentInterface::getName() {return name;}
 std::string CMPComponentInterface::getFQName() {return (pathName + "." + name);}
 
+// Fake a system registration (that we will publish an event later) so that 
+// the variable name probing works
+void CMPComponentInterface::notifyFutureEvent(const std::string& name)
+   {
+   string fullRegName = name + itoa(eventReg);
+   regNames.insert(make_pair(fullRegName, (IPackableData*)NULL));
+   regKinds.insert(make_pair(fullRegName, eventReg));
+   }
+
 
 std::string CMPComponentInterface::getPropertyDescription(NameToRegMap::iterator reg, const string& access)
    {
    string returnString = "   <property name=\"";
    returnString += getRegName(reg);
    returnString += "\" access=\"" + access + "\" init=\"F\">\n";
-   returnString += reg->second->ddml;
+   if (reg->second != NULL) {returnString += reg->second->ddml;}
    returnString += "\n</property>\n";
    return returnString;
    }
@@ -678,9 +687,12 @@ std::string CMPComponentInterface::getEventDescription(NameToRegMap::iterator re
    string returnString = "   <event name=\"";
    returnString += getRegName(reg);
    returnString += "\" kind=\"" + published + "\">\n";
-   XMLDocument* doc = new XMLDocument(reg->second->ddml, XMLDocument::xmlContents);
-   returnString += doc->documentElement().innerXML();
-   delete doc;
+   if (reg->second != NULL) 
+      {
+      XMLDocument* doc = new XMLDocument(reg->second->ddml, XMLDocument::xmlContents);
+      returnString += doc->documentElement().innerXML();
+      delete doc;
+      }
    returnString += "\n</event>\n";
    return returnString;
    }
@@ -717,7 +729,7 @@ std::string CMPComponentInterface::getDescription(const std::string& dllName)
             returnString += "   <driver name=\"";
             returnString += getRegName(reg);
             returnString += "\">\n";
-            returnString += reg->second->ddml;
+            if (reg->second != NULL) {returnString += reg->second->ddml;}
             returnString += "\n</driver>\n";
             }
          }
