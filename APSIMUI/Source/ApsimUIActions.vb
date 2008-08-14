@@ -49,7 +49,7 @@ Public Class ApsimUIActions
         F.AddFromGUI(Controller.ApsimData, SimulationsToRun)
     End Sub
     Public Shared Sub CloseRunWindow()
-        F.Close()
+        F.Shutdown()
     End Sub
 
     Public Shared Sub Enable(ByVal Controller As BaseController)
