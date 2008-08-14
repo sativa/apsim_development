@@ -120,10 +120,13 @@ namespace ApsimRun
          }
       public void Close()
          {
-         NumApsimsRunning = 0;
-         KillThread = true;
-         for (int i = 0; i < NextIndex; i++)
-            Simulations[i].Close();
+         lock (LockObject)
+            {
+            NumApsimsRunning = 0;
+            KillThread = true;
+            for (int i = 0; i < NextIndex; i++)
+               Simulations[i].Close();
+            }
          }
 
       public void Clear()
@@ -251,7 +254,7 @@ namespace ApsimRun
                      {
                      if (!Stopped)
                         {
-                        InvokeUpdatedEvent(SimulationToRun.Details, 0);
+                        //InvokeUpdatedEvent(SimulationToRun.Details, 0);
                         NumApsimsRunning++;
                         ApsimProcess.Start();
                         }
@@ -292,12 +295,12 @@ namespace ApsimRun
             {
             Stopped = true;
             NextIndex = Simulations.Count;
-            }
-         foreach (Process P in Process.GetProcesses())
-            {
-            if (P.ProcessName == "apsim")
+            foreach (Process P in Process.GetProcesses())
                {
-               P.Kill();
+               if (P.ProcessName == "apsim")
+                  {
+                  P.Kill();
+                  }
                }
             }
          }
@@ -379,7 +382,7 @@ namespace ApsimRun
       /// </summary>
       private void InvokeStdOutEvent(Detail SimulationDetail, string Line)
          {
-         if (StdOutWritten != null)
+         if (StdOutWritten != null && KillThread == false)
             {
             object[] args = new object[] { SimulationDetail, Line };
             MainThread.Invoke(StdOutWritten, args);
@@ -391,7 +394,7 @@ namespace ApsimRun
       /// </summary>
       private void InvokeStdErrEvent(Detail SimulationDetail, string Line)
          {
-         if (StdErrWritten != null)
+         if (StdErrWritten != null && KillThread == false)
             {
             object[] args = new object[] { SimulationDetail, Line };
             MainThread.Invoke(StdErrWritten, args);
@@ -403,7 +406,7 @@ namespace ApsimRun
       /// </summary>
       private void InvokeUpdatedEvent(Detail SimulationDetail, int PercentDone)
          {
-         if (SimulationUpdated != null)
+         if (SimulationUpdated != null && KillThread == false)
             {
             double PercentPerSimulation = 100.0 / Simulations.Count;
             int OverallPercent = (int)(PercentDone / 100.0 * PercentPerSimulation + NumCompleted * PercentPerSimulation);

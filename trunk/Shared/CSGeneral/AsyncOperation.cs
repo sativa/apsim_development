@@ -370,10 +370,17 @@ namespace CSGeneral
         /// <param name="pList"></param>
         protected void FireAsync(Delegate dlg, params object[] pList)
         {
-            if (dlg != null)
-            {
-                Target.BeginInvoke(dlg, pList);
-            }
+        try
+           {
+           if (dlg != null)
+              {
+              Target.BeginInvoke(dlg, pList);
+              }
+           }
+        catch
+           {
+
+           }
         }
     }
 }
