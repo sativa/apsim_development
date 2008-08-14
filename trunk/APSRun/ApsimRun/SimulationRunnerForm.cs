@@ -18,6 +18,7 @@ namespace ApsimRun
       private string[] Args;
       private bool FirstPaint = true;
       private bool AutoClose = false;
+      private bool FromGUI = false;
 
       /// <summary>
       /// Constructor
@@ -65,20 +66,31 @@ namespace ApsimRun
          {
          }
 
-      public void AddFromGUI(Runnable FileToRun, List<string> SimulationsToRun)
+      public void AddFromGUI(string ResponseFileName)
          {
          try
             {
-            if (RunButton.Text == "Run")
+            ResponseFileName = ResponseFileName.Remove(0, 1);
+            StreamReader In = new StreamReader(ResponseFileName);
+            string FileName = In.ReadLine();
+            Runnable FileToRun = new ApsimFile.ApsimFile(new Configuration("apsimui"), FileName);
+            List<string> SimsToRun = new List<string>();
+            string Line = In.ReadLine();
+            while (Line != "" && Line != null)
                {
-               Runner.Clear();
+               SimsToRun.Add(Line);
+               Line = In.ReadLine();
                }
-            FileToRun.SimulationsToRun = SimulationsToRun;
+            FileToRun.SimulationsToRun = SimsToRun;
+
+            if (RunButton.Text == "Run")
+               Runner.Clear();
             if (FileToRun.SimulationsToRun.Count > 0)
                Runner.Add(FileToRun);
             Total.Text = Runner.Count.ToString();
             if (RunButton.Text == "Run")
                OnRunClick(null, null);
+            In.Close();
             }
          catch (Exception ex)
             {
@@ -105,6 +117,8 @@ namespace ApsimRun
                   JustDoIt = true;
                else if (FileName == "/autoclose")
                   AutoClose = true;
+               else if (FileName[0] == '@')
+                  AddFromGUI(FileName);
                else if (Directory.Exists(FileName))
                   {
                   Cursor.Current = Cursors.WaitCursor;
@@ -248,17 +262,6 @@ namespace ApsimRun
          }
  
       private void OnClosing(object sender, FormClosingEventArgs e)
-         {
-         if (this.ParentForm == null)
-            ShutDown();
-         else
-            {
-            e.Cancel = true;
-            Visible = false;
-            Runner.Stop();
-            }
-         }
-      public void ShutDown()
          {
          Runner.Stop();
          Runner.Close();

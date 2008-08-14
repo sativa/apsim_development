@@ -32,7 +32,6 @@ Public Class ApsimUIActions
 
 
 #Region "Simulation methods"
-    Private Shared F As New ApsimRun.SimulationRunnerForm(Nothing)
     Public Shared Sub Run(ByVal Controller As BaseController)
         ' ------------------------------------------------
         ' Go looking for simulations to run. Look at the
@@ -42,14 +41,15 @@ Public Class ApsimUIActions
         BaseActions.FileSave(Controller)
         Dim SimulationsToRun As New List(Of String)
 
+        Dim TempFileName As String = Path.GetTempPath() + "FromGUI.txt"
+        Dim Out As StreamWriter = New StreamWriter(TempFileName)
+        Out.WriteLine(Controller.ApsimData.FileName)
         For Each NodePath As String In Controller.SelectedPaths
-            SimulationsToRun.Add(NodePath)
+            Out.WriteLine(NodePath)
         Next
-        F.Visible = True
-        F.AddFromGUI(Controller.ApsimData, SimulationsToRun)
-    End Sub
-    Public Shared Sub CloseRunWindow()
-        F.Shutdown()
+        Out.Close()
+        Process.Start(APSIMSettings.ApsimDirectory + "\\bin\\apsimrun.exe", _
+                      "@" + TempFileName)
     End Sub
 
     Public Shared Sub Enable(ByVal Controller As BaseController)
