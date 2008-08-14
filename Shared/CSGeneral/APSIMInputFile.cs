@@ -157,7 +157,7 @@ namespace CSGeneral
          string PreviousLine = "";
 
          string Line = In.ReadLine();
-         while (Line != null && Line != "")
+         while (!In.EndOfStream)
             {
             int PosEquals = Line.IndexOf('=');
             if (PosEquals != -1)
