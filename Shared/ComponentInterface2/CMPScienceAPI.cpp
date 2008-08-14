@@ -29,6 +29,11 @@ bool CMPScienceAPI::readFiltered(const string& filterName, vector<string> &value
 bool CMPScienceAPI::readAll(std::vector<std::string>& names, std::vector<std::string> &values)
    {return componentInterface.readAll(names, values);}
 
+void CMPScienceAPI::notifyFutureEvent(const std::string& name)
+   {
+   return componentInterface.notifyFutureEvent(name);
+   }
+
 // null
 void CMPScienceAPI::subscribe(const std::string& name, boost::function0<void> handler)
    {componentInterface.subscribe(name, new CMPMethod0 (handler));}

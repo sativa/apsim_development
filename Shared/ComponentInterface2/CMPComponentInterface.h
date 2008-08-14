@@ -51,6 +51,9 @@ class EXPORT CMPComponentInterface
 
       void error(const std::string& errorMessage, bool isFatal);
       std::string getDescription(const std::string& dllName);
+      
+      // tell the system about an event we will issue later
+      void notifyFutureEvent(const std::string& name);
 
    private:
       ScienceAPI* scienceAPI;
