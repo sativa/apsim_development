@@ -364,12 +364,14 @@ Public Class GenericUI
 
         Grid.Rows(Row).BackColor = System.Drawing.Color.White
         Grid.Rows(Row).Height = 20              'reset the default row height. "multilist" & "multiedit" changes the row height this just changes it back again.  
-        'Grid.Cells(Row, 4).Text = ""            'get rid of the old value. Since we are changing the type of this property. The old value won't make any sense for the new type. User must enter a new value if they change the type.
-        Grid.Cells(Row, 2).CellType = New FarPoint.Win.Spread.CellType.TextCellType     'set "List Items" column cell type to text. Tried to find where in "Designer generated code" at the top,  the column cell types are initialized but couldn't. So just put it here.
+        Grid.Cells(Row, 4).Text = ""            'get rid of the old value. Since we are changing the type of this property. The old value won't make any sense for the new type. User must enter a new value if they change the type.
 
+        'Initialize the "List Items" column cell type.
+        Dim ListItemsText As FarPoint.Win.Spread.CellType.TextCellType = New FarPoint.Win.Spread.CellType.TextCellType     'set "List Items" column cell type to text. Tried to find where in "Designer generated code" at the top,  the column cell types are initialized but couldn't. So just put it here.
+        ListItemsText.MaxLength = 5000              ''default MaxLength for TextCellType is 250 characters. We need more.
+        Grid.Cells(Row, 2).CellType = ListItemsText
 
         'Lock the "List Item" column, except if the "Type" column is a list or multilist. (both of which use the "List Items" column)
-
         If Type = "list" Or Type = "multilist" Then
             Grid.Cells(Row, 2).Locked = False       'unlock "List Items" column
         Else
@@ -380,7 +382,6 @@ Public Class GenericUI
 
         'Get rid of the the old button if we have changed a filename type to some other type. 
         ' And if there is still a filename row in the grid, then make the button column visible. Otherwise make it invisible. 
-
         Grid.Columns(5).Visible = False
         Dim OldFileRow As Integer
         For OldFileRow = 0 To VBUserInterface.GridUtils.FindFirstBlankCell(Grid, 1) - 1
@@ -430,7 +431,7 @@ Public Class GenericUI
             Case "multiedit"
                 Dim Text As FarPoint.Win.Spread.CellType.TextCellType = New FarPoint.Win.Spread.CellType.TextCellType
                 Text.Multiline = True
-                Text.MaxLength = 5000
+                Text.MaxLength = 5000           'default MaxLength for TextCellType is 250 characters
                 Grid.Cells(Row, 4).CellType = Text
                 Grid.Rows(Row).Height = 80
 
