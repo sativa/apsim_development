@@ -41,6 +41,8 @@ namespace ApsimRun
             Top = Convert.ToInt32(Config.Setting("Top"));
             Left = Convert.ToInt32(Config.Setting("Left"));
             }
+         if (Config.Setting("Minimised") == "yes")
+            WindowState = FormWindowState.Minimized;
          try
             {
             this.PerformanceCounter = new System.Diagnostics.PerformanceCounter();
@@ -206,6 +208,7 @@ namespace ApsimRun
             if (AutoClose)
                Close();
             }
+         Completed.Text = Runner.NumberCompleted.ToString();
          this.Text = OverallPercent.ToString() + "% complete";
          }
 
@@ -219,7 +222,6 @@ namespace ApsimRun
          if (RunButton.Text == "Run")
             {
             Total.Text = Runner.Count.ToString();
-            Completed.Text = Runner.NumberCompleted.ToString();
             NumberWithErrors.Text = "0";
             NumberWithWarnings.Text = "0";
             ProgressBar.Value = 0;
@@ -228,6 +230,7 @@ namespace ApsimRun
             RunButton.ImageIndex = 1;
             Runner.Run();
             ReportButton.Visible = false;
+
             }
          else
             {
@@ -254,8 +257,14 @@ namespace ApsimRun
          {
          Runner.Stop();
          Runner.Close();
-         Config.SetSetting("Top", Top.ToString());
-         Config.SetSetting("Left", Left.ToString());
+         if (WindowState == FormWindowState.Minimized)
+            Config.SetSetting("Minimised", "yes");
+         else
+            {
+            Config.SetSetting("Minimised", "no");
+            Config.SetSetting("Top", Top.ToString());
+            Config.SetSetting("Left", Left.ToString());
+            }
          }
       private double[] values = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
       private void OnTimerTick(object sender, EventArgs e)

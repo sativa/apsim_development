@@ -131,6 +131,9 @@ namespace ApsimRun
          lock (LockObject)
             {
             Simulations.Clear();
+            NumApsimsRunning = 0;
+            NumCompleted = 0;
+            NextIndex = -1;
             }
          }
 
@@ -248,6 +251,7 @@ namespace ApsimRun
                      {
                      if (!Stopped)
                         {
+                        InvokeUpdatedEvent(SimulationToRun.Details, 0);
                         NumApsimsRunning++;
                         ApsimProcess.Start();
                         }
