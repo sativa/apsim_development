@@ -8000,18 +8000,18 @@ if (date_within('[date1], [date2]') = 1) then
       <filename name="filename">%apsuite\apsim\met\sample\Workshop.met</filename>
     </metfile>
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1995" ubound="31/12/1996">1/01/1995</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/1995" ubound="31/12/1996">30/12/1996</end_date>
+      <start_date type="date" description="Select the start date of the simulation">1/01/1995</start_date>
+      <end_date type="date" description="Select the end date of the simulation">30/12/1996</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Wether_Lucerne.sum</filename>
     </summaryfile>
     <outputfile name="Outputfile">
       <variables name="My Variables">
-        <variable name="clock.dd/mmm/yyyy" description="Date (dd/mmm/yyyy)" array="?" />
-        <variable name="clock.year" description="Year" array="?" />
-        <variable name="StockHerbageConverter.dm_feed_on_offer()" description="Dry matter of feed on offer (kg/ha)" array="?" />
-        <variable name="StockHerbageConverter.dm_feed_removed()" description="Dry matter of feed removed (kg/ha)" array="?" />
+        <variable name="clock.dd/mmm/yyyy" array="?" description="Date (dd/mmm/yyyy)" />
+        <variable name="clock.year" array="?" description="Year" />
+        <variable name="dm_feed_on_offer()" array="?" description="Dry matter of feed on offer (kg/ha)" />
+        <variable name="dm_feed_removed()" array="?" description="Dry matter of feed removed (kg/ha)" />
         <variable name="stock.age" array="?" />
         <variable name="stock.wt_change" array="?" />
         <variable name="stock.weight" array="?" />
@@ -8023,17 +8023,27 @@ if (date_within('[date1], [date2]') = 1) then
         <variable name="stock.supp_intake_all" array="?" />
         <variable name="stock.fleece_wt_all" array="?" />
         <variable name="stock.fibre_diam_all" array="?" />
-        <variable name="lucerne.biomass" description="Biomass" array="?" />
-        <variable name="lucerne.stage" description="Plant stage" array="?" />
-        <variable name="lucerne.lai" description="Leaf area index" array="?" />
+        <variable name="lucerne.biomass" array="?" description="Biomass" />
+        <variable name="lucerne.stage" array="?" description="Plant stage" />
+        <variable name="lucerne.lai" array="?" description="Leaf area index" />
       </variables>
       <events name="My Variables Events">
-        <event name="daily" description="" />
+        <event name="daily" />
       </events>
     </outputfile>
     <folder name="Manager folder">
       <manager name="Sow on a fixed date">
-        <script>
+        <ui>
+          <category description="Sowing criteria" />
+          <date type="text" description="Enter sowing date (dd-mmm) : ">1/07/1995</date>
+          <category description="Sowing parameters" />
+          <crop type="crop" description="Enter name of crop to sow : ">lucerne</crop>
+          <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
+          <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+          <cultivar type="cultivars" description="Enter cultivar : ">sceptre</cultivar>
+          <row_spacing type="text" description="Enter row spacing (mm) : ">500</row_spacing>
+        </ui>
+        <script name="start_of_day">
           <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
@@ -8041,25 +8051,26 @@ if (date_within('[date1], [date2]') = 1) then
                </text>
           <event>start_of_day</event>
         </script>
-        <ui>
-          <category name="Sowing criteria" />
-          <date type="text" description="Enter sowing date (dd-mmm) : ">1/07/1995</date>
-          <category name="Sowing parameters" />
-          <crop type="crop" description="Enter name of crop to sow : ">lucerne</crop>
-          <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
-          <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
-          <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">sceptre</cultivar>
-          <row_spacing type="text" description="Enter row spacing (mm) : ">500</row_spacing>
-        </ui>
       </manager>
       <manager name="Buy sheep on feed-on-offer">
-        <script>
+        <ui>
+          <category description="Buy properties" />
+          <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+          <genotype type="list" listvalues="black face x white face,border leicester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US co" description="Select Genotype : ">suffolk</genotype>
+          <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
+          <buy_feed_on_offer type="text" description="Feed on offer (kg/ha) : ">200</buy_feed_on_offer>
+          <buy_number type="text" description="Number of stock : ">15</buy_number>
+          <sex type="list" listvalues="ewe,wether,ram,crypto" description="Select sex : ">wether</sex>
+          <buy_age type="text" description="Age (months) : ">12</buy_age>
+          <buy_weight type="text" description="Weight (kg) : ">45</buy_weight>
+        </ui>
+        <script name="init">
           <text>
                sheep_presence = 'off'
             </text>
           <event>init</event>
         </script>
-        <script>
+        <script name="start_of_day">
           <text><![CDATA[
         if ([herbage_module].biomass >= [buy_feed_on_offer] AND sheep_presence = 'off') then
            [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
@@ -8068,20 +8079,16 @@ if (date_within('[date1], [date2]') = 1) then
                ]]></text>
           <event>start_of_day</event>
         </script>
-        <ui>
-          <category name="Buy properties" />
-          <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
-          <genotype type="list" listvalues="black face x white face,border leicester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : ">suffolk</genotype>
-          <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
-          <buy_feed_on_offer type="text" description="Feed on offer (kg/ha) : ">200</buy_feed_on_offer>
-          <buy_number type="text" description="Number of stock : ">15</buy_number>
-          <sex type="list" listvalues="ewe,wether,ram,crypto" description="Select sex : ">wether</sex>
-          <buy_age type="text" description="Age (months) : ">12</buy_age>
-          <buy_weight type="text" description="Weight (kg) : ">45</buy_weight>
-        </ui>
       </manager>
       <manager name="Sell sheep on weight">
-        <script>
+        <ui>
+          <category description="Sell properties" />
+          <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+          <sell_on_weight_gain type="text" description="Weight (gaining) : ">50</sell_on_weight_gain>
+          <sell_on_weight_loss type="text" description="Weight (losing) : ">40</sell_on_weight_loss>
+          <sell_number type="text" description="Number of stock : ">15</sell_number>
+        </ui>
+        <script name="start_of_day">
           <text><![CDATA[
         if ((stock.weight >= [sell_on_weight_gain] OR stock.weight <= [sell_on_weight_loss]) AND sheep_presence = 'on') then
            [stockmodule] sellstock number = [sell_number] (-)
@@ -8090,33 +8097,34 @@ if (date_within('[date1], [date2]') = 1) then
                ]]></text>
           <event>start_of_day</event>
         </script>
-        <ui>
-          <category name="Sell properties" />
-          <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
-          <sell_on_weight_gain type="text" description="Weight (gaining) : ">50</sell_on_weight_gain>
-          <sell_on_weight_loss type="text" description="Weight (losing) : ">40</sell_on_weight_loss>
-          <sell_number type="text" description="Number of stock : ">15</sell_number>
-        </ui>
       </manager>
       <manager name="Buy supplement on a fixed date">
-        <script>
+        <ui>
+          <category description="Buy properties" />
+          <supplementmodule type="modulename" description="Name of supplement converter module : ">supplement</supplementmodule>
+          <buy_date type="text" description="Date (dd-mmm) : ">1-jan</buy_date>
+          <buy_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','lin" description="Name of the supplement to purchase : ">'lupins'</buy_name>
+          <buy_amount type="text" description="Fresh weight of supplement to purchase (kg) : ">1000</buy_amount>
+        </ui>
+        <script name="start_of_day">
           <text>
         if (today = date('[buy_date]') then
-           [supplementmodule] buysupplement supplement = [buy_name] (-), amount = [buy_amount] (kg)
+           [supplementmodule]scienceconverter buysupplement supplement = [buy_name] (-), amount = [buy_amount] (kg)
          endif
                </text>
           <event>start_of_day</event>
         </script>
-        <ui>
-          <category name="Buy properties" />
-          <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
-          <buy_date type="text" description="Date (dd-mmm) : ">1-jan</buy_date>
-          <buy_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">'lupins'</buy_name>
-          <buy_amount type="text" description="Fresh weight of supplement to purchase (kg) : ">1000</buy_amount>
-        </ui>
       </manager>
       <manager name="Feed supplement on animal condition loss">
-        <script>
+        <ui>
+          <category description="Feed properties" />
+          <supplementmodule type="modulename" description="Name of supplement converter module : ">supplement</supplementmodule>
+          <days type="text" description="Number of days to sum condition change : ">5</days>
+          <crit_condition_change type="text" description="Critical condition change needed to start feeding (kg/head) : ">0</crit_condition_change>
+          <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1</max_feed_rate>
+          <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">'lupins'</feed_name>
+        </ui>
+        <script name="init">
           <text>
          FALSE = 0
          TRUE = 1
@@ -8129,7 +8137,7 @@ if (date_within('[date1], [date2]') = 1) then
             </text>
           <event>init</event>
         </script>
-        <script>
+        <script name="start_of_day">
           <text><![CDATA[
          dlt_cond_score = cond_score_all - yest_cond_score_all
          yest_cond_score_all = cond_score_all
@@ -8157,7 +8165,7 @@ if (date_within('[date1], [date2]') = 1) then
                endif
                if (feed_rate > 0) then
                    feed_amount = feed_rate * number_all
-                   [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
+                   [supplementmodule]scienceconverter feedsupplement  supplement = [feed_name], amount = feed_amount
                else
                   feed_rate = 0.0
                endif
@@ -8168,14 +8176,6 @@ if (date_within('[date1], [date2]') = 1) then
                ]]></text>
           <event>start_of_day</event>
         </script>
-        <ui>
-          <category name="Feed properties" />
-          <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
-          <days type="text" description="Number of days to sum condition change : ">5</days>
-          <crit_condition_change type="text" description="Critical condition change needed to start feeding (kg/head) : ">0.0</crit_condition_change>
-          <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1.0</max_feed_rate>
-          <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">'lupins'</feed_name>
-        </ui>
       </manager>
     </folder>
     <surfaceom name="Surface Organic Matter">
@@ -8187,82 +8187,71 @@ if (date_within('[date1], [date2]') = 1) then
     </surfaceom>
     <lucerne />
     <stock>
+      <fraction_faeces_added type="text" description="fraction_faeces_added">0.5</fraction_faeces_added>
+      <fraction_urine_added type="text" description="fraction_urine_added">0.5</fraction_urine_added>
+      <herbage1 type="text" description="First plant herbage source">lucerne</herbage1>
+      <herbage2 type="text" description="Second plant herbage source">
+      </herbage2>
       <sheep>
-        <genotypename>medium merino</genotypename>
-        <number>0</number>
-        <sex type="list" listvalues="ewe,wether,ram,crypto">wether</sex>
-        <age>730.0</age>
-        <weight>50.0</weight>
-        <max_prev_wt>50.0</max_prev_wt>
-        <fleece_wt>6.0</fleece_wt>
-        <fibre_diam>20.0</fibre_diam>
-        <mated_to />
-        <pregnant>0</pregnant>
-        <lactating>0</lactating>
-        <no_young>0</no_young>
-        <birth_cs>0.0</birth_cs>
-        <lamb_wt>0.0</lamb_wt>
-        <lamb_fleece_wt>0.0</lamb_fleece_wt>
-        <paddock />
-        <tag>0</tag>
-        <priority>0</priority>
+        <genotypename type="text" description="genotypename">medium merino</genotypename>
+        <number type="text" description="number">0</number>
+        <sex type="list" listvalues="ewe,wether,ram,crypto" description="sex">wether</sex>
+        <age type="text" description="age">730</age>
+        <weight type="text" description="weight">50</weight>
+        <max_prev_wt type="text" description="max_prev_wt">50</max_prev_wt>
+        <fleece_wt type="text" description="fleece_wt">6</fleece_wt>
+        <fibre_diam type="text" description="fibre_diam">20</fibre_diam>
+        <mated_to type="text" description="mated_to">
+        </mated_to>
+        <pregnant type="text" description="pregnant">0</pregnant>
+        <lactating type="text" description="lactating">0</lactating>
+        <no_young type="text" description="no_young">0</no_young>
+        <birth_cs type="text" description="birth_cs">0</birth_cs>
+        <lamb_wt type="text" description="lamb_wt">0</lamb_wt>
+        <lamb_fleece_wt type="text" description="lamb_fleece_wt">0</lamb_fleece_wt>
+        <paddock type="text" description="paddock">
+        </paddock>
+        <tag type="text" description="tag">0</tag>
+        <priority type="text" description="priority">0</priority>
       </sheep>
       <stockgenotype name="Medium Merino Genotype">
-        <genotypename>medium merino</genotypename>
-        <dam_breed>medium merino</dam_breed>
-        <sire_breed>medium merino</sire_breed>
-        <generation>0</generation>
-        <srw>50.0</srw>
-        <conception1>0.8</conception1>
-        <conception2>0.15</conception2>
-        <death_rate>0.02</death_rate>
-        <ref_fleece_wt>4.5</ref_fleece_wt>
-        <max_fibre_diam>19.0</max_fibre_diam>
-        <fleece_yield>0.7</fleece_yield>
-        <peak_milk>25.0</peak_milk>
+        <genotypename type="text" description="genotypename">medium merino</genotypename>
+        <dam_breed type="text" description="dam_breed">medium merino</dam_breed>
+        <sire_breed type="text" description="sire_breed">medium merino</sire_breed>
+        <generation type="text" description="generation">0</generation>
+        <srw type="text" description="srw">50</srw>
+        <conception1 type="text" description="conception1">0.8</conception1>
+        <conception2 type="text" description="conception2">0.15</conception2>
+        <death_rate type="text" description="death_rate">0.02</death_rate>
+        <ref_fleece_wt type="text" description="ref_fleece_wt">4.5</ref_fleece_wt>
+        <max_fibre_diam type="text" description="max_fibre_diam">19</max_fibre_diam>
+        <fleece_yield type="text" description="fleece_yield">0.7</fleece_yield>
+        <peak_milk type="text" description="peak_milk">25</peak_milk>
       </stockgenotype>
     </stock>
-    <StockScienceConverter>
-      <debug type="list" listvalues="on,off">off</debug>
-      <stock_module type="modulename">stock</stock_module>
-      <conversion_model>nonherbage</conversion_model>
-      <fraction_faeces_added>0.5</fraction_faeces_added>
-      <fraction_urine_added>0.5</fraction_urine_added>
-    </StockScienceConverter>
-    <StockHerbageConverter>
-      <debug type="list" listvalues="on,off">off</debug>
-      <conversion_model>herbage</conversion_model>
-      <herbage_model>plant</herbage_model>
-      <herbage_module_name type="modulename">lucerne</herbage_module_name>
-    </StockHerbageConverter>
-    <FarmwiseSequencerConverter name="FarmwiseSequencer" />
-    <SupplementScienceConverter>
-      <debug type="list" listvalues="on,off">off</debug>
-      <supplement_module type="modulename">supplement</supplement_module>
-    </SupplementScienceConverter>
     <supplement>
-      <spoilage_time>0.0</spoilage_time>
+      <spoilage_time type="text" description="spoilage_time">0</spoilage_time>
       <supplementstore name="Wheat Store">
-        <name>wheat</name>
-        <stored>10000000</stored>
-        <roughage>false</roughage>
-        <dm_content>0.89</dm_content>
-        <dmd>0.9</dmd>
-        <me_content>13.8</me_content>
-        <cp_conc>0.14</cp_conc>
-        <prot_dg>0.92</prot_dg>
-        <p_conc>0.0038</p_conc>
-        <s_conc>0.0014</s_conc>
-        <ee_conc>0.02</ee_conc>
-        <adip2cp>0.02</adip2cp>
-        <ash_alk>0.18</ash_alk>
-        <max_passage>0.0</max_passage>
+        <name type="text" description="name">barley</name>
+        <stored type="text" description="stored">10000000</stored>
+        <roughage type="text" description="roughage">False</roughage>
+        <dm_content type="text" description="dm_content">0.89</dm_content>
+        <dmd type="text" description="dmd">0.9</dmd>
+        <me_content type="text" description="me_content">13.8</me_content>
+        <cp_conc type="text" description="cp_conc">0.14</cp_conc>
+        <prot_dg type="text" description="prot_dg">0.92</prot_dg>
+        <p_conc type="text" description="p_conc">0.0038</p_conc>
+        <s_conc type="text" description="s_conc">0.0014</s_conc>
+        <ee_conc type="text" description="ee_conc">0.02</ee_conc>
+        <adip2cp type="text" description="adip2cp">0.02</adip2cp>
+        <ash_alk type="text" description="ash_alk">0.18</ash_alk>
+        <max_passage type="text" description="max_passage">0</max_passage>
       </supplementstore>
     </supplement>
     <accum>
       <variable name="variable">dlt_cond_score[20]</variable>
     </accum>
-    <soil name="Soil">
+    <soil name="SampleBlackEarth">
       <region>South East Queensland</region>
       <site>Generic</site>
       <SoilType>Black Vertosol</SoilType>
@@ -9148,67 +9137,67 @@ if (date_within('[date1], [date2]') = 1) then
       <InitNitrogen>
         <profile>
           <layer>
-            <no3>6.500</no3>
-            <nh4>0.600</nh4>
+            <no3>6.50004926145708</no3>
+            <nh4>0.600073072707344</nh4>
             <thickness>150</thickness>
           </layer>
           <layer>
-            <no3>2.100</no3>
-            <nh4>0.100</nh4>
+            <no3>2.10001591523998</no3>
+            <nh4>0.100012178784557</nh4>
             <thickness>150</thickness>
           </layer>
           <layer>
-            <no3>2.100</no3>
-            <nh4>0.100</nh4>
+            <no3>2.10001591523998</no3>
+            <nh4>0.100012178784557</nh4>
             <thickness>300</thickness>
           </layer>
           <layer>
-            <no3>1.700</no3>
-            <nh4>0.100</nh4>
+            <no3>1.7000128837657</no3>
+            <nh4>0.100012178784557</nh4>
             <thickness>300</thickness>
           </layer>
           <layer>
-            <no3>1.700</no3>
-            <nh4>0.100</nh4>
+            <no3>1.7000128837657</no3>
+            <nh4>0.100012178784557</nh4>
             <thickness>300</thickness>
           </layer>
           <layer>
-            <no3>1.700</no3>
-            <nh4>0.100</nh4>
+            <no3>1.7000128837657</no3>
+            <nh4>0.100012178784557</nh4>
             <thickness>300</thickness>
           </layer>
           <layer>
-            <no3>1.700</no3>
-            <nh4>0.100</nh4>
+            <no3>1.7000128837657</no3>
+            <nh4>0.100012178784557</nh4>
             <thickness>300</thickness>
           </layer>
           <layer>
-            <no3>1.700</no3>
-            <nh4>0.100</nh4>
+            <no3>1.7000128837657</no3>
+            <nh4>0.100012178784557</nh4>
             <thickness>300</thickness>
           </layer>
           <layer>
-            <no3>1.700</no3>
-            <nh4>0.100</nh4>
+            <no3>1.7000128837657</no3>
+            <nh4>0.100012178784557</nh4>
             <thickness>300</thickness>
           </layer>
           <layer>
-            <no3>1.700</no3>
-            <nh4>0.100</nh4>
+            <no3>1.7000128837657</no3>
+            <nh4>0.100012178784557</nh4>
             <thickness>300</thickness>
           </layer>
           <layer>
-            <no3>1.700</no3>
-            <nh4>0.100</nh4>
+            <no3>1.7000128837657</no3>
+            <nh4>0.100012178784557</nh4>
             <thickness>300</thickness>
           </layer>
         </profile>
       </InitNitrogen>
     </soil>
   </simulation>
-  <simulation name="Bambatsi Pasture">
+    <simulation name="Bambatsi Pasture">
     <metfile name="met">
-      <filename name="filename">C:\Program Files\Apsim53\apsim\met\sample\goond.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <clock>
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">1/01/1970</start_date>
