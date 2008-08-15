@@ -105,12 +105,12 @@ TclComponent::~TclComponent(void)
    if (!hasFatalError) 
       {
       if (!terminationRule.empty()) { Tcl_Eval(Interp, terminationRule.c_str()); }
-      
-      if ( Interp != TopLevelInterp ) 
-         Tcl_DeleteInterp(Interp);
-      else 
-         StopTcl(TopLevelInterp);
-      }   
+      }
+
+   if ( Interp != TopLevelInterp ) 
+      Tcl_DeleteInterp(Interp);
+   else 
+      StopTcl(TopLevelInterp);
    }
 // ------------------------------------------------------------------
 // Stage 1 initialisation. We can initialise the TCL world now that we know where we are..

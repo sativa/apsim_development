@@ -111,18 +111,18 @@ void StartTcl (const char *dllName)
 void StopTcl(Tcl_Interp *interp)
    {
    //MessageBox(0, "TCl Stop", "TCl Stop", MB_ICONSTOP);
-   if (0)  //!Tcl_InterpDeleted(interp))
-       {
-       Tk_Window t = Tk_MainWindow(interp);
-       if (t != NULL) { Tk_DestroyWindow(t); }
-
-       Tcl_Eval(interp, "exit");
-       if (!Tcl_InterpDeleted(interp))
-           {
-           Tcl_DeleteInterp(interp);
-           }
-       Tcl_Release((ClientData) interp);
-       }
-   //Tcl_Finalize();
+   //if (0)  //!Tcl_InterpDeleted(interp))
+   //    {
+   //    Tk_Window t = Tk_MainWindow(interp);
+   //    if (t != NULL) { Tk_DestroyWindow(t); }
+   //
+   //    Tcl_Eval(interp, "exit");
+   //    if (!Tcl_InterpDeleted(interp))
+   //        {
+   //        Tcl_DeleteInterp(interp);
+   //        }
+   //    Tcl_Release((ClientData) interp);
+   //    }
+   Tcl_Finalize();
    //TkWinXCleanup(hinst);
    }
