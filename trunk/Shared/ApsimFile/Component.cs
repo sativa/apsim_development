@@ -509,115 +509,131 @@ namespace ApsimFile
             {
             WriteSim(Doc, null, Configuration);
             }
-        private void WriteSim(XmlDocument Doc, XmlNode ParentNode, Configuration Configuration)
-            {
-            XmlNode ApsimToSim = Configuration.TypeNode(Type + "/ApsimToSim");
-            if (ApsimToSim != null && Enabled)
+       private void WriteSim(XmlDocument Doc, XmlNode ParentNode, Configuration Configuration)
+          {
+          XmlNode ApsimToSim = Configuration.TypeNode(Type + "/ApsimToSim");
+          if (ApsimToSim != null && Enabled)
+             {
+             string ModuleType = XmlHelper.Value(ApsimToSim, "type");
+             XmlNode SimNode = XmlHelper.Find(ApsimToSim, "sim");
+             XmlNode CallDllNode = XmlHelper.Find(ApsimToSim, "calldll");
+             XmlNode Node = ParentNode;
+             if (ParentNode != null)
                 {
-                string ModuleType = XmlHelper.Value(ApsimToSim, "type");
-                XmlNode SimNode = XmlHelper.Find(ApsimToSim, "sim");
-                XmlNode CallDllNode = XmlHelper.Find(ApsimToSim, "calldll");
-                XmlNode Node = ParentNode;
-                if (ParentNode != null)
-                    {
-                    Node = XmlHelper.Find(ParentNode, "initdata");
-                    if (Node == null)
-                        Node = ParentNode;
-                    }
-                if (ModuleType != "")
-                    {
-                    string ModuleDLL = XmlHelper.Value(ApsimToSim, "dll").Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
-                    Node = Doc.CreateElement(ModuleType);
-                    if (ParentNode == null)
-                        Doc.AppendChild(Node);
-                    else
-                        ParentNode.AppendChild(Node);
+                Node = XmlHelper.Find(ParentNode, "initdata");
+                if (Node == null)
+                   Node = ParentNode;
+                }
+             if (ModuleType == "xml")
+                {
+                XmlDocument ContentsDoc = new XmlDocument();
+                ContentsDoc.LoadXml(Contents);
+                Macro macro = new Macro();
+                string NewXMLContents = macro.Go(ContentsDoc.DocumentElement, XmlHelper.FormattedXML(SimNode.InnerXml));
 
-                    XmlHelper.SetName(Node, Name);
-                    XmlHelper.SetAttribute(Node, "executable", ModuleDLL);
-                    XmlHelper.SetValue(Node, "executable", ModuleDLL);
-                    string ComponentInterfaceType = XmlHelper.Value(ApsimToSim, "componentinterface");
-                    if (ComponentInterfaceType != "")
-                        XmlHelper.SetValue(Node, "componentinterface", ComponentInterfaceType);
-                    if (ModuleType != "system" && ModuleType != "simulation")
-                        Node = Node.AppendChild(Doc.CreateElement("initdata"));
-
-                    // See if user has an ini component in the .apsim file.
-                    List<string> IniFileNames = new List<string>();
-                    foreach (Component Child in ChildNodes)
-                        if (Child.Type.ToLower() == "ini")
-                            {
-                            XmlDocument IniDoc = new XmlDocument();
-                            IniDoc.LoadXml(Child.Contents);
-                            string IniFileName = XmlHelper.Value(IniDoc.DocumentElement, "filename");
-                            IniFileName.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
-                            IniFileNames.Add(IniFileName);
-                            }
-
-                    // If user didn't specify an ini component then see if types has an ini for us
-                    string defaultIni = XmlHelper.Value(ApsimToSim, "ini");
-                    defaultIni.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
-
-                    if (IniFileNames.Count == 0 && defaultIni != "")
-                        IniFileNames.Add(defaultIni);
-
-                    // If we have an ini filename then write it to the sim.
-                    if (IniFileNames.Count > 0)
-                        XmlHelper.SetValues(Node, "include", IniFileNames);
-                    }
-
-                // write module contents bit.
-                string NewContents = "";
-                if (SimNode != null)
-                    {
-                    XmlDocument ContentsDoc = new XmlDocument();
-                    ContentsDoc.LoadXml(Contents);
-                    Macro macro = new Macro();
-                    NewContents = macro.Go(ContentsDoc.DocumentElement, XmlHelper.FormattedXML(SimNode.InnerXml));
-                    }
-                else if (CallDllNode == null)
-                    {
-                    XmlDocument ContentsDoc = new XmlDocument();
-                    ContentsDoc.LoadXml(Contents);
-                    NewContents = ContentsDoc.DocumentElement.InnerXml;
-                    }
                 if (Contents != "")
-                    {
-                    XmlDocument ContentsDoc = new XmlDocument();
-                    ContentsDoc.LoadXml("<dummy>" + NewContents + "</dummy>");
-                    foreach (XmlNode Child in ContentsDoc.DocumentElement)
-                        Node.AppendChild(Node.OwnerDocument.ImportNode(Child, true));
-                    }
-                    
-                if (CallDllNode != null)
-                    {
-                    List<object> Arguments = new List<object>();
-                    Arguments.Add(this);
-                    Arguments.Add(Node);
-                    Node = (XmlNode) CallDll.CallMethodOfClass(CallDllNode, Arguments);
-                    }
+                   {
+                   XmlDocument  temp = new XmlDocument();
+                   temp.LoadXml("<dummy>" + NewXMLContents + "</dummy>");
+                   foreach (XmlNode Child in temp.DocumentElement)
+                      ParentNode.AppendChild(Node.OwnerDocument.ImportNode(Child, true));
+                   }
+                return;
+                }
+             else if (ModuleType != "")
+                {
+                string ModuleDLL = XmlHelper.Value(ApsimToSim, "dll").Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
+                Node = Doc.CreateElement(ModuleType);
+                if (ParentNode == null)
+                   Doc.AppendChild(Node);
+                else
+                   ParentNode.AppendChild(Node);
 
-                if (Node != null)
-                    {
-                    // Iterate through all children and call their WriteSim methods.
-                    foreach (Component Child in ChildNodes)
-                        Child.WriteSim(Doc, Node, Configuration);
+                XmlHelper.SetName(Node, Name);
+                XmlHelper.SetAttribute(Node, "executable", ModuleDLL);
+                XmlHelper.SetValue(Node, "executable", ModuleDLL);
+                string ComponentInterfaceType = XmlHelper.Value(ApsimToSim, "componentinterface");
+                if (ComponentInterfaceType != "")
+                   XmlHelper.SetValue(Node, "componentinterface", ComponentInterfaceType);
+                if (ModuleType != "system" && ModuleType != "simulation")
+                   Node = Node.AppendChild(Doc.CreateElement("initdata"));
 
-                    if (ModuleType == "system" || ModuleType == "simulation")
-                        {
-                        // Sort the nodes into component order.
-                        XmlHelper.Sort(Node, new ComponentSorter());
-                        }
-                    }
-               }
-           else if (Type == "folder")
-               {
-               // Iterate through all children and call their WriteSim methods.
-               foreach (Component Child in ChildNodes)
-                   Child.WriteSim(Doc, ParentNode, Configuration);
-               XmlHelper.Sort(ParentNode, new ComponentSorter());
-               }
-            }
+                // See if user has an ini component in the .apsim file.
+                List<string> IniFileNames = new List<string>();
+                foreach (Component Child in ChildNodes)
+                   if (Child.Type.ToLower() == "ini")
+                      {
+                      XmlDocument IniDoc = new XmlDocument();
+                      IniDoc.LoadXml(Child.Contents);
+                      string IniFileName = XmlHelper.Value(IniDoc.DocumentElement, "filename");
+                      IniFileName.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
+                      IniFileNames.Add(IniFileName);
+                      }
+
+                // If user didn't specify an ini component then see if types has an ini for us
+                string defaultIni = XmlHelper.Value(ApsimToSim, "ini");
+                defaultIni.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
+
+                if (IniFileNames.Count == 0 && defaultIni != "")
+                   IniFileNames.Add(defaultIni);
+
+                // If we have an ini filename then write it to the sim.
+                if (IniFileNames.Count > 0)
+                   XmlHelper.SetValues(Node, "include", IniFileNames);
+                }
+
+             // write module contents bit.
+             string NewContents = "";
+             if (SimNode != null)
+                {
+                XmlDocument ContentsDoc = new XmlDocument();
+                ContentsDoc.LoadXml(Contents);
+                Macro macro = new Macro();
+                NewContents = macro.Go(ContentsDoc.DocumentElement, XmlHelper.FormattedXML(SimNode.InnerXml));
+                }
+             else if (CallDllNode == null)
+                {
+                XmlDocument ContentsDoc = new XmlDocument();
+                ContentsDoc.LoadXml(Contents);
+                NewContents = ContentsDoc.DocumentElement.InnerXml;
+                }
+             if (Contents != "")
+                {
+                XmlDocument ContentsDoc = new XmlDocument();
+                ContentsDoc.LoadXml("<dummy>" + NewContents + "</dummy>");
+                foreach (XmlNode Child in ContentsDoc.DocumentElement)
+                   Node.AppendChild(Node.OwnerDocument.ImportNode(Child, true));
+                }
+
+             if (CallDllNode != null)
+                {
+                List<object> Arguments = new List<object>();
+                Arguments.Add(this);
+                Arguments.Add(Node);
+                Node = (XmlNode)CallDll.CallMethodOfClass(CallDllNode, Arguments);
+                }
+
+             if (Node != null)
+                {
+                // Iterate through all children and call their WriteSim methods.
+                foreach (Component Child in ChildNodes)
+                   Child.WriteSim(Doc, Node, Configuration);
+
+                if (ModuleType == "system" || ModuleType == "simulation")
+                   {
+                   // Sort the nodes into component order.
+                   XmlHelper.Sort(Node, new ComponentSorter());
+                   }
+                }
+             }
+          else if (Type == "folder")
+             {
+             // Iterate through all children and call their WriteSim methods.
+             foreach (Component Child in ChildNodes)
+                Child.WriteSim(Doc, ParentNode, Configuration);
+             XmlHelper.Sort(ParentNode, new ComponentSorter());
+             }
+          }
 
         private class ComponentSorter : IComparer
             {
