@@ -8055,7 +8055,7 @@ if (date_within('[date1], [date2]') = 1) then
       <manager name="Buy sheep on feed-on-offer">
         <ui>
           <category description="Buy properties" />
-          <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+          <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
           <genotype type="list" listvalues="black face x white face,border leicester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US co" description="Select Genotype : ">suffolk</genotype>
           <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
           <buy_feed_on_offer type="text" description="Feed on offer (kg/ha) : ">200</buy_feed_on_offer>
@@ -8073,7 +8073,7 @@ if (date_within('[date1], [date2]') = 1) then
         <script name="start_of_day">
           <text><![CDATA[
         if ([herbage_module].biomass >= [buy_feed_on_offer] AND sheep_presence = 'off') then
-           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+           [stockmodule]scienceconverter buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
            sheep_presence = 'on'
          endif
                ]]></text>
@@ -8083,7 +8083,7 @@ if (date_within('[date1], [date2]') = 1) then
       <manager name="Sell sheep on weight">
         <ui>
           <category description="Sell properties" />
-          <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+          <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
           <sell_on_weight_gain type="text" description="Weight (gaining) : ">50</sell_on_weight_gain>
           <sell_on_weight_loss type="text" description="Weight (losing) : ">40</sell_on_weight_loss>
           <sell_number type="text" description="Number of stock : ">15</sell_number>
@@ -8091,7 +8091,7 @@ if (date_within('[date1], [date2]') = 1) then
         <script name="start_of_day">
           <text><![CDATA[
         if ((stock.weight >= [sell_on_weight_gain] OR stock.weight <= [sell_on_weight_loss]) AND sheep_presence = 'on') then
-           [stockmodule] sellstock number = [sell_number] (-)
+           [stockmodule]scienceconverter sellstock number = [sell_number] (-)
            sheep_presence = 'off'
         endif
                ]]></text>
@@ -8101,7 +8101,7 @@ if (date_within('[date1], [date2]') = 1) then
       <manager name="Buy supplement on a fixed date">
         <ui>
           <category description="Buy properties" />
-          <supplementmodule type="modulename" description="Name of supplement converter module : ">supplement</supplementmodule>
+          <supplementmodule type="modulename" description="Name of supplement module : ">supplement</supplementmodule>
           <buy_date type="text" description="Date (dd-mmm) : ">1-jan</buy_date>
           <buy_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','lin" description="Name of the supplement to purchase : ">'lupins'</buy_name>
           <buy_amount type="text" description="Fresh weight of supplement to purchase (kg) : ">1000</buy_amount>
@@ -8118,7 +8118,7 @@ if (date_within('[date1], [date2]') = 1) then
       <manager name="Feed supplement on animal condition loss">
         <ui>
           <category description="Feed properties" />
-          <supplementmodule type="modulename" description="Name of supplement converter module : ">supplement</supplementmodule>
+          <supplementmodule type="modulename" description="Name of supplement module : ">supplement</supplementmodule>
           <days type="text" description="Number of days to sum condition change : ">5</days>
           <crit_condition_change type="text" description="Critical condition change needed to start feeding (kg/head) : ">0</crit_condition_change>
           <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1</max_feed_rate>
@@ -8134,6 +8134,7 @@ if (date_within('[date1], [date2]') = 1) then
          feed_rate_factor = 0.2
          est_lag_days = 10.0 / feed_rate_factor
          initial_feed_rate = 0.0
+        yest_cond_score_all = 0.0
             </text>
           <event>init</event>
         </script>
@@ -8190,8 +8191,7 @@ if (date_within('[date1], [date2]') = 1) then
       <fraction_faeces_added type="text" description="fraction_faeces_added">0.5</fraction_faeces_added>
       <fraction_urine_added type="text" description="fraction_urine_added">0.5</fraction_urine_added>
       <herbage1 type="text" description="First plant herbage source">lucerne</herbage1>
-      <herbage2 type="text" description="Second plant herbage source">
-      </herbage2>
+      <herbage2 type="text" description="Second plant herbage source" />
       <sheep>
         <genotypename type="text" description="genotypename">medium merino</genotypename>
         <number type="text" description="number">0</number>
@@ -8201,16 +8201,14 @@ if (date_within('[date1], [date2]') = 1) then
         <max_prev_wt type="text" description="max_prev_wt">50</max_prev_wt>
         <fleece_wt type="text" description="fleece_wt">6</fleece_wt>
         <fibre_diam type="text" description="fibre_diam">20</fibre_diam>
-        <mated_to type="text" description="mated_to">
-        </mated_to>
+        <mated_to type="text" description="mated_to" />
         <pregnant type="text" description="pregnant">0</pregnant>
         <lactating type="text" description="lactating">0</lactating>
         <no_young type="text" description="no_young">0</no_young>
         <birth_cs type="text" description="birth_cs">0</birth_cs>
         <lamb_wt type="text" description="lamb_wt">0</lamb_wt>
         <lamb_fleece_wt type="text" description="lamb_fleece_wt">0</lamb_fleece_wt>
-        <paddock type="text" description="paddock">
-        </paddock>
+        <paddock type="text" description="paddock" />
         <tag type="text" description="tag">0</tag>
         <priority type="text" description="priority">0</priority>
       </sheep>
@@ -8251,7 +8249,7 @@ if (date_within('[date1], [date2]') = 1) then
     <accum>
       <variable name="variable">dlt_cond_score[20]</variable>
     </accum>
-    <soil name="SampleBlackEarth">
+    <soil name="Soil">
       <region>South East Queensland</region>
       <site>Generic</site>
       <SoilType>Black Vertosol</SoilType>
@@ -9195,7 +9193,7 @@ if (date_within('[date1], [date2]') = 1) then
       </InitNitrogen>
     </soil>
   </simulation>
-    <simulation name="Bambatsi Pasture">
+  <simulation name="Bambatsi Pasture">
     <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>

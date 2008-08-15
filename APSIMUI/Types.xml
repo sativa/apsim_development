@@ -3761,8 +3761,8 @@
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Component description">../apsim/supplement/docs/supplement Component Description.htm</Documentation>
       <Documentation name="Component drivers">../apsim/supplement/docs/supplement Component Drivers.htm</Documentation>
-      <LargeIcon>%apsuite\apsimui\Images\supplement32.bmp</LargeIcon>
-      <SmallIcon>%apsuite\apsimui\Images\supplement16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\herbage_green32.gif</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\herbage_green16.gif</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3802,7 +3802,8 @@
       <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <SmallIcon>%apsuite\apsimui\Images\supplement16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\herbage_green32.gif</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\herbage_green16.gif</SmallIcon>
       <drops>
          <drop name="supplement"/>
      </drops>
