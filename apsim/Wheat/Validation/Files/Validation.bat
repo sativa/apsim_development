@@ -21,7 +21,7 @@ rem \development\bin\apsimreport.exe cunderdin.report ..\cunderdin\cunderdin.gif
 mkdir ..\mer-73
 \development\bin\apsimreport.exe merredin73.report ..\mer-73\merredin73.gif
 
-cd ..\yieldprophet
+cd ..
 yieldprophet.bat
 
 popd
