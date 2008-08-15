@@ -8191,60 +8191,11 @@ if (date_within('[date1], [date2]') = 1) then
       <fraction_faeces_added type="text" description="fraction_faeces_added">0.5</fraction_faeces_added>
       <fraction_urine_added type="text" description="fraction_urine_added">0.5</fraction_urine_added>
       <herbage1 type="text" description="First plant herbage source">lucerne</herbage1>
-      <herbage2 type="text" description="Second plant herbage source" />
-      <sheep>
-        <genotypename type="text" description="genotypename">medium merino</genotypename>
-        <number type="text" description="number">0</number>
-        <sex type="list" listvalues="ewe,wether,ram,crypto" description="sex">wether</sex>
-        <age type="text" description="age">730</age>
-        <weight type="text" description="weight">50</weight>
-        <max_prev_wt type="text" description="max_prev_wt">50</max_prev_wt>
-        <fleece_wt type="text" description="fleece_wt">6</fleece_wt>
-        <fibre_diam type="text" description="fibre_diam">20</fibre_diam>
-        <mated_to type="text" description="mated_to" />
-        <pregnant type="text" description="pregnant">0</pregnant>
-        <lactating type="text" description="lactating">0</lactating>
-        <no_young type="text" description="no_young">0</no_young>
-        <birth_cs type="text" description="birth_cs">0</birth_cs>
-        <lamb_wt type="text" description="lamb_wt">0</lamb_wt>
-        <lamb_fleece_wt type="text" description="lamb_fleece_wt">0</lamb_fleece_wt>
-        <paddock type="text" description="paddock" />
-        <tag type="text" description="tag">0</tag>
-        <priority type="text" description="priority">0</priority>
-      </sheep>
-      <stockgenotype name="Medium Merino Genotype">
-        <genotypename type="text" description="genotypename">medium merino</genotypename>
-        <dam_breed type="text" description="dam_breed">medium merino</dam_breed>
-        <sire_breed type="text" description="sire_breed">medium merino</sire_breed>
-        <generation type="text" description="generation">0</generation>
-        <srw type="text" description="srw">50</srw>
-        <conception1 type="text" description="conception1">0.8</conception1>
-        <conception2 type="text" description="conception2">0.15</conception2>
-        <death_rate type="text" description="death_rate">0.02</death_rate>
-        <ref_fleece_wt type="text" description="ref_fleece_wt">4.5</ref_fleece_wt>
-        <max_fibre_diam type="text" description="max_fibre_diam">19</max_fibre_diam>
-        <fleece_yield type="text" description="fleece_yield">0.7</fleece_yield>
-        <peak_milk type="text" description="peak_milk">25</peak_milk>
-      </stockgenotype>
+      <herbage2 type="text" description="Second plant herbage source">
+      </herbage2>
     </stock>
     <supplement>
       <spoilage_time type="text" description="spoilage_time">0</spoilage_time>
-      <supplementstore name="Wheat Store">
-        <name type="text" description="name">barley</name>
-        <stored type="text" description="stored">10000000</stored>
-        <roughage type="text" description="roughage">False</roughage>
-        <dm_content type="text" description="dm_content">0.89</dm_content>
-        <dmd type="text" description="dmd">0.9</dmd>
-        <me_content type="text" description="me_content">13.8</me_content>
-        <cp_conc type="text" description="cp_conc">0.14</cp_conc>
-        <prot_dg type="text" description="prot_dg">0.92</prot_dg>
-        <p_conc type="text" description="p_conc">0.0038</p_conc>
-        <s_conc type="text" description="s_conc">0.0014</s_conc>
-        <ee_conc type="text" description="ee_conc">0.02</ee_conc>
-        <adip2cp type="text" description="adip2cp">0.02</adip2cp>
-        <ash_alk type="text" description="ash_alk">0.18</ash_alk>
-        <max_passage type="text" description="max_passage">0</max_passage>
-      </supplementstore>
     </supplement>
     <accum>
       <variable name="variable">dlt_cond_score[20]</variable>
