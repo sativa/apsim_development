@@ -691,15 +691,17 @@ Public Class MainUI
         ' Hide the toolbox window.
         ' ---------------------------------------------------------------
 
-        ' Turn off the checked status of all toolbox buttons.
+        'This is what closes the toolbox when you hit the close button. It does not actually close anything it just makes the Toolbox ExplorerUI invisible
+
+        ' Turn off the checked status of all toolbox buttons.           'a particular toolbox button is checked on the toolbox strip when it is open in ToolboxExplorer 
         For i As Integer = 2 To ToolBoxesToolStrip.Items.Count - 1
             Dim Button As ToolStripButton = ToolBoxesToolStrip.Items(i)
             Button.Checked = False
         Next
 
-        Toolbox.ApsimData.Save()
+        Toolbox.ApsimData.Save()                                'Save any changes made to the Toolbox.
 
-        ToolBoxPanel.Visible = False
+        ToolBoxPanel.Visible = False                            'This is what makes the toolbox disappear. There is no actual close.
         ToolboxSplitter.Visible = ToolBoxPanel.Visible
     End Sub
     Private Sub ToolBoxSplitter_LocationChanged(ByVal sender As Object, ByVal e As SplitterEventArgs) Handles ToolboxSplitter.SplitterMoved

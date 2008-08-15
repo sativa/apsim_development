@@ -160,6 +160,9 @@ Public Class DataTree
             Else
 
                 Dim NodeToRefresh As TreeNode = GetNodeFromPath(Comp.FullPath)                  'get the corresponding node for the component this sub was passed
+                If IsNothing(NodeToRefresh) Then                                                'if you have switched from one toolbox to another toolbox, then even though the components exist to do the refresh, the corresponding nodes do not yet exist because this OnRefresh is supposed to provide them. So GetNodeFromPath will return Nothing.
+                    NodeToRefresh = Nodes(0)                                                        'so make the node to refresh the root node, instead of the node corresponding to the component that OnRefresh was passed.
+                End If
                 RefreshNodeAndChildren(NodeToRefresh, Comp)                                     'refresh the tree from this node down.
 
             End If
@@ -670,7 +673,7 @@ Public Class DataTree
 
                 Exit Sub
 
-                'if they clicked on something different to what was already selected.
+                'if they clicked on something different to what was already selected -> change the selection
 
             Else
 
