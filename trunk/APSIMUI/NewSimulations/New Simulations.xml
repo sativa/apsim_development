@@ -5,8 +5,8 @@
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1989</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text">1/01/1940</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text">31/12/1989</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Blank Simulation.sum</filename>
@@ -21,8 +21,8 @@
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1989</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text">1/01/1940</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text">31/12/1989</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Continuous Wheat Simulation.sum</filename>
@@ -644,8 +644,8 @@
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1989</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text">1/01/1940</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text">31/12/1989</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Continuous Wheat Simulation with Climate Change.sum</filename>
@@ -1293,8 +1293,8 @@ if (date_within('[date1], [date2]') = 1) then
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1989</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text">1/01/1940</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text">31/12/1989</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Continuous Sorghum Simulation.sum</filename>
@@ -1910,8 +1910,8 @@ if (date_within('[date1], [date2]') = 1) then
   </simulation>
   <simulation name="Continuous Maize Simulation">
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/06/1995</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">1/05/2000</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text">1/06/1995</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text">1/05/2000</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Continuous Maize Simulation.sum</filename>
@@ -2737,8 +2737,8 @@ if (date_within('[date1], [date2]') = 1) then
   </simulation>
   <simulation name="Continuous Maize and Weeds Simulation">
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="2/11/1961" ubound="31/01/2001">1/06/1995</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="2/11/1961" ubound="31/01/2001">1/05/2000</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text" lbound="2/11/1961" ubound="31/01/2001">1/06/1995</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text" lbound="2/11/1961" ubound="31/01/2001">1/05/2000</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Continuous Maize and Weeds Simulation.sum</filename>
@@ -3837,8 +3837,8 @@ if (date_within('[date1], [date2]') = 1) then
   </simulation>
   <simulation name="Continuous Maize Bimodal Simulation">
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/06/1995</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">1/05/2000</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text">1/06/1995</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text">1/05/2000</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Continuous Maize Bimodal Simulation.sum</filename>
@@ -4867,8 +4867,8 @@ if (date_within('[date1], [date2]') = 1) then
   </simulation>
   <simulation name="Maize Legume and Weeds Rotation Simulation">
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="2/11/1961" ubound="31/01/2001">1/05/1991</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="2/11/1961" ubound="31/01/2001">1/05/2000</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text" lbound="2/11/1961" ubound="31/01/2001">1/05/1991</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text" lbound="2/11/1961" ubound="31/01/2001">1/05/2000</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Rotation Maize_Legume and Weeds Simulation.sum</filename>
@@ -6501,8 +6501,8 @@ if (date_within('[date1], [date2]') = 1) then
   </simulation>
   <simulation name="Eucalypt Forest Simulation">
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1987</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1997</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text">1/01/1987</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text">31/12/1997</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Eucalypt Forest Simulation.sum</filename>
@@ -6909,8 +6909,8 @@ if (date_within('[date1], [date2]') = 1) then
   </simulation>
   <simulation name="Effluent-irrigated Eucalypt Forest Simulation">
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1987</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1997</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text">1/01/1987</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text">31/12/1997</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Eucalypt Forest Simulation.sum</filename>
@@ -7321,8 +7321,8 @@ if (date_within('[date1], [date2]') = 1) then
   </simulation>
   <simulation name="Sugar Simulation">
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1944</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1993</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text">1/01/1944</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text">31/12/1993</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Sugar Simulation.sum</filename>
@@ -9149,8 +9149,8 @@ if (date_within('[date1], [date2]') = 1) then
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">1/01/1970</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">31/12/1974</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text" lbound="1/01/1940" ubound="31/12/1989">1/01/1970</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text" lbound="1/01/1940" ubound="31/12/1989">31/12/1974</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Continuous Wheat Simulation.sum</filename>
@@ -9784,8 +9784,8 @@ if (date_within('[date1], [date2]') = 1) then
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1950</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text">1/01/1940</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text">31/12/1950</end_date>
     </clock>
     <summaryfile>
       <filename name="filename">Rotation Sample.sum</filename>
@@ -10384,8 +10384,8 @@ if (date_within('[date1], [date2]') = 1) then
   </simulation>
   <simulation name="Rotation Sample (Directed Graph)">
     <clock>
-      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">1/01/1940</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">31/12/1950</end_date>
+      <start_date name="start_date" description="Enter the start date of the simulation (dd/mm/yyyy)" type="text" lbound="1/01/1940" ubound="31/12/1989">1/01/1940</start_date>
+      <end_date name="end_date" description="Enter the end date of the simulation (dd/mm/yyyy)" type="text" lbound="1/01/1940" ubound="31/12/1989">31/12/1950</end_date>
     </clock>
     <summaryfile />
     <metfile name="met">
