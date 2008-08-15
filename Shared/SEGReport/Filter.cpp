@@ -32,13 +32,7 @@ void processFilter(DataContainer& parent,
             seriesNumber = 1;
             result.FieldDefs->Clear();
             result.FieldDefs->Assign(source->FieldDefs);
-            if (source->FieldList->Find("series") == NULL)
-               {
-               TFieldDef *series = result.FieldDefs->AddFieldDef();
-               series->Name = "series";
-               series->DataType = ftInteger;
-               addDBField(&result, "title", "abc");
-               }
+            copySeriesFieldDefs(source, result);
             addDBField(&result, "filter", "abc");
             if (result.FieldDefs->Count > 0)
                result.Active = true;
@@ -60,18 +54,17 @@ void processFilter(DataContainer& parent,
                source->First();
                String SeriesTitle;
                if (source->FieldList->Find("title") != NULL)
-                  {
-                  SeriesTitle = source->FieldValues["title"];
-                  SeriesTitle += " ";
-                  }
-               SeriesTitle += String("-") + filters[0].c_str();
+                  SeriesTitle = String(source->FieldValues["title"]) + String("-") + filters[0].c_str();
 
                while (!source->Eof)
                   {
                   copyDBRecord(source, &result);
                   result.Edit();
-                  result.FieldValues["series"] = seriesNumber;
-                  result.FieldValues["title"] = SeriesTitle;
+                  if (source->FieldList->Find("series") != NULL)
+                     {
+                     result.FieldValues["series"] = seriesNumber;
+                     result.FieldValues["title"] = SeriesTitle;
+                     }
                   result.FieldValues["filter"] = filters[i].c_str();
                   result.Post();
                   source->Next();
