@@ -3,22 +3,18 @@
 
 <xsl:template match="/">
    <html>
-   <link rel="stylesheet" href="shared/apsim-web-style.css" type="text/css"/>
-   <h2>APSIM Documentation</h2>
+   <link rel="stylesheet" href="shared/apsimwebstyle.css" type="text/css"/>
    <body>
-   <table>
+   <h1>APSIM Documentation</h1>
    <xsl:apply-templates/>
-   </table>
    </body>
    </html>
 </xsl:template>
 
 <xsl:template match="Documentation">
-   <tr>
-   <td>
+   <p>
    <a href="{.}"><xsl:value-of select="@name"/></a>
-   </td>
-   </tr>
+   </p>
 
 </xsl:template>
 
