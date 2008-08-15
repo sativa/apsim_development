@@ -402,10 +402,13 @@ if (date_within('[date1], [date2]') = 1) then
       <c_interception name="c_interception">0.0</c_interception>
       <d_interception name="d_interception">0.0</d_interception>
     </micromet>
-    <Ocean_data name="Ocean_data">
+    <soi>
+      <filename>%apsuite\soi\phases.soi</filename>
+    </soi>
+    <ocean_data name="Ocean data">
       <filename name="filename">%apsuite\soi\ocean_data.dat</filename>
-    </Ocean_data>
-    <gcm_data name="gcm_data">
+    </ocean_data>
+    <gcm_data name="GCM data">
       <filename name="filename">%apsuite\soi\gcm_data.dat</filename>
     </gcm_data>
   </folder>
@@ -3505,9 +3508,6 @@ dev.off()
       <filename name="filename">log.txt</filename>
     </log>
     <sysbal name="sysbal" />
-    <soi>
-      <filename>%apsuite\soi\phases.soi</filename>
-    </soi>
     <tracker />
     <manager name="CanolaOilConc">
       <script>
