@@ -2050,7 +2050,7 @@ cnh note that results may be strange if swdep < ll15
       integer numvals
       integer num_irrigs
       character names(max_solutes)*32
-      character sender*(max_module_name_size)
+      character sender * (module_name_size)
       character default_name*200
       character dummy*200
       integer counter1
