@@ -105,6 +105,7 @@ namespace ApsimRun
       /// <param name="files">The files or directories to run</param>
       public void Add(string[] files)
          {
+         bool autoclose = false;
          try
             {
             if (RunButton.Text == "Run")
@@ -117,7 +118,7 @@ namespace ApsimRun
                if (FileName == "/auto")
                   JustDoIt = true;
                else if (FileName == "/autoclose")
-                  AutoClose = true;
+                  autoclose = true;
                else if (FileName[0] == '@')
                   AddFromGUI(FileName);
                else if (Directory.Exists(FileName))
@@ -138,6 +139,7 @@ namespace ApsimRun
                else
                   AddFile(FileName, JustDoIt);
                }
+            AutoClose = autoclose;
             }
          catch (Exception ex)
             {
