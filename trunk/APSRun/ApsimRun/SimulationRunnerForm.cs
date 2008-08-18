@@ -19,6 +19,7 @@ namespace ApsimRun
       private bool FirstPaint = true;
       private bool AutoClose = false;
       private bool FromGUI = false;
+      private bool InDirectoryScan = false;
 
       /// <summary>
       /// Constructor
@@ -105,7 +106,6 @@ namespace ApsimRun
       /// <param name="files">The files or directories to run</param>
       public void Add(string[] files)
          {
-         bool autoclose = false;
          try
             {
             if (RunButton.Text == "Run")
@@ -118,13 +118,15 @@ namespace ApsimRun
                if (FileName == "/auto")
                   JustDoIt = true;
                else if (FileName == "/autoclose")
-                  autoclose = true;
+                  AutoClose = true;
                else if (FileName[0] == '@')
                   AddFromGUI(FileName);
                else if (Directory.Exists(FileName))
                   {
                   Cursor.Current = Cursors.WaitCursor;
+                  InDirectoryScan = true;
                   AddDirectory(FileName);
+                  InDirectoryScan = false;
                   Cursor.Current = Cursors.Default;
                   }
                else if (Path.GetExtension(FileName).ToLower() == ".txt")
@@ -139,7 +141,6 @@ namespace ApsimRun
                else
                   AddFile(FileName, JustDoIt);
                }
-            AutoClose = autoclose;
             }
          catch (Exception ex)
             {
@@ -213,7 +214,7 @@ namespace ApsimRun
             if (Simulation.HasWarnings)
                NumberWithWarnings.Text = Increment(NumberWithWarnings.Text);
             }
-         if (OverallPercent >= 100 && RunButton.Text == "Stop")
+         if (OverallPercent >= 100 && RunButton.Text == "Stop" && !InDirectoryScan)
             {
             string WavFileName = Config.Setting("ApsimFinishedWAVFileName");
             if (File.Exists(WavFileName))
