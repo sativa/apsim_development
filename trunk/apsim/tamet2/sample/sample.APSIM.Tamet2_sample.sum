@@ -20,8 +20,13 @@ Component     "tamet2" = c:\development\apsim\tamet2\lib\tamet2.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date =  1/01/1988
      Simulation end date   = 30/04/1990
      Time step =           = 1440 (mins)

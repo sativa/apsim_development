@@ -18,15 +18,19 @@ Component     "report" = c:\development\apsim\report\lib\report.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component "FarmwiseSequencer" = c:\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
 Component "pastureconverter" = c:\development\apsim\pasture\lib\PastureScienceConverter.dll
 Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date = 30/04/2002
      Simulation end date   = 15/12/2002
      Time step =           = 1440 (mins)
@@ -221,16 +225,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
           ---------------------------------------------------------
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
-
-------- FarmwiseSequencer Initialisation --------------------------------------
-      - reading constants
-     Subscribe Event: prepare
-           Publish Event/s: init_step do_pasture_water
-     Subscribe Event: process
-           Publish Event/s: do_pasture_growth do_stock
-     Subscribe Event: post
-           Publish Event/s: end_step
-     
 
 ------- pastureconverter Initialisation ---------------------------------------
       - reading parameters
@@ -613,25 +607,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.934269 (kg/ha)
-        layer 2 = 0 (kg/ha)
+        layer 1 = 1.22279 (kg/ha)
+        layer 2 = 0.0271544 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.934269 (kg/ha)
+        uptake_no3 total = 1.24994 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00283476 (kg/ha)
-        layer 2 = 0 (kg/ha)
+        layer 1 = 0.00371018 (kg/ha)
+        layer 2 = 3.55347e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00283476 (kg/ha)
+        uptake_nh4 total = 0.00374572 (kg/ha)
      
 11 May 2002(Day of year=131), pastureconverter: 
      
@@ -647,25 +641,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.454805 (kg/ha)
-        layer 2 = 0.0408858 (kg/ha)
+        layer 1 = 0.454733 (kg/ha)
+        layer 2 = 0.0409576 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.495691 (kg/ha)
+        uptake_no3 total = 0.49569 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00132476 (kg/ha)
-        layer 2 = 5.07648e-05 (kg/ha)
+        layer 1 = 0.0013251 (kg/ha)
+        layer 2 = 5.08549e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00137553 (kg/ha)
+        uptake_nh4 total = 0.00137596 (kg/ha)
      
 12 May 2002(Day of year=132), pastureconverter: 
      
@@ -681,25 +675,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.40833 (kg/ha)
-        layer 2 = 0.0355285 (kg/ha)
+        layer 1 = 0.408267 (kg/ha)
+        layer 2 = 0.035591 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.443859 (kg/ha)
+        uptake_no3 total = 0.443858 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00113885 (kg/ha)
-        layer 2 = 4.19114e-05 (kg/ha)
+        layer 1 = 0.00113949 (kg/ha)
+        layer 2 = 4.19868e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00118076 (kg/ha)
+        uptake_nh4 total = 0.00118148 (kg/ha)
      
 13 May 2002(Day of year=133), pastureconverter: 
      
@@ -715,25 +709,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.382117 (kg/ha)
-        layer 2 = 0.0321445 (kg/ha)
+        layer 1 = 0.38206 (kg/ha)
+        layer 2 = 0.0322012 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.414262 (kg/ha)
+        uptake_no3 total = 0.414261 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00103423 (kg/ha)
-        layer 2 = 3.67374e-05 (kg/ha)
+        layer 1 = 0.00103503 (kg/ha)
+        layer 2 = 3.68041e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00107097 (kg/ha)
+        uptake_nh4 total = 0.00107184 (kg/ha)
      
 14 May 2002(Day of year=134), pastureconverter: 
      
@@ -749,25 +743,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.363321 (kg/ha)
-        layer 2 = 0.0296747 (kg/ha)
+        layer 1 = 0.363267 (kg/ha)
+        layer 2 = 0.0297271 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.392995 (kg/ha)
+        uptake_no3 total = 0.392994 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000952195 (kg/ha)
-        layer 2 = 3.30591e-05 (kg/ha)
+        layer 1 = 0.00095309 (kg/ha)
+        layer 2 = 3.31196e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000985254 (kg/ha)
+        uptake_nh4 total = 0.00098621 (kg/ha)
      
 15 May 2002(Day of year=135), pastureconverter: 
      
@@ -783,25 +777,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.40791 (kg/ha)
-        layer 2 = 0.0323834 (kg/ha)
+        layer 1 = 0.407852 (kg/ha)
+        layer 2 = 0.0324407 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.440294 (kg/ha)
+        uptake_no3 total = 0.440292 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00102686 (kg/ha)
-        layer 2 = 3.51733e-05 (kg/ha)
+        layer 1 = 0.00102797 (kg/ha)
+        layer 2 = 3.52382e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00106203 (kg/ha)
+        uptake_nh4 total = 0.00106321 (kg/ha)
      
 16 May 2002(Day of year=136), pastureconverter: 
      
@@ -817,25 +811,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.38172 (kg/ha)
-        layer 2 = 0.029339 (kg/ha)
+        layer 1 = 0.381667 (kg/ha)
+        layer 2 = 0.029391 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.411059 (kg/ha)
+        uptake_no3 total = 0.411058 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000924463 (kg/ha)
-        layer 2 = 3.13023e-05 (kg/ha)
+        layer 1 = 0.000925556 (kg/ha)
+        layer 2 = 3.13604e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000955766 (kg/ha)
+        uptake_nh4 total = 0.000956916 (kg/ha)
      
 17 May 2002(Day of year=137), pastureconverter: 
      
@@ -851,25 +845,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.374704 (kg/ha)
-        layer 2 = 0.0279702 (kg/ha)
+        layer 1 = 0.374653 (kg/ha)
+        layer 2 = 0.0280198 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.402674 (kg/ha)
+        uptake_no3 total = 0.402673 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000874758 (kg/ha)
-        layer 2 = 2.94789e-05 (kg/ha)
+        layer 1 = 0.000875859 (kg/ha)
+        layer 2 = 2.95338e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000904237 (kg/ha)
+        uptake_nh4 total = 0.000905392 (kg/ha)
      
 18 May 2002(Day of year=138), pastureconverter: 
      
@@ -885,25 +879,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.399328 (kg/ha)
-        layer 2 = 0.0290066 (kg/ha)
+        layer 1 = 0.399275 (kg/ha)
+        layer 2 = 0.0290581 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.428334 (kg/ha)
+        uptake_no3 total = 0.428333 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000898012 (kg/ha)
-        layer 2 = 3.02598e-05 (kg/ha)
+        layer 1 = 0.000899196 (kg/ha)
+        layer 2 = 3.03164e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000928271 (kg/ha)
+        uptake_nh4 total = 0.000929512 (kg/ha)
      
 19 May 2002(Day of year=139), pastureconverter: 
      
@@ -919,25 +913,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.382456 (kg/ha)
-        layer 2 = 0.0351791 (kg/ha)
+        layer 1 = 0.382399 (kg/ha)
+        layer 2 = 0.0352345 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.417635 (kg/ha)
+        uptake_no3 total = 0.417633 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00116551 (kg/ha)
-        layer 2 = 3.63972e-05 (kg/ha)
+        layer 1 = 0.00116718 (kg/ha)
+        layer 2 = 3.64651e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00120191 (kg/ha)
+        uptake_nh4 total = 0.00120365 (kg/ha)
      
 20 May 2002(Day of year=140), pastureconverter: 
      
@@ -953,25 +947,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.334549 (kg/ha)
-        layer 2 = 0.0549236 (kg/ha)
+        layer 1 = 0.33447 (kg/ha)
+        layer 2 = 0.0550002 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.389472 (kg/ha)
+        uptake_no3 total = 0.389471 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00125839 (kg/ha)
-        layer 2 = 5.95591e-05 (kg/ha)
+        layer 1 = 0.00126019 (kg/ha)
+        layer 2 = 5.96657e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00131795 (kg/ha)
+        uptake_nh4 total = 0.00131985 (kg/ha)
      
 21 May 2002(Day of year=141), pastureconverter: 
      
@@ -987,25 +981,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.338309 (kg/ha)
-        layer 2 = 0.0677481 (kg/ha)
+        layer 1 = 0.338215 (kg/ha)
+        layer 2 = 0.0678391 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.406057 (kg/ha)
+        uptake_no3 total = 0.406055 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00139791 (kg/ha)
-        layer 2 = 7.93184e-05 (kg/ha)
+        layer 1 = 0.00139994 (kg/ha)
+        layer 2 = 7.94578e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00147723 (kg/ha)
+        uptake_nh4 total = 0.00147939 (kg/ha)
      
 22 May 2002(Day of year=142), pastureconverter: 
      
@@ -1021,25 +1015,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.323136 (kg/ha)
-        layer 2 = 0.060323 (kg/ha)
+        layer 1 = 0.323052 (kg/ha)
+        layer 2 = 0.0604049 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.383459 (kg/ha)
+        uptake_no3 total = 0.383457 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00143127 (kg/ha)
-        layer 2 = 7.56336e-05 (kg/ha)
+        layer 1 = 0.00143343 (kg/ha)
+        layer 2 = 7.57683e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.0015069 (kg/ha)
+        uptake_nh4 total = 0.0015092 (kg/ha)
      
 23 May 2002(Day of year=143), pastureconverter: 
      
@@ -1055,25 +1049,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.337028 (kg/ha)
-        layer 2 = 0.0580574 (kg/ha)
+        layer 1 = 0.336945 (kg/ha)
+        layer 2 = 0.0581371 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.395085 (kg/ha)
+        uptake_no3 total = 0.395082 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00158613 (kg/ha)
-        layer 2 = 7.71992e-05 (kg/ha)
+        layer 1 = 0.00158861 (kg/ha)
+        layer 2 = 7.73384e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00166333 (kg/ha)
+        uptake_nh4 total = 0.00166595 (kg/ha)
      
 24 May 2002(Day of year=144), pastureconverter: 
      
@@ -1089,25 +1083,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.3346 (kg/ha)
-        layer 2 = 0.0531582 (kg/ha)
+        layer 1 = 0.334523 (kg/ha)
+        layer 2 = 0.0532319 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.387758 (kg/ha)
+        uptake_no3 total = 0.387755 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00165049 (kg/ha)
-        layer 2 = 7.47298e-05 (kg/ha)
+        layer 1 = 0.00165315 (kg/ha)
+        layer 2 = 7.48656e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00172522 (kg/ha)
+        uptake_nh4 total = 0.00172802 (kg/ha)
      
 25 May 2002(Day of year=145), pastureconverter: 
      
@@ -1123,25 +1117,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.324066 (kg/ha)
-        layer 2 = 0.0468662 (kg/ha)
+        layer 1 = 0.323998 (kg/ha)
+        layer 2 = 0.0469314 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.370932 (kg/ha)
+        uptake_no3 total = 0.37093 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00165234 (kg/ha)
-        layer 2 = 6.93179e-05 (kg/ha)
+        layer 1 = 0.00165505 (kg/ha)
+        layer 2 = 6.94444e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00172166 (kg/ha)
+        uptake_nh4 total = 0.0017245 (kg/ha)
      
 26 May 2002(Day of year=146), pastureconverter: 
      
@@ -1157,25 +1151,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.330804 (kg/ha)
-        layer 2 = 0.0440707 (kg/ha)
+        layer 1 = 0.33074 (kg/ha)
+        layer 2 = 0.0441322 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.374875 (kg/ha)
+        uptake_no3 total = 0.374872 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.0017405 (kg/ha)
-        layer 2 = 6.80054e-05 (kg/ha)
+        layer 1 = 0.0017434 (kg/ha)
+        layer 2 = 6.81299e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.0018085 (kg/ha)
+        uptake_nh4 total = 0.00181153 (kg/ha)
      
 27 May 2002(Day of year=147), pastureconverter: 
      
@@ -1191,25 +1185,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.340952 (kg/ha)
-        layer 2 = 0.0424809 (kg/ha)
+        layer 1 = 0.340889 (kg/ha)
+        layer 2 = 0.0425403 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.383433 (kg/ha)
+        uptake_no3 total = 0.383429 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.0018446 (kg/ha)
-        layer 2 = 6.79419e-05 (kg/ha)
+        layer 1 = 0.00184772 (kg/ha)
+        layer 2 = 6.80666e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00191254 (kg/ha)
+        uptake_nh4 total = 0.00191579 (kg/ha)
      
 28 May 2002(Day of year=148), pastureconverter: 
      
@@ -1225,25 +1219,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.324102 (kg/ha)
-        layer 2 = 0.039598 (kg/ha)
+        layer 1 = 0.324044 (kg/ha)
+        layer 2 = 0.039653 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.3637 (kg/ha)
+        uptake_no3 total = 0.363697 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00184381 (kg/ha)
-        layer 2 = 6.46073e-05 (kg/ha)
+        layer 1 = 0.00184697 (kg/ha)
+        layer 2 = 6.47266e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00190842 (kg/ha)
+        uptake_nh4 total = 0.0019117 (kg/ha)
      
 29 May 2002(Day of year=149), pastureconverter: 
      
@@ -1259,25 +1253,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.320995 (kg/ha)
-        layer 2 = 0.0393968 (kg/ha)
+        layer 1 = 0.320937 (kg/ha)
+        layer 2 = 0.0394516 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.360392 (kg/ha)
+        uptake_no3 total = 0.360389 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00187326 (kg/ha)
-        layer 2 = 6.59829e-05 (kg/ha)
+        layer 1 = 0.0018765 (kg/ha)
+        layer 2 = 6.61049e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00193924 (kg/ha)
+        uptake_nh4 total = 0.0019426 (kg/ha)
      
 30 May 2002(Day of year=150), pastureconverter: 
      
@@ -1293,25 +1287,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.333662 (kg/ha)
-        layer 2 = 0.0390908 (kg/ha)
+        layer 1 = 0.333604 (kg/ha)
+        layer 2 = 0.0391453 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.372753 (kg/ha)
+        uptake_no3 total = 0.372749 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00197842 (kg/ha)
-        layer 2 = 6.70288e-05 (kg/ha)
+        layer 1 = 0.00198186 (kg/ha)
+        layer 2 = 6.71529e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00204545 (kg/ha)
+        uptake_nh4 total = 0.00204902 (kg/ha)
      
 31 May 2002(Day of year=151), pastureconverter: 
      
@@ -1327,25 +1321,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.323722 (kg/ha)
-        layer 2 = 0.0384315 (kg/ha)
+        layer 1 = 0.323666 (kg/ha)
+        layer 2 = 0.038484 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.362154 (kg/ha)
+        uptake_no3 total = 0.36215 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00203241 (kg/ha)
-        layer 2 = 6.62377e-05 (kg/ha)
+        layer 1 = 0.00203597 (kg/ha)
+        layer 2 = 6.63607e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00209865 (kg/ha)
+        uptake_nh4 total = 0.00210233 (kg/ha)
      
 1 June 2002(Day of year=152), pastureconverter: 
      
@@ -1361,25 +1355,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.320675 (kg/ha)
-        layer 2 = 0.0400538 (kg/ha)
+        layer 1 = 0.320617 (kg/ha)
+        layer 2 = 0.0401084 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.360729 (kg/ha)
+        uptake_no3 total = 0.360725 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00205364 (kg/ha)
-        layer 2 = 7.04233e-05 (kg/ha)
+        layer 1 = 0.00205724 (kg/ha)
+        layer 2 = 7.05539e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00212406 (kg/ha)
+        uptake_nh4 total = 0.0021278 (kg/ha)
      
 2 June 2002(Day of year=153), pastureconverter: 
      
@@ -1395,25 +1389,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.316744 (kg/ha)
-        layer 2 = 0.0378366 (kg/ha)
+        layer 1 = 0.316689 (kg/ha)
+        layer 2 = 0.037888 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.354581 (kg/ha)
+        uptake_no3 total = 0.354577 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00204185 (kg/ha)
-        layer 2 = 6.8019e-05 (kg/ha)
+        layer 1 = 0.00204543 (kg/ha)
+        layer 2 = 6.8145e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00210986 (kg/ha)
+        uptake_nh4 total = 0.00211358 (kg/ha)
      
 3 June 2002(Day of year=154), pastureconverter: 
      
@@ -1429,25 +1423,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.321617 (kg/ha)
-        layer 2 = 0.0362006 (kg/ha)
+        layer 1 = 0.321564 (kg/ha)
+        layer 2 = 0.0362496 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.357817 (kg/ha)
+        uptake_no3 total = 0.357813 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00207114 (kg/ha)
-        layer 2 = 6.63101e-05 (kg/ha)
+        layer 1 = 0.00207478 (kg/ha)
+        layer 2 = 6.64326e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00213745 (kg/ha)
+        uptake_nh4 total = 0.00214121 (kg/ha)
      
 4 June 2002(Day of year=155), pastureconverter: 
      
@@ -1463,25 +1457,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.32182 (kg/ha)
-        layer 2 = 0.0341499 (kg/ha)
+        layer 1 = 0.32177 (kg/ha)
+        layer 2 = 0.034196 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.35597 (kg/ha)
+        uptake_no3 total = 0.355966 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00205131 (kg/ha)
-        layer 2 = 6.33782e-05 (kg/ha)
+        layer 1 = 0.00205491 (kg/ha)
+        layer 2 = 6.3495e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00211469 (kg/ha)
+        uptake_nh4 total = 0.0021184 (kg/ha)
      
 5 June 2002(Day of year=156), pastureconverter: 
      
@@ -1497,25 +1491,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.326749 (kg/ha)
-        layer 2 = 0.0328434 (kg/ha)
+        layer 1 = 0.326701 (kg/ha)
+        layer 2 = 0.0328875 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.359593 (kg/ha)
+        uptake_no3 total = 0.359589 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00204813 (kg/ha)
-        layer 2 = 6.1429e-05 (kg/ha)
+        layer 1 = 0.00205172 (kg/ha)
+        layer 2 = 6.15418e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00210956 (kg/ha)
+        uptake_nh4 total = 0.00211326 (kg/ha)
      
 6 June 2002(Day of year=157), pastureconverter: 
      
@@ -1531,25 +1525,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.339508 (kg/ha)
-        layer 2 = 0.032485 (kg/ha)
+        layer 1 = 0.339461 (kg/ha)
+        layer 2 = 0.0325283 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.371993 (kg/ha)
+        uptake_no3 total = 0.371989 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00207848 (kg/ha)
-        layer 2 = 6.08884e-05 (kg/ha)
+        layer 1 = 0.00208212 (kg/ha)
+        layer 2 = 6.09998e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00213937 (kg/ha)
+        uptake_nh4 total = 0.00214312 (kg/ha)
      
 7 June 2002(Day of year=158), pastureconverter: 
      
@@ -1565,25 +1559,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.316807 (kg/ha)
-        layer 2 = 0.0288809 (kg/ha)
+        layer 1 = 0.316766 (kg/ha)
+        layer 2 = 0.0289193 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.345688 (kg/ha)
+        uptake_no3 total = 0.345685 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.0018772 (kg/ha)
-        layer 2 = 5.40763e-05 (kg/ha)
+        layer 1 = 0.00188048 (kg/ha)
+        layer 2 = 5.41749e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00193128 (kg/ha)
+        uptake_nh4 total = 0.00193466 (kg/ha)
      
 8 June 2002(Day of year=159), pastureconverter: 
      
@@ -1599,25 +1593,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.305622 (kg/ha)
-        layer 2 = 0.0268983 (kg/ha)
+        layer 1 = 0.305583 (kg/ha)
+        layer 2 = 0.026934 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.33252 (kg/ha)
+        uptake_no3 total = 0.332517 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00179778 (kg/ha)
-        layer 2 = 5.01525e-05 (kg/ha)
+        layer 1 = 0.00180093 (kg/ha)
+        layer 2 = 5.0244e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00184793 (kg/ha)
+        uptake_nh4 total = 0.00185117 (kg/ha)
      
 9 June 2002(Day of year=160), pastureconverter: 
      
@@ -1633,25 +1627,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.314362 (kg/ha)
-        layer 2 = 0.0270219 (kg/ha)
+        layer 1 = 0.314323 (kg/ha)
+        layer 2 = 0.0270578 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.341384 (kg/ha)
+        uptake_no3 total = 0.34138 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00184218 (kg/ha)
-        layer 2 = 5.01638e-05 (kg/ha)
+        layer 1 = 0.00184542 (kg/ha)
+        layer 2 = 5.02553e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00189235 (kg/ha)
+        uptake_nh4 total = 0.00189567 (kg/ha)
      
 10 June 2002(Day of year=161), pastureconverter: 
      
@@ -1667,25 +1661,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.314751 (kg/ha)
-        layer 2 = 0.0267333 (kg/ha)
+        layer 1 = 0.314712 (kg/ha)
+        layer 2 = 0.0267689 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.341485 (kg/ha)
+        uptake_no3 total = 0.341481 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00187351 (kg/ha)
-        layer 2 = 4.93301e-05 (kg/ha)
+        layer 1 = 0.00187681 (kg/ha)
+        layer 2 = 4.94203e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00192284 (kg/ha)
+        uptake_nh4 total = 0.00192623 (kg/ha)
      
 11 June 2002(Day of year=162), pastureconverter: 
      
@@ -1701,25 +1695,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.302914 (kg/ha)
-        layer 2 = 0.025488 (kg/ha)
+        layer 1 = 0.302877 (kg/ha)
+        layer 2 = 0.0255219 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.328402 (kg/ha)
+        uptake_no3 total = 0.328399 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00180638 (kg/ha)
-        layer 2 = 4.69447e-05 (kg/ha)
+        layer 1 = 0.00180957 (kg/ha)
+        layer 2 = 4.70306e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00185333 (kg/ha)
+        uptake_nh4 total = 0.0018566 (kg/ha)
      
 12 June 2002(Day of year=163), pastureconverter: 
      
@@ -1735,25 +1729,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.295152 (kg/ha)
-        layer 2 = 0.0242909 (kg/ha)
+        layer 1 = 0.295117 (kg/ha)
+        layer 2 = 0.0243231 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.319443 (kg/ha)
+        uptake_no3 total = 0.31944 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00173664 (kg/ha)
-        layer 2 = 4.47311e-05 (kg/ha)
+        layer 1 = 0.0017397 (kg/ha)
+        layer 2 = 4.48128e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00178137 (kg/ha)
+        uptake_nh4 total = 0.00178451 (kg/ha)
      
 13 June 2002(Day of year=164), pastureconverter: 
      
@@ -1769,25 +1763,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.288734 (kg/ha)
-        layer 2 = 0.0232343 (kg/ha)
+        layer 1 = 0.2887 (kg/ha)
+        layer 2 = 0.0232652 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.311968 (kg/ha)
+        uptake_no3 total = 0.311965 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00170107 (kg/ha)
-        layer 2 = 4.26656e-05 (kg/ha)
+        layer 1 = 0.00170408 (kg/ha)
+        layer 2 = 4.27436e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00174374 (kg/ha)
+        uptake_nh4 total = 0.00174683 (kg/ha)
      
 14 June 2002(Day of year=165), pastureconverter: 
      
@@ -1803,25 +1797,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.28633 (kg/ha)
-        layer 2 = 0.0228854 (kg/ha)
+        layer 1 = 0.286296 (kg/ha)
+        layer 2 = 0.0229159 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.309215 (kg/ha)
+        uptake_no3 total = 0.309212 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00171248 (kg/ha)
-        layer 2 = 4.18757e-05 (kg/ha)
+        layer 1 = 0.00171552 (kg/ha)
+        layer 2 = 4.19525e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00175435 (kg/ha)
+        uptake_nh4 total = 0.00175747 (kg/ha)
      
 15 June 2002(Day of year=166), pastureconverter: 
      
@@ -1837,25 +1831,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.279112 (kg/ha)
-        layer 2 = 0.0221582 (kg/ha)
+        layer 1 = 0.279079 (kg/ha)
+        layer 2 = 0.0221877 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.30127 (kg/ha)
+        uptake_no3 total = 0.301267 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00166952 (kg/ha)
-        layer 2 = 4.05446e-05 (kg/ha)
+        layer 1 = 0.00167248 (kg/ha)
+        layer 2 = 4.0619e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00171006 (kg/ha)
+        uptake_nh4 total = 0.0017131 (kg/ha)
      
 16 June 2002(Day of year=167), pastureconverter: 
      
@@ -1871,25 +1865,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.275824 (kg/ha)
-        layer 2 = 0.0214383 (kg/ha)
+        layer 1 = 0.275792 (kg/ha)
+        layer 2 = 0.0214667 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.297262 (kg/ha)
+        uptake_no3 total = 0.297259 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00163081 (kg/ha)
-        layer 2 = 3.92897e-05 (kg/ha)
+        layer 1 = 0.0016337 (kg/ha)
+        layer 2 = 3.93616e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.0016701 (kg/ha)
+        uptake_nh4 total = 0.00167306 (kg/ha)
      
 17 June 2002(Day of year=168), pastureconverter: 
      
@@ -1905,25 +1899,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.265361 (kg/ha)
-        layer 2 = 0.0211979 (kg/ha)
+        layer 1 = 0.265331 (kg/ha)
+        layer 2 = 0.0212255 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.286559 (kg/ha)
+        uptake_no3 total = 0.286556 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00163859 (kg/ha)
-        layer 2 = 3.85772e-05 (kg/ha)
+        layer 1 = 0.0016415 (kg/ha)
+        layer 2 = 3.86478e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00167716 (kg/ha)
+        uptake_nh4 total = 0.00168015 (kg/ha)
      
 18 June 2002(Day of year=169), pastureconverter: 
      
@@ -1939,25 +1933,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.257292 (kg/ha)
-        layer 2 = 0.0218736 (kg/ha)
+        layer 1 = 0.257261 (kg/ha)
+        layer 2 = 0.021902 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.279166 (kg/ha)
+        uptake_no3 total = 0.279163 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.0016194 (kg/ha)
-        layer 2 = 4.00756e-05 (kg/ha)
+        layer 1 = 0.00162228 (kg/ha)
+        layer 2 = 4.01489e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00165948 (kg/ha)
+        uptake_nh4 total = 0.00166243 (kg/ha)
      
 19 June 2002(Day of year=170), pastureconverter: 
      
@@ -1973,25 +1967,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.260053 (kg/ha)
-        layer 2 = 0.0219322 (kg/ha)
+        layer 1 = 0.260021 (kg/ha)
+        layer 2 = 0.0219607 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.281985 (kg/ha)
+        uptake_no3 total = 0.281982 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00164741 (kg/ha)
-        layer 2 = 4.05696e-05 (kg/ha)
+        layer 1 = 0.00165033 (kg/ha)
+        layer 2 = 4.06438e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00168798 (kg/ha)
+        uptake_nh4 total = 0.00169098 (kg/ha)
      
 20 June 2002(Day of year=171), pastureconverter: 
      
@@ -2007,25 +2001,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.26399 (kg/ha)
-        layer 2 = 0.0216453 (kg/ha)
+        layer 1 = 0.263959 (kg/ha)
+        layer 2 = 0.0216732 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.285635 (kg/ha)
+        uptake_no3 total = 0.285632 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00166739 (kg/ha)
-        layer 2 = 4.0422e-05 (kg/ha)
+        layer 1 = 0.00167035 (kg/ha)
+        layer 2 = 4.04956e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00170782 (kg/ha)
+        uptake_nh4 total = 0.00171084 (kg/ha)
      
 21 June 2002(Day of year=172), pastureconverter: 
      
@@ -2041,25 +2035,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.256905 (kg/ha)
-        layer 2 = 0.0203972 (kg/ha)
+        layer 1 = 0.256876 (kg/ha)
+        layer 2 = 0.0204234 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.277302 (kg/ha)
+        uptake_no3 total = 0.277299 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00161054 (kg/ha)
-        layer 2 = 3.84097e-05 (kg/ha)
+        layer 1 = 0.00161339 (kg/ha)
+        layer 2 = 3.84795e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00164895 (kg/ha)
+        uptake_nh4 total = 0.00165187 (kg/ha)
      
 22 June 2002(Day of year=173), pastureconverter: 
      
@@ -2075,25 +2069,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.261269 (kg/ha)
-        layer 2 = 0.0201767 (kg/ha)
+        layer 1 = 0.26124 (kg/ha)
+        layer 2 = 0.0202026 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.281445 (kg/ha)
+        uptake_no3 total = 0.281442 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.0016373 (kg/ha)
-        layer 2 = 3.8197e-05 (kg/ha)
+        layer 1 = 0.00164019 (kg/ha)
+        layer 2 = 3.82663e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.0016755 (kg/ha)
+        uptake_nh4 total = 0.00167846 (kg/ha)
      
 23 June 2002(Day of year=174), pastureconverter: 
      
@@ -2109,25 +2103,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.253936 (kg/ha)
-        layer 2 = 0.019164 (kg/ha)
+        layer 1 = 0.253908 (kg/ha)
+        layer 2 = 0.0191886 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.2731 (kg/ha)
+        uptake_no3 total = 0.273097 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.0015863 (kg/ha)
-        layer 2 = 3.64504e-05 (kg/ha)
+        layer 1 = 0.0015891 (kg/ha)
+        layer 2 = 3.65165e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00162275 (kg/ha)
+        uptake_nh4 total = 0.00162562 (kg/ha)
      
 24 June 2002(Day of year=175), pastureconverter: 
      
@@ -2143,25 +2137,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.246225 (kg/ha)
-        layer 2 = 0.0183469 (kg/ha)
+        layer 1 = 0.246198 (kg/ha)
+        layer 2 = 0.0183705 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.264572 (kg/ha)
+        uptake_no3 total = 0.264569 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.001552 (kg/ha)
-        layer 2 = 3.49321e-05 (kg/ha)
+        layer 1 = 0.00155475 (kg/ha)
+        layer 2 = 3.49956e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00158694 (kg/ha)
+        uptake_nh4 total = 0.00158974 (kg/ha)
      
 25 June 2002(Day of year=176), pastureconverter: 
      
@@ -2177,25 +2171,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.244953 (kg/ha)
-        layer 2 = 0.0179636 (kg/ha)
+        layer 1 = 0.244927 (kg/ha)
+        layer 2 = 0.0179867 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.262917 (kg/ha)
+        uptake_no3 total = 0.262914 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00153302 (kg/ha)
-        layer 2 = 3.43256e-05 (kg/ha)
+        layer 1 = 0.00153573 (kg/ha)
+        layer 2 = 3.43878e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00156735 (kg/ha)
+        uptake_nh4 total = 0.00157012 (kg/ha)
      
 26 June 2002(Day of year=177), pastureconverter: 
      
@@ -2211,25 +2205,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.237081 (kg/ha)
-        layer 2 = 0.0168824 (kg/ha)
+        layer 1 = 0.237057 (kg/ha)
+        layer 2 = 0.0169039 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.253963 (kg/ha)
+        uptake_no3 total = 0.253961 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00145817 (kg/ha)
-        layer 2 = 3.2392e-05 (kg/ha)
+        layer 1 = 0.00146073 (kg/ha)
+        layer 2 = 3.24506e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00149056 (kg/ha)
+        uptake_nh4 total = 0.00149318 (kg/ha)
      
 27 June 2002(Day of year=178), pastureconverter: 
      
@@ -2245,25 +2239,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.24009 (kg/ha)
-        layer 2 = 0.0165768 (kg/ha)
+        layer 1 = 0.240066 (kg/ha)
+        layer 2 = 0.0165978 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.256666 (kg/ha)
+        uptake_no3 total = 0.256664 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00145528 (kg/ha)
-        layer 2 = 3.19084e-05 (kg/ha)
+        layer 1 = 0.00145783 (kg/ha)
+        layer 2 = 3.19659e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00148718 (kg/ha)
+        uptake_nh4 total = 0.00148979 (kg/ha)
      
 28 June 2002(Day of year=179), pastureconverter: 
      
@@ -2279,25 +2273,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.234312 (kg/ha)
-        layer 2 = 0.0163196 (kg/ha)
+        layer 1 = 0.234288 (kg/ha)
+        layer 2 = 0.0163402 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.250631 (kg/ha)
+        uptake_no3 total = 0.250629 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00145825 (kg/ha)
-        layer 2 = 3.12485e-05 (kg/ha)
+        layer 1 = 0.00146081 (kg/ha)
+        layer 2 = 3.13049e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.0014895 (kg/ha)
+        uptake_nh4 total = 0.00149211 (kg/ha)
      
 29 June 2002(Day of year=180), pastureconverter: 
      
@@ -2313,25 +2307,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.23142 (kg/ha)
-        layer 2 = 0.0166267 (kg/ha)
+        layer 1 = 0.231396 (kg/ha)
+        layer 2 = 0.0166477 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.248046 (kg/ha)
+        uptake_no3 total = 0.248044 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00145735 (kg/ha)
-        layer 2 = 3.19391e-05 (kg/ha)
+        layer 1 = 0.00145991 (kg/ha)
+        layer 2 = 3.19968e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00148929 (kg/ha)
+        uptake_nh4 total = 0.00149191 (kg/ha)
      
 30 June 2002(Day of year=181), pastureconverter: 
      
@@ -2347,25 +2341,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.233025 (kg/ha)
-        layer 2 = 0.0165369 (kg/ha)
+        layer 1 = 0.233001 (kg/ha)
+        layer 2 = 0.0165577 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.249562 (kg/ha)
+        uptake_no3 total = 0.249559 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00146509 (kg/ha)
-        layer 2 = 3.19841e-05 (kg/ha)
+        layer 1 = 0.00146766 (kg/ha)
+        layer 2 = 3.20417e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00149708 (kg/ha)
+        uptake_nh4 total = 0.0014997 (kg/ha)
      
 1 July 2002(Day of year=182), pastureconverter: 
      
@@ -2381,25 +2375,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.229511 (kg/ha)
-        layer 2 = 0.0158387 (kg/ha)
+        layer 1 = 0.229489 (kg/ha)
+        layer 2 = 0.0158585 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.24535 (kg/ha)
+        uptake_no3 total = 0.245347 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00142752 (kg/ha)
-        layer 2 = 3.08737e-05 (kg/ha)
+        layer 1 = 0.00143001 (kg/ha)
+        layer 2 = 3.0929e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.0014584 (kg/ha)
+        uptake_nh4 total = 0.00146094 (kg/ha)
      
 2 July 2002(Day of year=183), pastureconverter: 
      
@@ -2415,25 +2409,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.229479 (kg/ha)
-        layer 2 = 0.0152703 (kg/ha)
+        layer 1 = 0.229457 (kg/ha)
+        layer 2 = 0.0152893 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.244749 (kg/ha)
+        uptake_no3 total = 0.244746 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00139958 (kg/ha)
-        layer 2 = 2.99916e-05 (kg/ha)
+        layer 1 = 0.001402 (kg/ha)
+        layer 2 = 3.00451e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00142957 (kg/ha)
+        uptake_nh4 total = 0.00143205 (kg/ha)
      
 3 July 2002(Day of year=184), pastureconverter: 
      
@@ -2449,25 +2443,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.231355 (kg/ha)
-        layer 2 = 0.0150358 (kg/ha)
+        layer 1 = 0.231334 (kg/ha)
+        layer 2 = 0.0150545 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.246391 (kg/ha)
+        uptake_no3 total = 0.246388 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00141628 (kg/ha)
-        layer 2 = 2.95715e-05 (kg/ha)
+        layer 1 = 0.00141874 (kg/ha)
+        layer 2 = 2.96243e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00144585 (kg/ha)
+        uptake_nh4 total = 0.00144837 (kg/ha)
      
 4 July 2002(Day of year=185), pastureconverter: 
      
@@ -2483,25 +2477,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.226092 (kg/ha)
-        layer 2 = 0.0146562 (kg/ha)
+        layer 1 = 0.226072 (kg/ha)
+        layer 2 = 0.0146745 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.240749 (kg/ha)
+        uptake_no3 total = 0.240746 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.0013989 (kg/ha)
-        layer 2 = 2.88126e-05 (kg/ha)
+        layer 1 = 0.00140133 (kg/ha)
+        layer 2 = 2.88641e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00142771 (kg/ha)
+        uptake_nh4 total = 0.0014302 (kg/ha)
      
 5 July 2002(Day of year=186), pastureconverter: 
      
@@ -2517,25 +2511,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.230888 (kg/ha)
-        layer 2 = 0.0148232 (kg/ha)
+        layer 1 = 0.230867 (kg/ha)
+        layer 2 = 0.0148416 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.245712 (kg/ha)
+        uptake_no3 total = 0.245709 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00142644 (kg/ha)
-        layer 2 = 2.92161e-05 (kg/ha)
+        layer 1 = 0.00142892 (kg/ha)
+        layer 2 = 2.92683e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00145566 (kg/ha)
+        uptake_nh4 total = 0.00145819 (kg/ha)
      
 6 July 2002(Day of year=187), pastureconverter: 
      
@@ -2551,25 +2545,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.219495 (kg/ha)
-        layer 2 = 0.0141794 (kg/ha)
+        layer 1 = 0.219475 (kg/ha)
+        layer 2 = 0.0141969 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.233674 (kg/ha)
+        uptake_no3 total = 0.233672 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00138352 (kg/ha)
-        layer 2 = 2.78532e-05 (kg/ha)
+        layer 1 = 0.00138593 (kg/ha)
+        layer 2 = 2.7903e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00141137 (kg/ha)
+        uptake_nh4 total = 0.00141383 (kg/ha)
      
 7 July 2002(Day of year=188), pastureconverter: 
      
@@ -2585,25 +2579,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.640494 (kg/ha)
-        layer 2 = 0.0422374 (kg/ha)
+        layer 1 = 0.640435 (kg/ha)
+        layer 2 = 0.0422897 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.682732 (kg/ha)
+        uptake_no3 total = 0.682725 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00407916 (kg/ha)
-        layer 2 = 8.31753e-05 (kg/ha)
+        layer 1 = 0.00408627 (kg/ha)
+        layer 2 = 8.33242e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00416234 (kg/ha)
+        uptake_nh4 total = 0.0041696 (kg/ha)
      
 8 July 2002(Day of year=189), pastureconverter: 
      
@@ -2619,25 +2613,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.665719 (kg/ha)
-        layer 2 = 0.0433831 (kg/ha)
+        layer 1 = 0.665658 (kg/ha)
+        layer 2 = 0.0434367 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.709102 (kg/ha)
+        uptake_no3 total = 0.709095 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00421184 (kg/ha)
-        layer 2 = 8.59703e-05 (kg/ha)
+        layer 1 = 0.00421915 (kg/ha)
+        layer 2 = 8.61242e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00429781 (kg/ha)
+        uptake_nh4 total = 0.00430528 (kg/ha)
      
 9 July 2002(Day of year=190), pastureconverter: 
      
@@ -2653,25 +2647,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.808714 (kg/ha)
-        layer 2 = 0.051177 (kg/ha)
+        layer 1 = 0.808642 (kg/ha)
+        layer 2 = 0.0512402 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.859891 (kg/ha)
+        uptake_no3 total = 0.859882 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00505189 (kg/ha)
-        layer 2 = 0.000102002 (kg/ha)
+        layer 1 = 0.00506064 (kg/ha)
+        layer 2 = 0.000102185 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.0051539 (kg/ha)
+        uptake_nh4 total = 0.00516282 (kg/ha)
      
 10 July 2002(Day of year=191), pastureconverter: 
      
@@ -2687,25 +2681,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.01925 (kg/ha)
-        layer 2 = 0.0624979 (kg/ha)
+        layer 1 = 1.01916 (kg/ha)
+        layer 2 = 0.0625751 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.08175 (kg/ha)
+        uptake_no3 total = 1.08174 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.0062346 (kg/ha)
-        layer 2 = 0.000125254 (kg/ha)
+        layer 1 = 0.00624534 (kg/ha)
+        layer 2 = 0.000125478 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00635985 (kg/ha)
+        uptake_nh4 total = 0.00637082 (kg/ha)
      
 11 July 2002(Day of year=192), pastureconverter: 
      
@@ -2721,25 +2715,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.926631 (kg/ha)
-        layer 2 = 0.055036 (kg/ha)
+        layer 1 = 0.926553 (kg/ha)
+        layer 2 = 0.055104 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.981667 (kg/ha)
+        uptake_no3 total = 0.981657 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00549894 (kg/ha)
-        layer 2 = 0.000110696 (kg/ha)
+        layer 1 = 0.00550836 (kg/ha)
+        layer 2 = 0.000110894 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00560963 (kg/ha)
+        uptake_nh4 total = 0.00561926 (kg/ha)
      
 12 July 2002(Day of year=193), pastureconverter: 
      
@@ -2755,25 +2749,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.01578 (kg/ha)
-        layer 2 = 0.0586214 (kg/ha)
+        layer 1 = 1.01569 (kg/ha)
+        layer 2 = 0.0586939 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.0744 (kg/ha)
+        uptake_no3 total = 1.07439 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00578867 (kg/ha)
-        layer 2 = 0.000117964 (kg/ha)
+        layer 1 = 0.00579854 (kg/ha)
+        layer 2 = 0.000118175 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00590663 (kg/ha)
+        uptake_nh4 total = 0.00591672 (kg/ha)
      
 13 July 2002(Day of year=194), pastureconverter: 
      
@@ -2789,25 +2783,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.20501 (kg/ha)
-        layer 2 = 0.0678911 (kg/ha)
+        layer 1 = 1.20492 (kg/ha)
+        layer 2 = 0.0679751 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.27291 (kg/ha)
+        uptake_no3 total = 1.27289 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00662925 (kg/ha)
-        layer 2 = 0.000136676 (kg/ha)
+        layer 1 = 0.00664051 (kg/ha)
+        layer 2 = 0.000136921 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00676593 (kg/ha)
+        uptake_nh4 total = 0.00677743 (kg/ha)
      
 14 July 2002(Day of year=195), pastureconverter: 
      
@@ -2823,25 +2817,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.28937 (kg/ha)
-        layer 2 = 0.0736539 (kg/ha)
+        layer 1 = 1.28927 (kg/ha)
+        layer 2 = 0.0737459 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.36302 (kg/ha)
+        uptake_no3 total = 1.36301 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00731006 (kg/ha)
-        layer 2 = 0.000147071 (kg/ha)
+        layer 1 = 0.00732255 (kg/ha)
+        layer 2 = 0.000147337 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00745713 (kg/ha)
+        uptake_nh4 total = 0.00746988 (kg/ha)
      
 15 July 2002(Day of year=196), pastureconverter: 
      
@@ -2857,25 +2851,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.28343 (kg/ha)
-        layer 2 = 0.0734257 (kg/ha)
+        layer 1 = 1.28332 (kg/ha)
+        layer 2 = 0.0735188 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.35686 (kg/ha)
+        uptake_no3 total = 1.35684 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00739172 (kg/ha)
-        layer 2 = 0.000146443 (kg/ha)
+        layer 1 = 0.00740443 (kg/ha)
+        layer 2 = 0.000146711 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00753816 (kg/ha)
+        uptake_nh4 total = 0.00755114 (kg/ha)
      
 16 July 2002(Day of year=197), pastureconverter: 
      
@@ -2891,25 +2885,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.33173 (kg/ha)
-        layer 2 = 0.0760161 (kg/ha)
+        layer 1 = 1.33162 (kg/ha)
+        layer 2 = 0.0761134 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.40774 (kg/ha)
+        uptake_no3 total = 1.40773 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00766134 (kg/ha)
-        layer 2 = 0.000151959 (kg/ha)
+        layer 1 = 0.00767452 (kg/ha)
+        layer 2 = 0.000152239 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.0078133 (kg/ha)
+        uptake_nh4 total = 0.00782676 (kg/ha)
      
 17 July 2002(Day of year=198), pastureconverter: 
      
@@ -2925,25 +2919,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.38247 (kg/ha)
-        layer 2 = 0.0783956 (kg/ha)
+        layer 1 = 1.38235 (kg/ha)
+        layer 2 = 0.0784973 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.46087 (kg/ha)
+        uptake_no3 total = 1.46085 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00800242 (kg/ha)
-        layer 2 = 0.000156958 (kg/ha)
+        layer 1 = 0.00801624 (kg/ha)
+        layer 2 = 0.000157249 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00815938 (kg/ha)
+        uptake_nh4 total = 0.00817349 (kg/ha)
      
 18 July 2002(Day of year=199), pastureconverter: 
      
@@ -2959,25 +2953,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.42772 (kg/ha)
-        layer 2 = 0.0805287 (kg/ha)
+        layer 1 = 1.4276 (kg/ha)
+        layer 2 = 0.0806342 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.50825 (kg/ha)
+        uptake_no3 total = 1.50823 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00826067 (kg/ha)
-        layer 2 = 0.000161556 (kg/ha)
+        layer 1 = 0.00827497 (kg/ha)
+        layer 2 = 0.000161859 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00842223 (kg/ha)
+        uptake_nh4 total = 0.00843683 (kg/ha)
      
 19 July 2002(Day of year=200), pastureconverter: 
      
@@ -2993,25 +2987,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.48612 (kg/ha)
-        layer 2 = 0.0825112 (kg/ha)
+        layer 1 = 1.48599 (kg/ha)
+        layer 2 = 0.0826204 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.56863 (kg/ha)
+        uptake_no3 total = 1.56861 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00850889 (kg/ha)
-        layer 2 = 0.000165996 (kg/ha)
+        layer 1 = 0.00852362 (kg/ha)
+        layer 2 = 0.000166309 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00867488 (kg/ha)
+        uptake_nh4 total = 0.00868993 (kg/ha)
      
 20 July 2002(Day of year=201), pastureconverter: 
      
@@ -3027,25 +3021,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.49574 (kg/ha)
-        layer 2 = 0.0816611 (kg/ha)
+        layer 1 = 1.49562 (kg/ha)
+        layer 2 = 0.0817701 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.5774 (kg/ha)
+        uptake_no3 total = 1.57739 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00840076 (kg/ha)
-        layer 2 = 0.000164685 (kg/ha)
+        layer 1 = 0.0084153 (kg/ha)
+        layer 2 = 0.000164997 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00856544 (kg/ha)
+        uptake_nh4 total = 0.00858029 (kg/ha)
      
 21 July 2002(Day of year=202), pastureconverter: 
      
@@ -3061,25 +3055,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.59441 (kg/ha)
-        layer 2 = 0.085888 (kg/ha)
+        layer 1 = 1.59428 (kg/ha)
+        layer 2 = 0.0860035 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.68029 (kg/ha)
+        uptake_no3 total = 1.68028 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00869236 (kg/ha)
-        layer 2 = 0.000173549 (kg/ha)
+        layer 1 = 0.00870738 (kg/ha)
+        layer 2 = 0.00017388 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00886591 (kg/ha)
+        uptake_nh4 total = 0.00888126 (kg/ha)
      
 22 July 2002(Day of year=203), pastureconverter: 
      
@@ -3095,25 +3089,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.53948 (kg/ha)
-        layer 2 = 0.0819989 (kg/ha)
+        layer 1 = 1.53936 (kg/ha)
+        layer 2 = 0.0821102 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.62148 (kg/ha)
+        uptake_no3 total = 1.62147 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00810471 (kg/ha)
-        layer 2 = 0.000165759 (kg/ha)
+        layer 1 = 0.00811869 (kg/ha)
+        layer 2 = 0.000166078 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00827047 (kg/ha)
+        uptake_nh4 total = 0.00828477 (kg/ha)
      
 23 July 2002(Day of year=204), pastureconverter: 
      
@@ -3129,25 +3123,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.54502 (kg/ha)
-        layer 2 = 0.0822599 (kg/ha)
+        layer 1 = 1.54489 (kg/ha)
+        layer 2 = 0.0823725 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.62728 (kg/ha)
+        uptake_no3 total = 1.62727 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00781283 (kg/ha)
-        layer 2 = 0.000166015 (kg/ha)
+        layer 1 = 0.00782629 (kg/ha)
+        layer 2 = 0.000166335 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00797885 (kg/ha)
+        uptake_nh4 total = 0.00799262 (kg/ha)
      
 24 July 2002(Day of year=205), pastureconverter: 
      
@@ -3163,25 +3157,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.59713 (kg/ha)
-        layer 2 = 0.0861446 (kg/ha)
+        layer 1 = 1.597 (kg/ha)
+        layer 2 = 0.0862635 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.68327 (kg/ha)
+        uptake_no3 total = 1.68326 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00769199 (kg/ha)
-        layer 2 = 0.000173194 (kg/ha)
+        layer 1 = 0.0077052 (kg/ha)
+        layer 2 = 0.000173531 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00786518 (kg/ha)
+        uptake_nh4 total = 0.00787873 (kg/ha)
      
 25 July 2002(Day of year=206), pastureconverter: 
      
@@ -3197,25 +3191,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.62602 (kg/ha)
-        layer 2 = 0.0824993 (kg/ha)
+        layer 1 = 1.62589 (kg/ha)
+        layer 2 = 0.0826148 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.70852 (kg/ha)
+        uptake_no3 total = 1.7085 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00764814 (kg/ha)
-        layer 2 = 0.00016556 (kg/ha)
+        layer 1 = 0.00766134 (kg/ha)
+        layer 2 = 0.000165885 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.0078137 (kg/ha)
+        uptake_nh4 total = 0.00782723 (kg/ha)
      
 26 July 2002(Day of year=207), pastureconverter: 
      
@@ -3231,25 +3225,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.5687 (kg/ha)
-        layer 2 = 0.080103 (kg/ha)
+        layer 1 = 1.56858 (kg/ha)
+        layer 2 = 0.0802166 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.6488 (kg/ha)
+        uptake_no3 total = 1.64879 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00724682 (kg/ha)
-        layer 2 = 0.000159844 (kg/ha)
+        layer 1 = 0.00725939 (kg/ha)
+        layer 2 = 0.00016016 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00740667 (kg/ha)
+        uptake_nh4 total = 0.00741955 (kg/ha)
      
 27 July 2002(Day of year=208), pastureconverter: 
      
@@ -3265,25 +3259,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.51952 (kg/ha)
-        layer 2 = 0.0769123 (kg/ha)
+        layer 1 = 1.51939 (kg/ha)
+        layer 2 = 0.0770226 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.59643 (kg/ha)
+        uptake_no3 total = 1.59642 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00677295 (kg/ha)
-        layer 2 = 0.000152275 (kg/ha)
+        layer 1 = 0.00678474 (kg/ha)
+        layer 2 = 0.00015258 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00692522 (kg/ha)
+        uptake_nh4 total = 0.00693732 (kg/ha)
      
 28 July 2002(Day of year=209), pastureconverter: 
      
@@ -3299,25 +3293,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.5603 (kg/ha)
-        layer 2 = 0.0751459 (kg/ha)
+        layer 1 = 1.56018 (kg/ha)
+        layer 2 = 0.0752552 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.63545 (kg/ha)
+        uptake_no3 total = 1.63544 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.0068477 (kg/ha)
-        layer 2 = 0.000147992 (kg/ha)
+        layer 1 = 0.00685973 (kg/ha)
+        layer 2 = 0.000148291 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00699569 (kg/ha)
+        uptake_nh4 total = 0.00700802 (kg/ha)
      
 29 July 2002(Day of year=210), pastureconverter: 
      
@@ -3333,25 +3327,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.56397 (kg/ha)
-        layer 2 = 0.0781426 (kg/ha)
+        layer 1 = 1.56384 (kg/ha)
+        layer 2 = 0.0782578 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.64211 (kg/ha)
+        uptake_no3 total = 1.6421 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00735634 (kg/ha)
-        layer 2 = 0.000152054 (kg/ha)
+        layer 1 = 0.00736954 (kg/ha)
+        layer 2 = 0.000152366 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.0075084 (kg/ha)
+        uptake_nh4 total = 0.00752191 (kg/ha)
      
 30 July 2002(Day of year=211), pastureconverter: 
      
@@ -3367,25 +3361,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.52852 (kg/ha)
-        layer 2 = 0.074271 (kg/ha)
+        layer 1 = 1.52839 (kg/ha)
+        layer 2 = 0.0743828 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.60279 (kg/ha)
+        uptake_no3 total = 1.60278 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00748854 (kg/ha)
-        layer 2 = 0.000143954 (kg/ha)
+        layer 1 = 0.00750225 (kg/ha)
+        layer 2 = 0.000144253 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00763249 (kg/ha)
+        uptake_nh4 total = 0.0076465 (kg/ha)
      
 31 July 2002(Day of year=212), pastureconverter: 
      
@@ -3401,25 +3395,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.46128 (kg/ha)
-        layer 2 = 0.0718445 (kg/ha)
+        layer 1 = 1.46115 (kg/ha)
+        layer 2 = 0.0719543 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.53312 (kg/ha)
+        uptake_no3 total = 1.53311 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00726144 (kg/ha)
-        layer 2 = 0.000138922 (kg/ha)
+        layer 1 = 0.00727489 (kg/ha)
+        layer 2 = 0.000139214 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00740036 (kg/ha)
+        uptake_nh4 total = 0.00741411 (kg/ha)
      
 1 August 2002(Day of year=213), pastureconverter: 
      
@@ -3435,25 +3429,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.44595 (kg/ha)
-        layer 2 = 0.0708352 (kg/ha)
+        layer 1 = 1.44583 (kg/ha)
+        layer 2 = 0.0709448 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.51679 (kg/ha)
+        uptake_no3 total = 1.51678 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00718342 (kg/ha)
-        layer 2 = 0.000137112 (kg/ha)
+        layer 1 = 0.00719681 (kg/ha)
+        layer 2 = 0.000137403 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00732054 (kg/ha)
+        uptake_nh4 total = 0.00733422 (kg/ha)
      
 2 August 2002(Day of year=214), pastureconverter: 
      
@@ -3469,25 +3463,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.4475 (kg/ha)
-        layer 2 = 0.0716487 (kg/ha)
+        layer 1 = 1.44738 (kg/ha)
+        layer 2 = 0.0717607 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.51915 (kg/ha)
+        uptake_no3 total = 1.51914 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00710299 (kg/ha)
-        layer 2 = 0.000138813 (kg/ha)
+        layer 1 = 0.00711626 (kg/ha)
+        layer 2 = 0.00013911 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.0072418 (kg/ha)
+        uptake_nh4 total = 0.00725537 (kg/ha)
      
 3 August 2002(Day of year=215), pastureconverter: 
      
@@ -3503,25 +3497,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.40056 (kg/ha)
-        layer 2 = 0.0709648 (kg/ha)
+        layer 1 = 1.40043 (kg/ha)
+        layer 2 = 0.0710768 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.47152 (kg/ha)
+        uptake_no3 total = 1.47151 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00671593 (kg/ha)
-        layer 2 = 0.000137483 (kg/ha)
+        layer 1 = 0.0067285 (kg/ha)
+        layer 2 = 0.000137779 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00685342 (kg/ha)
+        uptake_nh4 total = 0.00686628 (kg/ha)
      
 4 August 2002(Day of year=216), pastureconverter: 
      
@@ -3537,25 +3531,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.38831 (kg/ha)
-        layer 2 = 0.0721323 (kg/ha)
+        layer 1 = 1.38818 (kg/ha)
+        layer 2 = 0.0722471 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.46044 (kg/ha)
+        uptake_no3 total = 1.46043 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00644427 (kg/ha)
-        layer 2 = 0.000139623 (kg/ha)
+        layer 1 = 0.00645631 (kg/ha)
+        layer 2 = 0.000139925 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.0065839 (kg/ha)
+        uptake_nh4 total = 0.00659624 (kg/ha)
      
 5 August 2002(Day of year=217), pastureconverter: 
      
@@ -3571,25 +3565,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.33494 (kg/ha)
-        layer 2 = 0.0725965 (kg/ha)
+        layer 1 = 1.33481 (kg/ha)
+        layer 2 = 0.0727119 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.40754 (kg/ha)
+        uptake_no3 total = 1.40752 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00673675 (kg/ha)
-        layer 2 = 0.000138761 (kg/ha)
+        layer 1 = 0.00674957 (kg/ha)
+        layer 2 = 0.000139066 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00687551 (kg/ha)
+        uptake_nh4 total = 0.00688863 (kg/ha)
      
 6 August 2002(Day of year=218), pastureconverter: 
      
@@ -3605,25 +3599,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.27934 (kg/ha)
-        layer 2 = 0.0698524 (kg/ha)
+        layer 1 = 1.27921 (kg/ha)
+        layer 2 = 0.0699645 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.34919 (kg/ha)
+        uptake_no3 total = 1.34918 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00691113 (kg/ha)
-        layer 2 = 0.000133918 (kg/ha)
+        layer 1 = 0.00692453 (kg/ha)
+        layer 2 = 0.000134216 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00704505 (kg/ha)
+        uptake_nh4 total = 0.00705874 (kg/ha)
      
 7 August 2002(Day of year=219), pastureconverter: 
      
@@ -3639,25 +3633,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.21373 (kg/ha)
-        layer 2 = 0.0702095 (kg/ha)
+        layer 1 = 1.2136 (kg/ha)
+        layer 2 = 0.0703237 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.28394 (kg/ha)
+        uptake_no3 total = 1.28392 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00690899 (kg/ha)
-        layer 2 = 0.000135631 (kg/ha)
+        layer 1 = 0.00692261 (kg/ha)
+        layer 2 = 0.000135937 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00704462 (kg/ha)
+        uptake_nh4 total = 0.00705855 (kg/ha)
      
 8 August 2002(Day of year=220), pastureconverter: 
      
@@ -3673,25 +3667,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.16124 (kg/ha)
-        layer 2 = 0.0674776 (kg/ha)
+        layer 1 = 1.16111 (kg/ha)
+        layer 2 = 0.0675884 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.22871 (kg/ha)
+        uptake_no3 total = 1.2287 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00680426 (kg/ha)
-        layer 2 = 0.000131835 (kg/ha)
+        layer 1 = 0.00681782 (kg/ha)
+        layer 2 = 0.000132134 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00693609 (kg/ha)
+        uptake_nh4 total = 0.00694996 (kg/ha)
      
 9 August 2002(Day of year=221), pastureconverter: 
      
@@ -3707,25 +3701,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.10753 (kg/ha)
-        layer 2 = 0.0629644 (kg/ha)
+        layer 1 = 1.10741 (kg/ha)
+        layer 2 = 0.0630684 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.1705 (kg/ha)
+        uptake_no3 total = 1.17048 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.0065541 (kg/ha)
-        layer 2 = 0.000124316 (kg/ha)
+        layer 1 = 0.00656727 (kg/ha)
+        layer 2 = 0.0001246 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00667841 (kg/ha)
+        uptake_nh4 total = 0.00669187 (kg/ha)
      
 10 August 2002(Day of year=222), pastureconverter: 
      
@@ -3741,25 +3735,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 1.02902 (kg/ha)
-        layer 2 = 0.0568092 (kg/ha)
+        layer 1 = 1.02891 (kg/ha)
+        layer 2 = 0.0569033 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.08583 (kg/ha)
+        uptake_no3 total = 1.08581 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00598742 (kg/ha)
-        layer 2 = 0.000112966 (kg/ha)
+        layer 1 = 0.00599952 (kg/ha)
+        layer 2 = 0.000113224 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00610038 (kg/ha)
+        uptake_nh4 total = 0.00611274 (kg/ha)
      
 11 August 2002(Day of year=223), pastureconverter: 
      
@@ -3775,25 +3769,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.988379 (kg/ha)
-        layer 2 = 0.0542986 (kg/ha)
+        layer 1 = 0.988277 (kg/ha)
+        layer 2 = 0.0543886 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.04268 (kg/ha)
+        uptake_no3 total = 1.04267 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.0055634 (kg/ha)
-        layer 2 = 0.000108306 (kg/ha)
+        layer 1 = 0.00557466 (kg/ha)
+        layer 2 = 0.000108554 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00567171 (kg/ha)
+        uptake_nh4 total = 0.00568322 (kg/ha)
      
 12 August 2002(Day of year=224), pastureconverter: 
      
@@ -3809,25 +3803,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.952897 (kg/ha)
-        layer 2 = 0.0528283 (kg/ha)
+        layer 1 = 0.952798 (kg/ha)
+        layer 2 = 0.052916 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 1.00573 (kg/ha)
+        uptake_no3 total = 1.00571 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00525504 (kg/ha)
-        layer 2 = 0.000105425 (kg/ha)
+        layer 1 = 0.00526571 (kg/ha)
+        layer 2 = 0.000105667 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00536046 (kg/ha)
+        uptake_nh4 total = 0.00537138 (kg/ha)
      
 13 August 2002(Day of year=225), pastureconverter: 
      
@@ -3843,25 +3837,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.936638 (kg/ha)
-        layer 2 = 0.0492967 (kg/ha)
+        layer 1 = 0.936546 (kg/ha)
+        layer 2 = 0.0493789 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.985935 (kg/ha)
+        uptake_no3 total = 0.985925 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00505874 (kg/ha)
-        layer 2 = 9.85912e-05 (kg/ha)
+        layer 1 = 0.00506906 (kg/ha)
+        layer 2 = 9.8818e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00515733 (kg/ha)
+        uptake_nh4 total = 0.00516788 (kg/ha)
      
 14 August 2002(Day of year=226), pastureconverter: 
      
@@ -3877,25 +3871,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.922178 (kg/ha)
-        layer 2 = 0.0479221 (kg/ha)
+        layer 1 = 0.922088 (kg/ha)
+        layer 2 = 0.0480023 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.9701 (kg/ha)
+        uptake_no3 total = 0.97009 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.004844 (kg/ha)
-        layer 2 = 9.59604e-05 (kg/ha)
+        layer 1 = 0.00485388 (kg/ha)
+        layer 2 = 9.61816e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00493996 (kg/ha)
+        uptake_nh4 total = 0.00495006 (kg/ha)
      
 15 August 2002(Day of year=227), pastureconverter: 
      
@@ -3911,25 +3905,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.898218 (kg/ha)
-        layer 2 = 0.0488687 (kg/ha)
+        layer 1 = 0.898126 (kg/ha)
+        layer 2 = 0.0489505 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.947087 (kg/ha)
+        uptake_no3 total = 0.947077 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00458653 (kg/ha)
-        layer 2 = 9.77862e-05 (kg/ha)
+        layer 1 = 0.00459585 (kg/ha)
+        layer 2 = 9.80117e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00468431 (kg/ha)
+        uptake_nh4 total = 0.00469386 (kg/ha)
      
 16 August 2002(Day of year=228), pastureconverter: 
      
@@ -3945,25 +3939,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.875255 (kg/ha)
-        layer 2 = 0.048288 (kg/ha)
+        layer 1 = 0.875165 (kg/ha)
+        layer 2 = 0.048369 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.923543 (kg/ha)
+        uptake_no3 total = 0.923534 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00432738 (kg/ha)
-        layer 2 = 9.64583e-05 (kg/ha)
+        layer 1 = 0.00433615 (kg/ha)
+        layer 2 = 9.66813e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00442384 (kg/ha)
+        uptake_nh4 total = 0.00443283 (kg/ha)
      
 17 August 2002(Day of year=229), pastureconverter: 
      
@@ -3979,25 +3973,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.850994 (kg/ha)
-        layer 2 = 0.0467061 (kg/ha)
+        layer 1 = 0.850907 (kg/ha)
+        layer 2 = 0.0467848 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.8977 (kg/ha)
+        uptake_no3 total = 0.897692 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00405304 (kg/ha)
-        layer 2 = 9.29335e-05 (kg/ha)
+        layer 1 = 0.00406124 (kg/ha)
+        layer 2 = 9.3149e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00414598 (kg/ha)
+        uptake_nh4 total = 0.00415439 (kg/ha)
      
 18 August 2002(Day of year=230), pastureconverter: 
      
@@ -4013,25 +4007,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.838131 (kg/ha)
-        layer 2 = 0.0458546 (kg/ha)
+        layer 1 = 0.838045 (kg/ha)
+        layer 2 = 0.0459323 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.883985 (kg/ha)
+        uptake_no3 total = 0.883977 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00382565 (kg/ha)
-        layer 2 = 9.06058e-05 (kg/ha)
+        layer 1 = 0.00383337 (kg/ha)
+        layer 2 = 9.08167e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00391625 (kg/ha)
+        uptake_nh4 total = 0.00392419 (kg/ha)
      
 19 August 2002(Day of year=231), pastureconverter: 
      
@@ -4047,25 +4041,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.843421 (kg/ha)
-        layer 2 = 0.0352726 (kg/ha)
+        layer 1 = 0.843352 (kg/ha)
+        layer 2 = 0.0353335 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.878693 (kg/ha)
+        uptake_no3 total = 0.878686 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00367309 (kg/ha)
-        layer 2 = 6.97488e-05 (kg/ha)
+        layer 1 = 0.00368058 (kg/ha)
+        layer 2 = 6.99132e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00374284 (kg/ha)
+        uptake_nh4 total = 0.00375049 (kg/ha)
      
 20 August 2002(Day of year=232), pastureconverter: 
      
@@ -4081,25 +4075,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.809499 (kg/ha)
-        layer 2 = 0.0336107 (kg/ha)
+        layer 1 = 0.809433 (kg/ha)
+        layer 2 = 0.033669 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.843109 (kg/ha)
+        uptake_no3 total = 0.843103 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00335481 (kg/ha)
-        layer 2 = 6.5951e-05 (kg/ha)
+        layer 1 = 0.00336165 (kg/ha)
+        layer 2 = 6.61072e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00342077 (kg/ha)
+        uptake_nh4 total = 0.00342776 (kg/ha)
      
 21 August 2002(Day of year=233), pastureconverter: 
      
@@ -4115,25 +4109,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.910063 (kg/ha)
-        layer 2 = 0.0376091 (kg/ha)
+        layer 1 = 0.90999 (kg/ha)
+        layer 2 = 0.0376747 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.947672 (kg/ha)
+        uptake_no3 total = 0.947664 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00357731 (kg/ha)
-        layer 2 = 7.32624e-05 (kg/ha)
+        layer 1 = 0.00358459 (kg/ha)
+        layer 2 = 7.34365e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00365057 (kg/ha)
+        uptake_nh4 total = 0.00365803 (kg/ha)
      
 22 August 2002(Day of year=234), pastureconverter: 
      
@@ -4149,25 +4143,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.793666 (kg/ha)
-        layer 2 = 0.0326748 (kg/ha)
+        layer 1 = 0.793603 (kg/ha)
+        layer 2 = 0.0327322 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.826341 (kg/ha)
+        uptake_no3 total = 0.826335 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00294883 (kg/ha)
-        layer 2 = 6.32597e-05 (kg/ha)
+        layer 1 = 0.00295482 (kg/ha)
+        layer 2 = 6.34109e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00301209 (kg/ha)
+        uptake_nh4 total = 0.00301823 (kg/ha)
      
 23 August 2002(Day of year=235), pastureconverter: 
      
@@ -4183,25 +4177,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.761404 (kg/ha)
-        layer 2 = 0.0312445 (kg/ha)
+        layer 1 = 0.761343 (kg/ha)
+        layer 2 = 0.0312996 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.792648 (kg/ha)
+        uptake_no3 total = 0.792643 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00266613 (kg/ha)
-        layer 2 = 6.01539e-05 (kg/ha)
+        layer 1 = 0.00267155 (kg/ha)
+        layer 2 = 6.02982e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00272629 (kg/ha)
+        uptake_nh4 total = 0.00273185 (kg/ha)
      
 24 August 2002(Day of year=236), pastureconverter: 
      
@@ -4217,25 +4211,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.746299 (kg/ha)
-        layer 2 = 0.030612 (kg/ha)
+        layer 1 = 0.74624 (kg/ha)
+        layer 2 = 0.0306663 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.776911 (kg/ha)
+        uptake_no3 total = 0.776906 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00245345 (kg/ha)
-        layer 2 = 5.86195e-05 (kg/ha)
+        layer 1 = 0.00245842 (kg/ha)
+        layer 2 = 5.87606e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00251207 (kg/ha)
+        uptake_nh4 total = 0.00251718 (kg/ha)
      
 25 August 2002(Day of year=237), pastureconverter: 
      
@@ -4251,25 +4245,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.731964 (kg/ha)
-        layer 2 = 0.0298716 (kg/ha)
+        layer 1 = 0.731906 (kg/ha)
+        layer 2 = 0.0299249 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.761836 (kg/ha)
+        uptake_no3 total = 0.761831 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00224566 (kg/ha)
-        layer 2 = 5.68997e-05 (kg/ha)
+        layer 1 = 0.00225021 (kg/ha)
+        layer 2 = 5.70371e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00230256 (kg/ha)
+        uptake_nh4 total = 0.00230725 (kg/ha)
      
 26 August 2002(Day of year=238), pastureconverter: 
      
@@ -4285,25 +4279,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.671814 (kg/ha)
-        layer 2 = 0.0273493 (kg/ha)
+        layer 1 = 0.671761 (kg/ha)
+        layer 2 = 0.0273983 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.699163 (kg/ha)
+        uptake_no3 total = 0.699159 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00192824 (kg/ha)
-        layer 2 = 5.17649e-05 (kg/ha)
+        layer 1 = 0.00193214 (kg/ha)
+        layer 2 = 5.18903e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00198 (kg/ha)
+        uptake_nh4 total = 0.00198403 (kg/ha)
      
 27 August 2002(Day of year=239), pastureconverter: 
      
@@ -4319,25 +4313,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.618558 (kg/ha)
-        layer 2 = 0.025069 (kg/ha)
+        layer 1 = 0.618509 (kg/ha)
+        layer 2 = 0.025114 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.643627 (kg/ha)
+        uptake_no3 total = 0.643623 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00168879 (kg/ha)
-        layer 2 = 4.70414e-05 (kg/ha)
+        layer 1 = 0.0016922 (kg/ha)
+        layer 2 = 4.71557e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00173583 (kg/ha)
+        uptake_nh4 total = 0.00173935 (kg/ha)
      
 28 August 2002(Day of year=240), pastureconverter: 
      
@@ -4353,25 +4347,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.58918 (kg/ha)
-        layer 2 = 0.0237083 (kg/ha)
+        layer 1 = 0.589134 (kg/ha)
+        layer 2 = 0.023751 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.612888 (kg/ha)
+        uptake_no3 total = 0.612885 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00153393 (kg/ha)
-        layer 2 = 4.41013e-05 (kg/ha)
+        layer 1 = 0.00153703 (kg/ha)
+        layer 2 = 4.42087e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00157803 (kg/ha)
+        uptake_nh4 total = 0.00158123 (kg/ha)
      
 29 August 2002(Day of year=241), pastureconverter: 
      
@@ -4387,25 +4381,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.577041 (kg/ha)
-        layer 2 = 0.0230117 (kg/ha)
+        layer 1 = 0.576997 (kg/ha)
+        layer 2 = 0.0230532 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.600053 (kg/ha)
+        uptake_no3 total = 0.60005 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00144468 (kg/ha)
-        layer 2 = 4.24696e-05 (kg/ha)
+        layer 1 = 0.0014476 (kg/ha)
+        layer 2 = 4.25732e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00148715 (kg/ha)
+        uptake_nh4 total = 0.00149017 (kg/ha)
      
 30 August 2002(Day of year=242), pastureconverter: 
      
@@ -4421,25 +4415,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.54859 (kg/ha)
-        layer 2 = 0.0217865 (kg/ha)
+        layer 1 = 0.548548 (kg/ha)
+        layer 2 = 0.0218259 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.570377 (kg/ha)
+        uptake_no3 total = 0.570374 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00132946 (kg/ha)
-        layer 2 = 3.9922e-05 (kg/ha)
+        layer 1 = 0.00133214 (kg/ha)
+        layer 2 = 4.00196e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00136938 (kg/ha)
+        uptake_nh4 total = 0.00137216 (kg/ha)
      
 31 August 2002(Day of year=243), pastureconverter: 
      
@@ -4455,25 +4449,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.513139 (kg/ha)
-        layer 2 = 0.0202951 (kg/ha)
+        layer 1 = 0.513099 (kg/ha)
+        layer 2 = 0.0203319 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.533434 (kg/ha)
+        uptake_no3 total = 0.533431 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00120903 (kg/ha)
-        layer 2 = 3.70021e-05 (kg/ha)
+        layer 1 = 0.00121146 (kg/ha)
+        layer 2 = 3.70927e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00124603 (kg/ha)
+        uptake_nh4 total = 0.00124855 (kg/ha)
      
 1 September 2002(Day of year=244), pastureconverter: 
      
@@ -4489,25 +4483,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.475645 (kg/ha)
-        layer 2 = 0.018689 (kg/ha)
+        layer 1 = 0.475609 (kg/ha)
+        layer 2 = 0.018723 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.494334 (kg/ha)
+        uptake_no3 total = 0.494332 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.00109491 (kg/ha)
-        layer 2 = 3.39395e-05 (kg/ha)
+        layer 1 = 0.00109711 (kg/ha)
+        layer 2 = 3.40226e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.00112885 (kg/ha)
+        uptake_nh4 total = 0.00113113 (kg/ha)
      
 2 September 2002(Day of year=245), pastureconverter: 
      
@@ -4523,25 +4517,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.406692 (kg/ha)
-        layer 2 = 0.0160201 (kg/ha)
+        layer 1 = 0.406661 (kg/ha)
+        layer 2 = 0.0160492 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.422712 (kg/ha)
+        uptake_no3 total = 0.42271 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000933528 (kg/ha)
-        layer 2 = 2.88853e-05 (kg/ha)
+        layer 1 = 0.000935393 (kg/ha)
+        layer 2 = 2.89561e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000962413 (kg/ha)
+        uptake_nh4 total = 0.000964349 (kg/ha)
      
 3 September 2002(Day of year=246), pastureconverter: 
      
@@ -4557,25 +4551,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.372043 (kg/ha)
-        layer 2 = 0.0146664 (kg/ha)
+        layer 1 = 0.372014 (kg/ha)
+        layer 2 = 0.014693 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.386709 (kg/ha)
+        uptake_no3 total = 0.386707 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000850309 (kg/ha)
-        layer 2 = 2.62004e-05 (kg/ha)
+        layer 1 = 0.00085201 (kg/ha)
+        layer 2 = 2.62646e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000876509 (kg/ha)
+        uptake_nh4 total = 0.000878274 (kg/ha)
      
 4 September 2002(Day of year=247), pastureconverter: 
      
@@ -4591,25 +4585,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.345913 (kg/ha)
-        layer 2 = 0.0131161 (kg/ha)
+        layer 1 = 0.345887 (kg/ha)
+        layer 2 = 0.0131399 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.359029 (kg/ha)
+        uptake_no3 total = 0.359027 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000749728 (kg/ha)
-        layer 2 = 2.3236e-05 (kg/ha)
+        layer 1 = 0.000751236 (kg/ha)
+        layer 2 = 2.3293e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000772964 (kg/ha)
+        uptake_nh4 total = 0.000774529 (kg/ha)
      
 5 September 2002(Day of year=248), pastureconverter: 
      
@@ -4625,25 +4619,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.318168 (kg/ha)
-        layer 2 = 0.0118857 (kg/ha)
+        layer 1 = 0.318145 (kg/ha)
+        layer 2 = 0.0119073 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.330053 (kg/ha)
+        uptake_no3 total = 0.330052 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000674843 (kg/ha)
-        layer 2 = 2.08493e-05 (kg/ha)
+        layer 1 = 0.0006762 (kg/ha)
+        layer 2 = 2.09004e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000695693 (kg/ha)
+        uptake_nh4 total = 0.000697101 (kg/ha)
      
 6 September 2002(Day of year=249), pastureconverter: 
      
@@ -4659,25 +4653,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.308039 (kg/ha)
-        layer 2 = 0.0118456 (kg/ha)
+        layer 1 = 0.308016 (kg/ha)
+        layer 2 = 0.011867 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.319884 (kg/ha)
+        uptake_no3 total = 0.319883 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000672617 (kg/ha)
-        layer 2 = 2.06674e-05 (kg/ha)
+        layer 1 = 0.000673964 (kg/ha)
+        layer 2 = 2.07179e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000693284 (kg/ha)
+        uptake_nh4 total = 0.000694682 (kg/ha)
      
 7 September 2002(Day of year=250), pastureconverter: 
      
@@ -4693,25 +4687,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.278344 (kg/ha)
-        layer 2 = 0.0107201 (kg/ha)
+        layer 1 = 0.278324 (kg/ha)
+        layer 2 = 0.0107395 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.289064 (kg/ha)
+        uptake_no3 total = 0.289063 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000599814 (kg/ha)
-        layer 2 = 1.86908e-05 (kg/ha)
+        layer 1 = 0.00060101 (kg/ha)
+        layer 2 = 1.87365e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000618505 (kg/ha)
+        uptake_nh4 total = 0.000619747 (kg/ha)
      
 8 September 2002(Day of year=251), pastureconverter: 
      
@@ -4727,25 +4721,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.266237 (kg/ha)
-        layer 2 = 0.0102575 (kg/ha)
+        layer 1 = 0.266217 (kg/ha)
+        layer 2 = 0.010276 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.276495 (kg/ha)
+        uptake_no3 total = 0.276493 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000564341 (kg/ha)
-        layer 2 = 1.79004e-05 (kg/ha)
+        layer 1 = 0.000565463 (kg/ha)
+        layer 2 = 1.7944e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000582242 (kg/ha)
+        uptake_nh4 total = 0.000583407 (kg/ha)
      
 9 September 2002(Day of year=252), pastureconverter: 
      
@@ -4761,25 +4755,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.243575 (kg/ha)
-        layer 2 = 0.00923804 (kg/ha)
+        layer 1 = 0.243558 (kg/ha)
+        layer 2 = 0.00925466 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.252813 (kg/ha)
+        uptake_no3 total = 0.252812 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000503718 (kg/ha)
-        layer 2 = 1.61464e-05 (kg/ha)
+        layer 1 = 0.000504719 (kg/ha)
+        layer 2 = 1.61857e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000519864 (kg/ha)
+        uptake_nh4 total = 0.000520905 (kg/ha)
      
 10 September 2002(Day of year=253), pastureconverter: 
      
@@ -4795,25 +4789,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.238513 (kg/ha)
-        layer 2 = 0.00882175 (kg/ha)
+        layer 1 = 0.238496 (kg/ha)
+        layer 2 = 0.00883759 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.247335 (kg/ha)
+        uptake_no3 total = 0.247334 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000483019 (kg/ha)
-        layer 2 = 1.54691e-05 (kg/ha)
+        layer 1 = 0.000483976 (kg/ha)
+        layer 2 = 1.55067e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000498488 (kg/ha)
+        uptake_nh4 total = 0.000499483 (kg/ha)
      
 11 September 2002(Day of year=254), pastureconverter: 
      
@@ -4829,25 +4823,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.23401 (kg/ha)
-        layer 2 = 0.00876188 (kg/ha)
+        layer 1 = 0.233993 (kg/ha)
+        layer 2 = 0.00877756 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.242772 (kg/ha)
+        uptake_no3 total = 0.242771 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000465714 (kg/ha)
-        layer 2 = 1.54114e-05 (kg/ha)
+        layer 1 = 0.000466634 (kg/ha)
+        layer 2 = 1.54488e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000481126 (kg/ha)
+        uptake_nh4 total = 0.000482083 (kg/ha)
      
 12 September 2002(Day of year=255), pastureconverter: 
      
@@ -4863,25 +4857,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.201194 (kg/ha)
-        layer 2 = 0.00751342 (kg/ha)
+        layer 1 = 0.201179 (kg/ha)
+        layer 2 = 0.00752684 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.208707 (kg/ha)
+        uptake_no3 total = 0.208706 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000394924 (kg/ha)
-        layer 2 = 1.32435e-05 (kg/ha)
+        layer 1 = 0.000395701 (kg/ha)
+        layer 2 = 1.32756e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000408168 (kg/ha)
+        uptake_nh4 total = 0.000408976 (kg/ha)
      
 13 September 2002(Day of year=256), pastureconverter: 
      
@@ -4897,25 +4891,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.177648 (kg/ha)
-        layer 2 = 0.00664511 (kg/ha)
+        layer 1 = 0.177635 (kg/ha)
+        layer 2 = 0.00665693 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.184293 (kg/ha)
+        uptake_no3 total = 0.184292 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 0.000345051 (kg/ha)
-        layer 2 = 1.1708e-05 (kg/ha)
+        layer 1 = 0.000345726 (kg/ha)
+        layer 2 = 1.17362e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000356759 (kg/ha)
+        uptake_nh4 total = 0.000357463 (kg/ha)
      
 14 September 2002(Day of year=257), pastureconverter: 
      
@@ -4931,8 +4925,8 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.142394 (kg/ha)
-        layer 2 = 0.0053268 (kg/ha)
+        layer 1 = 0.142384 (kg/ha)
+        layer 2 = 0.00533625 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
@@ -4942,14 +4936,14 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_nh4:-
-        layer 1 = 0.000274536 (kg/ha)
-        layer 2 = 9.32116e-06 (kg/ha)
+        layer 1 = 0.000275071 (kg/ha)
+        layer 2 = 9.3436e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000283857 (kg/ha)
+        uptake_nh4 total = 0.000284414 (kg/ha)
      
 15 September 2002(Day of year=258), pastureconverter: 
      
@@ -4965,8 +4959,8 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.115574 (kg/ha)
-        layer 2 = 0.00429215 (kg/ha)
+        layer 1 = 0.115566 (kg/ha)
+        layer 2 = 0.00429973 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
@@ -4976,14 +4970,14 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_nh4:-
-        layer 1 = 0.000221517 (kg/ha)
-        layer 2 = 7.3923e-06 (kg/ha)
+        layer 1 = 0.000221947 (kg/ha)
+        layer 2 = 7.41006e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000228909 (kg/ha)
+        uptake_nh4 total = 0.000229357 (kg/ha)
      
 16 September 2002(Day of year=259), pastureconverter: 
      
@@ -4999,8 +4993,8 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.113029 (kg/ha)
-        layer 2 = 0.00416812 (kg/ha)
+        layer 1 = 0.113022 (kg/ha)
+        layer 2 = 0.00417545 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
@@ -5010,14 +5004,14 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_nh4:-
-        layer 1 = 0.000212157 (kg/ha)
-        layer 2 = 7.07186e-06 (kg/ha)
+        layer 1 = 0.000212584 (kg/ha)
+        layer 2 = 7.08878e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 0.000219229 (kg/ha)
+        uptake_nh4 total = 0.000219673 (kg/ha)
      
 17 September 2002(Day of year=260), pastureconverter: 
      
@@ -5033,25 +5027,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0395522 (kg/ha)
-        layer 2 = 0.00122872 (kg/ha)
+        layer 1 = 0.0395499 (kg/ha)
+        layer 2 = 0.00123088 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.040781 (kg/ha)
+        uptake_no3 total = 0.0407808 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 7.84064e-05 (kg/ha)
-        layer 2 = 2.06823e-06 (kg/ha)
+        layer 1 = 7.85722e-05 (kg/ha)
+        layer 2 = 2.07318e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 8.04746e-05 (kg/ha)
+        uptake_nh4 total = 8.06453e-05 (kg/ha)
      
 18 September 2002(Day of year=261), pastureconverter: 
      
@@ -5067,25 +5061,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0367265 (kg/ha)
-        layer 2 = 0.00112342 (kg/ha)
+        layer 1 = 0.0367243 (kg/ha)
+        layer 2 = 0.00112539 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0378499 (kg/ha)
+        uptake_no3 total = 0.0378497 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 7.64398e-05 (kg/ha)
-        layer 2 = 1.8873e-06 (kg/ha)
+        layer 1 = 7.66051e-05 (kg/ha)
+        layer 2 = 1.89179e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 7.83271e-05 (kg/ha)
+        uptake_nh4 total = 7.84969e-05 (kg/ha)
      
 19 September 2002(Day of year=262), pastureconverter: 
      
@@ -5101,25 +5095,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0342458 (kg/ha)
-        layer 2 = 0.00103486 (kg/ha)
+        layer 1 = 0.0342439 (kg/ha)
+        layer 2 = 0.00103666 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0352807 (kg/ha)
+        uptake_no3 total = 0.0352805 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 7.05932e-05 (kg/ha)
-        layer 2 = 1.74533e-06 (kg/ha)
+        layer 1 = 7.07471e-05 (kg/ha)
+        layer 2 = 1.74947e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 7.23385e-05 (kg/ha)
+        uptake_nh4 total = 7.24965e-05 (kg/ha)
      
 20 September 2002(Day of year=263), pastureconverter: 
      
@@ -5135,25 +5129,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0317933 (kg/ha)
-        layer 2 = 0.000950888 (kg/ha)
+        layer 1 = 0.0317915 (kg/ha)
+        layer 2 = 0.000952534 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0327442 (kg/ha)
+        uptake_no3 total = 0.0327441 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 6.38045e-05 (kg/ha)
-        layer 2 = 1.61148e-06 (kg/ha)
+        layer 1 = 6.39441e-05 (kg/ha)
+        layer 2 = 1.61528e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 6.54159e-05 (kg/ha)
+        uptake_nh4 total = 6.55593e-05 (kg/ha)
      
 21 September 2002(Day of year=264), pastureconverter: 
      
@@ -5169,25 +5163,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0289607 (kg/ha)
-        layer 2 = 0.000854906 (kg/ha)
+        layer 1 = 0.0289591 (kg/ha)
+        layer 2 = 0.000856377 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0298156 (kg/ha)
+        uptake_no3 total = 0.0298155 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 5.56369e-05 (kg/ha)
-        layer 2 = 1.45131e-06 (kg/ha)
+        layer 1 = 5.57591e-05 (kg/ha)
+        layer 2 = 1.45473e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 5.70882e-05 (kg/ha)
+        uptake_nh4 total = 5.72138e-05 (kg/ha)
      
 22 September 2002(Day of year=265), pastureconverter: 
      
@@ -5203,25 +5197,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0274374 (kg/ha)
-        layer 2 = 0.000797598 (kg/ha)
+        layer 1 = 0.027436 (kg/ha)
+        layer 2 = 0.000798963 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.028235 (kg/ha)
+        uptake_no3 total = 0.0282349 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 4.99162e-05 (kg/ha)
-        layer 2 = 1.3537e-06 (kg/ha)
+        layer 1 = 5.00261e-05 (kg/ha)
+        layer 2 = 1.35688e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 5.12699e-05 (kg/ha)
+        uptake_nh4 total = 5.1383e-05 (kg/ha)
      
 23 September 2002(Day of year=266), pastureconverter: 
      
@@ -5237,25 +5231,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0245203 (kg/ha)
-        layer 2 = 0.000717706 (kg/ha)
+        layer 1 = 0.024519 (kg/ha)
+        layer 2 = 0.000718928 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.025238 (kg/ha)
+        uptake_no3 total = 0.0252379 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 4.39886e-05 (kg/ha)
-        layer 2 = 1.21197e-06 (kg/ha)
+        layer 1 = 4.40857e-05 (kg/ha)
+        layer 2 = 1.2148e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 4.52005e-05 (kg/ha)
+        uptake_nh4 total = 4.53005e-05 (kg/ha)
      
 24 September 2002(Day of year=267), pastureconverter: 
      
@@ -5271,25 +5265,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0229523 (kg/ha)
-        layer 2 = 0.000675326 (kg/ha)
+        layer 1 = 0.022951 (kg/ha)
+        layer 2 = 0.000676468 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0236276 (kg/ha)
+        uptake_no3 total = 0.0236275 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 4.13921e-05 (kg/ha)
-        layer 2 = 1.13211e-06 (kg/ha)
+        layer 1 = 4.14837e-05 (kg/ha)
+        layer 2 = 1.13474e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 4.25242e-05 (kg/ha)
+        uptake_nh4 total = 4.26184e-05 (kg/ha)
      
 25 September 2002(Day of year=268), pastureconverter: 
      
@@ -5305,25 +5299,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0214042 (kg/ha)
-        layer 2 = 0.00063138 (kg/ha)
+        layer 1 = 0.0214031 (kg/ha)
+        layer 2 = 0.000632443 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0220356 (kg/ha)
+        uptake_no3 total = 0.0220355 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 3.79278e-05 (kg/ha)
-        layer 2 = 1.0553e-06 (kg/ha)
+        layer 1 = 3.80117e-05 (kg/ha)
+        layer 2 = 1.05775e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 3.89831e-05 (kg/ha)
+        uptake_nh4 total = 3.90695e-05 (kg/ha)
      
 26 September 2002(Day of year=269), pastureconverter: 
      
@@ -5339,25 +5333,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0202175 (kg/ha)
-        layer 2 = 0.00059742 (kg/ha)
+        layer 1 = 0.0202164 (kg/ha)
+        layer 2 = 0.000598421 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0208149 (kg/ha)
+        uptake_no3 total = 0.0208148 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 3.48402e-05 (kg/ha)
-        layer 2 = 9.99912e-07 (kg/ha)
+        layer 1 = 3.49172e-05 (kg/ha)
+        layer 2 = 1.00222e-06 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 3.58401e-05 (kg/ha)
+        uptake_nh4 total = 3.59194e-05 (kg/ha)
      
 27 September 2002(Day of year=270), pastureconverter: 
      
@@ -5373,8 +5367,8 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0191077 (kg/ha)
-        layer 2 = 0.000564691 (kg/ha)
+        layer 1 = 0.0191066 (kg/ha)
+        layer 2 = 0.000565631 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
@@ -5384,14 +5378,14 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_nh4:-
-        layer 1 = 3.21117e-05 (kg/ha)
-        layer 2 = 9.46817e-07 (kg/ha)
+        layer 1 = 3.21826e-05 (kg/ha)
+        layer 2 = 9.4899e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 3.30585e-05 (kg/ha)
+        uptake_nh4 total = 3.31316e-05 (kg/ha)
      
 28 September 2002(Day of year=271), pastureconverter: 
      
@@ -5407,25 +5401,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0181926 (kg/ha)
-        layer 2 = 0.00053746 (kg/ha)
+        layer 1 = 0.0181916 (kg/ha)
+        layer 2 = 0.00053835 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0187301 (kg/ha)
+        uptake_no3 total = 0.01873 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 3.00072e-05 (kg/ha)
-        layer 2 = 9.05739e-07 (kg/ha)
+        layer 1 = 3.00735e-05 (kg/ha)
+        layer 2 = 9.0781e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 3.09129e-05 (kg/ha)
+        uptake_nh4 total = 3.09813e-05 (kg/ha)
      
 29 September 2002(Day of year=272), pastureconverter: 
      
@@ -5441,25 +5435,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0176072 (kg/ha)
-        layer 2 = 0.000473782 (kg/ha)
+        layer 1 = 0.0176064 (kg/ha)
+        layer 2 = 0.000474565 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.018081 (kg/ha)
+        uptake_no3 total = 0.0180809 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 2.70378e-05 (kg/ha)
-        layer 2 = 8.03119e-07 (kg/ha)
+        layer 1 = 2.70975e-05 (kg/ha)
+        layer 2 = 8.04951e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 2.7841e-05 (kg/ha)
+        uptake_nh4 total = 2.79025e-05 (kg/ha)
      
 30 September 2002(Day of year=273), pastureconverter: 
      
@@ -5475,25 +5469,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0165874 (kg/ha)
-        layer 2 = 0.000482764 (kg/ha)
+        layer 1 = 0.0165866 (kg/ha)
+        layer 2 = 0.000483556 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0170702 (kg/ha)
+        uptake_no3 total = 0.0170701 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 2.52165e-05 (kg/ha)
-        layer 2 = 8.22288e-07 (kg/ha)
+        layer 1 = 2.5272e-05 (kg/ha)
+        layer 2 = 8.24154e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 2.60388e-05 (kg/ha)
+        uptake_nh4 total = 2.60961e-05 (kg/ha)
      
 1 October 2002(Day of year=274), pastureconverter: 
      
@@ -5509,25 +5503,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0152588 (kg/ha)
-        layer 2 = 0.000422958 (kg/ha)
+        layer 1 = 0.0152581 (kg/ha)
+        layer 2 = 0.000423649 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0156818 (kg/ha)
+        uptake_no3 total = 0.0156817 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 2.25911e-05 (kg/ha)
-        layer 2 = 7.22163e-07 (kg/ha)
+        layer 1 = 2.26408e-05 (kg/ha)
+        layer 2 = 7.23796e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 2.33132e-05 (kg/ha)
+        uptake_nh4 total = 2.33646e-05 (kg/ha)
      
 2 October 2002(Day of year=275), pastureconverter: 
      
@@ -5543,8 +5537,8 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0137125 (kg/ha)
-        layer 2 = 0.000392233 (kg/ha)
+        layer 1 = 0.0137118 (kg/ha)
+        layer 2 = 0.00039287 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
@@ -5554,14 +5548,14 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_nh4:-
-        layer 1 = 2.0049e-05 (kg/ha)
-        layer 2 = 6.69239e-07 (kg/ha)
+        layer 1 = 2.0093e-05 (kg/ha)
+        layer 2 = 6.70747e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 2.07183e-05 (kg/ha)
+        uptake_nh4 total = 2.07638e-05 (kg/ha)
      
 3 October 2002(Day of year=276), pastureconverter: 
      
@@ -5577,25 +5571,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0126518 (kg/ha)
-        layer 2 = 0.000361061 (kg/ha)
+        layer 1 = 0.0126512 (kg/ha)
+        layer 2 = 0.000361645 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0130129 (kg/ha)
+        uptake_no3 total = 0.0130128 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 1.83657e-05 (kg/ha)
-        layer 2 = 6.14845e-07 (kg/ha)
+        layer 1 = 1.84059e-05 (kg/ha)
+        layer 2 = 6.16225e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 1.89805e-05 (kg/ha)
+        uptake_nh4 total = 1.90221e-05 (kg/ha)
      
 4 October 2002(Day of year=277), pastureconverter: 
      
@@ -5611,8 +5605,8 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0118588 (kg/ha)
-        layer 2 = 0.000337121 (kg/ha)
+        layer 1 = 0.0118582 (kg/ha)
+        layer 2 = 0.000337664 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
@@ -5622,14 +5616,14 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_nh4:-
-        layer 1 = 1.84392e-05 (kg/ha)
-        layer 2 = 5.73491e-07 (kg/ha)
+        layer 1 = 1.84796e-05 (kg/ha)
+        layer 2 = 5.74773e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 1.90126e-05 (kg/ha)
+        uptake_nh4 total = 1.90544e-05 (kg/ha)
      
 5 October 2002(Day of year=278), pastureconverter: 
      
@@ -5645,25 +5639,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0110612 (kg/ha)
-        layer 2 = 0.000273066 (kg/ha)
+        layer 1 = 0.0110607 (kg/ha)
+        layer 2 = 0.000273505 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0113343 (kg/ha)
+        uptake_no3 total = 0.0113342 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 1.66761e-05 (kg/ha)
-        layer 2 = 4.65084e-07 (kg/ha)
+        layer 1 = 1.67127e-05 (kg/ha)
+        layer 2 = 4.66123e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 1.71412e-05 (kg/ha)
+        uptake_nh4 total = 1.71788e-05 (kg/ha)
      
 6 October 2002(Day of year=279), pastureconverter: 
      
@@ -5679,8 +5673,8 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0100496 (kg/ha)
-        layer 2 = 0.000245439 (kg/ha)
+        layer 1 = 0.0100492 (kg/ha)
+        layer 2 = 0.000245832 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
@@ -5690,14 +5684,14 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_nh4:-
-        layer 1 = 1.46809e-05 (kg/ha)
-        layer 2 = 4.18784e-07 (kg/ha)
+        layer 1 = 1.47131e-05 (kg/ha)
+        layer 2 = 4.19716e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 1.50997e-05 (kg/ha)
+        uptake_nh4 total = 1.51328e-05 (kg/ha)
      
 7 October 2002(Day of year=280), pastureconverter: 
      
@@ -5713,25 +5707,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00925703 (kg/ha)
-        layer 2 = 0.0002495 (kg/ha)
+        layer 1 = 0.0092566 (kg/ha)
+        layer 2 = 0.000249896 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00950653 (kg/ha)
+        uptake_no3 total = 0.0095065 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 1.36618e-05 (kg/ha)
-        layer 2 = 4.26845e-07 (kg/ha)
+        layer 1 = 1.36916e-05 (kg/ha)
+        layer 2 = 4.27789e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 1.40886e-05 (kg/ha)
+        uptake_nh4 total = 1.41194e-05 (kg/ha)
      
 8 October 2002(Day of year=281), pastureconverter: 
      
@@ -5747,25 +5741,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00870551 (kg/ha)
-        layer 2 = 0.000234 (kg/ha)
+        layer 1 = 0.00870511 (kg/ha)
+        layer 2 = 0.000234369 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00893951 (kg/ha)
+        uptake_no3 total = 0.00893948 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 1.37106e-05 (kg/ha)
-        layer 2 = 4.01463e-07 (kg/ha)
+        layer 1 = 1.37405e-05 (kg/ha)
+        layer 2 = 4.02348e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 1.41121e-05 (kg/ha)
+        uptake_nh4 total = 1.41428e-05 (kg/ha)
      
 9 October 2002(Day of year=282), pastureconverter: 
      
@@ -5781,25 +5775,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00836832 (kg/ha)
-        layer 2 = 0.000197483 (kg/ha)
+        layer 1 = 0.00836798 (kg/ha)
+        layer 2 = 0.000197795 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0085658 (kg/ha)
+        uptake_no3 total = 0.00856578 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 1.25685e-05 (kg/ha)
-        layer 2 = 3.39501e-07 (kg/ha)
+        layer 1 = 1.25959e-05 (kg/ha)
+        layer 2 = 3.40248e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 1.2908e-05 (kg/ha)
+        uptake_nh4 total = 1.29362e-05 (kg/ha)
      
 10 October 2002(Day of year=283), pastureconverter: 
      
@@ -5815,25 +5809,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00800247 (kg/ha)
-        layer 2 = 0.000192125 (kg/ha)
+        layer 1 = 0.00800214 (kg/ha)
+        layer 2 = 0.000192426 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00819459 (kg/ha)
+        uptake_no3 total = 0.00819456 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 1.22016e-05 (kg/ha)
-        layer 2 = 3.30375e-07 (kg/ha)
+        layer 1 = 1.22281e-05 (kg/ha)
+        layer 2 = 3.31099e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 1.2532e-05 (kg/ha)
+        uptake_nh4 total = 1.25592e-05 (kg/ha)
      
 11 October 2002(Day of year=284), pastureconverter: 
      
@@ -5849,25 +5843,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00733957 (kg/ha)
-        layer 2 = 0.000176177 (kg/ha)
+        layer 1 = 0.00733927 (kg/ha)
+        layer 2 = 0.000176452 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00751574 (kg/ha)
+        uptake_no3 total = 0.00751572 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 1.1108e-05 (kg/ha)
-        layer 2 = 3.02791e-07 (kg/ha)
+        layer 1 = 1.11321e-05 (kg/ha)
+        layer 2 = 3.03452e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 1.14108e-05 (kg/ha)
+        uptake_nh4 total = 1.14355e-05 (kg/ha)
      
 12 October 2002(Day of year=285), pastureconverter: 
      
@@ -5883,25 +5877,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00653854 (kg/ha)
-        layer 2 = 0.000156796 (kg/ha)
+        layer 1 = 0.00653827 (kg/ha)
+        layer 2 = 0.00015704 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00669533 (kg/ha)
+        uptake_no3 total = 0.00669531 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 9.66496e-06 (kg/ha)
-        layer 2 = 2.68659e-07 (kg/ha)
+        layer 1 = 9.68584e-06 (kg/ha)
+        layer 2 = 2.69244e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 9.93362e-06 (kg/ha)
+        uptake_nh4 total = 9.95509e-06 (kg/ha)
      
 13 October 2002(Day of year=286), pastureconverter: 
      
@@ -5917,25 +5911,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00603586 (kg/ha)
-        layer 2 = 0.000144478 (kg/ha)
+        layer 1 = 0.00603562 (kg/ha)
+        layer 2 = 0.000144701 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00618033 (kg/ha)
+        uptake_no3 total = 0.00618032 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 8.72737e-06 (kg/ha)
-        layer 2 = 2.46531e-07 (kg/ha)
+        layer 1 = 8.74618e-06 (kg/ha)
+        layer 2 = 2.47065e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 8.9739e-06 (kg/ha)
+        uptake_nh4 total = 8.99325e-06 (kg/ha)
      
 14 October 2002(Day of year=287), pastureconverter: 
      
@@ -5951,25 +5945,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00555021 (kg/ha)
-        layer 2 = 0.00013255 (kg/ha)
+        layer 1 = 0.00554998 (kg/ha)
+        layer 2 = 0.000132754 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00568276 (kg/ha)
+        uptake_no3 total = 0.00568274 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 7.9489e-06 (kg/ha)
-        layer 2 = 2.2491e-07 (kg/ha)
+        layer 1 = 7.96599e-06 (kg/ha)
+        layer 2 = 2.25396e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 8.17381e-06 (kg/ha)
+        uptake_nh4 total = 8.19139e-06 (kg/ha)
      
 15 October 2002(Day of year=288), pastureconverter: 
      
@@ -5985,25 +5979,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00501393 (kg/ha)
-        layer 2 = 0.000119421 (kg/ha)
+        layer 1 = 0.00501373 (kg/ha)
+        layer 2 = 0.000119604 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00513335 (kg/ha)
+        uptake_no3 total = 0.00513333 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 7.21869e-06 (kg/ha)
-        layer 2 = 2.00934e-07 (kg/ha)
+        layer 1 = 7.23416e-06 (kg/ha)
+        layer 2 = 2.01366e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 7.41962e-06 (kg/ha)
+        uptake_nh4 total = 7.43553e-06 (kg/ha)
      
 16 October 2002(Day of year=289), pastureconverter: 
      
@@ -6019,25 +6013,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.0044309 (kg/ha)
-        layer 2 = 0.000105284 (kg/ha)
+        layer 1 = 0.00443073 (kg/ha)
+        layer 2 = 0.000105445 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00453619 (kg/ha)
+        uptake_no3 total = 0.00453617 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 6.46032e-06 (kg/ha)
-        layer 2 = 1.75439e-07 (kg/ha)
+        layer 1 = 6.47413e-06 (kg/ha)
+        layer 2 = 1.75816e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 6.63576e-06 (kg/ha)
+        uptake_nh4 total = 6.64994e-06 (kg/ha)
      
 17 October 2002(Day of year=290), pastureconverter: 
      
@@ -6053,25 +6047,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00387539 (kg/ha)
-        layer 2 = 9.18235e-05 (kg/ha)
+        layer 1 = 0.00387524 (kg/ha)
+        layer 2 = 9.19629e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00396721 (kg/ha)
+        uptake_no3 total = 0.0039672 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 5.73079e-06 (kg/ha)
-        layer 2 = 1.51606e-07 (kg/ha)
+        layer 1 = 5.74301e-06 (kg/ha)
+        layer 2 = 1.5193e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 5.8824e-06 (kg/ha)
+        uptake_nh4 total = 5.89494e-06 (kg/ha)
      
 18 October 2002(Day of year=291), pastureconverter: 
      
@@ -6087,25 +6081,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00327298 (kg/ha)
-        layer 2 = 7.73235e-05 (kg/ha)
+        layer 1 = 0.00327285 (kg/ha)
+        layer 2 = 7.74404e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.0033503 (kg/ha)
+        uptake_no3 total = 0.00335029 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 5.07059e-06 (kg/ha)
-        layer 2 = 1.28308e-07 (kg/ha)
+        layer 1 = 5.08137e-06 (kg/ha)
+        layer 2 = 1.28581e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 5.1989e-06 (kg/ha)
+        uptake_nh4 total = 5.20995e-06 (kg/ha)
      
 19 October 2002(Day of year=292), pastureconverter: 
      
@@ -6121,25 +6115,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00305401 (kg/ha)
-        layer 2 = 7.19132e-05 (kg/ha)
+        layer 1 = 0.00305389 (kg/ha)
+        layer 2 = 7.20214e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00312592 (kg/ha)
+        uptake_no3 total = 0.00312591 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 4.9507e-06 (kg/ha)
-        layer 2 = 1.21059e-07 (kg/ha)
+        layer 1 = 4.96119e-06 (kg/ha)
+        layer 2 = 1.21316e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 5.07176e-06 (kg/ha)
+        uptake_nh4 total = 5.0825e-06 (kg/ha)
      
 20 October 2002(Day of year=293), pastureconverter: 
      
@@ -6155,25 +6149,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00283233 (kg/ha)
-        layer 2 = 6.64531e-05 (kg/ha)
+        layer 1 = 0.00283222 (kg/ha)
+        layer 2 = 6.65527e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00289878 (kg/ha)
+        uptake_no3 total = 0.00289877 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 4.72396e-06 (kg/ha)
-        layer 2 = 1.11938e-07 (kg/ha)
+        layer 1 = 4.73394e-06 (kg/ha)
+        layer 2 = 1.12175e-07 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 4.8359e-06 (kg/ha)
+        uptake_nh4 total = 4.84611e-06 (kg/ha)
      
 21 October 2002(Day of year=294), pastureconverter: 
      
@@ -6189,25 +6183,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00255226 (kg/ha)
-        layer 2 = 5.96651e-05 (kg/ha)
+        layer 1 = 0.00255217 (kg/ha)
+        layer 2 = 5.97541e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00261193 (kg/ha)
+        uptake_no3 total = 0.00261192 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 4.33247e-06 (kg/ha)
-        layer 2 = 9.9772e-08 (kg/ha)
+        layer 1 = 4.34159e-06 (kg/ha)
+        layer 2 = 9.99824e-08 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 4.43224e-06 (kg/ha)
+        uptake_nh4 total = 4.44157e-06 (kg/ha)
      
 22 October 2002(Day of year=295), pastureconverter: 
      
@@ -6223,25 +6217,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00203724 (kg/ha)
-        layer 2 = 4.74307e-05 (kg/ha)
+        layer 1 = 0.00203716 (kg/ha)
+        layer 2 = 4.75012e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00208467 (kg/ha)
+        uptake_no3 total = 0.00208466 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 3.50373e-06 (kg/ha)
-        layer 2 = 7.87034e-08 (kg/ha)
+        layer 1 = 3.51109e-06 (kg/ha)
+        layer 2 = 7.88688e-08 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 3.58243e-06 (kg/ha)
+        uptake_nh4 total = 3.58996e-06 (kg/ha)
      
 23 October 2002(Day of year=296), pastureconverter: 
      
@@ -6257,25 +6251,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00199917 (kg/ha)
-        layer 2 = 4.63424e-05 (kg/ha)
+        layer 1 = 0.00199909 (kg/ha)
+        layer 2 = 4.6411e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00204551 (kg/ha)
+        uptake_no3 total = 0.0020455 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 3.34207e-06 (kg/ha)
-        layer 2 = 7.64325e-08 (kg/ha)
+        layer 1 = 3.34906e-06 (kg/ha)
+        layer 2 = 7.65927e-08 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 3.4185e-06 (kg/ha)
+        uptake_nh4 total = 3.42565e-06 (kg/ha)
      
 24 October 2002(Day of year=297), pastureconverter: 
      
@@ -6291,25 +6285,25 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00176394 (kg/ha)
-        layer 2 = 3.86889e-05 (kg/ha)
+        layer 1 = 0.00176388 (kg/ha)
+        layer 2 = 3.8746e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_no3 total = 0.00180263 (kg/ha)
+        uptake_no3 total = 0.00180262 (kg/ha)
      
      
      uptake_nh4:-
-        layer 1 = 2.89882e-06 (kg/ha)
-        layer 2 = 6.35474e-08 (kg/ha)
+        layer 1 = 2.90487e-06 (kg/ha)
+        layer 2 = 6.36802e-08 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 2.96237e-06 (kg/ha)
+        uptake_nh4 total = 2.96855e-06 (kg/ha)
      
 25 October 2002(Day of year=298), pastureconverter: 
      
@@ -6325,8 +6319,8 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00167161 (kg/ha)
-        layer 2 = 3.79345e-05 (kg/ha)
+        layer 1 = 0.00167155 (kg/ha)
+        layer 2 = 3.79902e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
@@ -6336,14 +6330,14 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_nh4:-
-        layer 1 = 2.6933e-06 (kg/ha)
-        layer 2 = 6.22074e-08 (kg/ha)
+        layer 1 = 2.69891e-06 (kg/ha)
+        layer 2 = 6.2337e-08 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 2.75551e-06 (kg/ha)
+        uptake_nh4 total = 2.76124e-06 (kg/ha)
      
 26 October 2002(Day of year=299), pastureconverter: 
      
@@ -6359,8 +6353,8 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_no3:-
-        layer 1 = 0.00152853 (kg/ha)
-        layer 2 = 3.45216e-05 (kg/ha)
+        layer 1 = 0.00152848 (kg/ha)
+        layer 2 = 3.45721e-05 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
@@ -6370,14 +6364,14 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      
      
      uptake_nh4:-
-        layer 1 = 2.39519e-06 (kg/ha)
-        layer 2 = 5.67259e-08 (kg/ha)
+        layer 1 = 2.40016e-06 (kg/ha)
+        layer 2 = 5.68437e-08 (kg/ha)
         layer 3 = 0 (kg/ha)
         layer 4 = 0 (kg/ha)
         layer 5 = 0 (kg/ha)
         layer 6 = 0 (kg/ha)
         layer 7 = 0 (kg/ha)
-        uptake_nh4 total = 2.45192e-06 (kg/ha)
+        uptake_nh4 total = 2.45701e-06 (kg/ha)
      
 27 October 2002(Day of year=300), manager: 
      Manager sending message :- pastureconverter cultivatepasture  depth = 100, propn_incorp = 0.5, propn_mixed = 0.3
