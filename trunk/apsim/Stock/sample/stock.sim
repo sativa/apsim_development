@@ -18,11 +18,6 @@
          <filename>%apsuite\apsim\met\sample\dalby.met</filename>
       </initdata>
    </component>
-    <component name="FarmwiseSequencer" executable="%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll">
-      <initdata>
-         <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.xml</include>
-      </initdata>
-   </component>
    <component name="reportstock" executable="%apsuite\apsim\report\lib\report.dll">
       <initdata>
         <outputfrequency>post </outputfrequency>
