@@ -28,8 +28,13 @@ Component   "Egrandis" = c:\development\apsim\Growth\lib\Growth.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date =  9/04/1980
      Simulation end date   = 10/04/1994
      Time step =           = 1440 (mins)

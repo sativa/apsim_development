@@ -30,8 +30,13 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date = 13/06/1983
      Simulation end date   = 11/11/1983
      Time step =           = 1440 (mins)

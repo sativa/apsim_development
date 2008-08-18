@@ -23,8 +23,13 @@ Component      "sugar" = c:\development\apsim\sugar\lib\sugar.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date =  1/04/1988
      Simulation end date   = 26/10/1988
      Time step =           = 1440 (mins)

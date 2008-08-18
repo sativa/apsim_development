@@ -34,8 +34,13 @@ Component        "dam" = c:\development\apsim\watersupply\lib\watersupply.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date =  1/01/1940
      Simulation end date   = 31/12/1942
      Time step =           = 1440 (mins)

@@ -20,8 +20,13 @@ Component      "patch" = c:\development\apsim\PatchInput\lib\PatchInput.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Using start date from the met file.
      Using end date from the met file.
      Simulation start date =  1/01/1988

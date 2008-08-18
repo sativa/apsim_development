@@ -26,8 +26,13 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date =  1/01/1995
      Simulation end date   = 20/03/1995
      Time step =           = 1440 (mins)
