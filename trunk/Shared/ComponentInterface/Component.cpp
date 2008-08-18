@@ -380,15 +380,18 @@ void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Vari
   {
   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> pf;
   UInt2EventMap::iterator ipf, ipf1, ipf2;
+  vector<boost::function3<void, unsigned &, unsigned &, protocol::Variant &> > pfs;
 
   ipf1 = eventMap.lower_bound(eventID);
   ipf2 = eventMap.upper_bound(eventID);
 
   for (ipf = ipf1; ipf != ipf2; ipf++)
+     pfs.push_back(ipf->second);
+     
+  for (unsigned i = 0; i != pfs.size(); i++)
      {
      variant.getMessageData().reset();
-     pf = ipf->second;
-     (pf)(fromID, eventID, variant);
+     (pfs[i])(fromID, eventID, variant);
      }
   }
 // ------------------------------------------------------------------
