@@ -43,8 +43,13 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date = 20/11/2005
      Simulation end date   = 16/02/2006
      Time step =           = 1440 (mins)

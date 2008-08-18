@@ -25,8 +25,13 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date =  1/10/1997
      Simulation end date   =  1/05/2000
      Time step =           = 1440 (mins)

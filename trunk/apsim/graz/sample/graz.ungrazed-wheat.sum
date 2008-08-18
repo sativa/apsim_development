@@ -24,8 +24,13 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date = 14/06/1988
      Simulation end date   = 17/11/1988
      Time step =           = 1440 (mins)

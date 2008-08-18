@@ -40,8 +40,13 @@ Component   "tracker6" = c:\development\apsim\tracker\lib\tracker.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date =  1/11/1996
      Simulation end date   = 30/04/2002
      Time step =           = 1440 (mins)

@@ -29,8 +29,13 @@ Component   "bambatsi" = c:\development\apsim\growth\lib\growth.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date =  5/08/1994
      Simulation end date   = 23/01/2000
      Time step =           = 1440 (mins)

@@ -33,8 +33,13 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date =  1/06/1985
      Simulation end date   = 30/09/1985
      Time step =           = 1440 (mins)

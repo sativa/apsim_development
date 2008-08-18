@@ -28,8 +28,13 @@ Component  "Epopulnea" = c:\development\apsim\growth\lib\growth.dll
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
+        init_step
+        do_pasture_water
         process
+        do_pasture_growth
+        do_stock
         post
+        end_step
      Simulation start date =  1/01/1889
      Simulation end date   =  4/09/2006
      Time step =           = 1440 (mins)
