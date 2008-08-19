@@ -1,4 +1,4 @@
-<folder version="14" name="New Simulations">
+<folder version="15" name="New Simulations">
   <shared name="shared" />
   <simulation name="Blank Simulation">
     <metfile name="met">
@@ -677,7 +677,8 @@ if (date_within('[date1], [date2]') = 1) then
 </text>
         <event>prenewmet</event>
       </script>
-    </manager>    <area name="paddock">
+    </manager>
+    <area name="paddock">
       <registrations name="global" />
       <folder name="Manager folder">
         <manager name="Sowing rule">
@@ -6967,6 +6968,9 @@ if (date_within('[date1], [date2]') = 1) then
         <default_no3_conc type="text" description="Nitrate concentration (ppm N)">10</default_no3_conc>
         <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">10</default_nh4_conc>
         <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">300</default_cl_conc>
+        <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+        <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+        <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       </irrigation>
       <surfaceom name="LitterLayer">
         <PoolName type="text" description="PoolName">egrandis</PoolName>

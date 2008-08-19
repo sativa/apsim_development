@@ -10,7 +10,7 @@
       DataContainer.obj DataProcessor.obj ApsimFileReader.obj Probability.obj 
       PredObs.obj XmlFileReader.obj Filter.obj Cumulative.obj Depth.obj Diff.obj 
       Frequency.obj KWTest.obj REMS.obj Regression.obj SOI.obj Stats.obj 
-      RecordFilter.obj Joiner.obj"/>
+      RecordFilter.obj Joiner.obj ..\..\ApsimReport\Source\SeriesSplitter.obj"/>
     <RESFILES value="SEGReport.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TPropertyForm.dfm TTextForm.dfm TChartForm.dfm TImageForm.dfm 
@@ -37,7 +37,7 @@
       nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi 
       indy.bpi vcljpg.bpi TeeUI7C6.bpi Tee7C6.bpi TeeDB7C6.bpi 
       TeeLanguage7C6.bpi TeePro7C6.bpi TeeQR7C6.bpi TeeGL7C6.bpi qrpt.bpi"/>
-    <PATHCPP value=".;"/>
+    <PATHCPP value=".;..\..\ApsimReport\Source"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -47,8 +47,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="SEGReport.bpf"/>
-    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\general;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\QRExport3\Lib\C6;$(BCB)\Components\MemTable;$(BCB)\Components\Dream\Units;$(BCB)\Components\Tms;$(BCB)\Components\Boost;$(SHARED);$(BCB)\components\goose-0.0.11;$(BCB)\components\goose-0.0.11\src\containers;$(BCB)\components\goose-0.0.11\src\util;$(BCB)\components\goose-0.0.11\src\stats;$(BCB)\components\goose-0.0.11\src\specfns;$(BCB)\Components\TeeChart\CBuilder6\Include"/>
-    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;$(BCB)\components\thirdparty;..\general;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\QRExport3\Lib\C6;$(BCB)\Components\Dream\Units;$(BCB)\Components\Tms;$(BCB)\Components\MemTable;$(BCB)\lib\release"/>
+    <INCLUDEPATH value="..\..\ApsimReport\Source;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\general;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\QRExport3\Lib\C6;$(BCB)\Components\MemTable;$(BCB)\Components\Dream\Units;$(BCB)\Components\Tms;$(BCB)\Components\Boost;$(SHARED);$(BCB)\components\goose-0.0.11;$(BCB)\components\goose-0.0.11\src\containers;$(BCB)\components\goose-0.0.11\src\util;$(BCB)\components\goose-0.0.11\src\stats;$(BCB)\components\goose-0.0.11\src\specfns;$(BCB)\Components\TeeChart\CBuilder6\Include"/>
+    <LIBPATH value="..\..\ApsimReport\Source;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;$(BCB)\components\thirdparty;..\general;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\QRExport3\Lib\C6;$(BCB)\Components\Dream\Units;$(BCB)\Components\Tms;$(BCB)\Components\MemTable;$(BCB)\lib\release"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -109,6 +109,7 @@
       <FILE FILENAME="Stats.cpp" FORMNAME="" UNITNAME="Stats" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="RecordFilter.cpp" FORMNAME="" UNITNAME="RecordFilter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Joiner.cpp" FORMNAME="" UNITNAME="Joiner" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\ApsimReport\Source\SeriesSplitter.cpp" FORMNAME="" UNITNAME="SeriesSplitter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

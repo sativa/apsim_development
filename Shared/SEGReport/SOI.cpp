@@ -108,16 +108,11 @@ string getPhase(unsigned year, unsigned month, vector<string>& phaseNames, Phase
 // ------------------------------------------------------------------
 // Return true if we should keep the specified phase.
 // ------------------------------------------------------------------
-bool keepPhase(const string& phaseName, const std::vector<std::string>& phaseNamesToKeep,
-               bool allOtherYears)
+bool keepPhase(const string& phaseName, const std::vector<std::string>& phaseNamesToKeep)
    {
-   bool keep = (find_if(phaseNamesToKeep.begin(), phaseNamesToKeep.end(),
-                        CaseInsensitiveStringComparison(phaseName))
-                != phaseNamesToKeep.end());
-
-   if (allOtherYears)
-      keep = !keep;
-   return keep;
+   return (find_if(phaseNamesToKeep.begin(), phaseNamesToKeep.end(),
+                   CaseInsensitiveStringComparison(phaseName))
+          != phaseNamesToKeep.end());
    }
 
 
@@ -147,6 +142,9 @@ void processSOI(DataContainer& parent,
       bool allOtherYears = (find_if(phaseNamesToKeep.begin(), phaseNamesToKeep.end(),
                                     CaseInsensitiveStringComparison("AllOtherYears"))
                        != phaseNamesToKeep.end());
+      bool allYears = (find_if(phaseNamesToKeep.begin(), phaseNamesToKeep.end(),
+                               CaseInsensitiveStringComparison("AllYears"))
+                       != phaseNamesToKeep.end());
       if (soiFilename == "")
          {
          ApsimSettings settings;
@@ -173,17 +171,46 @@ void processSOI(DataContainer& parent,
             int year = source->FieldValues[sowYearFieldName.c_str()];
             currentPhaseName = getPhase(year, monthToUse, phaseNames, phases);
 
-            if (keepPhase(currentPhaseName, phaseNamesToKeep, allOtherYears))
+            bool keep = keepPhase(currentPhaseName, phaseNamesToKeep);
+            if (keep || allOtherYears)
                {
                // add a new record that is identical to the current source record.
                copyDBRecord(source, &result);
 
                result.Edit();
-               result.FieldValues[SOI_PHASE_FIELD_NAME] = currentPhaseName.c_str();
+               if (keep)
+                  result.FieldValues[SOI_PHASE_FIELD_NAME] = currentPhaseName.c_str();
+               else
+                  result.FieldValues[SOI_PHASE_FIELD_NAME] = "AllOtherYears";
+
                result.Post();
                }
 
             source->Next();
+            }
+
+         // Add the AllYears series if necessary.
+         if (allYears)
+            {
+            // loop through all records.
+            source->First();
+            while (!source->Eof)
+               {
+               string currentPhaseName;
+               int year = source->FieldValues[sowYearFieldName.c_str()];
+               currentPhaseName = getPhase(year, monthToUse, phaseNames, phases);
+
+               // add a new record that is identical to the current source record.
+               copyDBRecord(source, &result);
+
+               result.Edit();
+               result.FieldValues[SOI_PHASE_FIELD_NAME] = "AllYears";
+               result.Post();
+
+               source->Next();
+               }
+
+
             }
          }
       }

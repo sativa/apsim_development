@@ -27,6 +27,7 @@
 #include "RecordFilter.h"
 #include "ReportMacros.h"
 #include "Joiner.h"
+#include "SeriesSplitter.h"
 
 //---------------------------------------------------------------------------
 // A dataset can be split into 1 or more 'series' if it has a series column.
@@ -48,14 +49,14 @@ bool sourceHasSeries(int& seriesNumber, vector<TDataSet*>& sources)
          if (sources[i] == NULL || !sources[i]->Active)
             return false;
 
-      if (sources[0]->FieldList->Find("series") == NULL)
+      if (sources[0]->FieldList->Find("seriesnumber") == NULL)
          {
          if (seriesNumber == 1)
             return sources[0]->RecordCount > 0;
          }
       else
          {
-         string filterString = "series=" + itoa(seriesNumber);
+         string filterString = "seriesnumber=" + itoa(seriesNumber);
          sources[0]->Filter = filterString.c_str();
          sources[0]->Filtered = true;
          if (sources[0]->RecordCount == 0)
@@ -123,6 +124,8 @@ void processData(DataContainer& parent, const std::string& xml, TDataSet& result
          processRecordFilter(parent, doc.documentElement(), sources, result);
       else if (Str_i_Eq(type, "Joiner"))
          processJoiner(parent, doc.documentElement(), sources, result);
+      else if (Str_i_Eq(type, "SeriesSplitter"))
+         processSeriesSplitter(parent, doc.documentElement(), sources, result);
       }
    }
 
@@ -133,12 +136,12 @@ void processData(DataContainer& parent, const std::string& xml, TDataSet& result
 //---------------------------------------------------------------------------
 void copySeriesFieldDefs(TDataSet* source, TDataSet& result)
    {
-   if (source->FieldList->Find("series") != NULL)
+   if (source->FieldList->Find("seriesnumber") != NULL)
       {
       TFieldDef *series = result.FieldDefs->AddFieldDef();
-      series->Name = "series";
+      series->Name = "SeriesNumber";
       series->DataType = ftInteger;
-      addDBField(&result, "title", "abc");
+      addDBField(&result, "SeriesName", "abc");
       }
    }
 
@@ -148,13 +151,13 @@ void copySeriesFieldDefs(TDataSet* source, TDataSet& result)
 //---------------------------------------------------------------------------
 void copySeriesValues(TDataSet* source, TDataSet& result)
    {
-   if (source->FieldList->Find("series") != NULL)
+   if (source->FieldList->Find("SeriesNumber") != NULL)
       {
       bool alreadyInEditMode = (result.State == dsEdit || result.State == dsInsert);
       if (!alreadyInEditMode)
          result.Edit();
-      result.FieldValues["series"] = source->FieldValues["series"];
-      result.FieldValues["title"] = source->FieldValues["title"];
+      result.FieldValues["SeriesNumber"] = source->FieldValues["SeriesNumber"];
+      result.FieldValues["SeriesName"] = source->FieldValues["SeriesName"];
       if (!alreadyInEditMode)
          result.Post();
       }

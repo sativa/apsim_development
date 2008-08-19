@@ -19,7 +19,6 @@ void processFilter(DataContainer& parent,
                    vector<TDataSet*> sources,
                    TDataSet& result)
    {
-   static int seriesNumber;
    vector<string> filters = parent.reads(properties, "FilterString");
 
    if (sources.size() == 1)
@@ -29,10 +28,8 @@ void processFilter(DataContainer& parent,
          {
          if (!result.Active)
             {
-            seriesNumber = 1;
             result.FieldDefs->Clear();
             result.FieldDefs->Assign(source->FieldDefs);
-            copySeriesFieldDefs(source, result);
             addDBField(&result, "filter", "abc");
             if (result.FieldDefs->Count > 0)
                result.Active = true;
@@ -52,19 +49,11 @@ void processFilter(DataContainer& parent,
                source->Filtered = true;
 
                source->First();
-               String SeriesTitle;
-               if (source->FieldList->Find("title") != NULL)
-                  SeriesTitle = String(source->FieldValues["title"]) + String("-") + filters[0].c_str();
-
                while (!source->Eof)
                   {
                   copyDBRecord(source, &result);
+                  copySeriesValues(source, result);
                   result.Edit();
-                  if (source->FieldList->Find("series") != NULL)
-                     {
-                     result.FieldValues["series"] = seriesNumber;
-                     result.FieldValues["title"] = SeriesTitle;
-                     }
                   result.FieldValues["filter"] = filters[i].c_str();
                   result.Post();
                   source->Next();
@@ -81,7 +70,6 @@ void processFilter(DataContainer& parent,
                source->Filtered = false;
                source->Filter = "";
                }
-            seriesNumber++;
             }
          }
       }

@@ -28,24 +28,20 @@ namespace Graph
         /// </summary>
         private void InitializeComponent()
             {
-            FarPoint.Win.Spread.TipAppearance tipAppearance1 = new FarPoint.Win.Spread.TipAppearance();
-            FarPoint.Win.Spread.CellType.ComboBoxCellType comboBoxCellType1 = new FarPoint.Win.Spread.CellType.ComboBoxCellType();
             this.GroupBox = new System.Windows.Forms.GroupBox();
-            this.fpSpread1 = new FarPoint.Win.Spread.FpSpread();
-            this.PhaseList = new FarPoint.Win.Spread.SheetView();
+            this.PhaseList = new System.Windows.Forms.CheckedListBox();
             this.label3 = new System.Windows.Forms.Label();
             this.MonthDropDown = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.FileNameEdit = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.GroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.fpSpread1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PhaseList)).BeginInit();
             this.SuspendLayout();
             // 
             // GroupBox
             // 
-            this.GroupBox.Controls.Add(this.fpSpread1);
+            this.GroupBox.BackColor = System.Drawing.SystemColors.Window;
+            this.GroupBox.Controls.Add(this.PhaseList);
             this.GroupBox.Controls.Add(this.label3);
             this.GroupBox.Controls.Add(this.MonthDropDown);
             this.GroupBox.Controls.Add(this.label2);
@@ -59,55 +55,28 @@ namespace Graph
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "GroupBox";
             // 
-            // fpSpread1
-            // 
-            this.fpSpread1.AccessibleDescription = "fpSpread1, Sheet1, Row 0, Column 0, ";
-            this.fpSpread1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.fpSpread1.ColumnSplitBoxPolicy = FarPoint.Win.Spread.SplitBoxPolicy.Never;
-            this.fpSpread1.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never;
-            this.fpSpread1.Location = new System.Drawing.Point(8, 140);
-            this.fpSpread1.Name = "fpSpread1";
-            this.fpSpread1.RowSplitBoxPolicy = FarPoint.Win.Spread.SplitBoxPolicy.Never;
-            this.fpSpread1.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
-            this.PhaseList});
-            this.fpSpread1.Size = new System.Drawing.Size(111, 94);
-            this.fpSpread1.TabIndex = 6;
-            tipAppearance1.BackColor = System.Drawing.SystemColors.Info;
-            tipAppearance1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            tipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.fpSpread1.TextTipAppearance = tipAppearance1;
-            // 
             // PhaseList
             // 
-            this.PhaseList.Reset();
-            // Formulas and custom names must be loaded with R1C1 reference style
-            this.PhaseList.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
-            this.PhaseList.ColumnCount = 1;
-            this.PhaseList.RowHeader.ColumnCount = 0;
-            this.PhaseList.AutoUpdateNotes = true;
-            this.PhaseList.ColumnHeader.AutoText = FarPoint.Win.Spread.HeaderAutoText.Blank;
-            comboBoxCellType1.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
-            comboBoxCellType1.Editable = true;
-            comboBoxCellType1.Items = new string[] {
-        "Negative",
-        "Positive",
-        "Falling",
-        "Rising",
-        "Zero",
-        "AllOtherYears"};
-            this.PhaseList.Columns.Get(0).CellType = comboBoxCellType1;
-            this.PhaseList.Columns.Get(0).Locked = false;
-            this.PhaseList.Columns.Get(0).Width = 89F;
-            this.PhaseList.RowHeader.Columns.Default.Resizable = false;
-            this.PhaseList.SheetName = "Sheet1";
-            this.PhaseList.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
+            this.PhaseList.CheckOnClick = true;
+            this.PhaseList.FormattingEnabled = true;
+            this.PhaseList.Items.AddRange(new object[] {
+            "Negative",
+            "Positive",
+            "Falling",
+            "Rising",
+            "Zero",
+            "AllYears",
+            "AllOtherYears"});
+            this.PhaseList.Location = new System.Drawing.Point(9, 133);
+            this.PhaseList.Name = "PhaseList";
+            this.PhaseList.Size = new System.Drawing.Size(112, 109);
+            this.PhaseList.TabIndex = 6;
+            this.PhaseList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OnItemCheck);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 124);
+            this.label3.Location = new System.Drawing.Point(4, 115);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 5;
@@ -131,7 +100,7 @@ namespace Graph
             "October",
             "November",
             "December"});
-            this.MonthDropDown.Location = new System.Drawing.Point(6, 91);
+            this.MonthDropDown.Location = new System.Drawing.Point(7, 82);
             this.MonthDropDown.Name = "MonthDropDown";
             this.MonthDropDown.Size = new System.Drawing.Size(114, 21);
             this.MonthDropDown.TabIndex = 3;
@@ -139,7 +108,7 @@ namespace Graph
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 75);
+            this.label2.Location = new System.Drawing.Point(7, 66);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(40, 13);
             this.label2.TabIndex = 2;
@@ -149,7 +118,7 @@ namespace Graph
             // 
             this.FileNameEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.FileNameEdit.Location = new System.Drawing.Point(6, 44);
+            this.FileNameEdit.Location = new System.Drawing.Point(7, 35);
             this.FileNameEdit.Name = "FileNameEdit";
             this.FileNameEdit.Size = new System.Drawing.Size(114, 20);
             this.FileNameEdit.TabIndex = 1;
@@ -157,7 +126,7 @@ namespace Graph
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 28);
+            this.label1.Location = new System.Drawing.Point(4, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 13);
             this.label1.TabIndex = 0;
@@ -171,8 +140,6 @@ namespace Graph
             this.Controls.SetChildIndex(this.GroupBox, 0);
             this.GroupBox.ResumeLayout(false);
             this.GroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.fpSpread1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PhaseList)).EndInit();
             this.ResumeLayout(false);
 
             }
@@ -184,8 +151,7 @@ namespace Graph
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox MonthDropDown;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private FarPoint.Win.Spread.FpSpread fpSpread1;
-        private FarPoint.Win.Spread.SheetView PhaseList;
+       private System.Windows.Forms.Label label1;
+       private System.Windows.Forms.CheckedListBox PhaseList;
         }
     }

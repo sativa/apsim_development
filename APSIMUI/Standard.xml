@@ -1,4 +1,4 @@
-<folder version="14" name="Standard Toolbox">
+<folder version="15" name="Standard Toolbox">
   <soilwatkludge name="soilwatkludge">
     <mwcon>1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</mwcon>
     <max_pond>100</max_pond>
@@ -323,8 +323,8 @@
       <soil_temp description="Initial soil temperature">15 15 15 15 15 15 15</soil_temp>
     </soiltemp>
     <cl name="Cl">
-      <d0 description ="Cl diffusivity in water (mm2/d)">108</d0>
-      <layers description ="Cl in each layer (kg/ha)">491 62 1490 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000</layers>
+      <d0 description="Cl diffusivity in water (mm2/d)">108</d0>
+      <layers description="Cl in each layer (kg/ha)">491 62 1490 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000</layers>
     </cl>
     <erosion name="Erosion">
       <model description="Model Name">freebairn</model>
@@ -1280,25 +1280,25 @@ if (date_within('[date1], [date2]') = 1) then
           <OutputVariableName type="text" description="Name of output variable to hold yes/no flag : ">InHeatShockWindow</OutputVariableName>
         </ui>
       </manager>
-		<manager name="Establish Bambatsi pasture">
-          <ui>
-            <category description="Sowing criteria" />
-            <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">1-sep</date1>
-            <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">31-dec</date2>
-            <raincrit type="text" description="Amount of rainfall : ">15</raincrit>
-            <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
-            <category description="Sowing parameters" />
-            <crop type="crop" description="Enter name of growth module to sow : ">bambatsi</crop>
-            <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
-          </ui>
-          <script name="init">
-            <text>
+      <manager name="Establish Bambatsi pasture">
+        <ui>
+          <category description="Sowing criteria" />
+          <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">1-sep</date1>
+          <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">31-dec</date2>
+          <raincrit type="text" description="Amount of rainfall : ">15</raincrit>
+          <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+          <category description="Sowing parameters" />
+          <crop type="crop" description="Enter name of growth module to sow : ">bambatsi</crop>
+          <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
+        </ui>
+        <script name="init">
+          <text>
   bambatsi_in = 0
             </text>
-            <event>init</event>
-          </script>
-          <script name="start_of_day">
-            <text><![CDATA[
+          <event>init</event>
+        </script>
+        <script name="start_of_day">
+          <text><![CDATA[
     if (date_within('[date1], [date2]') = 1) and bambatsi_in = 0 then
         if (rain[[rainnumdays]] >= [raincrit] then
                [crop]  establish plants =[density], init_section = seedling
@@ -1306,27 +1306,27 @@ if (date_within('[date1], [date2]') = 1) then
         endif
    endif
             ]]></text>
-            <event>start_of_day</event>
-          </script>
-        </manager>
-		  <manager name="Manage Bambatsi">
-          <ui>
-            <category description="Cutting criteria" />
-            <hmass type="text" description="Enter critical biomass for harvest (kg/ha) : ">2000</hmass>
-            <category description="Cutting parameters" />
-            <crop type="crop" description="Enter name of growth module to cut : ">bambatsi</crop>
-            <ffraction type="text" description="Enter fraction of foliage removed  (0-1) : ">0.9</ffraction>
-            <sfraction type="text" description="Enter fraction of stem removed  (0-1) : ">0.9</sfraction>
-          </ui>
-          <script name="start_of_day">
-            <text><![CDATA[
+          <event>start_of_day</event>
+        </script>
+      </manager>
+      <manager name="Manage Bambatsi">
+        <ui>
+          <category description="Cutting criteria" />
+          <hmass type="text" description="Enter critical biomass for harvest (kg/ha) : ">2000</hmass>
+          <category description="Cutting parameters" />
+          <crop type="crop" description="Enter name of growth module to cut : ">bambatsi</crop>
+          <ffraction type="text" description="Enter fraction of foliage removed  (0-1) : ">0.9</ffraction>
+          <sfraction type="text" description="Enter fraction of stem removed  (0-1) : ">0.9</sfraction>
+        </ui>
+        <script name="start_of_day">
+          <text><![CDATA[
          if ([crop].biomass > [hmass] and bambatsi_in = 1 then
                [crop]  cut foliage_remove_fr = [ffraction], adm_remove_fr = [sfraction]
          endif
             ]]></text>
-            <event>start_of_day</event>
-          </script>
-        </manager>      
+          <event>start_of_day</event>
+        </script>
+      </manager>
     </folder>
     <folder name="Africa-India">
       <folder name="Phosphorus and Manure">
@@ -3550,6 +3550,9 @@ dev.off()
       <irrigation_efficiency type="text" description="Efficiency of the irrigation. (0-1.0)">1</irrigation_efficiency>
       <irrigation_allocation type="list" listvalues="on,off" description="Allocation limits">off</irrigation_allocation>
       <allocation type="text" description="Allocation in ML">0</allocation>
+      <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
+      <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
+      <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
       <default_no3_conc type="text" description="Nitrate concentration (ppm N)">0.0</default_no3_conc>
       <default_nh4_conc type="text" description="Ammonium concentration (ppm N)">0.0</default_nh4_conc>
       <default_cl_conc type="text" description="Chloride concentration (ppm Cl)">0.0</default_cl_conc>
