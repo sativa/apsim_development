@@ -31,7 +31,7 @@ cd ..\..\Icrisat\BW
 "%APSBIN%\apsimreport.exe" BW8GxET5-8.report ..\..\BW8GxET5-8.gif
 "%APSBIN%\apsimreport.exe" BW8GxET9-12.report ..\..\BW8GxET9-12.gif
 
-cd ..\..\Lawes\LE8
+cd ..\..\Lawes\LE
 "%APSBIN%\apsimreport.exe" Sorghum_LE13_Buster.report ..\..\LE13_Buster.gif
 "%APSBIN%\apsimreport.exe" Sorghum_LE13_M35-1.report ..\..\LE13_M35-1.gif
 "%APSBIN%\apsimreport.exe" Sorghum_LE14.report ..\..\LE14.gif
@@ -45,6 +45,7 @@ cd ..\..\Lawes\LE8
 
 cd %APSROOT%\apsim\Sorghum\Validation
 
+md Predicted
 copy /Y Hermitage\HE1-8\*.out Predicted
 copy /Y Icrisat\BW\*.out Predicted
 copy /Y Lawes\LE\*.out Predicted
