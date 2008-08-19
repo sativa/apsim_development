@@ -48,10 +48,11 @@ namespace Graph
          Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(RegressionUI), "Regression"), "Data");
          Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(PredObsUI), "PredObs"), "Data");
          Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(StatsUI), "Stats"), "Data");
-         Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(SOIUI), "SOI"), "Data");
+         Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(SOIUI), "SOIData"), "Data");
          Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(RecordFilterUI), "RecordFilter"), "Data");
          Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(REMSUI), "REMS"), "Data");
          Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(EmptyGraphUI), "Joiner"), "Data");
+         Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(FieldListUI), "SeriesSplitter"), "Data");
          Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(XYPickerUI), "XY"), "Visual");
          Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(ChartUI), "Chart"), "Visual");
          Toolbox.ToolboxCtrl.AddToolboxItem(CreateToolboxItem(typeof(DataGridUI), "DataGrid"), "Visual");
@@ -59,7 +60,7 @@ namespace Graph
          Toolbox.ToolboxCtrl.AutoSize = true;
          Toolbox.AutoSize = true;
          Toolbox.FormBorderStyle = FormBorderStyle.SizableToolWindow;
-         Toolbox.Height = 470;
+         Toolbox.Height = 500;
          Toolbox.Width = 120;
          }
       private ToolboxItem CreateToolboxItem(Type t, string DisplayName)

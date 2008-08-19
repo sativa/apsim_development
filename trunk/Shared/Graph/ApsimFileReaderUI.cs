@@ -38,21 +38,9 @@ namespace Graph
             FileNames.CopyTo(AllLines);
             FileList.Lines = AllLines;
             GroupBox.Text = Name;
-            SeriesCheckBox.Checked = (XmlHelper.Value(Data, "BySeries") == "yes");
-            SeriesCheckBox.CheckStateChanged -= new EventHandler(OnCheckStateChanged);
-            SeriesCheckBox.CheckStateChanged += new EventHandler(OnCheckStateChanged);
             FileList.TextChanged += OnTextChanged;
             }
 
-       void OnCheckStateChanged(object sender, EventArgs e)
-          {
-          if (SeriesCheckBox.Checked)
-             XmlHelper.SetValue(Data, "BySeries", "yes");
-          else
-             XmlHelper.SetValue(Data, "BySeries", "no");
-          PublishViewChanged();
-          }
-   
         private void OnBrowseButtonClick(object sender, EventArgs e)
             {
             if (OpenFileDialog.ShowDialog() == DialogResult.OK)

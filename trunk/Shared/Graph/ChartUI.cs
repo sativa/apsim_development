@@ -60,7 +60,7 @@ namespace Graph
             DrawSeries(XY, XmlHelper.Value(XY.ParentNode, "Source"));
 
          // setup the legend.
-         Chart.Legend.Visible = (Chart.Series.Count > 1);
+         Chart.Legend.Visible = (Chart.Series.Count > 1 && Chart.Axes.Bottom.Labels.Items.Count == 0);
          if (!Chart.Axes.Left.Visible && !Chart.Axes.Right.Visible)
             {
             Chart.Axes.Left.Visible = true;     // situation where no data has been plotted.
@@ -78,29 +78,79 @@ namespace Graph
                Chart.Axes.Bottom.Labels.DateTimeFormat = "MMM";
             }
 
-         // Add a datasource name to any series that have the same title as another series.
-         foreach (Steema.TeeChart.Styles.Series Series in Chart.Series)
+         // Loop through all series names and get rid of redundant series parts.
+         // e.g. series names can look like:
+         //      Series1, yield, Falling
+         //      Series1, yield, Negative
+         //      Series1, yield, Rising
+         //      Series2, yield, Falling
+         //      Series2, yield, Negative
+         //      Series2, yield, Rising
+         // We want to change this to.
+         //      Series1, Falling
+         //      Series1, Negative
+         //      Series1, Rising
+         //      Series2, Falling
+         //      Series2, Negative
+         //      Series2, Rising
+         if (Chart.Series.Count > 0)
             {
-            string ThisTitle = Series.Title;
-            StringManip.SplitOffBracketedValue(ref ThisTitle, '(', ')');
+            int SeriesPartNumber = 0;
+            while (ProcessSeriesPart(ref SeriesPartNumber));
+            }
 
-            // count how many series have this series name.
-            int Count = 0;
-            foreach (Steema.TeeChart.Styles.Series S in Chart.Series)
+         // Now we can fix up the x axis labels.
+         if (Chart.Axes.Bottom.Labels.Items.Count == Chart.Series.Count)
+            {
+            for (int i = 0; i != Chart.Series.Count; i++)
                {
-               string STitle = S.Title;
-               StringManip.SplitOffBracketedValue(ref STitle, '(', ')');
-               if (STitle.ToLower() == ThisTitle.ToLower())
-                  Count++;
+               Chart.Axes.Bottom.Labels.Items[i].Text = Chart.Series[i].Title;
                }
-
-            if (Count == 1)
-               Series.Title = ThisTitle;
             }
 
          Steema.TeeChart.Themes.ColorPalettes.ApplyPalette(Chart.Chart, 7);
          ChartProperties Properties = new ChartProperties(XmlHelper.EnsureNodeExists(Data, "Properties"), Chart.Chart);
          Properties.Apply();
+         }
+
+      private bool ProcessSeriesPart(ref int SeriesPartNumber)
+         {
+         char[] Comma = { ',' };
+         string SeriesPartName = "";
+         foreach (Steema.TeeChart.Styles.Series Series in Chart.Series)
+            {
+            string[] SeriesParts = Series.Title.Split(Comma, StringSplitOptions.RemoveEmptyEntries);
+            if (SeriesPartNumber >= SeriesParts.Length)
+               return false;
+            if (SeriesPartName == "")
+               SeriesPartName = SeriesParts[SeriesPartNumber];
+            else if (SeriesPartName.ToLower() != SeriesParts[SeriesPartNumber].ToLower())
+               {
+               SeriesPartNumber++;
+               return true;
+               }
+            }
+         // If we get this far then all series part names for this part number are the same
+         // and so we can remove it from all series.
+         foreach (Steema.TeeChart.Styles.Series Series in Chart.Series)
+            {
+            string[] SeriesParts = Series.Title.Split(Comma, StringSplitOptions.RemoveEmptyEntries);
+            string NewSeriesTitle = "";
+            for (int i = 0; i != SeriesParts.Length; i++)
+               {
+               if (i != SeriesPartNumber)
+                  {
+                  if (NewSeriesTitle != "")
+                     NewSeriesTitle += ", ";
+                  NewSeriesTitle += SeriesParts[i];
+                  }
+               }
+            if (NewSeriesTitle != "")
+               Series.Title = NewSeriesTitle;
+            else
+               return false;
+            }
+         return true;
          }
 
       private void DrawSeries(XmlNode Series, string DataSource)
@@ -120,14 +170,6 @@ namespace Graph
                XTop = true;
                }
 
-            // If an X wasn't specified then use the series name as an x.
-            if (XFieldNames.Count == 0)
-               {
-               XFieldNames.Add("seriesname");
-               XTop = false;
-               }
-
-
             // If x field names is still empty then assume that the user wants
             // to plot all fields as x except the y field.
             if (XFieldNames.Count > 0)
@@ -137,7 +179,7 @@ namespace Graph
                   string[] FieldNames = ParentUI.Processor.GetFieldNamesForDataSet(DataSource);
                   string YFieldName = XmlHelper.Value(Series, "Y");
                   foreach (string FieldName in FieldNames)
-                     if (FieldName.ToLower() != YFieldName.ToLower())
+                     if (FieldName.ToLower() != YFieldName.ToLower() && FieldName.ToLower() != "seriesname" && FieldName.ToLower() != "seriesnumber")
                         DrawSeries(DataSource, FieldName, YFieldName, SeriesType, PointType, XTop, false, ColourString,
                                    FieldName);
                   }
@@ -149,7 +191,7 @@ namespace Graph
                      {
                      string[] FieldNames = ParentUI.Processor.GetFieldNamesForDataSet(DataSource);
                      foreach (string FieldName in FieldNames)
-                        if (FieldName.ToLower() != XFieldNames[0].ToLower() && FieldName != "seriesname")
+                        if (FieldName.ToLower() != XFieldNames[0].ToLower() && FieldName.ToLower() != "seriesname" && FieldName.ToLower() != "seriesnumber")
                            DrawSeries(DataSource, XFieldNames[0], FieldName, SeriesType, PointType, XTop, false, ColourString,
                                       FieldName);
                      }
@@ -157,7 +199,7 @@ namespace Graph
                      {
                      string[] FieldNames = ParentUI.Processor.GetFieldNamesForDataSet(DataSource);
                      foreach (string FieldName in FieldNames)
-                        if (FieldName.ToLower() != XFieldNames[0].ToLower() && FieldName != "seriesname" && FieldName.ToLower() != YFieldNames[0].Substring(1).ToLower())
+                        if (FieldName.ToLower() != XFieldNames[0].ToLower() && FieldName.ToLower() != "seriesname" && FieldName.ToLower() != "seriesnumber" && FieldName.ToLower() != YFieldNames[0].Substring(1).ToLower())
                            DrawSeries(DataSource, XFieldNames[0], FieldName, SeriesType, PointType, XTop, false, ColourString,
                                       FieldName);
                      }
@@ -180,19 +222,18 @@ namespace Graph
                               string SeriesType, string PointType, bool X2, bool Y2,
                               string ColourString, string SeriesName)
          {
-         if (DataSource != "" && XFieldName != "title" && YFieldName != "title" &&
-                                  XFieldName != "series" && YFieldName != "series")
+         if (DataSource != "")
             {
             DataTable Data = new DataTable();
-            ParentUI.Processor.GetData(DataSource, "series", Data);
+            ParentUI.Processor.GetData(DataSource, "seriesnumber", Data);
             bool XDataPresent = false;
-            if (XFieldName != "seriesname")
+            if (XFieldName != "SeriesName")
                {
                ParentUI.Processor.GetData(DataSource, XFieldName, Data);
                XDataPresent = true;
                }
             ParentUI.Processor.GetData(DataSource, YFieldName, Data);
-            ParentUI.Processor.GetData(DataSource, "Title", Data);
+            ParentUI.Processor.GetData(DataSource, "SeriesName", Data);
 
             if (Data.Columns.Count > 0)
                {
@@ -203,13 +244,13 @@ namespace Graph
                foreach (DataRow Row in Data.Rows)
                   {
                   int ThisSeries = 1;
-                  if (!(Row["series"] is DBNull))
-                     ThisSeries = Convert.ToInt32(Row["series"]);
+                  if (!(Row["seriesnumber"] is DBNull))
+                     ThisSeries = Convert.ToInt32(Row["seriesnumber"]);
                   if (ThisSeries != PreviousSeries)
                      {
                      // A new series is needed so create it and set it up.
                      NewSeries = CreateSeries(SeriesType, PointType, ColourString, X2, Y2);
-                     NewSeries.Title = SeriesName + " (" + Row["Title"] + ")"; 
+                     NewSeries.Title = SeriesName + "," + Row["SeriesName"];
                      NewSeries.YValues.Name = YFieldName;
                      Chart.Series.Add(NewSeries);
                      PreviousSeries = ThisSeries;
@@ -233,7 +274,7 @@ namespace Graph
                      {
                      NewSeries.Add(Convert.ToDouble(Row[YFieldName]));
                      if (NewSeries.Count == 1)
-                        Chart.Axes.Bottom.Labels.Items.Add(Chart.Series.Count, SeriesName);
+                        Chart.Axes.Bottom.Labels.Items.Add(Chart.Series.Count, NewSeries.Title);
                      Chart.Axes.Bottom.Visible = true;
                      }
                   }
