@@ -31,6 +31,7 @@ namespace ApsimRun
       public Runnable SimulationFile;
       public StreamWriter SummaryFile;
       public Detail Details = new Detail();
+      public int PercentComplete = 0;
       public SingleRun(Runnable SimulationFile, string Name)
          {
          this.SimulationFile = SimulationFile;
@@ -53,6 +54,7 @@ namespace ApsimRun
       internal void IsCompleted()
          {
          Details.IsCompleted = true;
+         PercentComplete = 100;
          if (SimulationFile.DeleteSimOnceRunCompleted)
             File.Delete(SimFileName);
          }
@@ -87,6 +89,7 @@ namespace ApsimRun
       {
       private int NumCPUsToUse = 1;
       private List<SingleRun> Simulations = new List<SingleRun>();
+      private List<SingleRun> SimulationsRunning = new List<SingleRun>();
       private int NextIndex = -1;
       private int NumCompleted = 0;
       private ISynchronizeInvoke MainThread;
@@ -123,6 +126,7 @@ namespace ApsimRun
          lock (LockObject)
             {
             NumApsimsRunning = 0;
+            SimulationsRunning.Clear();
             KillThread = true;
             for (int i = 0; i < NextIndex; i++)
                Simulations[i].Close();
@@ -134,6 +138,7 @@ namespace ApsimRun
          lock (LockObject)
             {
             Simulations.Clear();
+            SimulationsRunning.Clear();
             NumApsimsRunning = 0;
             NumCompleted = 0;
             NextIndex = -1;
@@ -213,6 +218,7 @@ namespace ApsimRun
          lock (LockObject)
             {
             Stopped = false;
+            SimulationsRunning.Clear();
             NumApsimsRunning = 0;
             NumCompleted = 0;
             NextIndex = -1;
@@ -256,6 +262,7 @@ namespace ApsimRun
                         {
                         //InvokeUpdatedEvent(SimulationToRun.Details, 0);
                         NumApsimsRunning++;
+                        SimulationsRunning.Add(SimulationToRun);
                         ApsimProcess.Start();
                         }
                      }
@@ -331,7 +338,7 @@ namespace ApsimRun
                {
                int Percent = Convert.ToInt32(e.Text.Substring(1));
                if (Percent >= 0 && Percent < 100)
-                  InvokeUpdatedEvent(Simulation.Details, Percent);
+                  InvokeUpdatedEvent(Simulation, Percent);
                }
             else
                {
@@ -357,6 +364,7 @@ namespace ApsimRun
          CloseJob(Simulation);
          lock (LockObject)
             {
+            SimulationsRunning.Remove(Simulation);
             NumApsimsRunning--;
             }
          }
@@ -374,7 +382,7 @@ namespace ApsimRun
             {
             NumCompleted++;
             }
-         InvokeUpdatedEvent(Simulation.Details, 100);
+         InvokeUpdatedEvent(Simulation, 100);
          }
 
       /// <summary>
@@ -404,14 +412,21 @@ namespace ApsimRun
       /// <summary>
       /// Invokes the updated event callback
       /// </summary>
-      private void InvokeUpdatedEvent(Detail SimulationDetail, int PercentDone)
+      private void InvokeUpdatedEvent(SingleRun Simulation, int PercentDone)
          {
          if (SimulationUpdated != null && KillThread == false)
             {
-            double PercentPerSimulation = 100.0 / Simulations.Count;
-            int OverallPercent = (int)(PercentDone / 100.0 * PercentPerSimulation + NumCompleted * PercentPerSimulation);
+            int SimulationIndex = SimulationsRunning.IndexOf(Simulation);
+            if (SimulationIndex != -1)
+               SimulationsRunning[SimulationIndex].PercentComplete = PercentDone;
 
-            object[] args = new object[] { SimulationDetail, PercentDone, OverallPercent };
+            double PercentPerSimulation = 100.0 / Simulations.Count;
+            int OverallPercent = (int) (NumCompleted * PercentPerSimulation);
+            foreach (SingleRun Sim in SimulationsRunning)
+               OverallPercent += (int)(Sim.PercentComplete / 100.0 * PercentPerSimulation);
+
+            OverallPercent = Math.Min(OverallPercent, 100);
+            object[] args = new object[] { Simulation.Details, PercentDone, OverallPercent };
             MainThread.Invoke(SimulationUpdated, args);
             }
          }
