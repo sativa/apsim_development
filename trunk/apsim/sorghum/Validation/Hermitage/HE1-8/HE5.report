@@ -1,37 +1,37 @@
 <report version="5">
 <Data>
-<ApsimFileReader Left="17" Top="24" Width="273" Height="77" name="T1Pred">
+<ApsimFileReader Left="-158" Top="24" Width="273" Height="77" name="T1Pred">
   <FileName>Sorghum_HE5_T1.out</FileName>
 </ApsimFileReader>
-<REMS Left="296" Top="24" Width="177" Height="223" name="T1Obs">
+<REMS Left="121" Top="24" Width="177" Height="223" name="T1Obs">
   <FileName>C:\development\apsim\sorghum\Validation\Hermitage\HE1-8\HERems.mdb</FileName>
   <Experiment>HE5</Experiment>
   <Treatment>Buster</Treatment>
-  <DataSource>Plot</DataSource>
+  <DataSource>Crop</DataSource>
 </REMS>
-<ApsimFileReader name="T2Pred" Left="17" Top="108" Width="273" Height="77">
+<ApsimFileReader name="T2Pred" Left="-158" Top="108" Width="273" Height="77">
   <FileName>Sorghum_HE5_T2.out</FileName>
 </ApsimFileReader>
-<ApsimFileReader name="T3Pred" Left="17" Top="192" Width="273" Height="81">
+<ApsimFileReader name="T3Pred" Left="-158" Top="192" Width="273" Height="81">
   <FileName>Sorghum_HE5_T3.out</FileName>
 </ApsimFileReader>
-<REMS name="T2Obs" Left="496" Top="28" Width="173" Height="218">
+<REMS name="T2Obs" Left="321" Top="28" Width="173" Height="218">
   <FileName>C:\development\apsim\sorghum\Validation\Hermitage\HE1-8\HERems.mdb</FileName>
   <Experiment>HE5</Experiment>
   <Treatment>M35-1</Treatment>
-  <DataSource>Plot</DataSource>
+  <DataSource>Crop</DataSource>
 </REMS>
-<REMS name="T3Obs" Left="699" Top="32" Width="155" Height="224">
+<REMS name="T3Obs" Left="524" Top="32" Width="155" Height="224">
   <FileName>C:\development\apsim\sorghum\Validation\Hermitage\HE1-8\HERems.mdb</FileName>
   <Experiment>HE5</Experiment>
   <Treatment>CSH13R</Treatment>
-  <DataSource>Plot</DataSource>
+  <DataSource>Crop</DataSource>
 </REMS>
 </Data>
    <page> <![CDATA[
 object T1: TQuickRep
-  Left = 52
-  Top = 46
+  Left = 39
+  Top = 33
   Width = 1123
   Height = 794
   Frame.Color = clBlack
@@ -1057,7 +1057,7 @@ object T1: TQuickRep
           XValues.ValueSource = 'Date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'GreenN'
+          YValues.ValueSource = 'biomass_n'
         end
         object PointSeries10: TPointSeries
           Marks.Callout.Brush.Color = clBlack
@@ -1226,7 +1226,7 @@ object T1: TQuickRep
           XValues.ValueSource = 'Date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'GreenN'
+          YValues.ValueSource = 'biomass_n'
         end
         object PointSeries12: TPointSeries
           Marks.Callout.Brush.Color = clBlack
@@ -1432,8 +1432,8 @@ end
    </page>
    <page> <![CDATA[
 object T2: TQuickRep
-  Left = 52
-  Top = 46
+  Left = 39
+  Top = 33
   Width = 1123
   Height = 794
   Frame.Color = clBlack
@@ -2189,7 +2189,7 @@ object T2: TQuickRep
           XValues.ValueSource = 'Date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'GreenN'
+          YValues.ValueSource = 'biomass_n'
         end
         object PointSeries24: TPointSeries
           Marks.Callout.Brush.Color = clBlack
@@ -2358,7 +2358,7 @@ object T2: TQuickRep
           XValues.ValueSource = 'Date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'GreenN'
+          YValues.ValueSource = 'biomass_n'
         end
         object PointSeries27: TPointSeries
           Marks.Callout.Brush.Color = clBlack
@@ -2840,8 +2840,8 @@ end
    </page>
    <page> <![CDATA[
 object T3: TQuickRep
-  Left = 52
-  Top = 46
+  Left = 39
+  Top = 33
   Width = 1123
   Height = 794
   Frame.Color = clBlack
@@ -3873,7 +3873,7 @@ object T3: TQuickRep
           XValues.ValueSource = 'Date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'GreenN'
+          YValues.ValueSource = 'biomass_n'
         end
         object PointSeries47: TPointSeries
           Marks.Callout.Brush.Color = clBlack
@@ -4042,7 +4042,7 @@ object T3: TQuickRep
           XValues.ValueSource = 'Date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'GreenN'
+          YValues.ValueSource = 'biomass_n'
         end
         object PointSeries50: TPointSeries
           Marks.Callout.Brush.Color = clBlack

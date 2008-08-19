@@ -293,72 +293,40 @@
       </InitNitrogen>
     </soil>
     <variables name="My Variables">
-      <variable name="today format dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-      <variable name="DaysAfterSowing" description="Days after Sowing" array="?" />
-      <variable name="Stage" description="Plant stage" array="?" />
-      <variable name="Biomass" description="Biomass weight" array="?" />
-      <variable name="GreenWt" description="" array="" />
-      <variable name="Biomass units g/m^2 as BiomassWt" description="" array="" />
-      <variable name="RootGreenWt" description="Weight of roots" array="?" />
-      <variable name="LeafGreenWt" description="Weight of leaf" array="?" />
-      <variable name="StemGreenWt" description="Weight of stems" array="?" />
-      <variable name="RachisGreenWt" description="Weight of heads" array="?" />
-      <variable name="GrainGreenWt" description="Weight of grain" array="?" />
-      <variable name="GreenN" description="N in total biomass" array="?" />
-      <variable name="RootGreenN" description="N in roots" array="?" />
-      <variable name="LeafGreenN" description="N in leaves" array="?" />
-      <variable name="StemGreenN" description="N in stems" array="?" />
-      <variable name="RachisGreenN" description="N in heads" array="?" />
-      <variable name="GrainGreenN" description="N in grain" array="?" />
-      <variable name="GrainGreenNConc" description="" array="" />
-      <variable name="GrainNo" description="" VariableType="Water" array="" />
-      <variable name="GrainSize" description="" array="" />
-      <variable name="HI" description="" array="" VariableType="Nitrogen" />
-      <variable name="LeafNo" description="number " array="?" />
+      <variable name="today format dd/mm/yyyy as Date" array="?" description="Date (dd/mm/yyyy)" />
+      <variable name="daysAfterSowing as Das" array="?" description="Days after Sowing" />
+      <variable name="Stage" array="?" description="Plant stage" />
+      <variable name="Biomass" array="?" description="Biomass weight" />
+      <variable name="GreenWt" />
+      <variable name="Biomass units g/m^2 as BiomassWt" />
+      <variable name="RootGreenWt" array="?" description="Weight of roots" />
+      <variable name="LeafGreenWt" array="?" description="Weight of leaf" />
+      <variable name="StemGreenWt" array="?" description="Weight of stems" />
+      <variable name="RachisGreenWt" array="?" description="Weight of heads" />
+      <variable name="GrainGreenWt" array="?" description="Weight of grain" />
+      <variable name="biomass_n" array="?" description="N in total biomass" />
+      <variable name="GreenN" />
+      <variable name="RootGreenN" array="?" description="N in roots" />
+      <variable name="LeafGreenN" array="?" description="N in leaves" />
+      <variable name="StemGreenN" array="?" description="N in stems" />
+      <variable name="RachisGreenN" array="?" description="N in heads" />
+      <variable name="GrainGreenN" array="?" description="N in grain" />
+      <variable name="GrainGreenNConc" />
+      <variable name="GrainNo" />
+      <variable name="GrainSize" />
+      <variable name="HI" />
+      <variable name="LeafNo" array="?" description="number " />
       <variable name="LAI" array="?" description="Leaf area index" />
-      <variable name="SLAI" array="" description="" />
+      <variable name="SLAI" />
       <variable name="ESW" array="?" description="Extractable Soil Water (mm)" />
       <variable name="no3() as NO3" array="?" description="NO3 - layered (kg/ha)" />
       <variable name="SLN" array="?" description="Specific leaf nitrogen" />
       <variable name="WaterSD" array="?" description="Water stress" />
       <variable name="sw" />
+      <variable name="TPLA" />
+      <variable name="SPLA" />
     </variables>
     <events name="My Variables Events" />
-    <manager name="Calculator">
-      <script name="init">
-        <text> 
-root_n = 0
-head_n = 0
-leaf_n = 0
-sd = 0
-</text>
-        <event>init</event>
-      </script>
-      <script name="start_of_day">
-        <text>
-        </text>
-        <event>start_of_day</event>
-      </script>
-      <script name="end_of_day">
-        <text><![CDATA[ 
-root_n = n_green(1)
-head_n = n_green(4)
-leaf_n = n_green(2)
-
-if (sw_demand > 0) then
-   sd = sw_supply / sw_demand
-else
-   sd = 1
-endif
-
-if (sd > 1) then
-   sd = 1
-endif
-
-]]></text>
-        <event>end_of_day</event>
-      </script>
-    </manager>
     <Sorghum>
       <sorghumConstants name="standard">
         <crop_type type="text" description="crop_type">sorghum</crop_type>
@@ -411,6 +379,8 @@ endif
         <partition_rate_leaf type="text" description="partition_rate_leaf">0.006</partition_rate_leaf>
         <frac_stem2flower type="text" description="frac_stem2flower">0.3</frac_stem2flower>
         <grn_water_cont type="text" description="grn_water_cont">0.13</grn_water_cont>
+        <GrainTempWindow type="text" description="GrainTempWindow">-150 50</GrainTempWindow>
+        <GrainTempOrdinals type="text" description="GrainTempOrdinals">36 40</GrainTempOrdinals>
         <Roots type="text" description="Roots">ROOTS --------------------------------------------------</Roots>
         <root_depth_rate type="text" description="root_depth_rate">0 27.0  27.0  27.0 27.0  27.0   27.0   0      0       0    0    0</root_depth_rate>
         <x_sw_ratio type="text" description="x_sw_ratio">0   0.25</x_sw_ratio>
@@ -549,21 +519,39 @@ endif
         <x_co2_te_modifier type="text" description="x_co2_te_modifier">350</x_co2_te_modifier>
         <y_co2_te_modifier type="text" description="y_co2_te_modifier">1</y_co2_te_modifier>
       </sorghumConstants>
+      <sorghumGenotype name="QL41xQL36">
+        <tt_emerg_to_endjuv type="text" description="tt_emerg_to_endjuv">100</tt_emerg_to_endjuv>
+        <photoperiod_crit1 type="text" description="photoperiod_crit1">11.5</photoperiod_crit1>
+        <photoperiod_crit2 type="text" description="photoperiod_crit2">13.5</photoperiod_crit2>
+        <photoperiod_slope type="text" description="photoperiod_slope">12.5</photoperiod_slope>
+        <tt_endjuv_to_init type="text" description="tt_endjuv_to_init">179</tt_endjuv_to_init>
+        <tt_flag_to_flower type="text" description="tt_flag_to_flower">170</tt_flag_to_flower>
+        <tt_flower_to_start_grain type="text" description="tt_flower_to_start_grain">80</tt_flower_to_start_grain>
+        <tt_flower_to_maturity type="text" description="tt_flower_to_maturity">761</tt_flower_to_maturity>
+        <tt_maturity_to_ripe type="text" description="tt_maturity_to_ripe">1</tt_maturity_to_ripe>
+        <main_stem_coef type="text" description="main_stem_coef">2.9</main_stem_coef>
+        <tpla_prod_coef type="text" description="tpla_prod_coef">0.018</tpla_prod_coef>
+        <dm_per_seed type="text" description="dm_per_seed">0.00083</dm_per_seed>
+        <x_stem_wt type="text" description="x_stem_wt">0    80</x_stem_wt>
+        <y_height type="text" description="y_height">0  2000</y_height>
+        <maxGFRate type="text" description="maxGFRate">0.09</maxGFRate>
+      </sorghumGenotype>
       <sorghumGenotype name="Buster">
-        <tt_emerg_to_endjuv>100</tt_emerg_to_endjuv>
-        <photoperiod_crit1>11.5</photoperiod_crit1>
-        <photoperiod_crit2>13.5</photoperiod_crit2>
-        <photoperiod_slope>11.5</photoperiod_slope>
-        <tt_endjuv_to_init>160</tt_endjuv_to_init>
-        <tt_flag_to_flower>170</tt_flag_to_flower>
-        <tt_flower_to_start_grain>80</tt_flower_to_start_grain>
-        <tt_flower_to_maturity>761</tt_flower_to_maturity>
-        <tt_maturity_to_ripe>1</tt_maturity_to_ripe>
-        <main_stem_coef>2.90</main_stem_coef>
-        <tpla_prod_coef>0.018</tpla_prod_coef>
-        <dm_per_seed>0.00083</dm_per_seed>
-        <x_stem_wt>0    80</x_stem_wt>
-        <y_height>0  2000</y_height>
+        <tt_emerg_to_endjuv type="text" description="tt_emerg_to_endjuv">100</tt_emerg_to_endjuv>
+        <photoperiod_crit1 type="text" description="photoperiod_crit1">11.5</photoperiod_crit1>
+        <photoperiod_crit2 type="text" description="photoperiod_crit2">13.5</photoperiod_crit2>
+        <photoperiod_slope type="text" description="photoperiod_slope">11.5</photoperiod_slope>
+        <tt_endjuv_to_init type="text" description="tt_endjuv_to_init">160</tt_endjuv_to_init>
+        <tt_flag_to_flower type="text" description="tt_flag_to_flower">170</tt_flag_to_flower>
+        <tt_flower_to_start_grain type="text" description="tt_flower_to_start_grain">80</tt_flower_to_start_grain>
+        <tt_flower_to_maturity type="text" description="tt_flower_to_maturity">761</tt_flower_to_maturity>
+        <tt_maturity_to_ripe type="text" description="tt_maturity_to_ripe">1</tt_maturity_to_ripe>
+        <main_stem_coef type="text" description="main_stem_coef">2.9</main_stem_coef>
+        <tpla_prod_coef type="text" description="tpla_prod_coef">0.018</tpla_prod_coef>
+        <dm_per_seed type="text" description="dm_per_seed">0.00083</dm_per_seed>
+        <x_stem_wt type="text" description="x_stem_wt">0    80</x_stem_wt>
+        <y_height type="text" description="y_height">0  2000</y_height>
+        <maxGFRate type="text" description="maxGFRate">0.09</maxGFRate>
       </sorghumGenotype>
       <sorghumGenotype name="M35-1">
         <tt_emerg_to_endjuv type="text" description="tt_emerg_to_endjuv">100</tt_emerg_to_endjuv>
@@ -584,203 +572,7 @@ endif
         <nUptakeCease type="text" description="nUptakeCease">10</nUptakeCease>
         <leaf_init_rate type="text" description="leaf_init_rate">26.1</leaf_init_rate>
         <targetLeafSLN type="text" description="targetLeafSLN">1.2</targetLeafSLN>
-      </sorghumGenotype>
-      <sorghumGenotype name="CSH13R">
-        <tt_emerg_to_endjuv type="text" description="tt_emerg_to_endjuv">100</tt_emerg_to_endjuv>
-        <photoperiod_crit1 type="text" description="photoperiod_crit1">11.5</photoperiod_crit1>
-        <photoperiod_crit2 type="text" description="photoperiod_crit2">13.5</photoperiod_crit2>
-        <photoperiod_slope type="text" description="photoperiod_slope">17</photoperiod_slope>
-        <tt_endjuv_to_init type="text" description="tt_endjuv_to_init">228</tt_endjuv_to_init>
-        <tt_flag_to_flower type="text" description="tt_flag_to_flower">170</tt_flag_to_flower>
-        <tt_flower_to_start_grain type="text" description="tt_flower_to_start_grain">80</tt_flower_to_start_grain>
-        <tt_flower_to_maturity type="text" description="tt_flower_to_maturity">761</tt_flower_to_maturity>
-        <tt_maturity_to_ripe type="text" description="tt_maturity_to_ripe">1</tt_maturity_to_ripe>
-        <main_stem_coef type="text" description="main_stem_coef">2.95</main_stem_coef>
-        <tpla_prod_coef type="text" description="tpla_prod_coef">0.014</tpla_prod_coef>
-        <dm_per_seed type="text" description="dm_per_seed">0.0015</dm_per_seed>
-        <x_stem_wt type="text" description="x_stem_wt">0    80</x_stem_wt>
-        <y_height type="text" description="y_height">0  2000</y_height>
-        <rue type="text" description="rue">0   0  1.6  1.6  1.6 1.6  1.6 1.6 1.6 1.6    0    0</rue>
-        <partition_rate_leaf type="text" description="partition_rate_leaf">0.018</partition_rate_leaf>
-        <targetLeafSLN type="text" description="targetLeafSLN">1.2</targetLeafSLN>
-        <leaf_init_rate type="text" description="leaf_init_rate">23.2</leaf_init_rate>
-      </sorghumGenotype>
-      <sorghumGenotype name="QL41xQL36">
-        <tt_emerg_to_endjuv type="text" description="tt_emerg_to_endjuv">100</tt_emerg_to_endjuv>
-        <photoperiod_crit1 type="text" description="photoperiod_crit1">11.5</photoperiod_crit1>
-        <photoperiod_crit2 type="text" description="photoperiod_crit2">13.5</photoperiod_crit2>
-        <photoperiod_slope type="text" description="photoperiod_slope">12.5</photoperiod_slope>
-        <tt_endjuv_to_init type="text" description="tt_endjuv_to_init">179</tt_endjuv_to_init>
-        <tt_flag_to_flower type="text" description="tt_flag_to_flower">170</tt_flag_to_flower>
-        <tt_flower_to_start_grain type="text" description="tt_flower_to_start_grain">80</tt_flower_to_start_grain>
-        <tt_flower_to_maturity type="text" description="tt_flower_to_maturity">761</tt_flower_to_maturity>
-        <tt_maturity_to_ripe type="text" description="tt_maturity_to_ripe">1</tt_maturity_to_ripe>
-        <main_stem_coef type="text" description="main_stem_coef">2.9</main_stem_coef>
-        <tpla_prod_coef type="text" description="tpla_prod_coef">0.018</tpla_prod_coef>
-        <dm_per_seed type="text" description="dm_per_seed">0.00083</dm_per_seed>
-        <x_stem_wt type="text" description="x_stem_wt">0    80</x_stem_wt>
-        <y_height type="text" description="y_height">0  2000</y_height>
-      </sorghumGenotype>
-      <sorghumGenotype name="ATX623xRTX430">
-        <tt_emerg_to_endjuv>100</tt_emerg_to_endjuv>
-        <photoperiod_crit1>11.5</photoperiod_crit1>
-        <photoperiod_crit2>13.5</photoperiod_crit2>
-        <photoperiod_slope>13</photoperiod_slope>
-        <tt_endjuv_to_init>202</tt_endjuv_to_init>
-        <tt_flag_to_flower>170</tt_flag_to_flower>
-        <tt_flower_to_start_grain>80</tt_flower_to_start_grain>
-        <tt_flower_to_maturity>761</tt_flower_to_maturity>
-        <tt_maturity_to_ripe>1</tt_maturity_to_ripe>
-        <main_stem_coef>2.90</main_stem_coef>
-        <tpla_prod_coef>0.018</tpla_prod_coef>
-        <dm_per_seed>0.00083</dm_per_seed>
-        <x_stem_wt>0    80</x_stem_wt>
-        <y_height>0  2000</y_height>
-      </sorghumGenotype>
-      <sorghumGenotype name="QL39xQL36">
-        <tt_emerg_to_endjuv>100</tt_emerg_to_endjuv>
-        <photoperiod_crit1>11.8</photoperiod_crit1>
-        <photoperiod_crit2>14</photoperiod_crit2>
-        <photoperiod_slope>39.7</photoperiod_slope>
-        <tt_endjuv_to_init>114.4</tt_endjuv_to_init>
-        <tt_flag_to_flower>170</tt_flag_to_flower>
-        <tt_flower_to_start_grain>80</tt_flower_to_start_grain>
-        <tt_flower_to_maturity>761</tt_flower_to_maturity>
-        <tt_maturity_to_ripe>1</tt_maturity_to_ripe>
-        <main_stem_coef>2.9</main_stem_coef>
-        <tpla_prod_coef>0.018</tpla_prod_coef>
-        <dm_per_seed>0.00083</dm_per_seed>
-        <x_stem_wt>0    80</x_stem_wt>
-        <y_height>0  2000</y_height>
-      </sorghumGenotype>
-      <sorghumGenotype name="A35xQL36">
-        <tt_emerg_to_endjuv>100</tt_emerg_to_endjuv>
-        <photoperiod_crit1>11.8</photoperiod_crit1>
-        <photoperiod_crit2>14.0</photoperiod_crit2>
-        <photoperiod_slope>39.7</photoperiod_slope>
-        <tt_endjuv_to_init>134.4</tt_endjuv_to_init>
-        <tt_flag_to_flower>170</tt_flag_to_flower>
-        <tt_flower_to_start_grain>80</tt_flower_to_start_grain>
-        <tt_flower_to_maturity>761</tt_flower_to_maturity>
-        <tt_maturity_to_ripe>1</tt_maturity_to_ripe>
-        <main_stem_coef>2.90</main_stem_coef>
-        <tpla_prod_coef>0.018</tpla_prod_coef>
-        <dm_per_seed>0.00083</dm_per_seed>
-        <x_stem_wt>0    80</x_stem_wt>
-        <y_height>0  2000</y_height>
-        <partition_rate_leaf>0.012</partition_rate_leaf>
-      </sorghumGenotype>
-      <sorghumGenotype name="early">
-        <tt_emerg_to_endjuv>100</tt_emerg_to_endjuv>
-        <photoperiod_crit1>11.5</photoperiod_crit1>
-        <photoperiod_crit2>13.5</photoperiod_crit2>
-        <photoperiod_slope>11.5</photoperiod_slope>
-        <tt_endjuv_to_init>114</tt_endjuv_to_init>
-        <tt_flag_to_flower>170</tt_flag_to_flower>
-        <tt_flower_to_start_grain>80</tt_flower_to_start_grain>
-        <tt_flower_to_maturity>761</tt_flower_to_maturity>
-        <tt_maturity_to_ripe>1</tt_maturity_to_ripe>
-        <main_stem_coef>2.9</main_stem_coef>
-        <tpla_prod_coef>0.018</tpla_prod_coef>
-        <dm_per_seed>0.00083</dm_per_seed>
-        <x_stem_wt>0    80</x_stem_wt>
-        <y_height>0  2000</y_height>
-      </sorghumGenotype>
-      <sorghumGenotype name="medium">
-        <tt_emerg_to_endjuv>100</tt_emerg_to_endjuv>
-        <photoperiod_crit1>11.5</photoperiod_crit1>
-        <photoperiod_crit2>13.5</photoperiod_crit2>
-        <photoperiod_slope>11.5</photoperiod_slope>
-        <tt_endjuv_to_init>157</tt_endjuv_to_init>
-        <tt_flag_to_flower>170</tt_flag_to_flower>
-        <tt_flower_to_start_grain>80</tt_flower_to_start_grain>
-        <tt_flower_to_maturity>761</tt_flower_to_maturity>
-        <tt_maturity_to_ripe>1</tt_maturity_to_ripe>
-        <main_stem_coef>2.9</main_stem_coef>
-        <tpla_prod_coef>0.018</tpla_prod_coef>
-        <dm_per_seed>0.00083</dm_per_seed>
-        <x_stem_wt>0    80</x_stem_wt>
-        <y_height>0  2000</y_height>
-      </sorghumGenotype>
-      <sorghumGenotype name="late">
-        <tt_emerg_to_endjuv>100</tt_emerg_to_endjuv>
-        <photoperiod_crit1>11.5</photoperiod_crit1>
-        <photoperiod_crit2>13.5</photoperiod_crit2>
-        <photoperiod_slope>11.5</photoperiod_slope>
-        <tt_endjuv_to_init>201</tt_endjuv_to_init>
-        <tt_flag_to_flower>170</tt_flag_to_flower>
-        <tt_flower_to_start_grain>80</tt_flower_to_start_grain>
-        <tt_flower_to_maturity>761</tt_flower_to_maturity>
-        <tt_maturity_to_ripe>1</tt_maturity_to_ripe>
-        <main_stem_coef>2.9</main_stem_coef>
-        <tpla_prod_coef>0.018</tpla_prod_coef>
-        <dm_per_seed>0.00083</dm_per_seed>
-        <x_stem_wt>0    80</x_stem_wt>
-        <y_height>0  2000</y_height>
-      </sorghumGenotype>
-      <sorghumGenotype name="dekalb_DK55">
-        <tt_emerg_to_endjuv>100</tt_emerg_to_endjuv>
-        <photoperiod_crit1>11</photoperiod_crit1>
-        <photoperiod_crit2>13</photoperiod_crit2>
-        <photoperiod_slope>0</photoperiod_slope>
-        <tt_endjuv_to_init>205</tt_endjuv_to_init>
-        <tt_flag_to_flower>100</tt_flag_to_flower>
-        <tt_flower_to_start_grain>30</tt_flower_to_start_grain>
-        <tt_flower_to_maturity>695</tt_flower_to_maturity>
-        <tt_maturity_to_ripe>1</tt_maturity_to_ripe>
-        <main_stem_coef>2.95</main_stem_coef>
-        <tpla_prod_coef>0.012</tpla_prod_coef>
-        <dm_per_seed>0.00083</dm_per_seed>
-        <x_stem_wt>0  80</x_stem_wt>
-        <y_height>0  2000</y_height>
-      </sorghumGenotype>
-      <sorghumGenotype name="texas_RS610">
-        <tt_emerg_to_endjuv>100</tt_emerg_to_endjuv>
-        <photoperiod_crit1>12.3</photoperiod_crit1>
-        <photoperiod_crit2>14.6</photoperiod_crit2>
-        <photoperiod_slope>38.4</photoperiod_slope>
-        <tt_endjuv_to_init>120</tt_endjuv_to_init>
-        <tt_flag_to_flower>100</tt_flag_to_flower>
-        <tt_flower_to_start_grain>30</tt_flower_to_start_grain>
-        <tt_flower_to_maturity>695</tt_flower_to_maturity>
-        <tt_maturity_to_ripe>1</tt_maturity_to_ripe>
-        <main_stem_coef>2.88</main_stem_coef>
-        <tpla_prod_coef>0.018</tpla_prod_coef>
-        <dm_per_seed>0.00083</dm_per_seed>
-        <x_stem_wt>0  80</x_stem_wt>
-        <y_height>0  2000</y_height>
-      </sorghumGenotype>
-      <sorghumGenotype name="pioneer_s34">
-        <tt_emerg_to_endjuv>100</tt_emerg_to_endjuv>
-        <photoperiod_crit1>12.3</photoperiod_crit1>
-        <photoperiod_crit2>14.6</photoperiod_crit2>
-        <photoperiod_slope>25</photoperiod_slope>
-        <tt_endjuv_to_init>115</tt_endjuv_to_init>
-        <tt_flag_to_flower>100</tt_flag_to_flower>
-        <tt_flower_to_start_grain>30</tt_flower_to_start_grain>
-        <tt_flower_to_maturity>695</tt_flower_to_maturity>
-        <tt_maturity_to_ripe>1</tt_maturity_to_ripe>
-        <main_stem_coef>2.95</main_stem_coef>
-        <tpla_prod_coef>0.015</tpla_prod_coef>
-        <dm_per_seed>0.00083</dm_per_seed>
-        <x_stem_wt>0  80</x_stem_wt>
-        <y_height>0  2000</y_height>
-      </sorghumGenotype>
-      <sorghumGenotype name="texas_671">
-        <tt_emerg_to_endjuv>100</tt_emerg_to_endjuv>
-        <photoperiod_crit1>12.3</photoperiod_crit1>
-        <photoperiod_crit2>14.6</photoperiod_crit2>
-        <photoperiod_slope>15.2</photoperiod_slope>
-        <tt_endjuv_to_init>159</tt_endjuv_to_init>
-        <tt_flag_to_flower>100</tt_flag_to_flower>
-        <tt_flower_to_start_grain>30</tt_flower_to_start_grain>
-        <tt_flower_to_maturity>695</tt_flower_to_maturity>
-        <tt_maturity_to_ripe>1</tt_maturity_to_ripe>
-        <main_stem_coef>2.88</main_stem_coef>
-        <tpla_prod_coef>0.015</tpla_prod_coef>
-        <dm_per_seed>0.00083</dm_per_seed>
-        <x_stem_wt>0  80</x_stem_wt>
-        <y_height>0  2000</y_height>
+        <maxGFRate type="text" description="maxGFRate">0.09</maxGFRate>
       </sorghumGenotype>
     </Sorghum>
   </folder>
@@ -828,7 +620,11 @@ endif
           </script>
         </manager>
         <manager name="Harvesting rule">
-          <script>
+          <ui>
+            <category description="Harvesting criteria" />
+            <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Sorghum</crop>
+          </ui>
+          <script name="end_of_day">
             <text>
 
            if [crop].StageName = 'harvest_ripe' or [crop].plant_status = 'dead' then
@@ -839,10 +635,6 @@ endif
             </text>
             <event>end_of_day</event>
           </script>
-          <ui>
-            <category name="Harvesting criteria" />
-            <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Sorghum</crop>
-          </ui>
         </manager>
       </folder>
       <irrigation name="Irrigation">
@@ -921,23 +713,9 @@ endif
         <InitWater shortcut="/HE1/shared/HRS/InitWater" />
         <InitNitrogen shortcut="/HE1/shared/HRS/InitNitrogen" />
       </soil>
-      <manager name="Calculator" shortcut="/HE1/shared/Calculator" />
       <Sorghum shortcut="/HE1/shared/Sorghum">
         <sorghumConstants name="standard" shortcut="/HE1/shared/Sorghum/standard" />
-        <sorghumGenotype name="Buster" shortcut="/HE1/shared/Sorghum/Buster" />
-        <sorghumGenotype name="M35-1" shortcut="/HE1/shared/Sorghum/M35-1" />
-        <sorghumGenotype name="CSH13R" shortcut="/HE1/shared/Sorghum/CSH13R" />
         <sorghumGenotype name="QL41xQL36" shortcut="/HE1/shared/Sorghum/QL41xQL36" />
-        <sorghumGenotype name="ATX623xRTX430" shortcut="/HE1/shared/Sorghum/ATX623xRTX430" />
-        <sorghumGenotype name="QL39xQL36" shortcut="/HE1/shared/Sorghum/QL39xQL36" />
-        <sorghumGenotype name="A35xQL36" shortcut="/HE1/shared/Sorghum/A35xQL36" />
-        <sorghumGenotype name="early" shortcut="/HE1/shared/Sorghum/early" />
-        <sorghumGenotype name="medium" shortcut="/HE1/shared/Sorghum/medium" />
-        <sorghumGenotype name="late" shortcut="/HE1/shared/Sorghum/late" />
-        <sorghumGenotype name="dekalb_DK55" shortcut="/HE1/shared/Sorghum/dekalb_DK55" />
-        <sorghumGenotype name="texas_RS610" shortcut="/HE1/shared/Sorghum/texas_RS610" />
-        <sorghumGenotype name="pioneer_s34" shortcut="/HE1/shared/Sorghum/pioneer_s34" />
-        <sorghumGenotype name="texas_671" shortcut="/HE1/shared/Sorghum/texas_671" />
       </Sorghum>
     </area>
   </simulation>
@@ -1078,23 +856,9 @@ endif
         <InitWater shortcut="/HE1/shared/HRS/InitWater" />
         <InitNitrogen shortcut="/HE1/shared/HRS/InitNitrogen" />
       </soil>
-      <manager name="Calculator" shortcut="/HE1/shared/Calculator" />
       <Sorghum shortcut="/HE1/shared/Sorghum">
         <sorghumConstants name="standard" shortcut="/HE1/shared/Sorghum/standard" />
         <sorghumGenotype name="Buster" shortcut="/HE1/shared/Sorghum/Buster" />
-        <sorghumGenotype name="M35-1" shortcut="/HE1/shared/Sorghum/M35-1" />
-        <sorghumGenotype name="CSH13R" shortcut="/HE1/shared/Sorghum/CSH13R" />
-        <sorghumGenotype name="QL41xQL36" shortcut="/HE1/shared/Sorghum/QL41xQL36" />
-        <sorghumGenotype name="ATX623xRTX430" shortcut="/HE1/shared/Sorghum/ATX623xRTX430" />
-        <sorghumGenotype name="QL39xQL36" shortcut="/HE1/shared/Sorghum/QL39xQL36" />
-        <sorghumGenotype name="A35xQL36" shortcut="/HE1/shared/Sorghum/A35xQL36" />
-        <sorghumGenotype name="early" shortcut="/HE1/shared/Sorghum/early" />
-        <sorghumGenotype name="medium" shortcut="/HE1/shared/Sorghum/medium" />
-        <sorghumGenotype name="late" shortcut="/HE1/shared/Sorghum/late" />
-        <sorghumGenotype name="dekalb_DK55" shortcut="/HE1/shared/Sorghum/dekalb_DK55" />
-        <sorghumGenotype name="texas_RS610" shortcut="/HE1/shared/Sorghum/texas_RS610" />
-        <sorghumGenotype name="pioneer_s34" shortcut="/HE1/shared/Sorghum/pioneer_s34" />
-        <sorghumGenotype name="texas_671" shortcut="/HE1/shared/Sorghum/texas_671" />
       </Sorghum>
     </area>
   </simulation>
@@ -1107,7 +871,7 @@ endif
       <filename name="filename">Sorghum_HE1_T3.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">C:\Validation\Hermitage\HE1-8\HE1.met</filename>
+      <filename name="filename">C:\Development\apsim\sorghum\Validation\Hermitage\HE1-8\HE1.met</filename>
     </metfile>
     <area name="paddock">
       <registrations name="global" />
@@ -1235,23 +999,9 @@ endif
         <InitWater shortcut="/HE1/shared/HRS/InitWater" />
         <InitNitrogen shortcut="/HE1/shared/HRS/InitNitrogen" />
       </soil>
-      <manager name="Calculator" shortcut="/HE1/shared/Calculator" />
       <Sorghum shortcut="/HE1/shared/Sorghum">
         <sorghumConstants name="standard" shortcut="/HE1/shared/Sorghum/standard" />
-        <sorghumGenotype name="Buster" shortcut="/HE1/shared/Sorghum/Buster" />
         <sorghumGenotype name="M35-1" shortcut="/HE1/shared/Sorghum/M35-1" />
-        <sorghumGenotype name="CSH13R" shortcut="/HE1/shared/Sorghum/CSH13R" />
-        <sorghumGenotype name="QL41xQL36" shortcut="/HE1/shared/Sorghum/QL41xQL36" />
-        <sorghumGenotype name="ATX623xRTX430" shortcut="/HE1/shared/Sorghum/ATX623xRTX430" />
-        <sorghumGenotype name="QL39xQL36" shortcut="/HE1/shared/Sorghum/QL39xQL36" />
-        <sorghumGenotype name="A35xQL36" shortcut="/HE1/shared/Sorghum/A35xQL36" />
-        <sorghumGenotype name="early" shortcut="/HE1/shared/Sorghum/early" />
-        <sorghumGenotype name="medium" shortcut="/HE1/shared/Sorghum/medium" />
-        <sorghumGenotype name="late" shortcut="/HE1/shared/Sorghum/late" />
-        <sorghumGenotype name="dekalb_DK55" shortcut="/HE1/shared/Sorghum/dekalb_DK55" />
-        <sorghumGenotype name="texas_RS610" shortcut="/HE1/shared/Sorghum/texas_RS610" />
-        <sorghumGenotype name="pioneer_s34" shortcut="/HE1/shared/Sorghum/pioneer_s34" />
-        <sorghumGenotype name="texas_671" shortcut="/HE1/shared/Sorghum/texas_671" />
       </Sorghum>
     </area>
   </simulation>
