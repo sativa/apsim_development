@@ -222,7 +222,9 @@ namespace ApsimRun
                System.Media.SoundPlayer Player = new System.Media.SoundPlayer(WavFileName);
                Player.Play();
                }
-            OnRunClick(null, null);
+            RunButton.Text = "Run";
+            RunButton.ImageIndex = 0;
+            ReportButton.Visible = true;
             if (AutoClose)
                Close();
             }
