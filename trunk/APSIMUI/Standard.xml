@@ -2301,7 +2301,7 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text>
         if (today = date('[buy_date]') then
-           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+           [stockmodule]scienceconverter buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
            cattle_presence = 'on'
          endif
                </text>
@@ -2309,7 +2309,7 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Buy properties" />
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
             <buy_date type="text" description="Date (dd-mmm) : ">1-jan</buy_date>
             <buy_number type="text" description="Number of stock : ">5</buy_number>
@@ -2328,7 +2328,7 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text>
         if (DaysAfterSowing = [buy_das]) then
-           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+           [stockmodule]scienceconverter buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
            cattle_presence = 'on'
          endif
                </text>
@@ -2336,7 +2336,7 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Buy properties" />
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
             <buy_das type="text" description="Days after sowing : ">30</buy_das>
             <buy_number type="text" description="Number of stock : ">5</buy_number>
@@ -2355,11 +2355,11 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text>
          if (today = date('[move_date]') then
-               stockage = [sellpaddock].age_all/30.4375
-               stockwt = [sellpaddock].weight_all
-               stocknumber = [sellpaddock].number_all
-               [sellpaddock] sellstock number = stocknumber (-)
-               [buypaddock] buystock number = stocknumber (-), genotype = '[genotype]', sex = [sex], age = stockage (months), weight = stockwt (kg)
+               stockage = [sellpaddock].[sellstockmodule].age_all/30.4375
+               stockwt = [sellpaddock].[sellstockmodule].weight_all
+               stocknumber = [sellpaddock].[sellstockmodule].number_all
+               [sellpaddock].[sellstockmodule]scienceconverter sellstock number = stocknumber (-)
+               [buypaddock].[buystockmodule]scienceconverter buystock number = stocknumber (-), genotype = '[genotype]', sex = [sex], age = stockage (months), weight = stockwt (kg)
         endif
         </text>
             <event>start_of_day</event>
@@ -2367,26 +2367,32 @@ if (date_within('[date1], [date2]') = 1) then
           <ui>
             <category name="Move properties" />
             <sellpaddock type="modulename" description="Name of sell paddock : ">Paddock</sellpaddock>
+            <sellstockmodule type="modulename" description="Name of stock module in sell paddock : ">stock</sellstockmodule>
             <buypaddock type="modulename" description="Name of buy paddock : ">Paddock</buypaddock>
+            <buystockmodule type="modulename" description="Name of stock module in buy paddock: ">stock</buystockmodule>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
             <move_date type="text" description="Date (dd-mmm) : ">1-jan</move_date>
           </ui>
         </manager>
-        <manager name="Move cattle on a weight change">
+        <manager name="Move cattle on a minimum weight gain OR at flowering">
           <script>
             <text>
-               cattle_presence = 'off'
+               [sellpaddock]_cattle_presence = 'off'
+               [buypaddock]_cattle_presence = 'off'
             </text>
             <event>init</event>
           </script>
           <script>
             <text><![CDATA[
-          if (([sellpaddock].wt_change_all <= [minimum_wt_change] OR [buypaddock].StageName = 'flowering') AND [sellpaddock]_cattle_presence = 'on') then
-               stockage = [sellpaddock].age_all/30.4375
-               stockwt = [sellpaddock].weight_all
-               stocknumber = [sellpaddock].number_all
-               [sellpaddock] sellstock number = stocknumber (-)
-               [buypaddock] buystock number = stocknumber (-), genotype = '[genotype]', sex = [sex], age = stockage (months), weight = stockwt (kg)
+           if ([sellpaddock].[sellstockmodule].number_all > 0) then
+               [sellpaddock]_cattle_presence = 'on'
+            endif
+          if (([sellpaddock].[sellstockmodule].wt_change_all <= [minimum_wt_change] OR [buypaddock].[herbage_module].StageName = 'flowering') AND [sellpaddock]_cattle_presence = 'on') then
+               stockage = [sellpaddock].[sellstockmodule].age_all/30.4375
+               stockwt = [sellpaddock].[sellstockmodule].weight_all
+               stocknumber = [sellpaddock].[sellstockmodule].number_all
+               [sellpaddock].[sellstockmodule]scienceconverter sellstock number = stocknumber (-)
+               [buypaddock].[buystockmodule]scienceconverter buystock number = stocknumber (-), genotype = '[genotype]', sex = [sex], age = stockage (months), weight = stockwt (kg)
                [sellpaddock]_cattle_presence = 'off'
                [buypaddock]_cattle_presence = 'on'
           endif
@@ -2396,9 +2402,12 @@ if (date_within('[date1], [date2]') = 1) then
           <ui>
             <category name="Move properties" />
             <sellpaddock type="modulename" description="Name of sell paddock : ">Paddock</sellpaddock>
+            <sellstockmodule type="modulename" description="Name of stock module in sell paddock : ">stock</sellstockmodule>
             <buypaddock type="modulename" description="Name of buy paddock : ">Paddock</buypaddock>
+            <buystockmodule type="modulename" description="Name of stock module in buy paddock: ">stock</buystockmodule>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
             <minimum_wt_change type="text" description="Minimum weight gain (kg/day) : ">0</minimum_wt_change>
+            <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
           </ui>
         </manager>
         <manager name="Buy cattle on feed-on-offer">
@@ -2410,8 +2419,11 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <script>
             <text><![CDATA[
+           if ([stockmodule].number_all > 0) then
+               cattle_presence = 'on'
+            endif
         if ([herbage_module].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off') then
-           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+           [stockmodule]scienceconverter buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
            cattle_presence = 'on'
         endif
                ]]></text>
@@ -2419,7 +2431,7 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Buy properties" />
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
             <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
             <buy_feed_on_offer type="text" description="Feed on offer (kg/ha) : ">1500.0</buy_feed_on_offer>
@@ -2433,7 +2445,6 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text>
                [paddockname]_cattle_presence = 'off'
-               cattle_presence = 'off'
                buy_count = 0
             </text>
             <event>init</event>
@@ -2441,22 +2452,27 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text><![CDATA[
            if ('[paddockname]' = 'nil') then
-              if (StageName = 'out') then
+              if ([stockmodule].number_all > 0) then
+                  cattle_presence = 'on'
+              endif
+              if ([herbage_module].StageName = 'out') then
                  buy_count = 0
               endif
               if ([herbage_module].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off' AND buy_count = 0) then
-                 [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+                 [stockmodule]scienceconverter buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
                  cattle_presence = 'on'
                  buy_count = buy_count + 1
               endif
            else
-              if ([paddockname].StageName = 'out') then
+               if ([paddockname].[stockmodule].number_all > 0) then
+                  [paddockname]_cattle_presence = 'on'
+               endif
+              if ([paddockname].[herbage_module].StageName = 'out') then
                  buy_count = 0
               endif
-              if ([paddockname].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off' AND buy_count = 0) then
-                 [paddockname] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+              if ([paddockname].[herbage_module].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off' AND buy_count = 0) then
+                 [paddockname].[stockmodule]scienceconverter buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
                  [paddockname]_cattle_presence = 'on'
-                 cattle_presence = 'on'
                  buy_count = buy_count + 1
               endif
            endif
@@ -2466,7 +2482,7 @@ if (date_within('[date1], [date2]') = 1) then
           <ui>
             <category name="Buy properties" />
             <paddockname type="modulename" description="Name of paddock (nil if none) : ">nil</paddockname>
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
             <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
             <buy_feed_on_offer type="text" description="Feed on offer (kg/ha) : ">1500.0</buy_feed_on_offer>
@@ -2479,16 +2495,19 @@ if (date_within('[date1], [date2]') = 1) then
         <manager name="Sell cattle on a fixed date">
           <script>
             <text>
-        if (today = date('[sell_date]') AND cattle_presence = 'on') then
-           [stockmodule] sellstock number = [sell_number] (-)
-           cattle_presence = 'off'
-        endif
+              if ([stockmodule].number_all > 0) then
+                  cattle_presence = 'on'
+              endif
+              if (today = date('[sell_date]') AND cattle_presence = 'on') then
+                 [stockmodule]scienceconverter sellstock number = [sell_number] (-)
+                 cattle_presence = 'off'
+              endif
                </text>
             <event>start_of_day</event>
           </script>
           <ui>
             <category name="Sell properties" />
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <sell_date type="text" description="Date (dd-mmm) : ">1-jan</sell_date>
             <sell_number type="text" description="Number of stock : ">5</sell_number>
           </ui>
@@ -2497,14 +2516,20 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text><![CDATA[
            if ('[sellpaddock]' = 'nil') then
+              if ([stockmodule].number_all > 0) then
+                  cattle_presence = 'on'
+              endif
              if ((stock.weight >= [sell_on_weight]) AND cattle_presence = 'on') then
-                 [stockmodule] sellstock number = [sell_number] (-)
+                 [stockmodule]scienceconverter sellstock number = [sell_number] (-)
                  cattle_presence = 'off'
              endif
            else
-             if ([sellpaddock].weight_all >= [sell_on_weight]) AND cattle_presence = 'on') then
-                 [sellpaddock] sellstock number = [sell_number] (-)
-                 cattle_presence = 'off'
+               if (sellpaddock].[stockmodule].number_all > 0) then
+                  [sellpaddock]_cattle_presence = 'on'
+               endif
+             if ([sellpaddock].[stockmodule].weight_all >= [sell_on_weight]) AND cattle_presence = 'on') then
+                 [sellpaddock].[stockmodule]scienceconverter sellstock number = [sell_number] (-)
+                 [sellpaddock]_cattle_presence = 'off'
               endif
            endif
          ]]></text>
@@ -2513,7 +2538,7 @@ if (date_within('[date1], [date2]') = 1) then
           <ui>
             <category name="Sell properties" />
             <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <sell_on_weight type="text" description="LiveWeight for sale : ">350.0</sell_on_weight>
             <sell_number type="text" description="Number of stock : ">100</sell_number>
           </ui>
@@ -2528,25 +2553,30 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text><![CDATA[
             if ('[sellpaddock]' = 'nil') then
-              if (wt_change_all < 0.0) then
+              if ([stockmodule].number_all > 0) then
+                  cattle_presence = 'on'
+              endif
+              if ([stockmodule].wt_change_all < 0.0) then
                  numdaysweightloss = numdaysweightloss + 1
               endif
               if ((numdaysweightloss >= [sell_on_days_weight_loss]) AND cattle_presence = 'on') then
-                 [stockmodule] sellstock number = [sell_number] (-)
+                 [stockmodule]scienceconverter sellstock number = [sell_number] (-)
                  cattle_presence = 'off'
                  maxstockwt = -1
               endif
             else
+               if (sellpaddock].[stockmodule].number_all > 0) then
+                  [sellpaddock]_cattle_presence = 'on'
+               endif
                if ([sellpaddock]_cattle_presence = 'on') then
-                  if ([sellpaddock].wt_change_all < 0.0) then
+                  if ([sellpaddock].[stockmodule].wt_change_all < 0.0) then
                      numdaysweightloss = numdaysweightloss + 1
                   else
                      numdaysweightloss = 0
                   endif
                endif
                if ((numdaysweightloss >= [sell_on_days_weight_loss]) AND [sellpaddock]_cattle_presence = 'on') then
-                  [sellpaddock] sellstock number = [sell_number] (-)
-                  cattle_presence = 'off'
+                  [sellpaddock].[stockmodule]scienceconverter sellstock number = [sell_number] (-)
                   [sellpaddock]_cattle_presence = 'off'
                endif
             endif
@@ -2556,7 +2586,7 @@ if (date_within('[date1], [date2]') = 1) then
           <ui>
             <category name="Sell properties" />
             <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <sell_on_days_weight_loss type="text" description="Number of days of weight loss : ">2.0</sell_on_days_weight_loss>
             <sell_number type="text" description="Number of stock : ">100</sell_number>
           </ui>
@@ -2572,33 +2602,38 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text><![CDATA[
             if ('[sellpaddock]' = 'nil') then
+              if ([stockmodule].number_all > 0) then
+                  cattle_presence = 'on'
+              endif
               if (cattle_presence = 'on') then
-                 if (wt_change_all < [sell_min_weight_change] AND wt_change_all < wt_change_yesterday)then
+                 if ([stockmodule].wt_change_all < [sell_min_weight_change] AND [stockmodule].wt_change_all < wt_change_yesterday)then
                     numdaysweightchange = numdaysweightchange + 1
                  else
                     numdaysweightchange = 0
                  endif
               endif
-              if ((numdaysweightchange >= [sell_on_days_weight_change] OR (intake_all < 0.001)) AND cattle_presence = 'on') then
-                 [stockmodule] sellstock number = [sell_number] (-)
+              if ((numdaysweightchange >= [sell_on_days_weight_change] OR ([stockmodule].intake_all < 0.001)) AND cattle_presence = 'on') then
+                 [stockmodule].[stockmodule]scienceconverter sellstock number = [sell_number] (-)
                  cattle_presence = 'off'
                  maxstockwt = -1
               endif
               wt_change_yesterday = wt_change_all
             else
+               if (sellpaddock].[stockmodule].number_all > 0) then
+                  [sellpaddock]_cattle_presence = 'on'
+               endif
                if ([sellpaddock]_cattle_presence = 'on') then
-                  if ([sellpaddock].wt_change_all < [sell_min_weight_change] AND [sellpaddock].wt_change_all < wt_change_yesterday) then
+                  if ([sellpaddock].[stockmodule].wt_change_all < [sell_min_weight_change] AND [sellpaddock].[stockmodule].wt_change_all < wt_change_yesterday) then
                      numdaysweightchange = numdaysweightchange + 1
                   else
                      numdaysweightchange = 0
                   endif
                endif
-               if ((numdaysweightchange >= [sell_on_days_weight_change] OR ([sellpaddock].intake_all < 0.001)) AND [sellpaddock]_cattle_presence = 'on') then
-                  [sellpaddock] sellstock number = [sell_number] (-)
-                  cattle_presence = 'off'
+               if ((numdaysweightchange >= [sell_on_days_weight_change] OR ([sellpaddock].[stockmodule].intake_all < 0.001)) AND [sellpaddock]_cattle_presence = 'on') then
+                  [sellpaddock].[stockmodule]scienceconverter sellstock number = [sell_number] (-)
                   [sellpaddock]_cattle_presence = 'off'
                endif
-               wt_change_yesterday = [sellpaddock].wt_change_all
+               wt_change_yesterday = [sellpaddock].[stockmodule].wt_change_all
             endif
          ]]></text>
             <event>start_of_day</event>
@@ -2606,7 +2641,7 @@ if (date_within('[date1], [date2]') = 1) then
           <ui>
             <category name="Sell properties" />
             <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <sell_min_weight_change type="text" description="Minimum Weight change : ">0.2</sell_min_weight_change>
             <sell_on_days_weight_change type="text" description="Number of days below weight change : ">2.0</sell_on_days_weight_change>
             <sell_number type="text" description="Number of stock : ">100</sell_number>
@@ -2623,36 +2658,41 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text><![CDATA[
             if ('[sellpaddock]' = 'nil') then
+               if ([stockmodule].number_all > 0) then
+                  cattle_presence = 'on'
+               endif
               if (cattle_presence = 'on') then
-                 cond_score_change = cond_score - cond_score_yesterday
+                 cond_score_change = [stockmodule].cond_score - cond_score_yesterday
                  if (cond_score_change < [sell_min_cond_score_change])then
                     numdays_cond_score_diminishing = numdays_cond_score_diminishing + 1
                  else
                     numdays_cond_score_diminishing = 0
                  endif
               endif
-              if ((numdays_cond_score_diminishing >= [sell_on_days_cond_score_change] OR (intake_all < 0.001)) AND cattle_presence = 'on') then
-                 [stockmodule] sellstock number = [sell_number] (-)
+              if ((numdays_cond_score_diminishing >= [sell_on_days_cond_score_change] OR ([stockmodule].intake_all < 0.001)) AND cattle_presence = 'on') then
+                 [stockmodule]scienceconverter sellstock number = [sell_number] (-)
                  cattle_presence = 'off'
                  maxstockwt = -1
               endif
               cond_score_change_yesterday = cond_score_change
               cond_score_yesterday = cond_score
             else
+               if (sellpaddock].[stockmodule].number_all > 0) then
+                  [sellpaddock]_cattle_presence = 'on'
+               endif
                if ([sellpaddock]_cattle_presence = 'on') then
-                  cond_score_change = [sellpaddock].cond_score - cond_score_yesterday
+                  cond_score_change = [sellpaddock].[stockmodule].cond_score - cond_score_yesterday
                   if (cond_score_change < [sell_min_cond_score_change]) then
                      numdays_cond_score_diminishing = numdays_cond_score_diminishing + 1
                   else
                      numdays_cond_score_diminishing = 0
                   endif
                endif
-               if ((numdays_cond_score_diminishing >= [sell_on_days_cond_score_change] OR ([sellpaddock].intake_all < 0.001)) AND [sellpaddock]_cattle_presence = 'on') then
-                  [sellpaddock] sellstock number = [sell_number] (-)
-                  cattle_presence = 'off'
+               if ((numdays_cond_score_diminishing >= [sell_on_days_cond_score_change] OR ([sellpaddock].[stockmodule].intake_all < 0.001)) AND [sellpaddock]_cattle_presence = 'on') then
+                  [sellpaddock].[stockmodule]scienceconverter sellstock number = [sell_number] (-)
                   [sellpaddock]_cattle_presence = 'off'
                endif
-               cond_score_yesterday = [sellpaddock].cond_score
+               cond_score_yesterday = [sellpaddock].[stockmodule].cond_score
             endif
          ]]></text>
             <event>start_of_day</event>
@@ -2660,7 +2700,7 @@ if (date_within('[date1], [date2]') = 1) then
           <ui>
             <category name="Sell properties" />
             <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <sell_min_cond_score_change type="text" description="Minimum condition score change : ">-0.001</sell_min_cond_score_change>
             <sell_on_days_cond_score_change type="text" description="Number of days below cond score change : ">2.0</sell_on_days_cond_score_change>
             <sell_number type="text" description="Number of stock : ">100</sell_number>
@@ -2669,8 +2709,11 @@ if (date_within('[date1], [date2]') = 1) then
         <manager name="Sell cattle on weight">
           <script>
             <text><![CDATA[
-        if ((stock.weight >= [sell_on_weight_gain] OR stock.weight <= [sell_on_weight_loss]) AND cattle_presence = 'on') then
-           [stockmodule] sellstock number = [sell_number] (-)
+           if ( [stockmodule].number_all > 0) then
+               cattle_presence = 'on'
+            endif
+        if (([stockmodule].weight >= [sell_on_weight_gain] OR [stockmodule].weight <= [sell_on_weight_loss]) AND cattle_presence = 'on') then
+           [stockmodule]scienceconverter sellstock number = [sell_number] (-)
            cattle_presence = 'off'
         endif
                ]]></text>
@@ -2678,7 +2721,7 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Sell properties" />
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <sell_on_weight_gain type="text" description="Weight (gaining) : ">350.0</sell_on_weight_gain>
             <sell_on_weight_loss type="text" description="Weight (losing) : ">0.0</sell_on_weight_loss>
             <sell_number type="text" description="Number of stock : ">5</sell_number>
@@ -2696,7 +2739,7 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text>
         if (today = date('[buy_date]') then
-           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+           [stockmodule]scienceconverter buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
            sheep_presence = 'on'
          endif
                </text>
@@ -2704,7 +2747,7 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Buy properties" />
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <genotype type="list" listvalues="black face x white face,birder keucester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : ">suffolk</genotype>
             <buy_date type="text" description="Date (dd-mmm) : ">1-jan</buy_date>
             <buy_number type="text" description="Number of stock : ">50</buy_number>
@@ -2722,16 +2765,19 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <script>
             <text><![CDATA[
-        if ([herbage_module].biomass >= [buy_feed_on_offer] AND sheep_presence = 'off') then
-           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
-           sheep_presence = 'on'
-         endif
+           if ( [stockmodule].number_all > 0) then
+               sheep_presence = 'on'
+            endif
+           if ([herbage_module].biomass >= [buy_feed_on_offer] AND sheep_presence = 'off') then
+              [stockmodule]scienceconverter buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+              sheep_presence = 'on'
+            endif
                ]]></text>
             <event>start_of_day</event>
           </script>
           <ui>
             <category name="Buy properties" />
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <genotype type="list" listvalues="black face x white face,birder keucester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : ">suffolk</genotype>
             <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
             <buy_feed_on_offer type="text" description="Feed on offer (kg/ha) : ">1500.0</buy_feed_on_offer>
@@ -2754,20 +2800,23 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <script>
             <text><![CDATA[
+           if ( [stockmodule].number_all > 0) then
+               sheep_presence = 'on'
+            endif
             if sheep_presence = 'on' then
                grazing_days = grazing_days + 1
             else
                grazing_days = 0
             endif
-            feed_on_offer = ([herbage_module].GreenWt2) + [herbage_module].GreenWt3) * stem_discount) * gpsm2kgpha
+            feed_on_offer = ([herbage_module].LeafGreenWt + ([herbage_module].StemGreenWt * stem_discount)) * gpsm2kgpha
             if ((([herbage_module].Stage >= 5) or (feed_on_offer  > [buy_green_leaf_on_offer])) and (sheep_presence = 'off')) then
-                leaf = [herbage_module].GreenWt2) + [herbage_module].dlt_dm_green(2)*[est_grazing_days]
-                stem = [herbage_module].GreenWt3) + [herbage_module].dlt_dm_green(3)*[est_grazing_days]
+                leaf = [herbage_module].LeafGreenWt) + [herbage_module].dlt_dm_green_leaf*[est_grazing_days]
+                stem = [herbage_module].StemGreenWt) + [herbage_module].dlt_dm_green_stem*[est_grazing_days]
                 stock_in = ((leaf + stem * stem_discount) * gpsm2kgpha / ([est_grazing_days] * [est_intake_day]) + 0.5)
 
                 if (stock_in >= [min_buy_number]) then
                    grazing_days = 0
-                   [stockmodule] buystock number = stock_in (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+                   [stockmodule]scienceconverter buystock number = stock_in (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
                    sheep_presence = 'on'
                 else
                    sheep_presence = 'off'
@@ -2778,7 +2827,7 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Buy properties" />
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <genotype type="list" listvalues="black face x white face,border leicester,border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : ">suffolk</genotype>
             <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
             <buy_green_leaf_on_offer type="text" description="Green feed-on-offer (kg/ha) : ">100.0</buy_green_leaf_on_offer>
@@ -2793,8 +2842,11 @@ if (date_within('[date1], [date2]') = 1) then
         <manager name="Sell sheep on a fixed date">
           <script>
             <text>
+           if ( [stockmodule].number_all > 0) then
+               sheep_presence = 'on'
+            endif
         if (today = date('[sell_date]') AND sheep_presence = 'on') then
-           [stockmodule] sellstock number = [sell_number] (-)
+           [stockmodule]scienceconverter sellstock number = [sell_number] (-)
            sheep_presence = 'off'
         endif
                </text>
@@ -2802,7 +2854,7 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Sell properties" />
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <sell_date type="text" description="Date (dd-mmm) : ">1-jan</sell_date>
             <sell_number type="text" description="Number of stock : ">50</sell_number>
           </ui>
@@ -2810,8 +2862,11 @@ if (date_within('[date1], [date2]') = 1) then
         <manager name="Sell sheep on weight">
           <script>
             <text><![CDATA[
-        if ((stock.weight >= [sell_on_weight_gain] OR stock.weight <= [sell_on_weight_loss]) AND sheep_presence = 'on') then
-           [stockmodule] sellstock number = [sell_number] (-)
+           if ( [stockmodule].number_all > 0) then
+               sheep_presence = 'on'
+            endif
+        if (([stockmodule].weight >= [sell_on_weight_gain] OR [stockmodule].weight <= [sell_on_weight_loss]) AND sheep_presence = 'on') then
+           [stockmodule]scienceconverter sellstock number = [sell_number] (-)
            sheep_presence = 'off'
         endif
                ]]></text>
@@ -2819,7 +2874,7 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Sell properties" />
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <sell_on_weight_gain type="text" description="Weight (gaining) : ">60.0</sell_on_weight_gain>
             <sell_on_weight_loss type="text" description="Weight (losing) : ">0.0</sell_on_weight_loss>
             <sell_number type="text" description="Number of stock : ">50</sell_number>
@@ -2835,10 +2890,13 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <script>
             <text><![CDATA[
-           feed_on_offer = ([herbage_module].GreenWt2) + [herbage_module].GreenWt3) * stem_discount) * gpsm2kgpha
+           if ( [stockmodule].number_all > 0) then
+               sheep_presence = 'on'
+            endif
+           feed_on_offer = ([herbage_module].LeafGreenWt + ([herbage_module].StemGreenWt * stem_discount)) * gpsm2kgpha
             if (feed_on_offer < [sell_on_green_leaf] and sheep_presence = 'on') then
-                stock_sell = [stock_module].number_all
-                [stockmodule] sellstock number = stock_sell
+                stock_sell = [stockmodule].number_all
+                [stockmodule]scienceconverter sellstock number = stock_sell
                 sheep_presence = 'off'
             endif
                               ]]></text>
@@ -2846,9 +2904,8 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Sell properties" />
-            <stock_module type="modulename" description="Stock module name : ">stock</stock_module>
+            <stockmodule type="modulename" description="Name of stock module : ">stock</stockmodule>
             <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
-            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <sell_on_green_leaf type="text" description="Green feed-on-offer (kg/ha) : ">50.0</sell_on_green_leaf>
           </ui>
         </manager>
@@ -2858,14 +2915,14 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text>
         if (today = date('[buy_date]') then
-           [supplementmodule] buysupplement supplement = [buy_name] (-), amount = [buy_amount] (kg)
+           [supplementmodule]scienceconverter buysupplement supplement = [buy_name] (-), amount = [buy_amount] (kg)
          endif
                </text>
             <event>start_of_day</event>
           </script>
           <ui>
             <category name="Buy properties" />
-            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <supplementmodule type="modulename" description="Name of supplement module : ">supplement</supplementmodule>
             <buy_date type="text" description="Date (dd-mmm) : ">1-jan</buy_date>
             <buy_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</buy_name>
             <buy_amount type="text" description="Fresh weight of supplement to purchase (kg) : ">1000</buy_amount>
@@ -2875,14 +2932,14 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text>
         if (today = date('[mix_date]') then
-           [supplementmodule] mixsupplement src_store = [src_store_name] (-), amount = [mix_amount] (kg), dest_store = [dest_store_name] (-)
+           [supplementmodule]scienceconverter mixsupplement src_store = [src_store_name] (-), amount = [mix_amount] (kg), dest_store = [dest_store_name] (-)
          endif
                </text>
             <event>start_of_day</event>
           </script>
           <ui>
             <category name="Mix properties" />
-            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <supplementmodule type="modulename" description="Name of supplement module : ">supplement</supplementmodule>
             <mix_date type="text" description="Date (dd-mmm) : ">1-jan</mix_date>
             <src_store_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the source supplement store. : ">wheat</src_store_name>
             <dest_store_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the destination store. : ">wheat</dest_store_name>
@@ -2893,14 +2950,14 @@ if (date_within('[date1], [date2]') = 1) then
           <script>
             <text>
         if (date_within('[feed_start_date], [feed_end_date]') = 1) then
-           [supplementmodule] feedsupplement supplement = [feed_name] (-), amount = [feed_amount] (kg)
+           [supplementmodule]scienceconverter feedsupplement supplement = [feed_name] (-), amount = [feed_amount] (kg)
          endif
                </text>
             <event>start_of_day</event>
           </script>
           <ui>
             <category name="Feed properties" />
-            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <supplementmodule type="modulename" description="Name of supplement module : ">supplement</supplementmodule>
             <feed_start_date type="text" description="Date (dd-mmm) : ">1-jan</feed_start_date>
             <feed_end_date type="text" description="Date (dd-mmm) : ">1-jan</feed_end_date>
             <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</feed_name>
@@ -2945,7 +3002,7 @@ if (date_within('[date1], [date2]') = 1) then
                endif
                if (feed_rate > 0) then
                    feed_amount = feed_rate * number_all
-                   [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
+                   [supplementmodule]scienceconverter feedsupplement  supplement = [feed_name], amount = feed_amount
                else
                   feed_rate = 0.0
                endif
@@ -2958,7 +3015,7 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Feed properties" />
-            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <supplementmodule type="modulename" description="Name of supplement module : ">supplement</supplementmodule>
             <crit_cs type="text" description="Critical condition score. 1.0 is sensible for dry stock : ">1.0</crit_cs>
             <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1.0</max_feed_rate>
             <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</feed_name>
@@ -2975,6 +3032,7 @@ if (date_within('[date1], [date2]') = 1) then
          feed_rate_factor = 0.2
          est_lag_days = 10.0 / feed_rate_factor
          initial_feed_rate = 0.0
+         yest_cond_score_all = 0.0
             </text>
             <event>init</event>
           </script>
@@ -3006,7 +3064,7 @@ if (date_within('[date1], [date2]') = 1) then
                endif
                if (feed_rate > 0) then
                    feed_amount = feed_rate * number_all
-                   [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
+                   [supplementmodule]scienceconverter feedsupplement  supplement = [feed_name], amount = feed_amount
                else
                   feed_rate = 0.0
                endif
@@ -3019,7 +3077,7 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Feed properties" />
-            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <supplementmodule type="modulename" description="Name of supplement module : ">supplement</supplementmodule>
             <days type="text" description="Number of days to sum condition change : ">5</days>
             <crit_condition_change type="text" description="Critical condition change needed to start feeding (kg/head) : ">0.0</crit_condition_change>
             <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1.0</max_feed_rate>
@@ -3066,7 +3124,7 @@ if (date_within('[date1], [date2]') = 1) then
                endif
                if (feed_rate > 0) then
                    feed_amount = feed_rate * number_all
-                   [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
+                   [supplementmodule]scienceconverter feedsupplement  supplement = [feed_name], amount = feed_amount
                else
                   feed_rate = 0.0
                endif
@@ -3079,7 +3137,7 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Feed properties" />
-            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <supplementmodule type="modulename" description="Name of supplement module : ">supplement</supplementmodule>
             <days type="text" description="Number of days to sum weight change : ">5</days>
             <crit_weight_change type="text" description="Critical weight change needed to start feeding (kg/head) : ">0.0</crit_weight_change>
             <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1.0</max_feed_rate>
@@ -3116,7 +3174,7 @@ if (date_within('[date1], [date2]') = 1) then
                         feed_rate = feed_rate * 0.5
                      endif
                       feed_amount = feed_rate * number_all
-                      [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
+                      [supplementmodule]scienceconverter feedsupplement  supplement = [feed_name], amount = feed_amount
                   else
                      feed_rate = 0.0
                   endif
@@ -3128,7 +3186,7 @@ if (date_within('[date1], [date2]') = 1) then
           </script>
           <ui>
             <category name="Feed properties" />
-            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <supplementmodule type="modulename" description="Name of supplement module : ">supplement</supplementmodule>
             <date_start_feed type="text" description="date to begin feeding (dd-mmm) : ">1-jan</date_start_feed>
             <date_end_feed type="text" description="date to end feeding (dd-mmm) : ">1-jan</date_end_feed>
             <target_wt type="text" description="Target weight per head to finish (kg) : ">1.0</target_wt>
