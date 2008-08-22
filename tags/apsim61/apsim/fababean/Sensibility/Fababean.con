@@ -1,0 +1,48 @@
+version = 6.1
+[APSIM.Dalby 600mm]
+title=Dalby 600mm wet soil
+module = clock   Fababean.par [sensibility] %apsuite/apsim/clock/clock.xml [standard]
+module = report     Fababean.par[sensibility] Fababean.par[Dalby600]
+module = input(met)        %apsuite/apsim/Common Files/Dalby.met[weather]
+module = manager    Fababean.par[sensibility]
+module = soilwat2   %apsuite/apsim/Common Files/waco.par [waco] %apsuite/apsim/Common Files/waco.par [600mm] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/Common Files/waco.par [waco] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(Fababean)   %apsuite/apsim/Common Files/waco.par [waco] %apsuite/apsim/Fababean/Fababean.xml [standard]
+module = Tracker    Fababean.par[sensibility]
+
+[APSIM.Dalby 1500mm]
+title=Dalby 1500mm wet soil
+module = clock   Fababean.par [sensibility] %apsuite/apsim/clock/clock.xml [standard]
+module = report     Fababean.par[sensibility] Fababean.par[Dalby1500]
+module = input(met)        %apsuite/apsim/Common Files/Dalby.met[weather]
+module = manager    Fababean.par[sensibility]
+module = soilwat2   %apsuite/apsim/Common Files/waco.par [waco] %apsuite/apsim/Common Files/waco.par [1500mm] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/Common Files/waco.par [waco] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(Fababean)   %apsuite/apsim/Common Files/waco.par [waco] %apsuite/apsim/Fababean/Fababean.xml [standard]
+module = Tracker    Fababean.par[sensibility]
+
+[APSIM.Roma 400mm]
+title=Roma 400mm wet soil
+module = clock   Fababean.par [sensibility] %apsuite/apsim/clock/clock.xml [standard]
+module = report     Fababean.par[sensibility] Fababean.par[Roma400]
+module = input(met)        %apsuite/apsim/Common Files/roma.met[weather]
+module = manager    Fababean.par[sensibility]
+module = soilwat2   %apsuite/apsim/Common Files/BrownVertosol.par [BrownVertosol] %apsuite/apsim/Common Files/BrownVertosol.par [400mm] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/Common Files/BrownVertosol.par [BrownVertosol] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(Fababean)   %apsuite/apsim/Common Files/BrownVertosol.par [BrownVertosol] %apsuite/apsim/Fababean/Fababean.xml [standard]
+module = Tracker    Fababean.par[sensibility]
+
+[APSIM.Roma 800mm]
+title=Roma 800mm wet soil
+module = clock   Fababean.par [sensibility] %apsuite/apsim/clock/clock.xml [standard]
+module = report     Fababean.par[sensibility] Fababean.par[Roma800]
+module = input(met)        %apsuite/apsim/Common Files/roma.met[weather]
+module = manager    Fababean.par[sensibility]
+module = soilwat2   %apsuite/apsim/Common Files/BrownVertosol.par [BrownVertosol] %apsuite/apsim/Common Files/BrownVertosol.par [800mm] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/Common Files/BrownVertosol.par [BrownVertosol] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(Fababean)   %apsuite/apsim/Common Files/BrownVertosol.par [BrownVertosol] %apsuite/apsim/Fababean/Fababean.xml [standard]
+module = Tracker    Fababean.par[sensibility]

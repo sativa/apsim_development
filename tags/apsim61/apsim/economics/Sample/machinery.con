@@ -1,0 +1,20 @@
+version = 6.1
+[apsim.fm]
+title = report.title
+module = clock   %apsuite/apsim/wheat/sample/wheat.par [sample] %apsuite/apsim/clock/clock.xml [standard]
+module = input(met)         %apsuite/apsim/met/sample/dalby.met [weather]
+module = manager            machinery.par [manager]
+module = report             machinery.par [sample]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = plant(wheat)   %apsuite/apsim/wheat/sample/wheat.par [sample] %apsuite/apsim/wheat/wheat.xml [standard]
+module = TclLink(machinery) machinery.par [machinery]
+module = TclLink(cashbook)  machinery.par [cashbook]
+
+
+[apsim.show error1]
+title = report.title
+module = clock   %apsuite/apsim/wheat/sample/wheat.par [sample] %apsuite/apsim/clock/clock.xml [standard]
+module = input(met)         %apsuite/apsim/met/sample/dalby.met [weather]
+module = manager            machinery.par [error1]
+module = TclLink(machinery) machinery.par [machinery]

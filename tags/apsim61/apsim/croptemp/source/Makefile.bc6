@@ -1,0 +1,31 @@
+# (Borlandish) Makefile for apsim infrastructure module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:/progra~1/apsim33
+#APSROOT=c:/development
+
+# Platform specific defns
+!include $(APSROOT)/APSBuild/platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)/APSBuild/fortran.make
+
+OBJECTS= crp_util.obj crp_root.obj crp_watr.obj crp_biom.obj \
+crp_cnpy.obj crp_comm.obj crp_fail.obj crp_nitn.obj \
+crp_phen.obj crp_temp.obj \
+CropLibrary.obj 
+
+source: ..\lib\croptemp.lib
+
+..\lib\croptemp.lib: $(OBJECTS)
+	if exist croptemp.lib $(RM) croptemp.lib
+	$(ECHO) croptemp.lib > linker.tmp
+	$(ECHO) +CropLibrary.obj +crp_biom.obj +crp_cnpy.obj +crp_comm.obj +crp_fail.obj +crp_nitn.obj +crp_phen.obj +crp_root.obj +crp_temp.obj +crp_util.obj +crp_watr.obj >> linker.tmp
+	$(ECHO) croptemp.lst >> linker.tmp
+	$(LFLM) @linker.tmp 
+	$(MV) croptemp.lib ../lib/croptemp.lib
+	$(RM) linker.tmp
+
+clean:
+	$(RM) $(OBJECTS)
+   $(RM) ..\lib\croptemp.lib

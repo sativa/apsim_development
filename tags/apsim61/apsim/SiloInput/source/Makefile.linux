@@ -1,0 +1,66 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM MET module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+LIB=	../lib/libSiloInput.so
+
+SRC=	SiloInputComponent.cpp
+
+OBJ=    SiloInputComponent.o \
+	$(APSROOT)/apsim/input/source/InputComponent.o \
+	$(APSROOT)/apsim/input/source/StringVariant.o \
+	$(APSROOT)/Shared/ComponentInterface/EntryPoints.o
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+CPPFLAGS=	$(BOOST_INCLUDEDIR) $(XML2_INCLUDEDIR) \
+		-I$(APSROOT)/apsim/input/source \
+		-I$(APSROOT)/Shared				\
+		-I$(APSROOT)/Shared/ComponentInterface		\
+		-Wno-deprecated 				\
+		-fpermissive -fPIC
+
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	$(XML2_LIBDIR) -L$(APSROOT)/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lComponentInterface	\
+		-lprotocol		\
+		-lApsimShared		\
+		-lgeneral		\
+		-lboost_filesystem 	\
+		-lxml2
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o 
+
+clobber:	clean
+	rm -r $(LIB)
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/SiloInput/lib ]; then mkdir -p $(DESTDIR)/apsim/SiloInput/lib; fi
+	cp $(LIB) $(DESTDIR)/apsim/SiloInput/lib
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+
+SiloInputComponent.o: SiloInputComponent.cpp SiloInputComponent.h
+InputComponent.o: $(APSROOT)/apsim/input/source/InputComponent.cpp
+StringVariant.o: $(APSROOT)/apsim/input/source/StringVariant.cpp
+

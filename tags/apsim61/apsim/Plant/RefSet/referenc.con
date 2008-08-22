@@ -1,0 +1,14 @@
+version = 6.1
+[apsim.mungbean reference data set]
+
+module = clock   referenc.par [reference] %apsuite/apsim/clock/clock.xml [standard]
+module = report   referenc.par [reference]
+module = input(met)      referenc.met [reference]
+module = manager  referenc.par [reference]
+module = soilwat2   referenc.par [reference] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   referenc.par [reference] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   referenc.par [reference] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(mungbean)   referenc.par [reference] %apsuite/apsim/mungbean/mungbean.xml [standard]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = irrigate
+module = Tracker(tracker1)   referenc.par[reference]

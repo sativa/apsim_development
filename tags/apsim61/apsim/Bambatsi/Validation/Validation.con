@@ -1,0 +1,18 @@
+
+version = 6.1
+[apsim.Hudson P3 - bambatsi]
+module = clock   hudson.par [all] %apsuite/apsim/clock/clock.xml [standard]
+module = report   report.par [p3_stdrep] report.par [p3rep]
+module = input(met)      HUDSON.MET [hudson]
+module = micromet   hudson.par [all] %apsuite/apsim/micromet/micromet.xml [standard]
+module = manager  hudson.par [all]
+module = operatns hudson.par [p3]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   hudson.par [all] hudson.par [p3] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   hudson.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   hudson.par [all] hudson.par [p3] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = solute   hudson.par [all] %apsuite/apsim/solute/solute.xml [standard]
+module = growth(bambatsi)   hudson.par [all] %apsuite/apsim/bambatsi/bambatsi.xml [standard]
+module = tracker(tracker1)   hudson.par[all]
+module = log   report.par[log]
+title = P3 Base Simulation

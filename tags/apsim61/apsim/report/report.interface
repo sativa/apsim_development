@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="report">
+   <registrations>
+      <read name="outputfile" type="outputfile" readable="T"/>
+      <read name="reportvariables" type="reportvariables" readable="T"/>
+      <read name="format" type="format" readable="T"/>
+      <respondToEventReg name="rep" type="rep"/>
+      <respondToEventReg name="do_output" type="do_output"/>
+      <respondToEventReg name="do_end_day_output" type="do_end_day_output"/>
+      <respondToGetReg name="days_since_last_report" type="days_since_last_report"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+   </registrations>
+</component>

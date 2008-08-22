@@ -1,0 +1,33 @@
+version = 6.1
+
+[apsim.sunflower]
+title=sunflower SAMPLE SIMULATION
+
+module = clock   sample.par [all] %apsuite/apsim/clock/clock.xml [standard]
+module = report              report.par [sunflower]       report.par  [all]
+module = input(Met)          %apsuite/apsim/met/sample/dalby.met[weather]
+module = manager             sample.man [sunflower]
+module = irrigate
+module = fertiliz   sample.par [sunflower] %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = CropMod(sunflower)   sample.par [sample] %apsuite/apsim/sunflower/sunflower.xml [standard]
+
+
+[apsim.intercropping]
+title=Canopy Sample Simulation
+
+module = clock   sample.par [all] %apsuite/apsim/clock/clock.xml [standard]
+module = report   report.par [intercropping]
+module = manager  sample.man [intercropping]
+module = input(Met) %apsuite/apsim/met/sample/dalby.met [weather]
+module = irrigate
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = canopy   sample.par [intercropping]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = soiln2   %apsuite/apsim/soiln2/soiln2.xml [standard] %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = Plant(cowpea)   sample.par [sample] %apsuite/apsim/cowpea/cowpea.xml [standard]
+module = cropmod(sunflower)   sample.par [sample] %apsuite/apsim/sunflower/sunflower.xml [standard]
+

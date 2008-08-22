@@ -1,0 +1,77 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM report module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/sorghum.so
+
+SRC=	Leaf.cpp		\
+	PlantInterface.cpp	\
+	Biomass.cpp		\
+	Phosphorus.cpp	\
+	PlantActions.cpp	\
+	Stem.cpp		\
+	Utilities.cpp		\
+	Nitrogen.cpp		\
+	Rachis.cpp		\
+	Grain.cpp		\
+	PlantComponents.cpp	\
+	Water.cpp		\
+	Phenology.cpp		\
+	Plant.cpp		\
+	Roots.cpp		\
+
+
+OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface2/CMPComponentEntryPoints.o
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
+		-I$(APSROOT)/Shared				\
+		-I$(APSROOT)/Shared/ComponentInterface2		\
+		-Wno-deprecated 				\
+		-fpermissive -fPIC $(CPPDEBUGFLAGS)
+
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L/usr/lib 				\
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lComponentInterface2	\
+		-lprotocol		\
+		-lApsimShared		\
+		-lgeneral		\
+		-lboost_filesystem 	\
+		-lxml2
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o 
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/sorghum/lib ]; then mkdir -p $(DESTDIR)/apsim/sorghum/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/sorghum/lib
+	cp ../sorghum.ini $(DESTDIR)/apsim/sorghum
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+

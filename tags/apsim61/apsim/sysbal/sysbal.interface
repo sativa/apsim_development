@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="sysbal">
+   <registrations>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="post" type="prepare"/>
+      <respondToEventReg name="irrigated" type="irrigated"/>
+      <respondToEventReg name="crop_chopped" type="cropchopped"/>
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="remove_surfaceOM" type="SurfaceOrganicMatter"/>
+      <respondToEventReg name="ExternalMassFlow" type="ExternalMassFlow"/>
+      <eventReg name="residue_added" type="residue_added"/>
+      <eventReg name="residue_removed" type="residue_removed"/>
+      <eventReg name="surfaceOM_removed" type="surfaceOM_removed"/>
+   </registrations>
+</component>

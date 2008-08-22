@@ -1,0 +1,61 @@
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+PROJECT= ..\..\Bin\ComponentInterface2.dll
+
+OBJFILES = ComponentInterface.obj       \
+          message.obj                  \
+          TypeConverter.obj            \
+          ArraySpecifier.obj           \
+          DataTypes.obj                \
+          CMPData.obj                  \
+          CMPComponentEntryPoints.obj  \
+          CMPComponentInterface.obj    \
+          CMPScienceAPI.obj            \
+          CreateComponent.obj          \
+          Variant.obj                  \
+          EntryPoints.obj              
+          
+LIBFILES = $(SYSLIBS)                                    \
+           $(APSROOT)\Shared\general\general.lib         \
+           $(BCB)\Components\LibXml2\win32\LibXml2.lib
+                     
+# ---------------------------------------------------------------------------
+RESFILES = 
+USERDEFINES =
+INCLUDEPATH = $(SYSINCLUDES)
+LIBPATH = $(SYSLIBPATH)
+CFLAG1 =  -O2 -TWD -Vx -Ve -X- -a8 -b- -tWM -tWD -c -V -w-inl
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj Memmgr.Lib $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
+
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+     $(MV) $(APSROOT)\Bin\ComponentInterface2.lib .
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+# ---------------------------------------------------------------------------          
+
+DataTypes.h: $(APSROOT)\apsim\infra\datatypes.interface datatypes.macro $(APSROOT)\Bin\ProcessDataTypesInterface.exe
+   call DataTypes.bat
+
+clean:
+	$(RM) ComponentInterface2.lib $(OBJECTS) DataTypes.h DataTypes.cpp

@@ -1,0 +1,1551 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<title>reference data set procedures</title>
+<link href="./docstyle.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<p class="Title1">Reference Data Set Procedures)</p>
+
+<p class="Title2" align=center>Procedure - Creating a Model
+Reference Data Set</p>
+<p class="Normal">&nbsp;</p>
+
+<p class="Title2">Scope</p>
+
+<p class="Normal">Developing reference simulation sets for regression testing
+APSIM modules and documenting module stimuli.</p>
+
+<p class="Title2">Audience</p>
+
+<p class="Normal">APSRU Software Engineering Group and APSIM module developers</p>
+
+<p class="Title2">References</p>
+
+<p class="Normal">Science Configuration Management Procedure                SciencCM.doc</p>
+
+<p class="Title2">Glossary</p>
+
+<table border=0 cellspacing=0 cellpadding=0>
+ <tr>
+  <td width=144 valign=top>
+  <p class="Normal">APSIM Help Desk</p>
+  </td>
+  <td width=626 valign=top>
+  <p class="Normal">APSIM-Help@csiro.au</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=144 valign=top>
+  <p class="Normal">SEG</p>
+  </td>
+  <td width=626 valign=top>
+  <p class="Normal">Software Engineering Group</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=144 valign=top>
+  <p class="Normal">SPE</p>
+  </td>
+  <td width=626 valign=top>
+  <p class="Normal">Software Process Engineer: <a href="mailto:Dean.Holzworth@csiro.au">Dean.Holzworth@csiro.au</a></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=144 valign=top>
+  <p class="Normal">RDD</p>
+  </td>
+  <td width=626 valign=top>
+  <p class="Normal">Reference Data Description </p>
+  </td>
+ </tr>
+ <tr>
+  <td width=144 valign=top>
+  <p class="Normal">RDP</p>
+  </td>
+  <td width=626 valign=top>
+  <p class="Normal">Reference Data set
+  Parameter</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=144 valign=top>
+  <p class="Normal">RDC</p>
+  </td>
+  <td width=626 valign=top>
+  <p class="Normal">Reference Dataset
+  Control</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=144 valign=top>
+  <p class="Normal">&nbsp;</p>
+  </td>
+  <td width=626 valign=top>
+  <p class="Normal">&nbsp;</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=144 valign=top>
+  <p class="Normal">&nbsp;</p>
+  </td>
+  <td width=626 valign=top>
+  <p class="Normal">&nbsp;</p>
+  </td>
+ </tr>
+</table>
+
+<p class="Title2">Policy</p>
+
+<p class="Normal">In order to enhance the detection of errors in software code
+and to enable the assessment of changes to any module code it is important to
+have a reference simulation data set which can be used to describe the
+responses of a module to various simulation conditions.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">A Reference data set is a simple example of a simulation that
+contains various model stimuli and adequate relevant model outputs to enable
+the detection of changes in module behaviour. 
+The simulation set is <u>not</u> to be a “validation” set where model
+output  is regressed against observed
+data but is to be a comprehensive synthetic simulation that enables the
+efficient comparison of model behaviour<u> against previous model behaviour</u>.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">All APSIM  module
+developers are required to provide a reference data set for each module in
+their area of responsibility.  In doing
+so, the SEG will be able to detect any change in module behaviour due to
+maintenance or development within the given module or any module that
+communicates with the given module. 
+This will reduce both maintenance and user support time.</p>
+
+<p class="Title2">Procedure</p>
+<p class="Normal">&nbsp;</p>
+
+<p class="Title2">Reference Data set Description</p>
+
+<p class="Normal">1    Obtain source code and permission to perform
+this task if you are not the module owner. (Refer to Science Configuration
+Management Procedure)</p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Normal">2    Create a text file with the name nnnnn.rdd
+(where nnnnn is the module name).  This
+file will be referred to below as the Reference Data set Description (RDD)
+file.  The most efficient manner of
+creation will be by copying an already tested file for a module of similar
+structure and capability.</p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Normal">3    Identify the influences upon the behaviour
+of the current module (inward stimuli) and any effects the current module will
+exert on other modules (outward stimuli). 
+These can be categorised from the APSIM communications as follows:</p>
+
+<p class="Normal">Inward Stimuli</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State
+variables from other modules that determine module behaviour (usually found in
+the “<i>modulename</i>_get_other_variables”
+routine)</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Messages
+sent from other modules that will cause a response by this module (usually
+found in the “APSIM_<i>modulename</i>”
+routine within the if construct)</p>
+
+<p class="Normal">Outward Stimuli</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State
+variables in other modules that are changed by request by this module. (usually
+found in the “<i>modulename</i>_set_other_variables”
+routine)</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Messages
+sent from this module to cause a response in another module (usually identified
+by the call to the message_send_immediate routine)</p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Normal">For
+each of these stimuli an output to describe the response to the stimulus
+(called an “indicator”) is required to quantify and detect responses to that
+stimulus.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">Document all this information in the
+RDD file.  The structure of the RDD file
+is explained in Appendix A.</p>
+ <p class="Normal">&nbsp;</p>
+
+<p class="Title2">Simulation run files</p>
+
+<p class="Normal">4    Construct a short simulation containing the
+identified stimuli and outputs.  The
+duration and complexity of the simulation set will depend on the complexity of
+the module and of the identified responses. 
+Once again, this simulation set <u>does not</u> have to encompass <u>all</u>
+facets of the module but should enable automatic testing procedures to detect
+unforseen changes to module behaviour (in response to the documented stimuli)
+with an <u>acceptable level of confidence</u>. </p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Normal">Each
+stimuli must occur within the simulation set(s) and every recognised indicator
+must be reported to the output file. 
+The frequency and timing of output will depend on the processes and
+indicators involved.  The simulation
+does not need to represent a standard usage of the model.  IT IS NOT A SAMPLE FILE to guide new users.  It is to be a <u>thorough</u> “workout” for
+the executable code within the module.</p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Normal">Note
+that module parameters are not considered explicitly during this process.  It is assumed that all parameters exhibit
+some influence on module behaviour and that the creation of the reference data
+set will implicitly test the response to input parameters.  It would be difficult to test all possible
+permutations of input parameters (especially those that resemble switches) and
+so it is suggested that the parameterisation of the reference data set reflect
+a configuration that will exert a significant influence upon module behaviour.</p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Normal">Unique
+identifying “tags” are to be inserted within the simulation parameter file set
+to explicitly document the implementation of tests for each stimulus as
+identified within the RDD.  The format
+and naming convention to be used for these is described in Appendix B.</p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Normal">As
+for the RDD itself, the reference simulation set is best created from an
+already existing simulation set for module of simular type and structure.</p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Normal">5    When the simulation set is complete all
+output should be tested for sensibleness by the module owner.  This will include tests against accepted
+concepts of behaviour in the case of new tests, and also against previous
+reference output data in the case of any maintenance of existing RDD sets.</p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Normal">6    Forward the simulation set and the RDD file
+to the APSIM Help Desk for inclusion into the configuration management system.
+(Refer to Science Configuration Management Procedure)</p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Title2">Guidelines for construction of
+simulation control, parameter and data files</p>
+
+<p class="Normal">1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Directory
+structure</b><br>
+Create a directory named RefSet under the home directory of the module.<br>
+e.g. \apsuite\apsim\maize\refset<br>
+This directory will contain all the RefSet files created for the module.<br><br></p>
+
+<p class="Normal">2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Parameter
+and INI files for other modules used in the reference set.</b><br>
+For the other modules used in the simulation (soilwat2 etc) select parameter
+and data files to use in the reference data set. The guideline is to use
+parameter files from another relevant module refset directory and ini files
+from the other relevant module home directory under the apsuite\apsim
+directory. Thus -</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Select a climate
+file to use from the \apsuite\apsim\met\refset directory. If the existing ones
+are unsuitable, then one must be supplied for inclusion in this directory. It
+should be appropriately and uniquely named, distinguishing it from other
+similar climate files and describing its contents. The filename extension
+should be “.met”.<br>
+It may be necessary to construct a met file to provide required stimuli
+described in the RDD file.</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Select a soilwater
+parameter file, if appropriate, to use from the \apsuite\apsim\soilwat2\refset<a></a><a id="_anchor_1"
+onmouseover="msoCommentShow('_anchor_1','_com_1')"
+onmouseout="msoCommentHide('_com_1')" href="#_msocom_1" language=JavaScript
+name="_msoanchor_1">[NH1]</a>&nbsp;</span> directory.</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Select other
+parameter files to use such as the soilN2 parameter file from the
+\apsuite\apsim\soilN2\refset<a></a><a id="_anchor_2"
+onmouseover="msoCommentShow('_anchor_2','_com_2')"
+onmouseout="msoCommentHide('_com_2')" href="#_msocom_2" language=JavaScript
+name="_msoanchor_2">[NH2]</a>&nbsp;</span> directory and so on.</p>
+
+<p class="Normal">Page: 1<br>Make
+sure that the reusable refset components such as met, soil data etc. are well
+designed for the task.  For example, low
+plant available water holding to enable water stress to be induced easily.  Low fertility to bring in nitrogen
+stress.  No rainfall in met directory so
+that water stresses can totally controlled by irrigation so that timing of
+onset of stress can be determined easily by the crop module refset implementer.</p>
+
+<p class="Normal">Page: 1<br></p>
+
+<p class="Normal">3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Parameter
+file for this module.<br></b>Create a text file with the name
+nnnnn.PAR (where nnnnn is the module name). This file will be referred to below
+as the Reference Data set Parameter (RDP) file. The most efficient manner of
+creation will be by copying an already tested file for a module of similar
+structure and capability. Eg. Winter cereal, summer legume etc. <br>
+<br>
+<u>The recommended order of sections is as follows:<br>
+</u>[refset.report.parameters]  <br>
+[refset.clock.parameters]  <br>
+[refset.manager.start_of_day]  <br>
+[refset.manager.end_of_day]  <br>
+[refset.<i>module name</i>.parameters]  <br>
+<br>
+<u>Guidelines for setting up this file are</u></p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Keep it documented
+and well formatted</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+The name of summary
+and output files should be <i>module name</i>.sum
+and <i>module name</i>.out respectively.</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+The profile data
+for a crop module must match the profile layer structure used in the soil
+modules’ refset parameter sections.<br><br></p>
+
+<p class="Normal">4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Control
+file for this module.<br></b>Create a text file with the name
+nnnnn.CON (where nnnnn is the module name). This file will be referred to below
+as the Reference Dataset Control file (RDC). The most efficient manner of
+creation will be by copying an already test file for a module of similar
+structure and capability. This should contain only one APSIM configuration
+section.<br>
+<br>
+<u>Guidelines for setting up this file are</u></p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Use INI files from
+the module home directories</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+For each module,
+use the parameter file in its refset directory</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Use a met file from
+the met module refset directory</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Never use relative
+paths. Use the %apsuite macro substitution.<br><br></p>
+
+<p class="Normal">5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; When the simulation set is complete run the
+refset simulation and check for errors and that the output is sensible.<br><br></p>
+
+<p class="Normal">6.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; When the refset simulation runs correctly forward
+the refset simulation set to the APSIM Help Desk for inclusion into the
+configuration management system. (Refer to Science Configuration Management
+Procedure)<br><br></p>
+
+<p class="Normal">7.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The configuration manager to run the refset with
+the current development version of APSIM and provide the results to the module
+developer and module convenor for verification and validation.</p>
+
+<b><i><br clear=all>
+</span></i></b>
+
+<p class="Title2">APPENDIX A</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal"><b><u>The RDD file structure</u></b></p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal"><u>The
+Main Section</u></p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">The
+“main” section of the RDD file contains information used in management of the
+RDD.  It contains the following fields:</p>
+
+<p class="Normal">· The module name.</p>
+
+<p class="Normal">· The name of the module
+owner.  </p>
+
+<p class="Normal">· The name of the contact person
+for the reference data set.</p>
+
+<p class="Normal">· A series of notes to document
+suggestions for later development or management issues.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">An example
+might be as follows:</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[main]</p>
+
+<p class="Normal">module = crop</p>
+
+<p class="Normal">owner =  John Doe</p>
+
+<p class="Normal">contact = John
+Doe</p>
+
+<p class="Normal">notes =
+1/1/1997 JD Tests for behaviour of crop to other water balances not yet
+complete </p>
+
+<p class="Normal">notes =
+1/1/1997 JD The tests for temperature may need to be enhanced.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal"><u>The
+Maintenance Section</u></p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">All elements of
+development are to be explicitly recorded in the maintenance section.  This will include the creation, adaptation
+and enhancement of the RDD file in response to ALL similar changes to the
+source code.  Any change to the source
+code must be evaluated for possible changes to module stimuli and thus changes
+required to the RDD and reference simulation set.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">The format of
+each change entry is simply date, the initials of the change implementer, and a
+short description of the changes made to the reference set or RDD. Note that
+accepted deviations in the reference data output (that are then declared to be
+the accepted output) are also logged.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[maintenance]</p>
+
+<p class="Normal">change =
+1/1/1997 JD Created from cropB module reference data description.</p>
+
+<p class="Normal">change =
+30/2/1997 JD Updated descriptions for temperature stimuli</p>
+
+<p class="Normal">change =
+31/2/1997 JD Accepted the change in reference set behaviour due to new
+temperature response.</p>
+
+<p class="Normal">change =
+12/7/1997 JD Added description for harvest stimuli.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal"><u>The Stimuli
+Sections.</u></p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">The RDD file
+will include several stimuli sections to describe the stimuli upon the module
+in question (inward stimuli) and the ways the current module effects other
+modules (outward stimuli).  The structure
+of is shown as follows (with brief descriptions in italics).</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[<b>unique_name</b>]</p>
+
+<p class="Normal"><b>name</b> = <i>An arbitrary name for the type of stimulus</i>.</p>
+
+<p class="Normal"><b>direction</b> = <i>The direction of the stimulus with respect to the current module.  (inward/outward)</i></p>
+
+<p class="Normal"><b>type</b> = <i>The type of stimulus - used for categorisation purposes (state variable
+or message)</i></p>
+
+<p class="Normal"><b>description</b> =  <i>A short description
+describing the effect of the stimulus within the module</i>.</p>
+
+<p class="Normal"><b>apsimname</b> = <i>Name of the stimulus within the APSIM system. (common external name)</i></p>
+
+<p class="Normal"><b>internalname</b> = <i>Name of the stimulus as maintained within the source code.</i></p>
+
+<p class="Normal"><b>indicators</b> = <i>Name of an APSIM output variable that can be used to check the response
+to this stimulus</i>.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">Notes:</p>
+
+<p class="Normal">1)
+&nbsp;&nbsp;&nbsp; The
+section name need only be a name unique to the current RDD file.  It should be intelligible and yet concise. </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">2)
+&nbsp;&nbsp;&nbsp; Note
+that for any stimulus there can be multiple indicators to ensure the validity
+of multiple responses within the model or to the system.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">3)
+&nbsp;&nbsp;&nbsp; Note
+also that multiple elements of a stimulus can be entered under the one
+section.  For example, a crop response
+to temperature is determined by maximum and minimum temperature.  Both these elements of the stimulus can be
+added to the apsimname and internalname lines (the number of elements in these two
+lines must be equal and elements must be in the same order in each line).</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">Examples might be as follows:</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[radiation]</p>
+
+<p class="Normal">name = Solar Radiation</p>
+
+<p class="Normal">direction = inward</p>
+
+<p class="Normal">type = state</p>
+
+<p class="Normal">description = Solar radiation is used to determine biomass
+production via photosynthesis.</p>
+
+<p class="Normal">apsimname = radn</p>
+
+<p class="Normal">internalname = g_radn</p>
+
+<p class="Normal">indicators = biomass, lai</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[temperature]</p>
+
+<p class="Normal">name = Temperature</p>
+
+<p class="Normal">direction = inward</p>
+
+<p class="Normal">type = state</p>
+
+<p class="Normal">description = Air temperature effects biomass production,
+leaf and phenological development.</p>
+
+<p class="Normal">apsimname = maxt, mint</p>
+
+<p class="Normal">internalname = g_maxt, g_mint</p>
+
+<p class="Normal">indicators = biomass, leaf_no(), tt_tot()</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[SoilMoisture_in]</p>
+
+<p class="Normal">name = Soil Moisture</p>
+
+<p class="Normal">direction = inward</p>
+
+<p class="Normal">type = state</p>
+
+<p class="Normal">description = Soil Moisture status affects growth via stress
+and transpiration reduction in dry conditions.</p>
+
+<p class="Normal">apsimname = sw_dep</p>
+
+<p class="Normal">internalname = g_sw_dep</p>
+
+<p class="Normal">indicators = swdef_photo</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[SoilMoisture_out]</p>
+
+<p class="Normal">name = Soil Moisture</p>
+
+<p class="Normal">direction = outward</p>
+
+<p class="Normal">type = state</p>
+
+<p class="Normal">description = Crop transpiration reduces soil moisture state
+and provides this to the water balance.</p>
+
+<p class="Normal">apsimname = dlt_sw_dep</p>
+
+<p class="Normal">internalname = g_dlt_sw_dep</p>
+
+<p class="Normal">indicators = sw_dep()</p>
+
+<p class="Normal">&nbsp;</p>
+
+<b><i><br
+clear=all>
+</span></i></b>
+
+<p class="Title2">APPENDIX B</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal"><b><u>The naming
+convention for RDD tags within parameter files.</u></b></p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">The user is to
+include reference tags for each test of a separate stimulus as documented in
+the RDD and for each indicator for each stimulus as documented in the RDD.  The tags are to be inserted as part of an
+in-line comment in the parameter file as near as possible to the implementation
+of the test.  The tag is to include  the unique stimulus section name from the
+RDD file and the stimulus apsimname separated with a period(“.”) and is to be
+delimited by braces as follows: “[unique_name.apsimname]”.  A description should follow explaining the
+implementation of the stimulus.</p>
+
+<p class="Normal">An example for
+the “apply” message as sent to the irrigate module from the manager may be as
+follows:</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[test.manager.start_of_day]</p>
+
+<p class="Normal">if day
+= 100 then</p>
+
+<p class="Normal">   ! [application.apply] 30mm of irrigation is
+applied and should</p>
+
+<p class="Normal">   !                     appear in the soil water status of the</p>
+
+<p class="Normal">   !                     water balance module.</p>
+
+<p class="Normal">   irrigate apply amount = 30 (mm)</p>
+
+<p class="Normal">else</p>
+
+<p class="Normal">endif</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">The indicators of
+responses to stimuli require a slightly more complex tag nomenclature.  There can be several indicators for the
+response to a stimulus and so we nominate these with the unique stimulus
+section name from the RDD file and the indicator name separated with a
+period(“.”).  The indicator for the
+above stimulus would be tagged as follows:</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[test.report.parameters]</p>
+
+<p class="Normal">module_name    = 
+input   input</p>
+
+<p class="Normal">variable_name  = 
+day     year</p>
+
+<p class="Normal">variable_units
+=   -       -</p>
+
+<p class="Normal">variable_alias
+=   -       -</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">![application.sw_dep]
+applying  irrigation will affect soil
+water </p>
+
+<p class="Normal">!                     status</p>
+
+<p class="Normal">![autoirrig.sw_dep]
+automatic irrigation will affect soil water status</p>
+
+<p class="Normal">module_name    =  
+soilwat2</p>
+
+<p class="Normal">variable_name  =  
+sw_dep()</p>
+
+<p class="Normal">variable_units
+=    (mm)</p>
+
+<p class="Normal">variable_alias
+=      -</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">Note that in this
+last example the same output variable is used to indicate two stimuli.  Each must be explicitly documented in this
+manner.</p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<b><i><br
+clear=all>
+</span></i></b>
+
+<p class="Title2">APPENDIX C</p>
+
+<p class="Title2"><u>The RDC file structure</u></p>
+
+<p class="Title2">The APSIM Section</p>
+
+<p class="Normal">A RDC file should contain only one section, which is an
+APSIM control section.</p>
+
+<p class="Normal">The APSIM section of the
+RDP file contains information about the location of the data used in the refset
+simulation run. It contains the following fields:</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+The module names
+followed by the data file names and paths, one per line.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal"> [APSIM.sugar_reference]  </p>
+
+<p class="Normal">  Module = clock                   referenc.par
+[reference]      </p>
+
+<p class="Normal">  Module = report                  referenc.par
+[reference]      </p>
+
+<p class="Normal">  Module = met                     REFERENC.MET
+[reference]      </p>
+
+<p class="Normal">  Module = manager                 referenc.par
+[reference]      </p>
+
+<p class="Normal">  Module = soilwat2                referenc.par
+[reference]               %apsuite\apsim\soilwat2\soilwat2.ini
+[standard]      </p>
+
+<p class="Normal">  Module = soiln2                  referenc.par
+[reference]               %apsuite\apsim\soiln2\soiln2.ini
+[standard]      </p>
+
+<p class="Normal">  Module = residue2                referenc.par [reference]               %apsuite\apsim\residue2\residue2.ini [standard]      </p>
+
+<p class="Normal">  Module = irrigate                referenc.par [reference]      </p>
+
+<p class="Normal">  Module = fertiliz                                                               %apsuite\apsim\fertiliz\fertiliz.ini
+[standard]      </p>
+
+<p class="Normal">  Module = sugar                   referenc.par
+[reference]                    %apsuite\apsim\sugar\sugar.ini [standard]      </p>
+
+<p class="Normal">&nbsp;</p>
+
+<b><i><br
+clear=all>
+</span></i></b>
+
+<p class="Title2">APPENDIX D</p>
+
+<p class="Title2">The RDP file structure</p>
+
+<p class="Normal">[reference.report.parameters]  </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">outputfile =  referenc.out /overwrite   </p>
+
+<p class="Normal">summaryfile =  referenc.sum /overwrite   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">Title =  sugar reference run   </p>
+
+<p class="Normal">screen_output =  on   </p>
+
+<p class="Normal"> </p>
+
+<p class="Normal">module_names =   clock clock clock   </p>
+
+<p class="Normal">variable_names =  year day  
+today.dd/mm/yyyy   </p>
+
+<p class="Normal">variable_alias =  -   
+-     date   </p>
+
+<p class="Normal">units =          -     -     -   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">! [soil_nitrogen.no3]</p>
+
+<p class="Normal">! [reset_no3.no3]</p>
+
+<p class="Normal">module_names =    soiln2  
+</p>
+
+<p class="Normal">variable_names =  no3  
+</p>
+
+<p class="Normal">variable_alias =   -   </p>
+
+<p class="Normal">units =            -   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">! [soil_water.sw_dep]</p>
+
+<p class="Normal">! [reset_sw.sw_dep]</p>
+
+<p class="Normal">module_names =    soilwat2  
+</p>
+
+<p class="Normal">variable_names =  sw_dep  
+</p>
+
+<p class="Normal">variable_alias =   -   </p>
+
+<p class="Normal">units =            -   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">! [temperature.tt_tot]</p>
+
+<p class="Normal">! [photoperiod.tt_tot]</p>
+
+<p class="Normal">module_names =   sugar  
+</p>
+
+<p class="Normal">variable_names =  tt_tot()  
+</p>
+
+<p class="Normal">variable_alias =  -   </p>
+
+<p class="Normal">units =           -  
+</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">! [temperature.lai]</p>
+
+<p class="Normal">! [radiation.lai]        </p>
+
+<p class="Normal">! [soil_moisture.lai]</p>
+
+<p class="Normal">! [soil_nitrogen.lai]</p>
+
+<p class="Normal">module_names =   sugar  
+</p>
+
+<p class="Normal">variable_names =  lai  
+</p>
+
+<p class="Normal">variable_alias =  -   </p>
+
+<p class="Normal">units =           -  
+</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">! [temperature.biomass]</p>
+
+<p class="Normal">! [radiation.biomass]</p>
+
+<p class="Normal">!
+[soil_moisture.biomass]</p>
+
+<p class="Normal">!
+[soil_nitrogen.biomass]</p>
+
+<p class="Normal">module_names =   sugar  
+</p>
+
+<p class="Normal">variable_names =  biomass  
+</p>
+
+<p class="Normal">variable_alias =  -   </p>
+
+<p class="Normal">units =           -  
+</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">!
+[soil_moisture.swdef_photo]</p>
+
+<p class="Normal">module_names =   sugar  
+</p>
+
+<p class="Normal">variable_names =  avg@swdef_photo   </p>
+
+<p class="Normal">variable_alias =  -   </p>
+
+<p class="Normal">units =           -  
+</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">!
+[soil_nitrogen.nfact_photo]</p>
+
+<p class="Normal">module_names =   sugar  
+</p>
+
+<p class="Normal">variable_names =  avg@nfact_photo   </p>
+
+<p class="Normal">variable_alias =  -   </p>
+
+<p class="Normal">units =           -  
+</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">! [smc.root_depth]</p>
+
+<p class="Normal">module_names =   sugar  
+</p>
+
+<p class="Normal">variable_names =  root_depth  
+</p>
+
+<p class="Normal">variable_alias =  -   </p>
+
+<p class="Normal">units =           -  
+</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">! [smc.water_log_fact]</p>
+
+<p class="Normal">module_names =   sugar  
+</p>
+
+<p class="Normal">variable_names =  avg@oxdef_photo</p>
+
+<p class="Normal">variable_alias =  -   </p>
+
+<p class="Normal">units =           -  
+</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">! [sow_msg.crop_status]</p>
+
+<p class="Normal">!
+[kill_crop_msg.crop_status]</p>
+
+<p class="Normal">!
+[end_crop_msg.crop_status]</p>
+
+<p class="Normal">module_names =   sugar  
+</p>
+
+<p class="Normal">variable_names =  crop_status   </p>
+
+<p class="Normal">variable_alias =  -   </p>
+
+<p class="Normal">units =           -  
+</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">!
+[kill_crop_msg.crop_status]</p>
+
+<p class="Normal">module_names =   sugar  
+</p>
+
+<p class="Normal">variable_names =  dm_dead()  
+</p>
+
+<p class="Normal">variable_alias =  -   </p>
+
+<p class="Normal">units =           -  
+</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">!
+[add_residue_msg.residue_wt]</p>
+
+<p class="Normal">!
+[add_residue_msg.residue_n]</p>
+
+<p class="Normal">module_names =   residue2  
+residue2   </p>
+
+<p class="Normal">variable_names =  residue_wt residue_n   </p>
+
+<p class="Normal">variable_alias =  -        
+-   </p>
+
+<p class="Normal">units =           -         -   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">!
+[incorp_fom_msg.fom_c]</p>
+
+<p class="Normal">! [incorp_fom_msg.fom_n]</p>
+
+<p class="Normal">module_names =   soiln2  
+soiln2   </p>
+
+<p class="Normal">variable_names =  fom_c() fom_n()   </p>
+
+<p class="Normal">variable_alias =  -        
+-   </p>
+
+<p class="Normal">units =           -         -   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[reference.clock.parameters]  </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">simulation_start_year
+=      1984   </p>
+
+<p class="Normal">simulation_end_year
+=        1988   </p>
+
+<p class="Normal">simulation_start_day
+=        90   </p>
+
+<p class="Normal">simulation_end_day
+=          10   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[reference.soilwat2.parameters]  </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">runoff_filename =      blank  
+</p>
+
+<p class="Normal">insoil =       1.00 ()   </p>
+
+<p class="Normal">cona =      3.0 ()  
+</p>
+
+<p class="Normal">diffus_const =      40.0 ()   </p>
+
+<p class="Normal">diffus_slope =      16.0 ()   </p>
+
+<p class="Normal">u =        4.0 ()   </p>
+
+<p class="Normal">cn2_bare =      65  
+</p>
+
+<p class="Normal">cn_red =      20 ()  
+</p>
+
+<p class="Normal">cn_cov =      0.8 ()  
+</p>
+
+<p class="Normal">cn_canopy_fact =      1.0 ()  
+</p>
+
+<p class="Normal">salb =       0.10 ()   </p>
+
+<p class="Normal">air_dry =         0.050   0.050   0.050   </p>
+
+<p class="Normal">dlayer =        200.000 400.000 400.000   </p>
+
+<p class="Normal">ll15 =            0.100   0.100   0.100  
+</p>
+
+<p class="Normal">dul =             0.200   0.200   0.200   </p>
+
+<p class="Normal">sat =             0.300   0.300   0.300   </p>
+
+<p class="Normal">sw =              0.200   0.200   0.200   </p>
+
+<p class="Normal">swcon =           0.500   0.500   0.500   </p>
+
+<p class="Normal">bd =              1.00    1.000   1.000   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[reference.soiln2.parameters]  </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">amp =            4.1   (oC)   </p>
+
+<p class="Normal">tav =           19.1   (oC)   </p>
+
+<p class="Normal">root_cn =       45.0  
+()   </p>
+
+<p class="Normal">root_wt =      1000.0  
+(kg/ha)   </p>
+
+<p class="Normal">soil_cn =      14.5  
+()   </p>
+
+<p class="Normal">ph =              7.000   7.000   7.000   </p>
+
+<p class="Normal">no3ppm =          1.000   1.000   1.000   </p>
+
+<p class="Normal">nh4ppm =          1.000   1.000   1.000   </p>
+
+<p class="Normal">ureappm =         0.000   0.000   0.000   </p>
+
+<p class="Normal">oc =              1.000   0.750   0.500   </p>
+
+<p class="Normal">fbiom =           0.030   0.020   0.010   </p>
+
+<p class="Normal">finert =          0.400   0.500   0.999   </p>
+
+<p class="Normal">enr_a_coeff =         7.4 
+()   </p>
+
+<p class="Normal">enr_b_coeff =         0.2 
+()   </p>
+
+<p class="Normal">profile_reduction
+=      on   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[reference.residue2.parameters]  </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">     ! no initial residue - removes an
+unnecessary factor</p>
+
+<p class="Normal">pot_decomp_rate =      0.10  
+()   </p>
+
+<p class="Normal">residue_wt =           0.0  (kg/ha)   </p>
+
+<p class="Normal">residue_cnr =           80.0 ()   </p>
+
+<p class="Normal">residue_type =         sugar   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[reference.irrigate.parameters]  </p>
+
+<p class="Normal">     </p>
+
+<p class="Normal">     ! start with high irrigation supply</p>
+
+<p class="Normal">crit_fr_asw =      0.8  
+</p>
+
+<p class="Normal">asw_depth =      900  
+</p>
+
+<p class="Normal">automatic_irrigation
+=      on   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[reference.sugar.parameters]  </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">uptake_source =      calc   </p>
+
+<p class="Normal">ll =          0.100   0.100   0.100   </p>
+
+<p class="Normal">kl =          0.080   0.050   0.020   </p>
+
+<p class="Normal">xf =          1.000   1.000   1.000   </p>
+
+<p class="Normal">rlv =         0.005   0.001   0.000   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[reference.manager.end_of_day]  </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">   ! NB All water supply comes from the
+irrigation module.</p>
+
+<p class="Normal">   ! ie. 
+Rainfall in the met file is zero.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">   if day = 91 and year = 1984 then</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! First Crop - plant crop, high
+irrigation, low N, early sow.</p>
+
+<p class="Normal">      !
+-----------------------------------------------------------------------</p>
+
+<p class="Normal">      ! [sow_msg.sow] - crop should initiate
+when sown</p>
+
+<p class="Normal">      sugar sow plants = 10, sowing_depth =
+150, cultivar = q138, ratoon = 0 ()</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">   elseif day = 92 and year = 1985 then</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! harvest the crop</p>
+
+<p class="Normal">      ! [harvest_msg.harvest] - harvesting
+should remove grain</p>
+
+<p class="Normal">      sugar harvest</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! report the effects of harvest</p>
+
+<p class="Normal">      ! [add_residue_msg.add_residue] - should
+place residues on soil surface</p>
+
+<p class="Normal">      ! [incorp_fom_msg.incorp_fom] - should
+incorporate dead roots</p>
+
+<p class="Normal">      report do_output</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! Add N and decrease irrigation supply</p>
+
+<p class="Normal">      fertiliz apply amount = 300 (kg/ha),
+type = no3_n, depth = 50 (mm)</p>
+
+<p class="Normal">      irrigate set crit_fr_asw = 0.2</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! remove residues so there is one less
+factor to consider</p>
+
+<p class="Normal">      residue2 tillage type = burn</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! -----------------------------------------------------------------------</p>
+
+<p class="Normal">      ! First crop harvest - start next</p>
+
+<p class="Normal">      ! Second Crop - ratoon crop, low
+irrigation, high N, early ratoon.</p>
+
+<p class="Normal">      !
+-----------------------------------------------------------------------</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">   elseif day = 92 and year = 1986 then</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! harvest and kill the crop</p>
+
+<p class="Normal">      ! [harvest_msg.harvest] - harvesting
+should remove grain</p>
+
+<p class="Normal">      sugar harvest</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! [kill_crop_msg.kill_crop] - kill crop
+should change plant status</p>
+
+<p class="Normal">      sugar kill_crop</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! [end_crop_msg.end_crop] - end crop
+should remove crop altogether</p>
+
+<p class="Normal">      ! do not end it until we have the chance
+to report</p>
+
+<p class="Normal">      ! the effects of these messages</p>
+
+<p class="Normal">      sugar end_crop</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! report  the effects of harvest</p>
+
+<p class="Normal">      ! [add_residue_msg.add_residue] - should
+place residues on soil surface</p>
+
+<p class="Normal">      ! [incorp_fom_msg.incorp_fom] - should
+incorporate dead roots</p>
+
+<p class="Normal">      report do_output</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! remove residues so there is one less
+factor to consider</p>
+
+<p class="Normal">      residue2 tillage type = burn</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">   elseif day = 244 and year = 1986 then</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      !
+-----------------------------------------------------------------------</p>
+
+<p class="Normal">      ! Third Crop - plant crop, high
+irrigation, low N, late sow.</p>
+
+<p class="Normal">      !
+-----------------------------------------------------------------------</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! [sow_msg.sow] - crop should initiate
+when sown</p>
+
+<p class="Normal">      sugar sow plants = 10, sowing_depth =
+150, cultivar = q138, ratoon = 1 ()</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! increase irrigation supply</p>
+
+<p class="Normal">      irrigate set crit_fr_asw = 0.8</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">   elseif day = 245 and year = 1987 then</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! harvest the crop</p>
+
+<p class="Normal">      ! [harvest_msg.harvest] - harvesting
+should remove grain</p>
+
+<p class="Normal">      sugar harvest</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! report  the effects of harvest</p>
+
+<p class="Normal">      ! [add_residue_msg.add_residue] - should
+place residues on soil surface</p>
+
+<p class="Normal">      ! [incorp_fom_msg.incorp_fom] - should
+incorporate dead roots</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      report do_output</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! remove residues so there is one less
+factor to consider</p>
+
+<p class="Normal">      residue2 tillage type = burn</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! [plant_pop_msg.plants] - change
+population density</p>
+
+<p class="Normal">      sugar set plants = 8</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! -----------------------------------------------------------------------</p>
+
+<p class="Normal">      ! Third crop harvest - start next</p>
+
+<p class="Normal">      ! Fourth Crop - ratoon crop, high
+irrigation, low N, late ratoon, </p>
+
+<p class="Normal">      !               decreased plant population, 10 days of grazing.</p>
+
+<p class="Normal">      ! -----------------------------------------------------------------------</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">   elseif day &lt; 10 and year = 1988 then</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! [graze_msg.graze] - graze fraction of
+crop biomass</p>
+
+<p class="Normal">      sugar graze fraction = 0.05, c_eff =
+0.5, n_eff = 0.5, report = yes</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      ! report  the effects of grazing</p>
+
+<p class="Normal">      report do_output</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">   elseif end_week = 1 then</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">      report do_output</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">   endif</p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<div>
+
+<p class="Title2">Configuration
+Details</p>
+
+</div>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Normal"><b>Owner  </b>Neil Huth                      <b>Modified by</b>        John
+Hargreaves</p>
+
+<p class="Normal"><b>Date created</b>               15/7/97</p>
+
+<p class="Normal"><b>Word Processor</b>               Word 7.0</p>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Normal"><b>Version history</b></p>
+
+<p class="Normal">&nbsp;</p>
+
+<table border=0 cellspacing=0 cellpadding=0>
+ <tr>
+  <td width=99 valign=top>
+  <p class="Normal"><b>Date</b></p>
+  </td>
+  <td width=75 valign=top>
+  <p class="Normal"><b>Version</b></p>
+  </td>
+  <td width=536 valign=top>
+  <p class="Normal"><b>Details</b></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=99 valign=top>
+  <p class="Normal">15/7/97</p>
+  </td>
+  <td width=75 valign=top>
+  <p class="Normal">0.5</p>
+  </td>
+  <td width=536 valign=top>
+  <p class="Normal">First draft based on practical work undertaken by Neil
+  Huth, Ivan Hills and Mike Robertson - saved as ProcRefD1.doc</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=99 valign=top>
+  <p class="Normal">13/5/98</p>
+  </td>
+  <td width=75 valign=top>
+  <p class="Normal">0.6</p>
+  </td>
+  <td width=536 valign=top>
+  <p class="Normal">Altered reference to Sid Wright and included Help Desk
+  &amp; save as Word 95</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=99 valign=top>
+  <p class="Normal">01/07/99</p>
+  </td>
+  <td width=75 valign=top>
+  <p class="Normal">1.0</p>
+  </td>
+  <td width=536 valign=top>
+  <p class="Normal">Added guidelines for constructing simulation run files.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=99 valign=top>
+  <p class="Normal">22/11/1999</p>
+  </td>
+  <td width=75 valign=top>
+  <p class="Normal">1.1</p>
+  </td>
+  <td width=536 valign=top>
+  <p class="Normal">Implemented NIH suggestions</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=99 valign=top>
+  <p class="Normal">&nbsp;</p>
+  </td>
+  <td width=75 valign=top>
+  <p class="Normal">&nbsp;</p>
+  </td>
+  <td width=536 valign=top>
+  <p class="Normal">&nbsp;</p>
+  </td>
+ </tr>
+</table>
+
+<p class="Normal"><b>&nbsp;</b></p>
+
+<p class="Normal"><b>Storage</b></p>
+
+<p class="Normal">Network: \\thor\apsim\docs\</p>
+
+<p class="Normal">Web:                     </p>
+
+<p class="Normal">Development:               d:\1_5docs\docs\</p>
+
+<p class="Normal">Archive:                </p>
+
+<p class="Normal">&nbsp;</p>
+
+</div>
+
+<div>
+
+<hr align=left size=1 width="33%">
+
+<div>
+
+
+</body>
+
+</html>

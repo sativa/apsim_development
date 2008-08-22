@@ -1,0 +1,5 @@
+Greg limited total plant transpiration to 1.3 * pan evaporation, with grass taking whatever is left after trees. apsgrasp+apstree implement this by grasp calling tree to find its sw demand, and taking whatever is left over. 
+
+This won't work for other plants, eg slurp instead of trees. 
+
+I imagine that some sort of arbitrator is needed, in the style of fr_intc_radn of the canopy module?

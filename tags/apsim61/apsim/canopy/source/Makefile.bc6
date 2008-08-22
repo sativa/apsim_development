@@ -1,0 +1,33 @@
+# (Borlandish) Makefile for apsim canopy module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\canopy.dll
+..\lib\canopy.dll: Registrations.obj canopy.obj $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90LIBS) >> linker.tmp
+	$(LF95) canopy.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\canopy.dll @linker.tmp
+	$(RM) linker.tmp
+   
+canopy.obj: canopy.for
+Registrations.obj: Registrations.f90
+Registrations.f90: ..\canopy.interface 
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\canopy.interface
+
+clean:
+	$(RM) ..\lib\canopy.dll Registrations.obj Registrations.f90 canopy.obj canopy.imp
+

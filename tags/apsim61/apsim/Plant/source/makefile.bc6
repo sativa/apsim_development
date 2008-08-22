@@ -1,0 +1,220 @@
+# ---------------------------------------------------------------------------
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+PROJECT=..\lib\Plant.dll
+
+OBJFILES=PlantComponent.obj \
+   Plant.obj \
+   PlantPart.obj \
+   PlantBiomass.obj \
+   PlantCanopy.obj \
+   PlantLibrary.obj \
+   PlantNitrogen.obj \
+   Utility\PlantUtility.obj \
+   Utility\Data.obj \
+   Utility\ExternalFunction.obj \
+   Utility\InterpolationFunction.obj \
+   Utility\LookupFunction.obj \
+   Utility\Science.obj \
+   Utility\Date.obj \
+   PlantP.obj \
+   Population.obj \
+   PlantStress.obj \
+   Co2Modifier.obj \
+   StageBasedInterpolationFunction.obj \
+   ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
+   Environment.obj \
+   Fixation.obj \
+   Utility\Observers.obj \
+   Leaf\Leaf.obj \
+   Leaf\Culm.obj \
+   Leaf\IndividualLeaf.obj \
+   Stem.obj \
+   Storage\StoragePart.obj \
+   ReproductivePart.obj \
+   Reproductive\PodPart.obj \
+   Reproductive\PodPartFN.obj \
+   Reproductive\FloretPart.obj \
+   Reproductive\MealPart.obj \
+   Reproductive\OilPart.obj \
+   Reproductive\GrainPart.obj \
+   Reproductive\GrainPartHI.obj \
+   Reproductive\GrainPartGN.obj \
+   Reproductive\GrainPartFN.obj \
+   Reproductive\FruitCohort.obj \
+   Reproductive\FruitCohortFN.obj \
+   Reproductive\PlantFruit.obj \
+   Reproductive\PlantFruitCohorting.obj \
+   CompositePart.obj \
+   SimplePart.obj \
+   Root\RootBase.obj \
+   Root\RootPart.obj \
+   Root\Soil.obj \
+   Root\NoRoot.obj \
+   Root\MultiRoot.obj \
+   Root\RootGrowthOption1.obj \
+   Root\RootGrowthOption2.obj \
+   Utility\Output.obj \
+   Utility\OutputVariable.obj \
+   Leaf\GenericLeaf.obj \
+   Leaf\CohortingLeaf.obj \
+   Arbitrators\Arbitrator.obj \
+   Arbitrators\GenericArbitrator.obj \
+   Arbitrators\GenericArbitratorXY.obj \
+   Arbitrators\WholePlantGenericArbitratorXY.obj \
+   PlantSpatial.obj \
+   Pool.obj \
+   CompositePool.obj \
+   Delta.obj \
+   Biomass.obj \
+   ThingFactory.obj \
+   Phenology\Phenology.obj \
+   Phenology\Phase.obj \
+   Phenology\CompositePhase.obj \
+   Phenology\FixedPhase.obj \
+   Phenology\InductivePhase.obj \
+   Phenology\VernalPhase.obj \
+   Phenology\PhotoPhase.obj \
+   Phenology\EmergentPhase.obj \
+   Phenology\LeafAppPhase.obj \
+   Phenology\SowingPhase.obj \
+   Phenology\WaitingPhase.obj \
+   Phenology\CWEmergentPhase.obj \
+   Phenology\CWVernalPhase.obj \
+   Phenology\CWInductivePhase.obj \
+   Phenology\CWSowingPhase.obj \
+   Phenology\CWFixedPhase.obj \
+   Phenology\Zadok.obj \
+   Photosynthesis\PhotosynthesisModel.obj \
+   Photosynthesis\RUEModel.obj \
+   Photosynthesis\Weather.obj \
+   Photosynthesis\SUCROSModel.obj
+
+LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
+    $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+    $(APSROOT)\Shared\general\general.lib
+
+
+# ---------------------------------------------------------------------------
+RESFILES =
+USERDEFINES=
+INCLUDEPATH=$(SYSINCLUDES)
+LIBPATH=$(SYSLIBPATH)
+CFLAG1=$(SYSCFLAGS) -WD -WR -r- -k -vi- -y -v -w
+WARNINGS=-w-par
+LFLAGS=$(SYSLDFLAGS) -D"" -aa -Tpd -x -Gn -Gi -v
+
+ALLOBJ = c0d32.obj Memmgr.Lib $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
+
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+# ---------------------------------------------------------------------------
+
+
+####
+clean:
+    del $(OBJFILES) *.bak *.csm
+
+PlantComponent.obj: PlantComponent.cpp plant.h
+Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\Phenology.h Reproductive\PlantFruit.h PlantPart.h SimplePart.h Leaf\Leaf.h
+PlantBiomass.obj: PlantBiomass.cpp PlantLibrary.h
+PlantCanopy.obj: PlantCanopy.cpp PlantLibrary.h
+PlantComms.obj: PlantComms.cpp PlantLibrary.h
+PlantLibrary.obj: PlantLibrary.cpp PlantLibrary.h
+PlantNitrogen.obj: PlantNitrogen.cpp PlantLibrary.h
+Utility\PlantUtility.obj: Utility\PlantUtility.cpp Utility\PlantUtility.h PlantLibrary.h
+PlantP.obj: PlantP.cpp
+PlantPart.obj: PlantPart.cpp PlantPart.h
+SimplePart.obj: SimplePart.cpp SimplePart.h PlantPart.h
+CompositePart.obj: CompositePart.cpp CompositePart.h PlantPart.h
+Reproductive\PlantFruit.obj: Reproductive\PlantFruit.cpp Reproductive\PlantFruit.h CompositePart.h
+Reproductive\PlantFruitCohorting.obj: Reproductive\PlantFruitCohorting.cpp Reproductive\PlantFruitCohorting.h Reproductive\PlantFruit.h CompositePart.h
+Reproductive\FruitCohort.obj: Reproductive\FruitCohort.cpp Reproductive\FruitCohort.h PlantPart.h CompositePart.h
+Reproductive\FruitCohortFN.obj: Reproductive\FruitCohortFN.cpp Reproductive\FruitCohortFN.h PlantPart.h CompositePart.h
+Utility\Data.obj: Utility\Data.cpp PlantLibrary.h
+Utility\ExternalFunction.obj: Utility\ExternalFunction.cpp Utility\ExternalFunction.h
+Utility\InterpolationFunction.obj: Utility\InterpolationFunction.cpp Utility\InterpolationFunction.h
+Utility\LookupFunction.obj: Utility\LookupFunction.cpp Utility\LookupFunction.h
+Date.obj: Utility\Date.cpp PlantLibrary.h
+Science.obj: Utility\Science.cpp PlantLibrary.h
+Error.obj: Error.cpp PlantLibrary.h
+Environment.obj: Environment.cpp Environment.h
+Fixation.obj: Fixation.cpp Fixation.h
+Utility\Observers.obj: Utility\Observers.cpp Utility\Observers.h
+Leaf\Leaf.obj: Leaf\Leaf.cpp PlantPart.h Leaf\Leaf.h SimplePart.h
+Leaf\Culm.obj: Leaf\Culm.cpp Leaf\Culm.h
+Leaf\Culm.obj: Leaf\IndividualLeaf.cpp Leaf\IndividualLeaf.h
+Stem.obj: Stem.cpp Stem.h PlantPart.h SimplePart.h
+Storage\StoragePart.obj: Storage\StoragePart.cpp Storage\StoragePart.h PlantPart.h SimplePart.h
+ReproductivePart.obj: ReproductivePart.cpp ReproductivePart.h PlantPart.h SimplePart.h
+Reproductive\PodPart.obj: Reproductive\PodPart.cpp Reproductive\PodPart.h PlantPart.h SimplePart.h
+Reproductive\PodPartFN.obj: Reproductive\PodPartFN.cpp Reproductive\PodPartFN.h Reproductive\PodPart.h PlantPart.h SimplePart.h
+Reproductive\FloretPart.obj: Reproductive\FloretPart.cpp Reproductive\FloretPart.h PlantPart.h SimplePart.h
+Reproductive\MealPart.obj: Reproductive\MealPart.cpp Reproductive\MealPart.h PlantPart.h SimplePart.h
+Root\RootBase.obj: Root\RootBase.cpp Root\RootBase.h PlantPart.h SimplePart.h
+Root\RootPart.obj: Root\RootPart.cpp Root\RootPart.h Root\RootBase.h
+Root\Soil.obj: Root\Soil.cpp Root\Soil.h
+Root\NoRoot.obj: Root\NoRoot.cpp Root\NoRoot.h Root\RootBase.h
+Root\NoRoot.obj: Root\MultiRoot.cpp Root\MultiRoot.h Root\RootBase.h
+Root\RootGrowthOption1.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h Root\RootGrowthOption1.cpp Root\RootGrowthOption1.h SimplePart.h
+Root\RootGrowthOption2.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h Root\RootGrowthOption2.cpp Root\RootGrowthOption2.h SimplePart.h
+Reproductive\OilPart.obj: Reproductive\OilPart.cpp Reproductive\OilPart.h PlantPart.h SimplePart.h
+Reproductive\GrainPart.obj: Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h SimplePart.h
+GrainPartHI.obj: Reproductive\GrainPartHI.cpp Reproductive\GrainPartHI.h Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h SimplePart.h
+GrainPartGN.obj: Reproductive\GrainPartGN.cpp Reproductive\GrainPartGN.h Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h SimplePart.h.h
+GrainPartFN.obj: Reproductive\GrainPartFN.cpp Reproductive\GrainPartFN.h Reproductive\GrainPartGN.cpp Reproductive\GrainPartGN.h Reproductive\GrainPart.h CompositePart.h PlantPart.h SimplePart.h.h
+LeafAppPhase.obj: LeafAppPhase.cpp LeafAppPhase.h
+Utility\Output.obj: Utility\Output.cpp Utility\Output.h
+Utility\OutputVariable.obj: Utility\OutputVariable.cpp Utility\OutputVariable.h
+PlantSpatial.obj: PlantSpatial.cpp PlantSpatial.h PlantInterface.h PlantLibrary.h
+Pool.obj: Pool.cpp Pool.h
+CompositePool.obj: CompositePool.cpp CompositePool.h
+Delta.obj: Delta.cpp Delta.h Pool.h Biomass.h
+Biomass.obj: Biomass.cpp Biomass.h
+Population.obj: Population.cpp Population.h
+PlantStress.obj: PlantStress.cpp PlantStress.h
+Co2Modifier.obj: Co2Modifier.cpp Co2Modifier.h
+ThingFactory.obj: ThingFactory.cpp ThingFactory.h
+StageBasedInterpolationFunction.obj: StageBasedInterpolationFunction.cpp StageBasedInterpolationFunction.h
+Phenology\Phenology.obj: Phenology\Phenology.cpp Phenology\Phenology.h
+Phenology\FixedPhase.obj: Phenology\FixedPhase.cpp Phenology\FixedPhase.h
+Phenology\InductivePhase.obj: Phenology\InductivePhase.cpp Phenology\InductivePhase.h
+Phenology\VernalPhase.obj: Phenology\VernalPhase.cpp Phenology\VernalPhase.h
+Phenology\PhotoPhase.obj: Phenology\PhotoPhase.cpp Phenology\PhotoPhase.h
+Phenology\EmergentPhase.obj: Phenology\EmergentPhase.cpp Phenology\EmergentPhase.h
+Phenology\CompositePhase.obj: Phenology\CompositePhase.cpp Phenology\CompositePhase.h
+Phenology\Phase.obj: Phenology\Phase.cpp Phenology\Phase.h
+Phenology\SowingPhase.obj: Phenology\SowingPhase.cpp Phenology\SowingPhase.h
+Phenology\CWEmergentPhase.obj: Phenology\CWEmergentPhase.cpp Phenology\CWEmergentPhase.h
+Phenology\CWVernalPhase.obj: Phenology\CWVernalPhase.cpp Phenology\CWVernalPhase.h
+Phenology\CWInductivePhase.obj: Phenology\CWInductivePhase.cpp Phenology\CWInductivePhase.h
+Phenology\CWSowingPhase.obj: Phenology\CWSowingPhase.cpp Phenology\CWSowingPhase.h
+Phenology\CWFixedPhase.obj: Phenology\CWFixedPhase.cpp Phenology\CWFixedPhase.h
+Phenology\Zadok.obj: Phenology\Zadok.cpp Phenology\Zadok.h
+Phenology\WaitingPhase.obj: Phenology\WaitingPhase.cpp Phenology\WaitingPhase.h
+
+Photosynthesis\PhotosynthesisModel.obj:    Photosynthesis\PhotosynthesisModel.cpp    Photosynthesis\PhotosynthesisModel.h
+Photosynthesis\RUEModel.obj: Photosynthesis\RUEModel.cpp Photosynthesis\RUEModel.h
+Photosynthesis\Weather.obj: Photosynthesis\Weather.cpp Photosynthesis\Weather.h
+Photosynthesis\SUCROSModel.obj: Photosynthesis\SUCROSModel.cpp Photosynthesis\SUCROSModel.h
+Arbitrators\GenericArbitrator.obj: Arbitrators\GenericArbitrator.cpp Arbitrators\GenericArbitrator.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
+Arbitrators\GenericArbitratorXY.obj: Arbitrators\GenericArbitratorXY.cpp Arbitrators\GenericArbitratorXY.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
+Arbitrators\WholePlantGenericArbitratorXY.obj: Arbitrators\WholePlantGenericArbitratorXY.cpp Arbitrators\WholePlantGenericArbitratorXY.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h

@@ -1,0 +1,45 @@
+version = 6.1
+[APSIM.winter_dicot]
+
+title=Winter dicot fallow Simulation
+module = clock   weed.par [all] %apsuite/apsim/clock/clock.xml [standard]
+module = report       weed.par[all] weed.par[sample_weed]
+module = input(met)          %apsuite/apsim/met/sample/dalby.met[weather]
+module = manager      weed.par[sample_weed] weed.par[all]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(weed)   weed.par [sample_weed] %apsuite/apsim/weed/weed.xml [standard]
+module = sysbal
+
+[APSIM.wheat_weed]
+
+title=Wheat Winter - weed Simulation
+module = clock   weed.par [all] %apsuite/apsim/clock/clock.xml [standard]
+module = report         weed.par[all] weed.par[wheat_weed]
+module = input(met)            %apsuite/apsim/met/sample/dalby.met[weather]
+module = accum          weed.par[all]
+module = manager        weed.par[wheat_weed] weed.par[all] weed.par[all_weeding]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = canopy         weed.par[wheat_weed]
+module = Plant(wheat)   weed.par [sample_wheat] %apsuite/apsim/wheat/wheat.xml [standard]
+module = Plant(weed)   weed.par [sample_weed] %apsuite/apsim/weed/weed.xml [standard]
+module = Log  weed.par[all]
+module = sysbal
+
+[APSIM.sorghum_weed]
+title=Sorghum summer-grass Simulation
+module = clock   weed.par [all] %apsuite/apsim/clock/clock.xml [standard]
+module = report         weed.par[all] weed.par[sorghum_weed]
+module = input(met)            %apsuite/apsim/met/sample/dalby.met[weather]
+module = accum          weed.par[all]
+module = manager        weed.par[sorghum_weed] weed.par[all] weed.par[all_weeding]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = canopy         weed.par[sorghum_weed]
+module = sorghum   weed.par [sample_sorghum] %apsuite/apsim/sorghum/sorghum.xml [standard]
+module = Plant(weed)   weed.par [sample_weed] %apsuite/apsim/weed/weed.xml [standard]
+!module = sysbal

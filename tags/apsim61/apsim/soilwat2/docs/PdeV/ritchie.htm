@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+   <TITLE> Ritchie evaporation model</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (X11; I; Linux 2.0.27 i486) [Netscape]">
+</HEAD>
+<BODY>
+
+<P>(<I> lifted from soilwat documentation</I>) </P>
+
+<H3>The Ritchie evaporation model</H3>
+
+<P>Soil evaporation is assumed to take place in two stages: the constant
+and the falling rate stages. In the first stage the soil is sufficiently
+wet for water to be transported to the surface at a rate at least equal
+to the potential evaporation rate. Potential evapotranspiration is calculated
+using an equilibrium evaporation concept as modified by Priestly and Taylor(1972).
+Once the water content of the soil has decreased below a threshold value
+the rate of supply from the soil will be less than potential evaporation
+(second stage evaporation). These behaviours are described in soilwat through
+the use of two parameters: U and cona. </P>
+
+<P>The parameter U (as from CERES) represents the amount of cumulative
+evaporation before soil supply decreases below atmospheric demand. The
+rate of soil evaporation during the second stage is specified as a function
+of time since the end of first stage evaporation. The parameter Cona (from
+PERFECT) specifies the change in cumulative second stage evaporation against
+the square root of time. </P>
+
+<P>i.e.</P>
+
+<CENTER><P>E<SUB>s </SUB>= cona t<SUP>1/2</SUP> </P></CENTER>
+
+<P>Water lost by evaporation is removed from the surface layer of the soil
+profile thus this layer can dry below the wilting point or lower limit
+(LL) to a specified air-dry water content (air_dry). </P>
+
+<P>SoilWat uses two parameters, U and CONA, to specify soil evaporation.
+U (as in CERES) is the amount of cumulative evaporation, since soil wetting,
+before soil supply becomes limiting. Subsequently soil evaporation is a
+fraction of the square root of time since the end of first stage evaporation,
+using the regression coefficient CONA ( from PERFECT). </P>
+
+</BODY>
+</HTML>

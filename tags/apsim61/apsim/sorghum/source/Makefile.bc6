@@ -1,0 +1,51 @@
+# (Borlandish) Makefile for apsim sorghum module
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+PROJECT=..\lib\sorghum.dll
+
+OBJFILES= PlantInterface.obj PlantComponents.obj Phosphorus.obj PlantActions.obj \
+Leaf.obj Stem.obj Nitrogen.obj Rachis.obj Grain.obj \
+Water.obj Phenology.obj  Plant.obj  Roots.obj \
+Biomass.obj Utilities.obj Dll.obj \
+..\..\..\Shared\ComponentInterface2\CMPComponentEntryPoints.obj
+
+LIBFILES = $(APSROOT)\Shared\ComponentInterface2\ComponentInterface2.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+	$(APSROOT)\Shared\general\general.lib
+
+# ---------------------------------------------------------------------------
+RESFILES = 
+USERDEFINES =
+INCLUDEPATH = $(SYSINCLUDES)
+LIBPATH = $(SYSLIBPATH)
+CFLAG1 = -O2 -TWD -Vx -Ve -X- -a8 -b- -tWM -c -V -w-inl
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj Memmgr.Lib $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
+
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+# ---------------------------------------------------------------------------
+clean:
+	del /f $(PROJECT) $(OBJFILES)
+
+###Dependancies

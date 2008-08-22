@@ -1,0 +1,88 @@
+[ungrazed-grasp.report.parameters]
+outputfile =ungrazed-grasp.out
+[grazed-grasp.report.parameters]
+outputfile =grazed-grasp.out
+[ungrazed-wheat.report.parameters]
+outputfile =ungrazed-wheat.out
+[grazed-wheat.report.parameters]
+outputfile =grazed-wheat.out
+
+[wheat.report.parameters]
+variable = wheat.LeafGreenWt
+variable = wheat.StemGreenWt
+
+[grasp.report.parameters]
+variable = grasp.green_pool
+variable = grasp.dead_pool
+
+[all.report.parameters]
+variable = clock.year
+variable = clock.day
+variable = manager.paddockState
+variable = surfaceom.surfaceom_wt as litter
+variable = graz.alw
+variable = graz.stocking_rate
+variable = graz.acc_eaten
+
+[graz.clock.parameters]
+start_date=1/1/1988
+end_date=1/1/1990
+
+[all.manager.init]
+paddockState = 'empty'
+ready_to_graze = 0
+
+[wheat.manager.init]
+growth = 0.0
+[all.manager.init]
+annual_lwg = 0.0
+
+[wheat.manager.start_of_day]
+! This is accumulated within graz
+growth = wheat.dlt_dm
+
+[all.manager.end_of_day]
+annual_lwg = annual_lwg + graz.lwg
+report do_output
+
+[grazed.manager.start_of_day]
+if (ready_to_graze = 1 AND paddockState = 'empty') then
+   graz set stocking_rate = 0.8
+   graz set alw =  400.0                 ! p084
+   annual_lwg = 0.0
+   paddockState = 'stocked'
+endif
+
+! 'GRAZEON' stocking rate resets (%Use of TSDM for next year)
+if (graz.stocking_rate > 0.0 AND today = date('1-jun') then                ! p081
+   graz set alw = 400.0                                        ! p084
+   avgDailyIntake = (annual_lwg/365.25 + 1.058) / 0.304
+   targetUtil = 30.0 / 100.0                                   ! p083
+   annualIntake = avgDailyIntake * 365.5
+   stock_equiv_ratio = targetUtil * grasp.tsdm / annualIntake
+
+   weight_ratio = graz.alw / 200                               ! std-alw
+   factor = weight_ratio ** 0.75                               ! metabol_expon
+   beasts_ha = stock_equiv_ratio / factor
+   graz set stocking_rate = beasts_ha
+
+   annual_lwg = 0.0
+endif
+
+
+[grasp.manager.start_of_day]
+if (clock.day = clock.simulation_start_day and
+    clock.year = clock.simulation_start_year) then
+   grasp establish init_section = seedling
+endif
+
+[grasp-grazed.manager.start_of_day]
+if (day = 222) then
+   ready_to_graze = 1
+endif
+
+[wheat-grazed.manager.start_of_day]
+if (wheat.stage > 5) then
+   ready_to_graze = 1
+endif
+

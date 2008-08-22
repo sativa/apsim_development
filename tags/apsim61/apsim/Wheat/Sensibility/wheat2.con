@@ -1,0 +1,119 @@
+version = 6.1
+
+! ================================================================
+! South Australia - LUO et al.(2005) Ag For Met 132:273-285.
+! ================================================================
+
+[APSIM.Cummins]
+title=Cummins
+module = clock   wheat.par [sensibility] %apsuite/apsim/clock/clock.xml [standard]
+module = report     wheat.par[sensibility] wheat.par[Cummins]
+module = input(met)        %apsuite/apsim/Common Files/Cummins.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    wheat.par[variable] wheat.par[yitpi] wheat.par[N040] wheat.par[splitN000]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   %apsuite/apsim/Common Files/SAsoils.par [cummins] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/Common Files/SAsoils.par [cummins] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par [cummins] %apsuite/apsim/Wheat/Wheat.xml [standard]
+module = Tracker    wheat.par[sensibility]
+
+[APSIM.Keith]
+title=Keith
+module = clock   wheat.par [sensibility] %apsuite/apsim/clock/clock.xml [standard]
+module = report     wheat.par[sensibility] wheat.par[Keith]
+module = input(met)        %apsuite/apsim/Common Files/Keith.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    wheat.par[variable] wheat.par[yitpi] wheat.par[N040] wheat.par[splitN000]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   %apsuite/apsim/Common Files/SAsoils.par [keith] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/Common Files/SAsoils.par [keith] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par [keith] %apsuite/apsim/Wheat/Wheat.xml [standard]
+module = Tracker    wheat.par[sensibility]
+
+[APSIM.Lameroo]
+title=Lameroo
+module = clock   wheat.par [sensibility] %apsuite/apsim/clock/clock.xml [standard]
+module = report     wheat.par[sensibility] wheat.par[Lameroo]
+module = input(met)        %apsuite/apsim/Common Files/Lameroo.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    wheat.par[variable] wheat.par[yitpi] wheat.par[N040] wheat.par[splitN000]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   %apsuite/apsim/Common Files/SAsoils.par [Lameroo] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/Common Files/SAsoils.par [Lameroo] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par [Lameroo] %apsuite/apsim/Wheat/Wheat.xml [standard]
+module = Tracker    wheat.par[sensibility]
+
+[APSIM.Minnipa]
+title=Minnipa
+module = clock   wheat.par [sensibility] %apsuite/apsim/clock/clock.xml [standard]
+module = report     wheat.par[sensibility] wheat.par[Minnipa]
+module = input(met)        %apsuite/apsim/Common Files/Minnipa.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    wheat.par[variable] wheat.par[yitpi] wheat.par[N040] wheat.par[splitN000]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   %apsuite/apsim/Common Files/SAsoils.par [Minnipa] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/Common Files/SAsoils.par [Minnipa] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par [Minnipa] %apsuite/apsim/Wheat/Wheat.xml [standard]
+module = Tracker    wheat.par[sensibility]
+
+[APSIM.Naracoorte]
+title=Naracoorte
+module = clock   wheat.par [sensibility] %apsuite/apsim/clock/clock.xml [standard]
+module = report     wheat.par[sensibility] wheat.par[Naracoorte]
+module = input(met)        %apsuite/apsim/Common Files/Naracoorte.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    wheat.par[variable] wheat.par[yitpi] wheat.par[N040] wheat.par[splitN000]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   %apsuite/apsim/Common Files/SAsoils.par [Naracoorte] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/Common Files/SAsoils.par [Naracoorte] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par [Naracoorte] %apsuite/apsim/Wheat/Wheat.xml [standard]
+module = Tracker    wheat.par[sensibility]
+
+[APSIM.Orroroo]
+title=Orroroo
+module = clock   wheat.par [sensibility] %apsuite/apsim/clock/clock.xml [standard]
+module = report     wheat.par[sensibility] wheat.par[Orroroo]
+module = input(met)        %apsuite/apsim/Common Files/Orroroo.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    wheat.par[variable] wheat.par[yitpi] wheat.par[N040] wheat.par[splitN000]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   %apsuite/apsim/Common Files/SAsoils.par [Orroroo] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/Common Files/SAsoils.par [Orroroo] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par [Orroroo] %apsuite/apsim/Wheat/Wheat.xml [standard]
+module = Tracker    wheat.par[sensibility]
+
+[APSIM.Roseworthy]
+title=Roseworthy
+module = clock   wheat.par [sensibility] %apsuite/apsim/clock/clock.xml [standard]
+module = report     wheat.par[sensibility] wheat.par[Roseworthy]
+module = input(met)        %apsuite/apsim/Common Files/Roseworthy.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    wheat.par[variable] wheat.par[yitpi] wheat.par[N040] wheat.par[splitN000]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   %apsuite/apsim/Common Files/SAsoils.par [Roseworthy] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/Common Files/SAsoils.par [Roseworthy] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par [Roseworthy] %apsuite/apsim/Wheat/Wheat.xml [standard]
+module = Tracker    wheat.par[sensibility]
+
+[APSIM.Wanbi]
+title=Wanbi
+module = clock   wheat.par [sensibility] %apsuite/apsim/clock/clock.xml [standard]
+module = report     wheat.par[sensibility] wheat.par[Wanbi]
+module = input(met)        %apsuite/apsim/Common Files/Wanbi.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    wheat.par[variable] wheat.par[yitpi] wheat.par[N040] wheat.par[splitN000]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = soilwat2   %apsuite/apsim/Common Files/SAsoils.par [Wanbi] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   %apsuite/apsim/Common Files/SAsoils.par [Wanbi] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par [Wanbi] %apsuite/apsim/Wheat/Wheat.xml [standard]
+module = Tracker    wheat.par[sensibility]
+
+

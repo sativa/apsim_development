@@ -1,0 +1,405 @@
+<folder version="15" name="Graph">
+  <SplitReport name="XY Chart">
+    <Page name="Data" Left="0" Top="0" Width="829" Height="259">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="101">
+        <FileName type="filenames">
+        </FileName>
+        <BySeries>yes</BySeries>
+      </ApsimFileReader>
+      <XY Left="324" Top="3" Width="357" Height="250">
+        <SeriesType>Bar</SeriesType>
+        <PointType>Circle</PointType>
+        <Colour>-65536</Colour>
+        <X>Date</X>
+        <Y>yield</Y>
+        <source>SeriesSplitter</source>
+      </XY>
+      <SeriesSplitter Left="100" Top="108" Width="128" Height="145">
+        <source>OutputFile</source>
+        <FieldName>Title</FieldName>
+      </SeriesSplitter>
+    </Page>
+    <Page name="Report" Left="0" Top="262" Width="829" Height="235">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+        <Source>XY</Source>
+        <Properties>
+          <Axes>
+            <LeftAxis />
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="Double XY Chart">
+    <Page name="Data" Left="0" Top="0" Width="829" Height="349">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="101">
+        <FileName type="filenames">
+        </FileName>
+        <BySeries>yes</BySeries>
+      </ApsimFileReader>
+      <XY Left="3" Top="107" Width="357" Height="239" name="XY1">
+        <SeriesType>Bar</SeriesType>
+        <PointType>Circle</PointType>
+        <Colour>-65536</Colour>
+        <X>Date</X>
+        <Y>yield</Y>
+        <source>SeriesSplitter</source>
+      </XY>
+      <XY name="XY2" Left="382" Top="104" Width="343" Height="244">
+        <X>Date</X>
+        <Y>esw</Y>
+        <SeriesType>Bar</SeriesType>
+        <source>SeriesSplitter</source>
+      </XY>
+      <SeriesSplitter Left="356" Top="0" Width="251" Height="100">
+        <source>OutputFile</source>
+        <FieldName>Title</FieldName>
+      </SeriesSplitter>
+    </Page>
+    <Page name="Report" Left="0" Top="352" Width="829" Height="145">
+      <Chart Left="3" Top="3" RightMargin="5" BottomMargin="5" Width="398" Height="371">
+        <Properties>
+          <Axes>
+            <LeftAxis />
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+        <source>XY1</source>
+      </Chart>
+      <Chart name="Chart1" Left="410" Top="4" Width="398" Height="370">
+        <Properties>
+          <Axes>
+            <LeftAxis />
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+        <source>XY2</source>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="Probability Exceedence">
+    <Page name="Data" Left="0" Top="0" Width="829" Height="199">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="186">
+        <BySeries>yes</BySeries>
+        <FileName>
+        </FileName>
+      </ApsimFileReader>
+      <Probability Left="489" Top="3" Width="128" Height="186">
+        <FieldName>yield</FieldName>
+        <Exceedence>Yes</Exceedence>
+        <source>SeriesSplitter</source>
+      </Probability>
+      <SeriesSplitter Left="346" Top="0" Width="113" Height="189">
+        <source>OutputFile</source>
+        <FieldName>Title</FieldName>
+      </SeriesSplitter>
+    </Page>
+    <Page name="Report" Left="0" Top="202" Width="829" Height="295">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+        <source>Probability</source>
+        <XY>
+          <X>*</X>
+          <Y>Probability</Y>
+          <SeriesType>Line</SeriesType>
+          <PointType>None</PointType>
+        </XY>
+        <Properties>
+          <Axes>
+            <LeftAxis>
+              <Maximum>100</Maximum>
+              <Minimum>0</Minimum>
+            </LeftAxis>
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="CDF">
+    <Page name="Data" Left="0" Top="0" Width="829" Height="199">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="186">
+        <BySeries>yes</BySeries>
+        <FileName>
+        </FileName>
+      </ApsimFileReader>
+      <Probability Left="498" Top="3" Width="128" Height="186">
+        <FieldName>yield</FieldName>
+        <Exceedence>No</Exceedence>
+        <source>SeriesSplitter</source>
+      </Probability>
+      <SeriesSplitter Left="342" Top="0" Width="128" Height="186">
+        <source>OutputFile</source>
+        <FieldName>Title</FieldName>
+      </SeriesSplitter>
+    </Page>
+    <Page name="Report" Left="0" Top="202" Width="829" Height="295">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+        <source>Probability</source>
+        <XY>
+          <X>*</X>
+          <Y>Probability</Y>
+          <SeriesType>Line</SeriesType>
+          <PointType>None</PointType>
+        </XY>
+        <Properties>
+          <Axes>
+            <LeftAxis>
+              <Maximum>100</Maximum>
+              <Minimum>0</Minimum>
+            </LeftAxis>
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="Depth">
+    <Page name="Data" Left="0" Top="0" Width="829" Height="194">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="3" Top="0" Width="298" Height="124">
+        <FileName>
+        </FileName>
+        <BySeries>yes</BySeries>
+      </ApsimFileReader>
+      <Filter Left="477" Top="3" Width="205" Height="124">
+        <FilterString>Date='10/10/1942'</FilterString>
+        <source>SeriesSplitter</source>
+        <FilterString>Date='10/10/1942'</FilterString>
+      </Filter>
+      <Depth Left="706" Top="3" Width="114" Height="36">
+        <source>Filter</source>
+      </Depth>
+      <SeriesSplitter Left="320" Top="0" Width="128" Height="186">
+        <source>OutputFile</source>
+        <FieldName>Title</FieldName>
+      </SeriesSplitter>
+    </Page>
+    <Page name="Report" Left="0" Top="197" Width="829" Height="300">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+        <source>Depth</source>
+        <XY>
+          <XTop>*</XTop>
+          <Y>Depth</Y>
+          <SeriesType>Line</SeriesType>
+          <PointType>None</PointType>
+        </XY>
+        <Properties>
+          <Axes>
+            <LeftAxis>
+              <Minimum>0</Minimum>
+            </LeftAxis>
+            <BottomAxis />
+            <TopAxis>
+              <Minimum>0</Minimum>
+            </TopAxis>
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="Box plot">
+    <Page name="Data" Left="0" Top="0" Width="829" Height="200">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="186">
+        <BySeries>yes</BySeries>
+        <FileName>
+        </FileName>
+      </ApsimFileReader>
+      <Probability name="FieldNames" Left="498" Top="0" Width="128" Height="186">
+        <FieldName>yield</FieldName>
+        <Exceedence>Yes</Exceedence>
+        <source>SeriesSplitter</source>
+      </Probability>
+      <SeriesSplitter Left="345" Top="0" Width="128" Height="186">
+        <source>OutputFile</source>
+        <FieldName>Title</FieldName>
+      </SeriesSplitter>
+    </Page>
+    <Page name="Report" Left="0" Top="203" Width="829" Height="294">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+        <source>FieldNames</source>
+        <XY>
+          <X>SeriesName</X>
+          <Y>!Probability</Y>
+          <SeriesType>Box</SeriesType>
+        </XY>
+        <Properties>
+          <Axes>
+            <LeftAxis />
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="SOI Probability Exceedence">
+    <Page name="Data" Left="0" Top="0" Width="829" Height="302">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="186">
+        <BySeries>yes</BySeries>
+        <FileName>
+        </FileName>
+      </ApsimFileReader>
+      <Probability Left="632" Top="3" Width="128" Height="186">
+        <FieldName>yield</FieldName>
+        <Exceedence>Yes</Exceedence>
+        <source>SeriesSplitter</source>
+      </Probability>
+      <SeriesSplitter Left="497" Top="3" Width="113" Height="189">
+        <FieldName>Title</FieldName>
+        <source>SOIData</source>
+        <FieldName>SOI Phase</FieldName>
+      </SeriesSplitter>
+      <SOIData Left="341" Top="3" Width="127" Height="263">
+        <source>OutputFile</source>
+        <FileName>%apsuite\soi\phases.soi</FileName>
+        <Month>January</Month>
+        <Phase>Negative</Phase>
+        <Phase>Positive</Phase>
+        <Phase>Falling</Phase>
+        <Phase>Rising</Phase>
+        <Phase>Zero</Phase>
+      </SOIData>
+    </Page>
+    <Page name="Report" Left="0" Top="305" Width="829" Height="192">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+        <source>Probability</source>
+        <XY>
+          <X>*</X>
+          <Y>Probability</Y>
+          <SeriesType>Line</SeriesType>
+          <PointType>None</PointType>
+        </XY>
+        <Properties>
+          <Axes>
+            <LeftAxis>
+              <Maximum>100</Maximum>
+              <Minimum>0</Minimum>
+            </LeftAxis>
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="SOI CDF">
+    <Page name="Data" Left="0" Top="0" Width="829" Height="302">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="186">
+        <BySeries>yes</BySeries>
+        <FileName>
+        </FileName>
+      </ApsimFileReader>
+      <Probability Left="632" Top="3" Width="128" Height="186">
+        <FieldName>yield</FieldName>
+        <Exceedence>No</Exceedence>
+        <source>SeriesSplitter</source>
+      </Probability>
+      <SeriesSplitter Left="497" Top="3" Width="113" Height="189">
+        <FieldName>Title</FieldName>
+        <source>SOIData</source>
+        <FieldName>SOI Phase</FieldName>
+      </SeriesSplitter>
+      <SOIData Left="341" Top="3" Width="127" Height="263">
+        <source>OutputFile</source>
+        <FileName>%apsuite\soi\phases.soi</FileName>
+        <Month>April</Month>
+        <Phase>Negative</Phase>
+        <Phase>Positive</Phase>
+        <Phase>Falling</Phase>
+        <Phase>Rising</Phase>
+        <Phase>Zero</Phase>
+      </SOIData>
+    </Page>
+    <Page name="Report" Left="0" Top="305" Width="829" Height="192">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+        <source>Probability</source>
+        <XY>
+          <X>*</X>
+          <Y>Probability</Y>
+          <SeriesType>Line</SeriesType>
+          <PointType>None</PointType>
+        </XY>
+        <Properties>
+          <Axes>
+            <LeftAxis>
+              <Maximum>100</Maximum>
+              <Minimum>0</Minimum>
+            </LeftAxis>
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <SplitReport name="SOI Box plot">
+    <Page name="Data" Left="0" Top="0" Width="829" Height="249">
+      <ApsimFileReader name="OutputFile" Visible="yes" Left="0" Top="0" Width="318" Height="186">
+        <BySeries>yes</BySeries>
+        <FileName>
+        </FileName>
+      </ApsimFileReader>
+      <Probability name="FieldNames" Left="684" Top="0" Width="128" Height="186">
+        <FieldName>yield</FieldName>
+        <Exceedence>Yes</Exceedence>
+        <source>SeriesSplitter</source>
+      </Probability>
+      <SOIData Left="355" Top="3" Width="127" Height="242">
+        <source>OutputFile</source>
+        <FileName>c:\hol353\Development\Soi\phases.soi</FileName>
+        <Month>January</Month>
+        <Phase>Negative</Phase>
+        <Phase>Positive</Phase>
+        <Phase>Falling</Phase>
+        <Phase>Rising</Phase>
+        <Phase>Zero</Phase>
+      </SOIData>
+      <SeriesSplitter Left="506" Top="0" Width="128" Height="245">
+        <source>SOIData</source>
+        <FieldName>Title</FieldName>
+        <FieldName>SOI Phase</FieldName>
+      </SeriesSplitter>
+    </Page>
+    <Page name="Report" Left="0" Top="252" Width="829" Height="245">
+      <Chart Left="18" Top="10" RightMargin="5" BottomMargin="5" Width="536" Height="478">
+        <source>FieldNames</source>
+        <XY>
+          <X>SeriesName</X>
+          <Y>!Probability</Y>
+          <SeriesType>Box</SeriesType>
+        </XY>
+        <Properties>
+          <Axes>
+            <LeftAxis />
+            <BottomAxis />
+            <TopAxis />
+            <RightAxis />
+          </Axes>
+        </Properties>
+      </Chart>
+    </Page>
+  </SplitReport>
+  <TabbedReport name="1 Page Report">
+    <Page name="Page1" Left="0" Top="0" Width="821" Height="471" />
+    <Page name="Data" Left="0" Top="0" Width="821" Height="471" />
+  </TabbedReport>
+  <TabbedReport name="2 Page Report">
+    <Page name="Page1" Left="0" Top="0" Width="821" Height="471" />
+    <Page name="Page2" Left="0" Top="0" Width="821" Height="471" />
+    <Page name="Data" Left="0" Top="0" Width="821" Height="471" />
+  </TabbedReport>
+</folder>

@@ -1,0 +1,6 @@
+<farmwisesequencer>
+   <subscribe_events>prepare   process  post</subscribe_events>
+   <prepare>init_step do_pasture_water</prepare>
+   <process>do_pasture_growth do_stock</process>
+   <post>end_step</post>
+</farmwisesequencer>

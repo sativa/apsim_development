@@ -1,0 +1,54 @@
+# (Borlandish) Makefile for apsim executable
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+PROJECT=..\..\..\Bin\apsim.exe
+
+OBJFILES=apsim.obj Simulation.obj \
+   $(APSROOT)\Shared\ComponentInterface\message.obj
+
+LIBFILES = $(APSROOT)\Shared\general\general.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+	$(APSROOT)\Shared\Protocol\Protocol.lib \
+	$(BCB)\Components\LibXML2\win32\LibXML2.lib
+
+
+# ---------------------------------------------------------------------------
+RESFILES =
+USERDEFINES = 
+INCLUDEPATH =$(SYSINCLUDES)
+LIBPATH = $(SYSLIBPATH)
+CFLAG1 = $(SYSCFLAGS) -r- -k -vi- -tWC -O2 -vi -tWM 
+WARNINGS = -w-par
+LFLAGS = -l. -D"" -ap -Tpe -x -Gn 
+
+ALLOBJ = c0x32.obj vcl.bpi Memmgr.Lib $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
+
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+
+
+clean:
+	$(RM) $(OBJECTS) $(TARGET)
+
+
+apsim.obj: apsim.cpp Simulation.h
+Simulation.obj: Simulation.cpp Simulation.h

@@ -1,0 +1,71 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM solute module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/SoilP.so
+
+SRC=	Registrations.f90	\
+	soilp.for
+
+STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
+            ../../../Shared/ComponentInterface/EntryPoints.o   \
+            ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
+            ../../../Shared/ComponentInterface/datatypes.o
+
+OBJ=	Registrations.o		\
+	soilp.o		\
+	$(STATICOBJ)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+FC=		lf95
+CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
+		-M. -M$(APSROOT)/apsim/infra/source $(CPPDEBUGFLAGS)
+FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
+		--ml cdecl --staticlink
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L$(APSROOT)/lib		\
+		-L$(APSROOT)/apsim/infra/lib	 \
+		-L/usr/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lComponentInterface -lapsinfra -lc
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	g++ $(OBJ) -o $(LIB) -shared $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/SoilP/lib ]; then mkdir -p $(DESTDIR)/apsim/SoilP/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/SoilP/lib
+	cp ../solute.ini $(DESTDIR)/apsim/SoilP
+
+%.o:	%.for
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+%.o:	%.f90
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+Registrations.o: Registrations.f90
+Registrations.f90: ../soilp.interface 
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../soilp.interface

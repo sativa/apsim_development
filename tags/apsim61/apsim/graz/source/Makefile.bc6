@@ -1,0 +1,56 @@
+# (Borlandish) Makefile for graz module
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+PROJECT=..\lib\graz.dll
+
+OBJFILES=graz.obj grazComponent.obj ..\..\..\Shared\ComponentInterface2\CMPComponentEntryPoints.obj
+
+LIBFILES = $(APSROOT)\Shared\general\general.lib                \
+   $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+   $(APSROOT)\Shared\ComponentInterface2\ComponentInterface2.lib
+
+USERDEFINES =
+INCLUDEPATH = $(SYSINCLUDES)
+LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface2
+
+
+# ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj rtl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
+
+# ---------------------------------------------------------------------------
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+
+####
+graz.obj: graz.cpp graz.h
+grazComponent.obj: grazComponent.cpp 
+
+clean:
+	del /f $(PROJECT) $(OBJFILES)

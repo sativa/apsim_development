@@ -1,0 +1,86 @@
+version = 6.1
+[apsim.Test1]
+title= Surface Organic Matter Module Test 1
+module = clock   Test.par [sample] %apsuite/apsim/clock/clock.xml [standard]
+module = report   Test.par [test1]
+module = Input(Met)      optimum.MET [weather]
+module = manager  Test.par [test1]
+module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   Test.par [test1] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
+
+[apsim.Test2]
+
+title= Surface Organic Matter Module Test 2
+module = clock   Test.par [sample] %apsuite/apsim/clock/clock.xml [standard]
+module = report   Test.par [test2]
+module = Input(Met)      optimum.MET [weather]
+module = manager  Test.par [test2]
+module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   Test.par [test2] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
+
+[apsim.Test3]
+
+title= Surface Organic Matter Module Test 3
+module = clock   Test.par [sample] %apsuite/apsim/clock/clock.xml [standard]
+module = report   Test.par [test3]
+module = Input(Met)      optimum.MET [weather]
+module = manager  Test.par [test3]
+module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   Test.par [test3] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
+
+[apsim.Test4]
+
+title= Surface Organic Matter Module Test 4
+module = clock   Test.par [sample] %apsuite/apsim/clock/clock.xml [standard]
+module = report   Test.par [test4]
+module = Input(Met)      dry.MET [weather]
+module = manager  Test.par [test1]
+module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   Test.par [test4] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
+
+[apsim.Test5]
+
+title= Surface Organic Matter Module Test 5
+module = clock   Test.par [sample] %apsuite/apsim/clock/clock.xml [standard]
+module = report   Test.par [test5]
+module = Input(Met)      optimum.MET [weather]
+module = manager  Test.par [test5]
+module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   Test.par [test5] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
+
+[apsim.Test6]
+
+title= Surface Organic Matter Module Test 6
+module = clock   Test.par [sample] %apsuite/apsim/clock/clock.xml [standard]
+module = report   Test.par [test6]
+module = Input(Met)      optimum.MET [weather]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = manager  Test.par [test6]
+module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   Test.par [test6] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
+
+[apsim.Test7]
+
+title= SoilP reset Test
+module = clock   Test.par [test7] %apsuite/apsim/clock/clock.xml [standard]
+module = report   Test.par [test7]
+module = Input(Met)      %apsuite/apsim/met/SAMPLE/DALBY.MET [weather]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = manager  Test.par [test7]
+module = soilwat2   Test.par [sample] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = SurfaceOM   Test.par [test7] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = soiln2   Test.par [sample] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = soilp   Test.par [sample] %apsuite/apsim/soilp/soilp.xml [standard]
+module = sysbal

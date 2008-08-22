@@ -1,0 +1,611 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+Version                = 6.1
+Title                  = Ponding Simulation
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Paddock:
+Component "Outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "Fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component   "Watering" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component       "rice" = c:\development\apsim\oryza\lib\oryza.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        init_step
+        do_pasture_water
+        process
+        do_pasture_growth
+        do_stock
+        post
+        end_step
+     Simulation start date =  1/01/1990
+     Simulation end date   = 30/06/1991
+     Time step =           = 1440 (mins)
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\oryza\sample\DarlingtonPoint.met
+
+------- Outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mmm/yyyy as Date
+        Watering.pond_depth
+        irrigation
+        wagt
+
+     Output file = Ponding Simulation.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- Fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Disabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     600.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- Watering Initialisation -----------------------------------------------
+     Manager rules:
+     
+     SECTION:- init
+     max_pond = 0.0
+     pond_depth = 0.0
+     top_dress = 0
+     
+     SECTION:- start_of_day
+     if day = 1 then
+     'soil water' set max_pond = 50
+     endif
+     if rice.plant_status = 'alive' and pond_depth < 50 then
+     irrig_amount = 50-pond_depth
+     irrigation apply amount = irrig_amount
+     tot_irrig = tot_irrig + irrig_amount
+     endif
+     if (day = 288) then
+       rice sow cultivar = riverina, establishment = direct-seed, nplds = 180 (p/m2)
+     fertiliser apply amount = 200, type=urea_n
+     endif
+     if rice.dvs >0.3 and top_dress = 0 then
+       fertiliser apply amount = 800, type = no3_n
+       top_dress = 1
+     endif
+     if (rice.plant_status = 'dead') then
+       rice end_crop
+       tot_irrig = 0
+       top_dress = 0
+     endif
+     
+     SECTION:- end_of_day
+     pond_depth = pond
+     END of rules
+     
+     Manager creating a new local real variable : max_pond = 0.00000
+     Manager creating a new local real variable : pond_depth = 0.00000
+     Manager creating a new local real variable : top_dress = 0.00000
+
+------- Soil Water Initialisation ---------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     mwcon is being replaced with a saturated conductivity. See documentation for details.
+     Component name: Soil Water
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.095  0.190  0.410  0.490  0.190  1.300  0.762  0.300
+          150.-  300.  0.184  0.230  0.440  0.490  0.230  1.300  0.190  0.300
+          300.-  600.  0.270  0.270  0.440  0.450  0.270  1.400  0.048  0.200
+          600.-  900.  0.270  0.270  0.460  0.490  0.270  1.300  0.000  0.200
+          900.- 1200.  0.270  0.270  0.460  0.490  0.270  1.300  0.000  0.200
+         1200.- 1500.  0.270  0.270  0.460  0.520  0.270  1.200  0.000  0.300
+         1500.- 1800.  0.270  0.270  0.460  0.520  0.270  1.200  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      28.50       0.00      33.00      12.00
+          150.-  300.      34.50       0.00      31.50       7.50
+          300.-  600.      81.00       0.00      51.00       3.00
+          600.-  900.      81.00       0.00      57.00       9.00
+          900.- 1200.      81.00       0.00      57.00       9.00
+         1200.- 1500.      81.00       0.00      57.00      18.00
+         1500.- 1800.      81.00       0.00      57.00      18.00
+          ---------------------------------------------------------
+               Totals     468.00       0.00     343.50      76.50
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Stage 1 Duration (U): Summer        6.00 (mm)
+                                  Winter        2.00 (mm)
+            Stage 2       (CONA): Summer        3.50 (mm^0.5)
+                                  Winter        2.00 (mm^0.5)
+            Critical Dates:       Summer        1-Nov
+                                  Winter        1-apr
+            Eo from priestly-taylor
+
+------- Soil Nitrogen Initialisation ------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Wunnamurra Clay
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.20  1.75    0.19    0.19    0.00
+             2     7.90  1.40    0.19    0.19    0.00
+             3     8.80  0.60    0.42    0.42    0.00
+             4     9.00  0.30    0.39    0.39    0.00
+             5     8.90  0.10    0.39    0.39    0.00
+             6     8.90  0.10    0.36    0.36    0.00
+             7     8.90  0.10    0.36    0.36    0.00
+          ------------------------------------------------
+           Totals                2.31    2.31    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      33723.5  2697.9   401.5    50.2   208.3     4.6
+             2      27085.9  2166.9   214.1    26.8   162.2     3.6
+             3      25150.1  2012.0    49.9     6.2    98.4     2.2
+             4      11688.4   935.1    11.6     1.4    59.7     1.3
+             5       3900.0   312.0     0.0     0.0    36.2     0.8
+             6       3600.0   288.0     0.0     0.0    22.0     0.5
+             7       3600.0   288.0     0.0     0.0    13.3     0.3
+          ---------------------------------------------------------
+           Totals  108747.9  8699.8   677.1    84.6   600.0    13.3
+          ---------------------------------------------------------
+
+------- rice Initialisation ---------------------------------------------------
+        - Initialising
+------- Start of simulation  --------------------------------------------------
+15 October 1990(Day of year=288), Watering: 
+     Manager sending message :- rice sow  cultivar = riverina, establishment = direct-seed, nplds = 180 (p/m2)
+15 October 1990(Day of year=288), rice: 
+        - Reading Parameters
+        - Reading riverina Cultivar Parameters
+        - Reading direct-seed Establishment Parameters
+        Number of plants in seedbed: 180.0 (/m2)
+     Manager sending message :- fertiliser apply  amount = 200, type = urea_n
+15 October 1990(Day of year=288), Fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+       200.00 of N as urea (urea_n)
+                                              added at depth    0.00 (layer   1)
+16 October 1990(Day of year=289), Watering: 
+     Manager creating a new local real variable : irrig_amount = 50.00000
+     Manager sending message :- irrigation apply  amount = 50.00000
+16 October 1990(Day of year=289): 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Uninitialised variable "tot_irrig".
+     Variables should have a value before they are used in an expression.
+     Component name: Watering
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     Manager creating a new local real variable : tot_irrig = 0.00000
+17 October 1990(Day of year=290), Watering: 
+     Manager sending message :- irrigation apply  amount = 40.89118
+18 October 1990(Day of year=291), Watering: 
+     Manager sending message :- irrigation apply  amount = 7.25532
+19 October 1990(Day of year=292), Watering: 
+     Manager sending message :- irrigation apply  amount = 7.00870
+20 October 1990(Day of year=293), Watering: 
+     Manager sending message :- irrigation apply  amount = 2.35648
+21 October 1990(Day of year=294), Watering: 
+     Manager sending message :- irrigation apply  amount = 4.06145
+22 October 1990(Day of year=295), Watering: 
+     Manager sending message :- irrigation apply  amount = 3.29859
+23 October 1990(Day of year=296), Watering: 
+     Manager sending message :- irrigation apply  amount = 4.57829
+24 October 1990(Day of year=297), Watering: 
+     Manager sending message :- irrigation apply  amount = 7.66023
+25 October 1990(Day of year=298), Watering: 
+     Manager sending message :- irrigation apply  amount = 7.91348
+26 October 1990(Day of year=299), Watering: 
+     Manager sending message :- irrigation apply  amount = 8.30452
+27 October 1990(Day of year=300), Watering: 
+     Manager sending message :- irrigation apply  amount = 8.53098
+28 October 1990(Day of year=301), Watering: 
+     Manager sending message :- irrigation apply  amount = 8.00291
+29 October 1990(Day of year=302), Watering: 
+     Manager sending message :- irrigation apply  amount = 9.15288
+30 October 1990(Day of year=303), Watering: 
+     Manager sending message :- irrigation apply  amount = 8.76685
+31 October 1990(Day of year=304), Watering: 
+     Manager sending message :- irrigation apply  amount = 10.86168
+1 November 1990(Day of year=305), Watering: 
+     Manager sending message :- irrigation apply  amount = 9.05273
+2 November 1990(Day of year=306), Watering: 
+     Manager sending message :- irrigation apply  amount = 7.23610
+3 November 1990(Day of year=307), Watering: 
+     Manager sending message :- irrigation apply  amount = 8.29446
+4 November 1990(Day of year=308), Watering: 
+     Manager sending message :- irrigation apply  amount = 8.22212
+5 November 1990(Day of year=309), Watering: 
+     Manager sending message :- irrigation apply  amount = 8.73434
+6 November 1990(Day of year=310), Watering: 
+     Manager sending message :- irrigation apply  amount = 9.52923
+7 November 1990(Day of year=311), Watering: 
+     Manager sending message :- irrigation apply  amount = 8.99531
+8 November 1990(Day of year=312), Watering: 
+     Manager sending message :- irrigation apply  amount = 6.95473
+9 November 1990(Day of year=313), Watering: 
+     Manager sending message :- irrigation apply  amount = 5.45105
+10 November 1990(Day of year=314), Watering: 
+     Manager sending message :- irrigation apply  amount = 5.66916
+11 November 1990(Day of year=315), Watering: 
+     Manager sending message :- irrigation apply  amount = 6.63198
+12 November 1990(Day of year=316), Watering: 
+     Manager sending message :- irrigation apply  amount = 8.51614
+13 November 1990(Day of year=317), Watering: 
+     Manager sending message :- irrigation apply  amount = 9.11452
+14 November 1990(Day of year=318), Watering: 
+     Manager sending message :- irrigation apply  amount = 10.11821
+15 November 1990(Day of year=319), Watering: 
+     Manager sending message :- irrigation apply  amount = 11.53803
+16 November 1990(Day of year=320), Watering: 
+     Manager sending message :- irrigation apply  amount = 7.67910
+17 November 1990(Day of year=321), Watering: 
+     Manager sending message :- irrigation apply  amount = 9.40033
+18 November 1990(Day of year=322), Watering: 
+     Manager sending message :- irrigation apply  amount = 9.69388
+19 November 1990(Day of year=323), Watering: 
+     Manager sending message :- irrigation apply  amount = 8.44474
+     Manager sending message :- fertiliser apply  amount = 800, type = no3_n
+19 November 1990(Day of year=323), Fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+       800.00 of N as nitrate (no3_n)
+                                              added at depth    0.00 (layer   1)
+20 November 1990(Day of year=324), Watering: 
+     Manager sending message :- irrigation apply  amount = 9.68594
+21 November 1990(Day of year=325), Watering: 
+     Manager sending message :- irrigation apply  amount = 10.39078
+22 November 1990(Day of year=326), Watering: 
+     Manager sending message :- irrigation apply  amount = 8.33184
+23 November 1990(Day of year=327), Watering: 
+     Manager sending message :- irrigation apply  amount = 10.10587
+24 November 1990(Day of year=328), Watering: 
+     Manager sending message :- irrigation apply  amount = 9.98412
+25 November 1990(Day of year=329), Watering: 
+     Manager sending message :- irrigation apply  amount = 10.56398
+26 November 1990(Day of year=330), Watering: 
+     Manager sending message :- irrigation apply  amount = 11.03803
+27 November 1990(Day of year=331), Watering: 
+     Manager sending message :- irrigation apply  amount = 11.12667
+28 November 1990(Day of year=332), Watering: 
+     Manager sending message :- irrigation apply  amount = 11.99245
+29 November 1990(Day of year=333), Watering: 
+     Manager sending message :- irrigation apply  amount = 13.27777
+30 November 1990(Day of year=334), Watering: 
+     Manager sending message :- irrigation apply  amount = 14.11574
+1 December 1990(Day of year=335), Watering: 
+     Manager sending message :- irrigation apply  amount = 14.72229
+2 December 1990(Day of year=336), Watering: 
+     Manager sending message :- irrigation apply  amount = 12.88048
+3 December 1990(Day of year=337), Watering: 
+     Manager sending message :- irrigation apply  amount = 14.27501
+4 December 1990(Day of year=338), Watering: 
+     Manager sending message :- irrigation apply  amount = 14.68716
+5 December 1990(Day of year=339), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.88745
+6 December 1990(Day of year=340), Watering: 
+     Manager sending message :- irrigation apply  amount = 18.70818
+7 December 1990(Day of year=341), Watering: 
+     Manager sending message :- irrigation apply  amount = 19.70937
+8 December 1990(Day of year=342), Watering: 
+     Manager sending message :- irrigation apply  amount = 18.87163
+9 December 1990(Day of year=343), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.52002
+10 December 1990(Day of year=344), Watering: 
+     Manager sending message :- irrigation apply  amount = 14.85899
+11 December 1990(Day of year=345), Watering: 
+     Manager sending message :- irrigation apply  amount = 11.40197
+12 December 1990(Day of year=346), Watering: 
+     Manager sending message :- irrigation apply  amount = 9.21659
+13 December 1990(Day of year=347), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.39788
+14 December 1990(Day of year=348), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.27910
+15 December 1990(Day of year=349), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.80739
+16 December 1990(Day of year=350), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.04766
+17 December 1990(Day of year=351), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.03030
+18 December 1990(Day of year=352), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.67484
+19 December 1990(Day of year=353), Watering: 
+     Manager sending message :- irrigation apply  amount = 18.53116
+20 December 1990(Day of year=354), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.96260
+21 December 1990(Day of year=355), Watering: 
+     Manager sending message :- irrigation apply  amount = 12.59027
+22 December 1990(Day of year=356), Watering: 
+     Manager sending message :- irrigation apply  amount = 18.20896
+23 December 1990(Day of year=357), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.10004
+24 December 1990(Day of year=358), Watering: 
+     Manager sending message :- irrigation apply  amount = 14.73428
+25 December 1990(Day of year=359), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.15232
+26 December 1990(Day of year=360), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.32948
+27 December 1990(Day of year=361), Watering: 
+     Manager sending message :- irrigation apply  amount = 18.23905
+28 December 1990(Day of year=362), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.13008
+29 December 1990(Day of year=363), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.17288
+30 December 1990(Day of year=364), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.92731
+31 December 1990(Day of year=365), Watering: 
+     Manager sending message :- irrigation apply  amount = 19.82877
+1 January 1991(Day of year=1), Watering: 
+     Manager sending message :- irrigation apply  amount = 20.89773
+2 January 1991(Day of year=2), Watering: 
+     Manager sending message :- irrigation apply  amount = 20.21301
+3 January 1991(Day of year=3), Watering: 
+     Manager sending message :- irrigation apply  amount = 21.85139
+4 January 1991(Day of year=4), Watering: 
+     Manager sending message :- irrigation apply  amount = 22.67020
+5 January 1991(Day of year=5), Watering: 
+     Manager sending message :- irrigation apply  amount = 23.42345
+6 January 1991(Day of year=6), Watering: 
+     Manager sending message :- irrigation apply  amount = 19.64643
+7 January 1991(Day of year=7), Watering: 
+     Manager sending message :- irrigation apply  amount = 5.57108
+8 January 1991(Day of year=8), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.08884
+9 January 1991(Day of year=9), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.64391
+10 January 1991(Day of year=10), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.37404
+11 January 1991(Day of year=11), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.73428
+12 January 1991(Day of year=12), Watering: 
+     Manager sending message :- irrigation apply  amount = 20.19213
+13 January 1991(Day of year=13), Watering: 
+     Manager sending message :- irrigation apply  amount = 20.99339
+14 January 1991(Day of year=14), Watering: 
+     Manager sending message :- irrigation apply  amount = 19.25728
+15 January 1991(Day of year=15), Watering: 
+     Manager sending message :- irrigation apply  amount = 19.72825
+16 January 1991(Day of year=16), Watering: 
+     Manager sending message :- irrigation apply  amount = 18.74089
+17 January 1991(Day of year=17), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.62788
+18 January 1991(Day of year=18), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.21148
+19 January 1991(Day of year=19), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.72420
+20 January 1991(Day of year=20), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.09348
+21 January 1991(Day of year=21), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.01894
+22 January 1991(Day of year=22), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.67165
+23 January 1991(Day of year=23), Watering: 
+     Manager sending message :- irrigation apply  amount = 13.64714
+24 January 1991(Day of year=24), Watering: 
+     Manager sending message :- irrigation apply  amount = 9.63970
+25 January 1991(Day of year=25), Watering: 
+     Manager sending message :- irrigation apply  amount = 7.02325
+26 January 1991(Day of year=26), Watering: 
+     Manager sending message :- irrigation apply  amount = 13.63877
+27 January 1991(Day of year=27), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.98529
+28 January 1991(Day of year=28), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.56859
+29 January 1991(Day of year=29), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.58960
+30 January 1991(Day of year=30), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.59004
+31 January 1991(Day of year=31), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.71965
+1 February 1991(Day of year=32), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.17257
+2 February 1991(Day of year=33), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.37622
+3 February 1991(Day of year=34), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.58215
+4 February 1991(Day of year=35), Watering: 
+     Manager sending message :- irrigation apply  amount = 19.82342
+5 February 1991(Day of year=36), Watering: 
+     Manager sending message :- irrigation apply  amount = 22.94753
+6 February 1991(Day of year=37), Watering: 
+     Manager sending message :- irrigation apply  amount = 23.87422
+7 February 1991(Day of year=38), Watering: 
+     Manager sending message :- irrigation apply  amount = 20.00353
+8 February 1991(Day of year=39), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.02187
+9 February 1991(Day of year=40), Watering: 
+     Manager sending message :- irrigation apply  amount = 18.14373
+10 February 1991(Day of year=41), Watering: 
+     Manager sending message :- irrigation apply  amount = 18.57174
+11 February 1991(Day of year=42), Watering: 
+     Manager sending message :- irrigation apply  amount = 18.56196
+12 February 1991(Day of year=43), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.65093
+13 February 1991(Day of year=44), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.36337
+14 February 1991(Day of year=45), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.98735
+15 February 1991(Day of year=46), Watering: 
+     Manager sending message :- irrigation apply  amount = 20.89174
+16 February 1991(Day of year=47), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.12352
+17 February 1991(Day of year=48), Watering: 
+     Manager sending message :- irrigation apply  amount = 12.48495
+18 February 1991(Day of year=49), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.14174
+19 February 1991(Day of year=50), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.40303
+20 February 1991(Day of year=51), Watering: 
+     Manager sending message :- irrigation apply  amount = 17.54370
+21 February 1991(Day of year=52), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.84308
+22 February 1991(Day of year=53), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.97706
+23 February 1991(Day of year=54), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.62585
+24 February 1991(Day of year=55), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.01639
+25 February 1991(Day of year=56), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.74883
+26 February 1991(Day of year=57), Watering: 
+     Manager sending message :- irrigation apply  amount = 18.42753
+27 February 1991(Day of year=58), Watering: 
+     Manager sending message :- irrigation apply  amount = 19.43078
+28 February 1991(Day of year=59), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.91154
+1 March 1991(Day of year=60), Watering: 
+     Manager sending message :- irrigation apply  amount = 12.64560
+2 March 1991(Day of year=61), Watering: 
+     Manager sending message :- irrigation apply  amount = 12.08039
+3 March 1991(Day of year=62), Watering: 
+     Manager sending message :- irrigation apply  amount = 13.03789
+4 March 1991(Day of year=63), Watering: 
+     Manager sending message :- irrigation apply  amount = 13.43925
+5 March 1991(Day of year=64), Watering: 
+     Manager sending message :- irrigation apply  amount = 14.59423
+6 March 1991(Day of year=65), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.48685
+7 March 1991(Day of year=66), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.00418
+8 March 1991(Day of year=67), Watering: 
+     Manager sending message :- irrigation apply  amount = 15.93162
+9 March 1991(Day of year=68), Watering: 
+     Manager sending message :- irrigation apply  amount = 16.32705
+10 March 1991(Day of year=69), Watering: 
+     Manager sending message :- irrigation apply  amount = 14.82904
+11 March 1991(Day of year=70), Watering: 
+     Manager sending message :- irrigation apply  amount = 12.58961
+12 March 1991(Day of year=71), Watering: 
+     Manager sending message :- irrigation apply  amount = 12.91633
+13 March 1991(Day of year=72), Watering: 
+     Manager sending message :- irrigation apply  amount = 12.45112
+14 March 1991(Day of year=73), Watering: 
+     Manager sending message :- irrigation apply  amount = 12.56960
+15 March 1991(Day of year=74), Watering: 
+     Manager sending message :- irrigation apply  amount = 12.52818
+16 March 1991(Day of year=75), Watering: 
+     Manager sending message :- irrigation apply  amount = 12.63190
+17 March 1991(Day of year=76), Watering: 
+     Manager sending message :- irrigation apply  amount = 12.94434
+17 March 1991(Day of year=76), rice: 
+     Maturity
+18 March 1991(Day of year=77), Watering: 
+     Manager sending message :- rice end_crop
+18 March 1991(Day of year=77), rice: 
+         Crop ended. Rough Rice Yield (dw) = 24874.1 (kg/ha)
+                             straw residue = 14328.8 (kg/ha)
+                             straw N       =   218.1 (kg/ha)
+                             root residue  =  3061.0 (kg/ha)
+                             root N        =    35.5 (kg/ha)
+30 June 1991(Day of year=181), clock: 
+     Simulation is terminating due to end criteria being met.

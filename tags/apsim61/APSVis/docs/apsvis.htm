@@ -1,0 +1,316 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<link rel="File-List" href="apsvis_files/filelist.xml">
+
+<title>
+The APSIM Accum Module (ACCUM)</title>
+<link href="../../docs/shared/docstyle.css" rel="stylesheet" type="text/css">
+<!--[if !mso]>
+<style>
+v\:*         { behavior: url(#default#VML) }
+o\:*         { behavior: url(#default#VML) }
+.shape       { behavior: url(#default#VML) }
+span.MsoFootnoteReference
+	{font-family:Arial;
+	vertical-align:super}
+</style>
+<![endif]--><!--[if gte mso 9]>
+<xml><o:shapedefaults v:ext="edit" spidmax="1027"/>
+</xml><![endif]-->
+</head>
+
+<body>
+
+<div>
+
+<p class="Title1">APSVis user manual</p>
+
+<p class="title2"><b><i>&nbsp;</i></b></p>
+
+<p class="title2">Introduction</p>
+
+<p class="Normal"><b><i>&nbsp;</i></b></p>
+
+<p class="Normal">The Agricultural Production Systems sIMulator (APSIM) is a 
+modelling framework that, when executed, can produce large amounts of output. 
+This output can spread across many files, with each containing a diverse range 
+of output variables. The APSVis application has been developed to provide a 
+charting capability within the APSIM group of applications. APSVis can rapidly 
+produce a range of charts from these APSIM model output files.</p>
+
+<p class="title2">&nbsp;</p>
+
+<p class="title2">Starting APSVis</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p>APSVis can be started in a variety of ways. The simplest is to select one or 
+more output files in Windows Explorer, click the right mouse button and select 
+Graph file. This will cause a switch to APSVis and automatic loading of the 
+selected output files.</p>
+<p>For APSFront users, select the <i>View Output</i> menu option, the <i>Graph</i> 
+sub menu option, select one or more output files and then click the OK button. 
+This will execute APSVis and automatically load the selected output files.<br>
+<br>
+Regardless of which of these two methods is used to start APSVis, a form is then 
+displayed that provides you with a range of chart types to choose from to 
+display your data.<br>
+&nbsp;</p>
+
+<p class="title2">Predicted and Observed Files</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p>APSVis has the capability of displaying both predicted and observed data on 
+the same chart. The file format that APSVis reads for both output and observed 
+files is as follows:<br>
+<br>
+<font face="Courier New">&nbsp;&nbsp;&nbsp; Summary_file=test.sum<br>
+&nbsp;&nbsp;&nbsp; Title =sorg / wheat<br>
+&nbsp;&nbsp;&nbsp; year&nbsp; day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; date&nbsp;&nbsp; 
+iwh_cover_tot&nbsp;&nbsp; iwh_grainn%<br>
+&nbsp;&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (0-1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+(%)<br>
+&nbsp;&nbsp;&nbsp; 1988&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; 1/01/1988&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+0<br>
+&nbsp;&nbsp;&nbsp; 1988&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp; 2/01/1988&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+0<br>
+</font><br>
+The summary_file= line is optional. Columns of data are separated by one or more 
+spaces and each column must have a both a heading and a units line.<br>
+<br>
+Observed files have an identical format to the predicted files. However, the 
+summary_file= line is usually omitted and the title must match the title in the 
+corresponding predicted file. You can denote missing data with a ‘-‘ symbol.<br>
+<br>
+To indicate which predicted and observed files APSVis should use when drawing 
+charts, either click, individually, on the first 2 buttons on the button bar or 
+select from either of the <i>Open predicted files</i>… or <i>Open observed files</i>… 
+items under the File menu. Select one or more files in the “Open” box. The files 
+selected are used for all future charts until different files are selected by 
+the user.</p>
+<p class="Title2">Modifying a Chart's Properties</p>
+<p class="Title2">&nbsp;</p>
+<p class="Normal"><span lang="EN-US">Once a chart has been drawn, you can return 
+to the form where you specified the chart variables (the forms in section 6 and 
+7 above).&nbsp; To do this either click on the following button:</span></p>
+<p class="Normal"><span lang="EN-US">&nbsp;</span><span lang="EN-US" style="font-size:10.0pt"><!--[if gte vml 1]><v:shapetype id="_x0000_t75"
+ coordsize="21600,21600" o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe"
+ filled="f" stroked="f">
+ <v:stroke joinstyle="miter"/>
+ <v:formulas>
+  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+  <v:f eqn="sum @0 1 0"/>
+  <v:f eqn="sum 0 0 @1"/>
+  <v:f eqn="prod @2 1 2"/>
+  <v:f eqn="prod @3 21600 pixelWidth"/>
+  <v:f eqn="prod @3 21600 pixelHeight"/>
+  <v:f eqn="sum @0 0 1"/>
+  <v:f eqn="prod @6 1 2"/>
+  <v:f eqn="prod @7 21600 pixelWidth"/>
+  <v:f eqn="sum @8 21600 0"/>
+  <v:f eqn="prod @7 21600 pixelHeight"/>
+  <v:f eqn="sum @10 21600 0"/>
+ </v:formulas>
+ <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+ <o:lock v:ext="edit" aspectratio="t"/>
+</v:shapetype><v:shape id="_x0000_s1043" type="#_x0000_t75" style='width:30pt;
+ height:30pt' fillcolor="window">
+ <v:imagedata src="apsvis_files/image001.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img border=0 width=40 height=40
+src="apsvis_files/image002.jpg" v:shapes="_x0000_s1043"><![endif]></span><span lang="EN-US">&nbsp;</span></p>
+<p class="Normal"><span lang="EN-US">or select <b>File|Properties</b> menu 
+item.&nbsp; You can then use the <b>Properties form </b>to<b> </b>change the 
+variables that are plotted on the chart.</span></p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+<p class="Title2">Editing a Chart's Atributes</p>
+<p class="Title2">&nbsp;</p>
+<p class="Normal"><span lang="EN-US">To edit the attributes of a chart to alter 
+its appearance either click on the following button on the button bar:</span></p>
+<p class="Normal"><span lang="EN-US">&nbsp;</span></p>
+<p class="Normal" style="margin-left:72.0pt">
+<span lang="EN-US" style="font-size:10.0pt"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1044" type="#_x0000_t75" style='width:32.25pt;height:33pt'
+ fillcolor="window">
+ <v:imagedata src="apsvis_files/image003.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img border=0 width=43 height=44
+src="apsvis_files/image004.jpg" v:shapes="_x0000_s1044"><![endif]></span><span lang="EN-US"><!--[if gte mso 9]><xml>
+ <o:OLEObject Type="Embed" ProgID="PBrush" ShapeID="_x0000_i1025" DrawAspect="Content" ObjectID="_1163314210">
+ </o:OLEObject>
+</xml><![endif]--></span></p>
+<p class="Normal"><span lang="EN-US">&nbsp;</span></p>
+<p class="Normal"><span lang="EN-US">or select the <b>File|Edit</b> <b>chart</b> 
+menu item.&nbsp; This will display the following form:</span></p>
+<p class="Normal"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1045" type="#_x0000_t75" style='position:absolute;margin-left:0;
+ margin-top:10.5pt;width:318pt;height:258pt;z-index:1;
+ mso-position-horizontal-relative:text;mso-position-vertical:absolute;
+ mso-position-vertical-relative:text' o:allowincell="f">
+ <v:imagedata src="apsvis_files/image005.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><span style='mso-ignore:vglayout;position:
+absolute;z-index:1;left:10px;top:1207px;width:424px;height:344px'><img
+width=424 height=344 src="apsvis_files/image006.jpg" v:shapes="_x0000_s1045"></span><![endif]><br clear="ALL">
+&nbsp;</p>
+<p class="Normal"><span lang="EN-US">&nbsp;</span></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal" align="center" style="text-align:center"><span lang="EN-US">&nbsp;</span></p>
+<p class="Normal"><span lang="EN-US">&nbsp;</span></p>
+<p class="Normal"><span lang="EN-US">&nbsp;</span></p>
+<p class="Normal"><span lang="EN-US">&nbsp;</span></p>
+<p class="Normal"><span lang="EN-US">Using the numerous options under the 
+various buttons and tabs you can adjust a wide range of the chart's attributes.&nbsp; 
+For users of other charting packages many of the options will be familiar. It is 
+beyond the scope of this manual to discuss every option and you are encouraged 
+to explore them for yourself.&nbsp; Examples of attributes under this form: edit 
+series title and type, create new series based on existing ones, change axis 
+titles, scaling, labels and chart titles.&nbsp; The user is provided with access to 
+almost the full range of visual attributes of the chart</span></p>
+<p class="Normal"><span lang="EN-US">&nbsp;</span></p>
+
+<div>
+
+<p class="Title2">&nbsp;</div>
+
+<p class="title2">Printing and exporting charts</p>
+
+<p class="Title2">&nbsp;</p>
+<p class="Normal"><br clear="ALL">
+<span lang="EN-US">To print a chart, click within the chart you want to print 
+(to make it the current chart) and then select the <b>File|Print</b> menu 
+option.&nbsp; This will display the following form:</span></p>
+<p class="Normal"><span lang="EN-US">&nbsp;</span><img border="0" src="apsvis_files/apsvis9.jpg" width="554" height="390"></p>
+<p class="Normal"><span lang="EN-US">This form allows you to select the printer 
+you wish to use, the printer details, paper orientation etc.&nbsp; One very useful 
+option is the <b>Chart Detail</b> slider in the bottom left corner.&nbsp; This 
+changes the size of the chart and fonts from the display size and font to 
+selections that are more appropriate for a printed page.</span></p>
+<p class="Normal"><span lang="EN-US">&nbsp;To export a chart to the Windows clipboard 
+so that it can be pasted into other applications, select the <b>Edit|Copy</b> 
+menu item.&nbsp; APSVis copies a Windows metafile representation of your chart to the 
+clipboard.&nbsp; You can then switch to another application that supports clipboard 
+pasting and paste the chart into that application. </span></p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+
+<p class="title2">Zooming charts</p>
+
+<p class="Normal"><span lang="EN-US">APSVis contains a sophisticated zoom and 
+scroll facility to allow the user to zoom the chart to any scale using the mouse 
+and then scroll that chart.&nbsp; To zoom press the left mouse button and drag a 
+rectangular area <u>downward</u>. The area within the rectangle is zoomed to 
+fill the window.&nbsp; To scroll the zoomed graph, press the right mouse button on 
+the chart and drag.</span></p>
+<p class="Normal"><span lang="EN-US">&nbsp;</span></p>
+<p class="Normal">
+<span lang="EN-US" style="font-size: 9.0pt; font-family: Arial">To reset a 
+zoomed graph to full size, press the left mouse button and drag a rectangular 
+area <u>upward</u>.</span> </p>
+<div style="mso-element:footnote-list">
+  <p class="Normal"><![if !supportFootnotes]><br clear="all">
+&nbsp;<![endif]></div>
+<p class="Title2"><br>
+&nbsp;</div>
+
+<p class="title2">Scatter charts</p>
+
+<p><img border="0" src="apsvis_files/apsvis1.gif" width="378" height="424"></p>
+<p>You should select an X variable and 1 or more Y variables. In some situations 
+you may want to treat the x variable in different ways. APSVis allows the x 
+variable to be interpreted as a numeric, date or string.<br>
+<br>
+If the data is treated as a string, APSVis will not evaluate the x data value 
+but simply space all the values equally along the X-axis (Microsoft EXCEL refers 
+to these types of charts as 'Line' charts). You also have the option of 
+accumulating the X variable by selecting the Accumulate X box on the right.<br>
+<br>
+For each Y variable you have the option of ticking a Y2 check box to indicate 
+that that variable should be linked to the right-hand Y-axis. You also have the 
+option of accumulating the Y variable by selecting the Accumulate YX box at the 
+right of the individual Y variable. Every Y variable chosen has a chart-type 
+drop down list that APSVis uses to create a chart series.</p>
+<p><br>
+<img border="0" src="apsvis_files/apsvis2.jpg" width="436" height="473"></p>
+<p class="Title2">Depth charts</p>
+<p class="Normal">To create depth charts there are several requirements of the 
+output file. There must be a column labelled Date in the file and a depth column. If using APSFront, ensure 
+that <b>Date (dd/mm/yyyy) </b>is selected from the clock module, under the <i>
+Reporting</i> menu item along with <b>Depth - layered (mm)</b> from the Soil 
+water module If not using APSFront, you should add the following lines to your report parameter file:<br>
+<br>
+Variable = clock.dd/mm/yyyy as Date</p>
+<p class="Normal">Variable = soilwat2.dlayer<br>
+&nbsp;</p>
+<p class="Normal">
+<img border="0" src="apsvis_files/apsvis3.gif" width="405" height="413"></p>
+<p class="Normal"><br>
+You should select a Y variable and one or more X variables. One or more dates in 
+the date box should also be selected. For each date selected, APSVis will draw 1 
+line for each X variable. When the OK button is clicked a chart similar to the 
+following will be produced:<br>
+&nbsp;</p>
+<p class="Normal">
+<img border="0" src="apsvis_files/apsvis10.gif" width="450" height="504"></p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Depth charts</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">
+<img border="0" src="apsvis_files/apsvis11.jpg" width="337" height="393"></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Only one variable can be displayed on a probability chart at a 
+time. The chart type allows the type of chart to be changed from a line chart to 
+one of the other standard types (See Creating Scatter Charts). The type of 
+probability chart can also be changed from the default of cumulative probability 
+to probability of exceedance. In essence this changes the chart from the 
+probability of achieving a value to the probability of exceeding a value. When 
+the OK button is clicked a chart similar to the following will be produced:<br>
+<br>
+<img border="0" src="apsvis_files/apsvis12.gif" width="450" height="504"></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Frequency charts</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">
+<img border="0" src="apsvis_files/apsvis13.gif" width="450" height="504"></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">One x variable can be selected along with a standard APSVis 
+chart type (See Creating Scatter Charts). A frequency chart groups all the 
+values into categories. The user can specify these categories. In the above 
+diagram, the starting category will be 0 to 1, the next category 1 to 2 etc. 
+Three different types of y axes are supported. Selecting count will display the 
+number (or count) of “sorg_lai” values falling in each category. Selecting 
+cumulative probability will display the probability of a number being in each 
+category. Selecting probability of exceedance will display the probability of a 
+number exceeding a particular category. Clicking Ok on the above form will 
+display the following frequency chart.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">
+<img border="0" src="apsvis_files/apsvis14.gif" width="450" height="504"></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+
+</body>
+
+</html>

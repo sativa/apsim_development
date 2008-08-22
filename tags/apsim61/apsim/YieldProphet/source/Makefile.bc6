@@ -1,0 +1,52 @@
+# (Borlandish) Makefile for Report module
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+PROJECT=..\lib\YPCalc.dll
+
+OBJFILES=YPCalc.obj YPComponent.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+
+LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+	$(APSROOT)\Shared\general\general.lib \
+	$(BCB)\Components\Boost\libs\date_time\date_time.lib
+
+
+# ---------------------------------------------------------------------------
+RESFILES = 
+USERDEFINES =
+INCLUDEPATH = $(SYSINCLUDES)
+LIBPATH = $(SYSLIBPATH)
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj Memmgr.Lib $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
+
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+# ---------------------------------------------------------------------------
+
+####
+YPCalc.obj: YPCalc.cpp
+YPComponent.obj: YPComponent.cpp YPComponent.h
+
+clean:
+	del /f $(PROJECT) $(OBJFILES)

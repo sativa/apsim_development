@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="erosion">
+   <registrations>
+      <respondToGetReg name="soil_loss" type="soil_lossType"/>
+      <respondToGetReg name="soil_loss_bed" type="soil_loss_bedType"/>
+      <respondToGetReg name="soil_loss_susp" type="soil_loss_suspType"/>
+      <respondToGetReg name="soil_loss_mm" type="soil_loss_mmType"/>
+      <respondToGetReg name="sed_conc" type="sed_concType"/>
+      <respondToGetReg name="sed_conc_bed" type="sed_conc_bedType"/>
+      <respondToGetReg name="sed_conc_susp" type="sed_conc_suspType"/>
+      <respondToGetReg name="bed_depth" type="bed_depthType" readable="T"/>
+      <respondToGetReg name="erosion_cover" type="erosion_coverType"/>
+      <respondToGetSetReg name="cover_extra" type="cover_extraType" readable="T"/>
+      <read name="bed_depth" type="bed_depthType" readable="T"/>
+      <read name="cover_extra" type="cover_extraType" readable="T"/>
+      <read name="model" type="modelType" readable="T"/>
+      <read name="profile_reduction" type="profile_reductionType" readable="T"/>
+      <read name="profile_layer_merge" type="profile_layer_mergeType" readable="T"/>
+      <read name="minimum_depth" type="minimum_depthType" readable="T"/>
+      <read name="slope" type="slopeType" readable="T"/>
+      <read name="slope_length" type="slope_lengthType" readable="T"/>
+      <read name="k_factor" type="k_factorType" readable="T"/>
+      <read name="k_factor_bed" type="k_factor_bedType" readable="T"/>
+      <read name="k_factor_susp" type="k_factor_suspType" readable="T"/>
+      <read name="p_factor" type="p_factorType" readable="T"/>
+      <read name="entrain_eff" type="entrain_effType" readable="T"/>
+      <read name="eros_rose_b2" type="eros_rose_b2Type" readable="T"/>
+      <read name="entrain_eff_bed" type="entrain_eff_bedType" readable="T"/>
+      <read name="eros_rose_b2_bed" type="eros_rose_b2_bedType" readable="T"/>
+      <read name="entrain_eff_susp" type="entrain_eff_suspType" readable="T"/>
+      <read name="eros_rose_b2_susp" type="eros_rose_b2_suspType" readable="T"/>
+      <respondToEventReg name="sysinit" type="null"/>
+      <respondToEventReg name="end_run" type="null"/>
+      <getVariableReg name="year" type="yearType"/>
+      <getVariableReg name="day" type="dayType"/>
+      <getVariableReg name="runoff" type="runoffType"/>
+      <getVariableReg name="cover_surface_runoff" type="cover_surface_runoffType"/>
+      <getVariableReg name="dlayer" type="dlayerType"/>
+      <getVariableReg name="bd" type="bdType"/>
+      <setVariableReg name="dlt_dlayer" type="dlt_dlayerType"/>
+      <respondToEventReg name="process" type="processType"/>
+   </registrations>
+</component>

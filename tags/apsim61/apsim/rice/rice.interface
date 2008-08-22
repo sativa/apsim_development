@@ -1,0 +1,83 @@
+include cropmod\CropMod.interface
+
+
+class APSIMricePublic  :  APSIMCropmodPublic
+
+   !=================================
+   ! READ
+   !=================================
+
+   !------------------------------
+   !EXTINCTION COEFFICIENT
+
+   x_extinct_coeff_lai          : APSIMRealArray = Green leaf area index,                                  (), READ
+   y_extinct_coeff_lai          : APSIMRealArray = Extinction coefficient for green leaf before flowering, (), READ
+   extinct_coeff_post_anthesis  : APSIMReal      = Extinction coefficient after flowering,                 (), READ
+
+
+   !------------------------------
+   !SEED AND GRAIN WEIGHT
+
+   dm_seed_reserve              : APSIMReal      = single seed weight - optional,                 (g/seed),    READ
+   dm_grain_embryo              : APSIMReal      = grain embryo weight at start of grain filling, (g/grain),   READ
+
+   max_kernel_weight            : APSIMReal      = maximum kernel weight,                         (mg/kernel), READ
+
+   !------------------------------
+   !TILLER AREA PARAMETERS
+
+   max_tiller_area              : APSIMReal      = maximum tiller area at a plant density of 100 plants/m^2, (cm^2), READ
+   tiller_area_tt_steepness     : APSIMReal      = steepness of  LAI-TT curve on main shoot,                 (),     READ
+   tiller_area_tt_inflection    : APSIMReal      = inflection point of  LAI-TT curve on main shoot,          (Cd),   READ
+
+   !------------------------------
+   !GRAIN N AND GROWTH
+
+   min_grain_nc_ratio           : APSIMReal      = minimum grain nc ratio to restrict grain dm filling,              (),  READ
+   max_grain_nc_ratio           : APSIMReal      = maximum grain nc ratio to restrict grain N  filling,              (),  READ
+   grain_embryo_nconc           : APSIMReal      = nitrogen concentration in grain embryo at start of grain filling, (%), READ
+
+
+   !------------------------------
+   !CULTIVAR DESCRIPTION
+
+   Vern_sens           : APSIMReal      =  Sensitivity to vernalisation (p1v)                             , ()            , READ|SET, 0.0, 10.0
+   Photop_sens         : APSIMReal      =  Sensitivity to photoperiod (p1d)                               , ()            , READ|SET, 0.0, 10.0
+   tt_startgf_to_mat   : APSIMReal      =  Thermal time required from start grain filling to maturity (p5), (oCd)         , READ|SET, 0.0, 1000.0
+
+   grain_num_coeff     : APSIMReal      =  Number of grains produced by unit weight of stem (grnmx)       , (grais/g stem), READ, 0.0, 30.0
+   max_grain_fill_rate : APSIMReal      =  Maximum grain filling rate of individual grains  (grnrat)      , (g/d)         , READ, 0.0, 5.0
+   Dm_tiller_max       : APSIMReal      =  Single tiller weight when elongation ceases (stmmx)            , (g/tiller)    , READ, 0.0, 5.0
+
+
+   !=================================
+   ! SETs
+   !=================================
+
+   leaf_app_rate            : APSIMReal      = Phyllochron in thermal time -replace rate1 and rate2,      (Cd),  SET
+   co2_switch               : APSIMInteger   = set the co2 switch on (1) and off (0),                     (),    SET
+   co2_level                : APSIMReal      = CO2 concentration in ambient air,                          (ppm), SET
+   tt_germ_to_emerg         : APSIMReal      = thermal time from germination to emergence,                (Cd),  SET
+   tt_emerg_to_endjuv       : APSIMReal      = thermal time from emergence to endjuvenile stage,          (Cd),  SET
+   tt_endjuv_to_init        : APSIMReal      = thermal time from endjuv to floral initiation,             (Cd),  SET
+   tt_init_to_flag          : APSIMReal      = thermal time from floral initiation to flag leaf,          (Cd),  SET
+   tt_flag_to_flower        : APSIMReal      = thermal time from flag leaf to flowering,                  (Cd),  SET
+   tt_flower_to_start_grain : APSIMReal      = thermal time from flowering to start garin filling,        (Cd),  SET
+   tt_start_to_end_grain    : APSIMReal      = thermal time from start to end of grain filling,           (Cd),  SET
+   tt_end_grain_to_maturity : APSIMReal      = thermal time from end grainfill to maturity,               (Cd),  SET
+   tt_maturity_to_ripe      : APSIMReal      = thermal time from maturity to ripe,                        (Cd),  SET
+   tt_ripe_to_harvest       : APSIMReal      = thermal time from ripe to harvest,                         (Cd),  SET
+   tt_startgf_to_mat        : APSIMReal      = thermal time from start grainfill to maturity,             (Cd),  SET
+   leaf_app_rate            : APSIMReal      = thermal time for emerging one leaf (phyllochron),          (Cd),  SET
+   !leaf_init_rate          : APSIMReal      = thermal time for initiating one leaf,                      (Cd),  SET
+end
+
+
+class APSIMriceExternal  :  APSIMCropmodExternal
+end
+
+class APSIMrice
+  dll      : string
+  public   : APSIMricePublic
+  External : APSIMriceExternal
+end

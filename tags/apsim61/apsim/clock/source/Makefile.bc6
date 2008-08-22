@@ -1,0 +1,34 @@
+# (Borlandish) Makefile for apsim clock module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\clock.dll
+..\lib\clock.dll: Registrations.obj clock.obj clock_read_params.obj $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90LIBS) >> linker.tmp
+	$(LF95) clock.obj clock_read_params.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\clock.dll @linker.tmp
+	$(RM) linker.tmp
+   
+clock_read_params.obj: clock_read_params.for
+clock.obj: clock.for
+Registrations.obj: Registrations.f90
+Registrations.f90: ..\clock.interface 
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\clock.interface
+
+clean:
+	$(RM) ..\lib\clock.dll Registrations.obj Registrations.f90 clock.obj clock.imp
+

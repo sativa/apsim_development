@@ -1,0 +1,16 @@
+version = 6.1
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  apsfront run  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[apsfront run]
+title  = jambincerealonly1995
+module = clock   jambincerealonly1995.par [default] %apsuite/apsim/clock/clock.xml [standard]
+module = report      jambincerealonly1995.par [default]
+module = input(met)  %apsuite/apsim/met/sample/emerald.met [weather]
+module = soilwat2   jambincerealonly1995.par [default] %apsuite/apsim/soilwat2/soilwat2.xml [standard]
+module = manager     jambincerealonly1995.par [default]
+module = soiln2   jambincerealonly1995.par [default] %apsuite/apsim/soiln2/soiln2.xml [standard]
+module = SurfaceOM   jambincerealonly1995.par [default] %apsuite/apsim/SurfaceOM/SurfaceOM.xml [standard]
+module = accum       jambincerealonly1995.par [default]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.xml [standard]
+module = Plant(wheat)   jambincerealonly1995.par [default] %apsuite/apsim/wheat/wheat.xml [standard]
+module = sorghum   jambincerealonly1995.par [default] %apsuite/apsim/sorghum/sorghum.xml [standard]
+

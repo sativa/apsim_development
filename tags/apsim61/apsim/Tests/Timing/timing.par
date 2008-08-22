@@ -1,0 +1,76 @@
+[run1.report.parameters]
+screen_output = off
+outputfile  =run1.out
+
+[run2.report.parameters]
+outputfile  =run2.out
+
+[long.report.parameters]
+
+
+
+
+variable = clock.day
+variable = clock.year
+variable = chickpea.yield
+variable = chickpea.biomass
+variable = chickpea.green_biomass
+variable = mungbean.yield
+variable = mungbean.biomass
+variable = mungbean.green_biomass
+[long.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1887
+end_date=31/12/1993
+
+[long.manager.start_of_day]
+
+if day = 130 then
+   chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+   irrigate apply amount = 30
+   fertiliz apply amount = 40, depth = 10, type = no3_n
+endif
+
+if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
+   report   do_output
+   chickpea harvest
+   chickpea end_crop   
+
+endif
+
+if day = 330 then
+   mungbean sow cultivar = berken, plants = 25 (/m2), sowing_depth = 40 (mm)
+   irrigate apply amount = 30
+   fertiliz apply amount = 40, depth = 10, type = no3_n
+endif
+
+if mungbean.stage_name = 'harvest_ripe' or mungbean.plant_status = 'dead' then
+   report   do_output
+   mungbean harvest
+   mungbean end_crop   
+
+endif
+
+
+[sample.manager.end_of_day]
+
+!report do_output
+
+
+[sample.chickpea.parameters]
+
+   ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
+   xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+   kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+
+[sample.mungbean.parameters]
+
+   ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
+   xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+   kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+[run1.SummaryFile.parameters]
+summaryfile = run1.sum
+[long.Screen.parameters]
+screen_output = on
+[run2.SummaryFile.parameters]
+summaryfile = run2.sum
