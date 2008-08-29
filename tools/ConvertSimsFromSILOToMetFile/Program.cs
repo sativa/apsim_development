@@ -5,59 +5,71 @@ using System.Xml;
 using CSGeneral;
 using System.IO;
 using System.Net;
+using ApsimFile;
 
-namespace ConvertSimsFromSILOToMetFile
+namespace Tools
    {
-   class RemoveSILO
+   public class ConvertSimsFromSILOToMetFile
       {
-      static void Main(string[] args)
+      static int Main(string[] args)
          {
          try
             {
-            if (args.Length != 2)
+            if (args.Length == 1)
+               Go(args[0], -1);
+            else if (args.Length == 2)
+               Go(args[0], Convert.ToInt32(args[1]));
+            else if (args.Length != 2)
                throw new Exception("Usage: ConvertSimsFromSILOToMetFile ApsimFile Year");
-            Go(args[0], Convert.ToInt32(args[1]));
             }
          catch (Exception err)
             {
-            Console.WriteLine(err.Message);
-            Console.ReadLine();
+            Console.Error.WriteLine(err.Message);
+            return 1;
             }
+         return 0;
          }
 
-      private static void Go(string ApsimFile, int Year)
+      public static void Go(string ApsimFile, int Year)
          {
-         XmlDocument Doc = new XmlDocument();
-         Doc.Load(ApsimFile);
-         foreach (XmlNode Simulation in Doc.DocumentElement)
+         ApsimFile.ApsimFile Apsim = new ApsimFile.ApsimFile();
+         Apsim.OpenFile(ApsimFile);
+
+         Go(Apsim, Year);
+         Apsim.Save();
+         }
+      public static void Go(ApsimFile.ApsimFile ApsimFile, int Year)
+         {
+         foreach (Component Simulation in ApsimFile.RootComponent.ChildNodes)
             {
-            XmlNode SILO = XmlHelper.FindByType(Simulation, "siloinput");
+            Component SILO = Simulation.Find("met");
             if (SILO == null)
-               Console.WriteLine("No SILO met file found in simulation: " + XmlHelper.Name(Simulation));
+               Console.WriteLine("No SILO met file found in simulation: " + Simulation.Name);
             else
                {
-               string StationNumber = XmlHelper.Value(SILO, "station_number");
-               string DestDirectory = Path.GetDirectoryName(ApsimFile);
-               if (DestDirectory == "")
-                  DestDirectory = Directory.GetCurrentDirectory();
-
-               XmlNode Met = Simulation.InsertBefore(Doc.CreateElement("metfile"), SILO);
-               XmlHelper.SetName(Met, "met");
-
-               Simulation.RemoveChild(SILO);
+               string StationNumber = XmlHelper.Value(SILO.ContentsAsXML, "station_number");
 
                // Extract the met data out of SILO
-               DateTime Start = new DateTime(Year, 1, 1);
-               DateTime End = new DateTime(Year + 1, 3, 1);
-               string MetFileName = ExtractMetFromSILO(StationNumber, Start, End, DestDirectory);
+               DateTime Start;
+               DateTime End;
+               if (Year != -1)
+                  {
+                  Start = new DateTime(Year, 1, 1);
+                  End = new DateTime(Year + 1, 3, 1);
+                  }
+               else
+                  {
+                  Start = new DateTime(1890, 1, 1);
+                  End = DateTime.Today;
+                  }
+               string MetFileName = ExtractMetFromSILO(StationNumber, Start, End, Path.GetDirectoryName(ApsimFile.FileName));
 
-               XmlHelper.SetValue(Met, "filename", Path.GetFileName(MetFileName));
+               SILO.Type = "metfile";
+               SILO.Name = "met";
+               SILO.Contents = "<met><filename>" + Path.GetFileName(MetFileName) + "</filename></met>";
                }
             }
-         Doc.Save(ApsimFile);
-         
          }
-
       private static string ExtractMetFromSILO(string StationNumber, DateTime Start, DateTime End, string ResultsDirectory)
          {
          string MetFileName = ResultsDirectory + "\\" + StationNumber + ".met";
@@ -96,10 +108,5 @@ namespace ConvertSimsFromSILOToMetFile
 
          return MetFileName;
          }
-
-
-
-
-
       }
    }

@@ -4,16 +4,16 @@ using System.Text;
 using CSGeneral;
 using System.Xml;
 
-namespace SetXMLValue
+namespace Tools
    {
-   class Program
+   class SetXMLValue
       {
-      static void Main(string[] args)
+      static int Main(string[] args)
          {
          try
             {
             if (args.Length != 3)
-               Console.WriteLine("SetXMLValue FileName XMLPath NewValue");
+               throw new Exception("SetXMLValue FileName XMLPath NewValue");
             else
                {
                XmlDocument Doc = new XmlDocument();
@@ -24,8 +24,10 @@ namespace SetXMLValue
             }
          catch (Exception err)
             {
-            Console.WriteLine(err.Message);
+            Console.Error.WriteLine(err.Message);
+            return 1;
             }
+         return 0;
          }
       }
    }

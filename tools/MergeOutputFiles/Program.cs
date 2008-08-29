@@ -5,11 +5,11 @@ using System.Text;
 using System.IO;
 using CSGeneral;
 
-namespace MergeOutputFiles
+namespace Tools
    {
-   class MergeOutputs
+   class MergeOutputFiles
       {
-      static void Main(string[] args)
+      static int Main(string[] args)
          {
          try
             {
@@ -26,10 +26,10 @@ namespace MergeOutputFiles
             }
          catch (Exception err)
             {
-            Console.WriteLine(err.Message);
-            Console.ReadLine();
+            Console.Error.WriteLine(err.Message);
+            return 1;
             }
-
+         return 0;
          }
 
       private static void Go(string Dir, string FileSpec, string DestinationFile)

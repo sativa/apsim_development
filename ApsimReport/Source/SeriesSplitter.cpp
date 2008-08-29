@@ -50,8 +50,11 @@ void processSeriesSplitter(DataContainer& parent,
       TDataSet* source = sources[0];
       if (!result.Active)
          {
+         source->First();
+         int seriesNumber = calcSeries(source, fieldNames, seriesNames);
+
          result.FieldDefs->Assign(source->FieldDefs);
-         addDBField(&result, "SeriesName", "abc");
+         addDBField(&result, "SeriesName", seriesNames[seriesNumber-1].c_str());
          addDBField(&result, "SeriesNumber", "1");
          seriesNames.clear();
          result.Active = true;
@@ -64,7 +67,7 @@ void processSeriesSplitter(DataContainer& parent,
          // add a new record that is identical to the current source record.
          copyDBRecord(source, &result);
 
-         // calculate a series name and number for this record.
+         // calculate a series number and number for this record.
          int seriesNumber = calcSeries(source, fieldNames, seriesNames);
 
          result.Edit();

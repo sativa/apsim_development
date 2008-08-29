@@ -11,56 +11,9 @@
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <numeric>
+#include <list>
 
 using namespace std;
-
-// ------------------------------------------------------------------
-// Calculate a groupby filter for current record.
-// ------------------------------------------------------------------
-string calcGroupByFilter(TDataSet* data, const vector<string>& groupByFieldNames)
-   {
-   string filter;
-   for (unsigned i = 0; i != groupByFieldNames.size(); i++)
-      {
-      if (groupByFieldNames[i] != "")
-         {
-         if (filter != "")
-            filter += " and ";
-         filter = groupByFieldNames[i] + "=";
-         string filterValue = AnsiString(data->FieldValues[groupByFieldNames[i].c_str()]).c_str();
-         if (Is_numerical(filterValue.c_str()))
-            filter += filterValue;
-         else
-            filter += singleQuoted(filterValue);
-         }
-      }
-   return filter;
-   }
-// ------------------------------------------------------------------
-// Calculate all group by filters.
-// ------------------------------------------------------------------
-vector<string> calcGroupByFilters(TDataSet* data, const vector<string>& groupByFieldNames)
-   {
-   vector<string> groupByFilters;
-
-   if (groupByFieldNames.size() > 0)
-      {
-      data->First();
-      while (!data->Eof)
-         {
-         string groupByFilter = calcGroupByFilter(data, groupByFieldNames);
-         if (find(groupByFilters.begin(), groupByFilters.end(), groupByFilter)
-             == groupByFilters.end())
-             groupByFilters.push_back(groupByFilter);
-         data->Next();
-         }
-      }
-   else
-      groupByFilters.push_back("");
-   return groupByFilters;
-   }
-
-
 
 //---------------------------------------------------------------------------
 // Return true if the specified array of stats contains the specified stat
@@ -69,6 +22,61 @@ bool StatsContains(const vector<string>& stats, const string& name)
    {
    return (find_if(stats.begin(), stats.end(),
                    CaseInsensitiveStringComparison(name)) != stats.end());
+   }
+
+//---------------------------------------------------------------------------
+// Process a rolling mean.
+//---------------------------------------------------------------------------
+void processRollingMean(DataContainer& parent,
+                        const XMLNode& properties,
+                        vector<TDataSet*> sources,
+                        TDataSet& result,
+                        const vector<string>& fieldNames)
+   {
+   int numYears = atoi(parent.read(properties, "RollingMean").c_str());
+
+   if (!result.Active && numYears > 0 && sources.size() == 1)
+      {
+      result.FieldDefs->Clear();
+      result.FieldDefs->Assign(sources[0]->FieldDefs);
+      result.Active = true;
+      }
+
+   if (result.Active && sources.size() == 1)
+      {
+      TDataSet* source = sources[0];
+      source->First();
+
+      vector<list<double> > values;
+      for (unsigned i = 0; i != fieldNames.size(); i++)
+         values.push_back(list<double>());
+
+      // prime the list.
+      for (int i = 1; i < numYears && !source->Eof; i++)
+         {
+         for (unsigned f = 0; f != fieldNames.size(); f++)
+            values[f].push_back(StrToFloat(source->FieldValues[fieldNames[f].c_str()]));
+         source->Next();
+         }
+
+      // Now we have enough values to calculate our running mean.
+      while (!source->Eof)
+         {
+         copyDBRecord(source, &result);
+         result.Edit();
+         for (unsigned f = 0; f != fieldNames.size(); f++)
+            {
+            values[f].push_back(StrToFloat(source->FieldValues[fieldNames[f].c_str()]));
+            double RunningMean = accumulate(values[f].begin(), values[f].end(), 0.0);
+            RunningMean /= values[f].size();
+            result.FieldValues[fieldNames[f].c_str()] = RunningMean;
+            values[f].pop_front();
+            }
+         result.Post();
+         source->Next();
+         }
+
+      }
    }
 
 //---------------------------------------------------------------------------
@@ -81,46 +89,28 @@ void processStats(DataContainer& parent,
    {
    vector<string> fieldNames = parent.reads(properties, "fieldname");
    vector<string> stats = parent.reads(properties, "stat");
-   vector<string> groupByFieldNames = parent.reads(properties, "GroupByFieldName");
-   vector<string> groupByFilters;
 
-   if (!result.Active && sources.size() == 1)
+   if (parent.read(properties, "RollingMean") != "")
+      processRollingMean(parent, properties, sources, result, fieldNames);
+   else
       {
-      result.FieldDefs->Clear();
-      copySeriesFieldDefs(sources[0], result);
-      // add fields.
-      for (unsigned f = 0; f != fieldNames.size(); f++)
-         for (unsigned s = 0; s != stats.size(); s++)
-            addDBField(&result, fieldNames[f] + "-" + stats[s], "1.0");
-
-      // Need to support groupby fields.
-      for (unsigned i = 0; i != groupByFieldNames.size(); i++)
+      if (!result.Active && sources.size() == 1)
          {
-         int f = sources[0]->FieldDefs->IndexOf(groupByFieldNames[i].c_str());
-         if (f != -1)
-            result.FieldDefs->Add(groupByFieldNames[i].c_str(),
-                                  sources[0]->FieldDefs->Items[f]->DataType,
-                                  sources[0]->FieldDefs->Items[f]->Size,
-                                  false);
+         result.FieldDefs->Clear();
+         copySeriesFieldDefs(sources[0], result);
+
+         // add fields.
+         for (unsigned f = 0; f != fieldNames.size(); f++)
+            for (unsigned s = 0; s != stats.size(); s++)
+               addDBField(&result, fieldNames[f] + "-" + stats[s], "1.0");
+
+         if (result.FieldDefs->Count > 0)
+            result.Active = true;
          }
-      groupByFilters = calcGroupByFilters(sources[0], groupByFieldNames);
 
-      if (result.FieldDefs->Count > 0)
-         result.Active = true;
-      }
-
-   if (result.Active && sources.size() == 1)
-      {
-      TDataSet* source = sources[0];
-
-      for (unsigned i = 0; i != groupByFilters.size(); i++)
+      if (result.Active && sources.size() == 1)
          {
-         String originalFilter = source->Filter;
-         if (groupByFilters[i] != "")
-            {
-            source->Filter = groupByFilters[i].c_str();
-            source->Filtered = true;
-            }
+         TDataSet* source = sources[0];
 
          result.Append();
          copySeriesValues(source, result);
@@ -129,10 +119,6 @@ void processStats(DataContainer& parent,
             {
             vector<double> values;
             source->First();
-
-            for (unsigned i = 0; i != groupByFieldNames.size(); i++)
-               result.FieldValues[groupByFieldNames[i].c_str()]
-                  = source->FieldValues[groupByFieldNames[i].c_str()];
 
             while (!source->Eof)
                {
@@ -181,18 +167,6 @@ void processStats(DataContainer& parent,
             }
 
          result.Post();
-
-         if (originalFilter != "")
-            {
-            source->Filter = originalFilter;
-            source->Filtered = true;
-            }
-         else
-            {
-            source->Filter = "";
-            source->Filtered = false;
-            }
-
          }
       }
    }

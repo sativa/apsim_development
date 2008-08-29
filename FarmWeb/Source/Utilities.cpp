@@ -10,6 +10,7 @@
 #include <general\vcl_functions.h>
 #include <general\string_functions.h>
 #include <general\io_functions.h>
+#include <general\path.h>
 #include <IWHTMLControls.hpp>
 #include <boost\lexical_cast.hpp>
 
@@ -193,7 +194,7 @@ void createJobBat(TWebSession* webSession, const string& userName, vector<string
 //         out << "\"c:\\program files\\apsim6\\bin\\apsim.exe\" \"" << userName << ".sim\"" << endl;
 //      else
          out << "\"c:\\program files\\apsim6\\bin\\apsim.exe\" \"" << userName << "." << IAsString << ".sim\"" << endl;
-      out << "echo Finished > Run" << IAsString << ".finished" << endl;
+      out << "echo Finished > Job" << IAsString << ".finished" << endl;
       filesCreated.push_back(batFileName);
       }
    }
@@ -208,7 +209,7 @@ void sendEmail(TWebSession* webSession,
                vector<string>& files,
                const vector<string>& toEmailAddresses)
    {
-   files.push_back(createJobXML(webSession, data, userName, reportDescription));
+   string JobFileXML = createJobXML(webSession, data, userName, reportDescription);
    createJobBat(webSession, userName, files);
 
    string emailScriptFileName = webSession->getFilesDir() + "\\" + userName + "Mail.asp";
@@ -234,6 +235,8 @@ void sendEmail(TWebSession* webSession,
 
    for (unsigned i = 0; i != files.size(); i++)
       emailScript += "JMail.AddAttachment " + doubleQuoted(files[i]) + ", true\n";
+   emailScript += "JMail.AddURLAttachment \"http://www.apsim.info/afloman/data/files/"
+                + Path(JobFileXML).Get_name() + "\", \"job.xml\"\n";
 
    emailScript +=
        "JMail.Send (\"xns-act.csiro.au\")\n"
