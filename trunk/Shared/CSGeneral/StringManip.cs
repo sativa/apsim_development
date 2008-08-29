@@ -171,5 +171,9 @@ namespace CSGeneral
 			return returnString.Replace(space, "\r\n");
 			}
 
+      public static string DQuote(string St)
+         {
+         return "\"" + St + "\"";
+         }
 	}
 }

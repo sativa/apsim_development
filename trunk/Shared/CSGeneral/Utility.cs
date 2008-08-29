@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Xsl;
 using System.Xml.XPath;
+using System.Diagnostics;
 
 namespace CSGeneral
 	{
@@ -77,5 +78,35 @@ namespace CSGeneral
 			Writer.Close();
 			return SWriter.ToString();
 			}
+
+      public static Process RunProcess(string Executable, string Arguments, string JobFolder)
+         {
+         if (!File.Exists(Executable))
+            throw new System.Exception("Cannot execute file: " + Executable + ". File not found.");
+         Process PlugInProcess = new Process();
+         PlugInProcess.StartInfo.FileName = Executable;
+         PlugInProcess.StartInfo.Arguments = Arguments;
+         PlugInProcess.StartInfo.UseShellExecute = false;
+         PlugInProcess.StartInfo.CreateNoWindow = true;
+         PlugInProcess.StartInfo.RedirectStandardOutput = true;
+         PlugInProcess.StartInfo.RedirectStandardError = true;
+         PlugInProcess.StartInfo.WorkingDirectory = JobFolder;
+         PlugInProcess.Start();
+         return PlugInProcess;
+         }
+      public static void CheckProcessExitedProperly(Process PlugInProcess)
+         {
+         PlugInProcess.WaitForExit();
+         if (PlugInProcess.ExitCode != 0)
+            {
+            string msg = PlugInProcess.StandardError.ReadToEnd();
+            if (msg == "")
+               msg = PlugInProcess.StandardOutput.ReadToEnd();
+            if (msg != "")
+               throw new System.Exception("Error from " + Path.GetFileName(PlugInProcess.StartInfo.FileName) + ": "
+                                                        + msg);
+            }
+         }
+
 	}
 }

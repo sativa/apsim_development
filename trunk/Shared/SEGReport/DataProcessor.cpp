@@ -141,7 +141,13 @@ void copySeriesFieldDefs(TDataSet* source, TDataSet& result)
       TFieldDef *series = result.FieldDefs->AddFieldDef();
       series->Name = "SeriesNumber";
       series->DataType = ftInteger;
-      addDBField(&result, "SeriesName", "abc");
+
+      TField* seriesName = source->FieldList->Find("seriesname");
+      if (seriesName == NULL)
+         throw runtime_error("Cannot find a SeriesName column");
+      series = result.FieldDefs->AddFieldDef();
+      series->Name = "SeriesName";
+      series->DataType = seriesName->DataType;
       }
    }
 

@@ -97,6 +97,14 @@ namespace ApsimFile
       public string FileName
       { get { return MyFileName; } }
 
+      public ApsimFile()
+         {
+         // ------------------------------------------------------
+         // Constructor
+         // ------------------------------------------------------
+         MyConfiguration = new Configuration("ApsimUI");
+         }
+
       public ApsimFile(Configuration Config)
          {
          // ------------------------------------------------------

@@ -5,27 +5,27 @@ using System.IO;
 using System.Xml;
 using CSGeneral;
 
-namespace ExtractXMLElements
+namespace Tools
    {
-   class ExtractXML
+   class ExtractXMLElements
       {
-      static void Main(string[] args)
+      static int Main(string[] args)
          {
          try
             {
             if (args.Length != 3)
                throw new Exception("Usage: ExtractXMLElements XmlFile ElementNamesFile DestinationFile");
-            ExtractXML Processor = new ExtractXML();
-            Processor.Go(args[0], args[1], args[2]);
+            Go(args[0], args[1], args[2]);
             }
          catch (Exception err)
             {
-            Console.WriteLine(err.Message);
-            Console.ReadLine();
+            Console.Error.WriteLine(err.Message);
+            return 1;
             }
+         return 0;
          }
 
-      private void Go(string XmlFileName, string ElementNamesFile, string DestinationFile)
+      private static void Go(string XmlFileName, string ElementNamesFile, string DestinationFile)
          {
          XmlDocument InDoc = new XmlDocument();
          InDoc.Load(XmlFileName);
