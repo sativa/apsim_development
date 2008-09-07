@@ -604,7 +604,7 @@
          call collect_real_var_optional ('nplh', ' ()'
      :                                  , Rscratch, numvals
      :                                  , 0.0, 1000.0)
-         if (numvals.eq.0) then 
+         if (numvals.gt.0) then 
              p%nplh = Rscratch
          endif
          write (string, '(3x,a,f5.1,a)')
