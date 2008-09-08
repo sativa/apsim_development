@@ -3210,6 +3210,7 @@
             <receive_rainfall>[dam.receive_rainfall]</receive_rainfall>
             <receive_catchment_runoff>[dam.receive_catchment_runoff]</receive_catchment_runoff>
             <receive_crop_runoff>[dam.receive_crop_runoff]</receive_crop_runoff>
+            <crop_area>[dam.crop_area]</crop_area>
             <init_salt_conc>[dam.init_salt_conc]</init_salt_conc>
             <catchment_area>[dam.catchment_area]</catchment_area>
             <catchment_runoff_factor>[dam.catchment_runoff_factor]</catchment_runoff_factor>
@@ -4343,4 +4344,5 @@
       </ApsimToSim>
    </graz>
 </Types>
+
 
