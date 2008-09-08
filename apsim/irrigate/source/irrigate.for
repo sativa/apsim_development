@@ -145,7 +145,6 @@
       integer    numvals_solute(max_solutes) ! number of values collected for
                                        ! each solute
       integer    solnum                ! solute number counter variable
-      real       area                  ! irrigated area (ha)
       real       volume                ! volume of water required for irrigation (Ml)
       character  water_requester*200   ! the name of this instance which is
 !                                     requesting a water supply for irrigation from a source
@@ -217,32 +216,23 @@
 
       if (g%tot_num_sources.gt.0) then
 
-!   need to get an irrigated area for volume calculations (from Manager)
-
-         call get_real_var        (
-     :        unknown_module       ! Module that responds (Not Used)
-     :       ,'crop_area'               ! Variable Name
-     :       ,'(ha)'               ! Units                (Not Used)
-     :       ,g%area            ! Variable
-     :       ,numvals              ! Number of values returned
-     :       ,0.0                  ! Lower Limit for bound checking
-     :       ,100000.0)            ! Upper Limit for bound checking
-
-
-         if (numvals.gt.0) then
-         else
-            call fatal_error (err_user
-     :      , 'Irrigation area not provided in MANAGER')
-         endif
+!   need to get an irrigated area for volume calculations (from event arguemnts)
+         call collect_real_var (
+     :                       'crop_area'
+     :                     , '(ha)'
+     :                     , g%area
+     :                     , numvals
+     :                     , 0.0
+     :                     , 100000.0)
 
 ! calculate irrigation volume required in Ml
-         volume = g%amount * g%area /100.0
+         volume = g%amount * g%area / 100.0
 
 !         send gimme water
 !  Now send out a gimme_water method call to the first specified source
          call new_postbox()
          
-         call get_name(water_requester)
+         call get_fq_name(water_requester)
          
          call post_char_var ('water_requester'
      :                        , '()'
@@ -251,11 +241,16 @@
          call post_real_var ('amount'
      :                      , '(Ml)'
      :                      , volume)
-         
+
          g%source_counter = 1
-         
-         ok = component_name_to_id(g%irrig_source(1), 
-     :                             moduleID)
+         if (.not. component_name_to_id(
+     :                       g%irrig_source(g%source_counter), 
+     :                       moduleID)) then
+            call fatal_error (ERR_USER,
+     :       'Requesting water from unknown supplier ='//
+     :            trim(g%irrig_source(g%source_counter)))
+     
+         endif
          call Event_send(moduleID, 'gimme_water')
          
          
@@ -404,6 +399,11 @@
 
       call push_routine (my_name)
 
+      if (g%area .le. 0.0) then
+            call fatal_error (ERR_USER,
+     :             'Crop area not stored before water_supplied')
+      endif
+
 !****** collect information on the sender and the amount of water required ****************
 
       call collect_char_var ('water_provider'
@@ -465,7 +465,8 @@
 !    Everyone happy, simply increment irrigation_applied pool
 
        do 100 solnum = 1,g%num_solutes
-        g%solute(solnum) = solute_conc(solnum)* (water_supplied/g%area)
+        g%solute(solnum) = solute_conc(solnum)* 
+     :        divide(water_supplied,g%area, 0.0)
         g%irrigation_solutes(solnum) = g%solute(solnum)       
  100   continue
 
@@ -490,7 +491,7 @@
 
       call new_postbox()
 
-       call get_name(water_requester)
+      call get_fq_name(water_requester)
 
       call post_char_var ('water_requester'
      :                     , '()'
@@ -518,7 +519,8 @@
 
 !       Also calculate solutes supplied in water sent
        do 200 solnum = 1,g%num_solutes
-        g%solute(solnum) = solute_conc(solnum)* (water_supplied/g%area)
+        g%solute(solnum) = solute_conc(solnum)* 
+     :        divide(water_supplied, g%area, 0.0)
         g%irrigation_solutes(solnum) = g%solute(solnum)       
  200   continue
 
@@ -528,10 +530,15 @@
 
 
       else
-         ok = component_name_to_id(g%irrig_source(g%source_counter), 
-     :                             moduleID)
-         call Event_send(moduleID ,
-     :                   'gimme_water')
+         if (.not. component_name_to_id(
+     :                          g%irrig_source(g%source_counter), 
+     :                          moduleID)) then
+            call fatal_error (ERR_USER,
+     :       'Requesting water from unknown supplier ='//
+     :           trim(g%irrig_source(g%source_counter)))
+         endif
+
+         call Event_send(moduleID , 'gimme_water')
 
       endif
 
@@ -1151,12 +1158,6 @@
      :                              variable_name
      :                            , '(mm)'
      :                            , g%irrigation_applied)
-
-      elseif (Variable_name .eq. 'area') then
-         call respond2get_real_var (
-     :                              variable_name
-     :                            , '(ha)'
-     :                            , g%area)
 
       elseif (Variable_name .eq. 'irrig_tot') then
          call respond2get_real_var (

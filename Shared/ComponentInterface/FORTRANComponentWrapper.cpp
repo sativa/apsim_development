@@ -575,6 +575,11 @@ extern "C" void  EXPORT STDCALL get_name(char* name, unsigned nameLength)
    FortranWrapper::currentInstance->get_name(name, nameLength);
    }
 
+extern "C" void  EXPORT STDCALL get_fq_name(char* name, unsigned nameLength)
+   {
+   FortranWrapper::currentInstance->get_fq_name(name, nameLength);
+   }
+
 // ------------------------------------------------------------------
 //  Short description:
 //     Called from FORTRAN to push a routine onto stack
@@ -1569,4 +1574,5 @@ extern "C" void EXPORT STDCALL change_component_order
 
 // restore the warnings about "Functions containing for are not expanded inline.
 #pragma warn .inl
+
 

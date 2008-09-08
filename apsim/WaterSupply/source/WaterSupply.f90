@@ -62,11 +62,14 @@ module WaterSupplyModule
    type WaterSupplyParameters
       sequence
       character   source_type*9                     ! storage type (eg dam_gully, dam_ring, dam_exc, sump, river or bore)
-      character   receive_catchment_runoff*3        ! string (yes/no) indicating whether catchment runoff flows into this storage
-      character   receive_crop_runoff*3             ! string (yes/no) indicating whether crop runoff flows into this storage
+      integer     catchments(max_sources)           ! module IDs of the water balances we'll take runoff from
+      integer     num_catchments
+      real        catchment_runoff_factor(max_sources) ! water-shedding factor of catchment cf cropping area ()
+      real        catchment_area(max_sources)          ! catchment area (ha)
+      integer     crops(max_sources)                ! Module IDs of the water balances we'll take runoff from
+      real        crop_area(max_sources)            ! catchment area (ha)
+      integer     num_crops
       character   receive_rainfall*3                ! string (yes/no) indicating whether rainfall is received into this storage
-      real        catchment_runoff_factor           ! water-shedding factor of catchment cf cropping area ()
-      real        catchment_area                    ! catchment area (ha)
       real        runoff_solute_conc(max_solutes)   ! solute concentration in runoff for each of the system solutes (ppm)
       real        rainfall_solute_conc(max_solutes) ! solute concentration in rainfall for each of the system solutes (ppm)
       real        max_available_water               ! storage capacity or maximum allocation (Ml)
@@ -103,6 +106,7 @@ subroutine WaterSupply_read_parameters ()
 !  ===========================================================
 
    Use Infrastructure
+   Use ComponentInterfaceModule
    implicit none
 
 !+ Purpose
@@ -125,9 +129,10 @@ subroutine WaterSupply_read_parameters ()
    integer    i                     ! simple counter
    integer    numvals               ! number of values returned
    character  source_type*100       ! local variable for source type
-   character  dummy*100             ! first half of solute concatenation
+   character  dummy*4096            ! first half of solute concatenation
    character  default_name*100      ! concatenated parameter name for initial solute concentration
-
+   character  moduleName*4096
+   logical    ok
 !- Implementation Section ----------------------------------
 
    call push_routine (my_name)
@@ -166,41 +171,66 @@ subroutine WaterSupply_read_parameters ()
    endif
 
    !********* get parameter indicating whether this storage receives catchment runoff******
+   p%num_catchments = 0
    if (source_type.eq.'dam_gully'.or. &
        source_type.eq.'dam_exc'.or. &
        source_type.eq.'sump') then
 
-       call read_char_var (section_name,'receive_catchment_runoff', '()', p%receive_catchment_runoff, numvals)
+       call read_char_var (section_name,'receive_catchment_runoff', '()', dummy, numvals)
 
-       if(p%receive_catchment_runoff.ne.'yes'.and.p%receive_catchment_runoff.ne.'no') then
-         call fatal_error (ERR_USER,'receive_catchment_runoff parameter must be yes or no')
+       if(dummy.eq.'no') then
+          p%num_catchments = 0
+       elseif(dummy.eq.'yes') then
+          p%catchments(1) = unknown_module
+          p%num_catchments = 1
+       else
+          p%num_catchments = 0
+          do while (dummy .ne. blank)
+             call Split_line_with_quotes (dummy, moduleName, dummy, ' ')
+             if (.not. component_name_to_id(moduleName, p%catchments(p%num_catchments+1))) then
+                call fatal_error (ERR_USER, 'cant find a catchment called "' // trim(moduleName) // '"')
+             endif
+             p%num_catchments = p%num_catchments + 1
+          end do
        endif
 
-       if(p%receive_catchment_runoff.eq.'yes') then
-          call read_real_var (section_name, 'catchment_area', '(ha)', p%catchment_area, numvals, 0.0, 10000.0)
-          call read_real_var (section_name, 'catchment_runoff_factor', '()', p%catchment_runoff_factor, numvals, 0.0, 10000.0)
+       if(p%num_catchments.gt.0) then
+          call read_real_array (section_name, 'catchment_area', max_sources, '(ha)', p%catchment_area, numvals, 0.0, 10000.0)
+          call read_real_array (section_name, 'catchment_runoff_factor', max_sources, '()', p%catchment_runoff_factor, numvals, 0.0, 10000.0)
        endif 
 
    else  ! for bore, river, or dam_ring
-
-       p%receive_catchment_runoff = 'no'
-       
    endif
 
    !********* get parameter indicating whether this storage receives crop runoff******
+   p%num_crops = 0
    if (source_type.eq.'dam_gully'.or. &
        source_type.eq.'dam_exc'.or. &
        source_type.eq.'sump') then
 
-       call read_char_var (section_name,'receive_crop_runoff', '()', p%receive_crop_runoff, numvals)
+       call read_char_var (section_name,'receive_crop_runoff', '()', dummy, numvals)
 
-       if(p%receive_crop_runoff.ne.'yes'.and.p%receive_crop_runoff.ne.'no') then
-         call fatal_error (ERR_USER,'receive_crop_runoff parameter must be yes or no')
-      endif
+       if(dummy.eq.'no') then
+          p%num_crops = 0
+       elseif(dummy.eq.'yes') then
+          p%crops(1) = unknown_module
+          p%num_crops = 1
+       else
+          p%num_crops = 0
+          do while (dummy .ne. blank)
+             call Split_line_with_quotes (dummy, moduleName, dummy, ' ')
+             if (.not. component_name_to_id(moduleName, p%crops(p%num_crops+1))) then
+                call fatal_error (ERR_USER, 'cant find a water balance called "' // trim(moduleName) // '"')
+             endif
+             p%num_crops = p%num_crops + 1
+          end do
+       endif
 
+       if(p%num_crops.gt.0) then
+          call read_real_array (section_name, 'crop_area', max_sources, '(ha)', p%crop_area, numvals, 0.0, 10000.0)
+
+       endif
    else  ! for bore, river, or dam_ring
-
-       p%receive_crop_runoff = 'no'
 
    endif
 
@@ -504,39 +534,36 @@ subroutine WaterSupply_runoff ()
    real  catchment_runoff       !     runoff from the catchment (non-crop) (ML)
    real  crop_runoff            !     runoff from the crop (ML)
    real  runoff                 !     runoff from the crop/fallow from SOILWAT2/ASPWIM
-   real  crop_area              !     area simulated by apsim (ha)
    real  new_solute_conc        !     solute concentration modified due to added rainwater ppm
 
 !- Implementation Section ----------------------------------
 
    call push_routine (my_name)
-
+   
+   runoff = 0.0
    crop_runoff = 0.0
    catchment_runoff = 0.0
-   call get_real_var (unknown_module,'runoff','(mm)',runoff,numvals,0.0,1000.0)              
+   
+   do i = 1, p%num_catchments
 
-! Calculate runoff from the catchment
-   if(p%receive_catchment_runoff.eq.'yes') then
+      call get_real_var (p%catchments(i),'runoff','(mm)',runoff,numvals,0.0,1000.0)              
 
       ! calculate runoff from the catchment area in ML
-     catchment_runoff = runoff * p%catchment_runoff_factor * p%catchment_area /100
-
-   endif
-
-! Calculate runoff from the crop
-   if(p%receive_crop_runoff.eq.'yes') then
-
-      call get_real_var (unknown_module,'crop_area','(ha)',crop_area,numvals,0.0,1000.0)              
+      catchment_runoff = catchment_runoff + &
+                runoff * p%catchment_runoff_factor(i) * p%catchment_area(i) / 100.0
    
+   end do
+
+   do i = 1, p%num_crops
+      call get_real_var (p%crops(i),'runoff','(mm)',runoff,numvals,0.0,1000.0)              
+
       ! calculate runoff from the cropping area in ML
-      crop_runoff = runoff*crop_area/100
+      crop_runoff = crop_runoff + runoff * p%crop_area(i) / 100.0
+      
+   end do
 
-   endif 
-
-
-      ! total the runoff from catchment and crop
-      g%total_runoff = catchment_runoff + crop_runoff
-
+   ! total the runoff from catchment and crop
+   g%total_runoff = catchment_runoff + crop_runoff
 
    ! dsg 050803 Now modify solute concentrations
    do i=1,g%num_solutes
@@ -839,7 +866,7 @@ subroutine WaterSupply_ONgimme_water ()
 
    call push_routine (my_name)
 
-   call get_name(water_provider)
+   call get_fq_name(water_provider)
 
    !****** collect information on the sender and the amount of water required ******
 
@@ -888,7 +915,7 @@ subroutine WaterSupply_ONgimme_water ()
 
    g%available_water = g%available_water - water_supplied
 
-   if(water_requester.eq.'irrigate') then
+   if(water_requester.eq.'irrigate') then                       !! WRONG - fixme
    g%irrig_water_supplied = water_supplied
    endif
 
@@ -901,7 +928,9 @@ subroutine WaterSupply_ONgimme_water ()
    call post_real_var ('water_supplied', '(Ml)', water_supplied)
    call post_real_array ('solute_concentrations_supplied','(ppm)', g%solute_conc, g%num_solutes)
 
-   ok = component_name_to_id(water_requester, water_requesterID)
+   if (.not. component_name_to_id(water_requester, water_requesterID)) then
+      call fatal_error (ERR_USER,'Request for Water provided bad return name='//trim(water_requester))
+   endif
    call Event_send(water_requesterID,'water_supplied')
 
    call delete_postbox()
@@ -1000,7 +1029,7 @@ subroutine WaterSupply_ONwater_supplied ()
 
       call new_postbox()
 
-      call get_name(water_requester)
+      call get_fq_name(water_requester)
 
       call post_char_var ('water_requester', '()', water_requester)
 
@@ -1088,7 +1117,7 @@ subroutine WaterSupply_ONtop_up ()
 
    !  Now send out a gimme_water method call to the first specified source
    call new_postbox()
-   call get_name(water_requester)
+   call get_fq_name(water_requester)
    call post_char_var ('water_requester', '()', water_requester)
    call post_real_var ('amount', '(Ml)', top_up_required)
    g%source_counter = 1
@@ -1241,7 +1270,8 @@ subroutine WaterSupply_sum_report ()
    integer    i                     ! simple counter
    character  line*100              ! temp output record
    character  report_string*200     ! string message sent to summary file
-
+   logical ok
+   
 !- Implementation Section ----------------------------------
    call push_routine (my_name)
 
@@ -1250,12 +1280,35 @@ subroutine WaterSupply_sum_report ()
    write(report_string,*)'Type of storage specified is a ',trim(p%source_type)
    call write_string (report_string)
 
-   if(p%receive_catchment_runoff.eq.'yes') then
-      write(report_string,*)'This storage directly receives runoff from the catchment'
-   else
+   if(p%num_catchments.eq.0) then
       write(report_string,*)'This storage does not directly receive runoff from the catchment'
+      call write_string (report_string)
+   else
+      do i = 1, p%num_catchments
+         if (p%catchments(i) .eq. unknown_module) then
+           write(report_string,*)'This storage directly receives runoff from the catchment'
+         else
+           ok = component_id_to_name(p%catchments(i), line)
+           write(report_string,*)'This storage directly receives runoff from ', line
+         endif
+         call write_string (report_string)
+      end do   
    endif
-   call write_string (report_string)
+
+   if(p%num_crops.eq.0) then
+      write(report_string,*)'This storage does not directly receive runoff from any paddocks'
+      call write_string (report_string)
+   else
+      do i = 1, p%num_crops
+         if (p%crops(i) .eq. unknown_module) then
+           write(report_string,*)'This storage directly receives runoff from the paddock'
+         else
+           ok = component_id_to_name(p%crops(i), line)
+           write(report_string,*)'This storage directly receives runoff from ', line
+         endif
+         call write_string (report_string)
+      end do   
+   endif
 
    write(report_string,*)'The maximum storage capacity is ',p%max_available_water,' Ml'
    call write_string (report_string)
@@ -1459,17 +1512,19 @@ subroutine WaterSupply_ONnew_solute ()
 
    call collect_char_var (DATA_sender,'()',sender,numvals)
 
-
    call collect_char_array (DATA_new_solute_names,max_solutes,'()',names,numvals)
-   if (g%num_solutes+numvals.gt.max_solutes) then
-      call fatal_error (ERR_Internal,'Too many solutes for System')
-   else
-      do counter1 = 1, numvals
-         g%num_solutes = g%num_solutes + 1
-         g%solute_names(g%num_solutes) = names(counter1)
-         g%solute_owners(g%num_solutes) = sender
-      end do
-   endif
+
+   do counter1 = 1, numvals
+     if (WaterSupply_solute_number(names(counter1)) .eq. 0) then
+        g%num_solutes = g%num_solutes + 1
+        if (g%num_solutes.gt.max_solutes) then
+           call fatal_error (ERR_Internal,'Too many solutes for system')
+        endif
+        g%solute_names(g%num_solutes) = names(counter1)
+     else
+        ! we already know about it   
+     endif   
+   end do
 
    call pop_routine (my_name)
    return
@@ -1707,4 +1762,5 @@ subroutine respondToEvent(fromID, eventID, variant)
    endif
    return
 end subroutine respondToEvent
+
 

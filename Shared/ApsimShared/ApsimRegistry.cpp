@@ -318,6 +318,7 @@ void ApsimRegistry::getSiblings(int componentID, vector<int> &siblings)
 
 void ApsimRegistry::getSiblingsAndDescendants(int componentID, vector<int> &siblings)
    {
+// Hack * not as name suggests * parents, siblings and descendants **
    PTree<Component>* node = findComponent(componentID);
    if (node == NULL) {throw std::runtime_error("NULL node in getSiblingsAndDescendants!");}
    PTree<Component>* container = node->parent;
@@ -327,6 +328,18 @@ void ApsimRegistry::getSiblingsAndDescendants(int componentID, vector<int> &sibl
       siblings.push_back(container->children[i]->item.ID); 
       getDescendants(container->children[i], siblings);
       }
+
+   PTree<Component>* grandparent = container->parent;
+   if (grandparent == NULL) {throw std::runtime_error("NULL node in getSiblingsAndParents2!");}
+   if (grandparent != container)
+      {
+      for (unsigned i = 0; i != grandparent->children.size(); i++)
+        {
+        if (grandparent->children[i]->item.ID != container->parent->item.ID)   
+           siblings.push_back(grandparent->children[i]->item.ID); 
+        }
+      }
+
    }
 
 // Fixme -this should be recursive

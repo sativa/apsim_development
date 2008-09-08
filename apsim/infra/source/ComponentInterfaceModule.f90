@@ -55,21 +55,11 @@ module ComponentInterfaceModule
       character (len=*), intent(in out) :: name
       end subroutine get_name
 
-!      function get_variable_internal(registrationID, value, optionalVar)
-!      ml_external get_variable_internal
-!      integer, intent(in)  :: registrationID
-!      integer, intent(out) :: value
-!      logical, intent(in)  :: optionalVar
-!      logical              :: get_variable_internal
-!      end function get_variable_internal
-!
-!      function get_variables(registrationID, values)
-!      ml_external get_variables
-!      integer, intent(in)  :: registrationID
-!      integer, intent(out) :: values
-!      logical              :: get_variables
-!      end function get_variables
-!
+      subroutine get_fq_name(name)
+      ml_external get_fq_name
+      character (len=*), intent(in out) :: name
+      end subroutine get_fq_name
+
       subroutine write_string(st)
       ml_external write_string
       character (len=*), intent(in) :: st
